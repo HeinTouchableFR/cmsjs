@@ -3,7 +3,7 @@ import React from "react";
 import Select from "react-select";
 
 
-export function SelectCustom({items, item, onChange, multi = false}) {
+export default function SelectCustom({items, item, onChange, multi = false}) {
 
     const handleChange = function (e) {
 

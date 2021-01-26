@@ -1,5 +1,5 @@
 import React from "react";
-import Header from "../components/Header/header.component";
+import Header from "../../../components/Header/header.component";
 import Head from "next/head";
 
 export default function Produits() {

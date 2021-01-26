@@ -6,7 +6,7 @@ import axios from "axios";
 export default function CategorieSupprimer({item, errors}) {
 
     const handleDelete = async function(){
-        await axios.delete('http://localhost:3000/api/categories/' + item._id)
+        await axios.delete(process.env.URL + '/api/categories/' + item._id)
             .then((res) => {
                 console.log('Categorie successfully deleted!')
             }).catch((error) => {
@@ -28,7 +28,7 @@ export async function getStaticPaths() {
 
     let data = []
 
-    await axios.get('http://localhost:3000/api/categories/')
+    await axios.get(process.env.URL + '/api/categories/')
         .then(res => {
             data = res.data.data
         })
@@ -48,7 +48,7 @@ export async function getStaticProps({params}) {
     let item = {}
     let errors = []
 
-    await axios.get("http://localhost:3000/api/categories/" + id)
+    await axios.get(process.env.URL + "/api/categories/" + id)
         .then(res => {
             item = res.data.data
         })

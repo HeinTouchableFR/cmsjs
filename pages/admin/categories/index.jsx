@@ -1,9 +1,9 @@
 import React from "react";
-import Header from "../components/Header/header.component";
+import Header from "../../../components/Header/header.component";
 import Head from "next/head";
-import Content from "../components/Content/content.component";
+import Content from "../../../components/Content/content.component";
 import styles from '../../style/table.module.scss'
-import ActionBouton from "../components/Bouton/ActionBouton";
+import ActionBouton from "../../../components/Bouton/ActionBouton";
 import axios from "axios";
 
 export default function Categories({items, errors}) {
@@ -68,7 +68,7 @@ export async function getStaticProps() {
     let items = []
     let errors = []
 
-    await axios.get('http://localhost:3000/api/categories/admin')
+    await axios.get(process.env.URL + '/api/categories/admin')
         .then(res => {
             items = res.data.data
         })

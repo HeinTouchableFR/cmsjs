@@ -1,14 +1,14 @@
 import React, {useState} from "react";
 import Head from "next/head";
-import Header from "../components/Header/header.component";
-import Content from "../components/Content/content.component";
-import InputForm from "../components/Input/Input";
-import Form from "../components/Formulaire/Form";
-import FormBouton from "../components/Bouton/FormBouton";
+import Header from "../../../components/Header/header.component";
+import Content from "../../../components/Content/content.component";
+import InputForm from "../../../components/Input/Input";
+import Form from "../../../components/Formulaire/Form";
+import FormBouton from "../../../components/Bouton/FormBouton";
 import {error} from "next/dist/build/output/log";
 import Router from "next/router";
 import axios from "axios";
-import {SelectCustom} from "../components/Select/Select";
+import SelectCustom from "../../../components/Select/Select";
 
 export default function CategorieAjouter({categories, errors}) {
 
@@ -33,13 +33,13 @@ export default function CategorieAjouter({categories, errors}) {
 
         let item = []
 
-        await axios.post('http://localhost:3000/api/'+ url, CategorieObject)
+        await axios.post(process.env.URL + '/api/'+ url, CategorieObject)
             .then(res => item = res.data.data);
 
         if(categorieParent){
             let categorieP = []
 
-            await axios.get('http://localhost:3000/api/categories/' + item.categorieParent)
+            await axios.get(process.env.URL + '/api/categories/' + item.categorieParent)
                 .then(res => {
                     categorieP = res.data.data
                 })
@@ -49,7 +49,7 @@ export default function CategorieAjouter({categories, errors}) {
             console.log(categorieP)
             categorieP.categoriesEnfant.push(item._id)
 
-            await axios.put('http://localhost:3000/api/'+ url + '/' + categorieP._id, categorieP)
+            await axios.put(process.env.URL + '/api/'+ url + '/' + categorieP._id, categorieP)
                 .then(res => Router.push("/admin/" + url));
         }
         Router.push("/admin/" + url)
@@ -93,7 +93,7 @@ export async function getStaticProps() {
     let categories = []
     let errors = []
 
-    await axios.get('http://localhost:3000/api/categories')
+    await axios.get(process.env.URL + '/api/categories')
         .then(res => {
             categories = res.data.data
         })

@@ -1,7 +1,7 @@
 import React from "react";
 import Head from "next/head";
-import Header from "../../components/Header/header.component";
-import Content from "../../components/Content/content.component";
+import Header from "../../../../components/Header/header.component";
+import Content from "../../../../components/Content/content.component";
 import axios from "axios";
 
 export default function CategorieVoir({item, errors}) {
@@ -29,7 +29,7 @@ export async function getStaticPaths() {
 
     let data = []
 
-    await axios.get('http://localhost:3000/api/categories/')
+    await axios.get(process.env.URL + '/api/categories/')
         .then(res => {
             data = res.data.data
         })
@@ -49,7 +49,7 @@ export async function getStaticProps({params}) {
     let item = {}
     let errors = []
 
-    await axios.get("http://localhost:3000/api/categories/" + id)
+    await axios.get(process.env.URL + "/api/categories/" + id)
         .then(res => {
             item = res.data.data
         })

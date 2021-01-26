@@ -1,13 +1,13 @@
 import React, {useState} from "react";
 import Head from "next/head";
-import Header from "../../components/Header/header.component";
-import Content from "../../components/Content/content.component";
-import Form from "../../components/Formulaire/Form";
-import InputForm from "../../components/Input/Input";
-import FormBouton from "../../components/Bouton/FormBouton";
+import Header from "../../../../components/Header/header.component";
+import Content from "../../../../components/Content/content.component";
+import Form from "../../../../components/Formulaire/Form";
+import InputForm from "../../../../components/Input/Input";
+import FormBouton from "../../../../components/Bouton/FormBouton";
 import axios from "axios";
 import Router from "next/router";
-import {SelectCustom} from "../../components/Select/Select";
+import SelectCustom from "../../../../components/Select/Select";
 
 export default function CategorieModifier({item, errors, categories}) {
 
@@ -32,13 +32,13 @@ export default function CategorieModifier({item, errors, categories}) {
         const headers = new Headers()
         headers.append('Accept', 'application/json')
 
-       await axios.put('http://localhost:3000/api/'+ url +'/' + item._id, CategorieObject)
+       await axios.put(process.env.URL + '/api/'+ url +'/' + item._id, CategorieObject)
             .then(res => Router.push("/admin/" + url));
 
         if(categorieParent){
             let categorieP = []
 
-            await axios.get('http://localhost:3000/api/'+ url +'/' + categorieParent._id)
+            await axios.get(process.env.URL + '/api/'+ url +'/' + categorieParent._id)
                 .then(res => {
                     categorieP = res.data.data
                 })
@@ -48,12 +48,12 @@ export default function CategorieModifier({item, errors, categories}) {
 
             categorieP.categoriesEnfant.push(item._id)
 
-            await axios.put('http://localhost:3000/api/'+ url +'/' + categorieP._id, categorieP)
+            await axios.put(process.env.URL + '/api/'+ url +'/' + categorieP._id, categorieP)
                 .then(res => Router.push("/admin/" + url));
         }
         if(ancienneCategorie){
             let categorieA = []
-            await axios.get('http://localhost:3000/api/'+ url +'/' + ancienneCategorie)
+            await axios.get(process.env.URL + '/api/'+ url +'/' + ancienneCategorie)
                 .then(res => {
                     categorieA = res.data.data
                 })
@@ -63,7 +63,7 @@ export default function CategorieModifier({item, errors, categories}) {
 
             categorieA.categoriesEnfant = categorieA.categoriesEnfant.filter(i => i !== item._id)
 
-            await axios.put('http://localhost:3000/api/'+ url +'/' + categorieA._id, categorieA)
+            await axios.put(process.env.URL + '/api/'+ url +'/' + categorieA._id, categorieA)
                 .then(res => Router.push("/admin/" + url));
         }
     }
@@ -106,7 +106,7 @@ export async function getStaticPaths() {
 
     let data = []
 
-    await axios.get('http://localhost:3000/api/categories/')
+    await axios.get(process.env.URL + '/api/categories/')
         .then(res => {
             data = res.data.data
         })
@@ -126,7 +126,7 @@ export async function getStaticProps({params}) {
     let item = {}
     let errors = []
 
-    await axios.get("http://localhost:3000/api/categories/" + id)
+    await axios.get(process.env.URL + "/api/categories/" + id)
         .then(res => {
             item = res.data.data
         })
@@ -136,7 +136,7 @@ export async function getStaticProps({params}) {
 
     let categories = []
 
-    await axios.get('http://localhost:3000/api/categories/')
+    await axios.get(process.env.URL + '/api/categories/')
         .then(res => {
             categories = res.data.data
         })
