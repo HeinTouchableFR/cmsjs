@@ -63,7 +63,7 @@ function Categorie({item, url, categorieParent, tiret = ""}) {
     </>
 }
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
 
     let items = []
     let errors = []

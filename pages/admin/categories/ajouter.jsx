@@ -88,7 +88,7 @@ export default function CategorieAjouter({categories, errors}) {
     )
 }
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
 
     let categories = []
     let errors = []

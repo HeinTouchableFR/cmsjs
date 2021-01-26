@@ -24,25 +24,7 @@ export default function CategorieSupprimer({item, errors}) {
     )
 }
 
-export async function getStaticPaths() {
-
-    let data = []
-
-    await axios.get(process.env.URL + '/api/categories/')
-        .then(res => {
-            data = res.data.data
-        })
-        .catch((error) => {
-            console.log(error)
-        })
-
-    return {
-        paths: data.map((item) => ({ params: { id: item._id } })),
-        fallback: false,
-    };
-}
-
-export async function getStaticProps({params}) {
+export async function getServerSideProps({params}) {
     const {id} = params
 
     let item = {}
