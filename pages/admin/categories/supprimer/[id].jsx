@@ -12,11 +12,11 @@ export default function CategorieSupprimer({item, errors}) {
             }).catch((error) => {
             console.log(error)
         })
+        Router.push("/admin/" + url)
     }
 
     useEffect(() => {
         handleDelete().then(r => console.log(r))
-        Router.push('/admin/categories')
     });
     return (
         <>

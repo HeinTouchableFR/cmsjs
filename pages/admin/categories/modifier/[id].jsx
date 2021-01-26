@@ -66,6 +66,7 @@ export default function CategorieModifier({item, errors, categories}) {
             await axios.put(process.env.URL + '/api/'+ url +'/' + categorieA._id, categorieA)
                 .then(res => Router.push("/admin/" + url));
         }
+        Router.push("/admin/" + url)
     }
 
     function onNomChange(e) {
