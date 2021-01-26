@@ -27,13 +27,13 @@ export default function Header({children}) {
                 <div className={styles.item + " " + styles.first}>
                     <div className={styles.menu}>
                         <Link href="/admin/dashboard">
-                            <a className={styles.item + " " + (router.pathname === "/admin/dashboard" && styles.active)}>
+                            <a className={styles.item + " " + (router.pathname.includes("/admin/dashboard") && styles.active)}>
                                 <i className="fad fa-tachometer-slowest"></i>
                                 Tableau de bord
                             </a>
                         </Link>
                         <Link href="/admin/document-comptable">
-                            <a className={styles.item + " " + (router.pathname === "/admin/document-comptable" && styles.active)}>
+                            <a className={styles.item + " " + (router.pathname.includes("/admin/document-comptable") && styles.active)}>
                                 <i className="fad fa-file-chart-line"></i>
                                 Document Comptable
                             </a>
@@ -44,19 +44,19 @@ export default function Header({children}) {
                     <div className={styles.header}>Catalogue</div>
                     <div className={styles.menu}>
                         <Link href="/admin/categories">
-                            <a className={styles.item + " " + (router.pathname === "/admin/categories" && styles.active)}>
+                            <a className={styles.item + " " + (router.pathname.includes("/admin/categories") && styles.active)}>
                                 <i className="fad fa-folder"/>
                                 Catégories
                             </a>
                         </Link>
                         <Link href="/admin/produits">
-                            <a className={styles.item + " " + (router.pathname === "/admin/produits" && styles.active)}>
+                            <a className={styles.item + " " + (router.pathname.includes("/admin/produits") && styles.active)}>
                                 <i className="fad fa-cube"/>
                                 Produits
                             </a>
                         </Link>
                         <Link href="/admin/attributs">
-                            <a className={styles.item + " " + (router.pathname === "/admin/attributs" && styles.active)}>
+                            <a className={styles.item + " " + (router.pathname.includes("/admin/attributs") && styles.active)}>
                                 <i className="fad fa-cubes"/>
                                 Attributs
                             </a>
