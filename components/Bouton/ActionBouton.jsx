@@ -3,7 +3,7 @@ import React from "react";
 import Link from "next/link";
 
 
-export default function ActionBouton({url, icon, action, style, id}) {
+export default function ActionBouton({url, icon, action, style, id, onClick}) {
 
     let couleur = null
 
@@ -22,9 +22,13 @@ export default function ActionBouton({url, icon, action, style, id}) {
             break;
     }
 
+    const handleClick = function () {
+        onClick()
+    }
+
     return (
-        <Link href={"/admin/" + url + "/" + action + "/" + id}>
-            <a className={styles.actionBouton + " " + couleur}>
+        <Link href={action ? "/admin/" + url + "/" + action + "/" + id : '#'}>
+            <a onClick={handleClick} className={styles.actionBouton + " " + couleur}>
                 <i className={"fas " + icon}/>
             </a>
         </Link>

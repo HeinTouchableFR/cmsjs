@@ -5,10 +5,9 @@ import Content from "../../../components/Content/content.component";
 import styles from '../../style/table.module.scss'
 import ActionBouton from "../../../components/Bouton/ActionBouton";
 import axios from "axios";
+import Router from "next/router";
 
 export default function Categories({items, errors}) {
-
-    //items = JSON.parse(items)
 
     const url = "categories"
 
@@ -40,12 +39,13 @@ export default function Categories({items, errors}) {
 
 function Categorie({item, url, categorieParent, tiret = ""}) {
 
-    if (!item.nom) {
-
-    }
-
     if (categorieParent) {
         tiret += " — "
+    }
+
+    const handleDelete = async function () {
+        await axios.delete(process.env.URL + '/api/categories/' + item._id)
+        Router.reload();
     }
 
     return <>
@@ -55,7 +55,7 @@ function Categorie({item, url, categorieParent, tiret = ""}) {
             <td className={styles.td}>
                 <ActionBouton url={url} style={"voir"} icon={"fa-eye"} action={"voir"} id={item._id}/>
                 <ActionBouton url={url} style={"modifier"} icon={"fa-pen"} action={"modifier"} id={item._id}/>
-                <ActionBouton url={url} style={"supprimer"} icon={"fa-trash"} action={"supprimer"} id={item._id}/>
+                <ActionBouton onClick={handleDelete} url={url} style={"supprimer"} icon={"fa-trash"} id={item._id}/>
             </td>
         </tr>
         {item.categoriesEnfant && item.categoriesEnfant.map(itemE => <Categorie item={itemE} url={url}
