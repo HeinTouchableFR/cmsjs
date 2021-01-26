@@ -1,0 +1,80 @@
+.contentHeader{
+  display: block;
+}
+
+.contentHeaderColumn {
+  display: grid;
+  grid-template-columns: auto 120px;
+}
+
+.contentHeaderTitle {
+  border: none;
+  margin: calc(2rem - .14286em) 0 1rem;
+  padding: 0;
+  font-family: "Roboto",sans-serif;
+  font-weight: 700;
+  line-height: 25px;
+  text-transform: none;
+  color: rgba(0,0,0,.87);
+  display: grid;
+  grid-template-columns: 90px auto;
+}
+
+.circular {
+  color: #1abb9c;
+  background: rgba(26,187,156,.1);
+  box-shadow: none;
+  font-size: 42px;
+}
+
+i.circular {
+  border-radius: 50px!important;
+  line-height: 1!important;
+  padding: .5em 0!important;
+  width: 2em!important;
+  height: 2em!important;
+  text-align: center;
+}
+
+.contentHeaderTitle .content {
+  padding-left: .75rem;
+  display: table-cell;
+  margin: auto 0;
+  font-size: 25px;
+}
+
+.contentHeaderTitleSub {
+  display: block;
+  font-weight: 400;
+  padding: 0;
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.2em;
+  color: rgba(0,0,0,.6);
+}
+
+.adminTree {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+  margin-top: 1em;
+  margin-left: 1em;
+  margin-bottom: 1em;
+}
+
+.adminTreeSection {
+  color: #9a9a9a;
+  cursor: pointer;
+  display: flex;
+}
+
+.adminTreeChevron {
+  color: #1abb9c;
+  margin-left: 5px;
+  margin-top: 3px;
+  margin-right: 5px;
+}
+
+.adminContent{
+  padding: 0 50px;
+}
