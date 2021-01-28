@@ -20,11 +20,11 @@ export default async (req, res) => {
                 const item = await Categorie.create(req.body)
                 res.status(201).json({success: true, data: item})
             }catch (e) {
-                res.status(400).json({success: false})
+                res.status(400).json({success: false, errors: e})
             }
             break;
         default:
-            res.status(400).json({success: false})
+            res.status(400).json({success: false, errors: "Cette méthode n'est pas disponible"})
             break;
     }
 }

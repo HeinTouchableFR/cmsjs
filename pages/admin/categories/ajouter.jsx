@@ -1,73 +1,93 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import Head from "next/head";
 import Header from "../../../components/Header/header.component";
 import Content from "../../../components/Content/content.component";
-import InputForm from "../../../components/Input/Input";
-import Form from "../../../components/Formulaire/Form";
-import FormBouton from "../../../components/Bouton/FormBouton";
-import {error} from "next/dist/build/output/log";
-import Router from "next/router";
+import { useRouter } from 'next/router';
 import axios from "axios";
 import SelectCustom from "../../../components/Select/Select";
+import { Button, Form, Loader } from 'semantic-ui-react';
 
-export default function CategorieAjouter({categories, errors}) {
+export default function CategorieAjouter({categories}) {
 
     const url = "categories"
 
-    const [nom, setNom] = useState("")
-    const [description, setDescription] = useState("")
-    const [categorieParent, setCategorieParent] = useState(null)
+    const [form, setForm] = useState({ nom: '', description: '', categorieParent: null });
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [errors, setErrors] = useState({});
+    const router = useRouter();
 
-    async function onSubmit(e) {
-        e.preventDefault()
-
-        const CategorieObject = {
-            nom: nom,
-            description: description,
-            categorieParent: categorieParent,
-            categoriesEnfant: []
-        };
-
-        const headers = new Headers()
-        headers.append('Accept', 'application/json')
-
-        let item = []
-
-        await axios.post(process.env.URL + '/api/'+ url, CategorieObject)
-            .then(res => item = res.data.data);
-
-        if(categorieParent){
-            let categorieP = []
-
-            await axios.get(process.env.URL + '/api/categories/' + item.categorieParent)
-                .then(res => {
-                    categorieP = res.data.data
-                })
-                .catch((error) => {
-                    errors = JSON.stringify(error)
-                })
-            console.log(categorieP)
-            categorieP.categoriesEnfant.push(item._id)
-
-            await axios.put(process.env.URL + '/api/'+ url + '/' + categorieP._id, categorieP)
-                .then(res => Router.push("/admin/" + url));
+    useEffect(() => {
+        if (isSubmitting) {
+            if (Object.keys(errors).length === 0) {
+                create();
+            }
+            else {
+                setIsSubmitting(false);
+            }
         }
-        Router.push("/admin/" + url)
+    }, [errors])
 
+    const create = async () => {
+        try {
+            const res = await fetch(`${process.env.URL}/api/${url}`, {
+                method: 'POST',
+                headers: {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(form)
+            })
+            const {data: newItem} = await res.json()
 
+            if(form.categorieParent && newItem._id){
+                const response = await fetch(`${process.env.URL}/api/${url}/${form.categorieParent}`);
+                const { data: categorieParent } = await response.json();
+
+                categorieParent.categoriesEnfant.push(newItem._id)
+
+                const res = await fetch(`${process.env.URL}/api/${url}/${categorieParent._id}`, {
+                    method: 'PUT',
+                    headers: {
+                        "Accept": "application/json",
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(categorieParent)
+                })
+            }
+
+            router.push(`/admin/${url}`);
+        } catch (error) {
+            console.log(error);
+        }
     }
 
-    function onNomChange(e) {
-        setNom(e.target.value)
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        let errs = validate();
+        setErrors(errs);
+        setIsSubmitting(true);
     }
 
-    function onDescriptionChange(e) {
-        setDescription(e.target.value)
+    const validate = () => {
+        let err = {};
+
+        if (!form.nom) {
+            err.nom = 'Ce champ est requis';
+        }
+
+        return err;
     }
 
-    function onCategorieParentChange(e) {
-        setCategorieParent(e)
+    const handleChange = (e, data) => {
+        setForm({
+            ...form,
+            [data.name]: data.value
+        })
     }
+
+    const categoriesOptions = []
+
+    categories.map(categorie => categoriesOptions.push({ key: categorie._id, value: categorie._id, text: categorie.nom }))
 
     return (
         <>
@@ -76,11 +96,33 @@ export default function CategorieAjouter({categories, errors}) {
             </Head>
             <Header>
                 <Content titre="Catégories" icon="fa-folder" url={url} action={"ajouter"}>
-                    <Form onSubmit={onSubmit}>
-                        <InputForm label={"Nom"} type={"text"} nom={"nom"} onChange={onNomChange} />
-                        <InputForm label={"Description"} type={"text"} nom={"description"} onChange={onDescriptionChange} />
-                        <SelectCustom items={categories} onChange={onCategorieParentChange} label="Sélectionnez une catégorie"/>
-                        <FormBouton type={"submit"} label={"Créer"} />
+                    <Form onSubmit={handleSubmit}>
+                        <Form.Input
+                            fluid
+                            error={errors.nom ? { content: 'Ce champ est requis', pointing: 'below' } : null}
+                            label='Nom'
+                            placeholder='Nom'
+                            name='nom'
+                            onChange={handleChange}
+                        />
+                        <Form.TextArea
+                            label='Description'
+                            placeholder='Description'
+                            name='description'
+                            error={errors.description ? { content: 'Ce champ est requis', pointing: 'below' } : null}
+                            onChange={handleChange}
+                        />
+                        <Form.Dropdown
+                            placeholder='Choisir une catégorie parent'
+                            fluid
+                            search
+                            clearable
+                            selection
+                            options={categoriesOptions}
+                            name='categorieParent'
+                            onChange={handleChange}
+                        />
+                        <Button type='submit'>Créer</Button>
                     </Form>
                 </Content>
             </Header>
@@ -91,18 +133,16 @@ export default function CategorieAjouter({categories, errors}) {
 export async function getServerSideProps() {
 
     let categories = []
-    let errors = []
 
     await axios.get(process.env.URL + '/api/categories')
         .then(res => {
             categories = res.data.data
         })
         .catch((error) => {
-            errors = JSON.stringify(error)
         })
 
 
     return {
-        props: {categories, errors}
+        props: {categories}
     }
 }

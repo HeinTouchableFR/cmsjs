@@ -1,88 +1,113 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Head from "next/head";
 import Header from "../../../../components/Header/header.component";
 import Content from "../../../../components/Content/content.component";
-import Form from "../../../../components/Formulaire/Form";
-import InputForm from "../../../../components/Input/Input";
-import FormBouton from "../../../../components/Bouton/FormBouton";
 import axios from "axios";
-import Router from "next/router";
-import SelectCustom from "../../../../components/Select/Select";
+import {Button, Form, Loader} from 'semantic-ui-react';
+import {useRouter} from 'next/router';
 
-export default function CategorieModifier({item, errors, categories}) {
+export default function CategorieModifier({item, categories}) {
 
     const url = "categories"
 
-    const [nom, setNom] = useState(item.nom)
-    const [description, setDescription] = useState(item.description)
-    const [categorieParent, setCategorieParent] = useState(item.categorieParent)
-    const [categoriesEnfant, setCategoriesEnfant] = useState(item.categoriesEnfant)
-    const [ancienneCategorie, setAncienneCategorie] = useState(null)
+    const [form, setForm] = useState({
+        nom: item.nom,
+        description: item.description,
+        categorieParent: item.categorieParent
+    });
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [errors, setErrors] = useState({});
+    const router = useRouter();
 
-    async function onSubmit(e) {
-        e.preventDefault()
-
-        const CategorieObject = {
-            nom: nom,
-            description: description,
-            categorieParent: categorieParent,
-            categoriesEnfant: categoriesEnfant
-        };
-
-        const headers = new Headers()
-        headers.append('Accept', 'application/json')
-
-       await axios.put(process.env.URL + '/api/'+ url +'/' + item._id, CategorieObject)
-            .then(res => Router.push("/admin/" + url));
-
-        if(categorieParent){
-            let categorieP = []
-
-            await axios.get(process.env.URL + '/api/'+ url +'/' + categorieParent._id)
-                .then(res => {
-                    categorieP = res.data.data
-                })
-                .catch((error) => {
-                    errors = JSON.stringify(error)
-                })
-
-            categorieP.categoriesEnfant.push(item._id)
-
-            await axios.put(process.env.URL + '/api/'+ url +'/' + categorieP._id, categorieP)
-                .then(res => Router.push("/admin/" + url));
+    useEffect(() => {
+        if (isSubmitting) {
+            if (Object.keys(errors).length === 0) {
+                update();
+            } else {
+                setIsSubmitting(false);
+            }
         }
-        if(ancienneCategorie){
-            let categorieA = []
-            await axios.get(process.env.URL + '/api/'+ url +'/' + ancienneCategorie)
-                .then(res => {
-                    categorieA = res.data.data
-                })
-                .catch((error) => {
-                    errors = JSON.stringify(error)
-                })
+    }, [errors])
 
-            categorieA.categoriesEnfant = categorieA.categoriesEnfant.filter(i => i !== item._id)
+    const update = async () => {
+        try {
+            const res = await fetch(`${process.env.URL}/api/${url}/${item._id}`, {
+                method: 'PUT',
+                headers: {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(form)
+            })
+            if (form.categorieParent !== item.categorieParent) {
+                //Ancienne
+                if (item.categorieParent) {
+                    const response = await fetch(`${process.env.URL}/api/${url}/${item.categorieParent}`);
+                    const {data: oldCategorieParent} = await response.json();
 
-            await axios.put(process.env.URL + '/api/'+ url +'/' + categorieA._id, categorieA)
-                .then(res => Router.push("/admin/" + url));
+                    oldCategorieParent.categoriesEnfant = oldCategorieParent.categoriesEnfant.filter(i => i !== item._id)
+
+                    const res = await fetch(`${process.env.URL}/api/${url}/${oldCategorieParent._id}`, {
+                        method: 'PUT',
+                        headers: {
+                            "Accept": "application/json",
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(oldCategorieParent)
+                    })
+                }
+                if(form.categorieParent){
+                    //Nouvelle
+                    const response = await fetch(`${process.env.URL}/api/${url}/${form.categorieParent}`);
+                    const { data: newcategorieParent } = await response.json();
+
+                    newcategorieParent.categoriesEnfant.push(item._id)
+
+                    const res = await fetch(`${process.env.URL}/api/${url}/${newcategorieParent._id}`, {
+                        method: 'PUT',
+                        headers: {
+                            "Accept": "application/json",
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(newcategorieParent)
+                    })
+                }
+            }
+
+
+            router.push(`/admin/${url}`);
+        } catch (error) {
+            console.log(error);
         }
-        Router.push("/admin/" + url)
     }
 
-    function onNomChange(e) {
-        setNom(e.target.value)
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        let errs = validate();
+        setErrors(errs);
+        setIsSubmitting(true);
     }
 
-    function onDescriptionChange(e) {
-        setDescription(e.target.value)
-    }
+    const validate = () => {
+        let err = {};
 
-    function onCategorieParentChange(e) {
-        if(categorieParent && e !== item.categorieParent){
-            setAncienneCategorie(item.categorieParent)
+        if (!form.nom) {
+            err.nom = 'Ce champ est requis';
         }
-        setCategorieParent(e)
+
+        return err;
     }
+
+    const handleChange = (e, data) => {
+        setForm({
+            ...form,
+            [data.name]: data.value ? data.value : null
+        })
+    }
+
+    const categoriesOptions = []
+
+    categories.map(categorie => categoriesOptions.push({key: categorie._id, value: categorie._id, text: categorie.nom}))
 
     return (
         <>
@@ -91,11 +116,36 @@ export default function CategorieModifier({item, errors, categories}) {
             </Head>
             <Header>
                 <Content titre="Catégories" icon="fa-folder" url={url} action={"ajouter"}>
-                    <Form onSubmit={onSubmit}>
-                        <InputForm label={"Nom"} type={"text"} nom={"nom"} valeur={item.nom} onChange={onNomChange} />
-                        <InputForm label={"Description"} type={"text"} valeur={item.description} nom={"description"} onChange={onDescriptionChange} />
-                        <SelectCustom item={item} items={categories} onChange={onCategorieParentChange} label="Sélectionnez une catégorie"/>
-                        <FormBouton type={"submit"} label={"Modifier"} />
+                    <Form onSubmit={handleSubmit}>
+                        <Form.Input
+                            fluid
+                            error={errors.nom ? {content: 'Ce champ est requis', pointing: 'below'} : null}
+                            label='Nom'
+                            placeholder='Nom'
+                            name='nom'
+                            defaultValue={item.nom}
+                            onChange={handleChange}
+                        />
+                        <Form.TextArea
+                            label='Description'
+                            placeholder='Description'
+                            name='description'
+                            defaultValue={item.description}
+                            error={errors.description ? {content: 'Ce champ est requis', pointing: 'below'} : null}
+                            onChange={handleChange}
+                        />
+                        <Form.Dropdown
+                            placeholder='Choisir une catégorie parent'
+                            fluid
+                            search
+                            clearable
+                            selection
+                            options={categoriesOptions}
+                            defaultValue={item.categorieParent}
+                            name='categorieParent'
+                            onChange={handleChange}
+                        />
+                        <Button type='submit'>Modifier</Button>
                     </Form>
                 </Content>
             </Header>

@@ -14,3 +14,12 @@ a {
 * {
     box-sizing: border-box;
 }
+
+.ui.disabled.input, .ui.input:not(.disabled) input[disabled], .ui.disabled.search {
+    opacity: 0.7!important;
+}
+
+.ui.form .disabled.field, .ui.form .disabled.fields .field, .ui.form .field :disabled, .ui.form .field.disabled>label, .ui.form .fields.disabled>label {
+    pointer-events: none;
+    opacity: 1!important;
+}
