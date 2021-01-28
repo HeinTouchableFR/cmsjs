@@ -7,7 +7,7 @@ import axios from "axios";
 import SelectCustom from "../../../components/Select/Select";
 import { Button, Form, Loader } from 'semantic-ui-react';
 
-export default function CategorieAjouter({categories}) {
+export default function Ajouter({categories}) {
 
     const url = "categories"
 
@@ -92,7 +92,7 @@ export default function CategorieAjouter({categories}) {
     return (
         <>
             <Head>
-                <title>Catégories</title>
+                <title>Ajouter une catégorie</title>
             </Head>
             <Header>
                 <Content titre="Catégories" icon="fa-folder" url={url} action={"ajouter"}>

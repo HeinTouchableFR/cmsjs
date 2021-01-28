@@ -8,7 +8,7 @@ import {useRouter} from 'next/router';
 
 export default function Modifier({item, categories}) {
 
-    const url = "categories"
+    const url = "attributs"
 
     const [form, setForm] = useState({
         nom: item.nom,
@@ -112,10 +112,10 @@ export default function Modifier({item, categories}) {
     return (
         <>
             <Head>
-                <title>Modifier la catégorie {item.nom}</title>
+                <title>Modifier l'attribut {item.nom}</title>
             </Head>
             <Header>
-                <Content titre="Catégories" icon="fa-folder" url={url} action={"ajouter"}>
+                <Content titre="Attributs" icon="fa-cubes" url={url} action={"ajouter"}>
                     <Form onSubmit={handleSubmit}>
                         <Form.Input
                             fluid

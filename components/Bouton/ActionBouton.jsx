@@ -31,7 +31,7 @@ export function ActionBouton({url, icon, action, style, id}) {
     )
 }
 
-export function ActionBoutonNoLink({icon, style, onClick}) {
+export function ActionBoutonNoLink({icon, style, onClick, type}) {
 
     let couleur = null
 
@@ -55,7 +55,7 @@ export function ActionBoutonNoLink({icon, style, onClick}) {
     }
 
     return (
-        <button onClick={handleClick} className={styles.actionBouton + " " + couleur}>
+        <button onClick={handleClick} type={type} className={styles.actionBouton + " " + couleur}>
             <i className={"fas " + icon}/>
         </button>
     )

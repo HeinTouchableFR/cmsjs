@@ -5,7 +5,7 @@ import Content from "../../../../components/Content/content.component";
 import axios from "axios";
 import {Form} from "semantic-ui-react";
 
-export default function CategorieVoir({item, errors, categories}) {
+export default function Detail({item, errors, categories}) {
 
     const url = "categories"
 
@@ -16,7 +16,7 @@ export default function CategorieVoir({item, errors, categories}) {
     return (
         <>
             <Head>
-                <title>Catégories</title>
+                <title>Détail de la catégorie {item.nom}</title>
             </Head>
             <Header>
                 <Content titre="Catégories" icon="fa-folder" url={url}>

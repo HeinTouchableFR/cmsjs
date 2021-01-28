@@ -36,7 +36,7 @@ export default function Content({titre, icon, url, action, children}) {
                         <>
                             <i className={"fas fa-chevron-right " + styles.adminTreeChevron}/>
                             <Link href={"/admin/" + url + "/" + action}>
-                                <a className={styles.adminTreeSection}>{titre}</a>
+                                <a className={styles.adminTreeSection}>{action}</a>
                             </Link>
                         </>
                         }

@@ -8,7 +8,7 @@ import axios from "axios";
 import { useRouter } from 'next/router';
 import {Button, Confirm} from "semantic-ui-react";
 
-export default function Categories({items, errors}) {
+export default function Index({items, errors}) {
 
     const url = "categories"
     const router = useRouter();
