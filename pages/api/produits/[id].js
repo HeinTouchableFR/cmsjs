@@ -1,5 +1,6 @@
 import dbConnect from "../../../utils/dbConnect";
 import Produit from "../../../models/Produit";
+import Image from "../../../models/Image";
 
 dbConnect()
 
@@ -12,7 +13,19 @@ export default async (req, res) => {
     switch (method) {
         case 'GET':
             try {
-                const item = await Produit.findById(id).populate('imageEnAvant').populate('galerieImage')
+                const item = await Produit.findById(id).populate({
+                    path: 'imageEnAvant',
+                    populate: {
+                        path: 'imageEnAvant',
+                        model: 'Image'
+                    }
+                }).populate({
+                    path: 'galerieImage',
+                    populate: {
+                        path: 'galerieImage',
+                        model: 'Image'
+                    }
+                })
                 if(!item){
                     return res.status(400).json({success: false, data:"Produit inconnu"})
                 }
