@@ -15,7 +15,11 @@ let categorieSchema = new Schema({
     categorieParent: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Categorie",
-    }
+    },
+    produits: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Produit'
+    }]
 }, {
     collection: 'categories'
 })
