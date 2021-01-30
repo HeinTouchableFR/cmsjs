@@ -57,7 +57,7 @@ export default function Index({items, errors}) {
             </Head>
             <Header>
                 <Content titre="Produits" icon="fa-cubes" url={url}>
-                    {errors}
+                    {__dirname}
                     <table className={styles.table + " " + styles.tableStriped}>
                         <thead className={styles.thead}>
                             <tr>
