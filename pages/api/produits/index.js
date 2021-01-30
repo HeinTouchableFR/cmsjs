@@ -12,7 +12,13 @@ export default async (req, res) => {
     switch (method) {
         case 'GET':
             try {
-                const items = await Produit.find({})
+                const items = await Produit.find({}).populate({
+                    path: 'imageEnAvant',
+                    populate: {
+                        path: 'imageEnAvant',
+                        model: 'Image'
+                    }
+                })
                 res.status(200).json({success: true, data: items})
             } catch (e) {
                 res.status(400).json({success: false, erreurs: e})
