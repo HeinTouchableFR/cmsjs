@@ -15,7 +15,7 @@ export default async (req, res) => {
                 const items = await Produit.find({}).populate('imageEnAvant')
                 res.status(200).json({success: true, data: items})
             } catch (e) {
-                res.status(400).json({success: false})
+                res.status(400).json({success: false, erreurs: e})
             }
             break;
         //case 'POST':
