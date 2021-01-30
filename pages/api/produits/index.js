@@ -2,6 +2,7 @@ import dbConnect from "../../../utils/dbConnect";
 import Attribut from "../../../models/Attribut";
 import Valeur from "../../../models/Valeur";
 import Produit from "../../../models/Produit";
+import Image from "../../../models/Image";
 import Categorie from "../../../models/Categorie";
 
 dbConnect()
