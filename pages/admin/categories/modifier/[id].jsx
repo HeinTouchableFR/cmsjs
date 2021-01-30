@@ -39,42 +39,7 @@ export default function Modifier({item, categories}) {
                 },
                 body: JSON.stringify(form)
             })
-            if (form.categorieParent !== item.categorieParent) {
-                //Ancienne
-                if (item.categorieParent) {
-                    const response = await fetch(`${process.env.URL}/api/${url}/${item.categorieParent}`);
-                    const {data: oldCategorieParent} = await response.json();
-
-                    oldCategorieParent.categoriesEnfant = oldCategorieParent.categoriesEnfant.filter(i => i !== item._id)
-
-                    const res = await fetch(`${process.env.URL}/api/${url}/${oldCategorieParent._id}`, {
-                        method: 'PUT',
-                        headers: {
-                            "Accept": "application/json",
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify(oldCategorieParent)
-                    })
-                }
-                if(form.categorieParent){
-                    //Nouvelle
-                    const response = await fetch(`${process.env.URL}/api/${url}/${form.categorieParent}`);
-                    const { data: newcategorieParent } = await response.json();
-
-                    newcategorieParent.categoriesEnfant.push(item._id)
-
-                    const res = await fetch(`${process.env.URL}/api/${url}/${newcategorieParent._id}`, {
-                        method: 'PUT',
-                        headers: {
-                            "Accept": "application/json",
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify(newcategorieParent)
-                    })
-                }
-            }
-
-
+            const {data: updateItem} = await res.json()
             router.push(`/admin/${url}`);
         } catch (error) {
             console.log(error);

@@ -39,22 +39,6 @@ export default function Ajouter({categories}) {
             })
             const {data: newItem} = await res.json()
 
-            if(form.categorieParent && newItem._id){
-                const response = await fetch(`${process.env.URL}/api/${url}/${form.categorieParent}`);
-                const { data: categorieParent } = await response.json();
-
-                categorieParent.categoriesEnfant.push(newItem._id)
-
-                const res = await fetch(`${process.env.URL}/api/${url}/${categorieParent._id}`, {
-                    method: 'PUT',
-                    headers: {
-                        "Accept": "application/json",
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(categorieParent)
-                })
-            }
-
             router.push(`/admin/${url}`);
         } catch (error) {
             console.log(error);
@@ -81,7 +65,7 @@ export default function Ajouter({categories}) {
     const handleChange = (e, data) => {
         setForm({
             ...form,
-            [data.name]: data.value
+            [data.name]: data.value ? data.value : data.checked
         })
     }
 

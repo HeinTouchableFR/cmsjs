@@ -16,12 +16,10 @@ export default function Index({items, errors}) {
     const [isDeleting, setIsDeleting] = useState(false);
     const [confirm, setConfirm] = useState(false);
     const [itemToDelete, setItemToDelete] = useState({});
-    const [isItemHasCategorieParent, setIsItemHasCategorieParent] = useState(false);
 
     const open = function(item) {
         setConfirm(true)
         setItemToDelete(item)
-        setIsItemHasCategorieParent(!!item.categorieParent)
     };
 
     const close = () => setConfirm(false);
@@ -34,28 +32,11 @@ export default function Index({items, errors}) {
     const deleteElement = async () => {
         try {
 
-            if(isItemHasCategorieParent){
-                const response = await fetch(`${process.env.URL}/api/${url}/${itemToDelete.categorieParent}`);
-                const { data: categorieParent } = await response.json();
-
-                categorieParent.categoriesEnfant = categorieParent.categoriesEnfant.filter(i => i !== itemToDelete._id)
-
-                const res = await fetch(`${process.env.URL}/api/${url}/${categorieParent._id}`, {
-                    method: 'PUT',
-                    headers: {
-                        "Accept": "application/json",
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(categorieParent)
-                })
-            }
-
             const deleted = await fetch(`${process.env.URL}/api/${url}/${itemToDelete._id}`, {
                 method: "Delete"
             });
 
             setItemToDelete({})
-            setIsItemHasCategorieParent(null)
 
             router.push(`/admin/${url}`);
         } catch (error) {

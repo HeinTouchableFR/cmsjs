@@ -3,18 +3,15 @@ import Head from "next/head";
 import Header from "../../../../components/Header/header.component";
 import Content from "../../../../components/Content/content.component";
 import axios from "axios";
-import {Button, Form, Loader} from 'semantic-ui-react';
+import {Button, Card, Form, Input, Loader} from 'semantic-ui-react';
 import {useRouter} from 'next/router';
+import {ActionBoutonNoLink} from "../../../../components/Bouton/ActionBouton";
 
-export default function Modifier({item, categories}) {
+export default function Modifier({item}) {
 
     const url = "attributs"
 
-    const [form, setForm] = useState({
-        nom: item.nom,
-        description: item.description,
-        categorieParent: item.categorieParent
-    });
+    const [form, setForm] = useState({_id: item._id, nom: item.nom, valeurs: item.valeurs, filtre: item.filtre, newValeurs: [], deleteValeurs: []});
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [errors, setErrors] = useState({});
     const router = useRouter();
@@ -31,7 +28,7 @@ export default function Modifier({item, categories}) {
 
     const update = async () => {
         try {
-            const res = await fetch(`${process.env.URL}/api/${url}/${item._id}`, {
+            const res = await fetch(`${process.env.URL}/api/${url}/${form._id}`, {
                 method: 'PUT',
                 headers: {
                     "Accept": "application/json",
@@ -39,42 +36,7 @@ export default function Modifier({item, categories}) {
                 },
                 body: JSON.stringify(form)
             })
-            if (form.categorieParent !== item.categorieParent) {
-                //Ancienne
-                if (item.categorieParent) {
-                    const response = await fetch(`${process.env.URL}/api/${url}/${item.categorieParent}`);
-                    const {data: oldCategorieParent} = await response.json();
-
-                    oldCategorieParent.categoriesEnfant = oldCategorieParent.categoriesEnfant.filter(i => i !== item._id)
-
-                    const res = await fetch(`${process.env.URL}/api/${url}/${oldCategorieParent._id}`, {
-                        method: 'PUT',
-                        headers: {
-                            "Accept": "application/json",
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify(oldCategorieParent)
-                    })
-                }
-                if(form.categorieParent){
-                    //Nouvelle
-                    const response = await fetch(`${process.env.URL}/api/${url}/${form.categorieParent}`);
-                    const { data: newcategorieParent } = await response.json();
-
-                    newcategorieParent.categoriesEnfant.push(item._id)
-
-                    const res = await fetch(`${process.env.URL}/api/${url}/${newcategorieParent._id}`, {
-                        method: 'PUT',
-                        headers: {
-                            "Accept": "application/json",
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify(newcategorieParent)
-                    })
-                }
-            }
-
-
+            const {data: updateItem} = await res.json()
             router.push(`/admin/${url}`);
         } catch (error) {
             console.log(error);
@@ -101,13 +63,16 @@ export default function Modifier({item, categories}) {
     const handleChange = (e, data) => {
         setForm({
             ...form,
-            [data.name]: data.value ? data.value : null
+            [data.name]: data.value ? data.value : data.checked
         })
     }
 
-    const categoriesOptions = []
-
-    categories.map(categorie => categoriesOptions.push({key: categorie._id, value: categorie._id, text: categorie.nom}))
+    const handleAddValeur = function () {
+        setForm({
+            ...form,
+            newValeurs: [...form.newValeurs, {_id: 'new-' + new Date().getTime(),nom: '', attribut:  null}]
+        })
+    }
 
     return (
         <>
@@ -115,7 +80,7 @@ export default function Modifier({item, categories}) {
                 <title>Modifier l'attribut {item.nom}</title>
             </Head>
             <Header>
-                <Content titre="Attributs" icon="fa-cubes" url={url} action={"ajouter"}>
+                <Content titre="Attributs" icon="fa-cubes" url={url} action={"modifier"}>
                     <Form onSubmit={handleSubmit}>
                         <Form.Input
                             fluid
@@ -126,25 +91,15 @@ export default function Modifier({item, categories}) {
                             defaultValue={item.nom}
                             onChange={handleChange}
                         />
-                        <Form.TextArea
-                            label='Description'
-                            placeholder='Description'
-                            name='description'
-                            defaultValue={item.description}
-                            error={errors.description ? {content: 'Ce champ est requis', pointing: 'below'} : null}
+                        <Form.Checkbox
+                            label="Utiliser l'attribut comme filtre de recherche produit"
+                            name='filtre'
+                            defaultChecked={item.filtre}
                             onChange={handleChange}
                         />
-                        <Form.Dropdown
-                            placeholder='Choisir une catégorie parent'
-                            fluid
-                            search
-                            clearable
-                            selection
-                            options={categoriesOptions}
-                            defaultValue={item.categorieParent}
-                            name='categorieParent'
-                            onChange={handleChange}
-                        />
+                        {form.valeurs.map(item => <Valeur key={item._id} item={item} setForm={setForm} form={form}/>)}
+                        {form.newValeurs.map(item => <Valeur key={item._id} item={item} setForm={setForm} form={form} type="newValeurs"/>)}
+                        <Button type="button" color="teal" onClick={handleAddValeur}>Ajouter une valeur</Button>
                         <Button type='submit'>Modifier</Button>
                     </Form>
                 </Content>
@@ -153,32 +108,70 @@ export default function Modifier({item, categories}) {
     )
 }
 
+const Valeur = function ({item, form, setForm, type = "valeurs"}) {
+    const handleChange = (e, data) => {
+        item = {...item,
+            [data.name]: data.value ? data.value : data.checked}
+
+            switch (type) {
+                case 'valeurs':
+                    setForm({...form, valeurs: form.valeurs.map(i => i._id === item._id ? item : i) })
+                    break;
+                case 'newValeurs':
+                    setForm({...form, newValeurs: form.newValeurs.map(i => i._id === item._id ? item : i) })
+                    break;
+            }
+
+    }
+
+    const handleDelete = function () {
+        switch (type) {
+            case 'valeurs':
+                setForm({...form, deleteValeurs: [...form.deleteValeurs, item], valeurs: form.valeurs.filter(i => i._id !== item._id )})
+                break;
+            case 'newValeurs':
+                setForm({...form, newValeurs: form.newValeurs.filter(i => i._id !== item._id ) })
+                break;
+        }
+
+    }
+
+    return <Card
+        fluid
+        color='teal'
+    >
+        <Card.Content header={item.nom}/>
+        <Card.Content>
+            <Input
+                fluid
+                label='Nom'
+                placeholder='Nom'
+                name='nom'
+                defaultValue={item.nom}
+                onChange={handleChange}
+            />
+        </Card.Content>
+        <Card.Content extra>
+            <ActionBoutonNoLink type="button" style={"supprimer"} icon={"fa-trash"}  onClick={handleDelete}/>
+        </Card.Content>
+    </Card>
+}
+
+
 
 export async function getServerSideProps({params}) {
     const {id} = params
 
     let item = {}
-    let errors = []
 
-    await axios.get(process.env.URL + "/api/categories/" + id)
+    await axios.get(process.env.URL + "/api/attributs/" + id)
         .then(res => {
             item = res.data.data
         })
         .catch((error) => {
-            errors = JSON.stringify(error)
-        })
-
-    let categories = []
-
-    await axios.get(process.env.URL + '/api/categories/')
-        .then(res => {
-            categories = res.data.data
-        })
-        .catch((error) => {
-            console.log(error)
         })
 
     return {
-        props: {item, errors, categories}
+        props: {item}
     }
 }

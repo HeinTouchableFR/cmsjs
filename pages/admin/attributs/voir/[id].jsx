@@ -35,7 +35,7 @@ export default function Detail({item}) {
                         <div className="field">
                             <label>Valeurs</label>
                         </div>
-                        {item.valeurs.map(item => <Valeur key={item._id} item={item}/>)}
+                        {item.valeurs && item.valeurs.map(item => <Valeur key={item._id} item={item}/>)}
                     </Form>
                 </Content>
             </Header>

@@ -13,7 +13,10 @@ export default async (req, res) => {
                     path: 'categoriesEnfant',
                     populate: {
                         path: 'categoriesEnfant',
-                        model: 'Categorie'
+                        populate: {
+                            path: 'categoriesEnfant',
+                            model: 'Categorie'
+                        }
                     }
                 })
                 res.status(200).json({success: true, data: items})

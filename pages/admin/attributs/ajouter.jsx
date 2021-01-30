@@ -27,11 +27,6 @@ export default function Ajouter() {
 
     const create = async () => {
         try {
-            let valeurs = []
-            if(form.valeurs.length > 0){
-                valeurs = form.valeurs
-                form.valeurs = []
-            }
             const res = await fetch(`${process.env.URL}/api/${url}`, {
                 method: 'POST',
                 headers: {
@@ -41,39 +36,7 @@ export default function Ajouter() {
                 body: JSON.stringify(form)
             })
             const {data: newItem} = await res.json()
-
-            if(newItem && valeurs.length > 0){
-                valeurs.map(async function (item) {
-                    delete item._id
-                    item.attribut = newItem._id
-
-                    const res2 = await fetch(`${process.env.URL}/api/valeurs`, {
-                        method: 'POST',
-                        headers: {
-                            "Accept": "application/json",
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify(item)
-                    })
-                    const {data: newValeur} = await res2.json()
-                    newItem.valeurs.push(newValeur._id)
-
-                    const res3 = await fetch(`${process.env.URL}/api/${url}/${newItem._id}`, {
-                        method: 'PUT',
-                        headers: {
-                            "Accept": "application/json",
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify(newItem)
-                    })
-                    router.push(`/admin/${url}`);
-                })
-
-
-            }else{
-                router.push(`/admin/${url}`);
-            }
-
+            router.push(`/admin/${url}`);
         } catch (error) {
             console.log(error);
         }
@@ -106,7 +69,7 @@ export default function Ajouter() {
     const handleAddValeur = function () {
         setForm({
             ...form,
-            valeurs: [...form.valeurs, {_id: new Date().getTime(),nom: '', attribut:  null}]
+            valeurs: [...form.valeurs, {_id: 'new-' + new Date().getTime(),nom: '', attribut:  null}]
         })
     }
 

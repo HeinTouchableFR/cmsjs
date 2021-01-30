@@ -1,11 +1,12 @@
 import dbConnect from "../../../utils/dbConnect";
 import Categorie from "../../../models/Categorie";
+import Attribut from "../../../models/Attribut";
 
 dbConnect()
 
 export default async (req, res) => {
     const {
-        query: { id },
+        query: {id},
         method
     } = req
 
@@ -14,42 +15,64 @@ export default async (req, res) => {
             try {
                 const item = await Categorie.findById(id)
 
-                if(!item){
+                if (!item) {
                     return res.status(400).json({success: false})
                 }
 
                 res.status(200).json({success: true, data: item})
-            }catch (e) {
+            } catch (e) {
                 res.status(400).json({success: false})
             }
             break;
         case 'PUT':
             try {
-                const item = await Categorie.findByIdAndUpdate(id, req.body, {
-                    runValidators: true
-                })
-
-                if(!item){
-                    return res.status(400).json({success: false})
+                const item = await Categorie.findById(id)
+                if (!item) {
+                    return res.status(400).json({success: false, errors: "L'élément n'existe pas."})
                 }
+                item.nom = req.body.nom
+                item.description = req.body.description
+                item.categorieParent = item.categorieParent ? item.categorieParent : ""
 
-                res.status(200).json({success: true, data: item})
-            }catch (e) {
-                res.status(400).json({success: false})
+                if (!(req.body.categorieParent == item.categorieParent) && req.body.categorieParent) {
+                    const c = await Categorie.findById(req.body.categorieParent)
+                    c.categoriesEnfant.push(item)
+                    c.save()
+                }
+                if (!(req.body.categorieParent == item.categorieParent) && item.categorieParent) {
+                    const c = await Categorie.findById(item.categorieParent)
+                    var index = c.categoriesEnfant.indexOf(item._id);
+                    if (index > -1) {
+                        c.categoriesEnfant.splice(index, 1);
+                    }
+                    c.save()
+                }
+                item.categorieParent = req.body.categorieParent
+                item.save(item)
+                    .then(data => res.status(200).json({success: true, data: data}))
+                    .catch(err => res.status(400).json({success: false, errors: err}));
+            } catch (e) {
+                res.status(400).json({success: false, errors: e})
             }
             break;
         case 'DELETE':
-                try {
-                    const deletedItem = await Categorie.deleteOne({_id: id})
 
-                    if(!deletedItem){
-                        return res.status(400).json({success: false})
+            async function handleDelete(e) {
+                const item = await Categorie.findByIdAndDelete(e)
+
+                if (item && item.categoriesEnfant) {
+                    for (const element of item.categoriesEnfant) {
+                        await handleDelete(element)
                     }
-
-                    return res.status(200).json({success: true, data: {}})
-                }catch (e) {
-                    res.status(400).json({success: false})
                 }
+            }
+
+            try {
+                await handleDelete(id)
+                return res.status(200).json({success: true, data: "test"})
+            } catch (e) {
+                res.status(400).json({success: false})
+            }
             break;
         default:
             res.status(400).json({success: false})
