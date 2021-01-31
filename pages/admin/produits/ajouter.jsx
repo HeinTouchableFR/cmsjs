@@ -51,7 +51,7 @@ export default function Ajouter({categories}) {
                 body: data
             })
             const {data: newItem} = await res.json()
-            router.push(`/admin/${url}`);
+            router.push(`/admin/${url}/voir/${newItem._id}`);
         } catch (error) {
             console.log(error);
         }

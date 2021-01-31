@@ -57,7 +57,6 @@ export default function Index({items, errors}) {
             </Head>
             <Header>
                 <Content titre="Produits" icon="fa-cubes" url={url}>
-                    {__dirname}
                     <table className={styles.table + " " + styles.tableStriped}>
                         <thead className={styles.thead}>
                             <tr>
@@ -94,7 +93,7 @@ const Item = function({item, url, handleDelete}) {
         <tr className={styles.tr}>
             <td scope="row" className={styles.td}>{item._id}</td>
             <td scope="row" className={styles.td}><img
-                src={item.imageEnAvant ? item.imageEnAvant.destination + "/" + item.imageEnAvant.filename : '/empty.png'}
+                src={item.imageEnAvant ? 'data:image/jpeg;base64,' + item.imageEnAvant.base : '/empty.png'}
                 alt={"Image en avant " + item.nom}
                 width={120}
                 height={120}

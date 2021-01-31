@@ -5,6 +5,7 @@ import multer from 'multer';
 import Produit from "../../../../models/Produit";
 import Image from "../../../../models/Image";
 import Categorie from "../../../../models/Categorie";
+import fs from "fs";
 
 
 const oneMegabyteInBytes = 1000000;
@@ -13,10 +14,7 @@ var path = require('path');
 
 const upload = multer({
     limits: {fileSize: oneMegabyteInBytes * 2},
-    storage: multer.diskStorage({
-        destination: './public/uploads/produits',
-        filename: (req, file, cb) => cb(null, (Math.random().toString(36) + '00000000000000000').slice(2, 10) + Date.now() + path.extname(file.originalname)),
-    }),
+
     /*fileFilter: (req, file, cb) => {
       const acceptFile: boolean = ['image/jpeg', 'image/png'].includes(file.mimetype);
       cb(null, acceptFile);
@@ -33,7 +31,6 @@ const apiRoute = nextConnect({
 });
 
 apiRoute.use(upload.fields([{name: 'imageEnAvant'}, {name: "galerieImage"}]));
-//apiRoute.use(upload.array('galerieImage'));
 
 apiRoute.post(async (req, res) => {
     let item = new Produit({
@@ -51,26 +48,24 @@ apiRoute.post(async (req, res) => {
     });
 
     for (const img of req.files["imageEnAvant"]) {
-        const destination = img.destination.replace('./public', '')
+        const base64data = new Buffer(img.buffer, 'binary').toString('base64');
         const image = new Image({
-            destination: destination,
-            filename: img.filename,
+            base: base64data
         })
-        image.save()
+        await image.save()
         item.imageEnAvant = image._id
     }
 
     for (const img of req.files["galerieImage"]) {
-        const destination = img.destination.replace('./public', '')
+        const base64data = new Buffer(img.buffer, 'binary').toString('base64');
         const image = new Image({
-            destination: destination,
-            filename: img.filename,
+            base: base64data
         })
-        image.save()
+        await image.save()
         item.galerieImage.push(image._id)
     }
 
-    if (item.categories.length > 0) {
+   if (item.categories.length > 0) {
         for (const element of item.categories) {
             const c = await Categorie.findById(element)
 
