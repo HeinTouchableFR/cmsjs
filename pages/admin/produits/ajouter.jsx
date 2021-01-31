@@ -5,6 +5,8 @@ import Content from "../../../components/Content/content.component";
 import {useRouter} from 'next/router';
 import {Button, Card, Form, Input, Loader} from 'semantic-ui-react';
 import axios from "axios";
+import { Uploader } from 'rsuite';
+
 var FormData = require('form-data');
 
 export default function Ajouter({categories}) {
@@ -183,19 +185,18 @@ export default function Ajouter({categories}) {
                             type="number"
                             step="0.001"
                         />
-                        <Form.Input
-                            fluid
-                            label='Image en avant'
-                            name='imageEnAvant'
-                            type="file"
-                        />
-                        <Form.Input
-                            fluid
-                            label="Galerie d'image"
-                            name='galerieImage'
-                            type="file"
-                            multiple
-                        />
+                        <div className="field">
+                            <label>Image en avant</label>
+                            <Uploader draggable autoUpload={false} name="imageEnAvant" multiple={false} listType="picture-text">
+                                <div style={{lineHeight: '200px'}}>Cliquez ou faites glisser les fichiers vers cette zone pour les télécharger</div>
+                            </Uploader>
+                        </div>
+                        <div className="field">
+                            <label>Galerie d'image</label>
+                            <Uploader draggable autoUpload={false} name="galerieImage" multiple={true} listType="picture-text">
+                                <div style={{lineHeight: '200px'}}>Cliquez ou faites glisser les fichiers vers cette zone pour les télécharger</div>
+                            </Uploader>
+                        </div>
                         <Form.Dropdown
                             placeholder='Catégories'
                             fluid
