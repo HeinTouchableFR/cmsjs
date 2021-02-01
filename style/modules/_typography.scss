@@ -1,0 +1,126 @@
+// Variables
+// ==================
+$f-sf: 'SF Pro Text', sans-serif;
+$f-gotham: 'Gotham', sans-serif;
+
+// Font face
+// ==================
+/*@include font-face('SF Pro Text', 'fonts/SFProText-Light', 300, null, woff2 woff ttf svg eot);
+@include font-face('SF Pro Text', 'fonts/SFProText-Regular', 400, null, woff2 woff ttf svg eot);
+@include font-face('SF Pro Text', 'fonts/SFProText-Medium', 500, null, woff2 woff ttf svg eot);
+@include font-face('SF Pro Text', 'fonts/SFProText-Semibold', 600, null, woff2 woff ttf svg eot);
+@include font-face('Gotham', 'fonts/Gotham-Bold', 700, null, woff2 woff ttf svg eot);
+*/
+
+
+// Style
+// ==================
+%big-title {
+  font-family: $f-gotham;
+  font-weight: bold;
+  font-size: 64px;
+  line-height: 1.15;
+
+  @media only screen and (max-width: 500px) {
+    font-size: 40px;
+  }
+}
+
+%title-secondary,
+.title-secondary{
+  font-family: $f-gotham;
+  font-weight: bold;
+  font-size: 30px;
+  line-height: 1.15;
+
+  @include up(500) {
+    font-size: 42px;
+  }
+}
+
+%h3 {
+  font-family: $f-gotham;
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 1.15;
+
+  @include up(500) {
+    font-size: 32px;
+  }
+}
+
+.formatted {
+  p, blockquote, ul, ol {
+    margin-bottom: 1.5em;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    margin-bottom: 1rem;
+  }
+  h2 {
+    @extend %title-secondary;
+  }
+  h3 {
+    font-family: $f-gotham;
+    font-size: 25px;
+    line-height: 1.15;
+
+    @include up(500) {
+      font-size: 35px;
+    }
+  }
+  h4 {
+    font-weight: bold;
+    font-family: $f-gotham;
+  }
+  ul,
+  ol {
+    display: grid;
+    grid-template-columns: 1fr;
+    justify-items: flex-start;
+    grid-gap: .5em;
+    margin-left: 1.5em;
+  }
+  li {
+    padding-left: space(3);
+    position: relative;
+  }
+  ul li::before {
+    content: '';
+    display: block;
+    width: 8px;
+    height: 8px;
+    border-radius: 8px;
+    background: currentColor;
+    position: absolute;
+    top: 12px;
+    left: 0;
+  }
+  ol {
+    counter-reset: ol;
+  }
+  ol li {
+    counter-increment: ol;
+  }
+  ol li::before {
+    content: counter(ol) ".";
+    position: absolute;
+    top: 0;
+    left: -10px;
+  }
+  *:last-child {
+    margin-bottom: 0 !important;
+  }
+  blockquote {
+    font-size: 1.2em;
+    border-left: 4px solid currentColor;
+    padding-left: 1em;
+  }
+  blockquote p {
+    margin-bottom: 1rem;
+  }
+  blockquote cite {
+    font-weight: 300;
+    font-size: .9rem;
+    font-style: italic;
+  }
+}

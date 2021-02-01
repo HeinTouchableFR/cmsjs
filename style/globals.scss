@@ -23,3 +23,24 @@ a {
     pointer-events: none;
     opacity: 1!important;
 }
+
+#nprogress .bar {
+    background: #3bff09 !important;
+}
+
+#nprogress .peg {
+    box-shadow: 0 0 10px #3bff09, 0 0 5px #3bff09;
+}
+
+#nprogress .spinner-icon {
+    border-top-color: #3bff09;
+    border-left-color: #3bff09;
+}
+
+.container, .nav, .nav__pre {
+    max-width: 1370px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-left: auto;
+    margin-right: auto;
+}
