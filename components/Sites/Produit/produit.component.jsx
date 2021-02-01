@@ -10,7 +10,7 @@ export default function Produit({item}) {
                 <a title={item.nom}
                    className={styles.product}>
                     <div className={styles.product__image}>
-                        <img
+                        <img width={385} height={385}
                             src={item.imageEnAvant ? 'data:image/jpeg;base64,' + item.imageEnAvant.base : '/empty.png'}
                             alt={item.nom} />
                     </div>
