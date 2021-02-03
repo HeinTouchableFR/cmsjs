@@ -93,7 +93,7 @@ const Item = function({item, url, handleDelete}) {
         <tr className={styles.tr}>
             <td scope="row" className={styles.td}>{item._id}</td>
             <td scope="row" className={styles.td}><img
-                src={item.imageEnAvant ? 'data:image/jpeg;base64,' + item.imageEnAvant.base : '/empty.png'}
+                src={item.imageEnAvant ? item.imageEnAvant.url : '/empty.png'}
                 alt={"Image en avant " + item.nom}
                 width={120}
                 height={120}

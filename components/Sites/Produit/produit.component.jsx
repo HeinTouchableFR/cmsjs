@@ -11,7 +11,7 @@ export default function Produit({item}) {
                    className={styles.product}>
                     <div className={styles.product__image}>
                         <img width={385} height={385}
-                            src={item.imageEnAvant ? 'data:image/jpeg;base64,' + item.imageEnAvant.base : '/empty.png'}
+                            src={item.imageEnAvant ? item.imageEnAvant.url : '/empty.png'}
                             alt={item.nom} />
                     </div>
                     <div className={styles.product__body}>

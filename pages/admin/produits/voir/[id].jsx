@@ -105,12 +105,12 @@ export default function Detail({item, categories}) {
                         />
                         <div className="field">
                             <label>Image en avant</label>
-                            {item.imageEnAvant ? <img  width={120} height={120} src={'data:image/jpeg;base64,' + item.imageEnAvant.base} /> : <h4>Aucune image en avant</h4> }
+                            {item.imageEnAvant ? <img  width={120} height={120} src={item.imageEnAvant.url} /> : <h4>Aucune image en avant</h4> }
                         </div>
                         <div className="field">
                             <label>Galerie d'images</label>
                             {item.galerieImage ? <div className={"galerie"}>
-                                {item.galerieImage.map(image => <img width={120} height={120} src={'data:image/jpeg;base64,' + image.base} alt={"Image " + item.nom} /> )}
+                                {item.galerieImage.map(image => <img width={120} height={120} src={image.url} alt={"Image " + item.nom} /> )}
                             </div> : <h4>Aucune images suplémentaires</h4> }
                         </div>
                         <Form.Dropdown

@@ -11,7 +11,7 @@ export default function ProduitSingle({item}) {
                     <div className={styles.produit__photos}>
                         <a href="#">
                             <img className={item.produit__photo}
-                                 src={item.imageEnAvant ? 'data:image/jpeg;base64,' + item.imageEnAvant.base : '/empty.png'}
+                                 src={item.imageEnAvant ? item.imageEnAvant.url : '/empty.png'}
                                  alt={item.nom} />
                         </a>
                     </div>
