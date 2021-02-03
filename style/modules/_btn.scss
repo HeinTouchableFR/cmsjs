@@ -1,0 +1,60 @@
+.btn {
+  font-family: $f-gotham;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 1.7;
+  display: inline-flex;
+  align-items: center;
+  text-align: center;
+  color: $orange;
+  padding: 14px space(3);
+
+  background: transparent;
+  border: 2px solid $orange;
+  box-sizing: border-box;
+  border-radius: 4px;
+  transition: .3s;
+}
+.btn:hover,
+.btn:focus,
+.btn:active  {
+  background-color: $orange;
+  color: #FFf;
+}
+.btn svg {
+  width: 16px;
+  height: 16px;
+  margin-left: space(2);
+  transition: transform .3s;
+}
+.btn:hover svg {
+  transform: translateX(3px);
+}
+.btn-filled {
+  padding-top: 16px;
+  padding-bottom: 16px;
+  color: #FFF;
+  background: linear-gradient(180deg, #FE694A 0%, #FA4C29 100%);
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.25);
+  border-radius: 4px;
+  border: none;
+  transition: .3s;
+
+  &:hover,
+  &:focus,
+  &:active {
+    background: linear-gradient(180deg, #fe653e 0%, #fa371b 100%);
+  }
+}
+
+.btn:disabled {
+  color: rgba(254, 103, 72, 0.52);
+  border: 2px solid rgba(254, 103, 72, 0.52);
+}
+
+.btn:disabled:hover,
+.btn:disabled:focus,
+.btn:disabled:active  {
+  background-color: rgba(254, 103, 72, 0.52);
+  color: #FFf;
+}

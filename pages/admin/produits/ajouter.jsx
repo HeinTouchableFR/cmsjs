@@ -53,7 +53,7 @@ export default function Ajouter({categories}) {
                 body: data
             })
             const {data: newItem} = await res.json()
-            router.push(`/admin/${url}/voir/${newItem._id}`);
+            router.push(`/admin/${url}`);
         } catch (error) {
             console.log(error);
         }
@@ -82,20 +82,6 @@ export default function Ajouter({categories}) {
         setForm({
             ...form,
             [data.name]: data.value ? data.value : data.checked
-        })
-    }
-
-    const handleChangeFile = (e, data) => {
-        setForm({
-            ...form,
-            [data.name]: e.target.files
-        })
-    }
-
-    const handleAddValeur = function () {
-        setForm({
-            ...form,
-            valeurs: [...form.valeurs, {_id: 'new-' + new Date().getTime(), nom: '', attribut: null}]
         })
     }
 

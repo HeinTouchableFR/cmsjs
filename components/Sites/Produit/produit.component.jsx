@@ -6,7 +6,7 @@ import React from "react";
 export default function Produit({item}) {
     return (
         <>
-            <Link href="/">
+            <Link href={"/fiche/" + item._id + "/slug" }>
                 <a title={item.nom}
                    className={styles.product}>
                     <div className={styles.product__image}>

@@ -27,7 +27,7 @@ export default async (req, res) => {
                     }
                 })
                 if(!item){
-                    return res.status(400).json({success: false, data:"Produit inconnu"})
+                    return res.status(200).json({success: false, data:"Produit inconnu"})
                 }
 
                 res.status(200).json({success: true, data: item})

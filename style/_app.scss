@@ -7,6 +7,8 @@ $orange: #FE6748;
 //@import "tools/reset";
 @import "tools/mixins";
 @import "style/modules/typography";
+@import "style/modules/forms";
+@import "style/modules/btn";
 
 
 
@@ -19,3 +21,9 @@ $orange: #FE6748;
   margin-right: auto;
 }
 
+.formatted{
+  font-size: 22px;
+  font-family: SF Pro Text,sans-serif;
+  color: #2c2e36;
+  line-height: 1.4;
+}

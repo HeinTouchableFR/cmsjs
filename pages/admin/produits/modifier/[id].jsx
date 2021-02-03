@@ -6,15 +6,30 @@ import axios from "axios";
 import {Button, Card, Form, Input, Loader} from 'semantic-ui-react';
 import {useRouter} from 'next/router';
 import {ActionBoutonNoLink} from "../../../../components/Bouton/ActionBouton";
+import {Uploader} from "rsuite";
 
-export default function Modifier({item}) {
+export default function Modifier({item, categories}) {
 
-    const url = "attributs"
+    const url = "produits"
 
-    const [form, setForm] = useState({_id: item._id, nom: item.nom, valeurs: item.valeurs, filtre: item.filtre, newValeurs: [], deleteValeurs: []});
+    const [form, setForm] = useState({
+        _id: item._id,
+        nom: item.nom,
+        description: item.description,
+        enVente: item.enVente,
+        prix: item.prix,
+        prixPromo: item.prixPromo,
+        largeur: item.largeur,
+        longueur: item.longueur,
+        hauteur: item.hauteur,
+        poids: item.poids,
+        categories: item.categories
+    });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [errors, setErrors] = useState({});
     const router = useRouter();
+
+    const [data, setData] = useState(null)
 
     useEffect(() => {
         if (isSubmitting) {
@@ -28,13 +43,14 @@ export default function Modifier({item}) {
 
     const update = async () => {
         try {
-            const res = await fetch(`${process.env.URL}/api/${url}/${form._id}`, {
+            data.append("categories", JSON.stringify(form.categories))
+            data.append("produitEnVente", form.enVente ? "true" : "false")
+            const res = await fetch(`${process.env.URL}/api/${url}/post/${form._id}`, {
                 method: 'PUT',
                 headers: {
                     "Accept": "application/json",
-                    "Content-Type": "application/json"
                 },
-                body: JSON.stringify(form)
+                body: data
             })
             const {data: updateItem} = await res.json()
             router.push(`/admin/${url}`);
@@ -46,6 +62,8 @@ export default function Modifier({item}) {
     const handleSubmit = (e) => {
         e.preventDefault();
         let errs = validate();
+        let f = new FormData(e.target)
+        setData(f)
         setErrors(errs);
         setIsSubmitting(true);
     }
@@ -67,40 +85,126 @@ export default function Modifier({item}) {
         })
     }
 
-    const handleAddValeur = function () {
-        setForm({
-            ...form,
-            newValeurs: [...form.newValeurs, {_id: 'new-' + new Date().getTime(),nom: '', attribut:  null}]
-        })
-    }
+    const categoriesOptions = []
+
+    categories.map(categorie => categoriesOptions.push({ key: categorie._id, value: categorie._id, text: categorie.nom }))
 
     return (
         <>
             <Head>
-                <title>Modifier l'attribut {item.nom}</title>
+                <title>Modifier le produit {item.nom}</title>
             </Head>
             <Header>
-                <Content titre="Attributs" icon="fa-cubes" url={url} action={"modifier"}>
+                <Content titre="Produits" icon="fa-cubes" url={url} action={"modifier"}>
                     <Form onSubmit={handleSubmit}>
                         <Form.Input
                             fluid
                             error={errors.nom ? {content: 'Ce champ est requis', pointing: 'below'} : null}
                             label='Nom'
                             placeholder='Nom'
-                            name='nom'
-                            defaultValue={item.nom}
                             onChange={handleChange}
+                            name='nom'
+                            defaultValue={form.nom}
+                        />
+                        <Form.Input
+                            fluid
+                            error={errors.prix ? {content: 'Ce champ est requis', pointing: 'below'} : null}
+                            label='Prix'
+                            placeholder='Prix'
+                            name='prix'
+                            type="number"
+                            onChange={handleChange}
+                            step="0.01"
+                            defaultValue={form.prix}
+                        />
+                        <Form.Input
+                            fluid
+                            label='Prix en promo'
+                            placeholder='Prix'
+                            name='prixPromo'
+                            type="number"
+                            onChange={handleChange}
+                            step="0.01"
+                            defaultValue={form.prixPromo}
+                        />
+                        <Form.TextArea
+                            label='Description'
+                            placeholder='Description'
+                            onChange={handleChange}
+                            name='description'
+                            defaultValue={form.description}
                         />
                         <Form.Checkbox
-                            label="Utiliser l'attribut comme filtre de recherche produit"
-                            name='filtre'
-                            defaultChecked={item.filtre}
+                            label="Produit en vente"
                             onChange={handleChange}
+                            name='enVente'
+                            defaultChecked={form.enVente}
                         />
-                        {form.valeurs.map(item => <Valeur key={item._id} item={item} setForm={setForm} form={form}/>)}
-                        {form.newValeurs.map(item => <Valeur key={item._id} item={item} setForm={setForm} form={form} type="newValeurs"/>)}
-                        <Button type="button" color="teal" onClick={handleAddValeur}>Ajouter une valeur</Button>
-                        <Button type='submit'>Modifier</Button>
+                        <Form.Input
+                            fluid
+                            label='Longueur (cm)'
+                            placeholder='Longueur'
+                            name='longueur'
+                            type="number"
+                            onChange={handleChange}
+                            step="0.01"
+                            defaultValue={form.longueur}
+                        />
+                        <Form.Input
+                            fluid
+                            label='Largeur (cm)'
+                            placeholder='Largeur'
+                            name='largeur'
+                            onChange={handleChange}
+                            type="number"
+                            step="0.01"
+                            defaultValue={form.largeur}
+                        />
+                        <Form.Input
+                            fluid
+                            label='Hauteur (cm)'
+                            placeholder='Hauteur'
+                            name='hauteur'
+                            onChange={handleChange}
+                            type="number"
+                            step="0.01"
+                            defaultValue={form.hauteur}
+                        />
+                        <Form.Input
+                            fluid
+                            label='Poids (Kg)'
+                            placeholder='Poids'
+                            name='poids'
+                            onChange={handleChange}
+                            type="number"
+                            step="0.001"
+                            defaultValue={form.poids}
+                        />
+                        <div className="field">
+                            <label>Image en avant</label>
+                            <Uploader draggable autoUpload={false} name="imageEnAvant" multiple={false} listType="picture-text">
+                                <div style={{lineHeight: '200px'}}>Cliquez ou faites glisser les fichiers vers cette zone pour les télécharger</div>
+                            </Uploader>
+                        </div>
+                        <div className="field">
+                            <label>Galerie d'image</label>
+                            <Uploader draggable autoUpload={false} name="galerieImage" multiple={true} listType="picture-text">
+                                <div style={{lineHeight: '200px'}}>Cliquez ou faites glisser les fichiers vers cette zone pour les télécharger</div>
+                            </Uploader>
+                        </div>
+                        <Form.Dropdown
+                            placeholder='Catégories'
+                            fluid
+                            search
+                            clearable
+                            selection
+                            multiple
+                            options={categoriesOptions}
+                            name='categories'
+                            onChange={handleChange}
+                            defaultValue={form.categories}
+                        />
+                        <Button type='submit'>Créer</Button>
                     </Form>
                 </Content>
             </Header>
@@ -164,14 +268,23 @@ export async function getServerSideProps({params}) {
 
     let item = {}
 
-    await axios.get(process.env.URL + "/api/attributs/" + id)
+    await axios.get(process.env.URL + "/api/produits/" + id)
         .then(res => {
             item = res.data.data
         })
         .catch((error) => {
         })
 
+    let categories = []
+
+    await axios.get(process.env.URL + '/api/categories')
+        .then(res => {
+            categories = res.data.data
+        })
+        .catch((error) => {
+        })
+
     return {
-        props: {item}
+        props: {item, categories}
     }
 }
