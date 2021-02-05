@@ -1,0 +1,171 @@
+//Composant Content
+.content{
+  display: block;
+  position: relative;
+}
+
+.container{
+  padding: 0 20px;
+}
+
+
+//Composant AjouterDisposition
+.ajouterDisposition{
+  width: 100%;
+  padding: 40px 0;
+  border: dashed 2px #d5dadf;
+  text-align: center;
+  margin-top: 45px;
+
+  & button{
+    border-radius: 50px;
+    background-color: dodgerblue;
+    color: #FFF;
+    font-size: 24px;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    border: none;
+    outline: 0;
+  }
+}
+
+
+//Composant Disposition
+.disposition{
+  width: 100%;
+  position: relative;
+  margin: 10px auto;
+  border: solid 1px #FFF;
+}
+
+.disposition:hover {
+  width: 100%;
+  position: relative;
+  margin: 10px auto;
+  border: solid 1px deepskyblue;
+}
+
+.disposition__remove_btn {
+  display: none;
+}
+
+.disposition:hover .disposition__remove_btn {
+  display: block;
+  background-color: deepskyblue;
+  color: #FFF;
+  font-size: 12px;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  border: none;
+  outline: 0;
+  position: absolute;
+  top: -1px;
+  right: -20px;
+}
+
+.disposition:hover .disposition__remove_btn:hover, .disposition:hover .disposition__remove_btn:active {
+  background-color: dodgerblue;
+}
+
+.disposition__no_columns {
+  width: 100%;
+  padding: 40px 0;
+  border: dashed 2px #d5dadf;
+  text-align: center;
+}
+
+.disposition__btn {
+  background-color: inherit;
+  border: none;
+  cursor: pointer;
+}
+
+.disposition__no_columns ul {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 130px);
+  justify-content: center;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+@each $i in 1, 2, 3, 4, 5, 6 {
+  .disposition__structure_#{$i} {
+    display: grid;
+    grid-template-columns: repeat(#{$i}, 1fr);
+    grid-gap: 3px;
+    width: 80px;
+    height: 60px;
+  }
+}
+
+@each $i in 1, 2, 3, 4, 5, 6 {
+  .disposition__#{$i} {
+    display: grid;
+    grid-template-columns: repeat(#{$i}, 1fr);
+    grid-gap: 15px;
+    width: 100%;
+    min-height: 60px;
+    align-content: center;
+    text-align: center;
+  }
+}
+
+.disposition__structure_element {
+  padding: 3px;
+  background-color: grey;
+}
+
+.disposition__element {
+  cursor: pointer;
+}
+
+.disposition__empty {
+  border: dashed 1px #d5dadf;
+  margin-top: 10px;
+  padding: 10px 0;
+}
+
+
+.disposition__plein, .disposition__empty {
+  position: relative;
+}
+
+
+.disposition__remove_sub {
+  display: none;
+}
+
+.disposition__plein:hover .disposition__remove_sub, .disposition__empty:hover .disposition__remove_sub {
+  display: block;
+  background-color: #d5dadf;
+  color: #000;
+  font-size: 12px;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  border: none;
+  outline: 0;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.disposition__ajouter_element {
+  border-radius: 50px;
+  background-color: green;
+  color: #FFF;
+  font-size: 12px;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  border: none;
+  outline: 0;
+  margin: 10px auto;
+}
+
+.disposition__element {
+  cursor: pointer;
+}
