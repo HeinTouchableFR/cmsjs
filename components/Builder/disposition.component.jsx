@@ -39,6 +39,10 @@ export default function Disposition({disposition, modifierDisposition, supprimer
     const definirStructureDisposition = function (structure) {
         disposition.nbColumns = structure.nbColumns
 
+        /**
+         * Permet de générer des éléments et un sous élément
+         * En fonction du nombre de colonnes de la disposition
+         */
         for (let j = 1; j <= disposition.nbColumns; j++) {
             const element = {}
             element.id = new Date().getTime() + j
