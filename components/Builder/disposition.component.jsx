@@ -1,14 +1,17 @@
-import React, {useState, useEffect} from "react";
+import React from "react";
 import styles from './builder.module.scss'
 
 export default function Disposition({disposition, modifierDisposition, supprimerDisposition}) {
 
-    const structure = {
-        id: 1,
-        nbColumns: 2
-    }
 
-    const [structures, setStructures] = useState([structure])
+
+    const structures = []
+    for (let i = 1; i < 7; i++) {
+        const structure = {}
+        structure.id = new Date().getTime() + i
+        structure.nbColumns = i
+        structures.push(structure)
+    }
 
     /**
      * Permet de générer le bouton de la structure cible
@@ -23,10 +26,10 @@ export default function Disposition({disposition, modifierDisposition, supprimer
             definirStructureDisposition(structure)
         }
 
-        return <button className={`${styles.disposition__btn} ${styles.disposition__structure_2}`}
+        return <button className={`${styles.disposition__btn} ${styles.structure}`}
                        onClick={handleClick}>
             {
-                [...Array(n)].map((e, i) => <span className={`${styles.disposition__structure_element}`}
+                [...Array(n)].map((e, i) => <span className={`${styles.structure__element}`}
                                                   key={new Date().getTime() + i}>+</span>)
             }
         </button>
@@ -89,8 +92,9 @@ export default function Disposition({disposition, modifierDisposition, supprimer
 
     return (
         <div className={`${styles.disposition}`}>
+
             {disposition.nbColumns > 0 ?
-                <div className={`${styles.disposition__2}`}>
+                <div className={`${styles.disposition__container}`}>
                     {
                         disposition.elements && disposition.elements.map(element =>
                             <Elements key={"element-" + element.id} disposition={disposition} element={element}
@@ -124,7 +128,7 @@ function Elements({element, onClick, ajouterSousElement, supprimerSousElement}) 
     }
 
     return <>
-        <div className="disposition__element">
+        <div className={styles.element}>
             {
                 element.subs && element.subs.map(sub => sub.content ?
                     <ElementPlein key={"full-" + sub.id} sub={sub} supprimerSousElement={handleSupprimerSousElement}
