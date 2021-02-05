@@ -216,3 +216,13 @@
 .structure:hover .structure__element{
   background-color: darkgrey;
 }
+
+
+@media only screen and (max-width: 500px){
+  .container{
+    padding: 0 10px;
+  }
+  .disposition__no_columns ul {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
