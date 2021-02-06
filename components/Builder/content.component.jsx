@@ -42,28 +42,14 @@ export default function Content({dispositions, setDispositions, ajouterDispositi
     }
 
     return (<>
-            <DragDropContext onDragEnd={onDragEnd}>
-                <Droppable droppableId="droppable" direction="vertical">
-                    {(provided, snapshot) => (
-                        <div className={`${styles.content} ${styles.container}`} ref={provided.innerRef}>
-                            {dispositions.map((item, index) => (
-                                <Draggable key={item.id} draggableId={item.id.toString()} index={index}>
-                                    {(provided, snapshot) => (
-                                        <Disposition key={item.id} disposition={item}
-                                                     modifierDisposition={modifierDisposition}
-                                                     supprimerDisposition={supprimerDisposition}
-                                                     provided={provided}
-                                                     snapshot={snapshot}
-                                        />
-                                    )}
-                                </Draggable>
-                            ))}
-                            {provided.placeholder}
-                            <AjouterDisposition handleAddDisposition={ajouterDisposition}/>
-                        </div>
-                    )}
-                </Droppable>
-            </DragDropContext>
+            <div className={`${styles.content} ${styles.container}`}>
+                {dispositions.map((item) => (
+                    <Disposition key={item.id} disposition={item}
+                                 modifierDisposition={modifierDisposition}
+                                 supprimerDisposition={supprimerDisposition}/>
+                ))}
+                <AjouterDisposition handleAddDisposition={ajouterDisposition}/>
+            </div>
         </>
     )
 }
