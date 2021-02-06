@@ -218,6 +218,15 @@
 }
 
 
+@media only screen and (max-width: 800px){
+  .container{
+    padding: 0 30px;
+  }
+  .disposition__no_columns ul {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 @media only screen and (max-width: 500px){
   .container{
     padding: 0 10px;
