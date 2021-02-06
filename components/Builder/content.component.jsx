@@ -8,7 +8,7 @@ import {DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd';
 export default function Content({dispositions, setDispositions, ajouterDisposition, modifierDisposition, supprimerDisposition}) {
 
     /**
-     *
+     * Permet de réorganiser la lise des dispositions via drag and drop
      * @param list
      * @param startIndex
      * @param endIndex
@@ -22,6 +22,10 @@ export default function Content({dispositions, setDispositions, ajouterDispositi
         return result;
     };
 
+    /**
+     * Permet de sauvegarder les positions des dispositions lorsque que le drag est terminé
+     * @param result
+     */
     const onDragEnd = function (result) {
         // dropped outside the list
         if (!result.destination) {
@@ -55,11 +59,11 @@ export default function Content({dispositions, setDispositions, ajouterDispositi
                                 </Draggable>
                             ))}
                             {provided.placeholder}
+                            <AjouterDisposition handleAddDisposition={ajouterDisposition}/>
                         </div>
                     )}
                 </Droppable>
             </DragDropContext>
-            <AjouterDisposition handleAddDisposition={ajouterDisposition}/>
         </>
     )
 }

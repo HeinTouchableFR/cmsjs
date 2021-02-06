@@ -1,5 +1,7 @@
 import React, {useState} from "react";
 import Content from "./content.component";
+import Navigation from "./navigation.component";
+import styles from './builder.module.scss'
 
 
 export default function Builder({page}) {
@@ -35,7 +37,10 @@ export default function Builder({page}) {
 
     return (
         <>
-            <Content dispositions={dispositions} setDispositions={setDispositions} ajouterDisposition={ajouterDisposition} modifierDisposition={modifierDisposition} supprimerDisposition={supprimerDisposition} />
+            <div className={styles.builder}>
+                <Navigation />
+                <Content dispositions={dispositions} setDispositions={setDispositions} ajouterDisposition={ajouterDisposition} modifierDisposition={modifierDisposition} supprimerDisposition={supprimerDisposition} />
+            </div>
             </>
     )
 }

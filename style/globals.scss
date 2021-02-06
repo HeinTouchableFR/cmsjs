@@ -61,3 +61,11 @@ a {
   color: red;
   transition: all 1s;
 }
+
+.ui.attached.segment.active.tab{
+    min-height: 100vh;
+    background: #e6e9ec;
+}
+.ui.labeled.button{
+  margin: auto;
+}

@@ -1,12 +1,12 @@
 import React from "react";
 
-export default function Component({ balise, label, hover, color }) {
+export default function Component({ balise, label, tooltip, color }) {
   return (
     <>
       <div
         className="ui labeled circular button menu-button"
         tabindex="0"
-        data-tooltip={hover}
+        data-tooltip={tooltip}
         data-position="right center"
         data-variation="inverted"
       >
