@@ -5,7 +5,7 @@ import AjouterDisposition from "./ajouterDisposition.component";
 import Disposition from "./disposition.component";
 import {DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd';
 
-export default function Content({dispositions, setDispositions, ajouterDisposition, modifierDisposition, supprimerDisposition}) {
+export default function Content({dispositions, setDispositions, ajouterDisposition, modifierDisposition, supprimerDisposition, onElementClick}) {
 
     /**
      * Permet de réorganiser la lise des dispositions via drag and drop
@@ -46,7 +46,8 @@ export default function Content({dispositions, setDispositions, ajouterDispositi
                 {dispositions.map((item) => (
                     <Disposition key={item.id} disposition={item}
                                  modifierDisposition={modifierDisposition}
-                                 supprimerDisposition={supprimerDisposition}/>
+                                 supprimerDisposition={supprimerDisposition}
+                                 onElementClick={onElementClick}/>
                 ))}
                 <AjouterDisposition handleAddDisposition={ajouterDisposition}/>
             </div>

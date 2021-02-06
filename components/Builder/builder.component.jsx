@@ -8,6 +8,35 @@ import {DragDropContext} from "react-beautiful-dnd";
 export default function Builder({page}) {
     const [dispositions, setDispositions] = useState(page.contenu.dispositions)
 
+    const [currentElement, setCurrentElement] = useState({})
+
+    const [composants, setComposants] = useState([
+        {
+            balise: "<h1/>",
+            label: "Titre",
+            tooltip: "Pour créer de super titre",
+            color: "orange",
+            type: "titre",
+            valeurDefaut: '<h2>Mon super titre</h2>'
+        },
+        {
+            balise: "<img/>",
+            label: "Image",
+            tooltip: "Pour créer de super image",
+            color: "yellow",
+            type: "image",
+            valeurDefaut: '<img src="/placeholder.png"/>'
+        },
+        {
+            balise: "<button/>",
+            label: "Bouton",
+            tooltip: "Pour créer de super bouton",
+            color: "teal",
+            type: "bouton",
+            valeurDefaut: '<button>Mon bouton</button>'
+        },
+    ])
+
     /**
      * Permet d'ajouter une disposition
      */
@@ -67,7 +96,7 @@ export default function Builder({page}) {
             const colonneDestination = getColonneListeById(destination.droppableId)
             if(source.droppableId === "composants"){
                 result = move(
-                    [],
+                    composants,
                     colonneDestination.elements,
                     source,
                     destination
@@ -138,7 +167,7 @@ export default function Builder({page}) {
      */
     const move = (source, destination, droppableSource, droppableDestination) => {
         const result = {};
-        if(source.length > 0){
+        if(droppableSource.droppableId !== "composants"){
             const sourceClone = Array.from(source);
             const destClone = Array.from(destination);
             const [removed] = sourceClone.splice(droppableSource.index, 1)
@@ -146,11 +175,13 @@ export default function Builder({page}) {
             result[droppableSource.droppableId] = sourceClone;
             result[droppableDestination.droppableId] = destClone;
         }else{
+            const sourceClone = Array.from(source);
             const destClone = Array.from(destination);
-
+            const [composant] = sourceClone.splice(droppableSource.index, 1)
             const element = {}
             element.id = new Date().getTime()
-            element.contenu = `<h1>Mon super titre</h1>`
+            element.contenu = composant.valeurDefaut
+            element.type = composant.type
 
             destClone.splice(droppableDestination.index, 0, element);
             result[droppableDestination.droppableId] = destClone;
@@ -159,12 +190,23 @@ export default function Builder({page}) {
         return result;
     };
 
+    const modifierElement = function (element, contenu) {
+        element.contenu = contenu
+        if(element.id === currentElement.id){
+            dispositions.map(disposition => {
+                disposition.colonnes.map(colonne => {
+                    colonne.elements.map(e => e.id === element.id ? element : e)
+                })
+            })
+        }
+    }
+
     return (
         <>
             <div className={styles.builder}>
                 <DragDropContext onDragEnd={onDragEnd} >
-                    <Navigation />
-                    <Content dispositions={dispositions} setDispositions={setDispositions} ajouterDisposition={ajouterDisposition} modifierDisposition={modifierDisposition} supprimerDisposition={supprimerDisposition} />
+                    <Navigation composants={composants} currentItem={currentElement} onElementValeurChange={modifierElement} />
+                    <Content dispositions={dispositions} setDispositions={setDispositions} ajouterDisposition={ajouterDisposition} modifierDisposition={modifierDisposition} supprimerDisposition={supprimerDisposition} onElementClick={setCurrentElement} />
                 </DragDropContext>
             </div>
             </>

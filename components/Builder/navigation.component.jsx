@@ -5,9 +5,9 @@ import AjouterDisposition from "./ajouterDisposition.component";
 import Disposition from "./disposition.component";
 import {DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd';
 import {Tab} from 'semantic-ui-react'
-import Component from "../Component/Component";
+import Component, {ComponentEditor} from "../Component/Component";
 
-export default function Navigation({}) {
+export default function Navigation({composants, currentItem, onElementValeurChange}) {
 
     const panes = [
         {
@@ -21,68 +21,33 @@ export default function Navigation({}) {
                     <Droppable droppableId="composants">
                         {(provided, snapshot) => (
                             <div className={"dropable"} ref={provided.innerRef}>
-                                <Draggable
-                                    key={"dragable-1"}
-                                    draggableId={"dragable-titre"}
-                                    index={1}>
+                                {composants.map((item, index) =><Draggable
+                                    key={item.type}
+                                    draggableId={item.type}
+                                    index={index}>
                                     {(provided, snapshot) => (
                                         <div
                                             ref={provided.innerRef}
                                             {...provided.draggableProps}
                                             {...provided.dragHandleProps}>
-                                            <Component balise={"<h1 />"} label={"Titre"} color={"orange"}
-                                                       tooltip={"Pour créer des super titres"}/>
+                                            <Component balise={item.balise} label={item.label} color={item.color}
+                                                       tooltip={item.tooltip}/>
                                         </div>
                                     )}
-                                </Draggable>
-                                <Draggable
-                                    key={"dragable-2"}
-                                    draggableId={"dragable-image"}
-                                    index={2}>
-                                    {(provided, snapshot) => (
-                                        <div
-                                            ref={provided.innerRef}
-                                            {...provided.draggableProps}
-                                            {...provided.dragHandleProps}>
-                                            <Component balise={"<img />"} label={"Image"} color={"yellow"}
-                                                       tooltip={"Pour créer des super images"}/>
-                                        </div>
-                                    )}
-                                </Draggable>
-                                <Draggable
-                                    key={"dragable-3"}
-                                    draggableId={"dragable-bouton"}
-                                    index={3}>
-                                    {(provided, snapshot) => (
-                                        <div
-                                            ref={provided.innerRef}
-                                            {...provided.draggableProps}
-                                            {...provided.dragHandleProps}>
-                                            <Component balise={"<button />"} label={"Bouton"} color={"teal"}
-                                                       tooltip={"Pour créer des super boutons"}/>
-                                        </div>
-                                    )}
-                                </Draggable>
-                                <Draggable
-                                    key={"dragable-4"}
-                                    draggableId={"dragable-tableau"}
-                                    index={4}>
-                                    {(provided, snapshot) => (
-                                        <div
-                                            ref={provided.innerRef}
-                                            {...provided.draggableProps}
-                                            {...provided.dragHandleProps}>
-                                            <Component balise={"<table />"} label={"Tableau"} color={"purple"}
-                                                       tooltip={"Pour créer des super tableaux"}/>
-                                        </div>
-                                    )}
-                                </Draggable>
+                                </Draggable>)}
                                 {provided.placeholder}
                             </div>
                         )}
-                    </Droppable>,
+                    </Droppable>
                 </Tab.Pane>
 
+        },
+        currentItem.id && {
+            menuItem: 'Modifier ' + currentItem.type,
+            render: () =>
+                <Tab.Pane attached={true}>
+                   <ComponentEditor element={currentItem} onElementValeurChange={onElementValeurChange}/>
+                </Tab.Pane>
         }
     ]
 

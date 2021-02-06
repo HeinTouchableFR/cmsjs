@@ -1,8 +1,12 @@
 import React from "react";
 import { Button } from "semantic-ui-react";
+import useTranslation from "../../../intl/useTranslation";
 import Component from "../../../components/Component/Component";
 
 export default function Index() {
+  // Utilisation de la traduction
+  const { t } = useTranslation();
+
   //Page a créer ou modifier
   const page = {};
   page.nom = "Ma super Page";
@@ -68,7 +72,9 @@ export default function Index() {
           data-position="right center"
         >
           <div class="ui oranged-icon button">{"<h1>"}</div>
-          <a className="ui basic oranged-text left pointing label">Title</a>
+          <a className="ui basic oranged-text left pointing label">
+            {t("home")}
+          </a>
         </div>
         <br />
         <br />

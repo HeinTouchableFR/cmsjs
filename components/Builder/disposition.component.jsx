@@ -3,7 +3,7 @@ import styles from './builder.module.scss'
 import {DragDropContext, Droppable, Draggable} from "react-beautiful-dnd";
 
 
-export default function Disposition({disposition, modifierDisposition, supprimerDisposition}) {
+export default function Disposition({disposition, modifierDisposition, supprimerDisposition, onElementClick}) {
 
 
     const structures = []
@@ -128,7 +128,8 @@ export default function Disposition({disposition, modifierDisposition, supprimer
                             <Colonne key={"element-" + colonne.id} disposition={disposition} colonne={colonne}
                                      ajouterSousElement={ajouterSousElement}
                                      supprimerSousElement={supprimerSousElement} modifierElement={modifierElement}
-                                     modifierSousElement={modifierSousElement}/>
+                                     modifierSousElement={modifierSousElement}
+                                     onElementClick={onElementClick}/>
                         )
                     }
                 </div>
@@ -150,7 +151,7 @@ export default function Disposition({disposition, modifierDisposition, supprimer
 }
 
 
-function Colonne({colonne, onClick, ajouterSousElement, supprimerSousElement, modifierElement, modifierSousElement}) {
+function Colonne({colonne, onElementClick, supprimerSousElement}) {
 
     /**
      * Permet de supprimer un sous élément
@@ -160,38 +161,10 @@ function Colonne({colonne, onClick, ajouterSousElement, supprimerSousElement, mo
         supprimerSousElement(element, e)
     }
 
-    /**
-     * Permet de réorganiser la lise des sous élément via drag and drop
-     * @param list
-     * @param startIndex
-     * @param endIndex
-     * @return {unknown[]}
-     */
-    const reorder = (list, startIndex, endIndex) => {
-        const result = Array.from(list);
-        const [removed] = result.splice(startIndex, 1);
-        result.splice(endIndex, 0, removed);
-
-        return result;
-    };
-
-    /**
-     * Permet de sauvegarder les positions des sous éléments lorsque que le drag est terminé
-     * @param result
-     */
-    const onDragEnd = function (result) {
-        // dropped outside the list
-        if (!result.destination) {
-            return;
-        }
-
-        const items = reorder(
-            element.subs,
-            result.source.index,
-            result.destination.index
-        );
-        modifierElement(element, items)
+    const handleElementClick = function (e) {
+        onElementClick(e)
     }
+
 
     /**
      * Permet de définir le style de l'élément qui se déplace
@@ -210,14 +183,6 @@ function Colonne({colonne, onClick, ajouterSousElement, supprimerSousElement, mo
         ...draggableStyle
     });
 
-    /**
-     * Fonction temporaire, elle permet de mettre du faux contenu dans les sous élément lors du click sur ce dernier
-     */
-    const handleClick = function (item) {
-        item.content = `<h1>Mon super titre</h1>`
-        modifierSousElement(element, item)
-    }
-
     return <>
         <div className={`${styles.element} ${styles.disposition__empty}`}>
             <Droppable droppableId={`${colonne.id}`}>
@@ -230,7 +195,7 @@ function Colonne({colonne, onClick, ajouterSousElement, supprimerSousElement, mo
                         {colonne.elements.length > 0 ? colonne.elements.map((item, index) => (
                             <Draggable key={item.id} draggableId={item.id.toString()} index={index}>
                                 {(provided, snapshot) => (
-                                    <div className={styles.disposition__plein} onClick={() => handleClick(item)}
+                                    <div className={styles.disposition__plein} onClick={() => handleElementClick(item)}
                                          ref={provided.innerRef}{...provided.draggableProps}{...provided.dragHandleProps}
                                          style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}>
                                         <div className="content" dangerouslySetInnerHTML={{__html: item.contenu}} />
