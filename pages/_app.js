@@ -1,14 +1,13 @@
-import "../style/globals.scss";
-import "../style/sandbox.scss";
-import "../style/tools/reset.scss";
-import "semantic-ui-css/semantic.min.css";
-import "rsuite/dist/styles/rsuite-default.css";
-
 import Router from "next/router";
 import NProgress from "nprogress"; //nprogress module
 import "nprogress/nprogress.css"; //styles of nprogress
-
 import { LanguageProvider } from "../intl/LanguageProvider";
+import '../style/globals.scss'
+import '../style/sandbox.scss'
+import '../style/tools/reset.scss'
+import 'semantic-ui-css/semantic.min.css'
+import 'rsuite/dist/styles/rsuite-default.css';
+import 'react-quill/dist/quill.snow.css';
 
 //Binding events.
 NProgress.configure({ showSpinner: false });
