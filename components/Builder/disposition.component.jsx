@@ -3,7 +3,7 @@ import styles from './builder.module.scss'
 import {DragDropContext, Droppable, Draggable} from "react-beautiful-dnd";
 
 
-export default function Disposition({disposition, modifierDisposition, supprimerDisposition}) {
+export default function Disposition({disposition, modifierDisposition, supprimerDisposition, provided, snapshot}) {
 
 
     const structures = []
@@ -108,8 +108,31 @@ export default function Disposition({disposition, modifierDisposition, supprimer
         modifierDisposition(disposition)
     }
 
+    /**
+     *
+     * @param isDragging
+     * @param draggableStyle
+     * @return {{border: string, userSelect: string}}
+     */
+    const getItemStyle = (isDragging, draggableStyle) => ({
+        // some basic styles to make the items look a bit nicer
+        userSelect: 'none',
+
+        // change background colour if dragging
+        border: isDragging ? "dashed 1px dodgerblue" : "",
+
+        // styles we need to apply on draggables
+        ...draggableStyle,
+    });
+
     return (
-        <div className={`${styles.disposition}`}>
+        <div className={`${styles.disposition}`} ref={provided.innerRef}
+             {...provided.draggableProps}
+             {...provided.dragHandleProps}
+             style={getItemStyle(
+                 snapshot.isDragging,
+                 provided.draggableProps.style
+             )}>
 
             {disposition.nbColumns > 0 ?
                 <div className={`${styles.disposition__container}`}>
@@ -226,7 +249,7 @@ function Elements({element, onClick, ajouterSousElement, supprimerSousElement, m
                                                 className={`${styles.disposition__plein}`} style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}>
                                                 <div dangerouslySetInnerHTML={{__html: item.content}}/>
                                                 <button key={"btn-full" + item.id}
-                                                        onClick={() => supprimerSousElement(item)}
+                                                        onClick={() => handleSupprimerSousElement(item)}
                                                         className={styles.disposition__remove_sub}>X
                                                 </button>
                                             </div>

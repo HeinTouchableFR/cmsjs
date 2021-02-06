@@ -5,15 +5,61 @@ import AjouterDisposition from "./ajouterDisposition.component";
 import Disposition from "./disposition.component";
 import {DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd';
 
-export default function Content({dispositions, ajouterDisposition, modifierDisposition, supprimerDisposition}) {
+export default function Content({dispositions, setDispositions, ajouterDisposition, modifierDisposition, supprimerDisposition}) {
+
+    /**
+     *
+     * @param list
+     * @param startIndex
+     * @param endIndex
+     * @return {unknown[]}
+     */
+    const reorder = (list, startIndex, endIndex) => {
+        const result = Array.from(list);
+        const [removed] = result.splice(startIndex, 1);
+        result.splice(endIndex, 0, removed);
+
+        return result;
+    };
+
+    const onDragEnd = function (result) {
+        // dropped outside the list
+        if (!result.destination) {
+            return;
+        }
+
+        const items = reorder(
+            dispositions,
+            result.source.index,
+            result.destination.index
+        );
+
+        setDispositions(items)
+    }
 
     return (<>
-            <div className={`${styles.content} ${styles.container}`}>
-                {dispositions && dispositions.map(item => <Disposition key={item.id} disposition={item}
-                                                                       modifierDisposition={modifierDisposition}
-                                                                       supprimerDisposition={supprimerDisposition}/>)}
-                <AjouterDisposition handleAddDisposition={ajouterDisposition}/>
-            </div>
+            <DragDropContext onDragEnd={onDragEnd}>
+                <Droppable droppableId="droppable" direction="vertical">
+                    {(provided, snapshot) => (
+                        <div className={`${styles.content} ${styles.container}`} ref={provided.innerRef}>
+                            {dispositions.map((item, index) => (
+                                <Draggable key={item.id} draggableId={item.id.toString()} index={index}>
+                                    {(provided, snapshot) => (
+                                        <Disposition key={item.id} disposition={item}
+                                                     modifierDisposition={modifierDisposition}
+                                                     supprimerDisposition={supprimerDisposition}
+                                                     provided={provided}
+                                                     snapshot={snapshot}
+                                        />
+                                    )}
+                                </Draggable>
+                            ))}
+                            {provided.placeholder}
+                        </div>
+                    )}
+                </Droppable>
+            </DragDropContext>
+            <AjouterDisposition handleAddDisposition={ajouterDisposition}/>
         </>
     )
 }

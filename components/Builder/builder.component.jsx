@@ -35,7 +35,7 @@ export default function Builder({page}) {
 
     return (
         <>
-            <Content dispositions={dispositions} ajouterDisposition={ajouterDisposition} modifierDisposition={modifierDisposition} supprimerDisposition={supprimerDisposition} />
+            <Content dispositions={dispositions} setDispositions={setDispositions} ajouterDisposition={ajouterDisposition} modifierDisposition={modifierDisposition} supprimerDisposition={supprimerDisposition} />
             </>
     )
 }
