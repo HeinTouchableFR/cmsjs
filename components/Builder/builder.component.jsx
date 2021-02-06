@@ -3,39 +3,41 @@ import Content from "./content.component";
 import Navigation from "./navigation.component";
 import styles from './builder.module.scss'
 import {DragDropContext} from "react-beautiful-dnd";
-
+import useTranslation from "../../intl/useTranslation";
 
 export default function Builder({page}) {
+    // Utilisation de la traduction
+    const { t } = useTranslation();
     const [dispositions, setDispositions] = useState(page.contenu.dispositions)
 
     const [currentElement, setCurrentElement] = useState({})
 
-    const [composants, setComposants] = useState([
+    const composants = [
         {
             balise: "<h1/>",
-            label: "Titre",
-            tooltip: "Pour créer de super titre",
+            label: t("titleLabel"),
+            tooltip: t("titleTooltip"),
             color: "orange",
             type: "titre",
             valeurDefaut: '<h2>Mon super titre</h2>'
         },
         {
             balise: "<img/>",
-            label: "Image",
-            tooltip: "Pour créer de super image",
+            label: t("imageLabel"),
+            tooltip: t("imageTooltip"),
             color: "yellow",
             type: "image",
             valeurDefaut: '<img src="/placeholder.png"/>'
         },
         {
             balise: "<button/>",
-            label: "Bouton",
-            tooltip: "Pour créer de super bouton",
+            label: t("buttonLabel"),
+            tooltip: t("buttonTooltip"),
             color: "teal",
             type: "bouton",
             valeurDefaut: '<button>Mon bouton</button>'
         },
-    ])
+    ]
 
     /**
      * Permet d'ajouter une disposition

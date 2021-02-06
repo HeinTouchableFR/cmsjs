@@ -6,7 +6,7 @@ export const LanguageContext = createContext([]);
 import { Flag } from "semantic-ui-react";
 
 export const LanguageProvider = ({ children }) => {
-  const [locale, setLocale] = useState(1);
+  const [locale, setLocale] = useState("fr");
 
   const changeLanguage = (lang) => {
     setLocale(lang);
