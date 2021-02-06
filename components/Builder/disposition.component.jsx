@@ -66,7 +66,7 @@ export default function Disposition({disposition, modifierDisposition, supprimer
     }
 
     /**
-     * Permet d'ajouter un élément
+     * Permet d'ajouter un sous élément
      * @param element
      */
     const ajouterSousElement = function (element) {
@@ -76,6 +76,18 @@ export default function Disposition({disposition, modifierDisposition, supprimer
         sub.item = {}
 
         element.subs.push(sub)
+        disposition.elements.filter(e => e.id === element.id ? element : e)
+
+        modifierDisposition(disposition)
+    }
+
+    /**
+     * Permet de modifier un sous élément
+     * @param element
+     * @param sousElement
+     */
+    const modifierSousElement = function (element, sousElement) {
+        element.subs.filter(e => e.id === sousElement.id ? sousElement : e)
         disposition.elements.filter(e => e.id === element.id ? element : e)
 
         modifierDisposition(disposition)
@@ -105,7 +117,7 @@ export default function Disposition({disposition, modifierDisposition, supprimer
                         disposition.elements && disposition.elements.map(element =>
                             <Elements key={"element-" + element.id} disposition={disposition} element={element}
                                       ajouterSousElement={ajouterSousElement}
-                                      supprimerSousElement={supprimerSousElement} modifierElement={modifierElement}/>
+                                      supprimerSousElement={supprimerSousElement} modifierElement={modifierElement} modifierSousElement={modifierSousElement}/>
                         )
                     }
                 </div>
@@ -127,7 +139,7 @@ export default function Disposition({disposition, modifierDisposition, supprimer
 }
 
 
-function Elements({element, onClick, ajouterSousElement, supprimerSousElement, modifierElement}) {
+function Elements({element, onClick, ajouterSousElement, supprimerSousElement, modifierElement, modifierSousElement}) {
 
     /**
      * Permet de supprimer un sous élément
@@ -174,7 +186,7 @@ function Elements({element, onClick, ajouterSousElement, supprimerSousElement, m
      * Permet de définir le style de l'élément qui se déplace
      * @param isDragging
      * @param draggableStyle
-     * @return {{padding: number, margin: string, background: string, userSelect: string}}
+     * @return {{border: string, userSelect: string}}
      */
     const getItemStyle = (isDragging, draggableStyle) => ({
         // some basic styles to make the items look a bit nicer
@@ -186,6 +198,14 @@ function Elements({element, onClick, ajouterSousElement, supprimerSousElement, m
         // styles we need to apply on draggables
         ...draggableStyle
     });
+
+    /**
+     * Fonction temporaire, elle permet de mettre du faux contenu dans les sous élément lors du click sur ce dernier
+     */
+    const handleClick = function (item) {
+        item.content = `<h1>Mon super titre</h1>`
+        modifierSousElement(element, item)
+    }
 
     return <>
         <div className={styles.element}>
@@ -211,7 +231,7 @@ function Elements({element, onClick, ajouterSousElement, supprimerSousElement, m
                                                 </button>
                                             </div>
                                             :
-                                            <div className={styles.disposition__empty}
+                                            <div className={styles.disposition__empty} onClick={() => handleClick(item)}
                                                  ref={provided.innerRef}{...provided.draggableProps}{...provided.dragHandleProps} style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}>
                                                 +
                                                 <button key={"btn-empty" + item.id}
