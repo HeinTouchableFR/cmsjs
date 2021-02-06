@@ -15,6 +15,12 @@ a {
   box-sizing: border-box;
 }
 
+// Header Bar
+.header-bar {
+  background-color: #a73500;
+  width: 100%;
+}
+
 .ui.disabled.input,
 .ui.input:not(.disabled) input[disabled],
 .ui.disabled.search {
@@ -62,10 +68,10 @@ a {
   transition: all 1s;
 }
 
-.ui.attached.segment.active.tab{
-    min-height: 100vh;
-    background: #e6e9ec;
+.ui.attached.segment.active.tab {
+  min-height: 100vh;
+  background: #e6e9ec;
 }
-.ui.labeled.button{
+.ui.labeled.button {
   margin: auto;
 }
