@@ -30,7 +30,7 @@ export default function Index() {
         <Button
           className="menu-button fluid ui button"
           data-inverted=""
-          data-tooltip="Les balises <h1> jusqu'à <h6> permettent de créer 
+          data-tooltip="Les balises <h1> jusqu'à <h6> permettent de créer
           des titres de moins en moins grand."
           data-position="right center"
           data-variation="wide"
@@ -54,7 +54,7 @@ export default function Index() {
         <div
           className="ui labeled button"
           tabindex="0"
-          data-tooltip="Les balises <h1> jusqu'à <h6> permettent de créer 
+          data-tooltip="Les balises <h1> jusqu'à <h6> permettent de créer
         des titres de moins en moins grand."
           data-position="right center"
           data-variation="brown"
@@ -67,13 +67,13 @@ export default function Index() {
         <div
           className="ui labeled circular button"
           tabindex="0"
-          data-tooltip="Les balises <h1> jusqu'à <h6> permettent de créer 
+          data-tooltip="Les balises <h1> jusqu'à <h6> permettent de créer
         des titres de moins en moins grand."
           data-position="right center"
         >
           <div class="ui oranged-icon button">{"<h1>"}</div>
           <a className="ui basic oranged-text left pointing label">
-            {t("home")}
+            {t("titleLabel")}
           </a>
         </div>
         <br />
@@ -87,7 +87,7 @@ export default function Index() {
         <Component
           balise="<h1>"
           label="Title"
-          hover="Les balises <h1> jusqu'à <h6> permettent de créer 
+          hover="Les balises <h1> jusqu'à <h6> permettent de créer
                   des titres de moins en moins grand."
           color="orange"
         />
