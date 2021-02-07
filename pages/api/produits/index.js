@@ -5,28 +5,28 @@ import Produit from "../../../models/Produit";
 import Image from "../../../models/Image";
 import Categorie from "../../../models/Categorie";
 
-dbConnect()
+dbConnect();
 
 export default async (req, res) => {
-    const {method} = req
+  const { method } = req;
 
-    switch (method) {
-        case 'GET':
-            try {
-                const items = await Produit.find({}).populate({
-                    path: 'imageEnAvant',
-                    populate: {
-                        path: 'imageEnAvant',
-                        model: 'Image'
-                    }
-                })
-                res.status(200).json({success: true, data: items})
-            } catch (e) {
-                res.status(400).json({success: false, erreurs: e})
-            }
-            break;
-        //case 'POST':
-            /*try {
+  switch (method) {
+    case "GET":
+      try {
+        const items = await Produit.find({}).populate({
+          path: "imageEnAvant",
+          populate: {
+            path: "imageEnAvant",
+            model: "Image",
+          },
+        });
+        res.status(200).json({ success: true, data: items });
+      } catch (e) {
+        res.status(400).json({ success: false, erreurs: e });
+      }
+      break;
+    //case 'POST':
+    /*try {
                 const form = formidable({ multiples: true });
 
                 let item = new Produit({
@@ -57,9 +57,11 @@ export default async (req, res) => {
             } catch (e) {
                 res.status(400).json({success: false, erreurs: e})
             }*/
-            //break;
-        default:
-            res.status(400).json({success: false, errors: "Cette méthode n'est pas disponible"})
-            break;
-    }
-}
+    //break;
+    default:
+      res
+        .status(400)
+        .json({ success: false, errors: "Cette méthode n'est pas disponible" });
+      break;
+  }
+};

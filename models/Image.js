@@ -1,17 +1,20 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-let imageSchema = new Schema({
+let imageSchema = new Schema(
+  {
     url: {
-        type: String,
-        required: [true]
+      type: String,
+      required: [true],
     },
     produit: {
-        type: Schema.Types.ObjectId,
-        ref: "Valeur"
+      type: Schema.Types.ObjectId,
+      ref: "Valeur",
     },
-}, {
-    collection: 'images'
-})
+  },
+  {
+    collection: "images",
+  }
+);
 
-module.exports = mongoose.models.Image || mongoose.model('Image', imageSchema)
+module.exports = mongoose.models.Image || mongoose.model("Image", imageSchema);
