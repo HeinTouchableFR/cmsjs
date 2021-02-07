@@ -183,6 +183,10 @@ function Colonne({colonne, onElementClick, supprimerSousElement}) {
         ...draggableStyle
     });
 
+    const getListStyle = isDraggingOver => ({
+        backgroundColor: isDraggingOver && "rgba(0, 191, 255, 0.2)"
+    });
+
     return <>
         <div className={`${styles.element} ${styles.disposition__empty}`}>
             <Droppable droppableId={`${colonne.id}`}>
@@ -191,6 +195,7 @@ function Colonne({colonne, onElementClick, supprimerSousElement}) {
                         {...provided.droppableProps}
                         ref={provided.innerRef}
                         className={"draggable"}
+                        style={getListStyle(snapshot.isDraggingOver)}
                     >
                         {colonne.elements.length > 0 ? colonne.elements.map((item, index) => (
                             <Draggable key={item.id} draggableId={item.id.toString()} index={index}>

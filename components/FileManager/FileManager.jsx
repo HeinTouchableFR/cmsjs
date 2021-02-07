@@ -16,13 +16,15 @@ export default function FileManager({multiple = false, currentFiles, setCurrentF
             .then(res => {
                 setImages(res.data.data)
             })
-    }, [])
+
+        setSelectedFiles(currentFiles)
+    }, [currentFiles])
 
     const handleSelectFile = function (file) {
         if(multiple){
-            selectedFiles.includes(file) ? setSelectedFiles(selectedFiles.filter((f) => f !== file)) : setSelectedFiles([...selectedFiles, file])
+            selectedFiles.some(f => f._id === file._id) ? setSelectedFiles(selectedFiles.filter((f) => f._id !== file._id)) : setSelectedFiles([...selectedFiles, file])
         }else{
-            selectedFiles.includes(file) ? setSelectedFiles(selectedFiles.filter((f) => f !== file)) : setSelectedFiles([file])
+            selectedFiles.some(f => f._id === file._id) ? setSelectedFiles(selectedFiles.filter((f) => f._id !== file._id)) : setSelectedFiles([file])
         }
     }
 
@@ -44,7 +46,7 @@ export default function FileManager({multiple = false, currentFiles, setCurrentF
                 <Modal.Content>
                     <div className={`${styles.filemanager_container}`} >
                         {images.map(image=>
-                            <div key={image._id} className={`${styles.element} ${selectedFiles.includes(image) ? styles.selected : ''}`} onClick={() => handleSelectFile(image)}>
+                            <div key={image._id} className={`${styles.element} ${selectedFiles.some(f => f._id === image._id) ? styles.selected : ''}`} onClick={() => handleSelectFile(image)}>
                                 <img src={`${image.url}`} alt=""/>
                             </div>
                         )}

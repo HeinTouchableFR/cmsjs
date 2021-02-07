@@ -131,24 +131,28 @@ function Texte({element, onElementValeurChange}) {
 
 function Image({element, onElementValeurChange}) {
     const [content, setContent] = useState(element.contenu)
-    var xmlString = element.contenu;
-    var doc = new DOMParser().parseFromString(xmlString, "text/xml");
-    const [image, setImage] = useState(doc.querySelector('img'))
-    const [src, setSrc] = useState(image.getAttribute('src'))
 
     const [currentFiles, setCurrentFiles] = useState([])
 
-    useEffect(function () {
+    useEffect(async function () {
         if (element.contenu) {
             setContent(element.contenu)
-            setCurrentFiles([])
+
+            var xmlString = element.contenu;
+            var doc = new DOMParser().parseFromString(xmlString, "text/xml");
+            const image = doc.querySelector('img')
+            if(image.getAttribute("data-image")){
+                const res = await fetch(process.env.URL + "/api/images/" + image.getAttribute("data-image"))
+                const data = await res.json()
+                setCurrentFiles(data.data)
+            }
         } else {
             onElementValeurChange(element, content)
         }
     }, [element])
 
-    const handleChangeSrc = function (url) {
-        const img = `<img src=${url} />`
+    const handleChangeSrc = function (file) {
+        const img = `<img data-image="${file._id}" src="${file.url}" />`
         setContent(img)
         onElementValeurChange(element, img)
     }
@@ -156,7 +160,7 @@ function Image({element, onElementValeurChange}) {
     const handleSetCurrentFiles = function (files) {
         setCurrentFiles(files)
         if (files.length > 0) {
-            handleChangeSrc(files[0].url)
+            handleChangeSrc(files[0])
         }
     }
 

@@ -18,15 +18,14 @@ export default function Navigation({composants, currentItem, onElementValeurChan
                     <Droppable droppableId="composants">
                         {(provided, snapshot) => (
                             <div className={"dropable"} ref={provided.innerRef}>
-                                {composants.map((item, index) =><Draggable
+                                {composants.map((item, index) => <Draggable
                                     key={item.type}
                                     draggableId={item.type}
                                     index={index}>
                                     {(provided, snapshot) => (
-                                        <div
-                                            ref={provided.innerRef}
-                                            {...provided.draggableProps}
-                                            {...provided.dragHandleProps}>
+                                        <div ref={provided.innerRef}
+                                             {...provided.draggableProps}
+                                             {...provided.dragHandleProps}>
                                             <Component balise={item.balise} label={item.label} color={item.color}
                                                        tooltip={item.tooltip}/>
                                         </div>
@@ -43,7 +42,7 @@ export default function Navigation({composants, currentItem, onElementValeurChan
             menuItem: 'Modifier ' + currentItem.type,
             render: () =>
                 <Tab.Pane attached={true}>
-                   <ComponentEditor element={currentItem} onElementValeurChange={onElementValeurChange}/>
+                    <ComponentEditor element={currentItem} onElementValeurChange={onElementValeurChange}/>
                 </Tab.Pane>
         }
     ]
