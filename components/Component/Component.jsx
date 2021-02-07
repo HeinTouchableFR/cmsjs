@@ -1,41 +1,50 @@
 import React, {useEffect, useState} from "react";
-const ReactQuill = typeof window === 'object' ? require('react-quill') : () => false;
+import {Editor} from '@tinymce/tinymce-react';
+import FileManager from '../FileManager/FileManager';
+import {Button} from 'semantic-ui-react';
+import styles from './component.module.scss'
 
-export default function Component({ balise, label, tooltip, color }) {
-  return (
-    <>
-      <div
-        className="ui labeled circular button menu-button"
-        data-tooltip={tooltip}
-        data-position="right center"
-        data-variation="inverted"
-      >
-        <div className={`ui button ${color}`}>{balise}</div>
-        <a className={`ui basic left pointing label ${color}`}>{label}</a>
-      </div>
-      <br />
-    </>
-  );
+export default function Component({balise, label, tooltip, color}) {
+    return (
+        <>
+            <div
+                className="ui labeled circular button menu-button"
+                data-tooltip={tooltip}
+                data-position="right center"
+                data-variation="inverted"
+            >
+                <div className={`ui button ${color}`}>{balise}</div>
+                <a className={`ui basic left pointing label ${color}`}>{label}</a>
+            </div>
+            <br/>
+        </>
+    );
 }
 
-export function ComponentEditor({ element, onElementValeurChange }) {
+export function ComponentEditor({element, onElementValeurChange}) {
 
     const [type, setType] = useState()
 
     useEffect(function () {
+        setType(null)
         setType(element.type)
     }, [element])
 
     return (
         <>
             {type === "titre" &&
-                <>
-                    <Titre element={element} onElementValeurChange={onElementValeurChange}/>
-                </>
+            <>
+                <Titre element={element} onElementValeurChange={onElementValeurChange}/>
+            </>
+            }
+            {type === "texte" &&
+            <>
+                <Texte element={element} onElementValeurChange={onElementValeurChange}/>
+            </>
             }
             {type === "image" &&
             <>
-                {element.type}
+                <Image element={element} onElementValeurChange={onElementValeurChange}/>
             </>
             }
         </>
@@ -44,30 +53,118 @@ export function ComponentEditor({ element, onElementValeurChange }) {
 
 function Titre({element, onElementValeurChange}) {
 
-    const [contenu, setContenu] = useState(element.contenu)
+    const [content, setContent] = useState(element.contenu)
 
     useEffect(function () {
-        if (element.content) {
-            setContenu(element.content)
+        if (element.contenu) {
+            setContent(element.contenu)
+        } else {
+            onElementValeurChange(element, content)
         }
 
     }, [element])
 
     const handleChange = function (c) {
-        console.log(c)
+        setContent(c)
+        onElementValeurChange(element, c)
+    }
+    return (<>
+        <Editor
+            value={content}
+            apiKey="01vj2ci2rp4w85rw2pa64fg88pw784bf67k0rskfg4ybks3z"
+            init={{
+                language: "fr_FR",
+                height: 500,
+                menubar: false,
+                plugins: [
+                    'advlist autolink lists link image charmap print preview anchor',
+                    'searchreplace visualblocks code fullscreen',
+                    'insertdatetime media table paste code help wordcount'
+                ],
+                toolbar1: 'undo redo | formatselect | help',
+                toolbar2: 'bold italic underline strikethrough forecolor backcolor fontselect fontsizeselect lineheight',
+                toolbar3: 'alignleft aligncenter alignright alignjustify | removeformat',
+                block_formats: 'Titre 1=h1; Titre 2=h2; Titre 3=h3; Titre 4=h4; Titre 5=h5; Titre 6=h6'
+            }}
+            onEditorChange={handleChange}
+        />
+    </>)
+}
+
+function Texte({element, onElementValeurChange}) {
+
+    const [content, setContent] = useState(element.contenu)
+
+    useEffect(function () {
+        if (element.contenu) {
+            setContent(element.contenu)
+        }
+    }, [element])
+
+    const handleChange = function (c) {
+        setContent(c)
         onElementValeurChange(element, c)
     }
 
-    const modules = {
-        toolbar: [
-            [{'header': [1, 2, 3, 4, 5, 6, false]}],
-            ['link'],
-            [{'align': []}],
 
-            ['clean']
-        ]
+    return (<>
+        <Editor
+            value={content}
+            apiKey="01vj2ci2rp4w85rw2pa64fg88pw784bf67k0rskfg4ybks3z"
+            init={{
+                language: "fr_FR",
+                height: 500,
+                menubar: true,
+                plugins: [
+                    'advlist autolink lists link image charmap print preview anchor',
+                    'searchreplace visualblocks code fullscreen',
+                    'insertdatetime media table paste code help wordcount'
+                ],
+                toolbar1: 'undo redo | cut copy paste | selectall searchreplace | formatselect | code | help',
+                toolbar2: 'bold italic underline strikethrough forecolor backcolor fontselect fontsizeselect lineheight',
+                toolbar3: 'alignleft aligncenter alignright alignjustify | bullist numlist outdent indent removeformat',
+            }}
+            onEditorChange={handleChange}
+        />
+    </>)
+}
+
+function Image({element, onElementValeurChange}) {
+    const [content, setContent] = useState(element.contenu)
+    var xmlString = element.contenu;
+    var doc = new DOMParser().parseFromString(xmlString, "text/xml");
+    const [image, setImage] = useState(doc.querySelector('img'))
+    const [src, setSrc] = useState(image.getAttribute('src'))
+
+    const [currentFiles, setCurrentFiles] = useState([])
+
+    useEffect(function () {
+        if (element.contenu) {
+            setContent(element.contenu)
+            setCurrentFiles([])
+        } else {
+            onElementValeurChange(element, content)
+        }
+    }, [element])
+
+    const handleChangeSrc = function (url) {
+        const img = `<img src=${url} />`
+        setContent(img)
+        onElementValeurChange(element, img)
     }
-    return( <>
-        <ReactQuill value={contenu} onChange={handleChange} modules={modules} />
+
+    const handleSetCurrentFiles = function (files) {
+        setCurrentFiles(files)
+        if (files.length > 0) {
+            handleChangeSrc(files[0].url)
+        }
+    }
+
+
+    return (<>
+        <FileManager currentFiles={currentFiles} setCurrentFiles={handleSetCurrentFiles} trigger={<div className={`${styles.filemanager_btn}`}>
+            {currentFiles.length > 0 ? <div className={`${styles.preview}`} style={{background: `url(${currentFiles[0].url})`}}></div> : <div className={`${styles.preview}`} style={{background: `url(/placeholder.png)`}}></div>}
+            <div className={`${styles.preview__action}`}>Choisir une image</div>
+        </div>}/>
     </>)
 }

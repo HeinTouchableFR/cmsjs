@@ -22,6 +22,14 @@ export default function Builder({ page }) {
       valeurDefaut: '<h2>Mon super titre</h2>',
     },
     {
+      balise: '<p/>',
+      label: t('textEditorLabel'),
+      tooltip: t('textEditorTooltip'),
+      color: 'purple',
+      type: 'texte',
+      valeurDefaut: '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.</p>',
+    },
+    {
       balise: '<img/>',
       label: t('imageLabel'),
       tooltip: t('imageTooltip'),
@@ -140,7 +148,6 @@ export default function Builder({ page }) {
     if (disposition.id) {
       disposition.colonnes.map((c) => (c.id === colonne.id ? colonne : c));
     }
-    console.log(disposition);
     modifierDisposition(disposition);
   };
 
@@ -178,14 +185,25 @@ export default function Builder({ page }) {
   };
 
   const modifierElement = function (element, contenu) {
+
+    let colonne = {}
+    let elements = []
     element.contenu = contenu;
     if (element.id === currentElement.id) {
       dispositions.map((disposition) => {
-        disposition.colonnes.map((colonne) => {
-          colonne.elements.map((e) => (e.id === element.id ? element : e));
+        disposition.colonnes.map((c) => {
+          c.elements.map((e) => {
+            if(e.id === element.contenu){
+              colonne = c
+              elements = colonne.elements
+            }
+          });
         });
       });
     }
+
+    elements = elements.map((e) => (e.id === element.id ? [...element, contenu] : e))
+    modifierColonne(colonne, elements)
   };
 
   return (

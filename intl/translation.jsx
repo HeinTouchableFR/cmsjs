@@ -10,6 +10,8 @@ export const LangStrings = {
       "The tables give you many possibilities, such as comparisons or qualifiers.",
     titleLabel: "Title",
     titleTooltip: "To create wonderful title",
+    textEditorLabel: "Text Editor",
+    textEditorTooltip: "To create all your texts",
   },
   fr: {
     buttonLabel: "Bouton",
@@ -23,5 +25,7 @@ export const LangStrings = {
       "Les tableaux vous permettent de nombreuses possibilités, tels que des comparaisons ou des qualificatifs.",
     titleLabel: "Titre",
     titleTooltip: "Pour créer des super titres",
+    textEditorLabel: "Editeur de texte",
+    textEditorTooltip: "Pour créer tous vos textes",
   },
 };

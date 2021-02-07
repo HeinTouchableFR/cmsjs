@@ -1,0 +1,22 @@
+.filemanager_container{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 125px);
+  grid-gap: 10px;
+}
+
+.filemanager_container .element{
+  border: solid 1px lightgray;
+  cursor: pointer;
+}
+
+.filemanager_container .element:hover{
+  border: solid 2px dodgerblue;
+}
+
+.filemanager_container .element.selected{
+  border: solid 2px lime;
+}
+
+.filemanager_container .element.selected:hover{
+  border: solid 2px red;
+}

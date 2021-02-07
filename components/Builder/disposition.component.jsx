@@ -198,7 +198,7 @@ function Colonne({colonne, onElementClick, supprimerSousElement}) {
                                     <div className={styles.disposition__plein} onClick={() => handleElementClick(item)}
                                          ref={provided.innerRef}{...provided.draggableProps}{...provided.dragHandleProps}
                                          style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}>
-                                        <div className="content" dangerouslySetInnerHTML={{__html: item.contenu}} />
+                                        <div className={"content"} dangerouslySetInnerHTML={{__html: item.contenu}} />
                                         <button key={"btn-empty" + item.id}
                                                 onClick={() => handleSupprimerSousElement(item)}
                                                 className={styles.disposition__remove_sub}>X
