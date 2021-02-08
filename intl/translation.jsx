@@ -1,5 +1,6 @@
 export const LangStrings = {
   en: {
+    //Buttons Components
     buttonLabel: "Button",
     buttonTooltip:
       "A button allow you multiple possibility: Create link, event, submit...",
@@ -10,10 +11,26 @@ export const LangStrings = {
       "The tables give you many possibilities, such as comparisons or qualifiers.",
     titleLabel: "Title",
     titleTooltip: "To create wonderful title",
+    titleDefault: "My great title",
     textEditorLabel: "Text Editor",
     textEditorTooltip: "To create all your texts",
+    //Components
+    insertMedia: "Insert media",
+    selectedImage: "selected picture",
+    selectedImages: "selected pictures",
+    choosePicture: "Choose an image",
+    addLayoutTooltip: "Click on the + button to insert a layout",
+    //Menu Builder
+    settingsLabel: "Settings",
+    componentLabel: "Components",
+    editLabel: "Edit",
+    //Type d'élément
+    image: "picture",
+    texte: "text",
+    titre: "title",
   },
   fr: {
+    //Boutons Composants
     buttonLabel: "Bouton",
     buttonTooltip:
       "Les boutons vous permettent de mutiples actions: Créer des liens, réaliser des événements, valider des formulaires...",
@@ -25,7 +42,22 @@ export const LangStrings = {
       "Les tableaux vous permettent de nombreuses possibilités, tels que des comparaisons ou des qualificatifs.",
     titleLabel: "Titre",
     titleTooltip: "Pour créer des super titres",
+    titleDefault: "Mon super titre",
     textEditorLabel: "Editeur de texte",
     textEditorTooltip: "Pour créer tous vos textes",
+    //Composants
+    insertMedia: "Insérer un média",
+    selectedImage: "image sélectionnée",
+    selectedImages: "images sélectionnées",
+    choosePicture: "Choisir une image",
+    addLayoutTooltip: "Cliquer sur le bouton + pour insérer une disposition",
+    //Menu Builder
+    settingsLabel: "Réglages",
+    componentLabel: "Composants",
+    editLabel: "Modifier",
+    //Type d'élément
+    image: "image",
+    texte: "texte",
+    titre: "titre",
   },
 };

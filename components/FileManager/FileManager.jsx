@@ -2,9 +2,11 @@ import styles from './filemanager.module.scss'
 import React, {useEffect, useState} from "react";
 import {Button, Header, Icon, Modal} from 'semantic-ui-react'
 import axios from 'axios';
+import useTranslation from '../../intl/useTranslation';
 
 
-export default function FileManager({multiple = false, currentFiles, setCurrentFiles, trigger}) {
+export default function FileManager({multiple = true, currentFiles, setCurrentFiles, trigger}) {
+    const {t} = useTranslation();
     const [open, setOpen] = React.useState(false)
 
     const [images, setImages] = useState([])
@@ -42,9 +44,9 @@ export default function FileManager({multiple = false, currentFiles, setCurrentF
                 onClose={() => setOpen(false)}
                 onOpen={() => setOpen(true)}
             >
-                <Header icon='picture' content='Insérez un média'/>
-                <Modal.Content>
-                    <div className={`${styles.filemanager_container}`} >
+                <Header icon='picture' content={t('insertMedia')}/>
+                <Modal.Content scrolling>
+                    <div className={`${styles.filemanager__container}`} >
                         {images.map(image=>
                             <div key={image._id} className={`${styles.element} ${selectedFiles.some(f => f._id === image._id) ? styles.selected : ''}`} onClick={() => handleSelectFile(image)}>
                                 <img src={`${image.url}`} alt=""/>
@@ -53,6 +55,12 @@ export default function FileManager({multiple = false, currentFiles, setCurrentF
                     </div>
                 </Modal.Content>
                 <Modal.Actions>
+                    <div className={`${styles.filemanager__files}`}>
+                        <span>
+                            {selectedFiles.length <= 1 ? selectedFiles.length + ' ' + t('selectedImage') : selectedFiles.length + ' ' + t('selectedImages')}
+                        </span>
+                        {selectedFiles.map(image => <img key={`preview-${image._id}`} src={image.url} />)}
+                    </div>
                     <Button disabled={selectedFiles.length === 0} color='green' onClick={() => handleInsertClick()}>
                         <Icon name='checkmark'/> Insérez un média
                     </Button>

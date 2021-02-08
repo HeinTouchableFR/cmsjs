@@ -1,22 +1,47 @@
-.filemanager_container{
+.filemanager__container{
   display: grid;
   grid-template-columns: repeat(auto-fit, 125px);
   grid-gap: 10px;
 }
 
-.filemanager_container .element{
+.filemanager__container .element{
   border: solid 1px lightgray;
   cursor: pointer;
 }
 
-.filemanager_container .element:hover{
+.filemanager__container .element:hover{
   border: solid 2px dodgerblue;
 }
 
-.filemanager_container .element.selected{
+.filemanager__container .element.selected{
   border: solid 2px lime;
 }
 
-.filemanager_container .element.selected:hover{
+.filemanager__container .element.selected:hover{
   border: solid 2px red;
+}
+
+.filemanager__files{
+  vertical-align: middle;
+  text-align: left;
+  margin-top: auto;
+  margin-bottom: auto;
+  overflow: hidden;
+  display: flex;
+}
+
+.filemanager__files span{
+  margin-top: auto;
+  margin-bottom: auto;
+  min-width: 155px;
+}
+
+.filemanager__files img{
+  width: 35px;
+  height: 35px;
+  margin-left: 10px;
+}
+
+.filemanager__files img:nth-child(12){
+  opacity: .3;
 }

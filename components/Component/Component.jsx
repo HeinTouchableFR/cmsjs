@@ -3,6 +3,7 @@ import {Editor} from '@tinymce/tinymce-react';
 import FileManager from '../FileManager/FileManager';
 import {Button} from 'semantic-ui-react';
 import styles from './component.module.scss'
+import useTranslation from '../../intl/useTranslation';
 
 export default function Component({balise, label, tooltip, color}) {
     return (
@@ -26,7 +27,6 @@ export function ComponentEditor({element, onElementValeurChange}) {
     const [type, setType] = useState()
 
     useEffect(function () {
-        setType(null)
         setType(element.type)
     }, [element])
 
@@ -56,10 +56,8 @@ function Titre({element, onElementValeurChange}) {
     const [content, setContent] = useState(element.contenu)
 
     useEffect(function () {
-        if (element.contenu) {
+        if (element.contenu && element.type === "titre") {
             setContent(element.contenu)
-        } else {
-            onElementValeurChange(element, content)
         }
 
     }, [element])
@@ -96,7 +94,7 @@ function Texte({element, onElementValeurChange}) {
     const [content, setContent] = useState(element.contenu)
 
     useEffect(function () {
-        if (element.contenu) {
+        if (element.contenu && element.type === "texte") {
             setContent(element.contenu)
         }
     }, [element])
@@ -130,12 +128,13 @@ function Texte({element, onElementValeurChange}) {
 }
 
 function Image({element, onElementValeurChange}) {
+    const {t} = useTranslation();
     const [content, setContent] = useState(element.contenu)
 
     const [currentFiles, setCurrentFiles] = useState([])
 
     useEffect(async function () {
-        if (element.contenu) {
+        if (element.contenu && element.type === "image") {
             setContent(element.contenu)
 
             var xmlString = element.contenu;
@@ -146,8 +145,6 @@ function Image({element, onElementValeurChange}) {
                 const data = await res.json()
                 setCurrentFiles(data.data)
             }
-        } else {
-            onElementValeurChange(element, content)
         }
     }, [element])
 
@@ -168,7 +165,7 @@ function Image({element, onElementValeurChange}) {
     return (<>
         <FileManager currentFiles={currentFiles} setCurrentFiles={handleSetCurrentFiles} trigger={<div className={`${styles.filemanager_btn}`}>
             {currentFiles.length > 0 ? <div className={`${styles.preview}`} style={{background: `url(${currentFiles[0].url})`}}></div> : <div className={`${styles.preview}`} style={{background: `url(/placeholder.png)`}}></div>}
-            <div className={`${styles.preview__action}`}>Choisir une image</div>
+            <div className={`${styles.preview__action}`}>{t('choosePicture')}</div>
         </div>}/>
     </>)
 }

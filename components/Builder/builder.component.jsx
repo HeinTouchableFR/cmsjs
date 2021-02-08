@@ -19,7 +19,7 @@ export default function Builder({page}) {
             tooltip: t('titleTooltip'),
             color: 'orange',
             type: 'titre',
-            valeurDefaut: '<h2>Mon super titre</h2>',
+            valeurDefaut: `<h2>${t("titleDefault")}</h2>`,
         },
         {
             balise: '<p/>',
@@ -213,7 +213,7 @@ export default function Builder({page}) {
             <div className={styles.builder}>
                 <DragDropContext onDragEnd={onDragEnd}>
                     <Navigation composants={composants} currentItem={currentElement}
-                                onElementValeurChange={modifierElement}/>
+                                onElementValeurChange={modifierElement} setCurrentElement={setCurrentElement}/>
                     <Content
                         dispositions={dispositions}
                         setDispositions={setDispositions}

@@ -1,18 +1,32 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import styles from './builder.module.scss'
 import {Droppable, Draggable} from 'react-beautiful-dnd';
 import {Tab} from 'semantic-ui-react'
 import Component, {ComponentEditor} from "../Component/Component";
+import useTranslation from '../../intl/useTranslation';
 
-export default function Navigation({composants, currentItem, onElementValeurChange}) {
+export default function Navigation({composants, currentItem, onElementValeurChange, setCurrentElement}) {
+    const {t} = useTranslation();
+
+    const [activeIndex, setActiveIndex] = useState(0)
+    const handleTabChange = (e, { activeIndex }) => {
+        setActiveIndex(activeIndex)
+        setCurrentElement({})
+    }
+
+    useEffect(function () {
+        if(currentItem.id){
+            setActiveIndex(2)
+        }
+    }, [currentItem])
 
     const panes = [
         {
-            menuItem: 'Réglages',
+            menuItem: t('settingsLabel'),
             render: () => <Tab.Pane attached={true}>Tab 1 Content</Tab.Pane>,
         },
         {
-            menuItem: 'Composants',
+            menuItem: t('componentLabel'),
             render: () =>
                 <Tab.Pane attached={true}>
                     <Droppable droppableId="composants">
@@ -39,7 +53,7 @@ export default function Navigation({composants, currentItem, onElementValeurChan
 
         },
         currentItem.id && {
-            menuItem: 'Modifier ' + currentItem.type,
+            menuItem: t('editLabel') + ' ' + t(currentItem.type),
             render: () =>
                 <Tab.Pane attached={true}>
                     <ComponentEditor element={currentItem} onElementValeurChange={onElementValeurChange}/>
@@ -49,7 +63,7 @@ export default function Navigation({composants, currentItem, onElementValeurChan
 
     return (<>
             <div className={styles.navigation}>
-                <Tab panes={panes}/>
+                <Tab panes={panes} activeIndex={activeIndex} onTabChange={handleTabChange}/>
                 <div>
                     <button>test</button>
                 </div>

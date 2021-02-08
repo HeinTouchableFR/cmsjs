@@ -5,7 +5,6 @@ import {DragDropContext, Droppable, Draggable} from "react-beautiful-dnd";
 
 export default function Disposition({disposition, modifierDisposition, supprimerDisposition, onElementClick}) {
 
-
     const structures = []
     for (let i = 1; i < 7; i++) {
         const structure = {}
