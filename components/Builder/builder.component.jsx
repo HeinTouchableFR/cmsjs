@@ -187,6 +187,8 @@ export default function Builder({page}) {
             element.contenu = composant.valeurDefaut;
             element.type = composant.type;
 
+            setCurrentElement(element)
+
             destClone.splice(droppableDestination.index, 0, element);
             result[droppableDestination.droppableId] = destClone;
         }
