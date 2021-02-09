@@ -8,4 +8,7 @@ module.exports = {
       "pages/api/services/cmsjs-fa640-firebase-adminsdk-nubd4-7fa4af8ee5.json",
     GCLOUD_STORAGE_BUCKET_URL: "cmsjs-fa640.appspot.com",
   },
+  images: {
+    domains: ['firebasestorage.googleapis.com'],
+  },
 };

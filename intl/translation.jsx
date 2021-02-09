@@ -28,6 +28,12 @@ export const LangStrings = {
     image: "picture",
     texte: "text",
     titre: "title",
+    //File Manager
+    fileManagerUploadLabel: "Drop files here or click to upload.",
+    fileManagerUploadHelp: "Upload files here and they won't be sent immediately",
+    fileManagerUploadSend: "Send",
+    fileManagerUploadAddNew: "Add new picture",
+    fileManagerUploadCancel: "Cancel",
   },
   fr: {
     //Boutons Composants
@@ -59,5 +65,11 @@ export const LangStrings = {
     image: "image",
     texte: "texte",
     titre: "titre",
+    //File Manager
+    fileManagerUploadLabel: "Déposez vos fichiers ici ou cliquez pour les télécharger.",
+    fileManagerUploadHelp: "Téléchargez des fichiers ici et ils ne seront pas envoyés immédiatement",
+    fileManagerUploadSend: "Envoyer",
+    fileManagerUploadAddNew: "Ajouter une nouvelle image",
+    fileManagerUploadAddCancel: "Annuler",
   },
 };

@@ -9,7 +9,7 @@ export default async (req, res) => {
     switch (method) {
         case "GET":
             try {
-                const items = await Image.find({})
+                const items = await Image.find({}, null, {sort: {'_id': -1}})
                 res.status(200).json({ success: true, data: items });
             } catch (e) {
                 res.status(400).json({ success: false, erreurs: e });

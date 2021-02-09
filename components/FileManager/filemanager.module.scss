@@ -45,3 +45,15 @@
 .filemanager__files img:nth-child(12){
   opacity: .3;
 }
+
+.filemanager__upload__container{
+  top: 25%
+}
+
+.filemanager__upload__container form{
+  text-align: center;
+}
+
+.filemanager__upload__container button{
+  margin-top: 15px!important;
+}
