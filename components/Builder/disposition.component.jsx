@@ -3,7 +3,7 @@ import styles from './builder.module.scss'
 import {DragDropContext, Droppable, Draggable} from "react-beautiful-dnd";
 
 
-export default function Disposition({disposition, modifierDisposition, supprimerDisposition, onElementClick}) {
+export default function Disposition({disposition, modifierDisposition, supprimerDisposition, onElementClick, currentElement, setCurrentElement}) {
 
     const structures = []
     for (let i = 1; i < 7; i++) {
@@ -87,11 +87,11 @@ export default function Disposition({disposition, modifierDisposition, supprimer
 
     /**
      * Permet de supprimer un sous élément
+     * @param colonne
      * @param element
-     * @param sousElement
      */
-    const supprimerSousElement = function (element, sousElement) {
-        element.subs = element.subs.filter(e => e.id !== sousElement.id)
+    const supprimerElement = function (colonne, element) {
+        colonne.elements = colonne.elements.filter(c => c.id !== element.id)
         modifierDisposition(disposition)
     }
 
@@ -126,9 +126,12 @@ export default function Disposition({disposition, modifierDisposition, supprimer
                         disposition.colonnes && disposition.colonnes.map(colonne =>
                             <Colonne key={"element-" + colonne.id} disposition={disposition} colonne={colonne}
                                      ajouterSousElement={ajouterSousElement}
-                                     supprimerSousElement={supprimerSousElement} modifierElement={modifierElement}
+                                     supprimerElement={supprimerElement} modifierElement={modifierElement}
                                      modifierSousElement={modifierSousElement}
-                                     onElementClick={onElementClick}/>
+                                     onElementClick={onElementClick}
+                                     setCurrentElement={setCurrentElement}
+                                     currentElement={currentElement}
+                            />
                         )
                     }
                 </div>
@@ -148,16 +151,16 @@ export default function Disposition({disposition, modifierDisposition, supprimer
         </div>
     )
 }
-
-
-function Colonne({colonne, onElementClick, supprimerSousElement}) {
-
+function Colonne({colonne, onElementClick, supprimerElement, currentElement, setCurrentElement}) {
     /**
      * Permet de supprimer un sous élément
      * @param e
      */
-    const handleSupprimerSousElement = function (e) {
-        supprimerSousElement(element, e)
+    const handleSupprimerElement = function (e) {
+        supprimerElement(colonne, e)
+        if(currentElement.id === e.id){
+            setCurrentElement({})
+        }
     }
 
     const handleElementClick = function (e) {
@@ -197,20 +200,20 @@ function Colonne({colonne, onElementClick, supprimerSousElement}) {
                         style={getListStyle(snapshot.isDraggingOver)}
                     >
                         {colonne.elements.length > 0 ? colonne.elements.map((item, index) => (
-                            <Draggable key={item.id} draggableId={item.id.toString()} index={index}>
-                                {(provided, snapshot) => (
-                                    <div className={styles.disposition__plein} onClick={() => handleElementClick(item)}
-                                         ref={provided.innerRef}{...provided.draggableProps}{...provided.dragHandleProps}
-                                         style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}>
-                                        <div className={"content"} dangerouslySetInnerHTML={{__html: item.contenu}} />
-                                        <button key={"btn-empty" + item.id}
-                                                onClick={() => handleSupprimerSousElement(item)}
-                                                className={styles.disposition__remove_sub}>X
-                                        </button>
-                                    </div>
-                                )}
-                            </Draggable>
-                        )) :
+                                <Draggable key={item.id} draggableId={item.id.toString()} index={index}>
+                                    {(provided, snapshot) => (
+                                        <div className={styles.disposition__plein}
+                                             ref={provided.innerRef}{...provided.draggableProps}{...provided.dragHandleProps}
+                                             style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}>
+                                            <div className={"content"} onClick={() => handleElementClick(item)} dangerouslySetInnerHTML={{__html: item.contenu}} />
+                                            <button key={"btn-empty" + item.id}
+                                                    onClick={() => handleSupprimerElement(item)}
+                                                    className={styles.disposition__remove_sub}>X
+                                            </button>
+                                        </div>
+                                    )}
+                                </Draggable>
+                            )) :
                             "+"
                         }
                         {provided.placeholder}

@@ -5,6 +5,7 @@ import styles from './builder.module.scss';
 import {DragDropContext} from 'react-beautiful-dnd';
 import useTranslation from '../../intl/useTranslation';
 
+
 export default function Builder({page}) {
     // Utilisation de la traduction
     const {t} = useTranslation();
@@ -72,6 +73,13 @@ export default function Builder({page}) {
      * @param disposition
      */
     const supprimerDisposition = function (disposition) {
+        disposition.colonnes.map(colonne => {
+            colonne.elements.map(element => {
+                if(element.id === currentElement.id){
+                    setCurrentElement({})
+                }
+            })
+        })
         setDispositions(dispositions.filter((d) => d !== disposition));
     };
 
@@ -221,6 +229,8 @@ export default function Builder({page}) {
                         modifierDisposition={modifierDisposition}
                         supprimerDisposition={supprimerDisposition}
                         onElementClick={setCurrentElement}
+                        currentElement={currentElement}
+                        setCurrentElement={setCurrentElement}
                     />
                 </DragDropContext>
             </div>

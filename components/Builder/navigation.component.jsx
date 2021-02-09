@@ -17,6 +17,8 @@ export default function Navigation({composants, currentItem, onElementValeurChan
     useEffect(function () {
         if(currentItem.id){
             setActiveIndex(2)
+        }else {
+            setActiveIndex(1)
         }
     }, [currentItem])
 
