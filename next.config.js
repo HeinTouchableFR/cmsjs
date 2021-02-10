@@ -5,7 +5,7 @@ module.exports = {
     //URL: 'http://localhost:3000',
     GCLOUD_PROJECT_ID: "cmsjs-fa640",
     GCLOUD_APPLICATION_CREDENTIALS:
-      "/pages/api/services/cmsjs-fa640-firebase-adminsdk-nubd4-7fa4af8ee5.json",
+      "./pages/api/services/cmsjs-fa640-firebase-adminsdk-nubd4-7fa4af8ee5.json",
     GCLOUD_STORAGE_BUCKET_URL: "cmsjs-fa640.appspot.com",
   },
   images: {
