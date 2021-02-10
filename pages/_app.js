@@ -1,12 +1,12 @@
 import Router from "next/router";
 import NProgress from "nprogress"; //nprogress module
+import "../style/tools/reset.scss";
 import "nprogress/nprogress.css"; //styles of nprogress
 import { LanguageProvider } from "../intl/LanguageProvider";
 import "../style/globals.scss";
 import "../style/sandbox.scss";
-import "../style/tools/reset.scss";
+
 import "semantic-ui-css/semantic.min.css";
-import "rsuite/dist/styles/rsuite-default.css";
 
 //Binding events.
 NProgress.configure({ showSpinner: false });
