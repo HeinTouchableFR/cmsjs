@@ -76,7 +76,7 @@ export default function Builder({page}) {
         disposition.colonnes.map(colonne => {
             colonne.elements.map(element => {
                 if(element.id === currentElement.id){
-                    setCurrentElement({})
+                    setCurrentElement({ id: "empty"})
                 }
             })
         })

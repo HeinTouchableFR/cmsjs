@@ -1,7 +1,7 @@
 import React from "react";
 import styles from './builder.module.scss'
 import {DragDropContext, Droppable, Draggable} from "react-beautiful-dnd";
-
+import parse from 'html-react-parser';
 
 export default function Disposition({disposition, modifierDisposition, supprimerDisposition, onElementClick, currentElement, setCurrentElement}) {
 
@@ -159,7 +159,7 @@ function Colonne({colonne, onElementClick, supprimerElement, currentElement, set
     const handleSupprimerElement = function (e) {
         supprimerElement(colonne, e)
         if(currentElement.id === e.id){
-            setCurrentElement({})
+            setCurrentElement({id: "empty"})
         }
     }
 
@@ -189,6 +189,7 @@ function Colonne({colonne, onElementClick, supprimerElement, currentElement, set
         backgroundColor: isDraggingOver && "rgba(0, 191, 255, 0.2)"
     });
 
+
     return <>
         <div className={`${styles.element} ${styles.disposition__empty}`}>
             <Droppable droppableId={`${colonne.id}`}>
@@ -205,7 +206,9 @@ function Colonne({colonne, onElementClick, supprimerElement, currentElement, set
                                         <div className={styles.disposition__plein}
                                              ref={provided.innerRef}{...provided.draggableProps}{...provided.dragHandleProps}
                                              style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}>
-                                            <div className={"content"} onClick={() => handleElementClick(item)} dangerouslySetInnerHTML={{__html: item.contenu}} />
+                                            <div className={"content"} onClick={() => handleElementClick(item)}>
+                                                {parse(item.contenu)}
+                                            </div>
                                             <button key={"btn-empty" + item.id}
                                                     onClick={() => handleSupprimerElement(item)}
                                                     className={styles.disposition__remove_sub}>X
@@ -214,7 +217,7 @@ function Colonne({colonne, onElementClick, supprimerElement, currentElement, set
                                     )}
                                 </Draggable>
                             )) :
-                            "+"
+                            <div className={"content"} onClick={() => handleElementClick({id: "empty"})}>+</div>
                         }
                         {provided.placeholder}
                     </div>

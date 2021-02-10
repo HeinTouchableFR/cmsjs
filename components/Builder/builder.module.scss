@@ -117,7 +117,6 @@
 
 .disposition__empty {
   border: dashed 1px #d5dadf;
-  margin-top: 10px;
   padding: 10px 0;
 }
 
@@ -171,6 +170,7 @@
 .disposition__container{
   display: flex;
   flex-wrap: wrap;
+  padding: 10px;
 }
 
 @for $i from 1 through 6 {

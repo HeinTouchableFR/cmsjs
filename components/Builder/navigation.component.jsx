@@ -11,14 +11,20 @@ export default function Navigation({composants, currentItem, onElementValeurChan
     const [activeIndex, setActiveIndex] = useState(0)
     const handleTabChange = (e, { activeIndex }) => {
         setActiveIndex(activeIndex)
-        setCurrentElement({})
+        if(activeIndex !== 0){
+            setCurrentElement({ id: "empty"})
+        }
     }
 
     useEffect(function () {
         if(currentItem.id){
-            setActiveIndex(2)
-        }else {
-            setActiveIndex(1)
+            console.log(currentItem)
+            if(currentItem.id !== "empty"){
+                console.log('test')
+                setActiveIndex(2)
+            }else{
+                setActiveIndex(1)
+            }
         }
     }, [currentItem])
 
@@ -54,7 +60,7 @@ export default function Navigation({composants, currentItem, onElementValeurChan
                 </Tab.Pane>
 
         },
-        currentItem.id && {
+        currentItem.type && {
             menuItem: t('editLabel') + ' ' + t(currentItem.type),
             render: () =>
                 <Tab.Pane attached={true}>
