@@ -5,12 +5,17 @@ import multer from "multer";
 import Image from "../../../../models/Image";
 
 const sharp = require("sharp");
-const {Storage} = require("@google-cloud/storage");
 var path = require("path");
+
+
+const {Storage} = require("@google-cloud/storage");
 
 const storage = new Storage({
     projectId: process.env.GCLOUD_PROJECT_ID,
-    keyFilename: process.env.GCLOUD_APPLICATION_CREDENTIALS,
+    credentials: {
+        client_email: process.env.CLIENT_EMAIL,
+        private_key: process.env.PRIVATE_KEY,
+    },
 });
 
 const bucket = storage.bucket(process.env.GCLOUD_STORAGE_BUCKET_URL);
