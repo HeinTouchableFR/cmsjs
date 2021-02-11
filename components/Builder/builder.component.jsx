@@ -4,6 +4,7 @@ import Navigation from './navigation.component';
 import styles from './builder.module.scss';
 import {DragDropContext} from 'react-beautiful-dnd';
 import useTranslation from '../../intl/useTranslation';
+import {Tab} from 'semantic-ui-react';
 
 
 export default function Builder({page}) {
@@ -12,6 +13,8 @@ export default function Builder({page}) {
     const [dispositions, setDispositions] = useState(page.contenu.dispositions);
 
     const [currentElement, setCurrentElement] = useState({});
+
+    const [hideMenu, setHideMenu] = useState(false)
 
     const composants = [
         {
@@ -75,8 +78,8 @@ export default function Builder({page}) {
     const supprimerDisposition = function (disposition) {
         disposition.colonnes.map(colonne => {
             colonne.elements.map(element => {
-                if(element.id === currentElement.id){
-                    setCurrentElement({ id: "empty"})
+                if (element.id === currentElement.id) {
+                    setCurrentElement({id: "empty"})
                 }
             })
         })
@@ -98,8 +101,8 @@ export default function Builder({page}) {
         if (!destination) {
             return;
         }
-        if(destination.droppableId === 'composants'){
-          return;
+        if (destination.droppableId === 'composants') {
+            return;
         }
 
         if (source.droppableId === destination.droppableId) {
@@ -218,12 +221,23 @@ export default function Builder({page}) {
         modifierColonne(colonne, elements)
     };
 
+    const getClassName = function () {
+        return hideMenu ? styles.builder + ' ' + styles.hide : styles.builder
+    }
+
+    const handleHideMenu = function () {
+        setHideMenu(!hideMenu)
+    }
+
     return (
         <>
-            <div className={styles.builder}>
+            <div className={getClassName()}>
                 <DragDropContext onDragEnd={onDragEnd}>
                     <Navigation composants={composants} currentItem={currentElement}
-                                onElementValeurChange={modifierElement} setCurrentElement={setCurrentElement}/>
+                                onElementValeurChange={modifierElement} setCurrentElement={setCurrentElement}
+                                hideMenu={handleHideMenu}/>
+
+
                     <Content
                         dispositions={dispositions}
                         setDispositions={setDispositions}
@@ -235,6 +249,7 @@ export default function Builder({page}) {
                         setCurrentElement={setCurrentElement}
                     />
                 </DragDropContext>
+                <div className={styles.hideMenuBtn} onClick={() => handleHideMenu()}/>
             </div>
         </>
     );

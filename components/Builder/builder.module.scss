@@ -2,6 +2,7 @@
 .builder{
   display: flex;
   min-height: 100vh;
+  overflow-x: scroll;
 }
 
 //Composant Navigation
@@ -10,14 +11,61 @@
   min-height: 100%;
   background-color: #e6e9ec;
   position: fixed;
+  transition: transform .5s;
+  z-index: 100;
 }
 
+.hide .navigation{
+  transform: translateX(-350px);
+}
+
+.hideMenuBtn{
+  position: fixed;
+  top: 50%;
+  left: 332px;
+  width: 40px;
+  height: 40px;
+  background-color: #e6e9ec;
+  border-radius: 50%;
+  color: #000;
+  font-weight: 700;
+  font-size: 20px;
+  cursor: pointer;
+  transition: left .5s;
+}
+
+.hide .hideMenuBtn{
+  left: -18px;
+}
+
+.hideMenuBtn:after{
+  content: '<';
+  position: relative;
+  top: 10px;
+  left: 20px;
+  cursor: pointer;
+}
+
+.hide .hideMenuBtn:after{
+  content: '>';
+}
+
+.hide .hideMenuBtn:after{
+  content: '>';
+}
 //Composant Content
 .content{
   display: block;
   position: relative;
+  width: calc(100% - 350px);
+  transition: transform .5s, width .5s;
+  transform: translateX(350px);
+  min-width: 1050px;
+}
+
+.hide .content{
   width: 100%;
-  margin-left: 350px;
+  transform: translateX(0px);
 }
 
 .container{

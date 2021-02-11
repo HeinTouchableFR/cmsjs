@@ -70,9 +70,6 @@ export default function Navigation({composants, currentItem, onElementValeurChan
     return (<>
             <div className={styles.navigation}>
                 <Tab panes={panes} activeIndex={activeIndex} onTabChange={handleTabChange}/>
-                <div>
-                    <button>test</button>
-                </div>
             </div>
         </>
     )
