@@ -129,14 +129,11 @@ function Texte({element, onElementValeurChange}) {
 
 function Image({element, onElementValeurChange}) {
     const {t} = useTranslation();
-    const [content, setContent] = useState(element.contenu)
 
     const [currentFiles, setCurrentFiles] = useState([])
 
     useEffect(async function () {
         if (element.contenu && element.type === "image") {
-            setContent(element.contenu)
-
             var xmlString = element.contenu;
             var doc = new DOMParser().parseFromString(xmlString, "text/xml");
             const image = doc.querySelector('img')
@@ -144,13 +141,14 @@ function Image({element, onElementValeurChange}) {
                 const res = await fetch(process.env.URL + "/api/images/" + image.getAttribute("data-image"))
                 const data = await res.json()
                 setCurrentFiles(data.data)
+            }else{
+                setCurrentFiles([])
             }
         }
     }, [element])
 
     const handleChangeSrc = function (file) {
         const img = `<img data-image="${file._id}" src="${file.url}" />`
-        setContent(img)
         onElementValeurChange(element, img)
     }
 
@@ -164,7 +162,7 @@ function Image({element, onElementValeurChange}) {
 
     return (<>
         <FileManager currentFiles={currentFiles} setCurrentFiles={handleSetCurrentFiles} trigger={<div className={`${styles.filemanager_btn}`}>
-            {currentFiles.length > 0 ? <div className={`${styles.preview}`} style={{background: `url(${currentFiles[0].url})`}}></div> : <div className={`${styles.preview}`} style={{background: `url(/placeholder.png)`}}></div>}
+            {currentFiles.length > 0 && currentFiles[0].url ? <div className={`${styles.preview}`} style={{background: `url(${currentFiles[0].url})`}}></div> : <div className={`${styles.preview}`} style={{background: `url(/placeholder.png)`}}></div>}
             <div className={`${styles.preview__action}`}>{t('choosePicture')}</div>
         </div>}/>
     </>)

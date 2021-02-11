@@ -18,9 +18,7 @@ export default function Navigation({composants, currentItem, onElementValeurChan
 
     useEffect(function () {
         if(currentItem.id){
-            console.log(currentItem)
             if(currentItem.id !== "empty"){
-                console.log('test')
                 setActiveIndex(2)
             }else{
                 setActiveIndex(1)
