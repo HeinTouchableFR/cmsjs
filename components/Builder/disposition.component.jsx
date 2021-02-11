@@ -191,33 +191,40 @@ function Colonne({colonne, onElementClick, supprimerElement, currentElement, set
 
 
     return <>
-        <div className={`${styles.element} ${styles.disposition__empty}`}>
+        <div className={`${styles.colonne}`}>
             <Droppable droppableId={`${colonne.id}`}>
                 {(provided, snapshot) => (
                     <div
                         {...provided.droppableProps}
                         ref={provided.innerRef}
-                        className={"draggable"}
+                        className={`${styles.element__wrap}`}
                         style={getListStyle(snapshot.isDraggingOver)}
                     >
-                        {colonne.elements.length > 0 ? colonne.elements.map((item, index) => (
-                                <Draggable key={item.id} draggableId={item.id.toString()} index={index}>
-                                    {(provided, snapshot) => (
-                                        <div className={styles.disposition__plein}
-                                             ref={provided.innerRef}{...provided.draggableProps}{...provided.dragHandleProps}
-                                             style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}>
-                                            <div className={"content"} onClick={() => handleElementClick(item)}>
-                                                {parse(item.contenu)}
+                        {colonne.elements.length > 0 ?
+                            <div className={styles.colonne__populated}>
+                                {colonne.elements.map((item, index) => (
+                                    <Draggable key={item.id} draggableId={item.id.toString()} index={index}>
+                                        {(provided, snapshot) => (
+                                            <div className={styles.element__widget}
+                                                 ref={provided.innerRef}{...provided.draggableProps}{...provided.dragHandleProps}
+                                                 style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}>
+                                                <div className={"content"} onClick={() => handleElementClick(item)}>
+                                                    {parse(item.contenu)}
+                                                </div>
+                                                <button key={"btn-empty" + item.id}
+                                                        onClick={() => handleSupprimerElement(item)}
+                                                        className={styles.element__widget__remove}>X
+                                                </button>
                                             </div>
-                                            <button key={"btn-empty" + item.id}
-                                                    onClick={() => handleSupprimerElement(item)}
-                                                    className={styles.disposition__remove_sub}>X
-                                            </button>
-                                        </div>
-                                    )}
-                                </Draggable>
-                            )) :
-                            <div className={"content"} onClick={() => handleElementClick({id: "empty"})}>+</div>
+                                        )}
+                                    </Draggable>
+                                ))}
+                            </div> :
+                            <div className={styles.colonne__empty} onClick={() => handleElementClick({id: "empty"})}>
+                                <div className={styles.element__first__add}>
+                                    <div className={styles.element__first__icon}/>
+                                </div>
+                            </div>
                         }
                         {provided.placeholder}
                     </div>
