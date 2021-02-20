@@ -1,50 +1,72 @@
-import dbConnect from "../../../utils/dbConnect";
+import db from '../../../utils/dbConnect';
 import Categorie from "../../../models/Categorie";
 import Valeur from "../../../models/Valeur";
 
-dbConnect();
-
 export default async (req, res) => {
-  const { method } = req;
+    const {method} = req;
 
-  switch (method) {
-    case "GET":
-      try {
-        const items = await Categorie.find({});
-        res.status(200).json({ success: true, data: items });
-      } catch (e) {
-        res.status(400).json({ success: false });
-      }
-      break;
-    case "POST":
-      try {
-        let item = new Categorie({
-          nom: req.body.nom,
-          description: req.body.description,
-          categoriesEnfant: [],
-          categorieParent: req.body.categorieParent,
-        });
-
-        if (req.body.categorieParent) {
-          const c = await Categorie.findById(req.body.categorieParent);
-
-          c.categoriesEnfant.push(item);
-          c.save();
+    const recursive = async function (doc) {
+        const fetchPromises = []
+        const item = doc.data()
+        item._id = doc.id
+        item.categoriesEnfantData = []
+        if (item.categoriesEnfant) {
+            item.categoriesEnfant.map(categorie => {
+                const nextPromise = db.doc(`categories/${categorie}`).get()
+                fetchPromises.push(nextPromise)
+            })
         }
-        item
-          .save(item)
-          .then((data) => res.status(200).json({ success: true, data: data }))
-          .catch((err) =>
-            res.status(400).json({ success: false, errors: err })
-          );
-      } catch (e) {
-        res.status(400).json({ success: false });
-      }
-      break;
-    default:
-      res
-        .status(400)
-        .json({ success: false, errors: "Cette méthode n'est pas disponible" });
-      break;
-  }
+        const snapshots = await Promise.all(fetchPromises)
+        const fetchPromisesChild = []
+        snapshots.map(async (snapshot) => {
+            const nextChildPromise = recursive(snapshot)
+            fetchPromisesChild.push(nextChildPromise)
+        })
+        const childSnapshots = await Promise.all(fetchPromisesChild)
+        item.categoriesEnfantData = childSnapshots.map(item => {
+            return item
+        })
+        return item
+    }
+
+    switch (method) {
+        case "GET":
+            try {
+                db.collection('categories').where('categorieParent', "==", null).get().then(snapshot => {
+                    const items = snapshot.docs.map(async doc => {
+                        return await recursive(doc)
+                    })
+                    Promise.all(items).then(data => res.status(200).json({success: true, data: data}))
+                })
+
+            } catch (e) {
+                res.status(400).json({success: false, errors: e});
+            }
+            break;
+        case "POST":
+            let item = {
+                nom: req.body.nom,
+                description: req.body.description,
+                categoriesEnfant: [],
+                categorieParent: req.body.categorieParent,
+            }
+            const data = await db.collection('categories').add(item)
+            if(data.id && item.categorieParent){
+                const snapshot = await db.doc(`categories/${item.categorieParent}`).get()
+                const categorie = {
+                    id: snapshot.id,
+                    ...snapshot.data()
+                }
+                categorie.categoriesEnfant.push(data.id)
+                await db.doc(`categories/${categorie.id}`).set(categorie, {merge: true})
+            }
+
+            res.status(200).json({success: true})
+            break;
+        default:
+            res
+                .status(400)
+                .json({success: false, errors: "Cette méthode n'est pas disponible"});
+            break;
+    }
 };

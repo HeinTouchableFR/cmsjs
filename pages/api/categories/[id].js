@@ -1,91 +1,149 @@
-import dbConnect from "../../../utils/dbConnect";
+import db from "../../../utils/dbConnect";
 import Categorie from "../../../models/Categorie";
 import Attribut from "../../../models/Attribut";
 
-dbConnect();
 
 export default async (req, res) => {
-  const {
-    query: { id },
-    method,
-  } = req;
+    const {
+        query: {id},
+        method,
+    } = req;
 
-  switch (method) {
-    case "GET":
-      try {
-        const item = await Categorie.findById(id);
-
-        if (!item) {
-          return res.status(400).json({ success: false });
+    const recursiveDelete = async function (doc) {
+        const fetchPromises = []
+        const item = {
+            id: doc.id,
+            ...doc.data()
         }
 
-        res.status(200).json({ success: true, data: item });
-      } catch (e) {
-        res.status(400).json({ success: false });
-      }
-      break;
-    case "PUT":
-      try {
-        const item = await Categorie.findById(id);
-        if (!item) {
-          return res
-            .status(400)
-            .json({ success: false, errors: "L'élément n'existe pas." });
+        if (item.categoriesEnfant) {
+            item.categoriesEnfant.map(categorie => {
+                const nextPromise = db.doc(`categories/${categorie}`).get()
+                fetchPromises.push(nextPromise)
+            })
         }
-        item.nom = req.body.nom;
-        item.description = req.body.description;
-        item.categorieParent = item.categorieParent ? item.categorieParent : "";
 
-        if (
-          !(req.body.categorieParent == item.categorieParent) &&
-          req.body.categorieParent
-        ) {
-          const c = await Categorie.findById(req.body.categorieParent);
-          c.categoriesEnfant.push(item);
-          c.save();
+        const snapshots = await Promise.all(fetchPromises)
+        const fetchPromisesChild = []
+        snapshots.map(async (snapshot) => {
+            const nextChildPromise = recursiveDelete(snapshot)
+            fetchPromisesChild.push(nextChildPromise)
+        })
+        if(fetchPromisesChild.length > 0){
+            const childSnapshots = await Promise.all(fetchPromisesChild)
         }
-        if (
-          !(req.body.categorieParent == item.categorieParent) &&
-          item.categorieParent
-        ) {
-          const c = await Categorie.findById(item.categorieParent);
-          var index = c.categoriesEnfant.indexOf(item._id);
-          if (index > -1) {
-            c.categoriesEnfant.splice(index, 1);
-          }
-          c.save();
-        }
-        item.categorieParent = req.body.categorieParent;
-        item
-          .save(item)
-          .then((data) => res.status(200).json({ success: true, data: data }))
-          .catch((err) =>
-            res.status(400).json({ success: false, errors: err })
-          );
-      } catch (e) {
-        res.status(400).json({ success: false, errors: e });
-      }
-      break;
-    case "DELETE":
-      async function handleDelete(e) {
-        const item = await Categorie.findByIdAndDelete(e);
 
-        if (item && item.categoriesEnfant) {
-          for (const element of item.categoriesEnfant) {
-            await handleDelete(element);
-          }
-        }
-      }
+        if(item.categorieParent){
+            const ref = db.doc(`categories/${item.categorieParent}`)
+            const snapshot = await ref.get()
+            const parent = {
+                id: snapshot.id,
+                ...snapshot.data()
+            }
+            var index = parent.categoriesEnfant.indexOf(item.id.toString());
+            if (index > -1) {
+                parent.categoriesEnfant.splice(index, 1);
+                const nextPromise = await ref.set(parent, {merge: true})
+                await Promise.resolve(nextPromise)
+            }
 
-      try {
-        await handleDelete(id);
-        return res.status(200).json({ success: true, data: "test" });
-      } catch (e) {
-        res.status(400).json({ success: false });
-      }
-      break;
-    default:
-      res.status(400).json({ success: false });
-      break;
-  }
+        }
+
+        return await db.doc(`categories/${doc.id}`).delete()
+    }
+
+    switch (method) {
+        case "GET":
+            try {
+                const snapshot = await db.doc(`categories/${id}`).get()
+                const item = {
+                    _id: snapshot.id,
+                    ...snapshot.data()
+                }
+
+                if (!item) {
+                    return res.status(400).json({success: false});
+                }
+
+                res.status(200).json({success: true, data: item});
+            } catch (e) {
+                res.status(400).json({success: false});
+            }
+            break;
+        case "PUT":
+            try {
+                const snapshot = await db.doc(`categories/${id}`).get()
+                const item = {
+                    id: snapshot.id,
+                    ...snapshot.data()
+                }
+                if (!item) {
+                    return res
+                        .status(400)
+                        .json({success: false, errors: "L'élément n'existe pas."});
+                }
+                item.nom = req.body.nom;
+                item.description = req.body.description;
+                const promises = []
+
+                if (!(req.body.categorieParent == item.categorieParent) && req.body.categorieParent) {
+
+                    const ref = db.doc(`categories/${req.body.categorieParent}`)
+                    const snapshot = await ref.get()
+                    const categorie = {
+                        id: snapshot.id,
+                        ...snapshot.data()
+                    }
+                    if (categorie) {
+                        categorie.categoriesEnfant.push(item.id);
+                        const nextPromise = await ref.set(categorie, {merge: true})
+                        promises.push(nextPromise)
+                    }
+                }
+                if (!(req.body.categorieParent == item.categorieParent) && item.categorieParent) {
+
+                    const ref = db.doc(`categories/${item.categorieParent}`)
+                    const snapshot = await ref.get()
+                    const categorie = {
+                        id: snapshot.id,
+                        ...snapshot.data()
+                    }
+                    var index = categorie.categoriesEnfant.indexOf(item.id.toString());
+                    if (index > -1) {
+                        categorie.categoriesEnfant.splice(index, 1);
+                        const nextPromise = await ref.set(categorie, {merge: true})
+                        promises.push(nextPromise)
+                    }
+                }
+                item.categorieParent = req.body.categorieParent;
+                Promise.all(promises).then(db.doc(`categories/${item.id}`).set(item, {merge: true}).then(res.status(200).json({success: true})))
+            } catch (e) {
+                res.status(400).json({success: false, errors: e});
+            }
+            break;
+        case "DELETE":
+
+        async function handleDelete(e) {
+            const item = await Categorie.findByIdAndDelete(e);
+
+            if (item && item.categoriesEnfant) {
+                for (const element of item.categoriesEnfant) {
+                    await handleDelete(element);
+                }
+            }
+        }
+
+            try {
+                db.doc(`categories/${id}`).get().then(async snapshot => {
+                    const item = await recursiveDelete(snapshot)
+                    Promise.all(item).then(res.status(200).json({success: true}))
+                })
+            } catch (e) {
+                res.status(400).json({success: false});
+            }
+            break;
+        default:
+            res.status(400).json({success: false});
+            break;
+    }
 };

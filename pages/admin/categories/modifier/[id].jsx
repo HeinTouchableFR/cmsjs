@@ -72,7 +72,20 @@ export default function Modifier({item, categories}) {
 
     const categoriesOptions = []
 
-    categories.map(categorie => categoriesOptions.push({key: categorie._id, value: categorie._id, text: categorie.nom}))
+    const recursiveCategoriesOptions = function(categorie, tiret = "", parent){
+        if(categorie._id != item._id){
+            if (parent) {
+                tiret += " — "
+            }
+            categoriesOptions.push({ key: categorie._id, value: categorie._id, text: (parent ? tiret : '') + categorie.nom })
+
+            if(categorie.categoriesEnfantData){
+                categorie.categoriesEnfantData.map(enfant => recursiveCategoriesOptions(enfant, tiret, categorie))
+            }
+        }
+    }
+
+    categories.map(categorie => recursiveCategoriesOptions(categorie))
 
     return (
         <>

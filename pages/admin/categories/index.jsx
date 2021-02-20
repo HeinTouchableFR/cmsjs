@@ -102,7 +102,7 @@ const Categorie = function({item, url, categorieParent, tiret = "", handleDelete
                 <ActionBoutonNoLink style={"supprimer"} icon={"fa-trash"}  onClick={() => handleDelete(item)}/>
             </td>
         </tr>
-        {item.categoriesEnfant && item.categoriesEnfant.map(itemE => <Categorie handleDelete={handleDelete} item={itemE} url={url}
+        {item.categoriesEnfantData && item.categoriesEnfantData.map(itemE => <Categorie handleDelete={handleDelete} item={itemE} url={url}
                                                                                 categorieParent={item} tiret={tiret} key={itemE._id}/>)}
     </>
 }
