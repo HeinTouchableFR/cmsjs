@@ -1,8 +1,8 @@
 import React from 'react';
 import axios from 'axios';
 
-import Header from '../container/Sites/Header/Header';
-import ProductsGrid from '../container/Sites/Product/ProductsGrid';
+import Header from 'container/Sites/Header/Header';
+import ProductsGrid from 'container/Sites/Product/ProductsGrid';
 
 export default function Home({ items }) {
     return (

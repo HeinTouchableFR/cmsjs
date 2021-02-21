@@ -1,5 +1,5 @@
 import React from 'react';
-import Builder from '../../container/Builder/builder';
+import Builder from 'container/Builder/Builder';
 
 export default function Index() {
     //Page a créer ou modifier

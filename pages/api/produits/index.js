@@ -1,5 +1,5 @@
-import dbConnect from '../../../utils/dbConnect';
-import Produit from '../../../models/Produit';
+import dbConnect from 'utils/dbConnect';
+import Produit from 'models/Produit';
 
 dbConnect();
 

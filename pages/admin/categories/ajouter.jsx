@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
-import Header from '../../../components/Header/Header';
-import Content from '../../../components/Content/Content';
+import Header from 'components/Header/Header';
+import Content from 'components/Content/Content';
 import { useRouter } from 'next/router';
 import axios from 'axios';
-import SelectCustom from '../../../components/Select/Select';
+import SelectCustom from 'components/Select/Select';
 import { Button, Form, Loader } from 'semantic-ui-react';
 
 export default function Ajouter({ categories }) {

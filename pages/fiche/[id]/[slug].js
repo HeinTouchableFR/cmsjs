@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
-import Header from '../../../container/Sites/Header/Header';
-import ProductSingle from '../../../container/Sites/Product/ProductSingle';
+import Header from 'container/Sites/Header/Header';
+import ProductSingle from 'container/Sites/Product/ProductSingle';
 
 export default function FicheProduit({ item, success }) {
     return (

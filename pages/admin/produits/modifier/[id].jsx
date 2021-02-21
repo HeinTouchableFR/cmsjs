@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
-import Header from '../../../../components/Header/Header';
-import Content from '../../../../components/Content/Content';
+import Header from 'components/Header/Header';
+import Content from 'components/Content/Content';
 import axios from 'axios';
 import { Button, Card, Form, Input, Loader } from 'semantic-ui-react';
 import { useRouter } from 'next/router';
-import { ActionButtonNoLink } from '../../../../components/Button/ActionButton/ActionButton';
+import { ActionButtonNoLink } from 'components/Button/ActionButton/ActionButton';
 import { Uploader } from 'rsuite';
 
 export default function Modifier({ item, categories }) {

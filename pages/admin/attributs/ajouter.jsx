@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
-import Header from '../../../components/Header/Header';
-import Content from '../../../components/Content/Content';
 import { useRouter } from 'next/router';
 import { Button, Card, Form, Input } from 'semantic-ui-react';
-import { ActionButtonNoLink } from '../../../components/Button/ActionButton/ActionButton';
+
+import Header from 'components/Header/Header';
+import Content from 'components/Content/Content';
+import { ActionButtonNoLink } from 'components/Button/ActionButton/ActionButton';
 
 export default function Ajouter() {
     const url = 'attributs';

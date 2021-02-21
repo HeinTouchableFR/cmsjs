@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import Header from '../../../components/Header/Header';
+import Header from 'components/Header/Header';
 import Head from 'next/head';
-import Content from '../../../components/Content/Content';
+import Content from 'components/Content/Content';
 import styles from '../../style/table.module.scss';
-import { ActionButton, ActionButtonNoLink } from '../../../components/Button/ActionButton/ActionButton';
+import { ActionButton, ActionButtonNoLink } from 'components/Button/ActionButton/ActionButton';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import { Button, Confirm } from 'semantic-ui-react';

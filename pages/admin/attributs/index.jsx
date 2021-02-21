@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import Header from '../../../components/Header/Header';
-import Head from 'next/head';
-import Content from '../../../components/Content/Content';
-import styles from '../../style/table.module.scss';
-import { ActionButton, ActionButtonNoLink } from '../../../components/Button/ActionButton/ActionButton';
 import axios from 'axios';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { Button, Confirm } from 'semantic-ui-react';
+import { Confirm } from 'semantic-ui-react';
+
+import styles from '../../style/table.module.scss';
+
+import Header from 'components/Header/Header';
+import Content from 'components/Content/Content';
+import { ActionButton, ActionButtonNoLink } from 'components/Button/ActionButton/ActionButton';
 
 export default function Index({ items, errors }) {
     const url = 'attributs';
@@ -37,20 +39,7 @@ export default function Index({ items, errors }) {
                 const { data: categorieParent } = await response.json();
 
                 categorieParent.categoriesEnfant = categorieParent.categoriesEnfant.filter((i) => i !== itemToDelete._id);
-
-                const res = await fetch(`${process.env.URL}/api/${url}/${categorieParent._id}`, {
-                    method: 'PUT',
-                    headers: {
-                        Accept: 'application/json',
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(categorieParent),
-                });
             }
-
-            const deleted = await fetch(`${process.env.URL}/api/${url}/${itemToDelete._id}`, {
-                method: 'Delete',
-            });
 
             setItemToDelete({});
             setIsItemHasCategorieParent(null);

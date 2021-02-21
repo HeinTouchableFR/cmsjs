@@ -1,10 +1,10 @@
 import React from 'react';
 import Head from 'next/head';
-import Header from '../../../../components/Header/Header';
-import Content from '../../../../components/Content/Content';
+import Header from 'components/Header/Header';
+import Content from 'components/Content/Content';
 import axios from 'axios';
 import { Button, Card, Form, Input } from 'semantic-ui-react';
-import { ActionButtonNoLink } from '../../../../components/Button/ActionButton/ActionButton';
+import { ActionButtonNoLink } from 'components/Button/ActionButton/ActionButton';
 
 export default function Detail({ item }) {
     const url = 'attributs';

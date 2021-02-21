@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
-import Header from '../../../../components/Header/Header';
-import Content from '../../../../components/Content/Content';
+import Header from 'components/Header/Header';
+import Content from 'components/Content/Content';
 import axios from 'axios';
 import { Button, Form, Loader } from 'semantic-ui-react';
 import { useRouter } from 'next/router';
