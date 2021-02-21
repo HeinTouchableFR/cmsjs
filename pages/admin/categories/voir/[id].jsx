@@ -1,29 +1,28 @@
-import React from "react";
-import Head from "next/head";
-import Header from "../../../../components/Header/header.component";
-import Content from "../../../../components/Content/content.component";
-import axios from "axios";
-import {Form} from "semantic-ui-react";
+import React from 'react';
+import Head from 'next/head';
+import Header from '../../../../components/Header/header.component';
+import Content from '../../../../components/Content/content.component';
+import axios from 'axios';
+import { Form } from 'semantic-ui-react';
 
-export default function Detail({item, errors, categories}) {
+export default function Detail({ item, errors, categories }) {
+    const url = 'categories';
 
-    const url = "categories"
+    const categoriesOptions = [];
 
-    const categoriesOptions = []
-
-    const recursiveCategoriesOptions = function(categorie, tiret = "", parent){
-        console.log(categorie)
+    const recursiveCategoriesOptions = function (categorie, tiret = '', parent) {
+        console.log(categorie);
         if (parent) {
-            tiret += " — "
+            tiret += ' — ';
         }
-        categoriesOptions.push({ key: categorie._id, value: categorie._id, text: (parent ? tiret : '') + categorie.nom })
+        categoriesOptions.push({ key: categorie._id, value: categorie._id, text: (parent ? tiret : '') + categorie.nom });
 
-        if(categorie.categoriesEnfantData){
-            categorie.categoriesEnfantData.map(enfant => recursiveCategoriesOptions(enfant, tiret, categorie))
+        if (categorie.categoriesEnfantData) {
+            categorie.categoriesEnfantData.map((enfant) => recursiveCategoriesOptions(enfant, tiret, categorie));
         }
-    }
+    };
 
-    categories.map(categorie => recursiveCategoriesOptions(categorie))
+    categories.map((categorie) => recursiveCategoriesOptions(categorie));
 
     return (
         <>
@@ -31,23 +30,10 @@ export default function Detail({item, errors, categories}) {
                 <title>Détail de la catégorie {item.nom}</title>
             </Head>
             <Header>
-                <Content titre="Catégories" icon="fa-folder" url={url}>
+                <Content title='Catégories' icon='fa-folder' url={url}>
                     <Form>
-                        <Form.Input
-                            fluid
-                            label='Nom'
-                            placeholder='Nom'
-                            name='nom'
-                            disabled
-                            defaultValue={item.nom}
-                        />
-                        <Form.TextArea
-                            label='Description'
-                            placeholder='Description'
-                            name='description'
-                            disabled
-                            defaultValue={item.description}
-                        />
+                        <Form.Input fluid label='Nom' placeholder='Nom' name='nom' disabled defaultValue={item.nom} />
+                        <Form.TextArea label='Description' placeholder='Description' name='description' disabled defaultValue={item.description} />
                         <Form.Dropdown
                             placeholder='Choisir une catégorie parent'
                             fluid
@@ -63,34 +49,36 @@ export default function Detail({item, errors, categories}) {
                 </Content>
             </Header>
         </>
-    )
+    );
 }
 
-export async function getServerSideProps({params}) {
-    const {id} = params
+export async function getServerSideProps({ params }) {
+    const { id } = params;
 
-    let item = {}
-    let errors = []
+    let item = {};
+    let errors = [];
 
-    await axios.get(process.env.URL + "/api/categories/" + id)
-        .then(res => {
-            item = res.data.data
+    await axios
+        .get(process.env.URL + '/api/categories/' + id)
+        .then((res) => {
+            item = res.data.data;
         })
         .catch((error) => {
-            errors = JSON.stringify(error)
-        })
+            errors = JSON.stringify(error);
+        });
 
-    let categories = []
+    let categories = [];
 
-    await axios.get(process.env.URL + '/api/categories/')
-        .then(res => {
-            categories = res.data.data
+    await axios
+        .get(process.env.URL + '/api/categories/')
+        .then((res) => {
+            categories = res.data.data;
         })
         .catch((error) => {
-            console.log(error)
-        })
+            console.log(error);
+        });
 
     return {
-        props: {item, errors, categories}
-    }
+        props: { item, errors, categories },
+    };
 }

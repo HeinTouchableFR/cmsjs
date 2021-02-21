@@ -1,24 +1,24 @@
-import { useContext } from "react";
+import { useContext } from 'react';
 
-import { LanguageContext, defaultLocale } from "./LanguageProvider";
-import { LangStrings } from "./translation";
+import { LanguageContext, defaultLocale } from './LanguageProvider';
+import { LangStrings } from './Translation';
 
 export default function useTranslation() {
-  const [locale] = useContext(LanguageContext);
+    const [locale] = useContext(LanguageContext);
 
-  if (![locale]) {
-    [locale] = useContext(defaultLocale);
-  }
-
-  function t(key) {
-    if (!LangStrings[locale] || !LangStrings[locale][key]) {
-      console.warn(`No string '${key}' for locale '${locale}'`);
-
-      return LangStrings[defaultLocale][key] || "";
+    if (![locale]) {
+        [locale] = useContext(defaultLocale);
     }
 
-    return LangStrings[locale][key] || LangStrings[defaultLocale][key] || "";
-  }
+    function t(key) {
+        if (!LangStrings[locale] || !LangStrings[locale][key]) {
+            console.warn(`No string '${key}' for locale '${locale}'`);
 
-  return { t, locale };
+            return LangStrings[defaultLocale][key] || '';
+        }
+
+        return LangStrings[locale][key] || LangStrings[defaultLocale][key] || '';
+    }
+
+    return { t, locale };
 }

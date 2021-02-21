@@ -1,17 +1,16 @@
-import React, {useState, useEffect} from "react";
-import Head from "next/head";
-import Header from "../../../components/Header/header.component";
-import Content from "../../../components/Content/content.component";
-import {useRouter} from 'next/router';
-import {Button, Card, Form, Input, Loader} from 'semantic-ui-react';
-import axios from "axios";
+import React, { useState, useEffect } from 'react';
+import Head from 'next/head';
+import Header from '../../../components/Header/header.component';
+import Content from '../../../components/Content/content.component';
+import { useRouter } from 'next/router';
+import { Button, Form } from 'semantic-ui-react';
+import axios from 'axios';
 import { Uploader } from 'rsuite';
 
 var FormData = require('form-data');
 
-export default function Ajouter({categories}) {
-
-    const url = "produits"
+export default function Ajouter({ categories }) {
+    const url = 'produits';
 
     const [form, setForm] = useState({
         nom: '',
@@ -23,13 +22,13 @@ export default function Ajouter({categories}) {
         longueur: null,
         hauteur: null,
         poids: null,
-        categories: []
+        categories: [],
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [errors, setErrors] = useState({});
     const router = useRouter();
 
-    const [data, setData] = useState(null)
+    const [data, setData] = useState(null);
 
     useEffect(() => {
         if (isSubmitting) {
@@ -39,34 +38,33 @@ export default function Ajouter({categories}) {
                 setIsSubmitting(false);
             }
         }
-    }, [errors])
+    }, [errors]);
 
     const create = async () => {
         try {
-            data.append("categories", JSON.stringify(form.categories))
-            data.append("produitEnVente", form.enVente ? "true" : "false")
+            data.append('categories', JSON.stringify(form.categories));
+            data.append('produitEnVente', form.enVente ? 'true' : 'false');
             const res = await fetch(`${process.env.URL}/api/${url}/post`, {
                 method: 'POST',
                 headers: {
-                    "Accept": "application/json",
+                    Accept: 'application/json',
                 },
-                body: data
-            })
-            const {data: newItem} = await res.json()
+                body: data,
+            });
             router.push(`/admin/${url}`);
         } catch (error) {
             console.log(error);
         }
-    }
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
         let errs = validate();
-        let f = new FormData(e.target)
-        setData(f)
+        let f = new FormData(e.target);
+        setData(f);
         setErrors(errs);
         setIsSubmitting(true);
-    }
+    };
 
     const validate = () => {
         let err = {};
@@ -76,18 +74,18 @@ export default function Ajouter({categories}) {
         }
 
         return err;
-    }
+    };
 
     const handleChange = (e, data) => {
         setForm({
             ...form,
-            [data.name]: data.value ? data.value : data.checked
-        })
-    }
+            [data.name]: data.value ? data.value : data.checked,
+        });
+    };
 
-    const categoriesOptions = []
+    const categoriesOptions = [];
 
-    categories.map(categorie => categoriesOptions.push({ key: categorie._id, value: categorie._id, text: categorie.nom }))
+    categories.map((categorie) => categoriesOptions.push({ key: categorie._id, value: categorie._id, text: categorie.nom }));
 
     return (
         <>
@@ -95,11 +93,11 @@ export default function Ajouter({categories}) {
                 <title>Ajouter un produit</title>
             </Head>
             <Header>
-                <Content titre="Produits" icon="fa-cubes" url={url} action={"ajouter"}>
+                <Content title='Produits' icon='fa-cubes' url={url} action={'ajouter'}>
                     <Form onSubmit={handleSubmit}>
                         <Form.Input
                             fluid
-                            error={errors.nom ? {content: 'Ce champ est requis', pointing: 'below'} : null}
+                            error={errors.nom ? { content: 'Ce champ est requis', pointing: 'below' } : null}
                             label='Nom'
                             placeholder='Nom'
                             onChange={handleChange}
@@ -107,42 +105,33 @@ export default function Ajouter({categories}) {
                         />
                         <Form.Input
                             fluid
-                            error={errors.prix ? {content: 'Ce champ est requis', pointing: 'below'} : null}
+                            error={errors.prix ? { content: 'Ce champ est requis', pointing: 'below' } : null}
                             label='Prix'
                             placeholder='Prix'
                             name='prix'
-                            type="number"
+                            type='number'
                             onChange={handleChange}
-                            step="0.01"
+                            step='0.01'
                         />
                         <Form.Input
                             fluid
                             label='Prix en promo'
                             placeholder='Prix'
                             name='prixPromo'
-                            type="number"
+                            type='number'
                             onChange={handleChange}
-                            step="0.01"
+                            step='0.01'
                         />
-                        <Form.TextArea
-                            label='Description'
-                            placeholder='Description'
-                            onChange={handleChange}
-                            name='description'
-                        />
-                        <Form.Checkbox
-                            label="Produit en vente"
-                            onChange={handleChange}
-                            name='enVente'
-                        />
+                        <Form.TextArea label='Description' placeholder='Description' onChange={handleChange} name='description' />
+                        <Form.Checkbox label='Produit en vente' onChange={handleChange} name='enVente' />
                         <Form.Input
                             fluid
                             label='Longueur (cm)'
                             placeholder='Longueur'
                             name='longueur'
-                            type="number"
+                            type='number'
                             onChange={handleChange}
-                            step="0.01"
+                            step='0.01'
                         />
                         <Form.Input
                             fluid
@@ -150,8 +139,8 @@ export default function Ajouter({categories}) {
                             placeholder='Largeur'
                             name='largeur'
                             onChange={handleChange}
-                            type="number"
-                            step="0.01"
+                            type='number'
+                            step='0.01'
                         />
                         <Form.Input
                             fluid
@@ -159,28 +148,20 @@ export default function Ajouter({categories}) {
                             placeholder='Hauteur'
                             name='hauteur'
                             onChange={handleChange}
-                            type="number"
-                            step="0.01"
+                            type='number'
+                            step='0.01'
                         />
-                        <Form.Input
-                            fluid
-                            label='Poids (Kg)'
-                            placeholder='Poids'
-                            name='poids'
-                            onChange={handleChange}
-                            type="number"
-                            step="0.001"
-                        />
-                        <div className="field">
+                        <Form.Input fluid label='Poids (Kg)' placeholder='Poids' name='poids' onChange={handleChange} type='number' step='0.001' />
+                        <div className='field'>
                             <label>Image en avant</label>
-                            <Uploader draggable autoUpload={false} name="imageEnAvant" multiple={false} listType="picture-text">
-                                <div style={{lineHeight: '200px'}}>Cliquez ou faites glisser les fichiers vers cette zone pour les télécharger</div>
+                            <Uploader draggable autoUpload={false} name='imageEnAvant' multiple={false} listType='picture-text'>
+                                <div style={{ lineHeight: '200px' }}>Cliquez ou faites glisser les fichiers vers cette zone pour les télécharger</div>
                             </Uploader>
                         </div>
-                        <div className="field">
+                        <div className='field'>
                             <label>Galerie d'image</label>
-                            <Uploader draggable autoUpload={false} name="galerieImage" multiple={true} listType="picture-text">
-                                <div style={{lineHeight: '200px'}}>Cliquez ou faites glisser les fichiers vers cette zone pour les télécharger</div>
+                            <Uploader draggable autoUpload={false} name='galerieImage' multiple={true} listType='picture-text'>
+                                <div style={{ lineHeight: '200px' }}>Cliquez ou faites glisser les fichiers vers cette zone pour les télécharger</div>
                             </Uploader>
                         </div>
                         <Form.Dropdown
@@ -199,22 +180,20 @@ export default function Ajouter({categories}) {
                 </Content>
             </Header>
         </>
-    )
+    );
 }
 
 export async function getServerSideProps() {
+    let categories = [];
 
-    let categories = []
-
-    await axios.get(process.env.URL + '/api/categories')
-        .then(res => {
-            categories = res.data.data
+    await axios
+        .get(process.env.URL + '/api/categories')
+        .then((res) => {
+            categories = res.data.data;
         })
-        .catch((error) => {
-        })
-
+        .catch(() => {});
 
     return {
-        props: {categories}
-    }
+        props: { categories },
+    };
 }

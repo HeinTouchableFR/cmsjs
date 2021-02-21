@@ -1,40 +1,40 @@
-import React, {useState} from 'react';
-import Content from './content.component';
-import Navigation from './navigation.component';
+import React, { useState } from 'react';
+import Content from './Content';
+import Navigation from './Navigation';
 import styles from './builder.module.scss';
-import {DragDropContext} from 'react-beautiful-dnd';
-import useTranslation from '../../intl/useTranslation';
-import {Tab} from 'semantic-ui-react';
+import { DragDropContext } from 'react-beautiful-dnd';
+import useTranslation from '../../intl/UseTranslation';
+import { Tab } from 'semantic-ui-react';
 
-
-export default function Builder({page}) {
+export default function Builder({ page }) {
     // Utilisation de la traduction
-    const {t} = useTranslation();
+    const { t } = useTranslation();
     const [dispositions, setDispositions] = useState(page.contenu.dispositions);
 
     const [currentElement, setCurrentElement] = useState({});
 
-    const [hideMenu, setHideMenu] = useState(false)
+    const [hideMenu, setHideMenu] = useState(false);
 
     const composants = [
         {
-            balise: '<h1/>',
+            tag: '<h1>',
             label: t('titleLabel'),
             tooltip: t('titleTooltip'),
             color: 'orange',
-            type: 'titre',
-            valeurDefaut: `<h2>${t("titleDefault")}</h2>`,
+            type: 'title',
+            valeurDefaut: `<h2>${t('titleDefault')}</h2>`,
         },
         {
-            balise: '<p/>',
+            tag: '<p>',
             label: t('textEditorLabel'),
             tooltip: t('textEditorTooltip'),
             color: 'purple',
             type: 'texte',
-            valeurDefaut: '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.</p>',
+            valeurDefaut:
+                '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.</p>',
         },
         {
-            balise: '<img/>',
+            tag: '<img/>',
             label: t('imageLabel'),
             tooltip: t('imageTooltip'),
             color: 'yellow',
@@ -42,7 +42,7 @@ export default function Builder({page}) {
             valeurDefaut: '<img src="/placeholder.png"/>',
         },
         {
-            balise: '<button/>',
+            tag: '<button>',
             label: t('buttonLabel'),
             tooltip: t('buttonTooltip'),
             color: 'teal',
@@ -76,13 +76,13 @@ export default function Builder({page}) {
      * @param disposition
      */
     const supprimerDisposition = function (disposition) {
-        disposition.colonnes.map(colonne => {
-            colonne.elements.map(element => {
+        disposition.colonnes.map((colonne) => {
+            colonne.elements.map((element) => {
                 if (element.id === currentElement.id) {
-                    setCurrentElement({id: "empty"})
+                    setCurrentElement({ id: 'empty' });
                 }
-            })
-        })
+            });
+        });
         setDispositions(dispositions.filter((d) => d !== disposition));
     };
 
@@ -95,7 +95,7 @@ export default function Builder({page}) {
     };
 
     const onDragEnd = (result) => {
-        const {source, destination} = result;
+        const { source, destination } = result;
 
         // dropped outside the list
         if (!destination) {
@@ -190,7 +190,7 @@ export default function Builder({page}) {
             element.contenu = composant.valeurDefaut;
             element.type = composant.type;
 
-            setCurrentElement(element)
+            setCurrentElement(element);
 
             destClone.splice(droppableDestination.index, 0, element);
             result[droppableDestination.droppableId] = destClone;
@@ -200,43 +200,45 @@ export default function Builder({page}) {
     };
 
     const modifierElement = function (element, contenu) {
-
-        let colonne = {}
-        let elements = []
+        let colonne = {};
+        let elements = [];
         element.contenu = contenu;
         if (element.id === currentElement.id) {
             dispositions.map((disposition) => {
                 disposition.colonnes.map((c) => {
                     c.elements.map((e) => {
                         if (e.id === element.contenu) {
-                            colonne = c
-                            elements = colonne.elements
+                            colonne = c;
+                            elements = colonne.elements;
                         }
                     });
                 });
             });
         }
 
-        elements = elements.map((e) => (e.id === element.id ? [...element, contenu] : e))
-        modifierColonne(colonne, elements)
+        elements = elements.map((e) => (e.id === element.id ? [...element, contenu] : e));
+        modifierColonne(colonne, elements);
     };
 
     const getClassName = function () {
-        return hideMenu ? styles.builder + ' ' + styles.hide : styles.builder
-    }
+        return hideMenu ? styles.builder + ' ' + styles.hide : styles.builder;
+    };
 
     const handleHideMenu = function () {
-        setHideMenu(!hideMenu)
-    }
+        setHideMenu(!hideMenu);
+    };
 
     return (
         <>
             <div className={getClassName()}>
                 <DragDropContext onDragEnd={onDragEnd}>
-                    <Navigation composants={composants} currentItem={currentElement}
-                                onElementValeurChange={modifierElement} setCurrentElement={setCurrentElement}
-                                hideMenu={handleHideMenu}/>
-
+                    <Navigation
+                        composants={composants}
+                        currentItem={currentElement}
+                        onElementValeurChange={modifierElement}
+                        setCurrentElement={setCurrentElement}
+                        hideMenu={handleHideMenu}
+                    />
 
                     <Content
                         dispositions={dispositions}
@@ -249,7 +251,7 @@ export default function Builder({page}) {
                         setCurrentElement={setCurrentElement}
                     />
                 </DragDropContext>
-                <div className={styles.hideMenuBtn} onClick={() => handleHideMenu()}/>
+                <div className={styles.hideMenuBtn} onClick={() => handleHideMenu()} />
             </div>
         </>
     );
