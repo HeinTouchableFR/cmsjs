@@ -4,8 +4,6 @@ import { useRouter } from 'next/router';
 import axios from 'axios';
 import { Confirm } from 'semantic-ui-react';
 
-import styles from 'pages/style/Table.module.scss';
-
 import Header from 'components/Header/Header';
 import Content from 'components/Content/Content';
 import { ActionButton, ActionButtonNoLink } from 'components/Button/ActionButton/ActionButton';
