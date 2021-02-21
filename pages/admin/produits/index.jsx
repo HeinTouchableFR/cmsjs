@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Header from 'components/Header/Header';
 import Head from 'next/head';
 import Content from 'components/Content/Content';
-import styles from '../../style/table.module.scss';
+import styles from '../../style/Table.module.scss';
 import { ActionButton, ActionButtonNoLink } from 'components/Button/ActionButton/ActionButton';
 import axios from 'axios';
 import { useRouter } from 'next/router';

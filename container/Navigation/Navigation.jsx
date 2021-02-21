@@ -6,7 +6,7 @@ import styles from './Navigation.module.scss';
 
 import useTranslation from 'intl/UseTranslation';
 
-import Component, { ComponentEditor } from 'components/componentCollection/Component';
+import Component, { ComponentEditor } from 'components/ComponentCollection/Component';
 
 export default function Navigation({ composants, currentItem, onElementValeurChange, setCurrentElement }) {
     const { t } = useTranslation();

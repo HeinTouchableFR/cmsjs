@@ -1,6 +1,8 @@
-import styles from './content.module.scss';
 import React from 'react';
 import Link from 'next/link';
+
+import styles from './Content.module.scss';
+
 import LinkButton from 'components/Button/LinkButton/LinkButton';
 
 export default function Content({ title, icon, url, action, children }) {

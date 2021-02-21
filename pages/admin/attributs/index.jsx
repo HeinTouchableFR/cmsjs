@@ -4,7 +4,7 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { Confirm } from 'semantic-ui-react';
 
-import styles from '../../style/table.module.scss';
+import styles from '../../style/Table.module.scss';
 
 import Header from 'components/Header/Header';
 import Content from 'components/Content/Content';
