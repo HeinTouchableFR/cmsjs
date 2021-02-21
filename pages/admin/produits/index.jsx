@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import Header from 'components/Header/Header';
 import Head from 'next/head';
-import Content from 'components/Content/Content';
-import styles from '../../style/Table.module.scss';
-import { ActionButton, ActionButtonNoLink } from 'components/Button/ActionButton/ActionButton';
-import axios from 'axios';
 import { useRouter } from 'next/router';
+import axios from 'axios';
 import { Confirm } from 'semantic-ui-react';
+
+import styles from 'pages/style/Table.module.scss';
+
+import Header from 'components/Header/Header';
+import Content from 'components/Content/Content';
+import { ActionButton, ActionButtonNoLink } from 'components/Button/ActionButton/ActionButton';
 
 export default function Index({ items }) {
     const url = 'produits';

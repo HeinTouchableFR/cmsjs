@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
+import axios from 'axios';
 import { Confirm } from 'semantic-ui-react';
 
-import styles from '../../style/Table.module.scss';
+import styles from 'pages/style/Table.module.scss';
 
 import Header from 'components/Header/Header';
 import Content from 'components/Content/Content';
