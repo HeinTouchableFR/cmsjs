@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from 'semantic-ui-react';
 import useTranslation from 'intl/useTranslation';
-import Component from 'components/Component/Component';
+import Component from 'components/ComponentCollection/Component';
 
 export default function Index() {
     // Utilisation de la traduction
