@@ -1,10 +1,11 @@
-import styles from './filemanager.module.scss';
 import React, { useEffect, useState } from 'react';
-import { Button, Header, Icon, Modal } from 'semantic-ui-react';
-import axios from 'axios';
-import useTranslation from '../../intl/UseTranslation';
 import Image from 'next/image';
-import { useRouter } from 'next/router';
+import axios from 'axios';
+import { Button, Header, Icon, Modal } from 'semantic-ui-react';
+
+import styles from './filemanager.module.scss';
+
+import useTranslation from 'intl/UseTranslation';
 
 typeof window === 'object' ? require('@grafikart/drop-files-element') : () => false;
 
@@ -138,7 +139,7 @@ export async function getServerSideProps() {
         .then((res) => {
             images = res.data.data;
         })
-        .catch((error) => {});
+        .catch(() => {});
 
     return {
         props: { images },

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 //Style
-import styles from './image.module.scss';
+import styles from './Image.module.scss';
 //Utils
-import useTranslation from '../../../intl/UseTranslation';
+import useTranslation from 'intl/UseTranslation';
 //Components
-import FileManager from '../../FileManager/FileManager';
+import FileManager from 'components/FileManager/FileManager';
 
 export default function Image({ element, onElementValeurChange }) {
     const { t } = useTranslation();

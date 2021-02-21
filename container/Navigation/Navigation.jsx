@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Droppable, Draggable } from 'react-beautiful-dnd';
 import { Tab } from 'semantic-ui-react';
+
 import styles from './Navigation.module.scss';
-import useTranslation from '../../intl/UseTranslation';
-import Component, { ComponentEditor } from '../../components/componentCollection/Component';
+
+import useTranslation from 'intl/UseTranslation';
+
+import Component, { ComponentEditor } from 'components/componentCollection/Component';
 
 export default function Navigation({ composants, currentItem, onElementValeurChange, setCurrentElement }) {
     const { t } = useTranslation();

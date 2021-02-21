@@ -1,5 +1,6 @@
-import styles from './single.module.scss';
 import React from 'react';
+
+import styles from './single.module.scss';
 
 export default function ProductSingle({ item }) {
     return (

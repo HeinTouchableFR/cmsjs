@@ -1,5 +1,6 @@
-import styles from './FormButton.module.scss';
 import React from 'react';
+
+import styles from './FormButton.module.scss';
 
 export default function FormButton({ label, type, disabled }) {
     return (

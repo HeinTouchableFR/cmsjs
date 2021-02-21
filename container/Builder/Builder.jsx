@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { DragDropContext } from 'react-beautiful-dnd';
 
-import styles from './builder.module.scss';
+import styles from './Builder.module.scss';
 
-import useTranslation from '../../intl/UseTranslation';
+import useTranslation from 'intl/UseTranslation';
 
-import Content from '../Content/Content';
-import Navigation from '../Navigation/Navigation';
+import Content from 'container/Content/Content';
+import Navigation from 'container/Navigation/Navigation';
 
 export default function Builder({ page }) {
     // Use translation

@@ -2,8 +2,8 @@ import React from 'react';
 
 import styles from './Content.module.scss';
 
-import AddDisposition from '../Disposition/AddDisposition/AddDisposition';
-import Disposition from '../Disposition/Disposition';
+import AddDisposition from 'container/Disposition/AddDisposition/AddDisposition';
+import Disposition from 'container/Disposition/Disposition';
 
 export default function Content({
     dispositions,

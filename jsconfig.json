@@ -1,0 +1,9 @@
+{
+    "compilerOptions": {
+        "baseUrl": ".",
+        "paths": {
+            // "alias": ["cheminAbsolu"]
+            // "@/components/*": ["components/*"]
+        }
+    }
+}

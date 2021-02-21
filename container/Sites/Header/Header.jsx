@@ -1,47 +1,51 @@
-import styles from './header.module.scss'
-import Head from "next/head";
-import Link from "next/link";
-import {useRouter} from 'next/router'
-import React from "react";
+import React from 'react';
+import Head from 'next/head';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 
-export default function Header({title, children}) {
-    const router = useRouter()
+import styles from './Header.module.scss';
+
+export default function Header({ title, children }) {
+    const router = useRouter();
 
     return (
         <>
             <Head>
-                <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
-                      integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
-                      crossOrigin="anonymous"/>
+                <link
+                    rel='stylesheet'
+                    href='https://pro.fontawesome.com/releases/v5.10.0/css/all.css'
+                    integrity='sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p'
+                    crossOrigin='anonymous'
+                />
                 {children}
             </Head>
             <Head>
                 <title>{title}</title>
             </Head>
             <header className={styles.nav}>
-                <Link href="/">
+                <Link href='/'>
                     <a className={styles.nav__logo} title="Page d'accueil">
-                        <img src="/logo.png" alt="Logo"/>
+                        <img src='/logo.png' alt='Logo' />
                     </a>
                 </Link>
                 <ul className={styles.nav__menu}>
                     <li>
-                        <Link href="/">
+                        <Link href='/'>
                             <a>Vêtements</a>
                         </Link>
                     </li>
                     <li>
-                        <Link href="/">
+                        <Link href='/'>
                             <a>Accessoires</a>
                         </Link>
                     </li>
                     <li>
-                        <Link href="/">
+                        <Link href='/'>
                             <a>Art</a>
                         </Link>
                     </li>
                     <li>
-                        <Link href="/">
+                        <Link href='/'>
                             <a>Ma première page</a>
                         </Link>
                     </li>
@@ -51,5 +55,5 @@ export default function Header({title, children}) {
                 </button>
             </header>
         </>
-    )
+    );
 }
