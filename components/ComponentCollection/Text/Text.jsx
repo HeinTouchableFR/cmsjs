@@ -28,13 +28,14 @@ export default function Text({ element, onElementValeurChange }) {
                     height: 500,
                     menubar: true,
                     plugins: [
-                        'advlist autolink lists link image charmap print preview anchor',
+                        'advlist | autolink |lists link image charmap print preview anchor',
                         'searchreplace visualblocks code fullscreen',
                         'insertdatetime media table paste code help wordcount',
                     ],
-                    toolbar1: 'undo redo | cut copy paste | selectall searchreplace | formatselect | code | help',
-                    toolbar2: 'bold italic underline strikethrough forecolor backcolor fontselect fontsizeselect lineheight',
-                    toolbar3: 'alignleft aligncenter alignright alignjustify | bullist numlist outdent indent removeformat',
+                    toolbar1: 'undo redo | cut copy paste | selectall searchreplace | code',
+                    toolbar2: 'bold italic underline strikethrough forecolor backcolor | help',
+                    toolbar3: 'fontselect fontsizeselect  formatselect',
+                    toolbar4: 'alignleft aligncenter alignright alignjustify | bullist numlist outdent indent lineheight | removeformat',
                 }}
                 onEditorChange={handleChange}
             />

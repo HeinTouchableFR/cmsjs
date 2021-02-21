@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
-import Content from './Content';
-import Navigation from './Navigation';
-import styles from './builder.module.scss';
 import { DragDropContext } from 'react-beautiful-dnd';
+
+import styles from './builder.module.scss';
+
 import useTranslation from '../../intl/UseTranslation';
-import { Tab } from 'semantic-ui-react';
+
+import Content from '../Content/Content';
+import Navigation from '../Navigation/Navigation';
 
 export default function Builder({ page }) {
-    // Utilisation de la traduction
+    // Use translation
     const { t } = useTranslation();
     const [dispositions, setDispositions] = useState(page.contenu.dispositions);
 
@@ -29,7 +31,7 @@ export default function Builder({ page }) {
             label: t('textEditorLabel'),
             tooltip: t('textEditorTooltip'),
             color: 'purple',
-            type: 'texte',
+            type: 'text',
             valeurDefaut:
                 '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.</p>',
         },
@@ -54,7 +56,7 @@ export default function Builder({ page }) {
     /**
      * Permet d'ajouter une disposition
      */
-    const ajouterDisposition = function () {
+    const dispositionAdd = function () {
         const disposition = {};
         disposition.id = new Date().getTime();
         disposition.nbColumns = 0;
@@ -67,7 +69,7 @@ export default function Builder({ page }) {
      * Permet de mettre à jour une disposition
      * @param disposition
      */
-    const modifierDisposition = function (disposition) {
+    const dispositionUpdate = function (disposition) {
         setDispositions(dispositions.map((d) => (d.id === disposition.id ? disposition : d)));
     };
 
@@ -75,7 +77,7 @@ export default function Builder({ page }) {
      * Permet de supprimer une disposition
      * @param disposition
      */
-    const supprimerDisposition = function (disposition) {
+    const dispositionDelete = function (disposition) {
         disposition.colonnes.map((colonne) => {
             colonne.elements.map((element) => {
                 if (element.id === currentElement.id) {
@@ -109,7 +111,7 @@ export default function Builder({ page }) {
             const colonne = getColonneListeById(destination.droppableId);
             const elements = reorder(colonne.elements, source.index, destination.index);
 
-            modifierColonne(colonne, elements);
+            columnUpdate(colonne, elements);
         } else {
             let result = [];
             const colonneDestination = getColonneListeById(destination.droppableId);
@@ -118,10 +120,10 @@ export default function Builder({ page }) {
             } else {
                 const colonneSource = getColonneListeById(source.droppableId);
                 result = move(colonneSource.elements, colonneDestination.elements, source, destination);
-                modifierColonne(colonneSource, result[source.droppableId]);
+                columnUpdate(colonneSource, result[source.droppableId]);
             }
 
-            modifierColonne(colonneDestination, result[destination.droppableId]);
+            columnUpdate(colonneDestination, result[destination.droppableId]);
         }
     };
 
@@ -147,7 +149,7 @@ export default function Builder({ page }) {
      * @param colonne
      * @param elements
      */
-    const modifierColonne = function (colonne, elements) {
+    const columnUpdate = function (colonne, elements) {
         let disposition = {};
         colonne.elements = elements;
 
@@ -161,7 +163,7 @@ export default function Builder({ page }) {
         if (disposition.id) {
             disposition.colonnes.map((c) => (c.id === colonne.id ? colonne : c));
         }
-        modifierDisposition(disposition);
+        dispositionUpdate(disposition);
     };
 
     /**
@@ -199,7 +201,7 @@ export default function Builder({ page }) {
         return result;
     };
 
-    const modifierElement = function (element, contenu) {
+    const elementUpdate = function (element, contenu) {
         let colonne = {};
         let elements = [];
         element.contenu = contenu;
@@ -217,7 +219,7 @@ export default function Builder({ page }) {
         }
 
         elements = elements.map((e) => (e.id === element.id ? [...element, contenu] : e));
-        modifierColonne(colonne, elements);
+        columnUpdate(colonne, elements);
     };
 
     const getClassName = function () {
@@ -235,7 +237,7 @@ export default function Builder({ page }) {
                     <Navigation
                         composants={composants}
                         currentItem={currentElement}
-                        onElementValeurChange={modifierElement}
+                        onElementValeurChange={elementUpdate}
                         setCurrentElement={setCurrentElement}
                         hideMenu={handleHideMenu}
                     />
@@ -243,9 +245,9 @@ export default function Builder({ page }) {
                     <Content
                         dispositions={dispositions}
                         setDispositions={setDispositions}
-                        ajouterDisposition={ajouterDisposition}
-                        modifierDisposition={modifierDisposition}
-                        supprimerDisposition={supprimerDisposition}
+                        dispositionAdd={dispositionAdd}
+                        dispositionUpdate={dispositionUpdate}
+                        dispositionDelete={dispositionDelete}
                         onElementClick={setCurrentElement}
                         currentElement={currentElement}
                         setCurrentElement={setCurrentElement}

@@ -1,7 +1,7 @@
 import React from 'react';
 import Head from 'next/head';
-import Header from '../../../../components/Header/header.component';
-import Content from '../../../../components/Content/content.component';
+import Header from '../../../../components/Header/Header';
+import Content from '../../../../components/Content/Content';
 import axios from 'axios';
 import { Form } from 'semantic-ui-react';
 

@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
-import Header from '../../../components/Header/header.component';
-import Content from '../../../components/Content/content.component';
+import Header from '../../../components/Header/Header';
+import Content from '../../../components/Content/Content';
 import { useRouter } from 'next/router';
-import { Button, Card, Form, Input, Loader } from 'semantic-ui-react';
-import { ActionBoutonNoLink } from '../../../components/Bouton/ActionBouton';
+import { Button, Card, Form, Input } from 'semantic-ui-react';
+import { ActionButtonNoLink } from '../../../components/Button/ActionButton/ActionButton';
 
 export default function Ajouter() {
     const url = 'attributs';
@@ -34,7 +34,6 @@ export default function Ajouter() {
                 },
                 body: JSON.stringify(form),
             });
-            const { data: newItem } = await res.json();
             router.push(`/admin/${url}`);
         } catch (error) {
             console.log(error);
@@ -121,7 +120,7 @@ const Valeur = function ({ item, form, setForm }) {
                 <Input fluid label='Nom' placeholder='Nom' name='nom' onChange={handleChange} />
             </Card.Content>
             <Card.Content extra>
-                <ActionBoutonNoLink type='button' style={'supprimer'} icon={'fa-trash'} onClick={handleDelete} />
+                <ActionButtonNoLink type='button' style={'supprimer'} icon={'fa-trash'} onClick={handleDelete} />
             </Card.Content>
         </Card>
     );

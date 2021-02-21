@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
-import Header from '../../../../components/Header/header.component';
-import Content from '../../../../components/Content/content.component';
+import Header from '../../../../components/Header/Header';
+import Content from '../../../../components/Content/Content';
 import axios from 'axios';
 import { Button, Card, Form, Input, Loader } from 'semantic-ui-react';
 import { useRouter } from 'next/router';
-import { ActionBoutonNoLink } from '../../../../components/Bouton/ActionBouton';
+import { ActionButtonNoLink } from '../../../../components/Button/ActionButton/ActionButton';
 import { Uploader } from 'rsuite';
 
 export default function Modifier({ item, categories }) {
@@ -94,7 +94,7 @@ export default function Modifier({ item, categories }) {
                 <title>Modifier le produit {item.nom}</title>
             </Head>
             <Header>
-                <Content title='Produits' icon='fa-cubes' url={url} action={'modifier'}>
+                <Content title='Products' icon='fa-cubes' url={url} action={'modifier'}>
                     <Form onSubmit={handleSubmit}>
                         <Form.Input
                             fluid
@@ -238,7 +238,7 @@ const Valeur = function ({ item, form, setForm, type = 'valeurs' }) {
                 <Input fluid label='Nom' placeholder='Nom' name='nom' defaultValue={item.nom} onChange={handleChange} />
             </Card.Content>
             <Card.Content extra>
-                <ActionBoutonNoLink type='button' style={'supprimer'} icon={'fa-trash'} onClick={handleDelete} />
+                <ActionButtonNoLink type='button' style={'supprimer'} icon={'fa-trash'} onClick={handleDelete} />
             </Card.Content>
         </Card>
     );

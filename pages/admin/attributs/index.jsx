@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import Header from '../../../components/Header/header.component';
+import Header from '../../../components/Header/Header';
 import Head from 'next/head';
-import Content from '../../../components/Content/content.component';
+import Content from '../../../components/Content/Content';
 import styles from '../../style/table.module.scss';
-import { ActionBouton, ActionBoutonNoLink } from '../../../components/Bouton/ActionBouton';
+import { ActionButton, ActionButtonNoLink } from '../../../components/Button/ActionButton/ActionButton';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import { Button, Confirm } from 'semantic-ui-react';
@@ -120,9 +120,9 @@ const Item = function ({ item, url, handleDelete }) {
                 <td className={styles.td}>{item.nom}</td>
                 <td className={styles.td}>{item.valeurs.length}</td>
                 <td className={styles.td}>
-                    <ActionBouton url={url} style={'voir'} icon={'fa-eye'} action={'voir'} id={item._id} />
-                    <ActionBouton url={url} style={'modifier'} icon={'fa-pen'} action={'modifier'} id={item._id} />
-                    <ActionBoutonNoLink style={'supprimer'} icon={'fa-trash'} onClick={() => handleDelete(item)} />
+                    <ActionButton url={url} style={'voir'} icon={'fa-eye'} action={'voir'} id={item._id} />
+                    <ActionButton url={url} style={'modifier'} icon={'fa-pen'} action={'modifier'} id={item._id} />
+                    <ActionButtonNoLink style={'supprimer'} icon={'fa-trash'} onClick={() => handleDelete(item)} />
                 </td>
             </tr>
         </>

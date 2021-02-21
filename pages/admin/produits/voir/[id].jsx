@@ -1,7 +1,7 @@
 import React from 'react';
 import Head from 'next/head';
-import Header from '../../../../components/Header/header.component';
-import Content from '../../../../components/Content/content.component';
+import Header from '../../../../components/Header/Header';
+import Content from '../../../../components/Content/Content';
 import axios from 'axios';
 import { Form } from 'semantic-ui-react';
 
@@ -18,7 +18,7 @@ export default function Detail({ item, categories }) {
                 <title>Détail de l'attribut {item.nom}</title>
             </Head>
             <Header>
-                <Content title='Produits' icon='fa-cubes' url={url}>
+                <Content title='Products' icon='fa-cubes' url={url}>
                     <Form>
                         <Form.Input fluid label='Nom' placeholder='Nom' name='nom' disabled defaultValue={item.nom} />
                         <Form.Input fluid label='Prix' placeholder='Prix' name='prix' type='number' step='0.01' disabled defaultValue={item.prix} />

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
-import Header from '../../../components/Header/header.component';
-import Content from '../../../components/Content/content.component';
+import Header from '../../../components/Header/Header';
+import Content from '../../../components/Content/Content';
 import { useRouter } from 'next/router';
 import { Button, Form } from 'semantic-ui-react';
 import axios from 'axios';
@@ -93,7 +93,7 @@ export default function Ajouter({ categories }) {
                 <title>Ajouter un produit</title>
             </Head>
             <Header>
-                <Content title='Produits' icon='fa-cubes' url={url} action={'ajouter'}>
+                <Content title='Products' icon='fa-cubes' url={url} action={'ajouter'}>
                     <Form onSubmit={handleSubmit}>
                         <Form.Input
                             fluid

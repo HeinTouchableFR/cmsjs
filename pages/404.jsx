@@ -1,4 +1,4 @@
-import Header from '../container/Sites/Header/header.component';
+import Header from '../container/Sites/Header/Header';
 import React from 'react';
 
 export default function Error404() {
