@@ -5,7 +5,7 @@ import slugify from 'react-slugify';
 
 import styles from './Navigation.module.scss';
 
-import useTranslation from 'intl/UseTranslation';
+import useTranslation from 'intl/useTranslation';
 
 import Component, { ComponentEditor } from 'components/ComponentCollection/Component';
 
