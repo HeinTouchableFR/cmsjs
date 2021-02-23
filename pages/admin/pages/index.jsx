@@ -9,7 +9,7 @@ import Content from 'components/Content/Content';
 import { ActionButton, ActionButtonNoLink } from 'components/Button/ActionButton/ActionButton';
 
 export default function Index({ items, errors }) {
-    const url = 'categories';
+    const url = 'pages';
     const router = useRouter();
 
     const [isDeleting, setIsDeleting] = useState(false);
@@ -47,27 +47,30 @@ export default function Index({ items, errors }) {
     return (
         <>
             <Head>
-                <title>Catégories</title>
+                <title>Pages</title>
             </Head>
             <Header>
-                <Content title='Catégories' icon='fa-folder' url={url}>
+                <Content title='Pages' icon='fa-file-word' url={url}>
                     {errors}
                     <table className={"table tableStriped"}>
                         <thead className={"thead"}>
-                            <tr>
-                                <th className={"th"} scope='col'>
-                                    Id
-                                </th>
-                                <th className={"th"} scope='col'>
-                                    Nom
-                                </th>
-                                <th className={"th"} scope='col'>
-                                    Actions
-                                </th>
-                            </tr>
+                        <tr>
+                            <th className={"th"} scope='col'>
+                                Title
+                            </th>
+                            <th className={"th"} scope='col'>
+                                Author
+                            </th>
+                            <th className={"th"} scope='col'>
+                                Date
+                            </th>
+                            <th className={"th"} scope='col'>
+                                Actions
+                            </th>
+                        </tr>
                         </thead>
-                        <tbody className={styles.tbody}>
-                            {items && items.map((item) => <Categorie item={item} url={url} key={item._id} handleDelete={open} />)}
+                        <tbody className={"tbody"}>
+                        {items && items.map((item) => <Page item={item} url={url} key={item._id} handleDelete={open} />)}
                         </tbody>
                     </table>
                     <Confirm
@@ -84,19 +87,26 @@ export default function Index({ items, errors }) {
     );
 }
 
-const Categorie = function ({ item, url, categorieParent, tiret = '', handleDelete }) {
-    if (categorieParent) {
+const Page = function ({ item, url, PageParent, tiret = '', handleDelete }) {
+    if (PageParent) {
         tiret += ' — ';
     }
 
     return (
         <>
             <tr className={"tr"}>
-                <td scope='row' className={"td"}>
-                    {item._id}
+                <td className={"td title"}>
+                    {PageParent ? tiret : ''} {item.title}
                 </td>
                 <td className={"td"}>
-                    {categorieParent ? tiret : ''} {item.nom}
+                    {item.author}
+                </td>
+                <td className={"td"}>
+                    {item.lastUpdate ?
+                        `Updated \n ${new Date(item.lastUpdate).toLocaleDateString()}  ${new Date(item.lastUpdate).toLocaleTimeString()}`
+                        :
+                        `Published \n ${new Date(item.published).toLocaleDateString()}  ${new Date(item.published).toLocaleTimeString()}`
+                    }
                 </td>
                 <td className={"td"}>
                     <ActionButton url={url} style={'voir'} icon={'fa-eye'} action={'voir'} id={item._id} />
@@ -104,10 +114,10 @@ const Categorie = function ({ item, url, categorieParent, tiret = '', handleDele
                     <ActionButtonNoLink style={'supprimer'} icon={'fa-trash'} onClick={() => handleDelete(item)} />
                 </td>
             </tr>
-            {item.categoriesEnfantData &&
-                item.categoriesEnfantData.map((itemE) => (
-                    <Categorie handleDelete={handleDelete} item={itemE} url={url} categorieParent={item} tiret={tiret} key={itemE._id} />
-                ))}
+            {item.childPagesData &&
+            item.childPagesData.map((itemE) => (
+                <Page handleDelete={handleDelete} item={itemE} url={url} PageParent={item} tiret={tiret} key={itemE._id} />
+            ))}
         </>
     );
 };
@@ -117,7 +127,7 @@ export async function getServerSideProps() {
     let errors = [];
 
     await axios
-        .get(process.env.URL + '/api/categories/admin')
+        .get(process.env.URL + '/api/pages')
         .then((res) => {
             items = res.data.data;
         })

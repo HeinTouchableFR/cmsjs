@@ -195,7 +195,7 @@ function Colonne({ colonne, onElementClick, elementDelete, currentElement, setCu
                                                     style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}
                                                 >
                                                     <div className={'content'} onClick={() => handleElementClick(item)}>
-                                                        {parse(item.contenu)}
+                                                        {parse(item.content)}
                                                     </div>
                                                     <button
                                                         key={'btn-empty' + item.id}

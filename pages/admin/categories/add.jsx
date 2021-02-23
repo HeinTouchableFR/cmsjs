@@ -7,7 +7,7 @@ import axios from 'axios';
 import SelectCustom from 'components/Select/Select';
 import { Button, Form, Loader } from 'semantic-ui-react';
 
-export default function Ajouter({ categories }) {
+export default function Add({ categories }) {
     const url = 'categories';
 
     const [form, setForm] = useState({ nom: '', description: '', categorieParent: null });

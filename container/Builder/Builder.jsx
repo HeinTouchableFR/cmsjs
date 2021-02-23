@@ -8,10 +8,13 @@ import useTranslation from 'intl/UseTranslation';
 import Content from 'container/Content/Content';
 import Navigation from 'container/Navigation/Navigation';
 
-export default function Builder({ page }) {
+var FormData = require('form-data');
+
+
+export default function Builder({ page = {}, onSubmit, pages, loading}) {
     // Use translation
     const { t } = useTranslation();
-    const [dispositions, setDispositions] = useState(page.contenu.dispositions);
+    const [dispositions, setDispositions] = useState(page.content ? JSON.parse(page.content) : []);
 
     const [currentElement, setCurrentElement] = useState({});
 
@@ -189,7 +192,7 @@ export default function Builder({ page }) {
             const [composant] = sourceClone.splice(droppableSource.index, 1);
             const element = {};
             element.id = new Date().getTime();
-            element.contenu = composant.valeurDefaut;
+            element.content = composant.valeurDefaut;
             element.type = composant.type;
 
             setCurrentElement(element);
@@ -201,15 +204,15 @@ export default function Builder({ page }) {
         return result;
     };
 
-    const elementUpdate = function (element, contenu) {
+    const elementUpdate = function (element, content) {
         let colonne = {};
         let elements = [];
-        element.contenu = contenu;
+        element.content = content;
         if (element.id === currentElement.id) {
             dispositions.map((disposition) => {
                 disposition.colonnes.map((c) => {
                     c.elements.map((e) => {
-                        if (e.id === element.contenu) {
+                        if (e.id === element.content) {
                             colonne = c;
                             elements = colonne.elements;
                         }
@@ -218,7 +221,7 @@ export default function Builder({ page }) {
             });
         }
 
-        elements = elements.map((e) => (e.id === element.id ? [...element, contenu] : e));
+        elements = elements.map((e) => (e.id === element.id ? [...element, content] : e));
         columnUpdate(colonne, elements);
     };
 
@@ -230,6 +233,10 @@ export default function Builder({ page }) {
         setHideMenu(!hideMenu);
     };
 
+    const handleSubmit = function (e) {
+        onSubmit(e, dispositions)
+    }
+
     return (
         <>
             <div className={getClassName()}>
@@ -240,6 +247,10 @@ export default function Builder({ page }) {
                         onElementValeurChange={elementUpdate}
                         setCurrentElement={setCurrentElement}
                         hideMenu={handleHideMenu}
+                        onSubmit={handleSubmit}
+                        page={page}
+                        pages={pages}
+                        loading={loading}
                     />
 
                     <Content

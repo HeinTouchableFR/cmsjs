@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, createRef } from 'react';
 import { Droppable, Draggable } from 'react-beautiful-dnd';
-import { Tab } from 'semantic-ui-react';
+import {Button, Form, Tab} from 'semantic-ui-react';
+import slugify from 'react-slugify';
 
 import styles from './Navigation.module.scss';
 
@@ -8,8 +9,10 @@ import useTranslation from 'intl/UseTranslation';
 
 import Component, { ComponentEditor } from 'components/ComponentCollection/Component';
 
-export default function Navigation({ composants, currentItem, onElementValeurChange, setCurrentElement }) {
+export default function Navigation({ composants, currentItem, onElementValeurChange, setCurrentElement, page, onSubmit, pages, loading }) {
     const { t } = useTranslation();
+
+    const [form, setForm] = useState({ title: page.title || '', slug: page.slug || '', parentPage: page.parentPage || '' });
 
     const [activeIndex, setActiveIndex] = useState(0);
     const handleTabChange = (e, { activeIndex }) => {
@@ -31,11 +34,81 @@ export default function Navigation({ composants, currentItem, onElementValeurCha
         },
         [currentItem]
     );
+    const handleSlugify = function (e) {
+        setForm({
+            ...form,
+            'slug': slugify(e.target.value)
+        });
+    }
+
+    const handleSubmit = function(e){
+        e.preventDefault()
+        onSubmit(form)
+    }
+
+    const pagesOptions = [];
+
+    const recursivePagesOptions = function (page, tiret = '', parent) {
+        if (parent) {
+            tiret += ' — ';
+        }
+        pagesOptions.push({ key: page._id, value: page._id, text: (parent ? tiret : '') + page.title });
+
+        if (page.childPagesData) {
+            page.childPagesData.map((child) => recursivePagesOptions(child, tiret, page));
+        }
+    };
+
+    pages.map((page) => recursivePagesOptions(page));
+
+    const handleChange = (e, data) => {
+        if(data.name === "title"){
+           handleSlugify(e)
+        }
+        setForm({
+            ...form,
+            [data.name]: data.value ? data.value : data.checked,
+        });
+    };
 
     const panes = [
         {
             menuItem: t('settingsLabel'),
-            render: () => <Tab.Pane attached={true}>Tab 1 Content</Tab.Pane>,
+            render: () => <Tab.Pane attached={true}>
+                <Form onSubmit={handleSubmit}>
+                    <Form.Input
+                        fluid
+                        label='Title'
+                        placeholder='Title'
+                        required
+                        name='title'
+                        defaultValue={form.title}
+                        onChange={handleChange}
+                    />
+                    <Form.Input
+                        fluid
+                        label='Slug'
+                        placeholder='Slug'
+                        required
+                        name='slug'
+                        value={form.slug}
+                        onChange={handleSlugify}
+                    />
+                    <Form.Dropdown
+                        placeholder='Parent Page'
+                        additionLabel='Parent Page'
+                        fluid
+                        search
+                        clearable
+                        selection
+                        options={pagesOptions}
+                        defaultValue={form.parentPage}
+                        onChange={handleChange}
+                        name='parentPage'
+                    />
+                    <Button loading={loading} color={'green'} type='submit'>{page.content ? 'Update' : 'Publish'}</Button>
+                </Form>
+            </Tab.Pane>,
         },
         {
             menuItem: t('componentLabel'),

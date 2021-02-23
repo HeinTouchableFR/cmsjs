@@ -26,6 +26,7 @@
     "react-beautiful-dnd": "^13.0.0",
     "react-dom": "17.0.1",
     "react-select": "^3.2.0",
+    "react-slugify": "^2.0.3",
     "rsuite": "^4.8.8",
     "sass": "^1.32.4",
     "semantic-ui-css": "^2.4.1",

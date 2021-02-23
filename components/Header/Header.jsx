@@ -1,4 +1,4 @@
-import styles from './Header.module.scss';
+import styles from './header.module.scss';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -37,6 +37,12 @@ export default function Header({ children }) {
                             <a className={styles.item + ' ' + (router.pathname.includes('/admin/document-comptable') && styles.active)}>
                                 <i className='fad fa-file-chart-line'></i>
                                 Document Comptable
+                            </a>
+                        </Link>
+                        <Link href='/admin/pages'>
+                            <a className={styles.item + ' ' + (router.pathname.includes('/admin/pages') && styles.active)}>
+                                <i className='fad fa-file-word'></i>
+                                Pages
                             </a>
                         </Link>
                     </div>

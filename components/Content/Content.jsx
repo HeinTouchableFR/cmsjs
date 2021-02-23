@@ -17,7 +17,7 @@ export default function Content({ title, icon, url, action, children }) {
                             {!action && <div className={styles.contentHeaderTitleSub}>Gérer les {title}</div>}
                         </div>
                     </h1>
-                    {!action && <LinkButton url={'/admin/' + url + '/ajouter'} label={'Créer'} icon={'fa-plus'} />}
+                    {!action && <LinkButton url={'/admin/' + url + '/add'} label={'Add new'} icon={'fa-plus'} />}
                 </div>
                 <div className={styles.adminTree}>
                     <div className={styles.adminTreeSection}>
