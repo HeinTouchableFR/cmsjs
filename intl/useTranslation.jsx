@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 
 import { LanguageContext, defaultLocale } from 'intl/LanguageProvider';
-import { LangStrings } from 'intl/Translation';
+import { LangStrings } from 'intl/translation';
 
 export default function useTranslation() {
     const [locale] = useContext(LanguageContext);
