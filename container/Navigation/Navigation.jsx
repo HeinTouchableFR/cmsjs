@@ -59,7 +59,7 @@ export default function Navigation({ composants, currentItem, onElementValeurCha
         }
     };
 
-    pages.map((page) => recursivePagesOptions(page));
+    pages.length > 0 && pages.map((page) => recursivePagesOptions(page));
 
     const handleChange = (e, data) => {
         if(data.name === "title"){
