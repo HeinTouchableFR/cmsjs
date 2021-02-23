@@ -3,7 +3,7 @@ import { DragDropContext } from 'react-beautiful-dnd';
 
 import styles from './Builder.module.scss';
 
-import useTranslation from 'intl/UseTranslation';
+import useTranslation from 'intl/useTranslation';
 
 import Content from 'container/Content/Content';
 import Navigation from 'container/Navigation/Navigation';
