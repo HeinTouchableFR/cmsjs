@@ -5,7 +5,7 @@ import { Button, Header, Icon, Modal } from 'semantic-ui-react';
 
 import styles from './fileManager.module.scss';
 
-import useTranslation from 'intl/UseTranslation';
+import useTranslation from 'intl/useTranslation';
 
 typeof window === 'object' ? require('@grafikart/drop-files-element') : () => false;
 
