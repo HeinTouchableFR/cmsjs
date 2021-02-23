@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 
-import styles from './Content.module.scss';
+import styles from './content.module.scss';
 
 import LinkButton from 'components/Button/LinkButton/LinkButton';
 

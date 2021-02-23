@@ -3,7 +3,7 @@ import Image from 'next/image';
 import axios from 'axios';
 import { Button, Header, Icon, Modal } from 'semantic-ui-react';
 
-import styles from './FileManager.module.scss';
+import styles from './fileManager.module.scss';
 
 import useTranslation from 'intl/UseTranslation';
 

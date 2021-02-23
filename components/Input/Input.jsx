@@ -1,4 +1,4 @@
-import styles from './Input.module.scss';
+import styles from './input.module.scss';
 import React from 'react';
 
 export default function InputForm({ label, nom, type, valeur, onChange }) {
