@@ -9,7 +9,7 @@ import useTranslation from 'intl/useTranslation';
 
 import Component, { ComponentEditor } from 'components/ComponentCollection/Component';
 
-export default function Navigation({ composants, currentItem, onElementValeurChange, setCurrentElement, page, onSubmit, pages, loading }) {
+export default function Navigation({ composants, currentItem, onElementValeurChange, setCurrentElement, page, onSubmit, pages = [], loading }) {
     const { t } = useTranslation();
 
     const [form, setForm] = useState({ title: page.title || '', slug: page.slug || '', parentPage: page.parentPage || '' });
