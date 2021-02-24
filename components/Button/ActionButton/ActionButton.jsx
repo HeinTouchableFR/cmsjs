@@ -10,7 +10,7 @@ export function ActionButton({ url, icon, action, style, id }) {
         case 'voir':
             couleur = styles.voir;
             break;
-        case 'modifier':
+        case 'edit':
             couleur = styles.modifier;
             break;
         case 'supprimer':
@@ -37,7 +37,7 @@ export function ActionButtonNoLink({ icon, style, onClick, type }) {
         case 'voir':
             couleur = styles.voir;
             break;
-        case 'modifier':
+        case 'edit':
             couleur = styles.modifier;
             break;
         case 'supprimer':

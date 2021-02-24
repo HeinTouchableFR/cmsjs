@@ -102,15 +102,15 @@ const Page = function ({ item, url, PageParent, tiret = '', handleDelete }) {
                     {item.author}
                 </td>
                 <td className={"td"}>
-                    {item.lastUpdate ?
-                        `Updated \n ${new Date(item.lastUpdate).toLocaleDateString()}  ${new Date(item.lastUpdate).toLocaleTimeString()}`
+                    {item.updated ?
+                        `Updated \n ${new Date(item.updated).toLocaleDateString()}  ${new Date(item.updated).toLocaleTimeString()}`
                         :
                         `Published \n ${new Date(item.published).toLocaleDateString()}  ${new Date(item.published).toLocaleTimeString()}`
                     }
                 </td>
                 <td className={"td"}>
                     <ActionButton url={url} style={'voir'} icon={'fa-eye'} action={'voir'} id={item._id} />
-                    <ActionButton url={url} style={'modifier'} icon={'fa-pen'} action={'modifier'} id={item._id} />
+                    <ActionButton url={url} style={'modifier'} icon={'fa-pen'} action={'edit'} id={item._id} />
                     <ActionButtonNoLink style={'supprimer'} icon={'fa-trash'} onClick={() => handleDelete(item)} />
                 </td>
             </tr>

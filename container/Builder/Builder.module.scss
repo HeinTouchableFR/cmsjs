@@ -328,3 +328,25 @@
     content: '+';
     font-weight: bold;
 }
+
+
+.render{
+    &.disposition{
+        border: none;
+    }
+    &.disposition:hover {
+        border: none;
+    }
+
+    .colonne{
+        cursor: default!important;
+    }
+
+    .colonne:hover::after{
+        content: none;
+    }
+
+    .element__widget:hover{
+        box-shadow: none;
+    }
+}

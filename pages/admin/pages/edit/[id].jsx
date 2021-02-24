@@ -9,34 +9,33 @@ export default function Edit({item, pages}) {
     const [post, setPost] = useState(item)
     const [loading, setLoading] = useState(false)
 
-    /*const onSubmit = async function (e, content) {
+    const onSubmit = async function (e, content) {
         setLoading(true)
-        const res = await fetch('/api/pages', {
+        const res = await fetch(`/api/pages/${item._id}`, {
             body: JSON.stringify({
                 title: e.title,
                 slug: e.slug,
-                author: "A faire",
-                published: new Date(),
+                updated: new Date(),
                 content: JSON.stringify(content),
                 parentPage: e.parentPage
             }),
             headers: {
                 'Content-Type': 'application/json'
             },
-            method: 'POST'
+            method: 'PUT'
         })
 
         const result = await res.json()
         setPost(result.data)
         setLoading(false)
-    }*/
+    }
 
     return (
         <>
             <Head>
                 <title>Edit {item.title}</title>
             </Head>
-            <Builder url={url} pages={pages} page={post} loading={loading}/>
+            <Builder url={url} pages={pages} page={post} loading={loading} onSubmit={onSubmit}/>
         </>
     );
 }
