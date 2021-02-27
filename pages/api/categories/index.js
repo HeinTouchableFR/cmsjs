@@ -30,15 +30,12 @@ export default async (req, res) => {
     switch (method) {
         case 'GET':
             try {
-                db.collection('categories')
-                    .where('categorieParent', '==', null)
-                    .get()
-                    .then((snapshot) => {
-                        const items = snapshot.docs.map(async (doc) => {
-                            return await recursive(doc);
-                        });
-                        Promise.all(items).then((data) => res.status(200).json({ success: true, data: data }));
-                    });
+                const snapshots = await db.collection('categories').where('categorieParent', '==', "").get()
+                const items = snapshots.docs.map(async (doc) => {
+                    return await recursive(doc);
+                });
+                const data = await Promise.all(items)
+                res.status(200).json({ success: true, data: data })
             } catch (e) {
                 res.status(400).json({ success: false, errors: e });
             }
@@ -48,7 +45,7 @@ export default async (req, res) => {
                 nom: req.body.nom,
                 description: req.body.description,
                 categoriesEnfant: [],
-                categorieParent: req.body.categorieParent,
+                categorieParent: req.body.categorieParent ? req.body.categorieParent : "",
             };
             const data = await db.collection('categories').add(item);
             if (data.id && item.categorieParent) {

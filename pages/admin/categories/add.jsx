@@ -4,8 +4,7 @@ import Header from 'components/Header/Header';
 import Content from 'components/Content/Content';
 import { useRouter } from 'next/router';
 import axios from 'axios';
-import SelectCustom from 'components/Select/Select';
-import { Button, Form, Loader } from 'semantic-ui-react';
+import { Button, Form } from 'semantic-ui-react';
 
 export default function Add({ categories }) {
     const url = 'categories';
@@ -36,7 +35,7 @@ export default function Add({ categories }) {
                 body: JSON.stringify(form),
             });
             const { data: newItem } = await res.json();
-
+            setIsSubmitting(false)
             router.push(`/admin/${url}`);
         } catch (error) {
             console.log(error);
@@ -67,10 +66,9 @@ export default function Add({ categories }) {
         });
     };
 
-    const categoriesOptions = [];
+    const categoriesOptions = [{ key: 'empty', value: '', text: 'No parent category' }];
 
     const recursiveCategoriesOptions = function (categorie, tiret = '', parent) {
-        console.log(categorie);
         if (parent) {
             tiret += ' — ';
         }
@@ -116,7 +114,7 @@ export default function Add({ categories }) {
                             name='categorieParent'
                             onChange={handleChange}
                         />
-                        <Button type='submit'>Créer</Button>
+                        <Button disabled={isSubmitting} loading={isSubmitting} type='submit'>Créer</Button>
                     </Form>
                 </Content>
             </Header>

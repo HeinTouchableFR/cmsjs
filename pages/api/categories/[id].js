@@ -1,7 +1,4 @@
 import db from "../../../utils/dbConnect";
-import Categorie from "../../../models/Categorie";
-import Attribut from "../../../models/Attribut";
-
 
 export default async (req, res) => {
     const {
@@ -15,22 +12,20 @@ export default async (req, res) => {
             id: doc.id,
             ...doc.data()
         }
-
         if (item.categoriesEnfant) {
             item.categoriesEnfant.map(categorie => {
                 const nextPromise = db.doc(`categories/${categorie}`).get()
                 fetchPromises.push(nextPromise)
             })
-        }
-
-        const snapshots = await Promise.all(fetchPromises)
-        const fetchPromisesChild = []
-        snapshots.map(async (snapshot) => {
-            const nextChildPromise = recursiveDelete(snapshot)
-            fetchPromisesChild.push(nextChildPromise)
-        })
-        if(fetchPromisesChild.length > 0){
-            const childSnapshots = await Promise.all(fetchPromisesChild)
+            const snapshots = await Promise.all(fetchPromises)
+            const fetchPromisesChild = []
+            snapshots.map(async (snapshot) => {
+                const nextChildPromise = recursiveDelete(snapshot)
+                fetchPromisesChild.push(nextChildPromise)
+            })
+            if(fetchPromisesChild.length > 0){
+                const childSnapshots = await Promise.all(fetchPromisesChild)
+            }
         }
 
         if(item.categorieParent){
@@ -48,7 +43,6 @@ export default async (req, res) => {
             }
 
         }
-
         return await db.doc(`categories/${doc.id}`).delete()
     }
 
@@ -86,7 +80,7 @@ export default async (req, res) => {
                 item.description = req.body.description;
                 const promises = []
 
-                if (!(req.body.categorieParent == item.categorieParent) && req.body.categorieParent) {
+                if (!(req.body.categorieParent === item.categorieParent) && req.body.categorieParent) {
 
                     const ref = db.doc(`categories/${req.body.categorieParent}`)
                     const snapshot = await ref.get()
@@ -100,7 +94,7 @@ export default async (req, res) => {
                         promises.push(nextPromise)
                     }
                 }
-                if (!(req.body.categorieParent == item.categorieParent) && item.categorieParent) {
+                if (!(req.body.categorieParent === item.categorieParent) && item.categorieParent) {
 
                     const ref = db.doc(`categories/${item.categorieParent}`)
                     const snapshot = await ref.get()
@@ -115,29 +109,17 @@ export default async (req, res) => {
                         promises.push(nextPromise)
                     }
                 }
-                item.categorieParent = req.body.categorieParent;
+                item.categorieParent = req.body.categorieParent ? req.body.categorieParent : "";
                 Promise.all(promises).then(db.doc(`categories/${item.id}`).set(item, {merge: true}).then(res.status(200).json({success: true})))
             } catch (e) {
                 res.status(400).json({success: false, errors: e});
             }
             break;
         case "DELETE":
-
-        async function handleDelete(e) {
-            const item = await Categorie.findByIdAndDelete(e);
-
-            if (item && item.categoriesEnfant) {
-                for (const element of item.categoriesEnfant) {
-                    await handleDelete(element);
-                }
-            }
-        }
-
             try {
-                db.doc(`categories/${id}`).get().then(async snapshot => {
-                    const item = await recursiveDelete(snapshot)
-                    Promise.all(item).then(res.status(200).json({success: true}))
-                })
+                const snapshot = await db.doc(`categories/${id}`).get()
+                const item = await recursiveDelete(snapshot)
+                res.status(200).json({success: true})
             } catch (e) {
                 res.status(400).json({success: false});
             }

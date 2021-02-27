@@ -31,7 +31,10 @@ export default function Index({ items, errors }) {
     const deleteElement = async () => {
         try {
             setItemToDelete({});
-
+            await fetch(`${process.env.URL}/api/${url}/${itemToDelete._id}`, {
+                method: 'DELETE'
+            })
+            setIsDeleting(false)
             router.push(`/admin/${url}`);
         } catch (error) {
             console.log(error);
@@ -100,7 +103,7 @@ const Categorie = function ({ item, url, categorieParent, tiret = '', handleDele
                 </td>
                 <td className={"td"}>
                     <ActionButton url={url} style={'voir'} icon={'fa-eye'} action={'voir'} id={item._id} />
-                    <ActionButton url={url} style={'modifier'} icon={'fa-pen'} action={'modifier'} id={item._id} />
+                    <ActionButton url={url} style={'modifier'} icon={'fa-pen'} action={'edit'} id={item._id} />
                     <ActionButtonNoLink style={'supprimer'} icon={'fa-trash'} onClick={() => handleDelete(item)} />
                 </td>
             </tr>
@@ -117,7 +120,7 @@ export async function getServerSideProps() {
     let errors = [];
 
     await axios
-        .get(process.env.URL + '/api/categories/admin')
+        .get(process.env.URL + '/api/categories')
         .then((res) => {
             items = res.data.data;
         })

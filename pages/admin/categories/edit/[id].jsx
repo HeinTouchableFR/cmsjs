@@ -69,10 +69,10 @@ export default function Modifier({ item, categories }) {
         });
     };
 
-    const categoriesOptions = [];
+    const categoriesOptions = [{ key: 'empty', value: '', text: 'No parent category' }];
 
     const recursiveCategoriesOptions = function (categorie, tiret = '', parent) {
-        if (categorie._id != item._id) {
+        if (categorie._id !== item._id) {
             if (parent) {
                 tiret += ' — ';
             }
