@@ -6,49 +6,6 @@ export default async (req, res) => {
         method,
     } = req;
 
-    const recursiveDelete = async function (doc) {
-        const fetchPromises = []
-        const item = {
-            id: doc.id,
-            ...doc.data()
-        }
-
-        if (item.categoriesEnfant) {
-            item.categoriesEnfant.map(categorie => {
-                const nextPromise = db.doc(`categories/${categorie}`).get()
-                fetchPromises.push(nextPromise)
-            })
-        }
-
-        const snapshots = await Promise.all(fetchPromises)
-        const fetchPromisesChild = []
-        snapshots.map(async (snapshot) => {
-            const nextChildPromise = recursiveDelete(snapshot)
-            fetchPromisesChild.push(nextChildPromise)
-        })
-        if (fetchPromisesChild.length > 0) {
-            const childSnapshots = await Promise.all(fetchPromisesChild)
-        }
-
-        if (item.categorieParent) {
-            const ref = db.doc(`categories/${item.categorieParent}`)
-            const snapshot = await ref.get()
-            const parent = {
-                id: snapshot.id,
-                ...snapshot.data()
-            }
-            var index = parent.categoriesEnfant.indexOf(item.id.toString());
-            if (index > -1) {
-                parent.categoriesEnfant.splice(index, 1);
-                const nextPromise = await ref.set(parent, {merge: true})
-                await Promise.resolve(nextPromise)
-            }
-
-        }
-
-        return await db.doc(`categories/${doc.id}`).delete()
-    }
-
     switch (method) {
         case "GET":
             try {
@@ -126,10 +83,7 @@ export default async (req, res) => {
             break;
         case "DELETE":
             try {
-                db.doc(`pages/${id}`).get().then(async snapshot => {
-                    const item = await recursiveDelete(snapshot)
-                    Promise.all(item).then(res.status(200).json({success: true}))
-                })
+                db.doc(`pages/${id}`).delete().then(res.status(200).json({success: true}))
             } catch (e) {
                 res.status(400).json({success: false});
             }

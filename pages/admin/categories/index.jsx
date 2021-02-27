@@ -66,7 +66,7 @@ export default function Index({ items, errors }) {
                                 </th>
                             </tr>
                         </thead>
-                        <tbody className={styles.tbody}>
+                        <tbody className={"tbody"}>
                             {items && items.map((item) => <Categorie item={item} url={url} key={item._id} handleDelete={open} />)}
                         </tbody>
                     </table>

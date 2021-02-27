@@ -31,7 +31,7 @@ export default async (req, res) => {
         case 'GET':
             try {
                 db.collection('pages')
-                    .where('parentPage', '==', null)
+                    .where('parentPage', '==', "")
                     .get()
                     .then((snapshot) => {
                         const items = snapshot.docs.map(async (doc) => {

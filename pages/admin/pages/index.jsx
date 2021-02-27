@@ -14,14 +14,20 @@ export default function Index({ items, errors }) {
 
     const [isDeleting, setIsDeleting] = useState(false);
     const [confirm, setConfirm] = useState(false);
+    const [confirmCannotDelete, setConfirmCannotDelete] = useState(false);
     const [itemToDelete, setItemToDelete] = useState({});
 
-    const open = function (item) {
-        setConfirm(true);
-        setItemToDelete(item);
+    const open = function (item, canDelete = false) {
+        if(canDelete){
+            setConfirm(true);
+            setItemToDelete(item);
+        }else{
+            setConfirmCannotDelete(true)
+        }
     };
 
     const close = () => setConfirm(false);
+    const closeCannotDelete = () => setConfirmCannotDelete(false);
 
     const handleDelete = async () => {
         setIsDeleting(true);
@@ -31,7 +37,9 @@ export default function Index({ items, errors }) {
     const deleteElement = async () => {
         try {
             setItemToDelete({});
-
+            await fetch(`${process.env.URL}/api/${url}/${itemToDelete._id}`, {
+                method: 'DELETE'
+            })
             router.push(`/admin/${url}`);
         } catch (error) {
             console.log(error);
@@ -77,9 +85,15 @@ export default function Index({ items, errors }) {
                         open={confirm}
                         onCancel={close}
                         onConfirm={handleDelete}
-                        content='Êtes-vous sûr de vouloir supprimer cet élément ?'
-                        cancelButton='Non'
-                        confirmButton='Oui'
+                        content='Are you sure you want to delete this item?'
+                        cancelButton='No'
+                        confirmButton='Yes'
+                    />
+                    <Confirm
+                        open={confirmCannotDelete}
+                        onConfirm={closeCannotDelete}
+                        onCancel={closeCannotDelete}
+                        content='You cannot delete a page that has children. Please delete child pages or edit the parent page for each child.'
                     />
                 </Content>
             </Header>
@@ -87,8 +101,8 @@ export default function Index({ items, errors }) {
     );
 }
 
-const Page = function ({ item, url, PageParent, tiret = '', handleDelete }) {
-    if (PageParent) {
+const Page = function ({ item, url, parentPage, tiret = '', handleDelete }) {
+    if (parentPage) {
         tiret += ' — ';
     }
 
@@ -96,7 +110,7 @@ const Page = function ({ item, url, PageParent, tiret = '', handleDelete }) {
         <>
             <tr className={"tr"}>
                 <td className={"td title"}>
-                    {PageParent ? tiret : ''} {item.title}
+                    {parentPage ? tiret : ''} {item.title}
                 </td>
                 <td className={"td"}>
                     {item.author}
@@ -111,12 +125,12 @@ const Page = function ({ item, url, PageParent, tiret = '', handleDelete }) {
                 <td className={"td"}>
                     <ActionButton url={url} style={'voir'} icon={'fa-eye'} action={'voir'} id={item._id} />
                     <ActionButton url={url} style={'modifier'} icon={'fa-pen'} action={'edit'} id={item._id} />
-                    <ActionButtonNoLink style={'supprimer'} icon={'fa-trash'} onClick={() => handleDelete(item)} />
+                    <ActionButtonNoLink style={'supprimer'} icon={'fa-trash'} onClick={() => handleDelete(item, item.childPages.length === 0 )} />
                 </td>
             </tr>
             {item.childPagesData &&
             item.childPagesData.map((itemE) => (
-                <Page handleDelete={handleDelete} item={itemE} url={url} PageParent={item} tiret={tiret} key={itemE._id} />
+                <Page handleDelete={handleDelete} item={itemE} url={url} parentPage={item} tiret={tiret} key={itemE._id} />
             ))}
         </>
     );
