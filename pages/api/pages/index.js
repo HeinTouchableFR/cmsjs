@@ -30,15 +30,12 @@ export default async (req, res) => {
     switch (method) {
         case 'GET':
             try {
-                db.collection('pages')
-                    .where('parentPage', '==', "")
-                    .get()
-                    .then((snapshot) => {
-                        const items = snapshot.docs.map(async (doc) => {
-                            return await recursive(doc);
-                        });
-                        Promise.all(items).then((data) => res.status(200).json({success: true, data: data}));
-                    });
+                const snapshots = await db.collection('pages').orderBy('title').where('parentPage', '==', "").get()
+                const items = snapshots.docs.map(async (doc) => {
+                    return await recursive(doc);
+                });
+                const data = await Promise.all(items)
+                res.status(200).json({success: true, data: data})
             } catch (e) {
                 res.status(400).json({success: false, errors: e});
             }
@@ -51,7 +48,7 @@ export default async (req, res) => {
                     content: req.body.content,
                     published: req.body.published,
                     author: req.body.author,
-                    parentPage: req.body.parentPage,
+                    parentPage: req.body.parentPage ? req.body.parentPage : "",
                     childPages: []
                 };
                 const data = await db.collection('pages').add(item);
@@ -61,11 +58,9 @@ export default async (req, res) => {
                         id: snapshot.id,
                         ...snapshot.data(),
                     };
-                    console.log(page)
                     page.childPages.push(data.id);
                     await db.doc(`pages/${page.id}`).set(page, {merge: true});
                 }
-
                 res.status(200).json({
                     success: true, data: {
                         _id: data.id

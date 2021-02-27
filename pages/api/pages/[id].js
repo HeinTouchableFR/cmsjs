@@ -42,7 +42,7 @@ export default async (req, res) => {
                 item.content = req.body.content
                 const promises = []
 
-                if (!(req.body.parentPage == item.parentPage) && req.body.parentPage) {
+                if (!(req.body.parentPage === item.parentPage) && req.body.parentPage) {
 
                     const ref = db.doc(`pages/${req.body.parentPage}`)
                     const snapshot = await ref.get()
@@ -56,7 +56,7 @@ export default async (req, res) => {
                         promises.push(nextPromise)
                     }
                 }
-                if (!(req.body.parentPage == item.parentPage) && item.parentPage) {
+                if (!(req.body.parentPage === item.parentPage) && item.parentPage) {
 
                     const ref = db.doc(`pages/${item.parentPage}`)
                     const snapshot = await ref.get()
@@ -71,8 +71,7 @@ export default async (req, res) => {
                         promises.push(nextPromise)
                     }
                 }
-                console.log(req.body.parentPage)
-                item.parentPage = req.body.parentPage === undefined ? null : req.body.parentPage;
+                item.parentPage = req.body.parentPage ? req.body.parentPage : '';
                 Promise.all(promises).then(db.doc(`pages/${item.id}`).set(item, {merge: true}).then(res.status(200).json({
                     success: true,
                     data: {_id: item.id, ...item}
