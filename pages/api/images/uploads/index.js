@@ -1,8 +1,6 @@
-import {NextApiRequest, NextApiResponse} from "next";
 import nextConnect from "next-connect";
 import multer from "multer";
-
-import Image from "../../../../models/Image";
+import db from 'utils/dbConnect';
 
 const sharp = require("sharp");
 var path = require("path");
@@ -19,13 +17,8 @@ const storage = new Storage({
 });
 
 const bucket = storage.bucket(process.env.GCLOUD_STORAGE_BUCKET_URL);
-import fs from "fs";
-import Attribut from "../../../../models/Attribut";
-
-const oneMegabyteInBytes = 1000000;
 
 const upload = multer({
-    limits: {fileSize: oneMegabyteInBytes * 2},
     storage: multer.memoryStorage(),
 });
 
@@ -47,6 +40,8 @@ apiRoute.use(
 apiRoute.post(async (req, res) => {
 
     if (typeof req.files["files"] !== typeof undefined) {
+        const promises = []
+        const items = []
         for (const img of req.files["files"]) {
             const newName = (Math.random().toString(36) + "00000000000000000").slice(2, 10) + Date.now() + path.extname(img.originalname);
             const blob = bucket.file(newName);
@@ -56,18 +51,36 @@ apiRoute.post(async (req, res) => {
                 },
             });
             blobWriter.on("error", (err) => console.log(err));
-            blobWriter.on("finish", async () => {
-                const publicUrl = `https://firebasestorage.googleapis.com/v0/b/${
-                    bucket.name
-                }/o/${encodeURI(blob.name)}?alt=media`;
-                const image = new Image({
-                    url: publicUrl,
-                });
-                image.save().then(data => res.status(200).json({success: true, data: data}))
-            });
+            promises.push(
+                new Promise((resolve, reject) => {
+                    blobWriter.on("finish", async () => {
+                        const publicUrl = `https://firebasestorage.googleapis.com/v0/b/${
+                            bucket.name
+                        }/o/${encodeURI(blob.name)}?alt=media`;
+                        const pic = {
+                            url: publicUrl,
+                            originalName: img.originalname,
+                            name: newName,
+                            size: img.size,
+                            created_at: new Date()
+                        }
+                        db.collection('images').add(pic).then(data => {
+                            items.push({
+                                _id: data.id,
+                                ...pic
+                            })
+                            resolve()
+                        })
+                    });
+                })
+            )
+
             const resize = await sharp(img.buffer).jpeg().toBuffer();
             blobWriter.end(resize);
         }
+        Promise.all(promises).then(() => {
+            res.status(200).json({success: true, data: items})
+        })
     }
 });
 

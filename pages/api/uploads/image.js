@@ -1,8 +1,6 @@
-import dbConnect from "../../../utils/dbConnect";
-import Image from "../../../models/Image";
+import db from "../../../utils/dbConnect";
 const { Storage } = require("@google-cloud/storage");
 
-dbConnect();
 const storage = new Storage({
   projectId: process.env.GCLOUD_PROJECT_ID,
   keyFilename: process.env.GCLOUD_APPLICATION_CREDENTIALS,
@@ -16,7 +14,6 @@ export default async (req, res) => {
     case "POST":
       try {
         const img = req.body;
-        console.log(req.body);
         const blob = bucket.file(img.originalname);
         const blobWriter = blob.createWriteStream({
           metadata: {
@@ -28,9 +25,9 @@ export default async (req, res) => {
           const publicUrl = `https://firebasestorage.googleapis.com/v0/b/${
             bucket.name
           }/o/${encodeURI(blob.name)}?alt=media`;
-          const image = new Image({
+          const image = {
             url: publicUrl,
-          });
+          };
           console.log(publicUrl);
           await image
             .save()

@@ -1,11 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 //Style
 import styles from './Image.module.scss';
 //Components
 import FileManager from 'components/FileManager/FileManager';
+//Utils
+import useTranslation from 'intl/useTranslation';
 
-export default function Image({ element, onElementValeurChange }) {
-
+export default function Image({element, onElementValeurChange}) {
+    // Use translation
+    const {t} = useTranslation();
     const [currentFiles, setCurrentFiles] = useState([]);
 
     useEffect(
@@ -46,9 +49,10 @@ export default function Image({ element, onElementValeurChange }) {
                 trigger={
                     <div className={`${styles.filemanager_btn}`}>
                         {currentFiles.length > 0 && currentFiles[0].url ? (
-                            <div className={`${styles.preview}`} style={{ background: `url(${currentFiles[0].url})` }}></div>
+                            <div className={`${styles.preview}`}
+                                 style={{background: `url(${currentFiles[0].url})`}}></div>
                         ) : (
-                            <div className={`${styles.preview}`} style={{ background: `url(/placeholder.png)` }}></div>
+                            <div className={`${styles.preview}`} style={{background: `url(/placeholder.png)`}}></div>
                         )}
                         <div className={`${styles.preview__action}`}>{t('choosePicture')}</div>
                     </div>

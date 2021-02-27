@@ -4,7 +4,7 @@ import parse from 'html-react-parser';
 
 import styles from './Disposition.module.scss';
 
-export default function Disposition({ disposition, dispositionUpdate, supprimerDisposition, onElementClick, currentElement, setCurrentElement }) {
+export default function Disposition({ disposition, dispositionUpdate, dispositionDelete, onElementClick, currentElement, setCurrentElement }) {
     const structures = [];
     for (let i = 1; i < 7; i++) {
         const structure = {};
@@ -128,7 +128,7 @@ export default function Disposition({ disposition, dispositionUpdate, supprimerD
                     <ul>{structures && structures.map((structure) => <li key={structure.id}>{structurePreviewGenerate(structure)}</li>)}</ul>
                 </div>
             )}
-            <button className={`${styles.disposition__remove_btn}`} onClick={() => supprimerDisposition(disposition)}>
+            <button className={`${styles.disposition__remove_btn}`} onClick={() => dispositionDelete(disposition)}>
                 X
             </button>
         </div>

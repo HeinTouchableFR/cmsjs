@@ -1,7 +1,4 @@
-import dbConnect from "../../../utils/dbConnect";
-import Image from "../../../models/Image";
-
-dbConnect();
+import db from "../../../utils/dbConnect";
 
 export default async (req, res) => {
   const {
@@ -12,10 +9,14 @@ export default async (req, res) => {
   switch (method) {
     case "GET":
       try {
-        const item = await Image.find({_id: id});
+        const snapshot = await db.doc(`images/${id}`).get()
+        const item = {
+          _id: snapshot.id,
+          ...snapshot.data()
+        }
 
         if (!item) {
-          return res.status(400).json({ success: false, data: [] });
+          return res.status(400).json({ success: false });
         }
 
         res.status(200).json({ success: true, data: item });

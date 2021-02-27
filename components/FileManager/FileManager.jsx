@@ -22,7 +22,7 @@ export default function FileManager({ multiple = false, currentFiles, setCurrent
 
     useEffect(
         async function () {
-            await axios.get(process.env.URL + '/api/images').then((res) => {
+           await axios.get(process.env.URL + '/api/images').then((res) => {
                 setImages(res.data.data);
             });
 
@@ -43,6 +43,10 @@ export default function FileManager({ multiple = false, currentFiles, setCurrent
         }
     };
 
+    const handleSelectFiles = function (files) {
+        setSelectedFiles([...selectedFiles, ...files])
+    };
+
     const handleInsertClick = function () {
         setCurrentFiles(selectedFiles);
         setOpen(false);
@@ -52,9 +56,9 @@ export default function FileManager({ multiple = false, currentFiles, setCurrent
         e.preventDefault();
         setLoading(true);
         let f = new FormData(e.target);
-        const item = await create(f);
-        setImages([item, ...images]);
-        handleSelectFile(item);
+        const items = await create(f);
+        setImages([...items, ...images]);
+        multiple ? handleSelectFiles(items) : handleSelectFile(items[0]);
         setLoading(false);
         setSecondOpen(false);
     };
@@ -114,7 +118,9 @@ export default function FileManager({ multiple = false, currentFiles, setCurrent
                     <Modal.Header>{t('fileManagerUploadAddNew')}</Modal.Header>
                     <Modal.Content>
                         <form onSubmit={handleSubmit}>
-                            <input type='file' name='files' label={t('fileManagerUploadLabel')} help={t('fileManagerUploadHelp')} is='drop-files' />
+                            {
+                                multiple ? <input type='file' multiple name='files' label={t('fileManagerUploadLabel')} help={t('fileManagerUploadHelp')} is='drop-files' /> : <input type='file' name='files' label={t('fileManagerUploadLabel')} help={t('fileManagerUploadHelp')} is='drop-files' />
+                            }
                             <Button
                                 icon='check'
                                 color='green'
