@@ -102,9 +102,9 @@ const Categorie = function ({ item, url, categorieParent, tiret = '', handleDele
                     {categorieParent ? tiret : ''} {item.nom}
                 </td>
                 <td className={"td"}>
-                    <ActionButton url={url} style={'voir'} icon={'fa-eye'} action={'voir'} id={item._id} />
-                    <ActionButton url={url} style={'modifier'} icon={'fa-pen'} action={'edit'} id={item._id} />
-                    <ActionButtonNoLink style={'supprimer'} icon={'fa-trash'} onClick={() => handleDelete(item)} />
+                    <ActionButton url={url} style={'show'} icon={'fa-eye'} action={'show'} id={item._id} />
+                    <ActionButton url={url} style={'edit'} icon={'fa-pen'} action={'edit'} id={item._id} />
+                    <ActionButtonNoLink style={'delete'} icon={'fa-trash'} onClick={() => handleDelete(item)} />
                 </td>
             </tr>
             {item.categoriesEnfantData &&

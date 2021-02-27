@@ -123,9 +123,9 @@ const Page = function ({ item, url, parentPage, tiret = '', handleDelete }) {
                     }
                 </td>
                 <td className={"td"}>
-                    <ActionButton url={url} style={'voir'} icon={'fa-eye'} action={'voir'} id={item._id} />
-                    <ActionButton url={url} style={'modifier'} icon={'fa-pen'} action={'edit'} id={item._id} />
-                    <ActionButtonNoLink style={'supprimer'} icon={'fa-trash'} onClick={() => handleDelete(item, item.childPages.length === 0 )} />
+                    <ActionButton url={`${process.env.URL}/${item.slug}`} style={'show'} icon={'fa-eye'} id={item._id} />
+                    <ActionButton url={url} style={'edit'} icon={'fa-pen'} action={'edit'} id={item._id} />
+                    <ActionButtonNoLink style={'delete'} icon={'fa-trash'} onClick={() => handleDelete(item, item.childPages.length === 0 )} />
                 </td>
             </tr>
             {item.childPagesData &&

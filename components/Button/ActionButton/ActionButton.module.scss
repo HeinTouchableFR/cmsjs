@@ -19,13 +19,13 @@
     transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
-.voir:hover {
+.show:hover {
     color: dodgerblue;
 }
-.modifier:hover {
+.edit:hover {
     color: orange;
 }
-.supprimer:hover {
+.delete:hover {
     color: red;
 }
 .base:hover {

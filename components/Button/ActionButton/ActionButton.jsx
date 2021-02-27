@@ -4,26 +4,26 @@ import Link from 'next/link';
 import styles from './ActionButton.module.scss';
 
 export function ActionButton({ url, icon, action, style, id }) {
-    let couleur = null;
+    let color = null;
 
     switch (style) {
-        case 'voir':
-            couleur = styles.voir;
+        case 'show':
+            color = styles.show;
             break;
         case 'edit':
-            couleur = styles.modifier;
+            color = styles.edit;
             break;
-        case 'supprimer':
-            couleur = styles.supprimer;
+        case 'delete':
+            color = styles.delete;
             break;
         default:
-            couleur = styles.base;
+            color = styles.base;
             break;
     }
 
     return (
-        <Link href={action ? '/admin/' + url + '/' + action + '/' + id : '#'}>
-            <a className={styles.ActionButton + ' ' + couleur}>
+        <Link href={action ? '/admin/' + url + '/' + action + '/' + id : url} >
+            <a target={action ? '_self' : '_blank'} className={styles.ActionButton + ' ' + color}>
                 <i className={'fas ' + icon} />
             </a>
         </Link>
@@ -31,20 +31,20 @@ export function ActionButton({ url, icon, action, style, id }) {
 }
 
 export function ActionButtonNoLink({ icon, style, onClick, type }) {
-    let couleur = null;
+    let color = null;
 
     switch (style) {
-        case 'voir':
-            couleur = styles.voir;
+        case 'show':
+            color = styles.show;
             break;
         case 'edit':
-            couleur = styles.modifier;
+            color = styles.edit;
             break;
-        case 'supprimer':
-            couleur = styles.supprimer;
+        case 'delete':
+            color = styles.delete;
             break;
         default:
-            couleur = styles.base;
+            color = styles.base;
             break;
     }
 
@@ -53,7 +53,7 @@ export function ActionButtonNoLink({ icon, style, onClick, type }) {
     };
 
     return (
-        <button onClick={handleClick} type={type} className={styles.ActionButton + ' ' + couleur}>
+        <button onClick={handleClick} type={type} className={styles.ActionButton + ' ' + color}>
             <i className={'fas ' + icon} />
         </button>
     );
