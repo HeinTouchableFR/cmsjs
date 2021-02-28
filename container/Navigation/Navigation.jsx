@@ -35,6 +35,7 @@ export default function Navigation({ composants, currentItem, onElementValeurCha
         [currentItem]
     );
     const handleSlugify = function (e) {
+        console.log(e)
         setForm({
             ...form,
             'slug': slugify(e.target.value)
@@ -62,12 +63,10 @@ export default function Navigation({ composants, currentItem, onElementValeurCha
     pages.length > 0 && pages.map((page) => recursivePagesOptions(page));
 
     const handleChange = (e, data) => {
-        if(data.name === "title"){
-           handleSlugify(e)
-        }
         setForm({
             ...form,
-            [data.name]: data.value ? data.value : data.checked,
+            [data.name]: data.value && data.name !== 'slug' ? data.value : data.checked,
+            'slug': data.name === 'title' || 'slug' ? slugify(data.value) : form.slug
         });
     };
 
@@ -92,7 +91,7 @@ export default function Navigation({ composants, currentItem, onElementValeurCha
                         required
                         name='slug'
                         value={form.slug}
-                        onChange={handleSlugify}
+                        onChange={handleChange}
                     />
                     <Form.Dropdown
                         placeholder='Parent Page'
