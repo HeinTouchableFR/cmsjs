@@ -34,20 +34,13 @@ export default function Navigation({ composants, currentItem, onElementValeurCha
         },
         [currentItem]
     );
-    const handleSlugify = function (e) {
-        console.log(e)
-        setForm({
-            ...form,
-            'slug': slugify(e.target.value)
-        });
-    }
 
     const handleSubmit = function(e){
         e.preventDefault()
         onSubmit(form)
     }
 
-    const pagesOptions = [];
+    const pagesOptions = [{ key: 'empty', value: '', text: 'No parent page' }];
 
     const recursivePagesOptions = function (page, tiret = '', parent) {
         if (parent) {
@@ -63,10 +56,11 @@ export default function Navigation({ composants, currentItem, onElementValeurCha
     pages.length > 0 && pages.map((page) => recursivePagesOptions(page));
 
     const handleChange = (e, data) => {
+        console.log(data.name)
         setForm({
             ...form,
             [data.name]: data.value && data.name !== 'slug' ? data.value : data.checked,
-            'slug': data.name === 'title' || 'slug' ? slugify(data.value) : form.slug
+            'slug': data.name === 'title' || data.name === 'slug' ? slugify(data.value) : form.slug
         });
     };
 
