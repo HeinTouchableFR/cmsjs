@@ -1,4 +1,5 @@
 import React from 'react';
+import { useIntl } from 'react-intl';
 import Link from 'next/link';
 
 import styles from './content.module.scss';
@@ -6,6 +7,8 @@ import styles from './content.module.scss';
 import LinkButton from 'components/Button/LinkButton/LinkButton';
 
 export default function Content({ title, icon, url, action, children }) {
+    const intl = useIntl();
+
     return (
         <>
             <div className={styles.contentHeader}>
@@ -14,10 +17,14 @@ export default function Content({ title, icon, url, action, children }) {
                         <i className={'fad' + ' ' + icon + ' ' + styles.circular} />
                         <div className={styles.content}>
                             {title}
-                            {!action && <div className={styles.contentHeaderTitleSub}>Gérer les {title}</div>}
+                            {!action && (
+                                <div className={styles.contentHeaderTitleSub}>
+                                    {intl.formatMessage({ id: 'manage', defaultMessage: 'Manage' })}: {title}
+                                </div>
+                            )}
                         </div>
                     </h1>
-                    {!action && <LinkButton url={'/admin/' + url + '/add'} label={'Add new'} icon={'fa-plus'} />}
+                    {!action && <LinkButton url={'/admin/' + url + '/add'} icon={'fa-plus'} />}
                 </div>
                 <div className={styles.adminTree}>
                     <div className={styles.adminTreeSection}>

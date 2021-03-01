@@ -1,50 +1,54 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
+import { FormattedMessage } from 'react-intl';
 import Head from 'next/head';
-import Builder from 'container/Builder/Builder';
-import axios from 'axios';
 import { useRouter } from 'next/router';
+import axios from 'axios';
 
-export default function Ajouter({pages}) {
+import Builder from 'container/Builder/Builder';
+
+export default function Ajouter({ pages }) {
     const url = 'pages';
+    const intl = useIntl();
 
-    const [post, setPost] = useState({})
-    const [loading, setLoading] = useState(false)
+    const [post, setPost] = useState({});
+    const [loading, setLoading] = useState(false);
     const router = useRouter();
 
     const onSubmit = async function (e, content) {
-        setLoading(true)
+        setLoading(true);
         const res = await fetch('/api/pages', {
             body: JSON.stringify({
                 title: e.title,
                 slug: e.slug,
-                author: "A faire",
+                author: 'A faire',
                 published: new Date(),
                 content: JSON.stringify(content),
-                parentPage: e.parentPage
+                parentPage: e.parentPage,
             }),
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
             },
-            method: 'POST'
-        })
+            method: 'POST',
+        });
 
-        const result = await res.json()
-        console.log(result)
-        setPost(result)
-        setLoading(false)
+        const result = await res.json();
+        console.log(result);
+        setPost(result);
+        setLoading(false);
         router.push(`/admin/${url}/edit/${result.data._id}`);
-    }
+    };
 
     return (
         <>
             <Head>
-                <title>Add new page</title>
+                <title>
+                    <FormattedMessage id='page.addNew' defaultMessage='Add new page' />
+                </title>
             </Head>
-            <Builder url={url} onSubmit={onSubmit} pages={pages} page={post} loading={loading}/>
+            <Builder url={url} onSubmit={onSubmit} pages={pages} page={post} loading={loading} />
         </>
     );
 }
-
 
 export async function getServerSideProps() {
     let pages = [];

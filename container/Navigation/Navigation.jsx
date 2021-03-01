@@ -1,16 +1,15 @@
 import React, { useEffect, useState, createRef } from 'react';
 import { Droppable, Draggable } from 'react-beautiful-dnd';
-import {Button, Form, Tab} from 'semantic-ui-react';
+import { Button, Form, Tab } from 'semantic-ui-react';
 import slugify from 'react-slugify';
+import { useIntl } from 'react-intl';
 
 import styles from './Navigation.module.scss';
-
-import useTranslation from 'intl/useTranslation';
 
 import Component, { ComponentEditor } from 'components/ComponentCollection/Component';
 
 export default function Navigation({ composants, currentItem, onElementValeurChange, setCurrentElement, page, onSubmit, pages = [], loading }) {
-    const { t } = useTranslation();
+    const intl = useIntl();
 
     const [form, setForm] = useState({ title: page.title || '', slug: page.slug || '', parentPage: page.parentPage || '' });
 
@@ -35,12 +34,12 @@ export default function Navigation({ composants, currentItem, onElementValeurCha
         [currentItem]
     );
 
-    const handleSubmit = function(e){
-        e.preventDefault()
-        onSubmit(form)
-    }
+    const handleSubmit = function (e) {
+        e.preventDefault();
+        onSubmit(form);
+    };
 
-    const pagesOptions = [{ key: 'empty', value: '', text: 'No parent page' }];
+    const pagesOptions = [{ key: 'empty', value: '', text: intl.formatMessage({ id: 'parentPage.no', defaultMessage: 'No parent page' }) }];
 
     const recursivePagesOptions = function (page, tiret = '', parent) {
         if (parent) {
@@ -56,55 +55,61 @@ export default function Navigation({ composants, currentItem, onElementValeurCha
     pages.length > 0 && pages.map((page) => recursivePagesOptions(page));
 
     const handleChange = (e, data) => {
-        console.log(data.name)
+        console.log(data.name);
         setForm({
             ...form,
             [data.name]: data.value && data.name !== 'slug' ? data.value : data.checked,
-            'slug': data.name === 'title' || data.name === 'slug' ? slugify(data.value) : form.slug
+            slug: data.name === 'title' || data.name === 'slug' ? slugify(data.value) : form.slug,
         });
     };
 
     const panes = [
         {
-            menuItem: t('settingsLabel'),
-            render: () => <Tab.Pane attached={true}>
-                <Form onSubmit={handleSubmit}>
-                    <Form.Input
-                        fluid
-                        label='Title'
-                        placeholder='Title'
-                        required
-                        name='title'
-                        defaultValue={form.title}
-                        onChange={handleChange}
-                    />
-                    <Form.Input
-                        fluid
-                        label='Slug'
-                        placeholder='Slug'
-                        required
-                        name='slug'
-                        value={form.slug}
-                        onChange={handleChange}
-                    />
-                    <Form.Dropdown
-                        placeholder='Parent Page'
-                        additionLabel='Parent Page'
-                        fluid
-                        search
-                        clearable
-                        selection
-                        options={pagesOptions}
-                        defaultValue={form.parentPage}
-                        onChange={handleChange}
-                        name='parentPage'
-                    />
-                    <Button loading={loading} color={'green'} type='submit'>{page.content ? 'Update' : 'Publish'}</Button>
-                </Form>
-            </Tab.Pane>,
+            menuItem: intl.formatMessage({ id: 'settingsLabel' }),
+            render: () => (
+                <Tab.Pane attached={true}>
+                    <Form onSubmit={handleSubmit}>
+                        <Form.Input
+                            fluid
+                            label={intl.formatMessage({ id: 'title', defaultMessage: 'Title' })}
+                            placeholder={intl.formatMessage({ id: 'title', defaultMessage: 'Title' })}
+                            required
+                            name='title'
+                            defaultValue={form.title}
+                            onChange={handleChange}
+                        />
+                        <Form.Input
+                            fluid
+                            label={intl.formatMessage({ id: 'slug', defaultMessage: 'Slug' })}
+                            placeholder={intl.formatMessage({ id: 'slug', defaultMessage: 'Slug' })}
+                            required
+                            name='slug'
+                            value={form.slug}
+                            onChange={handleChange}
+                        />
+                        <Form.Dropdown
+                            placeholder={intl.formatMessage({ id: 'parentPage', defaultMessage: 'Parent page' })}
+                            additionLabel={intl.formatMessage({ id: 'parentPage', defaultMessage: 'Parent page' })}
+                            fluid
+                            search
+                            clearable
+                            selection
+                            options={pagesOptions}
+                            defaultValue={form.parentPage}
+                            onChange={handleChange}
+                            name='parentPage'
+                        />
+                        <Button loading={loading} color={'green'} type='submit'>
+                            {page.content
+                                ? intl.formatMessage({ id: 'update', defaultMessage: 'Update' })
+                                : intl.formatMessage({ id: 'publish', defaultMessage: 'Publish' })}
+                        </Button>
+                    </Form>
+                </Tab.Pane>
+            ),
         },
         {
-            menuItem: t('componentLabel'),
+            menuItem: intl.formatMessage({ id: 'componentLabel' }),
             render: () => (
                 <Tab.Pane attached={true}>
                     <Droppable droppableId='composants'>
@@ -127,7 +132,7 @@ export default function Navigation({ composants, currentItem, onElementValeurCha
             ),
         },
         currentItem.type && {
-            menuItem: t('editLabel') + ' ' + t(currentItem.type),
+            menuItem: intl.formatMessage({ id: 'editLabel' }) + ' ' + intl.formatMessage({ id: currentItem.type }),
             render: () => (
                 <Tab.Pane attached={true}>
                     <ComponentEditor element={currentItem} onElementValeurChange={onElementValeurChange} />

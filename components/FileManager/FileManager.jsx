@@ -2,15 +2,15 @@ import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import axios from 'axios';
 import { Button, Header, Icon, Modal } from 'semantic-ui-react';
+import { useIntl } from 'react-intl';
 
 import styles from './fileManager.module.scss';
-
-import useTranslation from 'intl/useTranslation';
 
 typeof window === 'object' ? require('@grafikart/drop-files-element') : () => false;
 
 export default function FileManager({ multiple = false, currentFiles, setCurrentFiles, trigger }) {
-    const { t } = useTranslation();
+    const intl = useIntl();
+
     const [open, setOpen] = useState(false);
     const [secondOpen, setSecondOpen] = useState(false);
 
@@ -22,7 +22,7 @@ export default function FileManager({ multiple = false, currentFiles, setCurrent
 
     useEffect(
         async function () {
-           await axios.get(process.env.URL + '/api/images').then((res) => {
+            await axios.get(process.env.URL + '/api/images').then((res) => {
                 setImages(res.data.data);
             });
 
@@ -44,7 +44,7 @@ export default function FileManager({ multiple = false, currentFiles, setCurrent
     };
 
     const handleSelectFiles = function (files) {
-        setSelectedFiles([...selectedFiles, ...files])
+        setSelectedFiles([...selectedFiles, ...files]);
     };
 
     const handleInsertClick = function () {
@@ -82,7 +82,7 @@ export default function FileManager({ multiple = false, currentFiles, setCurrent
     return (
         <>
             <Modal closeIcon open={open} trigger={trigger} onClose={() => setOpen(false)} onOpen={() => setOpen(true)}>
-                <Header icon='picture' content={t('insertMedia')} />
+                <Header icon='picture' content={intl.formatMessage({ id: 'insertMedia' })} />
                 <Modal.Content scrolling>
                     <div className={`${styles.filemanager__container}`}>
                         {images.map((image) => (
@@ -100,34 +100,49 @@ export default function FileManager({ multiple = false, currentFiles, setCurrent
                     <div className={`${styles.filemanager__files}`}>
                         <span>
                             {selectedFiles.length <= 1
-                                ? selectedFiles.length + ' ' + t('selectedImage')
-                                : selectedFiles.length + ' ' + t('selectedImages')}
+                                ? selectedFiles.length + ' ' + intl.formatMessage({ id: 'selectedImage' })
+                                : selectedFiles.length + ' ' + intl.formatMessage({ id: 'selectedImages' })}
                         </span>
                         {selectedFiles.map((image) => (
                             <img key={`preview-${image._id}`} src={image.url} />
                         ))}
                     </div>
                     <Button onClick={() => setSecondOpen(true)} primary>
-                        {t('fileManagerUploadAddNew')} <Icon name='right chevron' />
+                        {intl.formatMessage({ id: 'fileManagerUploadAddNew' })} <Icon name='right chevron' />
                     </Button>
                     <Button disabled={selectedFiles.length === 0} color='green' onClick={() => handleInsertClick()}>
                         <Icon name='checkmark' /> Insérez un média
                     </Button>
                 </Modal.Actions>
                 <Modal closeIcon onClose={() => setSecondOpen(false)} open={secondOpen} className={styles.filemanager__upload__container}>
-                    <Modal.Header>{t('fileManagerUploadAddNew')}</Modal.Header>
+                    <Modal.Header>{intl.formatMessage({ id: 'fileManagerUploadAddNew' })}</Modal.Header>
                     <Modal.Content>
                         <form onSubmit={handleSubmit}>
-                            {
-                                multiple ? <input type='file' multiple name='files' label={t('fileManagerUploadLabel')} help={t('fileManagerUploadHelp')} is='drop-files' /> : <input type='file' name='files' label={t('fileManagerUploadLabel')} help={t('fileManagerUploadHelp')} is='drop-files' />
-                            }
+                            {multiple ? (
+                                <input
+                                    type='file'
+                                    multiple
+                                    name='files'
+                                    label={intl.formatMessage({ id: 'fileManagerUploadLabel' })}
+                                    help={intl.formatMessage({ id: 'fileManagerUploadHelp' })}
+                                    is='drop-files'
+                                />
+                            ) : (
+                                <input
+                                    type='file'
+                                    name='files'
+                                    label={intl.formatMessage({ id: 'fileManagerUploadLabel' })}
+                                    help={intl.formatMessage({ id: 'fileManagerUploadHelp' })}
+                                    is='drop-files'
+                                />
+                            )}
                             <Button
                                 icon='check'
                                 color='green'
                                 type='submit'
                                 loading={loading}
                                 disabled={loading}
-                                content={t('fileManagerUploadSend')}
+                                content={intl.formatMessage({ id: 'fileManagerUploadSend' })}
                             />
                         </form>
                     </Modal.Content>

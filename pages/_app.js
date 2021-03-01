@@ -1,12 +1,20 @@
-import Router from 'next/router';
+import Router, { useRouter } from 'next/router';
 import NProgress from 'nprogress'; //nprogress module
 import 'nprogress/nprogress.css'; //styles of nprogress
-import { LanguageProvider } from 'intl/LanguageProvider';
+import { IntlProvider } from 'react-intl';
 import 'style/globals.scss';
 import 'style/sandbox.scss';
 import 'style/tools/reset.scss';
 import 'semantic-ui-css/semantic.min.css';
 import 'rsuite/dist/styles/rsuite-default.css';
+
+import en from 'intl/lang/en.json';
+import fr from 'intl/lang/fr.json';
+
+const messages = {
+    en: en,
+    fr: fr,
+};
 
 //Binding events.
 NProgress.configure({ showSpinner: false });
@@ -15,11 +23,14 @@ Router.events.on('routeChangeComplete', () => NProgress.done());
 Router.events.on('routeChangeError', () => NProgress.done());
 
 function MyApp({ Component, pageProps }) {
+    const router = useRouter();
+    const language = router.locale.substr(0, 2);
+
     return (
         <>
-            <LanguageProvider>
+            <IntlProvider locale={language} messages={messages[language]}>
                 <Component {...pageProps} />
-            </LanguageProvider>
+            </IntlProvider>
         </>
     );
 }

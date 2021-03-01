@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
 import { DragDropContext } from 'react-beautiful-dnd';
 
-import styles from './Builder.module.scss';
+import { useIntl } from 'react-intl';
 
-import useTranslation from 'intl/useTranslation';
+import styles from './Builder.module.scss';
 
 import Content from 'container/Content/Content';
 import Navigation from 'container/Navigation/Navigation';
 
 var FormData = require('form-data');
 
-
-export default function Builder({ page = {}, onSubmit, pages, loading}) {
+export default function Builder({ page = {}, onSubmit, pages, loading }) {
     // Use translation
-    const { t } = useTranslation();
+    const intl = useIntl();
+
     const [dispositions, setDispositions] = useState(page.content ? JSON.parse(page.content) : []);
 
     const [currentElement, setCurrentElement] = useState({});
@@ -23,16 +23,16 @@ export default function Builder({ page = {}, onSubmit, pages, loading}) {
     const composants = [
         {
             tag: '<h1>',
-            label: t('titleLabel'),
-            tooltip: t('titleTooltip'),
+            label: intl.formatMessage({ id: 'titleLabel' }),
+            tooltip: intl.formatMessage({ id: 'titleTooltip' }),
             color: 'orange',
             type: 'title',
-            valeurDefaut: `<h2>${t('titleDefault')}</h2>`,
+            valeurDefaut: `<h2>${intl.formatMessage({ id: 'titleDefault' })}</h2>`,
         },
         {
             tag: '<p>',
-            label: t('textEditorLabel'),
-            tooltip: t('textEditorTooltip'),
+            label: intl.formatMessage({ id: 'textEditorLabel' }),
+            tooltip: intl.formatMessage({ id: 'textEditorTooltip' }),
             color: 'purple',
             type: 'text',
             valeurDefaut:
@@ -40,16 +40,16 @@ export default function Builder({ page = {}, onSubmit, pages, loading}) {
         },
         {
             tag: '<img/>',
-            label: t('imageLabel'),
-            tooltip: t('imageTooltip'),
+            label: intl.formatMessage({ id: 'imageLabel' }),
+            tooltip: intl.formatMessage({ id: 'imageTooltip' }),
             color: 'yellow',
             type: 'image',
             valeurDefaut: '<img src="/placeholder.png"/>',
         },
         {
             tag: '<button>',
-            label: t('buttonLabel'),
-            tooltip: t('buttonTooltip'),
+            label: intl.formatMessage({ id: 'buttonLabel' }),
+            tooltip: intl.formatMessage({ id: 'buttonTooltip' }),
             color: 'teal',
             type: 'bouton',
             valeurDefaut: '<button>Mon bouton</button>',
@@ -234,8 +234,8 @@ export default function Builder({ page = {}, onSubmit, pages, loading}) {
     };
 
     const handleSubmit = function (e) {
-        onSubmit(e, dispositions)
-    }
+        onSubmit(e, dispositions);
+    };
 
     return (
         <>

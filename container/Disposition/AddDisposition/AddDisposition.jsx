@@ -1,14 +1,15 @@
 import React from 'react';
+import { useIntl } from 'react-intl';
 import styles from './AddDisposition.module.scss';
-import useTranslation from 'intl/useTranslation';
 
 export default function AddDisposition({ handleAddDisposition }) {
-    const { t } = useTranslation();
+    const intl = useIntl();
+
     return (
         <>
             <div className={`${styles.AddDisposition}`}>
                 <button onClick={handleAddDisposition}>+</button>
-                <p>{t('addLayoutTooltip')}</p>
+                <p>{intl.formatMessage({ id: 'addLayoutTooltip' })}</p>
             </div>
         </>
     );

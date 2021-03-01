@@ -1,11 +1,12 @@
 import React from 'react';
+import { useIntl } from 'react-intl';
 import { Button } from 'semantic-ui-react';
-import useTranslation from 'intl/useTranslation';
+
 import Component from 'components/ComponentCollection/Component';
 
 export default function Index() {
     // Utilisation de la traduction
-    const { t } = useTranslation();
+    const intl = useIntl();
 
     //Page a créer ou modifier
     const page = {};
@@ -72,7 +73,7 @@ export default function Index() {
                     data-position='right center'
                 >
                     <div class='ui oranged-icon button'>{'<h1>'}</div>
-                    <a className='ui basic oranged-text left pointing label'>{t('titleLabel')}</a>
+                    <a className='ui basic oranged-text left pointing label'>{intl.formatMessage({ id: 'titleLabel' })}</a>
                 </div>
                 <br />
                 <br />
