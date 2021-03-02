@@ -5,6 +5,8 @@ import { useRouter } from 'next/router';
 import axios from 'axios';
 
 import Builder from 'container/Builder/Builder';
+import nookies from 'nookies';
+import {admin} from '../../../utils/dbConnect';
 
 export default function Ajouter({ pages }) {
     const url = 'pages';
@@ -50,17 +52,34 @@ export default function Ajouter({ pages }) {
     );
 }
 
-export async function getServerSideProps() {
-    let pages = [];
+export async function getServerSideProps(ctx) {
+    try {
+        const cookies = nookies.get(ctx);
+        const token = await admin.auth().verifyIdToken(cookies.token);
 
-    await axios
-        .get(process.env.URL + '/api/pages')
-        .then((res) => {
-            pages = res.data.data;
-        })
-        .catch((error) => {});
+        if(!token.roles.some(r=> ["admin", "editor", "moderator"].includes(r))){
+            throw new Error('unauthorized');
+        }
 
-    return {
-        props: { pages },
-    };
+        let pages = [];
+
+        await axios
+            .get(process.env.URL + '/api/pages')
+            .then((res) => {
+                pages = res.data.data;
+            })
+            .catch((error) => {});
+
+        return {
+            props: { pages },
+        };
+    } catch (err) {
+        return {
+            redirect: {
+                permanent: false,
+                destination: "/admin/login",
+            },
+            props: {},
+        };
+    }
 }

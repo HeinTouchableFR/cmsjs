@@ -1,4 +1,4 @@
-import db from 'utils/dbConnect';
+import {db} from 'utils/dbConnect';
 
 export default async (req, res) => {
     const {method} = req;

@@ -55,7 +55,6 @@ export default function Navigation({ composants, currentItem, onElementValeurCha
     pages.length > 0 && pages.map((page) => recursivePagesOptions(page));
 
     const handleChange = (e, data) => {
-        console.log(data.name);
         setForm({
             ...form,
             [data.name]: data.value && data.name !== 'slug' ? data.value : data.checked,

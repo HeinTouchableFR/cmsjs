@@ -1,7 +1,7 @@
-import Router, { useRouter } from 'next/router';
+import Router, {useRouter} from 'next/router';
 import NProgress from 'nprogress'; //nprogress module
 import 'nprogress/nprogress.css'; //styles of nprogress
-import { IntlProvider } from 'react-intl';
+import {IntlProvider} from 'react-intl';
 import 'style/globals.scss';
 import 'style/sandbox.scss';
 import 'style/tools/reset.scss';
@@ -10,6 +10,7 @@ import 'rsuite/dist/styles/rsuite-default.css';
 
 import en from 'intl/lang/en.json';
 import fr from 'intl/lang/fr.json';
+import {AuthProvider} from '../authentication/authContext';
 
 const messages = {
     en: en,
@@ -17,19 +18,21 @@ const messages = {
 };
 
 //Binding events.
-NProgress.configure({ showSpinner: false });
+NProgress.configure({showSpinner: false});
 Router.events.on('routeChangeStart', () => NProgress.start());
 Router.events.on('routeChangeComplete', () => NProgress.done());
 Router.events.on('routeChangeError', () => NProgress.done());
 
-function MyApp({ Component, pageProps }) {
+function MyApp({Component, pageProps}) {
     const router = useRouter();
     const language = router.locale.substr(0, 2);
 
     return (
         <>
             <IntlProvider locale={language} messages={messages[language]}>
-                <Component {...pageProps} />
+                <AuthProvider>
+                    <Component {...pageProps} />
+                </AuthProvider>
             </IntlProvider>
         </>
     );

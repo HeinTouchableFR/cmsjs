@@ -8,6 +8,8 @@ import { Confirm } from 'semantic-ui-react';
 import Header from 'components/Header/Header';
 import Content from 'components/Content/Content';
 import { ActionButton, ActionButtonNoLink } from 'components/Button/ActionButton/ActionButton';
+import nookies from 'nookies';
+import {admin} from '../../../utils/dbConnect';
 
 export default function Index({ items, errors }) {
     const url = 'pages';
@@ -140,20 +142,37 @@ const Page = function ({ item, url, parentPage, tiret = '', handleDelete }) {
     );
 };
 
-export async function getServerSideProps() {
-    let items = [];
-    let errors = [];
+export async function getServerSideProps(ctx) {
+    try {
+        const cookies = nookies.get(ctx);
+        const token = await admin.auth().verifyIdToken(cookies.token);
 
-    await axios
-        .get(process.env.URL + '/api/pages')
-        .then((res) => {
-            items = res.data.data;
-        })
-        .catch((error) => {
-            errors = JSON.stringify(error);
-        });
+        if(!token.roles.some(r=> ["admin", "editor", "moderator"].includes(r))){
+            throw new Error('unauthorized');
+        }
 
-    return {
-        props: { items, errors },
-    };
+        let items = [];
+        let errors = [];
+
+        await axios
+            .get(process.env.URL + '/api/pages')
+            .then((res) => {
+                items = res.data.data;
+            })
+            .catch((error) => {
+                errors = JSON.stringify(error);
+            });
+
+        return {
+            props: { items, errors },
+        };
+    } catch (err) {
+        return {
+            redirect: {
+                permanent: false,
+                destination: "/admin/login",
+            },
+            props: {},
+        };
+    }
 }

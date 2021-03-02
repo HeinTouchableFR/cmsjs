@@ -1,23 +1,5 @@
-/*import mongoose from "mongoose";
+import * as admin from 'firebase-admin'
 
-const connection = {};
-
-async function dbConnect() {
-  if (connection.isConnected) {
-    return;
-  }
-  const db = await mongoose.connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  });
-
-  connection.isConnected = db.connections[0].readyState;
-  console.log(connection.isConnected);
-}*/
-
-//export default dbConnect;
-
-import admin from 'firebase-admin';
 const serviceAccount = {
   client_email: process.env.CLIENT_EMAIL,
   private_key: process.env.PRIVATE_KEY,
@@ -28,10 +10,14 @@ if (!admin.apps.length) {
   try {
     admin.initializeApp({
       credential: admin.credential.cert(serviceAccount),
-      databaseURL: "https://cmsjs-fa640-default-rtdb.europe-west1.firebasedatabase.app"
+      databaseURL: process.env.DATABASEURL
     });
   } catch (error) {
     console.log('Firebase admin initialization error', error.stack);
   }
 }
-export default admin.firestore();
+
+
+export const db = admin.firestore();
+export const auth = admin.auth();
+export {admin};

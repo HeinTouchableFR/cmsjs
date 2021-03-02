@@ -4,6 +4,8 @@ import Header from 'components/Header/Header';
 import Content from 'components/Content/Content';
 import axios from 'axios';
 import { Form } from 'semantic-ui-react';
+import nookies from 'nookies';
+import {admin} from '../../../../utils/dbConnect';
 
 export default function Detail({ item, errors, categories }) {
     const url = 'categories';
@@ -52,33 +54,50 @@ export default function Detail({ item, errors, categories }) {
     );
 }
 
-export async function getServerSideProps({ params }) {
-    const { id } = params;
+export async function getServerSideProps(ctx) {
+    try {
+        const cookies = nookies.get(ctx);
+        const token = await admin.auth().verifyIdToken(cookies.token);
 
-    let item = {};
-    let errors = [];
+        if(!token.roles.some(r=> ["admin", "editor", "moderator"].includes(r))){
+            throw new Error('unauthorized');
+        }
 
-    await axios
-        .get(process.env.URL + '/api/categories/' + id)
-        .then((res) => {
-            item = res.data.data;
-        })
-        .catch((error) => {
-            errors = JSON.stringify(error);
-        });
+        const { id } = ctx.params;
 
-    let categories = [];
+        let item = {};
+        let errors = [];
 
-    await axios
-        .get(process.env.URL + '/api/categories/')
-        .then((res) => {
-            categories = res.data.data;
-        })
-        .catch((error) => {
-            console.log(error);
-        });
+        await axios
+            .get(process.env.URL + '/api/categories/' + id)
+            .then((res) => {
+                item = res.data.data;
+            })
+            .catch((error) => {
+                errors = JSON.stringify(error);
+            });
 
-    return {
-        props: { item, errors, categories },
-    };
+        let categories = [];
+
+        await axios
+            .get(process.env.URL + '/api/categories/')
+            .then((res) => {
+                categories = res.data.data;
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+
+        return {
+            props: { item, errors, categories },
+        };
+    } catch (err) {
+        return {
+            redirect: {
+                permanent: false,
+                destination: "/admin/login",
+            },
+            props: {},
+        };
+    }
 }

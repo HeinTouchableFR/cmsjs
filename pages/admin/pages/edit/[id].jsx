@@ -2,6 +2,8 @@ import React, {useState} from 'react';
 import Head from 'next/head';
 import Builder from 'container/Builder/Builder';
 import axios from 'axios';
+import nookies from 'nookies';
+import {admin} from '../../../../utils/dbConnect';
 
 export default function Edit({item, pages}) {
     const url = 'pages';
@@ -41,33 +43,50 @@ export default function Edit({item, pages}) {
 }
 
 
-export async function getServerSideProps({ params }) {
-    const { id } = params;
+export async function getServerSideProps(ctx) {
+    try {
+        const cookies = nookies.get(ctx);
+        const token = await admin.auth().verifyIdToken(cookies.token);
 
-    let item = {};
-    let errors = [];
+        if(!token.roles.some(r=> ["admin", "editor", "moderator"].includes(r))){
+            throw new Error('unauthorized');
+        }
 
-    await axios
-        .get(process.env.URL + '/api/pages/' + id)
-        .then((res) => {
-            item = res.data.data;
-        })
-        .catch((error) => {
-            errors = JSON.stringify(error);
-        });
+        const { id } = ctx.params;
 
-    let pages = [];
+        let item = {};
+        let errors = [];
 
-    await axios
-        .get(process.env.URL + '/api/pages/')
-        .then((res) => {
-            pages = res.data.data;
-        })
-        .catch((error) => {
-            console.log(error);
-        });
+        await axios
+            .get(process.env.URL + '/api/pages/' + id)
+            .then((res) => {
+                item = res.data.data;
+            })
+            .catch((error) => {
+                errors = JSON.stringify(error);
+            });
 
-    return {
-        props: { item, errors, pages },
-    };
+        let pages = [];
+
+        await axios
+            .get(process.env.URL + '/api/pages/')
+            .then((res) => {
+                pages = res.data.data;
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+
+        return {
+            props: { item, errors, pages },
+        };
+    } catch (err) {
+        return {
+            redirect: {
+                permanent: false,
+                destination: "/admin/login",
+            },
+            props: {},
+        };
+    }
 }

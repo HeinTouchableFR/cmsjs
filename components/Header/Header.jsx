@@ -1,10 +1,15 @@
 import styles from './header.module.scss';
 import Head from 'next/head';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
+import {useRouter} from 'next/router';
+import {firebase} from '../../utils/firebaseClient';
+import {useAuth} from '../../authentication/authContext';
+import {useEffect, useState} from 'react';
 
-export default function Header({ children }) {
+export default function Header({children}) {
     const router = useRouter();
+    const {user} = useAuth();
+
 
     const hideMenu = function (e) {
         e.preventDefault();
@@ -52,19 +57,19 @@ export default function Header({ children }) {
                     <div className={styles.menu}>
                         <Link href='/admin/categories'>
                             <a className={styles.item + ' ' + (router.pathname.includes('/admin/categories') && styles.active)}>
-                                <i className='fad fa-folder' />
+                                <i className='fad fa-folder'/>
                                 Catégories
                             </a>
                         </Link>
                         <Link href='/admin/produits'>
                             <a className={styles.item + ' ' + (router.pathname.includes('/admin/produits') && styles.active)}>
-                                <i className='fad fa-cube' />
+                                <i className='fad fa-cube'/>
                                 Produits
                             </a>
                         </Link>
                         <Link href='/admin/attributs'>
                             <a className={styles.item + ' ' + (router.pathname.includes('/admin/attributs') && styles.active)}>
-                                <i className='fad fa-cubes' />
+                                <i className='fad fa-cubes'/>
                                 Attributs
                             </a>
                         </Link>
@@ -76,24 +81,32 @@ export default function Header({ children }) {
                 </div>
             </div>
             <div className={styles.menu + ' ' + styles.fixed}>
-                <a className={styles.item + ' ' + styles.icon} id='sidebar-toggle' title='Afficher/Masquer la barre latérale' onClick={hideMenu}>
-                    <i className='far fa-bars' />
+                <a className={styles.item + ' ' + styles.icon} id='sidebar-toggle'
+                   title='Afficher/Masquer la barre latérale' onClick={hideMenu}>
+                    <i className='far fa-bars'/>
                 </a>
                 <a href={'/'} target='_blank' className={styles.item} rel='noopener noreferrer'>
                     Voir votre site en ligne
                 </a>
                 <div className={styles.item + ' ' + styles.dropdown} tabIndex='0'>
-                    <span>replacer@email.fr</span>
+                    <span>{user && user.email}</span>
                     <i className='far fa-caret-down' tabIndex='0'>
-                        <div className='menu' tabIndex='-1' />
+                        <div className='menu' tabIndex='-1'/>
                     </i>
                     <div className={styles.menu} tabIndex='-1'>
                         <span className={styles.item}>
-                            <i className='fal fa-user-ninja' />
+                            <i className='fal fa-user-ninja'/>
                             Mon compte
                         </span>
-                        <span id='sylius-logout-button' className={styles.item}>
-                            <i className='far fa-sign-out-alt' />
+                        <span id='sylius-logout-button' className={styles.item} onClick={async () => {
+                            await firebase
+                                .auth()
+                                .signOut()
+                                .then(() => {
+                                    router.push("/admin/login");
+                                });
+                        }}>
+                            <i className='far fa-sign-out-alt'/>
                             Déconnexion
                         </span>
                     </div>

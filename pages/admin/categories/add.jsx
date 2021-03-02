@@ -5,6 +5,8 @@ import Content from 'components/Content/Content';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 import { Button, Form } from 'semantic-ui-react';
+import nookies from 'nookies';
+import {admin} from '../../../utils/dbConnect';
 
 export default function Add({ categories }) {
     const url = 'categories';
@@ -122,17 +124,34 @@ export default function Add({ categories }) {
     );
 }
 
-export async function getServerSideProps() {
-    let categories = [];
+export async function getServerSideProps(ctx) {
+    try {
+        const cookies = nookies.get(ctx);
+        const token = await admin.auth().verifyIdToken(cookies.token);
 
-    await axios
-        .get(process.env.URL + '/api/categories')
-        .then((res) => {
-            categories = res.data.data;
-        })
-        .catch((error) => {});
+        if(!token.roles.some(r=> ["admin", "editor", "moderator"].includes(r))){
+            throw new Error('unauthorized');
+        }
 
-    return {
-        props: { categories },
-    };
+        let categories = [];
+
+        await axios
+            .get(process.env.URL + '/api/categories')
+            .then((res) => {
+                categories = res.data.data;
+            })
+            .catch((error) => {});
+
+        return {
+            props: { categories },
+        };
+    } catch (err) {
+        return {
+            redirect: {
+                permanent: false,
+                destination: "/admin/login",
+            },
+            props: {},
+        };
+    }
 }

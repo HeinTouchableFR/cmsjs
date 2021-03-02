@@ -1,6 +1,6 @@
 import nextConnect from "next-connect";
 import multer from "multer";
-import db from 'utils/dbConnect';
+import {db} from 'utils/dbConnect';
 
 const sharp = require("sharp");
 var path = require("path");
