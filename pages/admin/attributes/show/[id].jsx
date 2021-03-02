@@ -7,20 +7,20 @@ import { Button, Card, Form, Input } from 'semantic-ui-react';
 import { ActionButtonNoLink } from 'components/Button/ActionButton/ActionButton';
 
 export default function Detail({ item }) {
-    const url = 'attributs';
+    const url = 'attributes';
 
     return (
         <>
             <Head>
-                <title>Détail de l'attribut {item.name}</title>
+                <title>Detail of the {item.name} attribute</title>
             </Head>
             <Header>
-                <Content title='Attribut' icon='fa-cubes' url={url}>
+                <Content title='Attribute' icon='fa-cubes' url={url} action={"show"}>
                     <Form>
-                        <Form.Input fluid label='Nom' placeholder='Nom' defaultValue={item.name} name='nom' disabled />
-                        <Form.Checkbox label="Utiliser l'attribut comme filtre de recherche produit" name='filtre' checked={item.filter} disabled />
+                        <Form.Input fluid label='Name' placeholder='Name' defaultValue={item.name} name='name' disabled required />
+                        <Form.Checkbox label="Use the attribute as a product search filter" name='filter' checked={item.filter} disabled />
                         <div className='field'>
-                            <label>Valeurs</label>
+                            <label>Values</label>
                         </div>
                         {item.values && item.values.map((item) => <Value key={item._id} item={item} />)}
                     </Form>
@@ -47,7 +47,7 @@ export async function getServerSideProps({ params }) {
     let item = {};
 
     await axios
-        .get(process.env.URL + '/api/attributs/' + id)
+        .get(process.env.URL + '/api/attributes/' + id)
         .then((res) => {
             item = res.data.data;
         })

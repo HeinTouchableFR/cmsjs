@@ -52,10 +52,10 @@ export default function Index({ items, errors }) {
     return (
         <>
             <Head>
-                <title>Catégories</title>
+                <title>Categories</title>
             </Head>
             <Header>
-                <Content title='Catégories' icon='fa-folder' url={url}>
+                <Content title='Categories' icon='fa-folder' url={url}>
                     {errors}
                     <table className={"table tableStriped"}>
                         <thead className={"thead"}>
@@ -64,7 +64,7 @@ export default function Index({ items, errors }) {
                                     Id
                                 </th>
                                 <th className={"th"} scope='col'>
-                                    Nom
+                                    Name
                                 </th>
                                 <th className={"th"} scope='col'>
                                     Actions
@@ -72,16 +72,16 @@ export default function Index({ items, errors }) {
                             </tr>
                         </thead>
                         <tbody className={"tbody"}>
-                            {items && items.map((item) => <Categorie item={item} url={url} key={item._id} handleDelete={open} />)}
+                            {items && items.map((item) => <Category item={item} url={url} key={item._id} handleDelete={open} />)}
                         </tbody>
                     </table>
                     <Confirm
                         open={confirm}
                         onCancel={close}
                         onConfirm={handleDelete}
-                        content='Êtes-vous sûr de vouloir supprimer cet élément ?'
-                        cancelButton='Non'
-                        confirmButton='Oui'
+                        content='Are you sure you want to delete this item?'
+                        cancelButton='No'
+                        confirmButton='Yes'
                     />
                 </Content>
             </Header>
@@ -89,9 +89,9 @@ export default function Index({ items, errors }) {
     );
 }
 
-const Categorie = function ({ item, url, categorieParent, tiret = '', handleDelete }) {
-    if (categorieParent) {
-        tiret += ' — ';
+const Category = function ({ item, url, parentCategory, dash = '', handleDelete }) {
+    if (parentCategory) {
+        dash += ' — ';
     }
 
     return (
@@ -101,7 +101,7 @@ const Categorie = function ({ item, url, categorieParent, tiret = '', handleDele
                     {item._id}
                 </td>
                 <td className={"td"}>
-                    {categorieParent ? tiret : ''} {item.nom}
+                    {parentCategory ? dash : ''} {item.name}
                 </td>
                 <td className={"td"}>
                     <ActionButton url={url} style={'show'} icon={'fa-eye'} action={'show'} id={item._id} />
@@ -109,9 +109,9 @@ const Categorie = function ({ item, url, categorieParent, tiret = '', handleDele
                     <ActionButtonNoLink style={'delete'} icon={'fa-trash'} onClick={() => handleDelete(item)} />
                 </td>
             </tr>
-            {item.categoriesEnfantData &&
-                item.categoriesEnfantData.map((itemE) => (
-                    <Categorie handleDelete={handleDelete} item={itemE} url={url} categorieParent={item} tiret={tiret} key={itemE._id} />
+            {item.childCategoriesData &&
+                item.childCategoriesData.map((child) => (
+                    <Category handleDelete={handleDelete} item={child} url={url} parentCategory={item} dash={dash} key={child._id} />
                 ))}
         </>
     );

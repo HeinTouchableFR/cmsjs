@@ -12,40 +12,38 @@ export default function Detail({ item, errors, categories }) {
 
     const categoriesOptions = [];
 
-    const recursiveCategoriesOptions = function (categorie, tiret = '', parent) {
-        console.log(categorie);
+    const recursiveCategoriesOptions = function (category, dash = '', parent) {
         if (parent) {
-            tiret += ' — ';
+            dash += ' — ';
         }
-        categoriesOptions.push({ key: categorie._id, value: categorie._id, text: (parent ? tiret : '') + categorie.nom });
+        categoriesOptions.push({ key: category._id, value: category._id, text: (parent ? dash : '') + category.name });
 
-        if (categorie.categoriesEnfantData) {
-            categorie.categoriesEnfantData.map((enfant) => recursiveCategoriesOptions(enfant, tiret, categorie));
+        if (category.childCategoriesData) {
+            category.childCategoriesData.map((child) => recursiveCategoriesOptions(child, dash, category));
         }
     };
 
-    categories.map((categorie) => recursiveCategoriesOptions(categorie));
+    categories.map((category) => recursiveCategoriesOptions(category));
 
     return (
         <>
             <Head>
-                <title>Détail de la catégorie {item.nom}</title>
+                <title>Detail of the {item.name} category</title>
             </Head>
             <Header>
-                <Content title='Catégories' icon='fa-folder' url={url}>
+                <Content title='Categories' icon='fa-folder' url={url} action={"show"}>
                     <Form>
-                        <Form.Input fluid label='Nom' placeholder='Nom' name='nom' disabled defaultValue={item.nom} />
+                        <Form.Input fluid label='Name' placeholder='Name' name='name' disabled defaultValue={item.name} required />
                         <Form.TextArea label='Description' placeholder='Description' name='description' disabled defaultValue={item.description} />
                         <Form.Dropdown
-                            placeholder='Choisir une catégorie parent'
                             fluid
                             search
                             clearable
                             selection
                             options={categoriesOptions}
                             disabled
-                            defaultValue={item.categorieParent}
-                            name='categorieParent'
+                            defaultValue={item.parentCategory}
+                            name='parentCategory'
                         />
                     </Form>
                 </Content>

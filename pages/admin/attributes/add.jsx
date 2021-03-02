@@ -8,7 +8,7 @@ import Content from 'components/Content/Content';
 import { ActionButtonNoLink } from 'components/Button/ActionButton/ActionButton';
 
 export default function Add() {
-    const url = 'attributs';
+    const url = 'attributes';
 
     const [form, setForm] = useState({ name: '', values: [], filter: false });
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -78,7 +78,7 @@ export default function Add() {
                 <title>Add attribute</title>
             </Head>
             <Header>
-                <Content title='Attributs' icon='fa-cubes' url={url} action={'ajouter'}>
+                <Content title='Attributes' icon='fa-cubes' url={url} action={'add'}>
                     <Form onSubmit={handleSubmit}>
                         <Form.Input
                             fluid
@@ -119,7 +119,7 @@ const Value = function ({ item, form, setForm }) {
         <Card fluid color='teal'>
             <Card.Content header={item.name} />
             <Card.Content>
-                <Input fluid label='Name' placeholder='Name' name='name' onChange={handleChange} />
+                <Input fluid label='Name' placeholder='Name' name='name' required onChange={handleChange} />
             </Card.Content>
             <Card.Content extra>
                 <ActionButtonNoLink type='button' style={'supprimer'} icon={'fa-trash'} onClick={handleDelete} />

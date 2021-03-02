@@ -7,9 +7,9 @@ export default async (req, res) => {
         const fetchPromises = [];
         const item = doc.data();
         item._id = doc.id;
-        item.categoriesEnfantData = [];
-        if (item.categoriesEnfant) {
-            item.categoriesEnfant.map((categorie) => {
+        item.childCategoriesData = [];
+        if (item.childCategories) {
+            item.childCategories.map((categorie) => {
                 const nextPromise = db.doc(`categories/${categorie}`).get();
                 fetchPromises.push(nextPromise);
             });
@@ -21,7 +21,7 @@ export default async (req, res) => {
             fetchPromisesChild.push(nextChildPromise);
         });
         const childSnapshots = await Promise.all(fetchPromisesChild);
-        item.categoriesEnfantData = childSnapshots.map((item) => {
+        item.childCategoriesData = childSnapshots.map((item) => {
             return item;
         });
         return item;
@@ -30,7 +30,7 @@ export default async (req, res) => {
     switch (method) {
         case 'GET':
             try {
-                const snapshots = await db.collection('categories').where('categorieParent', '==', "").get()
+                const snapshots = await db.collection('categories').where('parentCategory', '==', "").get()
                 const items = snapshots.docs.map(async (doc) => {
                     return await recursive(doc);
                 });
@@ -42,20 +42,20 @@ export default async (req, res) => {
             break;
         case 'POST':
             let item = {
-                nom: req.body.nom,
+                name: req.body.name,
                 description: req.body.description,
-                categoriesEnfant: [],
-                categorieParent: req.body.categorieParent ? req.body.categorieParent : "",
+                childCategories: [],
+                parentCategory: req.body.parentCategory ? req.body.parentCategory : "",
             };
             const data = await db.collection('categories').add(item);
-            if (data.id && item.categorieParent) {
-                const snapshot = await db.doc(`categories/${item.categorieParent}`).get();
-                const categorie = {
+            if (data.id && item.parentCategory) {
+                const snapshot = await db.doc(`categories/${item.parentCategory}`).get();
+                const category = {
                     id: snapshot.id,
                     ...snapshot.data(),
                 };
-                categorie.categoriesEnfant.push(data.id);
-                await db.doc(`categories/${categorie.id}`).set(categorie, { merge: true });
+                category.childCategories.push(data.id);
+                await db.doc(`categories/${category.id}`).set(category, { merge: true });
             }
 
             res.status(200).json({ success: true });

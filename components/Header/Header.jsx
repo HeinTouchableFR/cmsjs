@@ -58,19 +58,19 @@ export default function Header({children}) {
                         <Link href='/admin/categories'>
                             <a className={styles.item + ' ' + (router.pathname.includes('/admin/categories') && styles.active)}>
                                 <i className='fad fa-folder'/>
-                                Catégories
+                                Categories
                             </a>
                         </Link>
-                        <Link href='/admin/produits'>
-                            <a className={styles.item + ' ' + (router.pathname.includes('/admin/produits') && styles.active)}>
+                        <Link href='/admin/products'>
+                            <a className={styles.item + ' ' + (router.pathname.includes('/admin/products') && styles.active)}>
                                 <i className='fad fa-cube'/>
-                                Produits
+                                Products
                             </a>
                         </Link>
-                        <Link href='/admin/attributs'>
-                            <a className={styles.item + ' ' + (router.pathname.includes('/admin/attributs') && styles.active)}>
+                        <Link href='/admin/attributes'>
+                            <a className={styles.item + ' ' + (router.pathname.includes('/admin/attributes') && styles.active)}>
                                 <i className='fad fa-cubes'/>
-                                Attributs
+                                Attributes
                             </a>
                         </Link>
                     </div>

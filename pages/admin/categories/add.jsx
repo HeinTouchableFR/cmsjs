@@ -11,7 +11,7 @@ import {admin} from '../../../utils/dbConnect';
 export default function Add({ categories }) {
     const url = 'categories';
 
-    const [form, setForm] = useState({ nom: '', description: '', categorieParent: null });
+    const [form, setForm] = useState({ name: '', description: '', parentCategory: null });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [errors, setErrors] = useState({});
     const router = useRouter();
@@ -36,7 +36,7 @@ export default function Add({ categories }) {
                 },
                 body: JSON.stringify(form),
             });
-            const { data: newItem } = await res.json();
+            await res.json();
             setIsSubmitting(false)
             router.push(`/admin/${url}`);
         } catch (error) {
@@ -54,8 +54,8 @@ export default function Add({ categories }) {
     const validate = () => {
         let err = {};
 
-        if (!form.nom) {
-            err.nom = 'Ce champ est requis';
+        if (!form.name) {
+            err.name = 'This field is required';
         }
 
         return err;
@@ -70,53 +70,53 @@ export default function Add({ categories }) {
 
     const categoriesOptions = [{ key: 'empty', value: '', text: 'No parent category' }];
 
-    const recursiveCategoriesOptions = function (categorie, tiret = '', parent) {
+    const recursiveCategoriesOptions = function (category, dash = '', parent) {
         if (parent) {
-            tiret += ' — ';
+            dash += ' — ';
         }
-        categoriesOptions.push({ key: categorie._id, value: categorie._id, text: (parent ? tiret : '') + categorie.nom });
+        categoriesOptions.push({ key: category._id, value: category._id, text: (parent ? dash : '') + category.name });
 
-        if (categorie.categoriesEnfantData) {
-            categorie.categoriesEnfantData.map((enfant) => recursiveCategoriesOptions(enfant, tiret, categorie));
+        if (category.childCategoriesData) {
+            category.childCategoriesData.map((child) => recursiveCategoriesOptions(child, dash, category));
         }
     };
 
-    categories.map((categorie) => recursiveCategoriesOptions(categorie));
+    categories.map((category) => recursiveCategoriesOptions(category));
 
     return (
         <>
             <Head>
-                <title>Ajouter une catégorie</title>
+                <title>Add a category</title>
             </Head>
             <Header>
-                <Content title='Catégories' icon='fa-folder' url={url} action={'ajouter'}>
+                <Content title='Categories' icon='fa-folder' url={url} action={'add'}>
                     <Form onSubmit={handleSubmit}>
                         <Form.Input
                             fluid
-                            error={errors.nom ? { content: 'Ce champ est requis', pointing: 'below' } : null}
-                            label='Nom'
-                            placeholder='Nom'
-                            name='nom'
+                            error={errors.name ? { content: 'This field is required', pointing: 'below' } : null}
+                            label='Name'
+                            placeholder='Name'
+                            name='name'
                             onChange={handleChange}
+                            required
                         />
                         <Form.TextArea
                             label='Description'
                             placeholder='Description'
                             name='description'
-                            error={errors.description ? { content: 'Ce champ est requis', pointing: 'below' } : null}
                             onChange={handleChange}
                         />
                         <Form.Dropdown
-                            placeholder='Choisir une catégorie parent'
+                            placeholder='Choose a parent category'
                             fluid
                             search
                             clearable
                             selection
                             options={categoriesOptions}
-                            name='categorieParent'
+                            name='parentCategory'
                             onChange={handleChange}
                         />
-                        <Button disabled={isSubmitting} loading={isSubmitting} type='submit'>Créer</Button>
+                        <Button disabled={isSubmitting} loading={isSubmitting} type='submit'>Add</Button>
                     </Form>
                 </Content>
             </Header>

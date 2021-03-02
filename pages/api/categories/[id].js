@@ -12,8 +12,8 @@ export default async (req, res) => {
             id: doc.id,
             ...doc.data()
         }
-        if (item.categoriesEnfant) {
-            item.categoriesEnfant.map(categorie => {
+        if (item.childCategories) {
+            item.childCategories.map(categorie => {
                 const nextPromise = db.doc(`categories/${categorie}`).get()
                 fetchPromises.push(nextPromise)
             })
@@ -28,16 +28,16 @@ export default async (req, res) => {
             }
         }
 
-        if(item.categorieParent){
-            const ref = db.doc(`categories/${item.categorieParent}`)
+        if(item.parentCategory){
+            const ref = db.doc(`categories/${item.parentCategory}`)
             const snapshot = await ref.get()
             const parent = {
                 id: snapshot.id,
                 ...snapshot.data()
             }
-            var index = parent.categoriesEnfant.indexOf(item.id.toString());
+            var index = parent.childCategories.indexOf(item.id.toString());
             if (index > -1) {
-                parent.categoriesEnfant.splice(index, 1);
+                parent.childCategories.splice(index, 1);
                 const nextPromise = await ref.set(parent, {merge: true})
                 await Promise.resolve(nextPromise)
             }
@@ -74,42 +74,42 @@ export default async (req, res) => {
                 if (!item) {
                     return res
                         .status(400)
-                        .json({success: false, errors: "L'élément n'existe pas."});
+                        .json({success: false, errors: "The item does not exist."});
                 }
-                item.nom = req.body.nom;
+                item.name = req.body.name;
                 item.description = req.body.description;
                 const promises = []
 
-                if (!(req.body.categorieParent === item.categorieParent) && req.body.categorieParent) {
+                if (!(req.body.parentCategory === item.parentCategory) && req.body.parentCategory) {
 
-                    const ref = db.doc(`categories/${req.body.categorieParent}`)
+                    const ref = db.doc(`categories/${req.body.parentCategory}`)
                     const snapshot = await ref.get()
-                    const categorie = {
+                    const category = {
                         id: snapshot.id,
                         ...snapshot.data()
                     }
-                    if (categorie) {
-                        categorie.categoriesEnfant.push(item.id);
-                        const nextPromise = await ref.set(categorie, {merge: true})
+                    if (category) {
+                        category.childCategories.push(item.id);
+                        const nextPromise = await ref.set(category, {merge: true})
                         promises.push(nextPromise)
                     }
                 }
-                if (!(req.body.categorieParent === item.categorieParent) && item.categorieParent) {
+                if (!(req.body.parentCategory === item.parentCategory) && item.parentCategory) {
 
-                    const ref = db.doc(`categories/${item.categorieParent}`)
+                    const ref = db.doc(`categories/${item.parentCategory}`)
                     const snapshot = await ref.get()
-                    const categorie = {
+                    const category = {
                         id: snapshot.id,
                         ...snapshot.data()
                     }
-                    var index = categorie.categoriesEnfant.indexOf(item.id.toString());
+                    var index = category.childCategories.indexOf(item.id.toString());
                     if (index > -1) {
-                        categorie.categoriesEnfant.splice(index, 1);
-                        const nextPromise = await ref.set(categorie, {merge: true})
+                        category.childCategories.splice(index, 1);
+                        const nextPromise = await ref.set(category, {merge: true})
                         promises.push(nextPromise)
                     }
                 }
-                item.categorieParent = req.body.categorieParent ? req.body.categorieParent : "";
+                item.parentCategory = req.body.parentCategory ? req.body.parentCategory : "";
                 Promise.all(promises).then(db.doc(`categories/${item.id}`).set(item, {merge: true}).then(res.status(200).json({success: true})))
             } catch (e) {
                 res.status(400).json({success: false, errors: e});

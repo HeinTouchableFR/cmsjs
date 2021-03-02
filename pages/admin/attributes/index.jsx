@@ -9,7 +9,7 @@ import Content from 'components/Content/Content';
 import { ActionButton, ActionButtonNoLink } from 'components/Button/ActionButton/ActionButton';
 
 export default function Index({ items, errors }) {
-    const url = 'attributs';
+    const url = 'attributes';
     const router = useRouter();
 
     const [isDeleting, setIsDeleting] = useState(false);
@@ -49,10 +49,10 @@ export default function Index({ items, errors }) {
     return (
         <>
             <Head>
-                <title>Attributs</title>
+                <title>Attributes</title>
             </Head>
             <Header>
-                <Content title='Attributs' icon='fa-cubes' url={url}>
+                <Content title='Attributes' icon='fa-cubes' url={url}>
                     {errors}
                     <table className={"table tableStriped"}>
                         <thead className={"thead"}>
@@ -61,10 +61,10 @@ export default function Index({ items, errors }) {
                                     Id
                                 </th>
                                 <th className={"th"} scope='col'>
-                                    Nom
+                                    Name
                                 </th>
                                 <th className={"th"} scope='col'>
-                                    Nombre de valeur(s)
+                                    Number of value(s)
                                 </th>
                                 <th className={"th"} scope='col'>
                                     Actions
@@ -72,16 +72,16 @@ export default function Index({ items, errors }) {
                             </tr>
                         </thead>
                         <tbody className={"tbody"}>
-                            {items && items.map((item) => <Item item={item} url={url} key={item._id} handleDelete={open} />)}
+                            {items && items.map((item) => <Attribute item={item} url={url} key={item._id} handleDelete={open} />)}
                         </tbody>
                     </table>
                     <Confirm
                         open={confirm}
                         onCancel={close}
                         onConfirm={handleDelete}
-                        content='Êtes-vous sûr de vouloir supprimer cet élément ?'
-                        cancelButton='Non'
-                        confirmButton='Oui'
+                        content='Are you sure you want to delete this item?'
+                        cancelButton='No'
+                        confirmButton='Yes'
                     />
                 </Content>
             </Header>
@@ -89,7 +89,7 @@ export default function Index({ items, errors }) {
     );
 }
 
-const Item = function ({ item, url, handleDelete }) {
+const Attribute = function ({ item, url, handleDelete }) {
     return (
         <>
             <tr className={"tr"}>
@@ -113,7 +113,7 @@ export async function getServerSideProps() {
     let errors = [];
 
     await axios
-        .get(process.env.URL + '/api/attributs')
+        .get(process.env.URL + '/api/attributes')
         .then((res) => {
             items = res.data.data;
         })

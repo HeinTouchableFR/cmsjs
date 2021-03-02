@@ -12,9 +12,9 @@ export default function Modifier({ item, categories }) {
     const url = 'categories';
 
     const [form, setForm] = useState({
-        nom: item.nom,
+        name: item.name,
         description: item.description,
-        categorieParent: item.categorieParent,
+        parentCategory: item.parentCategory,
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [errors, setErrors] = useState({});
@@ -40,7 +40,7 @@ export default function Modifier({ item, categories }) {
                 },
                 body: JSON.stringify(form),
             });
-            const { data: updateItem } = await res.json();
+            await res.json();
             router.push(`/admin/${url}`);
         } catch (error) {
             console.log(error);
@@ -57,8 +57,8 @@ export default function Modifier({ item, categories }) {
     const validate = () => {
         let err = {};
 
-        if (!form.nom) {
-            err.nom = 'Ce champ est requis';
+        if (!form.name) {
+            err.name = 'This field is required';
         }
 
         return err;
@@ -73,58 +73,58 @@ export default function Modifier({ item, categories }) {
 
     const categoriesOptions = [{ key: 'empty', value: '', text: 'No parent category' }];
 
-    const recursiveCategoriesOptions = function (categorie, tiret = '', parent) {
-        if (categorie._id !== item._id) {
+    const recursiveCategoriesOptions = function (category, dash = '', parent) {
+        if (category._id !== item._id) {
             if (parent) {
-                tiret += ' — ';
+                dash += ' — ';
             }
-            categoriesOptions.push({ key: categorie._id, value: categorie._id, text: (parent ? tiret : '') + categorie.nom });
+            categoriesOptions.push({ key: category._id, value: category._id, text: (parent ? dash : '') + category.name });
 
-            if (categorie.categoriesEnfantData) {
-                categorie.categoriesEnfantData.map((enfant) => recursiveCategoriesOptions(enfant, tiret, categorie));
+            if (category.childCategoriesData) {
+                category.childCategoriesData.map((child) => recursiveCategoriesOptions(child, dash, category));
             }
         }
     };
 
-    categories.map((categorie) => recursiveCategoriesOptions(categorie));
+    categories.map((category) => recursiveCategoriesOptions(category));
 
     return (
         <>
             <Head>
-                <title>Modifier la catégorie {item.nom}</title>
+                <title>Edit Category {item.name}</title>
             </Head>
             <Header>
-                <Content title='Catégories' icon='fa-folder' url={url} action={'ajouter'}>
+                <Content title='Categories' icon='fa-folder' url={url} action={"edit"}>
                     <Form onSubmit={handleSubmit}>
                         <Form.Input
                             fluid
-                            error={errors.nom ? { content: 'Ce champ est requis', pointing: 'below' } : null}
-                            label='Nom'
-                            placeholder='Nom'
-                            name='nom'
-                            defaultValue={item.nom}
+                            error={errors.name ? { content: 'This field is required', pointing: 'below' } : null}
+                            label='Name'
+                            placeholder='Name'
+                            name='name'
+                            defaultValue={item.name}
                             onChange={handleChange}
+                            required
                         />
                         <Form.TextArea
                             label='Description'
                             placeholder='Description'
                             name='description'
                             defaultValue={item.description}
-                            error={errors.description ? { content: 'Ce champ est requis', pointing: 'below' } : null}
                             onChange={handleChange}
                         />
                         <Form.Dropdown
-                            placeholder='Choisir une catégorie parent'
+                            placeholder='Choose a parent category'
                             fluid
                             search
                             clearable
                             selection
                             options={categoriesOptions}
-                            defaultValue={item.categorieParent}
-                            name='categorieParent'
+                            defaultValue={item.parentCategory}
+                            name='parentCategory'
                             onChange={handleChange}
                         />
-                        <Button type='submit'>Modifier</Button>
+                        <Button type='submit'>Edit</Button>
                     </Form>
                 </Content>
             </Header>

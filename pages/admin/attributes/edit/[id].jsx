@@ -9,7 +9,7 @@ import Content from 'components/Content/Content';
 import { ActionButtonNoLink } from 'components/Button/ActionButton/ActionButton';
 
 export default function Modifier({ item }) {
-    const url = 'attributs';
+    const url = 'attributes';
 
     const [form, setForm] = useState({ _id: item._id, name: item.name, values: item.values, filter: item.filter, newValues: [], deleteValues: [] });
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -53,7 +53,7 @@ export default function Modifier({ item }) {
         let err = {};
 
         if (!form.name) {
-            err.name = 'Ce champ est requis';
+            err.name = 'This field is required';
         }
 
         return err;
@@ -76,14 +76,14 @@ export default function Modifier({ item }) {
     return (
         <>
             <Head>
-                <title>Modifier l'attribut {item.name}</title>
+                <title>Edit attribute {item.name}</title>
             </Head>
             <Header>
-                <Content title='Attributs' icon='fa-cubes' url={url} action={'modifier'}>
+                <Content title='Attributes' icon='fa-cubes' url={url} action={"edit"}>
                     <Form onSubmit={handleSubmit}>
                         <Form.Input
                             fluid
-                            error={errors.name ? { content: 'Ce champ est requis', pointing: 'below' } : null}
+                            error={errors.name ? { content: 'This field is required', pointing: 'below' } : null}
                             label='Name'
                             placeholder='Name'
                             name='name'
@@ -103,9 +103,9 @@ export default function Modifier({ item }) {
                             <Value key={item._id} item={item} setForm={setForm} form={form} type='newValues' />
                         ))}
                         <Button type='button' color='teal' onClick={handleAddValue}>
-                            Ajouter une valeur
+                            Add a value
                         </Button>
-                        <Button type='submit'>Modifier</Button>
+                        <Button type='submit'>Edit</Button>
                     </Form>
                 </Content>
             </Header>
@@ -142,7 +142,7 @@ const Value = function ({ item, form, setForm, type = 'values' }) {
         <Card fluid color='teal'>
             <Card.Content header={item.name} />
             <Card.Content>
-                <Input fluid label='Name' placeholder='Name' name='name' defaultValue={item.name} onChange={handleChange} />
+                <Input fluid label='Name' placeholder='Name' name='name' defaultValue={item.name} required onChange={handleChange} />
             </Card.Content>
             <Card.Content extra>
                 <ActionButtonNoLink type='button' style={'supprimer'} icon={'fa-trash'} onClick={handleDelete} />
@@ -157,7 +157,7 @@ export async function getServerSideProps({ params }) {
     let item = {};
 
     await axios
-        .get(process.env.URL + '/api/attributs/' + id)
+        .get(process.env.URL + '/api/attributes/' + id)
         .then((res) => {
             item = res.data.data;
         })
