@@ -9,7 +9,7 @@ import Content from 'components/Content/Content';
 import { ActionButton, ActionButtonNoLink } from 'components/Button/ActionButton/ActionButton';
 
 export default function Index({ items }) {
-    const url = 'produits';
+    const url = 'products';
     const router = useRouter();
 
     const [isDeleting, setIsDeleting] = useState(false);
@@ -51,37 +51,37 @@ export default function Index({ items }) {
             </Head>
             <Header>
                 <Content title='Produits' icon='fa-cubes' url={url}>
-                    <table className={styles.table + ' ' + styles.tableStriped}>
-                        <thead className={styles.thead}>
+                    <table className={"table tableStriped"}>
+                        <thead className={"thead"}>
                             <tr>
-                                <th className={styles.th} scope='col'>
+                                <th className={"th"} scope='col'>
                                     Id
                                 </th>
-                                <th className={styles.th} scope='col'>
+                                <th className={"th"} scope='col'>
                                     Image
                                 </th>
-                                <th className={styles.th} scope='col'>
-                                    Nom
+                                <th className={"th"} scope='col'>
+                                    Name
                                 </th>
-                                <th className={styles.th} scope='col'>
-                                    Prix
+                                <th className={"th"} scope='col'>
+                                    Price
                                 </th>
-                                <th className={styles.th} scope='col'>
+                                <th className={"th"} scope='col'>
                                     Actions
                                 </th>
                             </tr>
                         </thead>
-                        <tbody className={styles.tbody}>
-                            {items && items.map((item) => <Item item={item} url={url} key={item._id} handleDelete={open} />)}
+                        <tbody className={"tbody"}>
+                            {items && items.map((item) => <Product item={item} url={url} key={item._id} handleDelete={open} />)}
                         </tbody>
                     </table>
                     <Confirm
                         open={confirm}
                         onCancel={close}
                         onConfirm={handleDelete}
-                        content='Êtes-vous sûr de vouloir supprimer cet élément ?'
-                        cancelButton='Non'
-                        confirmButton='Oui'
+                        content='Are you sure you want to delete this item ?'
+                        cancelButton='No'
+                        confirmButton='Yes'
                     />
                 </Content>
             </Header>
@@ -89,22 +89,22 @@ export default function Index({ items }) {
     );
 }
 
-const Item = function ({ item, url, handleDelete }) {
+const Product = function ({ item, url, handleDelete }) {
     return (
         <>
-            <tr className={styles.tr}>
-                <td scope='row' className={styles.td}>
+            <tr className={"tr"}>
+                <td scope='row' className={"td"}>
                     {item._id}
                 </td>
-                <td scope='row' className={styles.td}>
-                    <img src={item.imageEnAvant ? item.imageEnAvant.url : '/empty.png'} alt={'Image en avant ' + item.nom} width={120} height={120} />
+                <td scope='row' className={"td"}>
+                    <img src={item.productImage ? item.productImage.url : '/empty.png'} alt={'Product image ' + item.name} width={120} height={120} />
                 </td>
-                <td className={styles.td}>{item.nom}</td>
-                <td className={styles.td}>{item.prix}</td>
-                <td className={styles.td}>
-                    <ActionButton url={url} style={'voir'} icon={'fa-eye'} action={'voir'} id={item._id} />
-                    <ActionButton url={url} style={'modifier'} icon={'fa-pen'} action={'modifier'} id={item._id} />
-                    <ActionButtonNoLink style={'supprimer'} icon={'fa-trash'} onClick={() => handleDelete(item)} />
+                <td className={"td"}>{item.name}</td>
+                <td className={"td"}>{item.price} €</td>
+                <td className={"td"}>
+                    <ActionButton url={url} style={'show'} icon={'fa-eye'} action={'show'} id={item._id} />
+                    <ActionButton url={url} style={'edit'} icon={'fa-pen'} action={'edit'} id={item._id} />
+                    <ActionButtonNoLink style={'delete'} icon={'fa-trash'} onClick={() => handleDelete(item)} />
                 </td>
             </tr>
         </>
@@ -116,7 +116,7 @@ export async function getServerSideProps() {
     let errors = [];
 
     await axios
-        .get(process.env.URL + '/api/produits')
+        .get(process.env.URL + '/api/products')
         .then((res) => {
             items = res.data.data;
         })

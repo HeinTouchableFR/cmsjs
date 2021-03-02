@@ -6,7 +6,7 @@ import axios from 'axios';
 import { Form } from 'semantic-ui-react';
 
 export default function Detail({ item, categories }) {
-    const url = 'produits';
+    const url = 'products';
 
     const categoriesOptions = [];
 

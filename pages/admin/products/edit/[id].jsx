@@ -9,7 +9,7 @@ import { ActionButtonNoLink } from 'components/Button/ActionButton/ActionButton'
 import { Uploader } from 'rsuite';
 
 export default function Modifier({ item, categories }) {
-    const url = 'produits';
+    const url = 'products';
 
     const [form, setForm] = useState({
         _id: item._id,

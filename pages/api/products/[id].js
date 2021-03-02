@@ -1,8 +1,7 @@
-import dbConnect from "../../../utils/dbConnect";
+import {db} from "../../../utils/dbConnect";
 import Produit from "../../../models/Produit";
 import Image from "../../../models/Image";
 
-dbConnect();
 
 export default async (req, res) => {
   const {

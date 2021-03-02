@@ -1,7 +1,5 @@
-import dbConnect from 'utils/dbConnect';
-import Produit from 'models/Produit';
+import {db} from 'utils/dbConnect';
 
-dbConnect();
 
 export default async (req, res) => {
     const { method } = req;
@@ -9,16 +7,17 @@ export default async (req, res) => {
     switch (method) {
         case 'GET':
             try {
-                const items = await Produit.find({}).populate({
-                    path: 'imageEnAvant',
-                    populate: {
-                        path: 'imageEnAvant',
-                        model: 'Image',
-                    },
+                const snapshots = await db.collection('products').get()
+                const items = snapshots.docs.map(async (doc) => {
+                    return {
+                        _id: doc.id,
+                        ...doc.data()
+                    }
                 });
-                res.status(200).json({ success: true, data: items });
+                const data = await Promise.all(items)
+                res.status(200).json({ success: true, data: data })
             } catch (e) {
-                res.status(400).json({ success: false, erreurs: e });
+                res.status(400).json({ success: false, errors: e });
             }
             break;
         //case 'POST':
