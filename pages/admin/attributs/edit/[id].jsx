@@ -11,7 +11,7 @@ import { ActionButtonNoLink } from 'components/Button/ActionButton/ActionButton'
 export default function Modifier({ item }) {
     const url = 'attributs';
 
-    const [form, setForm] = useState({ _id: item._id, nom: item.nom, valeurs: item.valeurs, filtre: item.filtre, newValeurs: [], deleteValeurs: [] });
+    const [form, setForm] = useState({ _id: item._id, name: item.name, values: item.values, filter: item.filter, newValues: [], deleteValues: [] });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [errors, setErrors] = useState({});
     const router = useRouter();
@@ -52,8 +52,8 @@ export default function Modifier({ item }) {
     const validate = () => {
         let err = {};
 
-        if (!form.nom) {
-            err.nom = 'Ce champ est requis';
+        if (!form.name) {
+            err.name = 'Ce champ est requis';
         }
 
         return err;
@@ -66,43 +66,43 @@ export default function Modifier({ item }) {
         });
     };
 
-    const handleAddValeur = function () {
+    const handleAddValue = function () {
         setForm({
             ...form,
-            newValeurs: [...form.newValeurs, { _id: 'new-' + new Date().getTime(), nom: '', attribut: null }],
+            newValues: [...form.newValues, { _id: 'new-' + new Date().getTime(), name: ''}],
         });
     };
 
     return (
         <>
             <Head>
-                <title>Modifier l'attribut {item.nom}</title>
+                <title>Modifier l'attribut {item.name}</title>
             </Head>
             <Header>
                 <Content title='Attributs' icon='fa-cubes' url={url} action={'modifier'}>
                     <Form onSubmit={handleSubmit}>
                         <Form.Input
                             fluid
-                            error={errors.nom ? { content: 'Ce champ est requis', pointing: 'below' } : null}
-                            label='Nom'
-                            placeholder='Nom'
-                            name='nom'
-                            defaultValue={item.nom}
+                            error={errors.name ? { content: 'Ce champ est requis', pointing: 'below' } : null}
+                            label='Name'
+                            placeholder='Name'
+                            name='name'
+                            defaultValue={item.name}
                             onChange={handleChange}
                         />
                         <Form.Checkbox
-                            label="Utiliser l'attribut comme filtre de recherche produit"
-                            name='filtre'
-                            defaultChecked={item.filtre}
+                            label="Use the attribute as a product search filter"
+                            name='filter'
+                            defaultChecked={item.filter}
                             onChange={handleChange}
                         />
-                        {form.valeurs.map((item) => (
-                            <Valeur key={item._id} item={item} setForm={setForm} form={form} />
+                        {form.values.map((item) => (
+                            <Value key={item._id} item={item} setForm={setForm} form={form} />
                         ))}
-                        {form.newValeurs.map((item) => (
-                            <Valeur key={item._id} item={item} setForm={setForm} form={form} type='newValeurs' />
+                        {form.newValues.map((item) => (
+                            <Value key={item._id} item={item} setForm={setForm} form={form} type='newValues' />
                         ))}
-                        <Button type='button' color='teal' onClick={handleAddValeur}>
+                        <Button type='button' color='teal' onClick={handleAddValue}>
                             Ajouter une valeur
                         </Button>
                         <Button type='submit'>Modifier</Button>
@@ -113,36 +113,36 @@ export default function Modifier({ item }) {
     );
 }
 
-const Valeur = function ({ item, form, setForm, type = 'valeurs' }) {
+const Value = function ({ item, form, setForm, type = 'values' }) {
     const handleChange = (e, data) => {
         item = { ...item, [data.name]: data.value ? data.value : data.checked };
 
         switch (type) {
-            case 'valeurs':
-                setForm({ ...form, valeurs: form.valeurs.map((i) => (i._id === item._id ? item : i)) });
+            case 'values':
+                setForm({ ...form, values: form.values.map((i) => (i._id === item._id ? item : i)) });
                 break;
-            case 'newValeurs':
-                setForm({ ...form, newValeurs: form.newValeurs.map((i) => (i._id === item._id ? item : i)) });
+            case 'newValues':
+                setForm({ ...form, newValues: form.newValues.map((i) => (i._id === item._id ? item : i)) });
                 break;
         }
     };
 
     const handleDelete = function () {
         switch (type) {
-            case 'valeurs':
-                setForm({ ...form, deleteValeurs: [...form.deleteValeurs, item], valeurs: form.valeurs.filter((i) => i._id !== item._id) });
+            case 'values':
+                setForm({ ...form, deleteValues: [...form.deleteValues, item], values: form.values.filter((i) => i._id !== item._id) });
                 break;
-            case 'newValeurs':
-                setForm({ ...form, newValeurs: form.newValeurs.filter((i) => i._id !== item._id) });
+            case 'newValues':
+                setForm({ ...form, newValues: form.newValues.filter((i) => i._id !== item._id) });
                 break;
         }
     };
 
     return (
         <Card fluid color='teal'>
-            <Card.Content header={item.nom} />
+            <Card.Content header={item.name} />
             <Card.Content>
-                <Input fluid label='Nom' placeholder='Nom' name='nom' defaultValue={item.nom} onChange={handleChange} />
+                <Input fluid label='Name' placeholder='Name' name='name' defaultValue={item.name} onChange={handleChange} />
             </Card.Content>
             <Card.Content extra>
                 <ActionButtonNoLink type='button' style={'supprimer'} icon={'fa-trash'} onClick={handleDelete} />

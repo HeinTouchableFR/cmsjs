@@ -15,12 +15,10 @@ export default function Index({ items, errors }) {
     const [isDeleting, setIsDeleting] = useState(false);
     const [confirm, setConfirm] = useState(false);
     const [itemToDelete, setItemToDelete] = useState({});
-    const [isItemHasCategorieParent, setIsItemHasCategorieParent] = useState(false);
 
     const open = function (item) {
         setConfirm(true);
         setItemToDelete(item);
-        setIsItemHasCategorieParent(!!item.categorieParent);
     };
 
     const close = () => setConfirm(false);
@@ -32,16 +30,10 @@ export default function Index({ items, errors }) {
 
     const deleteElement = async () => {
         try {
-            if (isItemHasCategorieParent) {
-                const response = await fetch(`${process.env.URL}/api/${url}/${itemToDelete.categorieParent}`);
-                const { data: categorieParent } = await response.json();
-
-                categorieParent.categoriesEnfant = categorieParent.categoriesEnfant.filter((i) => i !== itemToDelete._id);
-            }
-
+            const response = await fetch(`${process.env.URL}/api/${url}/${itemToDelete._id}`, {
+                method: 'DELETE'
+            });
             setItemToDelete({});
-            setIsItemHasCategorieParent(null);
-
             router.push(`/admin/${url}`);
         } catch (error) {
             console.log(error);
@@ -62,24 +54,24 @@ export default function Index({ items, errors }) {
             <Header>
                 <Content title='Attributs' icon='fa-cubes' url={url}>
                     {errors}
-                    <table className={styles.table + ' ' + styles.tableStriped}>
-                        <thead className={styles.thead}>
+                    <table className={"table tableStriped"}>
+                        <thead className={"thead"}>
                             <tr>
-                                <th className={styles.th} scope='col'>
+                                <th className={"th"} scope='col'>
                                     Id
                                 </th>
-                                <th className={styles.th} scope='col'>
+                                <th className={"th"} scope='col'>
                                     Nom
                                 </th>
-                                <th className={styles.th} scope='col'>
+                                <th className={"th"} scope='col'>
                                     Nombre de valeur(s)
                                 </th>
-                                <th className={styles.th} scope='col'>
+                                <th className={"th"} scope='col'>
                                     Actions
                                 </th>
                             </tr>
                         </thead>
-                        <tbody className={styles.tbody}>
+                        <tbody className={"tbody"}>
                             {items && items.map((item) => <Item item={item} url={url} key={item._id} handleDelete={open} />)}
                         </tbody>
                     </table>
@@ -100,16 +92,16 @@ export default function Index({ items, errors }) {
 const Item = function ({ item, url, handleDelete }) {
     return (
         <>
-            <tr className={styles.tr}>
-                <td scope='row' className={styles.td}>
+            <tr className={"tr"}>
+                <td scope='row' className={"td"}>
                     {item._id}
                 </td>
-                <td className={styles.td}>{item.nom}</td>
-                <td className={styles.td}>{item.valeurs.length}</td>
-                <td className={styles.td}>
-                    <ActionButton url={url} style={'voir'} icon={'fa-eye'} action={'voir'} id={item._id} />
-                    <ActionButton url={url} style={'modifier'} icon={'fa-pen'} action={'modifier'} id={item._id} />
-                    <ActionButtonNoLink style={'supprimer'} icon={'fa-trash'} onClick={() => handleDelete(item)} />
+                <td className={"td"}>{item.name}</td>
+                <td className={"td"}>{item.values.length}</td>
+                <td className={"td"}>
+                    <ActionButton url={url} style={'show'} icon={'fa-eye'} action={'show'} id={item._id} />
+                    <ActionButton url={url} style={'edit'} icon={'fa-pen'} action={'edit'} id={item._id} />
+                    <ActionButtonNoLink style={'delete'} icon={'fa-trash'} onClick={() => handleDelete(item)} />
                 </td>
             </tr>
         </>

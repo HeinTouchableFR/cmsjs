@@ -7,10 +7,10 @@ import Header from 'components/Header/Header';
 import Content from 'components/Content/Content';
 import { ActionButtonNoLink } from 'components/Button/ActionButton/ActionButton';
 
-export default function Ajouter() {
+export default function Add() {
     const url = 'attributs';
 
-    const [form, setForm] = useState({ nom: '', valeurs: [], filtre: false });
+    const [form, setForm] = useState({ name: '', values: [], filter: false });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [errors, setErrors] = useState({});
     const router = useRouter();
@@ -51,8 +51,8 @@ export default function Ajouter() {
     const validate = () => {
         let err = {};
 
-        if (!form.nom) {
-            err.nom = 'Ce champ est requis';
+        if (!form.name) {
+            err.name = 'This field is required';
         }
 
         return err;
@@ -65,37 +65,38 @@ export default function Ajouter() {
         });
     };
 
-    const handleAddValeur = function () {
+    const handleAddValue = function () {
         setForm({
             ...form,
-            valeurs: [...form.valeurs, { _id: 'new-' + new Date().getTime(), nom: '', attribut: null }],
+            values: [...form.values, { _id: 'new-' + new Date().getTime(), name: '' }],
         });
     };
 
     return (
         <>
             <Head>
-                <title>Ajouter un attribut</title>
+                <title>Add attribute</title>
             </Head>
             <Header>
                 <Content title='Attributs' icon='fa-cubes' url={url} action={'ajouter'}>
                     <Form onSubmit={handleSubmit}>
                         <Form.Input
                             fluid
-                            error={errors.nom ? { content: 'Ce champ est requis', pointing: 'below' } : null}
-                            label='Nom'
-                            placeholder='Nom'
-                            name='nom'
+                            error={errors.name ? { content: 'This field is required', pointing: 'below' } : null}
+                            label='Name'
+                            placeholder='Name'
+                            name='name'
+                            required
                             onChange={handleChange}
                         />
-                        <Form.Checkbox label="Utiliser l'attribut comme filtre de recherche produit" name='filtre' onChange={handleChange} />
-                        {form.valeurs.map((item) => (
-                            <Valeur key={item._id} item={item} setForm={setForm} form={form} />
+                        <Form.Checkbox label="Use the attribute as a product search filter" name='filter' onChange={handleChange} />
+                        {form.values.map((item) => (
+                            <Value key={item._id} item={item} setForm={setForm} form={form} />
                         ))}
-                        <Button type='button' color='teal' onClick={handleAddValeur}>
-                            Ajouter une valeur
+                        <Button type='button' color='teal' onClick={handleAddValue}>
+                            Add value
                         </Button>
-                        <Button type='submit'>Créer</Button>
+                        <Button type='submit'>Add</Button>
                     </Form>
                 </Content>
             </Header>
@@ -103,22 +104,22 @@ export default function Ajouter() {
     );
 }
 
-const Valeur = function ({ item, form, setForm }) {
+const Value = function ({ item, form, setForm }) {
     const handleChange = (e, data) => {
         item = { ...item, [data.name]: data.value ? data.value : data.checked };
 
-        setForm({ ...form, valeurs: form.valeurs.map((i) => (i._id === item._id ? item : i)) });
+        setForm({ ...form, values: form.values.map((i) => (i._id === item._id ? item : i)) });
     };
 
     const handleDelete = function () {
-        setForm({ ...form, valeurs: form.valeurs.filter((i) => i._id !== item._id) });
+        setForm({ ...form, values: form.values.filter((i) => i._id !== item._id) });
     };
 
     return (
         <Card fluid color='teal'>
-            <Card.Content header={item.nom} />
+            <Card.Content header={item.name} />
             <Card.Content>
-                <Input fluid label='Nom' placeholder='Nom' name='nom' onChange={handleChange} />
+                <Input fluid label='Name' placeholder='Name' name='name' onChange={handleChange} />
             </Card.Content>
             <Card.Content extra>
                 <ActionButtonNoLink type='button' style={'supprimer'} icon={'fa-trash'} onClick={handleDelete} />

@@ -12,17 +12,17 @@ export default function Detail({ item }) {
     return (
         <>
             <Head>
-                <title>Détail de l'attribut {item.nom}</title>
+                <title>Détail de l'attribut {item.name}</title>
             </Head>
             <Header>
                 <Content title='Attribut' icon='fa-cubes' url={url}>
                     <Form>
-                        <Form.Input fluid label='Nom' placeholder='Nom' defaultValue={item.nom} name='nom' disabled />
-                        <Form.Checkbox label="Utiliser l'attribut comme filtre de recherche produit" name='filtre' checked={item.filtre} disabled />
+                        <Form.Input fluid label='Nom' placeholder='Nom' defaultValue={item.name} name='nom' disabled />
+                        <Form.Checkbox label="Utiliser l'attribut comme filtre de recherche produit" name='filtre' checked={item.filter} disabled />
                         <div className='field'>
                             <label>Valeurs</label>
                         </div>
-                        {item.valeurs && item.valeurs.map((item) => <Valeur key={item._id} item={item} />)}
+                        {item.values && item.values.map((item) => <Value key={item._id} item={item} />)}
                     </Form>
                 </Content>
             </Header>
@@ -30,12 +30,12 @@ export default function Detail({ item }) {
     );
 }
 
-const Valeur = function ({ item }) {
+const Value = function ({ item }) {
     return (
         <Card fluid color='teal'>
-            <Card.Content header={item.nom} />
+            <Card.Content header={item.name} />
             <Card.Content>
-                <Input fluid label='Nom' placeholder='Nom' name='nom' defaultValue={item.nom} disabled />
+                <Input fluid label='Nom' placeholder='Nom' name='nom' defaultValue={item.name} disabled />
             </Card.Content>
         </Card>
     );

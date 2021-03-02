@@ -1,6 +1,4 @@
-import db from "../../../utils/dbConnect";
-import Attribut from "../../../models/Attribut";
-import Valeur from "../../../models/Valeur";
+import {db} from "../../../utils/dbConnect";
 
 
 export default async (req, res) => {
@@ -9,25 +7,24 @@ export default async (req, res) => {
     switch (method) {
         case "GET":
             try {
-                db.collection('attributs').get().then(snapshots => {
+                db.collection('attributes').get().then(snapshots => {
                     const items = snapshots.docs.map(async item => {
                         const element = {
-                                _id: item.id,
-                                ...item.data(),
-                            }
+                            _id: item.id,
+                            ...item.data(),
+                        }
 
-                        let valeurs = []
-                        const snapshots = db.doc(`attributs/${item.id}`).collection('valeurs').get()
-                        snapshots.then(items => {
-                            valeurs = items.docs.map(data => {
+                        let values = []
+                        const snapshots = db.doc(`attributes/${item.id}`).collection('values').get()
+                        await snapshots.then(items => {
+                            values = items.docs.map(data => {
                                 return {
                                     _id: data.id,
                                     ...data.data()
                                 }
                             })
                         })
-                        await Promise.all(valeurs)
-
+                        await Promise.all(values).then(data => element.values = data)
                         return element
                     })
                     Promise.all(items).then(data => res.status(200).json({success: true, data: data}))
@@ -38,28 +35,20 @@ export default async (req, res) => {
             break;
         case "POST":
             try {
-                let item = new Attribut({
-                    nom: req.body.nom,
-                    filtre: req.body.filtre,
-                    valeurs: [],
-                });
-
-                if (req.body.valeurs) {
-                    req.body.valeurs.forEach(function (element) {
-                        const e = new Valeur({
-                            nom: element.nom,
-                            attribut: item._id,
-                        });
-                        e.save();
-                        item.valeurs.push(e);
-                    });
+                let item = {
+                    name: req.body.name,
+                    filters: req.body.filter,
                 }
-                item
-                    .save(item)
-                    .then((data) => res.status(200).json({success: true, data: data}))
-                    .catch((err) =>
-                        res.status(400).json({success: false, errors: err})
-                    );
+                const data = await db.collection('attributes').add(item);
+                if (data.id && req.body.values) {
+                    for (const element of req.body.values) {
+                        const value = {
+                            name: element.name,
+                        }
+                        await db.doc(`attributes/${data.id}`).collection('values').add(value)
+                    }
+                }
+                res.status(200).json({success: true})
             } catch (e) {
                 res.status(400).json({success: false});
             }

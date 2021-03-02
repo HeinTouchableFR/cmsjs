@@ -1,113 +1,98 @@
-import dbConnect from "../../../utils/dbConnect";
-import Attribut from "../../../models/Attribut";
-import Valeur from "../../../models/Valeur";
+import {db} from "../../../utils/dbConnect";
 
-dbConnect();
 
 export default async (req, res) => {
-  const {
-    query: { id },
-    method,
-  } = req;
+    const {
+        query: {id},
+        method,
+    } = req;
 
-  switch (method) {
-    case "GET":
-      try {
-        const item = await Attribut.findById(id).populate({
-          path: "valeurs",
-          populate: {
-            path: "valeurs",
-            model: "Valeur",
-          },
-        });
-        if (!item) {
-          return res
-            .status(400)
-            .json({ success: false, data: "Attribut inconnu" });
-        }
+    switch (method) {
+        case "GET":
+            try {
+                const snapshot = await db.doc(`attributes/${id}`).get()
+                const item = {
+                    _id: snapshot.id,
+                    ...snapshot.data()
+                }
 
-        res.status(200).json({ success: true, data: item });
-      } catch (e) {
-        console.log(e);
-        res.status(400).json({ success: false, erreurs: e });
-      }
-      break;
-    case "PUT":
-      try {
-        const item = await Attribut.findById(id);
+                if (!item) {
+                    return res.status(400).json({success: false});
+                }
 
-        if (!item) {
-          return res
-            .status(400)
-            .json({ success: false, errors: "L'élément n'existe pas." });
-        }
-        item.nom = req.body.nom;
-        item.filtre = req.body.filtre;
-
-        if (req.body.valeurs) {
-          for (const element of req.body.valeurs) {
-            const e = await Valeur.findById(element._id);
-            if (e) {
-              e.nom = element.nom;
-              e.save();
+                let values = []
+                const snapshots = db.doc(`attributes/${item._id}`).collection('values').get()
+                await snapshots.then(items => {
+                    values = items.docs.map(data => {
+                        return {
+                            _id: data.id,
+                            ...data.data()
+                        }
+                    })
+                })
+                await Promise.all(values).then(data => {
+                    item.values = data
+                })
+                res.status(200).json({success: true, data: item});
+            } catch (e) {
+                console.log(e);
+                res.status(400).json({success: false, erreurs: e});
             }
-          }
-        }
-        if (req.body.newValeurs.length > 0) {
-          req.body.newValeurs.forEach(function (element) {
-            const e = new Valeur({
-              nom: element.nom,
-              attribut: item._id,
-            });
-            e.save();
-            item.valeurs.push(e);
-          });
-        }
-        if (req.body.deleteValeurs.length > 0) {
-          for (const element of req.body.deleteValeurs) {
-            const deletedItem = await Valeur.deleteOne({ _id: element._id });
-            if (deletedItem) {
-              var index = item.valeurs.indexOf(element._id);
-              if (index > -1) {
-                item.valeurs.splice(index, 1);
-              }
+            break;
+        case "PUT":
+            try {
+                const snapshot = await db.doc(`attributes/${id}`).get()
+                const item = {
+                    id: snapshot.id,
+                    ...snapshot.data()
+                }
+
+                if (!item) {
+                    return res
+                        .status(400)
+                        .json({success: false, errors: "The item does not exist."});
+                }
+                item.name = req.body.name;
+                item.filter = req.body.filter;
+
+                if (req.body.values) {
+                    for (const element of req.body.values) {
+                        const value = {
+                            name: element.name,
+                        }
+                        await db.doc(`attributes/${item.id}`).collection('values').doc(`${element._id}`).set(value, {merge: true})
+                    }
+                }
+                if (req.body.newValues.length > 0) {
+                    for (const element of req.body.newValues) {
+                        const value = {
+                            name: element.name,
+                        }
+                        await db.doc(`attributes/${item.id}`).collection('values').add(value)
+                    }
+                }
+                if (req.body.deleteValues.length > 0) {
+                    for (const element of req.body.deleteValues) {
+                        await db.doc(`attributes/${item.id}`).collection('values').doc(`${element._id}`).delete()
+                    }
+                }
+                await db.doc(`attributes/${item.id}`).set(item, {merge: true})
+                res.status(200).json({success: true})
+            } catch (e) {
+                res.status(400).json({success: false, errors: e});
             }
-          }
-        }
-        item
-          .save(item)
-          .then((data) => res.status(200).json({ success: true, data: data }))
-          .catch((err) =>
-            res.status(400).json({ success: false, errors: err })
-          );
-      } catch (e) {
-        res.status(400).json({ success: false, errors: e });
-      }
-      break;
-    case "DELETE":
-      try {
-        const item = await Attribut.findById(id);
+            break;
+        case "DELETE":
+            try {
+                await db.doc(`attributes/${id}`).delete()
 
-        if (item && item.valeurs.length > 0) {
-          for (const element of item.valeurs) {
-            console.log(element);
-            const valeur = await Valeur.deleteOne({ _id: element });
-            console.log(valeur);
-          }
-        }
-        const deletedItem = await Attribut.deleteOne({ _id: id });
-
-        if (!deletedItem) {
-          return res.status(400).json({ success: false });
-        }
-
-        return res.status(200).json({ success: true, data: {} });
-      } catch (e) {
-        res.status(400).json({ success: false });
-      }
-      break;
-    default:
-      res.status(400).json({ success: false });
-      break;
-  }
+                res.status(200).json({success: true});
+            } catch (e) {
+                res.status(400).json({success: false});
+            }
+            break;
+        default:
+            res.status(400).json({success: false});
+            break;
+    }
 };
