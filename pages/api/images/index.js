@@ -1,10 +1,10 @@
-import {db} from "../../../utils/dbConnect";
+import { db } from 'utils/dbConnect';
 
 export default async (req, res) => {
     const { method } = req;
 
     switch (method) {
-        case "GET":
+        case 'GET':
             try {
                 db.collection('images')
                     .orderBy('created_at', 'desc')
@@ -13,8 +13,8 @@ export default async (req, res) => {
                         const items = snapshot.docs.map((doc) => {
                             return {
                                 _id: doc.id,
-                                ...doc.data()
-                            }
+                                ...doc.data(),
+                            };
                         });
                         Promise.all(items).then((data) => res.status(200).json({ success: true, data: data }));
                     });
@@ -23,9 +23,7 @@ export default async (req, res) => {
             }
             break;
         default:
-            res
-                .status(400)
-                .json({ success: false, errors: "Cette méthode n'est pas disponible" });
+            res.status(400).json({ success: false, errors: "Cette méthode n'est pas disponible" });
             break;
     }
 };

@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
-import {FormattedMessage, useIntl} from 'react-intl';
+import { useIntl } from 'react-intl';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import axios from 'axios';
+import nookies from 'nookies';
 
 import Builder from 'container/Builder/Builder';
-import nookies from 'nookies';
-import {admin} from '../../../utils/dbConnect';
+import { admin } from 'utils/dbConnect';
 
 export default function Ajouter({ pages }) {
     const url = 'pages';
+
     const intl = useIntl();
 
     const [post, setPost] = useState({});
@@ -43,9 +44,7 @@ export default function Ajouter({ pages }) {
     return (
         <>
             <Head>
-                <title>
-                    <FormattedMessage id='page.addNew' defaultMessage='Add new page' />
-                </title>
+                <title>{intl.formatMessage({ id: 'page.addNew', defaultMessage: 'Add new page' })}</title>
             </Head>
             <Builder url={url} onSubmit={onSubmit} pages={pages} page={post} loading={loading} />
         </>
@@ -57,7 +56,7 @@ export async function getServerSideProps(ctx) {
         const cookies = nookies.get(ctx);
         const token = await admin.auth().verifyIdToken(cookies.token);
 
-        if(!token.roles.some(r=> ["admin", "editor", "moderator"].includes(r))){
+        if (!token.roles.some((r) => ['admin', 'editor', 'moderator'].includes(r))) {
             throw new Error('unauthorized');
         }
 
@@ -77,7 +76,7 @@ export async function getServerSideProps(ctx) {
         return {
             redirect: {
                 permanent: false,
-                destination: "/admin/login",
+                destination: '/admin/login',
             },
             props: {},
         };

@@ -1,9 +1,10 @@
 import React from 'react';
 import Head from 'next/head';
-import Header from 'components/Header/Header';
-import Content from 'components/Content/Content';
 import axios from 'axios';
 import { Form } from 'semantic-ui-react';
+
+import Header from 'components/Header/Header';
+import Content from 'components/Content/Content';
 
 export default function Detail({ item, categories }) {
     const url = 'products';

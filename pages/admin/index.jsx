@@ -1,8 +1,9 @@
-import Head from 'next/head';
-import Header from 'components/Header/Header';
 import React from 'react';
+import Head from 'next/head';
 import nookies from 'nookies';
-import {admin} from '../../utils/dbConnect';
+
+import { admin } from 'utils/dbConnect';
+import Header from 'components/Header/Header';
 
 export default function HomeAdmin() {
     return (
@@ -26,7 +27,7 @@ export const getServerSideProps = async (ctx) => {
         const cookies = nookies.get(ctx);
         const token = await admin.auth().verifyIdToken(cookies.token);
 
-        if(!token.roles.some(r=> ["admin", "editor", "moderator"].includes(r))){
+        if (!token.roles.some((r) => ['admin', 'editor', 'moderator'].includes(r))) {
             throw new Error('unauthorized');
         }
 
@@ -37,7 +38,7 @@ export const getServerSideProps = async (ctx) => {
         return {
             redirect: {
                 permanent: false,
-                destination: "/admin/login",
+                destination: '/admin/login',
             },
             props: {},
         };

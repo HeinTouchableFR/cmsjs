@@ -1,54 +1,61 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
+import { useIntl } from 'react-intl';
 import Head from 'next/head';
-import Builder from 'container/Builder/Builder';
 import axios from 'axios';
 import nookies from 'nookies';
-import {admin} from '../../../../utils/dbConnect';
 
-export default function Edit({item, pages}) {
+import { admin } from 'utils/dbConnect';
+import Builder from 'container/Builder/Builder';
+
+export default function Edit({ item, pages }) {
     const url = 'pages';
 
-    const [post, setPost] = useState(item)
-    const [loading, setLoading] = useState(false)
+    const intl = useIntl();
+
+    const [post, setPost] = useState(item);
+    const [loading, setLoading] = useState(false);
 
     const onSubmit = async function (e, content) {
-        setLoading(true)
+        setLoading(true);
         const res = await fetch(`/api/pages/${item._id}`, {
             body: JSON.stringify({
                 title: e.title,
                 slug: e.slug,
                 updated: new Date(),
                 content: JSON.stringify(content),
-                parentPage: e.parentPage
+                parentPage: e.parentPage,
             }),
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
             },
-            method: 'PUT'
-        })
+            method: 'PUT',
+        });
 
-        const result = await res.json()
-        setPost(result.data)
-        setLoading(false)
-    }
+        const result = await res.json();
+        setPost(result.data);
+        setLoading(false);
+    };
 
     return (
         <>
             <Head>
-                <title>Edit {item.title}</title>
+                <title>
+                    {intl.formatMessage({ id: 'page.edit', defaultMessage: 'Edit' })}
+                    {': '}
+                    {item.title}
+                </title>
             </Head>
-            <Builder url={url} pages={pages} page={post} loading={loading} onSubmit={onSubmit}/>
+            <Builder url={url} pages={pages} page={post} loading={loading} onSubmit={onSubmit} />
         </>
     );
 }
-
 
 export async function getServerSideProps(ctx) {
     try {
         const cookies = nookies.get(ctx);
         const token = await admin.auth().verifyIdToken(cookies.token);
 
-        if(!token.roles.some(r=> ["admin", "editor", "moderator"].includes(r))){
+        if (!token.roles.some((r) => ['admin', 'editor', 'moderator'].includes(r))) {
             throw new Error('unauthorized');
         }
 
@@ -84,7 +91,7 @@ export async function getServerSideProps(ctx) {
         return {
             redirect: {
                 permanent: false,
-                destination: "/admin/login",
+                destination: '/admin/login',
             },
             props: {},
         };

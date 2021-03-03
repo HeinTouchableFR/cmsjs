@@ -1,11 +1,12 @@
 import React from 'react';
 import Head from 'next/head';
-import Header from 'components/Header/Header';
-import Content from 'components/Content/Content';
 import axios from 'axios';
 import { Form } from 'semantic-ui-react';
 import nookies from 'nookies';
-import {admin} from '../../../../utils/dbConnect';
+
+import { admin } from 'utils/dbConnect';
+import Header from 'components/Header/Header';
+import Content from 'components/Content/Content';
 
 export default function Detail({ item, errors, categories }) {
     const url = 'categories';
@@ -31,7 +32,7 @@ export default function Detail({ item, errors, categories }) {
                 <title>Detail of the {item.name} category</title>
             </Head>
             <Header>
-                <Content title='Categories' icon='fa-folder' url={url} action={"show"}>
+                <Content title='Categories' icon='fa-folder' url={url} action={'show'}>
                     <Form>
                         <Form.Input fluid label='Name' placeholder='Name' name='name' disabled defaultValue={item.name} required />
                         <Form.TextArea label='Description' placeholder='Description' name='description' disabled defaultValue={item.description} />
@@ -57,7 +58,7 @@ export async function getServerSideProps(ctx) {
         const cookies = nookies.get(ctx);
         const token = await admin.auth().verifyIdToken(cookies.token);
 
-        if(!token.roles.some(r=> ["admin", "editor", "moderator"].includes(r))){
+        if (!token.roles.some((r) => ['admin', 'editor', 'moderator'].includes(r))) {
             throw new Error('unauthorized');
         }
 
@@ -93,7 +94,7 @@ export async function getServerSideProps(ctx) {
         return {
             redirect: {
                 permanent: false,
-                destination: "/admin/login",
+                destination: '/admin/login',
             },
             props: {},
         };

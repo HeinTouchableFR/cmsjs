@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import { useIntl } from 'react-intl';
 import Head from 'next/head';
-import Header from 'components/Header/Header';
-import Content from 'components/Content/Content';
 import { useRouter } from 'next/router';
 import { Button, Form } from 'semantic-ui-react';
 import axios from 'axios';
-import { Uploader } from 'rsuite';
-import styles from '../../../components/ComponentCollection/Image/Image.module.scss';
-import FileManager from '../../../components/FileManager/FileManager';
-import {useIntl} from 'react-intl';
+
+import Header from 'components/Header/Header';
+import Content from 'components/Content/Content';
+import FileManager from 'components/FileManager/FileManager';
 
 var FormData = require('form-data');
 
@@ -28,7 +27,7 @@ export default function Add({ categories }) {
         weight: null,
         categories: [],
         productImage: null,
-        productGallery: []
+        productGallery: [],
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [errors, setErrors] = useState({});
@@ -50,13 +49,6 @@ export default function Add({ categories }) {
         try {
             data.append('categories', JSON.stringify(form.categories));
             data.append('produitEnVente', form.enVente ? 'true' : 'false');
-            const res = await fetch(`${process.env.URL}/api/${url}/post`, {
-                method: 'POST',
-                headers: {
-                    Accept: 'application/json',
-                },
-                body: data,
-            });
             router.push(`/admin/${url}`);
         } catch (error) {
             console.log(error);
@@ -157,33 +149,9 @@ export default function Add({ categories }) {
                         />
                         <Form.TextArea label='Description' placeholder='Description' onChange={handleChange} name='description' />
                         <Form.Checkbox label='On Sale' onChange={handleChange} name='onSale' />
-                        <Form.Input
-                            fluid
-                            label='Length (cm)'
-                            placeholder='Length'
-                            name='lenght'
-                            type='number'
-                            onChange={handleChange}
-                            step='0.01'
-                        />
-                        <Form.Input
-                            fluid
-                            label='Width (cm)'
-                            placeholder='Width'
-                            name='width'
-                            onChange={handleChange}
-                            type='number'
-                            step='0.01'
-                        />
-                        <Form.Input
-                            fluid
-                            label='Height (cm)'
-                            placeholder='Height'
-                            name='height'
-                            onChange={handleChange}
-                            type='number'
-                            step='0.01'
-                        />
+                        <Form.Input fluid label='Length (cm)' placeholder='Length' name='lenght' type='number' onChange={handleChange} step='0.01' />
+                        <Form.Input fluid label='Width (cm)' placeholder='Width' name='width' onChange={handleChange} type='number' step='0.01' />
+                        <Form.Input fluid label='Height (cm)' placeholder='Height' name='height' onChange={handleChange} type='number' step='0.01' />
                         <Form.Input fluid label='Weight (Kg)' placeholder='Weight' name='weight' onChange={handleChange} type='number' step='0.001' />
                         <div className='field'>
                             <label>Product Image</label>
@@ -212,7 +180,9 @@ export default function Add({ categories }) {
                                     <div className={`filemanager_btn`}>
                                         {form.productGallery.length > 0 && form.productGallery[0].url ? (
                                             <div className={`preview__gallery`}>
-                                                {form.productGallery.map(image => <img src={`${image.url}`} alt={`${image.name}`}/>)}
+                                                {form.productGallery.map((image) => (
+                                                    <img src={`${image.url}`} alt={`${image.name}`} />
+                                                ))}
                                             </div>
                                         ) : (
                                             <div className={`preview`} style={{ background: `url(/placeholder.png)` }}></div>

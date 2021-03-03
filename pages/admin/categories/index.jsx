@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import axios from 'axios';
 import { Confirm } from 'semantic-ui-react';
+import axios from 'axios';
+import nookies from 'nookies';
 
 import Header from 'components/Header/Header';
 import Content from 'components/Content/Content';
 import { ActionButton, ActionButtonNoLink } from 'components/Button/ActionButton/ActionButton';
-import nookies from 'nookies';
-import {admin} from '../../../utils/dbConnect';
+import { admin } from 'utils/dbConnect';
 
 export default function Index({ items, errors }) {
     const url = 'categories';
@@ -34,9 +34,9 @@ export default function Index({ items, errors }) {
         try {
             setItemToDelete({});
             await fetch(`${process.env.URL}/api/${url}/${itemToDelete._id}`, {
-                method: 'DELETE'
-            })
-            setIsDeleting(false)
+                method: 'DELETE',
+            });
+            setIsDeleting(false);
             router.push(`/admin/${url}`);
         } catch (error) {
             console.log(error);
@@ -57,21 +57,21 @@ export default function Index({ items, errors }) {
             <Header>
                 <Content title='Categories' icon='fa-folder' url={url}>
                     {errors}
-                    <table className={"table tableStriped"}>
-                        <thead className={"thead"}>
+                    <table className={'table tableStriped'}>
+                        <thead className={'thead'}>
                             <tr>
-                                <th className={"th"} scope='col'>
+                                <th className={'th'} scope='col'>
                                     Id
                                 </th>
-                                <th className={"th"} scope='col'>
+                                <th className={'th'} scope='col'>
                                     Name
                                 </th>
-                                <th className={"th"} scope='col'>
+                                <th className={'th'} scope='col'>
                                     Actions
                                 </th>
                             </tr>
                         </thead>
-                        <tbody className={"tbody"}>
+                        <tbody className={'tbody'}>
                             {items && items.map((item) => <Category item={item} url={url} key={item._id} handleDelete={open} />)}
                         </tbody>
                     </table>
@@ -96,14 +96,14 @@ const Category = function ({ item, url, parentCategory, dash = '', handleDelete 
 
     return (
         <>
-            <tr className={"tr"}>
-                <td scope='row' className={"td"}>
+            <tr className={'tr'}>
+                <td scope='row' className={'td'}>
                     {item._id}
                 </td>
-                <td className={"td"}>
+                <td className={'td'}>
                     {parentCategory ? dash : ''} {item.name}
                 </td>
-                <td className={"td"}>
+                <td className={'td'}>
                     <ActionButton url={url} style={'show'} icon={'fa-eye'} action={'show'} id={item._id} />
                     <ActionButton url={url} style={'edit'} icon={'fa-pen'} action={'edit'} id={item._id} />
                     <ActionButtonNoLink style={'delete'} icon={'fa-trash'} onClick={() => handleDelete(item)} />
@@ -122,7 +122,7 @@ export async function getServerSideProps(ctx) {
         const cookies = nookies.get(ctx);
         const token = await admin.auth().verifyIdToken(cookies.token);
 
-        if(!token.roles.some(r=> ["admin", "editor", "moderator"].includes(r))){
+        if (!token.roles.some((r) => ['admin', 'editor', 'moderator'].includes(r))) {
             throw new Error('unauthorized');
         }
 
@@ -145,7 +145,7 @@ export async function getServerSideProps(ctx) {
         return {
             redirect: {
                 permanent: false,
-                destination: "/admin/login",
+                destination: '/admin/login',
             },
             props: {},
         };

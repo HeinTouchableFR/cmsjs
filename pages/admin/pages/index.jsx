@@ -4,12 +4,12 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 import { Confirm } from 'semantic-ui-react';
+import nookies from 'nookies';
 
+import { admin } from 'utils/dbConnect';
 import Header from 'components/Header/Header';
 import Content from 'components/Content/Content';
 import { ActionButton, ActionButtonNoLink } from 'components/Button/ActionButton/ActionButton';
-import nookies from 'nookies';
-import {admin} from '../../../utils/dbConnect';
 
 export default function Index({ items, errors }) {
     const url = 'pages';
@@ -77,7 +77,7 @@ export default function Index({ items, errors }) {
                                     {intl.formatMessage({ id: 'date', defaultMessage: 'Date' })}
                                 </th>
                                 <th className={'th'} scope='col'>
-                                    {intl.formatMessage({ id: 'lastAction', defaultMessage: 'Last action' })}
+                                    {intl.formatMessage({ id: 'actions', defaultMessage: 'Actions' })}
                                 </th>
                             </tr>
                         </thead>
@@ -147,7 +147,7 @@ export async function getServerSideProps(ctx) {
         const cookies = nookies.get(ctx);
         const token = await admin.auth().verifyIdToken(cookies.token);
 
-        if(!token.roles.some(r=> ["admin", "editor", "moderator"].includes(r))){
+        if (!token.roles.some((r) => ['admin', 'editor', 'moderator'].includes(r))) {
             throw new Error('unauthorized');
         }
 
@@ -170,7 +170,7 @@ export async function getServerSideProps(ctx) {
         return {
             redirect: {
                 permanent: false,
-                destination: "/admin/login",
+                destination: '/admin/login',
             },
             props: {},
         };

@@ -1,8 +1,8 @@
 import React, { useEffect, useState, createRef } from 'react';
+import { useIntl } from 'react-intl';
+import slugify from 'react-slugify';
 import { Droppable, Draggable } from 'react-beautiful-dnd';
 import { Button, Form, Tab } from 'semantic-ui-react';
-import slugify from 'react-slugify';
-import { useIntl } from 'react-intl';
 
 import styles from './Navigation.module.scss';
 

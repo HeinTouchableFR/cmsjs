@@ -5,7 +5,6 @@ import { useIntl } from 'react-intl';
 import styles from './Image.module.scss';
 //Components
 import FileManager from 'components/FileManager/FileManager';
-//Utils
 
 export default function Image({ element, onElementValeurChange }) {
     // Use translation

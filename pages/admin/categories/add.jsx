@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 import axios from 'axios';
 import { Button, Form } from 'semantic-ui-react';
 import nookies from 'nookies';
-import {admin} from '../../../utils/dbConnect';
+import { admin } from 'utils/dbConnect';
 
 export default function Add({ categories }) {
     const url = 'categories';
@@ -37,7 +37,7 @@ export default function Add({ categories }) {
                 body: JSON.stringify(form),
             });
             await res.json();
-            setIsSubmitting(false)
+            setIsSubmitting(false);
             router.push(`/admin/${url}`);
         } catch (error) {
             console.log(error);
@@ -100,12 +100,7 @@ export default function Add({ categories }) {
                             onChange={handleChange}
                             required
                         />
-                        <Form.TextArea
-                            label='Description'
-                            placeholder='Description'
-                            name='description'
-                            onChange={handleChange}
-                        />
+                        <Form.TextArea label='Description' placeholder='Description' name='description' onChange={handleChange} />
                         <Form.Dropdown
                             placeholder='Choose a parent category'
                             fluid
@@ -116,7 +111,9 @@ export default function Add({ categories }) {
                             name='parentCategory'
                             onChange={handleChange}
                         />
-                        <Button disabled={isSubmitting} loading={isSubmitting} type='submit'>Add</Button>
+                        <Button disabled={isSubmitting} loading={isSubmitting} type='submit'>
+                            Add
+                        </Button>
                     </Form>
                 </Content>
             </Header>
@@ -129,7 +126,7 @@ export async function getServerSideProps(ctx) {
         const cookies = nookies.get(ctx);
         const token = await admin.auth().verifyIdToken(cookies.token);
 
-        if(!token.roles.some(r=> ["admin", "editor", "moderator"].includes(r))){
+        if (!token.roles.some((r) => ['admin', 'editor', 'moderator'].includes(r))) {
             throw new Error('unauthorized');
         }
 
@@ -149,7 +146,7 @@ export async function getServerSideProps(ctx) {
         return {
             redirect: {
                 permanent: false,
-                destination: "/admin/login",
+                destination: '/admin/login',
             },
             props: {},
         };
