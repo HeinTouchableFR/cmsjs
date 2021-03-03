@@ -62,7 +62,8 @@ apiRoute.post(async (req, res) => {
                             originalName: img.originalname,
                             name: newName,
                             size: img.size,
-                            created_at: new Date()
+                            created_at: new Date(),
+                            products: []
                         }
                         db.collection('images').add(pic).then(data => {
                             items.push({

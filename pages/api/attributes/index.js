@@ -39,12 +39,14 @@ export default async (req, res) => {
                 let item = {
                     name: req.body.name,
                     filters: req.body.filter,
+                    products: []
                 };
                 const data = await db.collection('attributes').add(item);
                 if (data.id && req.body.values) {
                     for (const element of req.body.values) {
                         const value = {
                             name: element.name,
+                            products: []
                         };
                         await db.doc(`attributes/${data.id}`).collection('values').add(value);
                     }

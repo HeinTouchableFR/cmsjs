@@ -1,17 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import { useIntl } from 'react-intl';
+import React, {useState, useEffect} from 'react';
+import {useIntl} from 'react-intl';
 import Head from 'next/head';
-import { useRouter } from 'next/router';
-import { Button, Form } from 'semantic-ui-react';
+import {useRouter} from 'next/router';
+import {Button, Card, Form, Input} from 'semantic-ui-react';
 import axios from 'axios';
 
 import Header from 'components/Header/Header';
 import Content from 'components/Content/Content';
 import FileManager from 'components/FileManager/FileManager';
+import {ActionButtonNoLink} from '../../../components/Button/ActionButton/ActionButton';
 
-var FormData = require('form-data');
-
-export default function Add({ categories }) {
+export default function Add({categories, attributes}) {
     const intl = useIntl();
     const url = 'products';
 
@@ -28,12 +27,11 @@ export default function Add({ categories }) {
         categories: [],
         productImage: null,
         productGallery: [],
+        attributes: []
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [errors, setErrors] = useState({});
     const router = useRouter();
-
-    const [data, setData] = useState(null);
 
     useEffect(() => {
         if (isSubmitting) {
@@ -47,8 +45,15 @@ export default function Add({ categories }) {
 
     const create = async () => {
         try {
-            data.append('categories', JSON.stringify(form.categories));
-            data.append('produitEnVente', form.enVente ? 'true' : 'false');
+            const res = await fetch(`${process.env.URL}/api/${url}`, {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(form),
+            });
+            setIsSubmitting(false);
             router.push(`/admin/${url}`);
         } catch (error) {
             console.log(error);
@@ -58,8 +63,6 @@ export default function Add({ categories }) {
     const handleSubmit = (e) => {
         e.preventDefault();
         let errs = validate();
-        let f = new FormData(e.target);
-        setData(f);
         setErrors(errs);
         setIsSubmitting(true);
     };
@@ -67,8 +70,8 @@ export default function Add({ categories }) {
     const validate = () => {
         let err = {};
 
-        if (!form.nom) {
-            err.nom = 'This field is required';
+        if (!form.name) {
+            err.name = 'This field is required';
         }
 
         return err;
@@ -87,7 +90,7 @@ export default function Add({ categories }) {
         if (parent) {
             dash += ' — ';
         }
-        categoriesOptions.push({ key: category._id, value: category._id, text: (parent ? dash : '') + category.name });
+        categoriesOptions.push({key: category._id, value: category._id, text: (parent ? dash : '') + category.name});
 
         if (category.childCategoriesData) {
             category.childCategoriesData.map((child) => recursiveCategoriesOptions(child, dash, category));
@@ -110,17 +113,39 @@ export default function Add({ categories }) {
         });
     };
 
+    const handleAddAttribute = function (e, data) {
+        const attribute = {
+            attribute: data.value,
+            values: [],
+            variation: false,
+            visible: false
+        }
+        setForm({...form, attributes: [...form.attributes, attribute]})
+    }
+
+    const filteredAttributes = (attributes || []).filter(attribute => {
+        return !form.attributes.some((a => a.attribute === attribute._id))
+    })
+
+
+    const attributesOptions = [];
+    filteredAttributes.map(attribute => attributesOptions.push({
+        key: attribute._id,
+        value: attribute._id,
+        text: attribute.name
+    }))
+
     return (
         <>
             <Head>
-                <title>Ajouter un produit</title>
+                <title>Add a new product</title>
             </Head>
             <Header>
                 <Content title='Products' icon='fa-cubes' url={url} action={'add'}>
-                    <Form onSubmit={handleSubmit}>
+                    <Form>
                         <Form.Input
                             fluid
-                            error={errors.name ? { content: 'This field is required', pointing: 'below' } : null}
+                            error={errors.name ? {content: 'This field is required', pointing: 'below'} : null}
                             label='Name'
                             placeholder='Name'
                             onChange={handleChange}
@@ -129,7 +154,7 @@ export default function Add({ categories }) {
                         />
                         <Form.Input
                             fluid
-                            error={errors.price ? { content: 'This field is required', pointing: 'below' } : null}
+                            error={errors.price ? {content: 'This field is required', pointing: 'below'} : null}
                             label='Price'
                             placeholder='Price'
                             name='price'
@@ -142,17 +167,22 @@ export default function Add({ categories }) {
                             fluid
                             label='Special Price'
                             placeholder='Special Price'
-                            name='spetialPrice'
+                            name='specialPrice'
                             type='number'
                             onChange={handleChange}
                             step='0.01'
                         />
-                        <Form.TextArea label='Description' placeholder='Description' onChange={handleChange} name='description' />
-                        <Form.Checkbox label='On Sale' onChange={handleChange} name='onSale' />
-                        <Form.Input fluid label='Length (cm)' placeholder='Length' name='lenght' type='number' onChange={handleChange} step='0.01' />
-                        <Form.Input fluid label='Width (cm)' placeholder='Width' name='width' onChange={handleChange} type='number' step='0.01' />
-                        <Form.Input fluid label='Height (cm)' placeholder='Height' name='height' onChange={handleChange} type='number' step='0.01' />
-                        <Form.Input fluid label='Weight (Kg)' placeholder='Weight' name='weight' onChange={handleChange} type='number' step='0.001' />
+                        <Form.TextArea label='Description' placeholder='Description' onChange={handleChange}
+                                       name='description'/>
+                        <Form.Checkbox label='On Sale' onChange={handleChange} name='onSale'/>
+                        <Form.Input fluid label='Length (cm)' placeholder='Length' name='length' type='number'
+                                    onChange={handleChange} step='0.01'/>
+                        <Form.Input fluid label='Width (cm)' placeholder='Width' name='width' onChange={handleChange}
+                                    type='number' step='0.01'/>
+                        <Form.Input fluid label='Height (cm)' placeholder='Height' name='height' onChange={handleChange}
+                                    type='number' step='0.01'/>
+                        <Form.Input fluid label='Weight (Kg)' placeholder='Weight' name='weight' onChange={handleChange}
+                                    type='number' step='0.001'/>
                         <div className='field'>
                             <label>Product Image</label>
                             <FileManager
@@ -161,11 +191,14 @@ export default function Add({ categories }) {
                                 trigger={
                                     <div className={`filemanager_btn`}>
                                         {form.productImage && form.productImage.url ? (
-                                            <div className={`preview`} style={{ background: `url(${form.productImage.url})` }}></div>
+                                            <div className={`preview`}
+                                                 style={{background: `url(${form.productImage.url})`}}></div>
                                         ) : (
-                                            <div className={`preview`} style={{ background: `url(/placeholder.png)` }}></div>
+                                            <div className={`preview`}
+                                                 style={{background: `url(/placeholder.png)`}}></div>
                                         )}
-                                        <div className={`preview__action`}>{intl.formatMessage({ id: 'choosePicture' })}</div>
+                                        <div
+                                            className={`preview__action`}>{intl.formatMessage({id: 'choosePicture'})}</div>
                                     </div>
                                 }
                             />
@@ -181,29 +214,51 @@ export default function Add({ categories }) {
                                         {form.productGallery.length > 0 && form.productGallery[0].url ? (
                                             <div className={`preview__gallery`}>
                                                 {form.productGallery.map((image) => (
-                                                    <img src={`${image.url}`} alt={`${image.name}`} />
+                                                    <img src={`${image.url}`} alt={`${image.name}`} key={image._id}/>
                                                 ))}
                                             </div>
                                         ) : (
-                                            <div className={`preview`} style={{ background: `url(/placeholder.png)` }}></div>
+                                            <div className={`preview`}
+                                                 style={{background: `url(/placeholder.png)`}}></div>
                                         )}
-                                        <div className={`preview__action`}>{intl.formatMessage({ id: 'choosePicture' })}</div>
+                                        <div
+                                            className={`preview__action`}>{intl.formatMessage({id: 'choosePicture'})}</div>
                                     </div>
                                 }
                             />
                         </div>
-                        <Form.Dropdown
-                            placeholder='Choose a parent category'
-                            fluid
-                            search
-                            clearable
-                            selection
-                            multiple
-                            options={categoriesOptions}
-                            name='categories'
-                            onChange={handleChange}
-                        />
-                        <Button type='submit'>Add</Button>
+                        <div className="field">
+                            <label>Category</label>
+                            <Form.Dropdown
+                                placeholder='Choose one or more categories'
+                                fluid
+                                search
+                                clearable
+                                selection
+                                multiple
+                                options={categoriesOptions}
+                                name='categories'
+                                onChange={handleChange}
+                            />
+                        </div>
+                        <div className="field">
+                            <label>Attributes</label>
+                            {form.attributes.map((attribute) => (
+                                <Attribute key={new Date().getTime()} attribute={attribute} setForm={setForm}
+                                           form={form} attributes={attributes}/>
+                            ))}
+                            <Form.Dropdown
+                                placeholder='Choose an attribute'
+                                fluid
+                                search
+                                clearable
+                                selection
+                                options={attributesOptions}
+                                name='attributes'
+                                onChange={handleAddAttribute}
+                            />
+                        </div>
+                        <Button type='button' onClick={handleSubmit}>Add</Button>
                     </Form>
                 </Content>
             </Header>
@@ -211,17 +266,77 @@ export default function Add({ categories }) {
     );
 }
 
+const Attribute = function ({attribute, setForm, form, attributes}) {
+
+    const realAttribute = attributes.find((element) => {
+        return element._id === attribute.attribute;
+    })
+
+    const valuesOptions = [];
+    realAttribute.values.map(value => valuesOptions.push({key: value._id, value: value._id, text: value.name}))
+
+
+    const handleDelete = function () {
+        setForm({...form, attributes: form.attributes.filter((a) => a.attribute !== attribute.attribute)});
+    };
+
+    const handleChange = (e, data) => {
+        setForm({
+            ...form,
+            attributes: form.attributes.map((a) => (a.attribute === attribute.attribute ? {
+                ...a,
+                [data.name]: data.value ? data.value : data.checked
+            } : a))
+        });
+    };
+
+    return <>
+        <Card fluid color='teal'>
+            <Card.Content header={realAttribute.name}/>
+            <Card.Content>
+                <Form.Dropdown
+                    placeholder='Choose one or more values'
+                    fluid
+                    search
+                    clearable
+                    selection
+                    multiple
+                    options={valuesOptions}
+                    name='values'
+                    onChange={handleChange}
+                    defaultValue={attribute.values}
+                />
+                <Form.Checkbox label="Visible on the product page" name='visible' onChange={handleChange}
+                               defaultChecked={attribute.visible}/>
+                <Form.Checkbox label="Used for variations" name='variation' onChange={handleChange}
+                               defaultChecked={attribute.variation}/>
+            </Card.Content>
+            <Card.Content extra>
+                <ActionButtonNoLink type='button' style={'delete'} icon={'fa-trash'} onClick={handleDelete}/>
+            </Card.Content>
+        </Card>
+    </>
+}
+
 export async function getServerSideProps() {
     let categories = [];
-
+    let attributes = []
     await axios
         .get(process.env.URL + '/api/categories')
         .then((res) => {
             categories = res.data.data;
         })
-        .catch(() => {});
+        .catch(() => {
+        });
+    await axios
+        .get(process.env.URL + '/api/attributes')
+        .then((res) => {
+            attributes = res.data.data;
+        })
+        .catch(() => {
+        });
 
     return {
-        props: { categories },
+        props: {categories, attributes},
     };
 }

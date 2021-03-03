@@ -46,6 +46,7 @@ export default async (req, res) => {
                 description: req.body.description,
                 childCategories: [],
                 parentCategory: req.body.parentCategory ? req.body.parentCategory : "",
+                products: []
             };
             const data = await db.collection('categories').add(item);
             if (data.id && item.parentCategory) {
