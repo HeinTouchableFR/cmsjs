@@ -6,11 +6,20 @@ import { Confirm } from 'semantic-ui-react';
 
 import Header from 'components/Header/Header';
 import Content from 'components/Content/Content';
-import { ActionButton, ActionButtonNoLink } from 'components/Button/ActionButton/ActionButton';
+import Table from 'components/Table/Table';
+import Product from 'components/rowTemplate/Product/Product';
 
 export default function Index({ items }) {
     const url = 'products';
     const router = useRouter();
+
+    const labels = [
+        { id: 'id', defaultMessage: 'Id' },
+        { id: 'image', defaultMessage: 'Image' },
+        { id: 'name', defaultMessage: 'Name' },
+        { id: 'price', defaultMessage: 'Price' },
+        { id: 'actions', defaultMessage: 'Actions' },
+    ];
 
     const [isDeleting, setIsDeleting] = useState(false);
     const [confirm, setConfirm] = useState(false);
@@ -51,30 +60,9 @@ export default function Index({ items }) {
             </Head>
             <Header>
                 <Content title='Produits' icon='fa-cubes' url={url}>
-                    <table className={"table tableStriped"}>
-                        <thead className={"thead"}>
-                            <tr>
-                                <th className={"th"} scope='col'>
-                                    Id
-                                </th>
-                                <th className={"th"} scope='col'>
-                                    Image
-                                </th>
-                                <th className={"th"} scope='col'>
-                                    Name
-                                </th>
-                                <th className={"th"} scope='col'>
-                                    Price
-                                </th>
-                                <th className={"th"} scope='col'>
-                                    Actions
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody className={"tbody"}>
-                            {items && items.map((item) => <Product item={item} url={url} key={item._id} handleDelete={open} />)}
-                        </tbody>
-                    </table>
+                    <Table labels={labels}>
+                        {items && items.map((item) => <Product item={item} url={url} key={item._id} handleDelete={open} />)}
+                    </Table>
                     <Confirm
                         open={confirm}
                         onCancel={close}
@@ -88,28 +76,6 @@ export default function Index({ items }) {
         </>
     );
 }
-
-const Product = function ({ item, url, handleDelete }) {
-    return (
-        <>
-            <tr className={"tr"}>
-                <td scope='row' className={"td"}>
-                    {item._id}
-                </td>
-                <td scope='row' className={"td"}>
-                    <img src={item.productImage ? item.productImage.url : '/empty.png'} alt={'Product image ' + item.name} width={120} height={120} />
-                </td>
-                <td className={"td"}>{item.name}</td>
-                <td className={"td"}>{item.price} €</td>
-                <td className={"td"}>
-                    <ActionButton url={url} style={'show'} icon={'fa-eye'} action={'show'} id={item._id} />
-                    <ActionButton url={url} style={'edit'} icon={'fa-pen'} action={'edit'} id={item._id} />
-                    <ActionButtonNoLink style={'delete'} icon={'fa-trash'} onClick={() => handleDelete(item)} />
-                </td>
-            </tr>
-        </>
-    );
-};
 
 export async function getServerSideProps() {
     let items = [];

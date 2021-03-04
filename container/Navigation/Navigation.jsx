@@ -64,7 +64,7 @@ export default function Navigation({ composants, currentItem, onElementValeurCha
 
     const panes = [
         {
-            menuItem: intl.formatMessage({ id: 'settingsLabel' }),
+            menuItem: intl.formatMessage({ id: 'settings', defaultMessage: 'Settings' }),
             render: () => (
                 <Tab.Pane attached={true}>
                     <Form onSubmit={handleSubmit}>
@@ -108,7 +108,7 @@ export default function Navigation({ composants, currentItem, onElementValeurCha
             ),
         },
         {
-            menuItem: intl.formatMessage({ id: 'componentLabel' }),
+            menuItem: intl.formatMessage({ id: 'component', defaultMessage: 'Component' }),
             render: () => (
                 <Tab.Pane attached={true}>
                     <Droppable droppableId='composants'>
@@ -131,7 +131,7 @@ export default function Navigation({ composants, currentItem, onElementValeurCha
             ),
         },
         currentItem.type && {
-            menuItem: intl.formatMessage({ id: 'editLabel' }) + ' ' + intl.formatMessage({ id: currentItem.type }),
+            menuItem: intl.formatMessage({ id: 'edit', defaultMessage: 'Edit' }) + ' ' + intl.formatMessage({ id: currentItem.type }),
             render: () => (
                 <Tab.Pane attached={true}>
                     <ComponentEditor element={currentItem} onElementValeurChange={onElementValeurChange} />

@@ -44,7 +44,7 @@ export default function Ajouter({ pages }) {
     return (
         <>
             <Head>
-                <title>{intl.formatMessage({ id: 'page.addNew', defaultMessage: 'Add new page' })}</title>
+                <title>{intl.formatMessage({ id: 'page.addNew', defaultMessage: 'Add a new page' })}</title>
             </Head>
             <Builder url={url} onSubmit={onSubmit} pages={pages} page={post} loading={loading} />
         </>

@@ -1,16 +1,16 @@
-import React, {useState, useEffect} from 'react';
-import {useIntl} from 'react-intl';
+import React, { useState, useEffect } from 'react';
+import { useIntl } from 'react-intl';
 import Head from 'next/head';
-import {useRouter} from 'next/router';
-import {Button, Card, Form, Input} from 'semantic-ui-react';
+import { useRouter } from 'next/router';
+import { Button, Card, Form, Input } from 'semantic-ui-react';
 import axios from 'axios';
 
 import Header from 'components/Header/Header';
 import Content from 'components/Content/Content';
 import FileManager from 'components/FileManager/FileManager';
-import {ActionButtonNoLink} from '../../../components/Button/ActionButton/ActionButton';
+import { ActionButtonNoLink } from '../../../components/Button/ActionButton/ActionButton';
 
-export default function Add({categories, attributes}) {
+export default function Add({ categories, attributes }) {
     const intl = useIntl();
     const url = 'products';
 
@@ -27,7 +27,7 @@ export default function Add({categories, attributes}) {
         categories: [],
         productImage: null,
         productGallery: [],
-        attributes: []
+        attributes: [],
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [errors, setErrors] = useState({});
@@ -90,7 +90,7 @@ export default function Add({categories, attributes}) {
         if (parent) {
             dash += ' — ';
         }
-        categoriesOptions.push({key: category._id, value: category._id, text: (parent ? dash : '') + category.name});
+        categoriesOptions.push({ key: category._id, value: category._id, text: (parent ? dash : '') + category.name });
 
         if (category.childCategoriesData) {
             category.childCategoriesData.map((child) => recursiveCategoriesOptions(child, dash, category));
@@ -118,22 +118,23 @@ export default function Add({categories, attributes}) {
             attribute: data.value,
             values: [],
             variation: false,
-            visible: false
-        }
-        setForm({...form, attributes: [...form.attributes, attribute]})
-    }
+            visible: false,
+        };
+        setForm({ ...form, attributes: [...form.attributes, attribute] });
+    };
 
-    const filteredAttributes = (attributes || []).filter(attribute => {
-        return !form.attributes.some((a => a.attribute === attribute._id))
-    })
-
+    const filteredAttributes = (attributes || []).filter((attribute) => {
+        return !form.attributes.some((a) => a.attribute === attribute._id);
+    });
 
     const attributesOptions = [];
-    filteredAttributes.map(attribute => attributesOptions.push({
-        key: attribute._id,
-        value: attribute._id,
-        text: attribute.name
-    }))
+    filteredAttributes.map((attribute) =>
+        attributesOptions.push({
+            key: attribute._id,
+            value: attribute._id,
+            text: attribute.name,
+        })
+    );
 
     return (
         <>
@@ -145,7 +146,7 @@ export default function Add({categories, attributes}) {
                     <Form>
                         <Form.Input
                             fluid
-                            error={errors.name ? {content: 'This field is required', pointing: 'below'} : null}
+                            error={errors.name ? { content: 'This field is required', pointing: 'below' } : null}
                             label='Name'
                             placeholder='Name'
                             onChange={handleChange}
@@ -154,7 +155,7 @@ export default function Add({categories, attributes}) {
                         />
                         <Form.Input
                             fluid
-                            error={errors.price ? {content: 'This field is required', pointing: 'below'} : null}
+                            error={errors.price ? { content: 'This field is required', pointing: 'below' } : null}
                             label='Price'
                             placeholder='Price'
                             name='price'
@@ -172,17 +173,12 @@ export default function Add({categories, attributes}) {
                             onChange={handleChange}
                             step='0.01'
                         />
-                        <Form.TextArea label='Description' placeholder='Description' onChange={handleChange}
-                                       name='description'/>
-                        <Form.Checkbox label='On Sale' onChange={handleChange} name='onSale'/>
-                        <Form.Input fluid label='Length (cm)' placeholder='Length' name='length' type='number'
-                                    onChange={handleChange} step='0.01'/>
-                        <Form.Input fluid label='Width (cm)' placeholder='Width' name='width' onChange={handleChange}
-                                    type='number' step='0.01'/>
-                        <Form.Input fluid label='Height (cm)' placeholder='Height' name='height' onChange={handleChange}
-                                    type='number' step='0.01'/>
-                        <Form.Input fluid label='Weight (Kg)' placeholder='Weight' name='weight' onChange={handleChange}
-                                    type='number' step='0.001'/>
+                        <Form.TextArea label='Description' placeholder='Description' onChange={handleChange} name='description' />
+                        <Form.Checkbox label='On Sale' onChange={handleChange} name='onSale' />
+                        <Form.Input fluid label='Length (cm)' placeholder='Length' name='length' type='number' onChange={handleChange} step='0.01' />
+                        <Form.Input fluid label='Width (cm)' placeholder='Width' name='width' onChange={handleChange} type='number' step='0.01' />
+                        <Form.Input fluid label='Height (cm)' placeholder='Height' name='height' onChange={handleChange} type='number' step='0.01' />
+                        <Form.Input fluid label='Weight (Kg)' placeholder='Weight' name='weight' onChange={handleChange} type='number' step='0.001' />
                         <div className='field'>
                             <label>Product Image</label>
                             <FileManager
@@ -191,14 +187,13 @@ export default function Add({categories, attributes}) {
                                 trigger={
                                     <div className={`filemanager_btn`}>
                                         {form.productImage && form.productImage.url ? (
-                                            <div className={`preview`}
-                                                 style={{background: `url(${form.productImage.url})`}}></div>
+                                            <div className={`preview`} style={{ background: `url(${form.productImage.url})` }}></div>
                                         ) : (
-                                            <div className={`preview`}
-                                                 style={{background: `url(/placeholder.png)`}}></div>
+                                            <div className={`preview`} style={{ background: `url(/placeholder.png)` }}></div>
                                         )}
-                                        <div
-                                            className={`preview__action`}>{intl.formatMessage({id: 'choosePicture'})}</div>
+                                        <div className={`preview__action`}>
+                                            {intl.formatMessage({ id: 'image.choose', defaultMessage: 'Choose an image' })}
+                                        </div>
                                     </div>
                                 }
                             />
@@ -214,20 +209,20 @@ export default function Add({categories, attributes}) {
                                         {form.productGallery.length > 0 && form.productGallery[0].url ? (
                                             <div className={`preview__gallery`}>
                                                 {form.productGallery.map((image) => (
-                                                    <img src={`${image.url}`} alt={`${image.name}`} key={image._id}/>
+                                                    <img src={`${image.url}`} alt={`${image.name}`} key={image._id} />
                                                 ))}
                                             </div>
                                         ) : (
-                                            <div className={`preview`}
-                                                 style={{background: `url(/placeholder.png)`}}></div>
+                                            <div className={`preview`} style={{ background: `url(/placeholder.png)` }}></div>
                                         )}
-                                        <div
-                                            className={`preview__action`}>{intl.formatMessage({id: 'choosePicture'})}</div>
+                                        <div className={`preview__action`}>
+                                            {intl.formatMessage({ id: 'image.choose', defaultMessage: 'Choose an image' })}
+                                        </div>
                                     </div>
                                 }
                             />
                         </div>
-                        <div className="field">
+                        <div className='field'>
                             <label>Category</label>
                             <Form.Dropdown
                                 placeholder='Choose one or more categories'
@@ -241,11 +236,10 @@ export default function Add({categories, attributes}) {
                                 onChange={handleChange}
                             />
                         </div>
-                        <div className="field">
+                        <div className='field'>
                             <label>Attributes</label>
                             {form.attributes.map((attribute) => (
-                                <Attribute key={new Date().getTime()} attribute={attribute} setForm={setForm}
-                                           form={form} attributes={attributes}/>
+                                <Attribute key={new Date().getTime()} attribute={attribute} setForm={setForm} form={form} attributes={attributes} />
                             ))}
                             <Form.Dropdown
                                 placeholder='Choose an attribute'
@@ -258,7 +252,9 @@ export default function Add({categories, attributes}) {
                                 onChange={handleAddAttribute}
                             />
                         </div>
-                        <Button type='button' onClick={handleSubmit}>Add</Button>
+                        <Button type='button' onClick={handleSubmit}>
+                            Add
+                        </Button>
                     </Form>
                 </Content>
             </Header>
@@ -266,77 +262,77 @@ export default function Add({categories, attributes}) {
     );
 }
 
-const Attribute = function ({attribute, setForm, form, attributes}) {
-
+const Attribute = function ({ attribute, setForm, form, attributes }) {
     const realAttribute = attributes.find((element) => {
         return element._id === attribute.attribute;
-    })
+    });
 
     const valuesOptions = [];
-    realAttribute.values.map(value => valuesOptions.push({key: value._id, value: value._id, text: value.name}))
-
+    realAttribute.values.map((value) => valuesOptions.push({ key: value._id, value: value._id, text: value.name }));
 
     const handleDelete = function () {
-        setForm({...form, attributes: form.attributes.filter((a) => a.attribute !== attribute.attribute)});
+        setForm({ ...form, attributes: form.attributes.filter((a) => a.attribute !== attribute.attribute) });
     };
 
     const handleChange = (e, data) => {
         setForm({
             ...form,
-            attributes: form.attributes.map((a) => (a.attribute === attribute.attribute ? {
-                ...a,
-                [data.name]: data.value ? data.value : data.checked
-            } : a))
+            attributes: form.attributes.map((a) =>
+                a.attribute === attribute.attribute
+                    ? {
+                          ...a,
+                          [data.name]: data.value ? data.value : data.checked,
+                      }
+                    : a
+            ),
         });
     };
 
-    return <>
-        <Card fluid color='teal'>
-            <Card.Content header={realAttribute.name}/>
-            <Card.Content>
-                <Form.Dropdown
-                    placeholder='Choose one or more values'
-                    fluid
-                    search
-                    clearable
-                    selection
-                    multiple
-                    options={valuesOptions}
-                    name='values'
-                    onChange={handleChange}
-                    defaultValue={attribute.values}
-                />
-                <Form.Checkbox label="Visible on the product page" name='visible' onChange={handleChange}
-                               defaultChecked={attribute.visible}/>
-                <Form.Checkbox label="Used for variations" name='variation' onChange={handleChange}
-                               defaultChecked={attribute.variation}/>
-            </Card.Content>
-            <Card.Content extra>
-                <ActionButtonNoLink type='button' style={'delete'} icon={'fa-trash'} onClick={handleDelete}/>
-            </Card.Content>
-        </Card>
-    </>
-}
+    return (
+        <>
+            <Card fluid color='teal'>
+                <Card.Content header={realAttribute.name} />
+                <Card.Content>
+                    <Form.Dropdown
+                        placeholder='Choose one or more values'
+                        fluid
+                        search
+                        clearable
+                        selection
+                        multiple
+                        options={valuesOptions}
+                        name='values'
+                        onChange={handleChange}
+                        defaultValue={attribute.values}
+                    />
+                    <Form.Checkbox label='Visible on the product page' name='visible' onChange={handleChange} defaultChecked={attribute.visible} />
+                    <Form.Checkbox label='Used for variations' name='variation' onChange={handleChange} defaultChecked={attribute.variation} />
+                </Card.Content>
+                <Card.Content extra>
+                    <ActionButtonNoLink type='button' style={'delete'} icon={'fa-trash'} onClick={handleDelete} />
+                </Card.Content>
+            </Card>
+        </>
+    );
+};
 
 export async function getServerSideProps() {
     let categories = [];
-    let attributes = []
+    let attributes = [];
     await axios
         .get(process.env.URL + '/api/categories')
         .then((res) => {
             categories = res.data.data;
         })
-        .catch(() => {
-        });
+        .catch(() => {});
     await axios
         .get(process.env.URL + '/api/attributes')
         .then((res) => {
             attributes = res.data.data;
         })
-        .catch(() => {
-        });
+        .catch(() => {});
 
     return {
-        props: {categories, attributes},
+        props: { categories, attributes },
     };
 }

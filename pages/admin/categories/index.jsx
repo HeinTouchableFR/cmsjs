@@ -5,14 +5,22 @@ import { Confirm } from 'semantic-ui-react';
 import axios from 'axios';
 import nookies from 'nookies';
 
+import { admin } from 'utils/dbConnect';
+
 import Header from 'components/Header/Header';
 import Content from 'components/Content/Content';
-import { ActionButton, ActionButtonNoLink } from 'components/Button/ActionButton/ActionButton';
-import { admin } from 'utils/dbConnect';
+import Table from 'components/Table/Table';
+import Category from 'components/rowTemplate/Category/Category';
 
 export default function Index({ items, errors }) {
     const url = 'categories';
     const router = useRouter();
+
+    const labels = [
+        { id: 'id', defaultMessage: 'Id' },
+        { id: 'name', defaultMessage: 'Name' },
+        { id: 'actions', defaultMessage: 'Actions' },
+    ];
 
     const [isDeleting, setIsDeleting] = useState(false);
     const [confirm, setConfirm] = useState(false);
@@ -57,24 +65,9 @@ export default function Index({ items, errors }) {
             <Header>
                 <Content title='Categories' icon='fa-folder' url={url}>
                     {errors}
-                    <table className={'table tableStriped'}>
-                        <thead className={'thead'}>
-                            <tr>
-                                <th className={'th'} scope='col'>
-                                    Id
-                                </th>
-                                <th className={'th'} scope='col'>
-                                    Name
-                                </th>
-                                <th className={'th'} scope='col'>
-                                    Actions
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody className={'tbody'}>
-                            {items && items.map((item) => <Category item={item} url={url} key={item._id} handleDelete={open} />)}
-                        </tbody>
-                    </table>
+                    <Table labels={labels}>
+                        {items && items.map((item) => <Category item={item} url={url} key={item._id} handleDelete={open} />)}
+                    </Table>
                     <Confirm
                         open={confirm}
                         onCancel={close}
@@ -88,34 +81,6 @@ export default function Index({ items, errors }) {
         </>
     );
 }
-
-const Category = function ({ item, url, parentCategory, dash = '', handleDelete }) {
-    if (parentCategory) {
-        dash += ' — ';
-    }
-
-    return (
-        <>
-            <tr className={'tr'}>
-                <td scope='row' className={'td'}>
-                    {item._id}
-                </td>
-                <td className={'td'}>
-                    {parentCategory ? dash : ''} {item.name}
-                </td>
-                <td className={'td'}>
-                    <ActionButton url={url} style={'show'} icon={'fa-eye'} action={'show'} id={item._id} />
-                    <ActionButton url={url} style={'edit'} icon={'fa-pen'} action={'edit'} id={item._id} />
-                    <ActionButtonNoLink style={'delete'} icon={'fa-trash'} onClick={() => handleDelete(item)} />
-                </td>
-            </tr>
-            {item.childCategoriesData &&
-                item.childCategoriesData.map((child) => (
-                    <Category handleDelete={handleDelete} item={child} url={url} parentCategory={item} dash={dash} key={child._id} />
-                ))}
-        </>
-    );
-};
 
 export async function getServerSideProps(ctx) {
     try {

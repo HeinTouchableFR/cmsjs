@@ -100,39 +100,51 @@ export default function FileManager({ multiple = false, currentFiles, setCurrent
                     <div className={`${styles.filemanager__files}`}>
                         <span>
                             {selectedFiles.length <= 1
-                                ? selectedFiles.length + ' ' + intl.formatMessage({ id: 'selectedImage' })
-                                : selectedFiles.length + ' ' + intl.formatMessage({ id: 'selectedImages' })}
+                                ? selectedFiles.length + ' ' + intl.formatMessage({ id: 'image.selected', defaultMessage: 'Selected image' })
+                                : selectedFiles.length + ' ' + intl.formatMessage({ id: 'images.selected', defaultMessage: 'Selected images' })}
                         </span>
                         {selectedFiles.map((image) => (
                             <img key={`preview-${image._id}`} src={image.url} />
                         ))}
                     </div>
                     <Button onClick={() => setSecondOpen(true)} primary>
-                        {intl.formatMessage({ id: 'fileManagerUploadAddNew' })} <Icon name='right chevron' />
+                        {intl.formatMessage({ id: 'image.addNew', defaultMessage: 'Add a new image' })} <Icon name='right chevron' />
                     </Button>
                     <Button disabled={selectedFiles.length === 0} color='green' onClick={() => handleInsertClick()}>
                         <Icon name='checkmark' /> Insérez un média
                     </Button>
                 </Modal.Actions>
                 <Modal closeIcon onClose={() => setSecondOpen(false)} open={secondOpen} className={styles.filemanager__upload__container}>
-                    <Modal.Header>{intl.formatMessage({ id: 'fileManagerUploadAddNew' })}</Modal.Header>
+                    <Modal.Header>{intl.formatMessage({ id: 'image.addNew', defaultMessage: 'Add a new image' })}</Modal.Header>
                     <Modal.Content>
                         <form onSubmit={handleSubmit}>
                             {multiple ? (
                                 <input
                                     type='file'
-                                    multiple
                                     name='files'
-                                    label={intl.formatMessage({ id: 'fileManagerUploadLabel' })}
-                                    help={intl.formatMessage({ id: 'fileManagerUploadHelp' })}
+                                    label={intl.formatMessage({
+                                        id: 'fileManager.uploadLabel',
+                                        defaultMessage: 'Drop files here or click to upload.',
+                                    })}
+                                    help={intl.formatMessage({
+                                        id: 'fileManager.uploadHelp',
+                                        defaultMessage: "Upload files here and they won't be sent immediately",
+                                    })}
                                     is='drop-files'
+                                    multiple
                                 />
                             ) : (
                                 <input
                                     type='file'
                                     name='files'
-                                    label={intl.formatMessage({ id: 'fileManagerUploadLabel' })}
-                                    help={intl.formatMessage({ id: 'fileManagerUploadHelp' })}
+                                    label={intl.formatMessage({
+                                        id: 'fileManager.uploadLabel',
+                                        defaultMessage: 'Drop files here or click to upload.',
+                                    })}
+                                    help={intl.formatMessage({
+                                        id: 'fileManager.uploadHelp',
+                                        defaultMessage: "Upload files here and they won't be sent immediately",
+                                    })}
                                     is='drop-files'
                                 />
                             )}
@@ -142,7 +154,7 @@ export default function FileManager({ multiple = false, currentFiles, setCurrent
                                 type='submit'
                                 loading={loading}
                                 disabled={loading}
-                                content={intl.formatMessage({ id: 'fileManagerUploadSend' })}
+                                content={intl.formatMessage({ id: 'send', defaultMessage: 'Send' })}
                             />
                         </form>
                     </Modal.Content>

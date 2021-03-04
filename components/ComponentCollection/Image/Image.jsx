@@ -53,7 +53,9 @@ export default function Image({ element, onElementValeurChange }) {
                         ) : (
                             <div className={`${styles.preview}`} style={{ background: `url(/placeholder.png)` }}></div>
                         )}
-                        <div className={`${styles.preview__action}`}>{intl.formatMessage({ id: 'choosePicture' })}</div>
+                        <div className={`${styles.preview__action}`}>
+                            {intl.formatMessage({ id: 'image.choose', defaultMessage: 'Choose an image' })}
+                        </div>
                     </div>
                 }
             />

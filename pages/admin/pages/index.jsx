@@ -9,12 +9,20 @@ import nookies from 'nookies';
 import { admin } from 'utils/dbConnect';
 import Header from 'components/Header/Header';
 import Content from 'components/Content/Content';
-import { ActionButton, ActionButtonNoLink } from 'components/Button/ActionButton/ActionButton';
+import Table from 'components/Table/Table';
+import Page from 'components/rowTemplate/Page/Page';
 
 export default function Index({ items, errors }) {
     const url = 'pages';
     const router = useRouter();
     const intl = useIntl();
+
+    const labels = [
+        { id: 'title', defaultMessage: 'Title' },
+        { id: 'author', defaultMessage: 'Author' },
+        { id: 'date', defaultMessage: 'Date' },
+        { id: 'actions', defaultMessage: 'Actions' },
+    ];
 
     const [isDeleting, setIsDeleting] = useState(false);
     const [confirm, setConfirm] = useState(false);
@@ -64,27 +72,7 @@ export default function Index({ items, errors }) {
             <Header>
                 <Content title='Pages' icon='fa-file-word' url={url}>
                     {errors}
-                    <table className={'table tableStriped'}>
-                        <thead className={'thead'}>
-                            <tr>
-                                <th className={'th'} scope='col'>
-                                    {intl.formatMessage({ id: 'title', defaultMessage: 'Title' })}
-                                </th>
-                                <th className={'th'} scope='col'>
-                                    {intl.formatMessage({ id: 'author', defaultMessage: 'Author' })}
-                                </th>
-                                <th className={'th'} scope='col'>
-                                    {intl.formatMessage({ id: 'date', defaultMessage: 'Date' })}
-                                </th>
-                                <th className={'th'} scope='col'>
-                                    {intl.formatMessage({ id: 'actions', defaultMessage: 'Actions' })}
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody className={'tbody'}>
-                            {items && items.map((item) => <Page item={item} url={url} key={item._id} handleDelete={open} />)}
-                        </tbody>
-                    </table>
+                    <Table labels={labels}>{items && items.map((item) => <Page item={item} url={url} key={item._id} handleDelete={open} />)}</Table>
                     <Confirm
                         open={confirm}
                         onCancel={close}
@@ -104,43 +92,6 @@ export default function Index({ items, errors }) {
         </>
     );
 }
-
-const Page = function ({ item, url, parentPage, tiret = '', handleDelete }) {
-    const intl = useIntl();
-
-    if (parentPage) {
-        tiret += ' — ';
-    }
-
-    return (
-        <>
-            <tr className={'tr'}>
-                <td className={'td title'}>
-                    {parentPage ? tiret : ''} {item.title}
-                </td>
-                <td className={'td'}>{item.author}</td>
-                <td className={'td'}>
-                    {item.updated
-                        ? `${intl.formatMessage({ id: 'updated', defaultMessage: 'Updated' })} \n ${new Date(
-                              item.updated
-                          ).toLocaleDateString()}  ${new Date(item.updated).toLocaleTimeString()}`
-                        : `${intl.formatMessage({ id: 'published', defaultMessage: 'Published' })} \n ${new Date(
-                              item.published
-                          ).toLocaleDateString()}  ${new Date(item.published).toLocaleTimeString()}`}
-                </td>
-                <td className={'td'}>
-                    <ActionButton url={`${process.env.URL}/${item.slug}`} style={'show'} icon={'fa-eye'} id={item._id} />
-                    <ActionButton url={url} style={'edit'} icon={'fa-pen'} action={'edit'} id={item._id} />
-                    <ActionButtonNoLink style={'delete'} icon={'fa-trash'} onClick={() => handleDelete(item, item.childPages.length === 0)} />
-                </td>
-            </tr>
-            {item.childPagesData &&
-                item.childPagesData.map((itemE) => (
-                    <Page handleDelete={handleDelete} item={itemE} url={url} parentPage={item} tiret={tiret} key={itemE._id} />
-                ))}
-        </>
-    );
-};
 
 export async function getServerSideProps(ctx) {
     try {

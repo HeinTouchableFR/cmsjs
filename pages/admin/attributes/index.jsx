@@ -6,11 +6,19 @@ import { Confirm } from 'semantic-ui-react';
 
 import Header from 'components/Header/Header';
 import Content from 'components/Content/Content';
-import { ActionButton, ActionButtonNoLink } from 'components/Button/ActionButton/ActionButton';
+import Table from 'components/Table/Table';
+import Attribute from 'components/rowTemplate/Attribute/Attribute';
 
 export default function Index({ items, errors }) {
     const url = 'attributes';
     const router = useRouter();
+
+    const labels = [
+        { id: 'id', defaultMessage: 'Id' },
+        { id: 'name', defaultMessage: 'Name' },
+        { id: 'value.nb', defaultMessage: 'Number of value(s)' },
+        { id: 'actions', defaultMessage: 'Actions' },
+    ];
 
     const [isDeleting, setIsDeleting] = useState(false);
     const [confirm, setConfirm] = useState(false);
@@ -31,7 +39,7 @@ export default function Index({ items, errors }) {
     const deleteElement = async () => {
         try {
             const response = await fetch(`${process.env.URL}/api/${url}/${itemToDelete._id}`, {
-                method: 'DELETE'
+                method: 'DELETE',
             });
             setItemToDelete({});
             router.push(`/admin/${url}`);
@@ -54,27 +62,9 @@ export default function Index({ items, errors }) {
             <Header>
                 <Content title='Attributes' icon='fa-cubes' url={url}>
                     {errors}
-                    <table className={"table tableStriped"}>
-                        <thead className={"thead"}>
-                            <tr>
-                                <th className={"th"} scope='col'>
-                                    Id
-                                </th>
-                                <th className={"th"} scope='col'>
-                                    Name
-                                </th>
-                                <th className={"th"} scope='col'>
-                                    Number of value(s)
-                                </th>
-                                <th className={"th"} scope='col'>
-                                    Actions
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody className={"tbody"}>
-                            {items && items.map((item) => <Attribute item={item} url={url} key={item._id} handleDelete={open} />)}
-                        </tbody>
-                    </table>
+                    <Table labels={labels}>
+                        {items && items.map((item) => <Attribute item={item} url={url} key={item._id} handleDelete={open} />)}
+                    </Table>
                     <Confirm
                         open={confirm}
                         onCancel={close}
@@ -88,25 +78,6 @@ export default function Index({ items, errors }) {
         </>
     );
 }
-
-const Attribute = function ({ item, url, handleDelete }) {
-    return (
-        <>
-            <tr className={"tr"}>
-                <td scope='row' className={"td"}>
-                    {item._id}
-                </td>
-                <td className={"td"}>{item.name}</td>
-                <td className={"td"}>{item.values.length}</td>
-                <td className={"td"}>
-                    <ActionButton url={url} style={'show'} icon={'fa-eye'} action={'show'} id={item._id} />
-                    <ActionButton url={url} style={'edit'} icon={'fa-pen'} action={'edit'} id={item._id} />
-                    <ActionButtonNoLink style={'delete'} icon={'fa-trash'} onClick={() => handleDelete(item)} />
-                </td>
-            </tr>
-        </>
-    );
-};
 
 export async function getServerSideProps() {
     let items = [];

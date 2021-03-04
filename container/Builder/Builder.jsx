@@ -23,16 +23,16 @@ export default function Builder({ page = {}, onSubmit, pages, loading }) {
     const composants = [
         {
             tag: '<h1>',
-            label: intl.formatMessage({ id: 'titleLabel' }),
-            tooltip: intl.formatMessage({ id: 'titleTooltip' }),
+            label: intl.formatMessage({ id: 'title', defaultMessage: 'Title' }),
+            tooltip: intl.formatMessage({ id: 'title.tooltip', defaultMessage: 'To create wonderful title' }),
             color: 'orange',
             type: 'title',
-            valeurDefaut: `<h2>${intl.formatMessage({ id: 'titleDefault' })}</h2>`,
+            valeurDefaut: `<h2>${intl.formatMessage({ id: 'title.default', defaultMessage: 'My great title' })}</h2>`,
         },
         {
             tag: '<p>',
-            label: intl.formatMessage({ id: 'textEditorLabel' }),
-            tooltip: intl.formatMessage({ id: 'textEditorTooltip' }),
+            label: intl.formatMessage({ id: 'textEditor', defaultMessage: 'Text Editor' }),
+            tooltip: intl.formatMessage({ id: 'textEditor.tooltip', defaultMessage: 'To create all your texts' }),
             color: 'purple',
             type: 'text',
             valeurDefaut:
@@ -40,16 +40,19 @@ export default function Builder({ page = {}, onSubmit, pages, loading }) {
         },
         {
             tag: '<img/>',
-            label: intl.formatMessage({ id: 'imageLabel' }),
-            tooltip: intl.formatMessage({ id: 'imageTooltip' }),
+            label: intl.formatMessage({ id: 'image', defaultMessage: 'Image' }),
+            tooltip: intl.formatMessage({ id: 'image.tooltip', defaultMessage: 'Insert an image to show your products and creations!' }),
             color: 'yellow',
             type: 'image',
             valeurDefaut: '<img src="/placeholder.png"/>',
         },
         {
             tag: '<button>',
-            label: intl.formatMessage({ id: 'buttonLabel' }),
-            tooltip: intl.formatMessage({ id: 'buttonTooltip' }),
+            label: intl.formatMessage({ id: 'button', defaultMessage: 'Button' }),
+            tooltip: intl.formatMessage({
+                id: 'button.tooltip',
+                defaultMessage: 'A button allow you multiple possibility: Create link, event, submit...',
+            }),
             color: 'teal',
             type: 'bouton',
             valeurDefaut: '<button>Mon bouton</button>',

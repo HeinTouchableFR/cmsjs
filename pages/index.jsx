@@ -9,7 +9,7 @@ export default function Home({ items }) {
     return (
         <>
             <Header title={'HomePage'} />
-            <FormattedMessage id='fileManagerUploadAddNew' defaultMessage='Add new picture' />
+            <FormattedMessage id='image.addNew' defaultMessage='Add a new image' />
             <div className='container'>
                 <ProductsGrid items={items} />
             </div>
