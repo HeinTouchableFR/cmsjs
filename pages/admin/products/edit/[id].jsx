@@ -7,28 +7,32 @@ import { Button, Card, Form, Input, Loader } from 'semantic-ui-react';
 import { useRouter } from 'next/router';
 import { ActionButtonNoLink } from 'components/Button/ActionButton/ActionButton';
 import { Uploader } from 'rsuite';
+import FileManager from '../../../../components/FileManager/FileManager';
+import {useIntl} from 'react-intl';
 
-export default function Modifier({ item, categories }) {
+export default function Modifier({ item, categories, attributes }) {
+    const intl = useIntl();
     const url = 'products';
 
     const [form, setForm] = useState({
         _id: item._id,
-        nom: item.nom,
+        name: item.name,
         description: item.description,
-        enVente: item.enVente,
-        prix: item.prix,
-        prixPromo: item.prixPromo,
-        largeur: item.largeur,
-        longueur: item.longueur,
-        hauteur: item.hauteur,
-        poids: item.poids,
+        onSale: item.onSale,
+        price: item.price,
+        specialPrice: item.specialPrice,
+        width: item.width,
+        length: item.length,
+        height: item.height,
+        weight: item.weight,
         categories: item.categories,
+        productImage: item.productImage,
+        productGallery: item.productGallery,
+        attributes: item.attributes,
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [errors, setErrors] = useState({});
     const router = useRouter();
-
-    const [data, setData] = useState(null);
 
     useEffect(() => {
         if (isSubmitting) {
@@ -42,16 +46,15 @@ export default function Modifier({ item, categories }) {
 
     const update = async () => {
         try {
-            data.append('categories', JSON.stringify(form.categories));
-            data.append('produitEnVente', form.enVente ? 'true' : 'false');
-            const res = await fetch(`${process.env.URL}/api/${url}/post/${form._id}`, {
+            const res = await fetch(`${process.env.URL}/api/${url}/${item._id}`, {
                 method: 'PUT',
                 headers: {
                     Accept: 'application/json',
+                    'Content-Type': 'application/json',
                 },
-                body: data,
+                body: JSON.stringify(form),
             });
-            const { data: updateItem } = await res.json();
+            await res.json();
             router.push(`/admin/${url}`);
         } catch (error) {
             console.log(error);
@@ -61,8 +64,6 @@ export default function Modifier({ item, categories }) {
     const handleSubmit = (e) => {
         e.preventDefault();
         let errs = validate();
-        let f = new FormData(e.target);
-        setData(f);
         setErrors(errs);
         setIsSubmitting(true);
     };
@@ -70,8 +71,8 @@ export default function Modifier({ item, categories }) {
     const validate = () => {
         let err = {};
 
-        if (!form.nom) {
-            err.nom = 'Ce champ est requis';
+        if (!form.name) {
+            err.name = 'Ce champ est requis';
         }
 
         return err;
@@ -86,119 +87,181 @@ export default function Modifier({ item, categories }) {
 
     const categoriesOptions = [];
 
-    categories.map((categorie) => categoriesOptions.push({ key: categorie._id, value: categorie._id, text: categorie.nom }));
+    const recursiveCategoriesOptions = function (category, dash = '', parent) {
+        if (parent) {
+            dash += ' — ';
+        }
+        categoriesOptions.push({ key: category._id, value: category._id, text: (parent ? dash : '') + category.name });
+
+        if (category.childCategoriesData) {
+            category.childCategoriesData.map((child) => recursiveCategoriesOptions(child, dash, category));
+        }
+    };
+
+    categories.map((category) => recursiveCategoriesOptions(category));
+
+    const handleSetProductImage = function (files) {
+        setForm({
+            ...form,
+            productImage: files[0],
+        });
+    };
+
+    const handleSetProductGallery = function (files) {
+        setForm({
+            ...form,
+            productGallery: files,
+        });
+    };
+
+    const handleAddAttribute = function (e, data) {
+        const attribute = {
+            attribute: data.value,
+            values: [],
+            variation: false,
+            visible: false,
+        };
+        setForm({ ...form, attributes: [...form.attributes, attribute] });
+    };
+
+    const filteredAttributes = (attributes || []).filter((attribute) => {
+        return !form.attributes.some((a) => a.attribute === attribute._id);
+    });
+
+    const attributesOptions = [];
+    filteredAttributes.map((attribute) =>
+        attributesOptions.push({
+            key: attribute._id,
+            value: attribute._id,
+            text: attribute.name,
+        })
+    );
 
     return (
         <>
             <Head>
-                <title>Modifier le produit {item.nom}</title>
+                <title>Edit product {item.name}</title>
             </Head>
             <Header>
                 <Content title='Products' icon='fa-cubes' url={url} action={'modifier'}>
-                    <Form onSubmit={handleSubmit}>
+                    <Form>
                         <Form.Input
                             fluid
-                            error={errors.nom ? { content: 'Ce champ est requis', pointing: 'below' } : null}
-                            label='Nom'
-                            placeholder='Nom'
+                            error={errors.name ? { content: 'This field is required', pointing: 'below' } : null}
+                            label='Name'
+                            placeholder='Name'
                             onChange={handleChange}
-                            name='nom'
-                            defaultValue={form.nom}
+                            name='name'
+                            required
+                            defaultValue={form.name}
                         />
                         <Form.Input
                             fluid
-                            error={errors.prix ? { content: 'Ce champ est requis', pointing: 'below' } : null}
-                            label='Prix'
-                            placeholder='Prix'
-                            name='prix'
+                            error={errors.price ? { content: 'This field is required', pointing: 'below' } : null}
+                            label='Price'
+                            placeholder='Price'
+                            name='price'
                             type='number'
                             onChange={handleChange}
                             step='0.01'
-                            defaultValue={form.prix}
+                            required
+                            defaultValue={form.price}
                         />
                         <Form.Input
                             fluid
-                            label='Prix en promo'
-                            placeholder='Prix'
-                            name='prixPromo'
+                            label='Special Price'
+                            placeholder='Special Price'
+                            name='specialPrice'
                             type='number'
                             onChange={handleChange}
                             step='0.01'
-                            defaultValue={form.prixPromo}
+                            defaultValue={form.specialPrice}
                         />
-                        <Form.TextArea
-                            label='Description'
-                            placeholder='Description'
-                            onChange={handleChange}
-                            name='description'
-                            defaultValue={form.description}
-                        />
-                        <Form.Checkbox label='Produit en vente' onChange={handleChange} name='enVente' defaultChecked={form.enVente} />
-                        <Form.Input
-                            fluid
-                            label='Longueur (cm)'
-                            placeholder='Longueur'
-                            name='longueur'
-                            type='number'
-                            onChange={handleChange}
-                            step='0.01'
-                            defaultValue={form.longueur}
-                        />
-                        <Form.Input
-                            fluid
-                            label='Largeur (cm)'
-                            placeholder='Largeur'
-                            name='largeur'
-                            onChange={handleChange}
-                            type='number'
-                            step='0.01'
-                            defaultValue={form.largeur}
-                        />
-                        <Form.Input
-                            fluid
-                            label='Hauteur (cm)'
-                            placeholder='Hauteur'
-                            name='hauteur'
-                            onChange={handleChange}
-                            type='number'
-                            step='0.01'
-                            defaultValue={form.hauteur}
-                        />
-                        <Form.Input
-                            fluid
-                            label='Poids (Kg)'
-                            placeholder='Poids'
-                            name='poids'
-                            onChange={handleChange}
-                            type='number'
-                            step='0.001'
-                            defaultValue={form.poids}
-                        />
+                        <Form.TextArea label='Description' placeholder='Description' onChange={handleChange} name='description' defaultValue={form.description}/>
+                        <Form.Checkbox label='On Sale' onChange={handleChange} name='onSale' defaultChecked={form.onSale}/>
+                        <Form.Input fluid label='Length (cm)' placeholder='Length' name='length' type='number' onChange={handleChange} step='0.01' defaultValue={form.length}/>
+                        <Form.Input fluid label='Width (cm)' placeholder='Width' name='width' onChange={handleChange} type='number' step='0.01' defaultValue={form.width}/>
+                        <Form.Input fluid label='Height (cm)' placeholder='Height' name='height' onChange={handleChange} type='number' step='0.01' defaultValue={form.height}/>
+                        <Form.Input fluid label='Weight (Kg)' placeholder='Weight' name='weight' onChange={handleChange} type='number' step='0.001' defaultValue={form.weight}/>
                         <div className='field'>
-                            <label>Image en avant</label>
-                            <Uploader draggable autoUpload={false} name='imageEnAvant' multiple={false} listType='picture-text'>
-                                <div style={{ lineHeight: '200px' }}>Cliquez ou faites glisser les fichiers vers cette zone pour les télécharger</div>
-                            </Uploader>
+                            <label>Product Image</label>
+                            <FileManager
+                                currentFiles={form.productImage ? [form.productImage] : []}
+                                setCurrentFiles={handleSetProductImage}
+                                automaticReload={false}
+                                trigger={
+                                    <div className={`filemanager_btn`}>
+                                        {form.productImage && form.productImage.url ? (
+                                            <div className={`preview`} style={{ background: `url(${form.productImage.url})` }}></div>
+                                        ) : (
+                                            <div className={`preview`} style={{ background: `url(/placeholder.png)` }}></div>
+                                        )}
+                                        <div className={`preview__action`}>
+                                            {intl.formatMessage({ id: 'image.choose', defaultMessage: 'Choose an image' })}
+                                        </div>
+                                    </div>
+                                }
+                            />
                         </div>
                         <div className='field'>
-                            <label>Galerie d'image</label>
-                            <Uploader draggable autoUpload={false} name='galerieImage' multiple={true} listType='picture-text'>
-                                <div style={{ lineHeight: '200px' }}>Cliquez ou faites glisser les fichiers vers cette zone pour les télécharger</div>
-                            </Uploader>
+                            <label>Product Gallery</label>
+                            <FileManager
+                                currentFiles={form.productGallery}
+                                setCurrentFiles={handleSetProductGallery}
+                                automaticReload={false}
+                                multiple={true}
+                                trigger={
+                                    <div className={`filemanager_btn`}>
+                                        {form.productGallery.length > 0 && form.productGallery[0].url ? (
+                                            <div className={`preview__gallery`}>
+                                                {form.productGallery.map((image) => (
+                                                    <img src={`${image.url}`} alt={`${image.name}`} key={image._id} />
+                                                ))}
+                                            </div>
+                                        ) : (
+                                            <div className={`preview`} style={{ background: `url(/placeholder.png)` }}></div>
+                                        )}
+                                        <div className={`preview__action`}>
+                                            {intl.formatMessage({ id: 'image.choose', defaultMessage: 'Choose an image' })}
+                                        </div>
+                                    </div>
+                                }
+                            />
                         </div>
-                        <Form.Dropdown
-                            placeholder='Catégories'
-                            fluid
-                            search
-                            clearable
-                            selection
-                            multiple
-                            options={categoriesOptions}
-                            name='categories'
-                            onChange={handleChange}
-                            defaultValue={form.categories}
-                        />
-                        <Button type='submit'>Créer</Button>
+                        <div className='field'>
+                            <label>Category</label>
+                            <Form.Dropdown
+                                placeholder='Choose one or more categories'
+                                fluid
+                                search
+                                clearable
+                                selection
+                                multiple
+                                options={categoriesOptions}
+                                name='categories'
+                                onChange={handleChange}
+                                defaultValue={form.categories}
+                            />
+                        </div>
+                        <div className='field'>
+                            <label>Attributes</label>
+                            {form.attributes.map((attribute) => (
+                                <Attribute key={new Date().getTime()} attribute={attribute} setForm={setForm} form={form} attributes={attributes} />
+                            ))}
+                            <Form.Dropdown
+                                placeholder='Choose an attribute'
+                                fluid
+                                search
+                                clearable
+                                selection
+                                options={attributesOptions}
+                                name='attributes'
+                                onChange={handleAddAttribute}
+                            />
+                        </div>
+                        <Button type='button' onClick={handleSubmit}>
+                            Edit
+                        </Button>
                     </Form>
                 </Content>
             </Header>
@@ -206,41 +269,57 @@ export default function Modifier({ item, categories }) {
     );
 }
 
-const Valeur = function ({ item, form, setForm, type = 'valeurs' }) {
-    const handleChange = (e, data) => {
-        item = { ...item, [data.name]: data.value ? data.value : data.checked };
+const Attribute = function ({ attribute, setForm, form, attributes }) {
+    const realAttribute = attributes.find((element) => {
+        return element._id === attribute.attribute;
+    });
 
-        switch (type) {
-            case 'valeurs':
-                setForm({ ...form, valeurs: form.valeurs.map((i) => (i._id === item._id ? item : i)) });
-                break;
-            case 'newValeurs':
-                setForm({ ...form, newValeurs: form.newValeurs.map((i) => (i._id === item._id ? item : i)) });
-                break;
-        }
-    };
+    const valuesOptions = [];
+    realAttribute.values.map((value) => valuesOptions.push({ key: value._id, value: value._id, text: value.name }));
 
     const handleDelete = function () {
-        switch (type) {
-            case 'valeurs':
-                setForm({ ...form, deleteValeurs: [...form.deleteValeurs, item], valeurs: form.valeurs.filter((i) => i._id !== item._id) });
-                break;
-            case 'newValeurs':
-                setForm({ ...form, newValeurs: form.newValeurs.filter((i) => i._id !== item._id) });
-                break;
-        }
+        setForm({ ...form, attributes: form.attributes.filter((a) => a.attribute !== attribute.attribute) });
+    };
+
+    const handleChange = (e, data) => {
+        setForm({
+            ...form,
+            attributes: form.attributes.map((a) =>
+                a.attribute === attribute.attribute
+                    ? {
+                        ...a,
+                        [data.name]: data.value ? data.value : data.checked,
+                    }
+                    : a
+            ),
+        });
     };
 
     return (
-        <Card fluid color='teal'>
-            <Card.Content header={item.nom} />
-            <Card.Content>
-                <Input fluid label='Nom' placeholder='Nom' name='nom' defaultValue={item.nom} onChange={handleChange} />
-            </Card.Content>
-            <Card.Content extra>
-                <ActionButtonNoLink type='button' style={'supprimer'} icon={'fa-trash'} onClick={handleDelete} />
-            </Card.Content>
-        </Card>
+        <>
+            <Card fluid color='teal'>
+                <Card.Content header={realAttribute.name} />
+                <Card.Content>
+                    <Form.Dropdown
+                        placeholder='Choose one or more values'
+                        fluid
+                        search
+                        clearable
+                        selection
+                        multiple
+                        options={valuesOptions}
+                        name='values'
+                        onChange={handleChange}
+                        defaultValue={attribute.values}
+                    />
+                    <Form.Checkbox label='Visible on the product page' name='visible' onChange={handleChange} defaultChecked={attribute.visible} />
+                    <Form.Checkbox label='Used for variations' name='variation' onChange={handleChange} defaultChecked={attribute.variation} />
+                </Card.Content>
+                <Card.Content extra>
+                    <ActionButtonNoLink type='button' style={'delete'} icon={'fa-trash'} onClick={handleDelete} />
+                </Card.Content>
+            </Card>
+        </>
     );
 };
 
@@ -250,7 +329,7 @@ export async function getServerSideProps({ params }) {
     let item = {};
 
     await axios
-        .get(process.env.URL + '/api/produits/' + id)
+        .get(process.env.URL + '/api/products/' + id)
         .then((res) => {
             item = res.data.data;
         })
@@ -265,7 +344,16 @@ export async function getServerSideProps({ params }) {
         })
         .catch((error) => {});
 
+    let attributes = [];
+
+    await axios
+        .get(process.env.URL + '/api/attributes')
+        .then((res) => {
+            attributes = res.data.data;
+        })
+        .catch((error) => {});
+
     return {
-        props: { item, categories },
+        props: { item, categories, attributes },
     };
 }

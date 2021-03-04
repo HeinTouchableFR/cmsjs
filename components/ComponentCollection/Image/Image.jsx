@@ -20,7 +20,7 @@ export default function Image({ element, onElementValeurChange }) {
                 if (image.getAttribute('data-image')) {
                     const res = await fetch(process.env.URL + '/api/images/' + image.getAttribute('data-image'));
                     const data = await res.json();
-                    setCurrentFiles(data.data);
+                    setCurrentFiles([data.data]);
                 } else {
                     setCurrentFiles([]);
                 }

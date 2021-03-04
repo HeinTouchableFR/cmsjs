@@ -40,7 +40,9 @@ export default function Index({ items }) {
     const deleteElement = async () => {
         try {
             setItemToDelete({});
-
+            await fetch(`${process.env.URL}/api/${url}/${itemToDelete._id}`, {
+                method: 'DELETE',
+            });
             router.push(`/admin/${url}`);
         } catch (error) {
             console.log(error);

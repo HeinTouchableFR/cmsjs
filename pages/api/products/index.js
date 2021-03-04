@@ -38,14 +38,13 @@ export default async (req, res) => {
                     attributes: req.body.attributes,
                     created_at: new Date()
                 }
-                console.log(item)
                 const data = await db.collection('products').add(item);
 
                 if (item.productImage && data.id) {
                     const ref = db.doc(`images/${item.productImage._id}`)
                     const snapshot = await ref.get()
                     const image = {
-                        _id: snapshot.id,
+                        id: snapshot.id,
                         ...snapshot.data(),
                     };
                     image.products.push(data.id)

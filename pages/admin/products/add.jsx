@@ -184,6 +184,7 @@ export default function Add({ categories, attributes }) {
                             <FileManager
                                 currentFiles={form.productImage ? [form.productImage] : []}
                                 setCurrentFiles={handleSetProductImage}
+                                automaticReload={false}
                                 trigger={
                                     <div className={`filemanager_btn`}>
                                         {form.productImage && form.productImage.url ? (
@@ -203,6 +204,7 @@ export default function Add({ categories, attributes }) {
                             <FileManager
                                 currentFiles={form.productGallery}
                                 setCurrentFiles={handleSetProductGallery}
+                                automaticReload={false}
                                 multiple={true}
                                 trigger={
                                     <div className={`filemanager_btn`}>

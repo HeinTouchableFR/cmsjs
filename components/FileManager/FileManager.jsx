@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import { useIntl } from 'react-intl';
+import React, {useEffect, useState} from 'react';
+import {useIntl} from 'react-intl';
 import Image from 'next/image';
 import axios from 'axios';
-import { Button, Header, Icon, Modal } from 'semantic-ui-react';
+import {Button, Header, Icon, Modal} from 'semantic-ui-react';
 
 import styles from './fileManager.module.scss';
 
 typeof window === 'object' ? require('@grafikart/drop-files-element') : () => false;
 
-export default function FileManager({ multiple = false, currentFiles, setCurrentFiles, trigger }) {
+export default function FileManager({multiple = false, currentFiles, setCurrentFiles, trigger}) {
     const intl = useIntl();
 
     const [open, setOpen] = useState(false);
@@ -25,22 +25,22 @@ export default function FileManager({ multiple = false, currentFiles, setCurrent
             await axios.get(process.env.URL + '/api/images').then((res) => {
                 setImages(res.data.data);
             });
+        },
+        []
+    );
 
+    useEffect(
+        async function () {
             setSelectedFiles(currentFiles);
         },
         [currentFiles]
     );
 
     const handleSelectFile = function (file) {
-        if (multiple) {
-            selectedFiles.some((f) => f._id === file._id)
-                ? setSelectedFiles(selectedFiles.filter((f) => f._id !== file._id))
-                : setSelectedFiles([...selectedFiles, file]);
-        } else {
-            selectedFiles.some((f) => f._id === file._id)
-                ? setSelectedFiles(selectedFiles.filter((f) => f._id !== file._id))
-                : setSelectedFiles([file]);
-        }
+        selectedFiles.some((f) => f._id === file._id)
+            ? setSelectedFiles(selectedFiles.filter((f) => f._id !== file._id))
+            : setSelectedFiles([...selectedFiles, file]);
+
     };
 
     const handleSelectFiles = function (files) {
@@ -58,7 +58,7 @@ export default function FileManager({ multiple = false, currentFiles, setCurrent
         let f = new FormData(e.target);
         const items = await create(f);
         setImages([...items, ...images]);
-        multiple ? handleSelectFiles(items) : handleSelectFile(items[0]);
+        multiple ? handleSelectFiles(items) : handleSelectFiles([items[0]]);
         setLoading(false);
         setSecondOpen(false);
     };
@@ -72,7 +72,7 @@ export default function FileManager({ multiple = false, currentFiles, setCurrent
                 },
                 body: data,
             });
-            const { data: newItem } = await res.json();
+            const {data: newItem} = await res.json();
             return newItem;
         } catch (error) {
             console.log(error);
@@ -82,16 +82,16 @@ export default function FileManager({ multiple = false, currentFiles, setCurrent
     return (
         <>
             <Modal closeIcon open={open} trigger={trigger} onClose={() => setOpen(false)} onOpen={() => setOpen(true)}>
-                <Header icon='picture' content={intl.formatMessage({ id: 'insertMedia' })} />
+                <Header icon='picture' content={intl.formatMessage({id: 'insertMedia'})}/>
                 <Modal.Content scrolling>
                     <div className={`${styles.filemanager__container}`}>
                         {images.map((image) => (
                             <div
                                 key={image._id}
-                                className={`${styles.element} ${selectedFiles.some((f) => f._id === image._id) ? styles.selected : ''}`}
+                                className={`${styles.element} ${selectedFiles.length > 0 && selectedFiles.some((f) => f._id === image._id) ? styles.selected : ''}`}
                                 onClick={() => handleSelectFile(image)}
                             >
-                                <Image loading='lazy' src={`${image.url}`} alt='' width={125} height={125} />
+                                <Image loading='lazy' src={`${image.url}`} alt='' width={125} height={125}/>
                             </div>
                         ))}
                     </div>
@@ -100,22 +100,33 @@ export default function FileManager({ multiple = false, currentFiles, setCurrent
                     <div className={`${styles.filemanager__files}`}>
                         <span>
                             {selectedFiles.length <= 1
-                                ? selectedFiles.length + ' ' + intl.formatMessage({ id: 'image.selected', defaultMessage: 'Selected image' })
-                                : selectedFiles.length + ' ' + intl.formatMessage({ id: 'images.selected', defaultMessage: 'Selected images' })}
+                                ? selectedFiles.length + ' ' + intl.formatMessage({
+                                id: 'image.selected',
+                                defaultMessage: 'Selected image'
+                            })
+                                : selectedFiles.length + ' ' + intl.formatMessage({
+                                id: 'images.selected',
+                                defaultMessage: 'Selected images'
+                            })}
                         </span>
-                        {selectedFiles.map((image) => (
-                            <img key={`preview-${image._id}`} src={image.url} />
+                        {selectedFiles.length > 0 && selectedFiles.map((image) => (
+                            <img key={`preview-${image._id}`} src={image.url}/>
                         ))}
                     </div>
                     <Button onClick={() => setSecondOpen(true)} primary>
-                        {intl.formatMessage({ id: 'image.addNew', defaultMessage: 'Add a new image' })} <Icon name='right chevron' />
+                        {intl.formatMessage({id: 'image.addNew', defaultMessage: 'Add a new image'})} <Icon
+                        name='right chevron'/>
                     </Button>
                     <Button disabled={selectedFiles.length === 0} color='green' onClick={() => handleInsertClick()}>
-                        <Icon name='checkmark' /> Insérez un média
+                        <Icon name='checkmark'/> Insérez un média
                     </Button>
                 </Modal.Actions>
-                <Modal closeIcon onClose={() => setSecondOpen(false)} open={secondOpen} className={styles.filemanager__upload__container}>
-                    <Modal.Header>{intl.formatMessage({ id: 'image.addNew', defaultMessage: 'Add a new image' })}</Modal.Header>
+                <Modal closeIcon onClose={() => setSecondOpen(false)} open={secondOpen}
+                       className={styles.filemanager__upload__container}>
+                    <Modal.Header>{intl.formatMessage({
+                        id: 'image.addNew',
+                        defaultMessage: 'Add a new image'
+                    })}</Modal.Header>
                     <Modal.Content>
                         <form onSubmit={handleSubmit}>
                             {multiple ? (
@@ -154,7 +165,7 @@ export default function FileManager({ multiple = false, currentFiles, setCurrent
                                 type='submit'
                                 loading={loading}
                                 disabled={loading}
-                                content={intl.formatMessage({ id: 'send', defaultMessage: 'Send' })}
+                                content={intl.formatMessage({id: 'send', defaultMessage: 'Send'})}
                             />
                         </form>
                     </Modal.Content>
@@ -162,19 +173,4 @@ export default function FileManager({ multiple = false, currentFiles, setCurrent
             </Modal>
         </>
     );
-}
-
-export async function getServerSideProps() {
-    let images = [];
-
-    await axios
-        .get(process.env.URL + '/api/images')
-        .then((res) => {
-            images = res.data.data;
-        })
-        .catch(() => {});
-
-    return {
-        props: { images },
-    };
 }
