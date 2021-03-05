@@ -6,7 +6,6 @@ import 'style/globals.scss';
 import 'style/sandbox.scss';
 import 'style/tools/reset.scss';
 import 'semantic-ui-css/semantic.min.css';
-import 'rsuite/dist/styles/rsuite-default.css';
 
 import en from 'intl/lang/en.json';
 import fr from 'intl/lang/fr.json';

@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { DragDropContext } from 'react-beautiful-dnd';
+import React, {useState} from 'react';
+import {DragDropContext} from 'react-beautiful-dnd';
 
-import { useIntl } from 'react-intl';
+import {useIntl} from 'react-intl';
 
 import styles from './Builder.module.scss';
 
@@ -10,7 +10,7 @@ import Navigation from 'container/Navigation/Navigation';
 
 var FormData = require('form-data');
 
-export default function Builder({ page = {}, onSubmit, pages, loading }) {
+export default function Builder({page = {}, onSubmit, pages, loading}) {
     // Use translation
     const intl = useIntl();
 
@@ -23,39 +23,68 @@ export default function Builder({ page = {}, onSubmit, pages, loading }) {
     const composants = [
         {
             tag: '<h1>',
-            label: intl.formatMessage({ id: 'title', defaultMessage: 'Title' }),
-            tooltip: intl.formatMessage({ id: 'title.tooltip', defaultMessage: 'To create wonderful title' }),
+            label: intl.formatMessage({id: 'title', defaultMessage: 'Title'}),
+            tooltip: intl.formatMessage({id: 'title.tooltip', defaultMessage: 'To create wonderful title'}),
             color: 'orange',
             type: 'title',
-            valeurDefaut: `<h2>${intl.formatMessage({ id: 'title.default', defaultMessage: 'My great title' })}</h2>`,
+            defaultValue: {
+                text: `${intl.formatMessage({id: 'title.default', defaultMessage: 'My great title'})}`,
+                tag: 'h2',
+                alignment: 'left',
+                typo: {
+                    family: 'Roboto',
+                    size: '16',
+                    weight: 'normal',
+                    transform: 'initial',
+                    style: 'normal',
+                    decoration: 'none',
+                    lineHeight: '1',
+                    letterSpacing: '0',
+                },
+                styles: {
+                    color: {
+                        normal: '#000',
+                        hover: '#000'
+                    },
+                    textShadow: {
+                        color: '#00FFFFFF',
+                        blur: '10',
+                        horizontal: '0',
+                        vertical: '10'
+                    }
+                }
+            },
         },
         {
             tag: '<p>',
-            label: intl.formatMessage({ id: 'textEditor', defaultMessage: 'Text Editor' }),
-            tooltip: intl.formatMessage({ id: 'textEditor.tooltip', defaultMessage: 'To create all your texts' }),
+            label: intl.formatMessage({id: 'textEditor', defaultMessage: 'Text Editor'}),
+            tooltip: intl.formatMessage({id: 'textEditor.tooltip', defaultMessage: 'To create all your texts'}),
             color: 'purple',
             type: 'text',
-            valeurDefaut:
+            defaultValue:
                 '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.</p>',
         },
         {
             tag: '<img/>',
-            label: intl.formatMessage({ id: 'image', defaultMessage: 'Image' }),
-            tooltip: intl.formatMessage({ id: 'image.tooltip', defaultMessage: 'Insert an image to show your products and creations!' }),
+            label: intl.formatMessage({id: 'image', defaultMessage: 'Image'}),
+            tooltip: intl.formatMessage({
+                id: 'image.tooltip',
+                defaultMessage: 'Insert an image to show your products and creations!'
+            }),
             color: 'yellow',
             type: 'image',
-            valeurDefaut: '<img src="/placeholder.png"/>',
+            defaultValue: '<img src="/placeholder.png"/>',
         },
         {
             tag: '<button>',
-            label: intl.formatMessage({ id: 'button', defaultMessage: 'Button' }),
+            label: intl.formatMessage({id: 'button', defaultMessage: 'Button'}),
             tooltip: intl.formatMessage({
                 id: 'button.tooltip',
                 defaultMessage: 'A button allow you multiple possibility: Create link, event, submit...',
             }),
             color: 'teal',
             type: 'bouton',
-            valeurDefaut: '<button>Mon bouton</button>',
+            defaultValue: '<button>Mon bouton</button>',
         },
     ];
 
@@ -87,7 +116,7 @@ export default function Builder({ page = {}, onSubmit, pages, loading }) {
         disposition.colonnes.map((colonne) => {
             colonne.elements.map((element) => {
                 if (element.id === currentElement.id) {
-                    setCurrentElement({ id: 'empty' });
+                    setCurrentElement({id: 'empty'});
                 }
             });
         });
@@ -103,7 +132,7 @@ export default function Builder({ page = {}, onSubmit, pages, loading }) {
     };
 
     const onDragEnd = (result) => {
-        const { source, destination } = result;
+        const {source, destination} = result;
 
         // dropped outside the list
         if (!destination) {
@@ -195,7 +224,7 @@ export default function Builder({ page = {}, onSubmit, pages, loading }) {
             const [composant] = sourceClone.splice(droppableSource.index, 1);
             const element = {};
             element.id = new Date().getTime();
-            element.content = composant.valeurDefaut;
+            element.content = composant.defaultValue;
             element.type = composant.type;
             element.styles = {
                 margin: {
@@ -209,6 +238,14 @@ export default function Builder({ page = {}, onSubmit, pages, loading }) {
                     left: 0,
                     right: 0,
                     bottom: 0
+                },
+                background: {
+                    normal: '#00FFFFFF',
+                    hover: '#00FFFFFF'
+                },
+                color: {
+                    normal: '#000',
+                    hover: '#000'
                 }
             }
 
@@ -280,7 +317,7 @@ export default function Builder({ page = {}, onSubmit, pages, loading }) {
                         setCurrentElement={setCurrentElement}
                     />
                 </DragDropContext>
-                <div className={styles.hideMenuBtn} onClick={() => handleHideMenu()} />
+                <div className={styles.hideMenuBtn} onClick={() => handleHideMenu()}/>
             </div>
         </>
     );

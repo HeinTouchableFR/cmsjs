@@ -2,6 +2,7 @@ import {css, jsx} from '@emotion/react'
 import React, {useState} from 'react';
 import styles from './Builder.module.scss';
 import parse from 'html-react-parser';
+import TitleRender from '../../components/ComponentCollection/Title/TitleRender';
 
 
 export default function RenderPage({page}) {
@@ -51,7 +52,7 @@ const Column = function ({column}) {
                                                       padding: ${item.styles.padding.top}px ${item.styles.padding.right}px ${item.styles.padding.bottom}px ${item.styles.padding.left}px;
                                                     `}
                             >
-                                {parse(item.content)}
+                                {item.type === "title" ? <TitleRender element={item} /> : parse(item.content)}
                             </div>
                         </div>
                     ))}

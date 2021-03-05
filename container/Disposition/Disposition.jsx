@@ -4,6 +4,7 @@ import {Droppable, Draggable} from 'react-beautiful-dnd';
 import parse from 'html-react-parser';
 
 import styles from './Disposition.module.scss';
+import TitleRender from '../../components/ComponentCollection/Title/TitleRender';
 
 export default function Disposition({disposition, dispositionUpdate, dispositionDelete, onElementClick, currentElement, setCurrentElement}) {
     const structures = [];
@@ -203,9 +204,14 @@ function Colonne({colonne, onElementClick, elementDelete, currentElement, setCur
                                                         css={css`
                                                       margin: ${item.styles.margin.top}px ${item.styles.margin.right}px ${item.styles.margin.bottom}px ${item.styles.margin.left}px;
                                                       padding: ${item.styles.padding.top}px ${item.styles.padding.right}px ${item.styles.padding.bottom}px ${item.styles.padding.left}px;
+                                                      color: ${item.styles.color.normal};
+                                                      
+                                                      &:hover{
+                                                        color: ${item.styles.color.hover};
+                                                      }
                                                     `}
                                                     >
-                                                        {parse(item.content)}
+                                                        {item.type === "title" ? <TitleRender element={item} /> : parse(item.content)}
                                                     </div>
                                                     <button
                                                         key={'btn-empty' + item.id}
