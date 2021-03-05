@@ -31,7 +31,8 @@ export default function Image({ element, onElementValeurChange }) {
 
     const handleChangeSrc = function (file) {
         const img = `<img data-image="${file._id}" src="${file.url}" />`;
-        onElementValeurChange(element, img);
+        element.content = img
+        onElementValeurChange(element);
     };
 
     const handleSetCurrentFiles = function (files) {

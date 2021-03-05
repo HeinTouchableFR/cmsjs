@@ -1,3 +1,4 @@
+import React from 'react';
 import { useIntl, FormattedMessage } from 'react-intl';
 import Head from 'next/head';
 import Link from 'next/link';

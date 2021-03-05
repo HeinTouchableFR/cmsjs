@@ -197,6 +197,20 @@ export default function Builder({ page = {}, onSubmit, pages, loading }) {
             element.id = new Date().getTime();
             element.content = composant.valeurDefaut;
             element.type = composant.type;
+            element.styles = {
+                margin: {
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0
+                },
+                padding: {
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0
+                }
+            }
 
             setCurrentElement(element);
 
@@ -207,15 +221,14 @@ export default function Builder({ page = {}, onSubmit, pages, loading }) {
         return result;
     };
 
-    const elementUpdate = function (element, content) {
+    const elementUpdate = function (element) {
         let colonne = {};
         let elements = [];
-        element.content = content;
         if (element.id === currentElement.id) {
             dispositions.map((disposition) => {
                 disposition.colonnes.map((c) => {
                     c.elements.map((e) => {
-                        if (e.id === element.content) {
+                        if (e.id === element.id) {
                             colonne = c;
                             elements = colonne.elements;
                         }
@@ -224,7 +237,7 @@ export default function Builder({ page = {}, onSubmit, pages, loading }) {
             });
         }
 
-        elements = elements.map((e) => (e.id === element.id ? [...element, content] : e));
+        elements = elements.map((e) => (e.id === element.id ? element : e));
         columnUpdate(colonne, elements);
     };
 

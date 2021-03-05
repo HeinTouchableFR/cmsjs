@@ -1,3 +1,4 @@
+import React from 'react';
 import { ActionButton, ActionButtonNoLink } from 'components/Button/ActionButton/ActionButton';
 
 export default function Product({ item, url, handleDelete }) {

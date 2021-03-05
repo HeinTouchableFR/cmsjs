@@ -8,6 +8,9 @@
     "start": "next start"
   },
   "dependencies": {
+    "@babel/core": "^7.13.8",
+    "@emotion/babel-preset-css-prop": "^11.2.0",
+    "@emotion/react": "^11.1.5",
     "@google-cloud/storage": "^5.7.4",
     "@grafikart/drop-files-element": "^1.0.9",
     "@tinymce/tinymce-react": "^3.10.1",

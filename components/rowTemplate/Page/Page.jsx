@@ -1,3 +1,4 @@
+import React from 'react';
 import { useIntl } from 'react-intl';
 
 import { ActionButton, ActionButtonNoLink } from 'components/Button/ActionButton/ActionButton';

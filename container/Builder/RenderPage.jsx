@@ -1,3 +1,4 @@
+import {css, jsx} from '@emotion/react'
 import React, {useState} from 'react';
 import styles from './Builder.module.scss';
 import parse from 'html-react-parser';
@@ -43,7 +44,13 @@ const Column = function ({column}) {
                 <div className={styles.colonne__populated}>
                     {column.elements.map((item) => (
                         <div key={item.id} className={styles.element__widget}>
-                            <div className={'content'}>
+                            <div
+                                className={'content'}
+                                css={css`
+                                                      margin: ${item.styles.margin.top}px ${item.styles.margin.right}px ${item.styles.margin.bottom}px ${item.styles.margin.left}px;
+                                                      padding: ${item.styles.padding.top}px ${item.styles.padding.right}px ${item.styles.padding.bottom}px ${item.styles.padding.left}px;
+                                                    `}
+                            >
                                 {parse(item.content)}
                             </div>
                         </div>
