@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
+import { useIntl } from 'react-intl';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
+import axios from 'axios';
+import { Button, Card, Form } from 'semantic-ui-react';
+
 import Header from 'components/Header/Header';
 import Content from 'components/Content/Content';
-import axios from 'axios';
-import { Button, Card, Form, Input, Loader } from 'semantic-ui-react';
-import { useRouter } from 'next/router';
 import { ActionButtonNoLink } from 'components/Button/ActionButton/ActionButton';
-import { Uploader } from 'rsuite';
-import FileManager from '../../../../components/FileManager/FileManager';
-import {useIntl} from 'react-intl';
+import FileManager from 'components/FileManager/FileManager';
 
 export default function Modifier({ item, categories, attributes }) {
     const intl = useIntl();
@@ -177,12 +177,54 @@ export default function Modifier({ item, categories, attributes }) {
                             step='0.01'
                             defaultValue={form.specialPrice}
                         />
-                        <Form.TextArea label='Description' placeholder='Description' onChange={handleChange} name='description' defaultValue={form.description}/>
-                        <Form.Checkbox label='On Sale' onChange={handleChange} name='onSale' defaultChecked={form.onSale}/>
-                        <Form.Input fluid label='Length (cm)' placeholder='Length' name='length' type='number' onChange={handleChange} step='0.01' defaultValue={form.length}/>
-                        <Form.Input fluid label='Width (cm)' placeholder='Width' name='width' onChange={handleChange} type='number' step='0.01' defaultValue={form.width}/>
-                        <Form.Input fluid label='Height (cm)' placeholder='Height' name='height' onChange={handleChange} type='number' step='0.01' defaultValue={form.height}/>
-                        <Form.Input fluid label='Weight (Kg)' placeholder='Weight' name='weight' onChange={handleChange} type='number' step='0.001' defaultValue={form.weight}/>
+                        <Form.TextArea
+                            label='Description'
+                            placeholder='Description'
+                            onChange={handleChange}
+                            name='description'
+                            defaultValue={form.description}
+                        />
+                        <Form.Checkbox label='On Sale' onChange={handleChange} name='onSale' defaultChecked={form.onSale} />
+                        <Form.Input
+                            fluid
+                            label='Length (cm)'
+                            placeholder='Length'
+                            name='length'
+                            type='number'
+                            onChange={handleChange}
+                            step='0.01'
+                            defaultValue={form.length}
+                        />
+                        <Form.Input
+                            fluid
+                            label='Width (cm)'
+                            placeholder='Width'
+                            name='width'
+                            onChange={handleChange}
+                            type='number'
+                            step='0.01'
+                            defaultValue={form.width}
+                        />
+                        <Form.Input
+                            fluid
+                            label='Height (cm)'
+                            placeholder='Height'
+                            name='height'
+                            onChange={handleChange}
+                            type='number'
+                            step='0.01'
+                            defaultValue={form.height}
+                        />
+                        <Form.Input
+                            fluid
+                            label='Weight (Kg)'
+                            placeholder='Weight'
+                            name='weight'
+                            onChange={handleChange}
+                            type='number'
+                            step='0.001'
+                            defaultValue={form.weight}
+                        />
                         <div className='field'>
                             <label>Product Image</label>
                             <FileManager
@@ -287,9 +329,9 @@ const Attribute = function ({ attribute, setForm, form, attributes }) {
             attributes: form.attributes.map((a) =>
                 a.attribute === attribute.attribute
                     ? {
-                        ...a,
-                        [data.name]: data.value ? data.value : data.checked,
-                    }
+                          ...a,
+                          [data.name]: data.value ? data.value : data.checked,
+                      }
                     : a
             ),
         });
@@ -333,7 +375,7 @@ export async function getServerSideProps({ params }) {
         .then((res) => {
             item = res.data.data;
         })
-        .catch((error) => {});
+        .catch(() => {});
 
     let categories = [];
 
@@ -342,7 +384,7 @@ export async function getServerSideProps({ params }) {
         .then((res) => {
             categories = res.data.data;
         })
-        .catch((error) => {});
+        .catch(() => {});
 
     let attributes = [];
 
@@ -351,7 +393,7 @@ export async function getServerSideProps({ params }) {
         .then((res) => {
             attributes = res.data.data;
         })
-        .catch((error) => {});
+        .catch(() => {});
 
     return {
         props: { item, categories, attributes },

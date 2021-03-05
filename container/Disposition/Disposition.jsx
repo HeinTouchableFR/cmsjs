@@ -1,12 +1,12 @@
-import {css, jsx} from '@emotion/react'
+import { css } from '@emotion/react';
 import React from 'react';
-import {Droppable, Draggable} from 'react-beautiful-dnd';
+import { Droppable, Draggable } from 'react-beautiful-dnd';
 import parse from 'html-react-parser';
 
 import styles from './Disposition.module.scss';
-import TitleRender from '../../components/ComponentCollection/Title/TitleRender';
+import TitleRender from 'components/ComponentCollection/Title/TitleRender';
 
-export default function Disposition({disposition, dispositionUpdate, dispositionDelete, onElementClick, currentElement, setCurrentElement}) {
+export default function Disposition({ disposition, dispositionUpdate, dispositionDelete, onElementClick, currentElement, setCurrentElement }) {
     const structures = [];
     for (let i = 1; i < 7; i++) {
         const structure = {};
@@ -109,26 +109,25 @@ export default function Disposition({disposition, dispositionUpdate, disposition
             {disposition.nbColumns > 0 ? (
                 <div className={`${styles.disposition__container}`}>
                     {disposition.colonnes &&
-                    disposition.colonnes.map((colonne) => (
-                        <Colonne
-                            key={'element-' + colonne.id}
-                            disposition={disposition}
-                            colonne={colonne}
-                            elementDelete={elementDelete}
-                            elementUpdate={elementUpdate}
-                            subElementAdd={subElementAdd}
-                            subElementUpdate={subElementUpdate}
-                            onElementClick={onElementClick}
-                            setCurrentElement={setCurrentElement}
-                            currentElement={currentElement}
-                        />
-                    ))}
+                        disposition.colonnes.map((colonne) => (
+                            <Colonne
+                                key={'element-' + colonne.id}
+                                disposition={disposition}
+                                colonne={colonne}
+                                elementDelete={elementDelete}
+                                elementUpdate={elementUpdate}
+                                subElementAdd={subElementAdd}
+                                subElementUpdate={subElementUpdate}
+                                onElementClick={onElementClick}
+                                setCurrentElement={setCurrentElement}
+                                currentElement={currentElement}
+                            />
+                        ))}
                 </div>
             ) : (
                 <div className={`${styles.disposition__no_columns}`}>
                     <p>Choissez une structure</p>
-                    <ul>{structures && structures.map((structure) => <li
-                        key={structure.id}>{structurePreviewGenerate(structure)}</li>)}</ul>
+                    <ul>{structures && structures.map((structure) => <li key={structure.id}>{structurePreviewGenerate(structure)}</li>)}</ul>
                 </div>
             )}
             <button className={`${styles.disposition__remove_btn}`} onClick={() => dispositionDelete(disposition)}>
@@ -138,7 +137,7 @@ export default function Disposition({disposition, dispositionUpdate, disposition
     );
 }
 
-function Colonne({colonne, onElementClick, elementDelete, currentElement, setCurrentElement}) {
+function Colonne({ colonne, onElementClick, elementDelete, currentElement, setCurrentElement }) {
     /**
      * Permet de supprimer un sous élément
      * @param e
@@ -146,7 +145,7 @@ function Colonne({colonne, onElementClick, elementDelete, currentElement, setCur
     const handleElementDelete = function (e) {
         elementDelete(colonne, e);
         if (currentElement.id === e.id) {
-            setCurrentElement({id: 'empty'});
+            setCurrentElement({ id: 'empty' });
         }
     };
 
@@ -202,16 +201,18 @@ function Colonne({colonne, onElementClick, elementDelete, currentElement, setCur
                                                         className={'content'}
                                                         onClick={() => handleElementClick(item)}
                                                         css={css`
-                                                      margin: ${item.styles.margin.top}px ${item.styles.margin.right}px ${item.styles.margin.bottom}px ${item.styles.margin.left}px;
-                                                      padding: ${item.styles.padding.top}px ${item.styles.padding.right}px ${item.styles.padding.bottom}px ${item.styles.padding.left}px;
-                                                      color: ${item.styles.color.normal};
-                                                      
-                                                      &:hover{
-                                                        color: ${item.styles.color.hover};
-                                                      }
-                                                    `}
+                                                            margin: ${item.styles.margin.top}px ${item.styles.margin.right}px
+                                                                ${item.styles.margin.bottom}px ${item.styles.margin.left}px;
+                                                            padding: ${item.styles.padding.top}px ${item.styles.padding.right}px
+                                                                ${item.styles.padding.bottom}px ${item.styles.padding.left}px;
+                                                            color: ${item.styles.color.normal};
+
+                                                            &:hover {
+                                                                color: ${item.styles.color.hover};
+                                                            }
+                                                        `}
                                                     >
-                                                        {item.type === "title" ? <TitleRender element={item} /> : parse(item.content)}
+                                                        {item.type === 'title' ? <TitleRender element={item} /> : parse(item.content)}
                                                     </div>
                                                     <button
                                                         key={'btn-empty' + item.id}
@@ -226,10 +227,9 @@ function Colonne({colonne, onElementClick, elementDelete, currentElement, setCur
                                     ))}
                                 </div>
                             ) : (
-                                <div className={styles.colonne__empty}
-                                     onClick={() => handleElementClick({id: 'empty'})}>
+                                <div className={styles.colonne__empty} onClick={() => handleElementClick({ id: 'empty' })}>
                                     <div className={styles.element__first__add}>
-                                        <div className={styles.element__first__icon}/>
+                                        <div className={styles.element__first__icon} />
                                     </div>
                                 </div>
                             )}
