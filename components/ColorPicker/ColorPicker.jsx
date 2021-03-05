@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import reactCSS from 'reactcss'
 import {SketchPicker} from 'react-color'
 
@@ -7,6 +7,13 @@ export default function ColorPicker({defaultColor = '#FF0000', onColorChange}) {
         displayColorPicker: false,
         color: defaultColor,
     })
+
+    useEffect(function () {
+        setState({
+            displayColorPicker: false,
+            color: defaultColor,
+        })
+    }, [defaultColor])
 
     const handleClick = () => {
         setState({...state, displayColorPicker: !state.displayColorPicker})

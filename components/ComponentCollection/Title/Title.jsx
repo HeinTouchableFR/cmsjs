@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import {Editor} from '@tinymce/tinymce-react';
 import {Dropdown, Form} from 'semantic-ui-react';
 import ColorPicker from '../../ColorPicker/ColorPicker';
 import {css, jsx} from '@emotion/react'
@@ -165,14 +164,14 @@ export default function Title({element, onElementValeurChange}) {
 
     return (
         <>
-            <Form.Input fluid label='Title' placeholder='Title' name='text' type="text" defaultValue={item.content.text} onChange={handleChange}/>
+            <Form.Input fluid label='Title' placeholder='Title' name='text' type="text" value={item.content.text} onChange={handleChange}/>
             <div className="field">
                 <label>HTML Tag</label>
                 <Dropdown
                     fluid
                     name="tag"
                     selection
-                    defaultValue={item.content.tag}
+                    value={item.content.tag}
                     options={tagsOptions}
                     onChange={handleChange}
                 />
@@ -183,7 +182,7 @@ export default function Title({element, onElementValeurChange}) {
                     fluid
                     name="alignment"
                     selection
-                    defaultValue={item.content.alignment}
+                    value={item.content.alignment}
                     options={alignmentsOptions}
                     onChange={handleChange}
                 />
@@ -211,13 +210,13 @@ export default function Title({element, onElementValeurChange}) {
                                     fluid
                                     name="family"
                                     selection
-                                    defaultValue={item.content.typo.family}
+                                    value={item.content.typo.family}
                                     options={fontsOptions}
                                     onChange={handleChangeTypo}
                                     />
                             </div>
                             <div className="field">
-                                <Form.Input fluid label='Font Size' placeholder='16' name='size' type="number" defaultValue={item.content.typo.size} onChange={handleChangeTypo}/>
+                                <Form.Input fluid label='Font Size' placeholder='16' name='size' type="number" value={item.content.typo.size} onChange={handleChangeTypo}/>
                             </div>
                             <div className="field">
                                 <label>Font Weight</label>
@@ -225,7 +224,7 @@ export default function Title({element, onElementValeurChange}) {
                                     fluid
                                     name="weight"
                                     selection
-                                    defaultValue={item.content.typo.weight}
+                                    value={item.content.typo.weight}
                                     options={weightsOptions}
                                     onChange={handleChangeTypo}
                                 />
@@ -238,7 +237,7 @@ export default function Title({element, onElementValeurChange}) {
                                     fluid
                                     name="transform"
                                     selection
-                                    defaultValue={item.content.typo.transform}
+                                    value={item.content.typo.transform}
                                     options={transformsOptions}
                                     onChange={handleChangeTypo}
                                 />
@@ -249,7 +248,7 @@ export default function Title({element, onElementValeurChange}) {
                                     fluid
                                     name="style"
                                     selection
-                                    defaultValue={item.content.typo.style}
+                                    value={item.content.typo.style}
                                     options={stylesOptions}
                                     onChange={handleChangeTypo}
                                 />
@@ -260,7 +259,7 @@ export default function Title({element, onElementValeurChange}) {
                                     fluid
                                     name="decoration"
                                     selection
-                                    defaultValue={item.content.typo.decoration}
+                                    value={item.content.typo.decoration}
                                     options={decorationsOptions}
                                     onChange={handleChangeTypo}
                                 />
@@ -268,10 +267,10 @@ export default function Title({element, onElementValeurChange}) {
                         </div>
                         <div className="form__inline_item">
                             <div className="field">
-                                <Form.Input fluid label='Line Height' placeholder='1' name='lineHeight' type="number" defaultValue={item.content.typo.lineHeight} onChange={handleChangeTypo}/>
+                                <Form.Input fluid label='Line Height' placeholder='1' name='lineHeight' type="number" value={item.content.typo.lineHeight} onChange={handleChangeTypo}/>
                             </div>
                             <div className="field">
-                                <Form.Input fluid label='Letter Spacing' placeholder='0' name='letterSpacing' type="number" defaultValue={item.content.typo.letterSpacing} onChange={handleChangeTypo}/>
+                                <Form.Input fluid label='Letter Spacing' placeholder='0' name='letterSpacing' type="number" value={item.content.typo.letterSpacing} onChange={handleChangeTypo}/>
                             </div>
                         </div>
                     </div>
@@ -285,10 +284,10 @@ export default function Title({element, onElementValeurChange}) {
                             <h6 className="style__element">Margin</h6>
                         </div>
                         <div className="form__inline_item">
-                            <Form.Input fluid label='Top' placeholder='Top' name='top' type="number" defaultValue={item.styles.margin.top} onChange={handleChangeMargin}/>
-                            <Form.Input fluid label='Right' placeholder='Right' name='right' type="number" defaultValue={item.styles.margin.right} onChange={handleChangeMargin}/>
-                            <Form.Input fluid label='Bottom' placeholder='Bottom' name='bottom' type="number" defaultValue={item.styles.margin.bottom} onChange={handleChangeMargin}/>
-                            <Form.Input fluid label='Left' placeholder='Left' name='left' type="number" defaultValue={item.styles.margin.left} onChange={handleChangeMargin}/>
+                            <Form.Input fluid label='Top' placeholder='Top' name='top' type="number" value={item.styles.margin.top} onChange={handleChangeMargin}/>
+                            <Form.Input fluid label='Right' placeholder='Right' name='right' type="number" value={item.styles.margin.right} onChange={handleChangeMargin}/>
+                            <Form.Input fluid label='Bottom' placeholder='Bottom' name='bottom' type="number" value={item.styles.margin.bottom} onChange={handleChangeMargin}/>
+                            <Form.Input fluid label='Left' placeholder='Left' name='left' type="number" value={item.styles.margin.left} onChange={handleChangeMargin}/>
                         </div>
                     </div>
                     <div className="form__style_item">
@@ -296,10 +295,10 @@ export default function Title({element, onElementValeurChange}) {
                             <h6 className="style__element">Padding</h6>
                         </div>
                         <div className="form__inline_item">
-                            <Form.Input fluid label='Top' placeholder='Top' name='top' type="number" defaultValue={item.styles.padding.top} onChange={handleChangePadding}/>
-                            <Form.Input fluid label='Right' placeholder='Right' name='right' type="number" defaultValue={item.styles.padding.right} onChange={handleChangePadding}/>
-                            <Form.Input fluid label='Bottom' placeholder='Bottom' name='bottom' type="number" defaultValue={item.styles.padding.bottom} onChange={handleChangePadding}/>
-                            <Form.Input fluid label='Left' placeholder='Left' name='left' type="number" defaultValue={item.styles.padding.left} onChange={handleChangePadding}/>
+                            <Form.Input fluid label='Top' placeholder='Top' name='top' type="number" value={item.styles.padding.top} onChange={handleChangePadding}/>
+                            <Form.Input fluid label='Right' placeholder='Right' name='right' type="number" value={item.styles.padding.right} onChange={handleChangePadding}/>
+                            <Form.Input fluid label='Bottom' placeholder='Bottom' name='bottom' type="number" value={item.styles.padding.bottom} onChange={handleChangePadding}/>
+                            <Form.Input fluid label='Left' placeholder='Left' name='left' type="number" value={item.styles.padding.left} onChange={handleChangePadding}/>
                         </div>
                     </div>
                 </div>
