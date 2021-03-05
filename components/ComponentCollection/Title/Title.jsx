@@ -203,21 +203,6 @@ export default function Title({ element, onElementValeurChange }) {
             ),
         },
         {
-            key: 'Alegreya',
-            text: 'Alegreya',
-            value: 'Alegreya',
-            content: (
-                <span
-                    css={css`
-                        font-family: Alegreya;
-                        font-weight: normal;
-                    `}
-                >
-                    Alegreya
-                </span>
-            ),
-        },
-        {
             key: 'Cairo',
             text: 'Cairo',
             value: 'Cairo',
