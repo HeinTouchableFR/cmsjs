@@ -14,7 +14,7 @@ export default function Navigation({ composants, currentItem, onElementValeurCha
     const [form, setForm] = useState({ title: page.title || '', slug: page.slug || '', parentPage: page.parentPage || '' });
 
     const [activeIndex, setActiveIndex] = useState(0);
-    const handleTabChange = (e, { activeIndex }) => {
+    const handleTabChange = (_e, { activeIndex }) => {
         setActiveIndex(activeIndex);
         if (activeIndex !== 0) {
             setCurrentElement({ id: 'empty' });
@@ -54,7 +54,7 @@ export default function Navigation({ composants, currentItem, onElementValeurCha
 
     pages.length > 0 && pages.map((page) => recursivePagesOptions(page));
 
-    const handleChange = (e, data) => {
+    const handleChange = (_e, data) => {
         setForm({
             ...form,
             [data.name]: data.value && data.name !== 'slug' ? data.value : data.checked,
@@ -112,12 +112,17 @@ export default function Navigation({ composants, currentItem, onElementValeurCha
             render: () => (
                 <Tab.Pane attached={true}>
                     <Droppable droppableId='composants'>
-                        {(provided, snapshot) => (
-                            <div className={'dropable'} ref={provided.innerRef}>
+                        {(provided, _snapshot) => (
+                            <div className={'dropable' + ' ' + styles.navGrid} ref={provided.innerRef}>
                                 {composants.map((item, index) => (
                                     <Draggable key={item.type} draggableId={item.type} index={index}>
-                                        {(provided, snapshot) => (
-                                            <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                                        {(provided, _snapshot) => (
+                                            <div
+                                                className={'componentBackground'}
+                                                ref={provided.innerRef}
+                                                {...provided.draggableProps}
+                                                {...provided.dragHandleProps}
+                                            >
                                                 <Component tag={item.tag} label={item.label} color={item.color} tooltip={item.tooltip} />
                                             </div>
                                         )}

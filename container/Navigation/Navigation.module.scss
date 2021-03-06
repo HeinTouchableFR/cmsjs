@@ -45,3 +45,8 @@
 .hide .hideMenuBtn:after {
     content: '>';
 }
+
+.navGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}

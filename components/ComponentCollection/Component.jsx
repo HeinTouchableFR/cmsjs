@@ -5,14 +5,11 @@ import Title from './Title/Title';
 import Text from './Text/Text';
 import Image from './Image/Image';
 
-export default function Component({ tag, label, tooltip, color }) {
+export default function Component({ tag, label }) {
     return (
         <>
-            <div className='ui labeled circular button menu-button' data-tooltip={tooltip} data-position='right center' data-variation='inverted'>
-                <div className={`ui button ${color}`}>{tag}</div>
-                <a className={`ui basic left pointing label ${color}`}>{label}</a>
-            </div>
-            <br />
+            <div className={'tag'}>{tag}</div>
+            <div className={'label'}>{label}</div>
         </>
     );
 }

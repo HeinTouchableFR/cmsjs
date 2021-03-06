@@ -1,5 +1,5 @@
-@import "tools/mixins";
-@import "style/modules/typography";
+@import 'tools/mixins';
+@import 'style/modules/typography';
 // Header Bar
 .header-bar {
     background-color: #a73500;
@@ -89,7 +89,7 @@
     text-align: center;
 }
 
-.table .title{
+.table .title {
     text-align: left;
 }
 
@@ -101,60 +101,101 @@
     text-align: left;
 }
 
-
-.filemanager_btn{
+.filemanager_btn {
     cursor: pointer;
     position: relative;
 }
 
-.preview{
+.preview {
     padding-bottom: 42.8571%;
-    background-size: cover!important;
-    background-position: 50%!important;
+    background-size: cover !important;
+    background-position: 50% !important;
 }
 
-.preview__action{
+.preview__action {
     position: absolute;
     right: 0;
     left: 0;
     bottom: 0;
     color: #fff;
     text-align: center;
-    transition: bottom .1s;
+    transition: bottom 0.1s;
     padding: 5px;
     opacity: 0;
 }
 
-.filemanager_btn:hover .preview__action{
+.filemanager_btn:hover .preview__action {
     opacity: 1;
-    background-color: rgba(0,0,0,.2);
+    background-color: rgba(0, 0, 0, 0.2);
 }
 
-.preview__gallery{
+.preview__gallery {
     min-height: 340px;
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     grid-gap: 10px;
 }
 
-.preview__gallery img{
+.preview__gallery img {
     width: 100%;
     height: auto;
 }
 
-.form__inline_item{
+.form__inline_item {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
     grid-gap: 10px;
 }
 
-.form__style_container{
+.form__style_container {
     margin-top: 20px;
-    & .title{
+    & .title {
         text-align: center;
     }
 }
 
-.form__style_item{
+.form__style_item {
     margin-bottom: 10px;
+}
+
+$componentsColors: #56c7fa, #f2f2f2, #f76540, #f2f2f2, #ffcb05, #f2f2f2, #62cd9f, #f2f2f2, #b67baa;
+$secondaryColors: #f2f2f2, #56c, #f2f2f2, #540, #f2f2f2, #ffcb05, #f2f2f2, #62cd9f, #f2f2f2, #b67baa;
+@for $i from 1 through length($componentsColors) {
+    $componentsColors: append($componentsColors, darken(nth($componentsColors, $i), 25));
+}
+@for $i from 1 through length($secondaryColors) {
+    $secondaryColors: append($secondaryColors, darken(nth($secondaryColors, $i), 25));
+}
+
+$componentsColorsLength: length($componentsColors);
+$secondaryColorsLength: length($secondaryColors);
+
+.componentBackground {
+    font-family: 'Coiny', cursive;
+    width: 150px;
+    height: 75px;
+
+    margin-bottom: 5%;
+
+    box-sizing: border-box;
+    border-radius: 10px 0px;
+    position: relative;
+
+    @for $i from 1 through $componentsColorsLength {
+        &:nth-of-type(#{$componentsColorsLength}n + #{$i}) {
+            color: nth($componentsColors, $i);
+            background: linear-gradient(154deg, nth($componentsColors, $i) 50%, nth($secondaryColors, $i) 50%);
+            border: 1px solid nth($componentsColors, $i);
+            .tag {
+                color: nth($secondaryColors, $i);
+                padding: 5% 0% 0% 5%;
+            }
+            .label {
+                position: absolute;
+                bottom: 0;
+                right: 0;
+                padding: 0% 5% 5% 0%;
+            }
+        }
+    }
 }
