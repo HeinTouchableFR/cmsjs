@@ -158,6 +158,11 @@
     margin-bottom: 10px;
 }
 
+.ui.attached.segment.active.tab{
+    overflow: scroll;
+    max-height: 100px;
+}
+
 $componentsColors: #56c7fa, #f2f2f2, #f76540, #f2f2f2, #ffcb05, #f2f2f2, #62cd9f, #f2f2f2, #b67baa;
 $secondaryColors: #f2f2f2, #56c, #f2f2f2, #540, #f2f2f2, #ffcb05, #f2f2f2, #62cd9f, #f2f2f2, #b67baa;
 @for $i from 1 through length($componentsColors) {

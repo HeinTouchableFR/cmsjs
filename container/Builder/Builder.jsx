@@ -24,7 +24,6 @@ export default function Builder({page = {}, onSubmit, pages, loading}) {
         {
             tag: '<h1>',
             label: intl.formatMessage({id: 'title', defaultMessage: 'Title'}),
-            tooltip: intl.formatMessage({id: 'title.tooltip', defaultMessage: 'To create wonderful title'}),
             color: 'orange',
             type: 'title',
             defaultValue: {
@@ -33,8 +32,8 @@ export default function Builder({page = {}, onSubmit, pages, loading}) {
                 alignment: 'left',
                 typo: {
                     family: 'Roboto',
-                    size: '16',
-                    weight: 'normal',
+                    size: '42',
+                    weight: '600',
                     transform: 'initial',
                     style: 'normal',
                     decoration: 'none',
@@ -43,11 +42,49 @@ export default function Builder({page = {}, onSubmit, pages, loading}) {
                 },
                 styles: {
                     color: {
-                        normal: '#000',
-                        hover: '#000'
+                        normal: '#CC3E33',
+                        hover: '#CC7E5A'
+                    },
+                    background: {
+                        normal: '#FFFFFF00',
+                        hover: '#FFFFFF00'
+                    },
+                    border: {
+                        normal: {
+                            type: 'nonr',
+                            width: {
+                                top: '0',
+                                right: '0',
+                                bottom: '0',
+                                left: '0',
+                            },
+                            radius: {
+                                top: '0',
+                                right: '0',
+                                bottom: '0',
+                                left: '0',
+                            },
+                            color: 'inherit'
+                        },
+                        hover: {
+                            type: 'none',
+                            width: {
+                                top: '0',
+                                right: '0',
+                                bottom: '0',
+                                left: '0',
+                            },
+                            radius: {
+                                top: '0',
+                                right: '0',
+                                bottom: '0',
+                                left: '0',
+                            },
+                            color: 'inherit'
+                        }
                     },
                     textShadow: {
-                        color: '#00FFFFFF',
+                        color: '#FFFFFF00',
                         blur: '10',
                         horizontal: '0',
                         vertical: '10'
@@ -58,7 +95,6 @@ export default function Builder({page = {}, onSubmit, pages, loading}) {
         {
             tag: '<p>',
             label: intl.formatMessage({id: 'textEditor', defaultMessage: 'Text Editor'}),
-            tooltip: intl.formatMessage({id: 'textEditor.tooltip', defaultMessage: 'To create all your texts'}),
             color: 'purple',
             type: 'text',
             defaultValue:
@@ -67,10 +103,6 @@ export default function Builder({page = {}, onSubmit, pages, loading}) {
         {
             tag: '<img/>',
             label: intl.formatMessage({id: 'image', defaultMessage: 'Image'}),
-            tooltip: intl.formatMessage({
-                id: 'image.tooltip',
-                defaultMessage: 'Insert an image to show your products and creations!'
-            }),
             color: 'yellow',
             type: 'image',
             defaultValue: '<img src="/placeholder.png"/>',
@@ -78,10 +110,6 @@ export default function Builder({page = {}, onSubmit, pages, loading}) {
         {
             tag: '<button>',
             label: intl.formatMessage({id: 'button', defaultMessage: 'Button'}),
-            tooltip: intl.formatMessage({
-                id: 'button.tooltip',
-                defaultMessage: 'A button allow you multiple possibility: Create link, event, submit...',
-            }),
             color: 'teal',
             type: 'bouton',
             defaultValue: '<button>Mon bouton</button>',

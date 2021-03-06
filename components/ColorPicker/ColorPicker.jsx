@@ -9,10 +9,10 @@ export default function ColorPicker({defaultColor = '#FF0000', onColorChange}) {
     })
 
     useEffect(function () {
-        setState({
+        /*setState({
             displayColorPicker: false,
             color: defaultColor,
-        })
+        })*/
     }, [defaultColor])
 
     const handleClick = () => {

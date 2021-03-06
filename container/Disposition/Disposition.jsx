@@ -197,21 +197,7 @@ function Colonne({ colonne, onElementClick, elementDelete, currentElement, setCu
                                                     {...provided.dragHandleProps}
                                                     style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}
                                                 >
-                                                    <div
-                                                        className={'content'}
-                                                        onClick={() => handleElementClick(item)}
-                                                        css={css`
-                                                            margin: ${item.styles.margin.top}px ${item.styles.margin.right}px
-                                                                ${item.styles.margin.bottom}px ${item.styles.margin.left}px;
-                                                            padding: ${item.styles.padding.top}px ${item.styles.padding.right}px
-                                                                ${item.styles.padding.bottom}px ${item.styles.padding.left}px;
-                                                            color: ${item.styles.color.normal};
-
-                                                            &:hover {
-                                                                color: ${item.styles.color.hover};
-                                                            }
-                                                        `}
-                                                    >
+                                                    <div className={'content'} onClick={() => handleElementClick(item)}>
                                                         {item.type === 'title' ? <TitleRender element={item} /> : parse(item.content)}
                                                     </div>
                                                     <button
