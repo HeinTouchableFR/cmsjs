@@ -62,6 +62,26 @@ export default function Navigation({ composants, currentItem, onElementValeurCha
         });
     };
 
+    // This method is needed for rendering clones of draggables
+    const getRenderItem = (items, className) => (provided, snapshot, rubric) => {
+        const item = items[rubric.source.index];
+        return (
+            <React.Fragment>
+                <div
+                    className={'componentBackground'}
+                    ref={provided.innerRef}
+                    {...provided.draggableProps}
+                    {...provided.dragHandleProps}
+                    style={provided.draggableProps.style}
+                >
+                    <Component tag={item.tag} label={item.label} color={item.color}
+                               tooltip={item.tooltip}/>
+                </div>
+            </React.Fragment>
+        );
+    };
+
+
     const panes = [
         {
             menuItem: intl.formatMessage({ id: 'settings', defaultMessage: 'Settings' }),
@@ -111,23 +131,35 @@ export default function Navigation({ composants, currentItem, onElementValeurCha
             menuItem: intl.formatMessage({ id: 'component', defaultMessage: 'Component' }),
             render: () => (
                 <Tab.Pane attached={true}>
-                    <Droppable droppableId='composants'>
+                    <Droppable
+                        droppableId='composants'
+                        renderClone={getRenderItem(composants, '')}
+                        isDropDisabled={true}
+                    >
                         {(provided, _snapshot) => (
                             <div className={'dropable' + ' ' + styles.navGrid} ref={provided.innerRef}>
-                                {composants.map((item, index) => (
-                                    <Draggable key={item.type} draggableId={item.type} index={index}>
-                                        {(provided, _snapshot) => (
-                                            <div
-                                                className={'componentBackground'}
-                                                ref={provided.innerRef}
-                                                {...provided.draggableProps}
-                                                {...provided.dragHandleProps}
-                                            >
-                                                <Component tag={item.tag} label={item.label} color={item.color} tooltip={item.tooltip} />
-                                            </div>
-                                        )}
-                                    </Draggable>
-                                ))}
+                                {composants.map((item, index) => {
+                                    const shouldRenderClone = item.type === _snapshot.draggingFromThisWith;
+                                    return (
+                                            shouldRenderClone ?
+                                                <div className={'componentBackground'} key={item.type}>
+                                                    <Component tag={item.tag} label={item.label} color={item.color} tooltip={item.tooltip}/>
+                                                </div> :
+                                                <Draggable key={item.type} draggableId={item.type} index={index}>
+                                                    {(provided, _snapshot) => (
+                                                        <div
+                                                            className={'componentBackground'}
+                                                            ref={provided.innerRef}
+                                                            {...provided.draggableProps}
+                                                            {...provided.dragHandleProps}
+                                                        >
+                                                            <Component tag={item.tag} label={item.label} color={item.color}
+                                                                       tooltip={item.tooltip}/>
+                                                        </div>
+                                                    )}
+                                                </Draggable>
+                                        )
+                                })}
                                 {provided.placeholder}
                             </div>
                         )}
