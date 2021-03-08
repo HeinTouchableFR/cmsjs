@@ -143,8 +143,20 @@
 
 .form__inline_item {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(40px, 1fr));
     grid-gap: 10px;
+}
+
+.bottom label{
+    text-align: center;
+    font-weight: 300;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+.bottom .field{
+    display: flex;
+    flex-direction: column-reverse;
 }
 
 .form__style_container {
@@ -196,4 +208,13 @@ $secondaryColorsLength: length($secondaryColors);
             }
         }
     }
+}
+
+.accordion__pane{
+    position: relative;
+    background: #fff;
+    margin: 1rem 0;
+    padding: 1em 1em;
+    display: grid;
+    grid-gap: 15px;
 }
