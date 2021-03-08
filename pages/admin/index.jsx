@@ -1,4 +1,5 @@
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
 import Head from 'next/head';
 import nookies from 'nookies';
 
@@ -15,8 +16,9 @@ export default function HomeAdmin() {
                     integrity='sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p'
                     crossOrigin='anonymous'
                 />
-                //TODO
-                <title>Administration</title>
+                <title>
+                    <FormattedMessage id='administration' defaultMessage='Administration' />
+                </title>
             </Head>
             <Header />
         </>

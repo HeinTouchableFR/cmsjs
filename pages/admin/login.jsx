@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { useRouter } from 'next/router';
 import { Button, Form } from 'semantic-ui-react';
 
@@ -65,9 +65,10 @@ export default function Login() {
     return (
         <>
             <LoginContainer>
-                //TODO
                 <Form onSubmit={handleSubmit}>
-                    <h2>{intl.formatMessage({ id: 'welcomeAboard', defaultMessage: 'Welcome aboard !' })}</h2>
+                    <h2>
+                        <FormattedMessage id='welcomeAboard' defaultMessage='Welcome aboard !' />
+                    </h2>
                     <Form.Input
                         fluid
                         label={intl.formatMessage({ id: 'mailAddress', defaultMessage: 'Mail adress' })}
