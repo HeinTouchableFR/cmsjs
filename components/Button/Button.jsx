@@ -1,9 +1,9 @@
 import React from 'react';
 import Link from 'next/link';
 
-import styles from './ActionButton.module.scss';
+import styles from './Button.module.scss';
 
-export function ActionButton({ url, icon, action, style, id }) {
+export function Button({ url, icon, action, target, style, id }) {
     let color = null;
 
     switch (style) {
@@ -23,7 +23,7 @@ export function ActionButton({ url, icon, action, style, id }) {
 
     return (
         <Link href={action ? '/admin/' + url + '/' + action + '/' + id : url} >
-            <a target={action ? '_self' : '_blank'} className={styles.ActionButton + ' ' + color}>
+            <a target={target ? '_blank' : '_self'} className={styles.ActionButton + ' ' + color}>
                 <i className={'fas ' + icon} />
             </a>
         </Link>

@@ -1,6 +1,6 @@
-import styles from './Layout.module.scss';
+import styles from '../Layout.module.scss';
 import {Draggable, Droppable} from 'react-beautiful-dnd';
-import TitleRender from '../../components/ComponentCollection/Title/TitleRender';
+import TitleRender from 'components/ComponentCollection/Title/TitleRender';
 import parse from 'html-react-parser';
 import React from 'react';
 

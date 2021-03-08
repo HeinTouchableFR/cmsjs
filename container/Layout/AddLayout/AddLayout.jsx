@@ -10,6 +10,7 @@ export default function AddLayout({ handleAddLayout }) {
         <>
             <div className={`${styles.addLayout}`}>
                 <button onClick={handleAddLayout}>+</button>
+                //TODO
                 <p>{intl.formatMessage({ id: 'layout.tooltip.add', defaultMessage: 'Click on the + button to insert a layout' })}</p>
             </div>
         </>

@@ -6,7 +6,7 @@ import { Button, Card, Form, Input } from 'semantic-ui-react';
 
 import Header from 'components/Header/Header';
 import Content from 'components/Content/Content';
-import { ActionButtonNoLink } from 'components/Button/ActionButton/ActionButton';
+import { ActionButtonNoLink } from 'components/Button/Button';
 
 export default function Modifier({ item }) {
     const url = 'attributes';

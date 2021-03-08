@@ -1,11 +1,11 @@
 import React from 'react';
-import {css, jsx} from '@emotion/react'
+import {css} from '@emotion/react'
 import styled from '@emotion/styled'
 import parse from 'html-react-parser';
 
 export default function TitleRender({element}) {
 
-    const Title = styled.[element.content.tag](
+    const Title = styled[element.content.tag](
         {
             color: element.content.styles.color.normal,
             textAlign: element.content.alignment,

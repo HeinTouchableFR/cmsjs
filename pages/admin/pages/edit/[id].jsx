@@ -4,7 +4,7 @@ import Head from 'next/head';
 import axios from 'axios';
 import nookies from 'nookies';
 
-import { admin } from 'utils/dbConnect';
+import { auth } from 'utils/dbConnect';
 import Builder from 'container/Builder/Builder';
 
 export default function Edit({ item, pages }) {
@@ -53,7 +53,7 @@ export default function Edit({ item, pages }) {
 export async function getServerSideProps(ctx) {
     try {
         const cookies = nookies.get(ctx);
-        const token = await admin.auth().verifyIdToken(cookies.token);
+        const token = await auth.verifyIdToken(cookies.token);
 
         if (!token.roles.some((r) => ['admin', 'editor', 'moderator'].includes(r))) {
             throw new Error('unauthorized');

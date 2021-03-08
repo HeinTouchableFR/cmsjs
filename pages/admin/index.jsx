@@ -2,7 +2,7 @@ import React from 'react';
 import Head from 'next/head';
 import nookies from 'nookies';
 
-import { admin } from 'utils/dbConnect';
+import { auth } from 'utils/dbConnect';
 import Header from 'components/Header/Header';
 
 export default function HomeAdmin() {
@@ -15,6 +15,7 @@ export default function HomeAdmin() {
                     integrity='sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p'
                     crossOrigin='anonymous'
                 />
+                //TODO
                 <title>Administration</title>
             </Head>
             <Header />
@@ -25,7 +26,7 @@ export default function HomeAdmin() {
 export const getServerSideProps = async (ctx) => {
     try {
         const cookies = nookies.get(ctx);
-        const token = await admin.auth().verifyIdToken(cookies.token);
+        const token = await auth.verifyIdToken(cookies.token);
 
         if (!token.roles.some((r) => ['admin', 'editor', 'moderator'].includes(r))) {
             throw new Error('unauthorized');

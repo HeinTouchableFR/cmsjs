@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Editor } from '@tinymce/tinymce-react';
 import { Form, Input } from 'semantic-ui-react';
-import ColorPicker from 'components/ColorPicker/ColorPicker';
 
 export default function Text({ element, onElementValeurChange }) {
     const [content, setContent] = useState(element.content);

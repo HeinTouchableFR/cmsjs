@@ -1,5 +1,5 @@
 import React from 'react';
-import { useIntl, FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -10,8 +10,6 @@ import { firebase } from 'utils/firebaseClient';
 import { useAuth } from 'authentication/authContext';
 
 export default function Header({ children }) {
-    const intl = useIntl();
-
     const router = useRouter();
     const { user } = useAuth();
 

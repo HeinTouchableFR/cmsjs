@@ -1,5 +1,5 @@
 import React from 'react';
-import { ActionButton, ActionButtonNoLink } from 'components/Button/ActionButton/ActionButton';
+import { Button, ActionButtonNoLink } from 'components/Button/Button';
 
 export default function Product({ item, url, handleDelete }) {
     return (
@@ -14,8 +14,8 @@ export default function Product({ item, url, handleDelete }) {
                 <td className={'td'}>{item.name}</td>
                 <td className={'td'}>{item.price} €</td>
                 <td className={'td'}>
-                    <ActionButton url={url} style={'show'} icon={'fa-eye'} action={'show'} id={item._id} />
-                    <ActionButton url={url} style={'edit'} icon={'fa-pen'} action={'edit'} id={item._id} />
+                    <Button url={url} style={'show'} icon={'fa-eye'} action={'show'} id={item._id} />
+                    <Button url={url} style={'edit'} icon={'fa-pen'} action={'edit'} id={item._id} />
                     <ActionButtonNoLink style={'delete'} icon={'fa-trash'} onClick={() => handleDelete(item)} />
                 </td>
             </tr>

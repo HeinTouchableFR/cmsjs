@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 import styles from './content.module.scss';
 
-import LinkButton from 'components/Button/LinkButton/LinkButton';
+import {Button} from '../Button/Button';
 
 export default function Content({ title, icon, url, action, children }) {
     const intl = useIntl();
@@ -24,7 +24,7 @@ export default function Content({ title, icon, url, action, children }) {
                             )}
                         </div>
                     </h1>
-                    {!action && <LinkButton url={'/admin/' + url + '/add'} icon={'fa-plus'} />}
+                    {!action && <Button url={url + '/add'} icon={'fa-plus'} />}
                 </div>
                 <div className={styles.adminTree}>
                     <div className={styles.adminTreeSection}>

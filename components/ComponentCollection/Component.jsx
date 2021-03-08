@@ -5,7 +5,7 @@ import Title from './Title/Title';
 import Text from './Text/Text';
 import Image from './Image/Image';
 
-export default function Component({ tag, label, color }) {
+export default function Component({ tag, label }) {
     return (
         <>
             <div className={'tag'}>{tag}</div>

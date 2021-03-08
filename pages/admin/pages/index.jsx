@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { useIntl } from 'react-intl';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 import { Confirm } from 'semantic-ui-react';
 import nookies from 'nookies';
 
-import { admin } from 'utils/dbConnect';
+import { auth } from 'utils/dbConnect';
 import Header from 'components/Header/Header';
 import Content from 'components/Content/Content';
 import Table from 'components/Table/Table';
@@ -15,7 +14,6 @@ import Page from 'components/rowTemplate/Page/Page';
 export default function Index({ items, errors }) {
     const url = 'pages';
     const router = useRouter();
-    const intl = useIntl();
 
     const labels = [
         { id: 'title', defaultMessage: 'Title' },
@@ -96,7 +94,7 @@ export default function Index({ items, errors }) {
 export async function getServerSideProps(ctx) {
     try {
         const cookies = nookies.get(ctx);
-        const token = await admin.auth().verifyIdToken(cookies.token);
+        const token = await auth.verifyIdToken(cookies.token);
 
         if (!token.roles.some((r) => ['admin', 'editor', 'moderator'].includes(r))) {
             throw new Error('unauthorized');

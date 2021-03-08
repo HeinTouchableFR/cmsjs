@@ -1,4 +1,4 @@
-import React, { useEffect, useState, createRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import slugify from 'react-slugify';
 import { Droppable, Draggable } from 'react-beautiful-dnd';
@@ -63,7 +63,7 @@ export default function Navigation({ components, currentItem, onElementValueChan
     };
 
     // This method is needed for rendering clones of draggables
-    const getRenderItem = (items, className) => (provided, snapshot, rubric) => {
+    const getRenderItem = (items) => (provided, snapshot, rubric) => {
         const item = items[rubric.source.index];
         return (
             <React.Fragment>
@@ -133,7 +133,7 @@ export default function Navigation({ components, currentItem, onElementValueChan
                 <Tab.Pane attached={true}>
                     <Droppable
                         droppableId='components'
-                        renderClone={getRenderItem(components, '')}
+                        renderClone={getRenderItem(components)}
                         isDropDisabled={true}
                     >
                         {(provided, _snapshot) => (

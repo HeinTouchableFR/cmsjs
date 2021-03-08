@@ -1,8 +1,7 @@
 import React from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 
 export default function Table({ labels, children }) {
-    const intl = useIntl();
 
     return (
         <table className={'table tableStriped'}>

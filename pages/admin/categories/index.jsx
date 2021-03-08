@@ -5,7 +5,7 @@ import { Confirm } from 'semantic-ui-react';
 import axios from 'axios';
 import nookies from 'nookies';
 
-import { admin } from 'utils/dbConnect';
+import { auth } from 'utils/dbConnect';
 
 import Header from 'components/Header/Header';
 import Content from 'components/Content/Content';
@@ -85,7 +85,7 @@ export default function Index({ items, errors }) {
 export async function getServerSideProps(ctx) {
     try {
         const cookies = nookies.get(ctx);
-        const token = await admin.auth().verifyIdToken(cookies.token);
+        const token = await auth.verifyIdToken(cookies.token);
 
         if (!token.roles.some((r) => ['admin', 'editor', 'moderator'].includes(r))) {
             throw new Error('unauthorized');

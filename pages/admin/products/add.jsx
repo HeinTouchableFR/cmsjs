@@ -8,7 +8,7 @@ import axios from 'axios';
 import Header from 'components/Header/Header';
 import Content from 'components/Content/Content';
 import FileManager from 'components/FileManager/FileManager';
-import { ActionButtonNoLink } from 'components/Button/ActionButton/ActionButton';
+import { ActionButtonNoLink } from 'components/Button/Button';
 
 export default function Add({ categories, attributes }) {
     const intl = useIntl();

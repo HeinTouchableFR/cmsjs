@@ -1,7 +1,7 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 
-import { ActionButton, ActionButtonNoLink } from 'components/Button/ActionButton/ActionButton';
+import { Button, ActionButtonNoLink } from 'components/Button/Button';
 
 export default function Page({ item, url, parentPage, tiret = '', handleDelete }) {
     const intl = useIntl();
@@ -27,8 +27,8 @@ export default function Page({ item, url, parentPage, tiret = '', handleDelete }
                           ).toLocaleDateString()}  ${new Date(item.published).toLocaleTimeString()}`}
                 </td>
                 <td className={'td'}>
-                    <ActionButton url={`${process.env.URL}/${item.slug}`} style={'show'} icon={'fa-eye'} id={item._id} />
-                    <ActionButton url={url} style={'edit'} icon={'fa-pen'} action={'edit'} id={item._id} />
+                    <Button url={`${process.env.URL}/${item.slug}`} style={'show'} icon={'fa-eye'} id={item._id} target={"_blank"} />
+                    <Button url={url} style={'edit'} icon={'fa-pen'} action={'edit'} id={item._id} />
                     <ActionButtonNoLink style={'delete'} icon={'fa-trash'} onClick={() => handleDelete(item, item.childPages.length === 0)} />
                 </td>
             </tr>

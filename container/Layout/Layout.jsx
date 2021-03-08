@@ -1,7 +1,7 @@
 import React from 'react';
 
 import styles from './Layout.module.scss';
-import Column from './Column'
+import Column from './Column/Column'
 
 export default function Layout({ layout, layoutUpdate, layoutDelete, onElementClick, currentElement, setCurrentElement }) {
     const structures = [];
