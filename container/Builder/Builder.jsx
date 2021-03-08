@@ -49,7 +49,7 @@ export default function Builder({page = {}, onSubmit, pages, loading}) {
                     },
                     border: {
                         normal: {
-                            type: 'nonr',
+                            type: 'none',
                             width: {
                                 top: '0',
                                 right: '0',
@@ -267,14 +267,6 @@ export default function Builder({page = {}, onSubmit, pages, loading}) {
                     left: 0,
                     right: 0,
                     bottom: 0
-                },
-                background: {
-                    normal: '#00FFFFFF',
-                    hover: '#00FFFFFF'
-                },
-                color: {
-                    normal: '#000',
-                    hover: '#000'
                 }
             }
             setCurrentElement(element);
