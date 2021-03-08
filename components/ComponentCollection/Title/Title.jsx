@@ -3,7 +3,7 @@ import {Dropdown, Form} from 'semantic-ui-react';
 import ColorPicker from 'components/ColorPicker/ColorPicker';
 import {css} from '@emotion/react';
 
-export default function Title({element, onElementValeurChange}) {
+export default function Title({element, onElementValueChange}) {
     const [item, setItem] = useState(element);
 
     useEffect(
@@ -24,7 +24,7 @@ export default function Title({element, onElementValeurChange}) {
             },
         };
         setItem(updated);
-        onElementValeurChange(updated);
+        onElementValueChange(updated);
     };
 
     const handleChangeMargin = (e, data) => {
@@ -39,7 +39,7 @@ export default function Title({element, onElementValeurChange}) {
             },
         };
         setItem(updated);
-        onElementValeurChange(updated);
+        onElementValueChange(updated);
     };
 
     const handleChangePadding = (e, data) => {
@@ -54,7 +54,7 @@ export default function Title({element, onElementValeurChange}) {
             },
         };
         setItem(updated);
-        onElementValeurChange(updated);
+        onElementValueChange(updated);
     };
 
     const handleChangeBorder = (e, data) => {
@@ -78,7 +78,7 @@ export default function Title({element, onElementValeurChange}) {
             },
         };
         setItem(updated);
-        onElementValeurChange(updated);
+        onElementValueChange(updated);
     };
 
     const handleChangeBorderHover = (e, data) => {
@@ -102,7 +102,7 @@ export default function Title({element, onElementValeurChange}) {
             },
         };
         setItem(updated);
-        onElementValeurChange(updated);
+        onElementValueChange(updated);
     };
 
     const handleColorChange = (color) => {
@@ -120,7 +120,7 @@ export default function Title({element, onElementValeurChange}) {
             },
         };
         setItem(updated);
-        onElementValeurChange(updated);
+        onElementValueChange(updated);
     };
     const handleColorHoverChange = (color) => {
         const updated = {
@@ -137,7 +137,7 @@ export default function Title({element, onElementValeurChange}) {
             },
         };
         setItem(updated);
-        onElementValeurChange(updated);
+        onElementValueChange(updated);
     };
     const handleBackgroundChange = (color) => {
         const updated = {
@@ -154,7 +154,7 @@ export default function Title({element, onElementValeurChange}) {
             },
         };
         setItem(updated);
-        onElementValeurChange(updated);
+        onElementValueChange(updated);
     };
     const handleBackgroundHoverChange = (color) => {
         const updated = {
@@ -171,7 +171,7 @@ export default function Title({element, onElementValeurChange}) {
             },
         };
         setItem(updated);
-        onElementValeurChange(updated);
+        onElementValueChange(updated);
     };
     const handleChangeTypo = (e, data) => {
         const updated = {
@@ -185,7 +185,7 @@ export default function Title({element, onElementValeurChange}) {
             },
         };
         setItem(updated);
-        onElementValeurChange(updated);
+        onElementValueChange(updated);
     };
     const handleBorderChange = (e, data) => {
         const updated = {
@@ -205,7 +205,7 @@ export default function Title({element, onElementValeurChange}) {
             },
         };
         setItem(updated);
-        onElementValeurChange(updated);
+        onElementValueChange(updated);
     };
     const handleBorderHoverChange = (e, data) => {
         const updated = {
@@ -225,7 +225,7 @@ export default function Title({element, onElementValeurChange}) {
             },
         };
         setItem(updated);
-        onElementValeurChange(updated);
+        onElementValueChange(updated);
     };
 
     const handleChangeRadius = (e, data) => {
@@ -249,7 +249,7 @@ export default function Title({element, onElementValeurChange}) {
             },
         };
         setItem(updated);
-        onElementValeurChange(updated);
+        onElementValueChange(updated);
     };
     const handleChangeRadiusHover = (e, data) => {
         const updated = {
@@ -272,7 +272,7 @@ export default function Title({element, onElementValeurChange}) {
             },
         };
         setItem(updated);
-        onElementValeurChange(updated);
+        onElementValueChange(updated);
     };
 
     const handleBorderColorChange = (color) => {
@@ -293,7 +293,7 @@ export default function Title({element, onElementValeurChange}) {
             },
         };
         setItem(updated);
-        onElementValeurChange(updated);
+        onElementValueChange(updated);
     };
 
     const handleBorderColorHoverChange = (color) => {
@@ -314,7 +314,7 @@ export default function Title({element, onElementValeurChange}) {
             },
         };
         setItem(updated);
-        onElementValeurChange(updated);
+        onElementValueChange(updated);
     };
 
     const tagsOptions = [

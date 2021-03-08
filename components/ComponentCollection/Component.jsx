@@ -5,7 +5,7 @@ import Title from './Title/Title';
 import Text from './Text/Text';
 import Image from './Image/Image';
 
-export default function Component({ tag, label }) {
+export default function Component({ tag, label, color }) {
     return (
         <>
             <div className={'tag'}>{tag}</div>
@@ -14,7 +14,7 @@ export default function Component({ tag, label }) {
     );
 }
 
-export function ComponentEditor({ element, onElementValeurChange }) {
+export function ComponentEditor({ element, onElementValueChange }) {
     const [type, setType] = useState();
 
     useEffect(
@@ -28,17 +28,17 @@ export function ComponentEditor({ element, onElementValeurChange }) {
         <>
             {type === 'title' && (
                 <>
-                    <Title element={element} onElementValeurChange={onElementValeurChange} />
+                    <Title element={element} onElementValueChange={onElementValueChange} />
                 </>
             )}
             {type === 'text' && (
                 <>
-                    <Text element={element} onElementValeurChange={onElementValeurChange} />
+                    <Text element={element} onElementValueChange={onElementValueChange} />
                 </>
             )}
             {type === 'image' && (
                 <>
-                    <Image element={element} onElementValeurChange={onElementValeurChange} />
+                    <Image element={element} onElementValueChange={onElementValueChange} />
                 </>
             )}
         </>

@@ -8,7 +8,7 @@ import styles from './Navigation.module.scss';
 
 import Component, { ComponentEditor } from 'components/ComponentCollection/Component';
 
-export default function Navigation({ composants, currentItem, onElementValeurChange, setCurrentElement, page, onSubmit, pages = [], loading }) {
+export default function Navigation({ components, currentItem, onElementValueChange, setCurrentElement, page, onSubmit, pages = [], loading }) {
     const intl = useIntl();
 
     const [form, setForm] = useState({ title: page.title || '', slug: page.slug || '', parentPage: page.parentPage || '' });
@@ -132,13 +132,13 @@ export default function Navigation({ composants, currentItem, onElementValeurCha
             render: () => (
                 <Tab.Pane attached={true}>
                     <Droppable
-                        droppableId='composants'
-                        renderClone={getRenderItem(composants, '')}
+                        droppableId='components'
+                        renderClone={getRenderItem(components, '')}
                         isDropDisabled={true}
                     >
                         {(provided, _snapshot) => (
                             <div className={'dropable' + ' ' + styles.navGrid} ref={provided.innerRef}>
-                                {composants.map((item, index) => {
+                                {components.map((item, index) => {
                                     const shouldRenderClone = item.type === _snapshot.draggingFromThisWith;
                                     return (
                                             shouldRenderClone ?
@@ -171,7 +171,7 @@ export default function Navigation({ composants, currentItem, onElementValeurCha
             menuItem: intl.formatMessage({ id: 'edit', defaultMessage: 'Edit' }) + ' ' + intl.formatMessage({ id: currentItem.type }),
             render: () => (
                 <Tab.Pane attached={true}>
-                    <ComponentEditor element={currentItem} onElementValeurChange={onElementValeurChange} />
+                    <ComponentEditor element={currentItem} onElementValueChange={onElementValueChange} />
                 </Tab.Pane>
             ),
         },

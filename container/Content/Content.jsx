@@ -2,14 +2,14 @@ import React from 'react';
 
 import styles from './Content.module.scss';
 
-import AddDisposition from 'container/Disposition/AddDisposition/AddDisposition';
-import Disposition from 'container/Disposition/Disposition';
+import AddLayout from 'container/Layout/AddLayout/AddLayout';
+import Layout from 'container/Layout/Layout';
 
 export default function Content({
-    dispositions,
-    dispositionAdd,
-    dispositionUpdate,
-    dispositionDelete,
+    layouts,
+    layoutAdd,
+    layoutUpdate,
+    layoutDelete,
     onElementClick,
     currentElement,
     setCurrentElement,
@@ -17,18 +17,18 @@ export default function Content({
     return (
         <>
             <div className={`${styles.content} ${styles.container}`}>
-                {dispositions.map((item) => (
-                    <Disposition
+                {layouts.map((item) => (
+                    <Layout
                         key={item.id}
-                        disposition={item}
-                        dispositionUpdate={dispositionUpdate}
-                        dispositionDelete={dispositionDelete}
+                        layout={item}
+                        layoutUpdate={layoutUpdate}
+                        layoutDelete={layoutDelete}
                         onElementClick={onElementClick}
                         currentElement={currentElement}
                         setCurrentElement={setCurrentElement}
                     />
                 ))}
-                <AddDisposition handleAddDisposition={dispositionAdd} />
+                <AddLayout handleAddLayout={layoutAdd} />
             </div>
         </>
     );

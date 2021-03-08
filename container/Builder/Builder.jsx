@@ -8,19 +8,17 @@ import styles from './Builder.module.scss';
 import Content from 'container/Content/Content';
 import Navigation from 'container/Navigation/Navigation';
 
-var FormData = require('form-data');
-
 export default function Builder({page = {}, onSubmit, pages, loading}) {
     // Use translation
     const intl = useIntl();
 
-    const [dispositions, setDispositions] = useState(page.content ? JSON.parse(page.content) : []);
+    const [layouts, setLayouts] = useState(page.content ? JSON.parse(page.content) : []);
 
     const [currentElement, setCurrentElement] = useState({});
 
     const [hideMenu, setHideMenu] = useState(false);
 
-    const composants = [
+    const components = [
         {
             tag: '<h1>',
             label: intl.formatMessage({id: 'title', defaultMessage: 'Title'}),
@@ -117,40 +115,46 @@ export default function Builder({page = {}, onSubmit, pages, loading}) {
     ];
 
     /**
-     * Permet d'ajouter une disposition
+     * Allows you to add a layout
      */
-    const dispositionAdd = function () {
-        const disposition = {};
-        disposition.id = new Date().getTime();
-        disposition.nbColumns = 0;
-        disposition.colonnes = [];
-
-        setDispositions([...dispositions, disposition]);
+    const layoutAdd = function () {
+        const layout = {};
+        layout.id = new Date().getTime();
+        layout.nbColumns = 0;
+        layout.columns = [];
+        setLayouts([...layouts, layout]);
     };
 
     /**
-     * Permet de mettre à jour une disposition
-     * @param disposition
+     * Allows you to update a layout
+     * @param layout
      */
-    const dispositionUpdate = function (disposition) {
-        setDispositions(dispositions.map((d) => (d.id === disposition.id ? disposition : d)));
+    const layoutUpdate = function (layout) {
+        setLayouts(layouts.map((d) => (d.id === layout.id ? layout : d)));
     };
 
     /**
-     * Permet de supprimer une disposition
-     * @param disposition
+     * Allows you to delete a layout
+     * @param layout
      */
-    const dispositionDelete = function (disposition) {
-        disposition.colonnes.map((colonne) => {
-            colonne.elements.map((element) => {
+    const layoutDelete = function (layout) {
+        layout.columns.map((column) => {
+            column.elements.map((element) => {
                 if (element.id === currentElement.id) {
                     setCurrentElement({id: 'empty'});
                 }
             });
         });
-        setDispositions(dispositions.filter((d) => d !== disposition));
+        setLayouts(layouts.filter((d) => d !== layout));
     };
 
+    /**
+     *
+     * @param list
+     * @param startIndex
+     * @param endIndex
+     * @return {unknown[]}
+     */
     const reorder = (list, startIndex, endIndex) => {
         const result = Array.from(list);
         const [removed] = result.splice(startIndex, 1);
@@ -159,48 +163,46 @@ export default function Builder({page = {}, onSubmit, pages, loading}) {
         return result;
     };
 
+    /**
+     *
+     * @param result
+     */
     const onDragEnd = (result) => {
         const {source, destination} = result;
-
         // dropped outside the list
         if (!destination) {
             return;
         }
-        if (destination.droppableId === 'composants') {
-            return;
-        }
-
+        if (destination.droppableId === 'components') {return;}
         if (source.droppableId === destination.droppableId) {
-            const colonne = getColonneListeById(destination.droppableId);
-            const elements = reorder(colonne.elements, source.index, destination.index);
-
-            columnUpdate(colonne, elements);
+            const column = getcolumnListeById(destination.droppableId);
+            const elements = reorder(column.elements, source.index, destination.index);
+            columnUpdate(column, elements);
         } else {
             let result = [];
-            const colonneDestination = getColonneListeById(destination.droppableId);
-            if (source.droppableId === 'composants') {
-                result = move(composants, colonneDestination.elements, source, destination);
+            const columnDestination = getcolumnListeById(destination.droppableId);
+            if (source.droppableId === 'components') {
+                result = move(components, columnDestination.elements, source, destination);
             } else {
-                const colonneSource = getColonneListeById(source.droppableId);
-                result = move(colonneSource.elements, colonneDestination.elements, source, destination);
-                columnUpdate(colonneSource, result[source.droppableId]);
+                const columnSource = getcolumnListeById(source.droppableId);
+                result = move(columnSource.elements, columnDestination.elements, source, destination);
+                columnUpdate(columnSource, result[source.droppableId]);
             }
-
-            columnUpdate(colonneDestination, result[destination.droppableId]);
+            columnUpdate(columnDestination, result[destination.droppableId]);
         }
     };
 
     /**
-     * Permet de récupérer la liste des éléments d'une colonne
+     * Allows you to retrieve the list of items in a column.
      * @param id
      * @return {[]}
      */
-    const getColonneListeById = function (id) {
+    const getcolumnListeById = function (id) {
         let c = [];
-        dispositions.map((disposition) => {
-            disposition.colonnes.map((colonne) => {
-                if (colonne.id.toString() === id) {
-                    c = colonne;
+        layouts.map((layout) => {
+            layout.columns.map((column) => {
+                if (column.id.toString() === id) {
+                    c = column;
                 }
             });
         });
@@ -208,29 +210,28 @@ export default function Builder({page = {}, onSubmit, pages, loading}) {
     };
 
     /**
-     * Permet de modifier les éléments d'une colonne et de mettre à jour la disposition
-     * @param colonne
+     * Allows you to modify the elements of a column and to update the layout.
+     * @param column
      * @param elements
      */
-    const columnUpdate = function (colonne, elements) {
-        let disposition = {};
-        colonne.elements = elements;
-
-        dispositions.map((d) => {
-            d.colonnes.map((c) => {
-                if (c.id === colonne.id) {
-                    disposition = d;
+    const columnUpdate = function (column, elements) {
+        let layout = {};
+        column.elements = elements;
+        layouts.map((d) => {
+            d.columns.map((c) => {
+                if (c.id === column.id) {
+                    layout = d;
                 }
             });
         });
-        if (disposition.id) {
-            disposition.colonnes.map((c) => (c.id === colonne.id ? colonne : c));
+        if (layout.id) {
+            layout.columns.map((c) => (c.id === column.id ? column : c));
         }
-        dispositionUpdate(disposition);
+        layoutUpdate(layout);
     };
 
     /**
-     * Permet de déplacer/ajouter un élément dans une liste
+     * Allows you to move/add an item in a list.
      * @param source
      * @param destination
      * @param droppableSource
@@ -239,7 +240,7 @@ export default function Builder({page = {}, onSubmit, pages, loading}) {
      */
     const move = (source, destination, droppableSource, droppableDestination) => {
         const result = {};
-        if (droppableSource.droppableId !== 'composants') {
+        if (droppableSource.droppableId !== 'components') {
             const sourceClone = Array.from(source);
             const destClone = Array.from(destination);
             const [removed] = sourceClone.splice(droppableSource.index, 1);
@@ -276,46 +277,57 @@ export default function Builder({page = {}, onSubmit, pages, loading}) {
                     hover: '#000'
                 }
             }
-
             setCurrentElement(element);
-
             destClone.splice(droppableDestination.index, 0, element);
             result[droppableDestination.droppableId] = destClone;
         }
-
         return result;
     };
 
+    /**
+     *
+     * @param element
+     */
     const elementUpdate = function (element) {
-        let colonne = {};
+        let column = {};
         let elements = [];
         if (element.id === currentElement.id) {
-            dispositions.map((disposition) => {
-                disposition.colonnes.map((c) => {
+            layouts.map((layout) => {
+                layout.columns.map((c) => {
                     c.elements.map((e) => {
                         if (e.id === element.id) {
-                            colonne = c;
-                            elements = colonne.elements;
+                            column = c;
+                            elements = column.elements;
                         }
                     });
                 });
             });
         }
-
         elements = elements.map((e) => (e.id === element.id ? element : e));
-        columnUpdate(colonne, elements);
+        columnUpdate(column, elements);
     };
 
+    /**
+     *
+     * @return {*}
+     */
     const getClassName = function () {
         return hideMenu ? styles.builder + ' ' + styles.hide : styles.builder;
     };
 
+    /**
+     *
+     */
     const handleHideMenu = function () {
         setHideMenu(!hideMenu);
     };
 
+    /**
+     *
+     * @param e
+     */
     const handleSubmit = function (e) {
-        onSubmit(e, dispositions);
+        onSubmit(e, layouts);
     };
 
     return (
@@ -323,9 +335,9 @@ export default function Builder({page = {}, onSubmit, pages, loading}) {
             <div className={getClassName()}>
                 <DragDropContext onDragEnd={onDragEnd}>
                     <Navigation
-                        composants={composants}
+                        components={components}
                         currentItem={currentElement}
-                        onElementValeurChange={elementUpdate}
+                        onElementValueChange={elementUpdate}
                         setCurrentElement={setCurrentElement}
                         hideMenu={handleHideMenu}
                         onSubmit={handleSubmit}
@@ -333,13 +345,12 @@ export default function Builder({page = {}, onSubmit, pages, loading}) {
                         pages={pages}
                         loading={loading}
                     />
-
                     <Content
-                        dispositions={dispositions}
-                        setDispositions={setDispositions}
-                        dispositionAdd={dispositionAdd}
-                        dispositionUpdate={dispositionUpdate}
-                        dispositionDelete={dispositionDelete}
+                        layouts={layouts}
+                        setLayouts={setLayouts}
+                        layoutAdd={layoutAdd}
+                        layoutUpdate={layoutUpdate}
+                        layoutDelete={layoutDelete}
                         onElementClick={setCurrentElement}
                         currentElement={currentElement}
                         setCurrentElement={setCurrentElement}

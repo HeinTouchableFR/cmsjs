@@ -165,13 +165,6 @@
 
 $componentsColors: #56c7fa, #f2f2f2, #f76540, #f2f2f2, #ffcb05, #f2f2f2, #62cd9f, #f2f2f2, #b67baa;
 $secondaryColors: #f2f2f2, #56c, #f2f2f2, #540, #f2f2f2, #ffcb05, #f2f2f2, #62cd9f, #f2f2f2, #b67baa;
-@for $i from 1 through length($componentsColors) {
-    $componentsColors: append($componentsColors, darken(nth($componentsColors, $i), 25));
-}
-@for $i from 1 through length($secondaryColors) {
-    $secondaryColors: append($secondaryColors, darken(nth($secondaryColors, $i), 25));
-}
-
 $componentsColorsLength: length($componentsColors);
 $secondaryColorsLength: length($secondaryColors);
 
