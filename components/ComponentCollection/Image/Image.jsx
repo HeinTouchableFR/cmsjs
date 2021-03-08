@@ -6,7 +6,7 @@ import styles from './Image.module.scss';
 //Components
 import FileManager from 'components/FileManager/FileManager';
 
-export default function Image({ element, onElementValeurChange }) {
+export default function Image({ element, onElementValueChange }) {
     // Use translation
     const intl = useIntl();
     const [currentFiles, setCurrentFiles] = useState([]);
@@ -31,8 +31,8 @@ export default function Image({ element, onElementValeurChange }) {
 
     const handleChangeSrc = function (file) {
         const img = `<img data-image="${file._id}" src="${file.url}" />`;
-        element.content = img
-        onElementValeurChange(element);
+        element.content = img;
+        onElementValueChange(element);
     };
 
     const handleSetCurrentFiles = function (files) {

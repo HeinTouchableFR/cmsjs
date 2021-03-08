@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { Editor } from '@tinymce/tinymce-react';
 import { Form, Input } from 'semantic-ui-react';
 
-export default function Text({ element, onElementValeurChange }) {
+export default function Text({ element, onElementValueChange }) {
     const [content, setContent] = useState(element.content);
-    const [item, setItem] = useState(element)
+    const [item, setItem] = useState(element);
 
     useEffect(
         function () {
@@ -17,8 +17,8 @@ export default function Text({ element, onElementValeurChange }) {
 
     const handleChange = function (c) {
         setContent(c);
-        item.content = c
-        onElementValeurChange(item);
+        item.content = c;
+        onElementValueChange(item);
     };
 
     const handleChangeMargin = (e, data) => {
@@ -28,12 +28,12 @@ export default function Text({ element, onElementValeurChange }) {
                 ...item.styles,
                 margin: {
                     ...item.styles.margin,
-                    [data.name]: data.value
-                }
-            }
-        }
-        setItem(updated)
-        onElementValeurChange(updated);
+                    [data.name]: data.value,
+                },
+            },
+        };
+        setItem(updated);
+        onElementValueChange(updated);
     };
 
     const handleChangePadding = (e, data) => {
@@ -43,12 +43,12 @@ export default function Text({ element, onElementValeurChange }) {
                 ...item.styles,
                 padding: {
                     ...item.styles.padding,
-                    [data.name]: data.value
-                }
-            }
-        }
-        setItem(updated)
-        onElementValeurChange(updated);
+                    [data.name]: data.value,
+                },
+            },
+        };
+        setItem(updated);
+        onElementValueChange(updated);
     };
 
     return (
@@ -73,30 +73,94 @@ export default function Text({ element, onElementValeurChange }) {
                 onEditorChange={handleChange}
             />
             <Form>
-                <div className="form__style_container">
-                    <div className="field">
-                        <h4 className="title">Style</h4>
+                <div className='form__style_container'>
+                    <div className='field'>
+                        <h4 className='title'>Style</h4>
                     </div>
-                    <div className="form__style_item">
-                        <div className="field">
-                            <h6 className="style__element">Margin</h6>
+                    <div className='form__style_item'>
+                        <div className='field'>
+                            <h6 className='style__element'>Margin</h6>
                         </div>
-                        <div className="form__inline_item">
-                            <Form.Input fluid label='Top' placeholder='Top' name='top' type="number" defaultValue={item.styles.margin.top} onChange={handleChangeMargin}/>
-                            <Form.Input fluid label='Right' placeholder='Right' name='right' type="number" defaultValue={item.styles.margin.right} onChange={handleChangeMargin}/>
-                            <Form.Input fluid label='Bottom' placeholder='Bottom' name='bottom' type="number" defaultValue={item.styles.margin.bottom} onChange={handleChangeMargin}/>
-                            <Form.Input fluid label='Left' placeholder='Left' name='left' type="number" defaultValue={item.styles.margin.left} onChange={handleChangeMargin}/>
+                        <div className='form__inline_item'>
+                            <Form.Input
+                                fluid
+                                label='Top'
+                                placeholder='Top'
+                                name='top'
+                                type='number'
+                                defaultValue={item.styles.margin.top}
+                                onChange={handleChangeMargin}
+                            />
+                            <Form.Input
+                                fluid
+                                label='Right'
+                                placeholder='Right'
+                                name='right'
+                                type='number'
+                                defaultValue={item.styles.margin.right}
+                                onChange={handleChangeMargin}
+                            />
+                            <Form.Input
+                                fluid
+                                label='Bottom'
+                                placeholder='Bottom'
+                                name='bottom'
+                                type='number'
+                                defaultValue={item.styles.margin.bottom}
+                                onChange={handleChangeMargin}
+                            />
+                            <Form.Input
+                                fluid
+                                label='Left'
+                                placeholder='Left'
+                                name='left'
+                                type='number'
+                                defaultValue={item.styles.margin.left}
+                                onChange={handleChangeMargin}
+                            />
                         </div>
                     </div>
-                    <div className="form__style_item">
-                        <div className="field">
-                            <h6 className="style__element">Padding</h6>
+                    <div className='form__style_item'>
+                        <div className='field'>
+                            <h6 className='style__element'>Padding</h6>
                         </div>
-                        <div className="form__inline_item">
-                            <Form.Input fluid label='Top' placeholder='Top' name='top' type="number" defaultValue={item.styles.padding.top} onChange={handleChangePadding}/>
-                            <Form.Input fluid label='Right' placeholder='Right' name='right' type="number" defaultValue={item.styles.padding.right} onChange={handleChangePadding}/>
-                            <Form.Input fluid label='Bottom' placeholder='Bottom' name='bottom' type="number" defaultValue={item.styles.padding.bottom} onChange={handleChangePadding}/>
-                            <Form.Input fluid label='Left' placeholder='Left' name='left' type="number" defaultValue={item.styles.padding.left} onChange={handleChangePadding}/>
+                        <div className='form__inline_item'>
+                            <Form.Input
+                                fluid
+                                label='Top'
+                                placeholder='Top'
+                                name='top'
+                                type='number'
+                                defaultValue={item.styles.padding.top}
+                                onChange={handleChangePadding}
+                            />
+                            <Form.Input
+                                fluid
+                                label='Right'
+                                placeholder='Right'
+                                name='right'
+                                type='number'
+                                defaultValue={item.styles.padding.right}
+                                onChange={handleChangePadding}
+                            />
+                            <Form.Input
+                                fluid
+                                label='Bottom'
+                                placeholder='Bottom'
+                                name='bottom'
+                                type='number'
+                                defaultValue={item.styles.padding.bottom}
+                                onChange={handleChangePadding}
+                            />
+                            <Form.Input
+                                fluid
+                                label='Left'
+                                placeholder='Left'
+                                name='left'
+                                type='number'
+                                defaultValue={item.styles.padding.left}
+                                onChange={handleChangePadding}
+                            />
                         </div>
                     </div>
                 </div>
