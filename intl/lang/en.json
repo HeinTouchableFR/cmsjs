@@ -35,6 +35,7 @@
     "no": "No",
     "nbSelectedImage": "{amount, plural, =0 {no languages} one {# one language} few {# several languages} many {# lots of languages} other {# wrong format}}",
     "page.addNew": "Add a new page",
+    "page.cantDeleteChildren": "You cannot delete a page that has children. Please delete child pages or edit the parent page for each child.",
     "page.edit": "Edit",
     "pages": "Pages",
     "parentPage.no": "No parent page",

@@ -86,7 +86,11 @@ export default function Index({ items, errors }) {
                         open={confirmCannotDelete}
                         onConfirm={closeCannotDelete}
                         onCancel={closeCannotDelete}
-                        content='You cannot delete a page that has children. Please delete child pages or edit the parent page for each child.'
+                        content={intl.formatMessage({
+                            id: 'page.cantDeleteChildren',
+                            defaultMessage:
+                                'You cannot delete a page that has children. Please delete child pages or edit the parent page for each child.',
+                        })}
                     />
                 </Content>
             </Header>
