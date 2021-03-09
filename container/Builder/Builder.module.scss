@@ -5,6 +5,11 @@
     overflow-x: scroll;
 }
 
+.dnd {
+    display: grid;
+    grid-template-rows: 20% 80%;
+}
+
 //Composant Navigation
 .navigation {
     width: 350px;
@@ -329,24 +334,23 @@
     font-weight: bold;
 }
 
-
-.render{
-    &.disposition{
+.render {
+    &.disposition {
         border: none;
     }
     &.disposition:hover {
         border: none;
     }
 
-    .colonne{
-        cursor: default!important;
+    .colonne {
+        cursor: default !important;
     }
 
-    .colonne:hover::after{
+    .colonne:hover::after {
         content: none;
     }
 
-    .element__widget:hover{
+    .element__widget:hover {
         box-shadow: none;
     }
 }

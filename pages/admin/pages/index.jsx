@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { useIntl } from 'react-intl';
+
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import axios from 'axios';
@@ -12,6 +14,7 @@ import Table from 'components/Table/Table';
 import Page from 'components/rowTemplate/Page/Page';
 
 export default function Index({ items, errors }) {
+    const intl = useIntl();
     const url = 'pages';
     const router = useRouter();
 
@@ -75,9 +78,9 @@ export default function Index({ items, errors }) {
                         open={confirm}
                         onCancel={close}
                         onConfirm={handleDelete}
-                        content='Are you sure you want to delete this item?'
-                        cancelButton='No'
-                        confirmButton='Yes'
+                        content={intl.formatMessage({ id: 'item.deleteSentence', defaultMessage: 'Are you sure you want to delete this item?' })}
+                        cancelButton={intl.formatMessage({ id: 'no', defaultMessage: 'No' })}
+                        confirmButton={intl.formatMessage({ id: 'yes', defaultMessage: 'Yes' })}
                     />
                     <Confirm
                         open={confirmCannotDelete}

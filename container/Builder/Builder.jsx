@@ -1,14 +1,14 @@
-import React, {useState} from 'react';
-import {DragDropContext} from 'react-beautiful-dnd';
+import React, { useState } from 'react';
+import { DragDropContext } from 'react-beautiful-dnd';
 
-import {useIntl} from 'react-intl';
+import { useIntl } from 'react-intl';
 
 import styles from './Builder.module.scss';
 
 import Content from 'container/Content/Content';
 import Navigation from 'container/Navigation/Navigation';
 
-export default function Builder({page = {}, onSubmit, pages, loading}) {
+export default function Builder({ page = {}, onSubmit, pages, loading }) {
     // Use translation
     const intl = useIntl();
 
@@ -21,11 +21,11 @@ export default function Builder({page = {}, onSubmit, pages, loading}) {
     const components = [
         {
             tag: '<h1>',
-            label: intl.formatMessage({id: 'title', defaultMessage: 'Title'}),
+            label: intl.formatMessage({ id: 'title', defaultMessage: 'Title' }),
             color: 'orange',
             type: 'title',
             defaultValue: {
-                text: `${intl.formatMessage({id: 'title.default', defaultMessage: 'My great title'})}`,
+                text: `${intl.formatMessage({ id: 'title.default', defaultMessage: 'My great title' })}`,
                 tag: 'h2',
                 alignment: 'left',
                 typo: {
@@ -41,11 +41,11 @@ export default function Builder({page = {}, onSubmit, pages, loading}) {
                 styles: {
                     color: {
                         normal: '#CC3E33',
-                        hover: '#CC7E5A'
+                        hover: '#CC7E5A',
                     },
                     background: {
                         normal: '#FFFFFF00',
-                        hover: '#FFFFFF00'
+                        hover: '#FFFFFF00',
                     },
                     border: {
                         normal: {
@@ -62,7 +62,7 @@ export default function Builder({page = {}, onSubmit, pages, loading}) {
                                 bottom: '0',
                                 left: '0',
                             },
-                            color: 'inherit'
+                            color: 'inherit',
                         },
                         hover: {
                             type: 'none',
@@ -78,21 +78,21 @@ export default function Builder({page = {}, onSubmit, pages, loading}) {
                                 bottom: '0',
                                 left: '0',
                             },
-                            color: 'inherit'
-                        }
+                            color: 'inherit',
+                        },
                     },
                     textShadow: {
                         color: '#FFFFFF00',
                         blur: '10',
                         horizontal: '0',
-                        vertical: '10'
-                    }
-                }
+                        vertical: '10',
+                    },
+                },
             },
         },
         {
             tag: '<p>',
-            label: intl.formatMessage({id: 'textEditor', defaultMessage: 'Text Editor'}),
+            label: intl.formatMessage({ id: 'textEditor', defaultMessage: 'Text Editor' }),
             color: 'purple',
             type: 'text',
             defaultValue:
@@ -100,14 +100,14 @@ export default function Builder({page = {}, onSubmit, pages, loading}) {
         },
         {
             tag: '<img/>',
-            label: intl.formatMessage({id: 'image', defaultMessage: 'Image'}),
+            label: intl.formatMessage({ id: 'image', defaultMessage: 'Image' }),
             color: 'yellow',
             type: 'image',
             defaultValue: '<img src="/placeholder.png"/>',
         },
         {
             tag: '<button>',
-            label: intl.formatMessage({id: 'button', defaultMessage: 'Button'}),
+            label: intl.formatMessage({ id: 'button', defaultMessage: 'Button' }),
             color: 'teal',
             type: 'bouton',
             defaultValue: '<button>Mon bouton</button>',
@@ -141,7 +141,7 @@ export default function Builder({page = {}, onSubmit, pages, loading}) {
         layout.columns.map((column) => {
             column.elements.map((element) => {
                 if (element.id === currentElement.id) {
-                    setCurrentElement({id: 'empty'});
+                    setCurrentElement({ id: 'empty' });
                 }
             });
         });
@@ -168,12 +168,14 @@ export default function Builder({page = {}, onSubmit, pages, loading}) {
      * @param result
      */
     const onDragEnd = (result) => {
-        const {source, destination} = result;
+        const { source, destination } = result;
         // dropped outside the list
         if (!destination) {
             return;
         }
-        if (destination.droppableId === 'components') {return;}
+        if (destination.droppableId === 'components') {
+            return;
+        }
         if (source.droppableId === destination.droppableId) {
             const column = getcolumnListeById(destination.droppableId);
             const elements = reorder(column.elements, source.index, destination.index);
@@ -260,15 +262,15 @@ export default function Builder({page = {}, onSubmit, pages, loading}) {
                     top: 0,
                     left: 0,
                     right: 0,
-                    bottom: 0
+                    bottom: 0,
                 },
                 padding: {
                     top: 0,
                     left: 0,
                     right: 0,
-                    bottom: 0
-                }
-            }
+                    bottom: 0,
+                },
+            };
             setCurrentElement(element);
             destClone.splice(droppableDestination.index, 0, element);
             result[droppableDestination.droppableId] = destClone;
@@ -324,8 +326,8 @@ export default function Builder({page = {}, onSubmit, pages, loading}) {
 
     return (
         <>
-            <div className={getClassName()}>
-                <DragDropContext onDragEnd={onDragEnd}>
+            <div className={hideMenu ? styles.builder + ' ' + styles.hide : styles.builder}>
+                <DragDropContext onDragEnd={onDragEnd} className={styles.dnd}>
                     <Navigation
                         components={components}
                         currentItem={currentElement}
@@ -348,7 +350,7 @@ export default function Builder({page = {}, onSubmit, pages, loading}) {
                         setCurrentElement={setCurrentElement}
                     />
                 </DragDropContext>
-                <div className={styles.hideMenuBtn} onClick={() => handleHideMenu()}/>
+                <div className={styles.hideMenuBtn} onClick={() => handleHideMenu()} />
             </div>
         </>
     );
