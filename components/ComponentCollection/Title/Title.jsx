@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Dropdown, Form, Tab} from 'semantic-ui-react';
+import {Dropdown, Form, Tab, Button} from 'semantic-ui-react';
 import ColorPicker from 'components/ColorPicker/ColorPicker';
 import Accordion from 'components/Accordion/Accordion';
 import {
@@ -47,6 +47,23 @@ export default function Title({element, onElementValueChange}) {
         setItem(updated);
         onElementValueChange(updated);
     };
+    const handleChangeGeneralStyleUnit = (unit, key) => {
+        const updated = {
+            ...item,
+            styles: {
+                ...item.styles,
+                [key]: {
+                    unit: unit,
+                    top: 0,
+                    right: 0,
+                    bottom: 0,
+                    left: 0
+                },
+            },
+        };
+        setItem(updated);
+        onElementValueChange(updated);
+    }
     const handleColorChange = (color, key, mode) => {
         const updated = {
             ...item,
@@ -78,6 +95,40 @@ export default function Title({element, onElementValueChange}) {
         setItem(updated);
         onElementValueChange(updated);
     };
+    const handleChangeTypoSizeLh = (e, data, key) => {
+        const updated = {
+            ...item,
+            content: {
+                ...item.content,
+                typo: {
+                    ...item.content.typo,
+                    [key]: {
+                        ...item.content.typo[key],
+                        [data.name]: data.value
+                    },
+                },
+            },
+        };
+        setItem(updated);
+        onElementValueChange(updated);
+    }
+    const handleChangeTypoSizeLineHeightUnit = (unit, key) => {
+        const updated = {
+            ...item,
+            content: {
+                ...item.content,
+                typo: {
+                    ...item.content.typo,
+                    [key]: {
+                        unit: unit,
+                        value: unit === 'px' ? (key === 'size' ? '42' : '') : (key === 'size' ? '3' : '1')
+                    },
+                },
+            },
+        };
+        setItem(updated);
+        onElementValueChange(updated);
+    }
     const handleChangeBorder = (e, data, key, mode) => {
         const updated = {
             ...item,
@@ -101,6 +152,29 @@ export default function Title({element, onElementValueChange}) {
         setItem(updated);
         onElementValueChange(updated);
     };
+    const handleChangeBorderRadiusUnit = (unit, mode) => {
+        const updated = {
+            ...item,
+            content: {
+                ...item.content,
+                styles: {
+                    ...item.content.styles,
+                    border: {
+                        ...item.content.styles.border,
+                        [mode]: {
+                            ...item.content.styles.border[mode],
+                            radius: {
+                                ...item.content.styles.border[mode].radius,
+                                unit: unit,
+                            }
+                        }
+                    }
+                },
+            },
+        };
+        setItem(updated);
+        onElementValueChange(updated);
+    }
     const handleChangeBorderType = (e, data, mode) => {
         const updated = {
             ...item,
@@ -176,7 +250,15 @@ export default function Title({element, onElementValueChange}) {
                     </div>
                 </div>
                 <div className="field">
-                    <label>Border Radius</label>
+                    <div className="form__inline_item">
+                        <label>Border Radius</label>
+                        <div className="field-group">
+                            <label className={item.content.styles.border.normal.radius.unit === 'px' ? 'selected' : undefined}
+                                   onClick={() => handleChangeBorderRadiusUnit('px', 'normal')}>PX</label>
+                            <label className={item.content.styles.border.normal.radius.unit === '%' ? 'selected' : undefined}
+                                   onClick={() => handleChangeBorderRadiusUnit('%', 'normal')}>%</label>
+                        </div>
+                    </div>
                     <div className='form__inline_item bottom'>
                         <Form.Input fluid label='Top' placeholder='Top' name='top' type='number'
                                     value={item.content.styles.border.normal.radius.top}
@@ -226,7 +308,15 @@ export default function Title({element, onElementValueChange}) {
                     </div>
                 </div>
                 <div className="field">
-                    <label>Border Radius</label>
+                    <div className="form__inline_item">
+                        <label>Border Radius</label>
+                        <div className="field-group">
+                            <label className={item.content.styles.border.hover.radius.unit === 'px' ? 'selected' : undefined}
+                                   onClick={() => handleChangeBorderRadiusUnit('px', 'hover')}>PX</label>
+                            <label className={item.content.styles.border.hover.radius.unit === '%' ? 'selected' : undefined}
+                                   onClick={() => handleChangeBorderRadiusUnit('%', 'hover')}>%</label>
+                        </div>
+                    </div>
                     <div className='form__inline_item bottom'>
                         <Form.Input fluid label='Top' placeholder='Top' name='top' type='number'
                                     value={item.content.styles.border.hover.radius.top}
@@ -292,16 +382,32 @@ export default function Title({element, onElementValueChange}) {
                                      onColorChange={(color) => handleColorChange(color, 'color', 'hover')}/>
                     </div>
                 </div>
+                <div className="form__inline_item">
+                    <div className='field'>
+                        <Form.Input fluid label='Font Size' placeholder='16' name='value' type='number' min="1"
+                                    max={item.content.typo.size.unit === 'px' ? 200 : 10}
+                                    step={item.content.typo.size.unit === 'px' ? 1 : 0.1}
+                                    value={item.content.typo.size.value}
+                                    onChange={(e, data) => handleChangeTypoSizeLh(e, data, 'size')}/>
+                    </div>
+                    <div className="field-group">
+                        <label className={item.content.typo.size.unit === 'px' ? 'selected' : undefined}
+                               onClick={() => handleChangeTypoSizeLineHeightUnit('px', 'size')}>PX</label>
+                        <label className={item.content.typo.size.unit === 'em' ? 'selected' : undefined}
+                               onClick={() => handleChangeTypoSizeLineHeightUnit('em', 'size')}>EM</label>
+                        <label className={item.content.typo.size.unit === 'rem' ? 'selected' : undefined}
+                               onClick={() => handleChangeTypoSizeLineHeightUnit('rem', 'size')}>REM</label>
+                        <label className={item.content.typo.size.unit === 'vw' ? 'selected' : undefined}
+                               onClick={() => handleChangeTypoSizeLineHeightUnit('vw', 'size')}>VW</label>
+                    </div>
+                </div>
                 <div className='form__inline_item'>
                     <div className='field'>
                         <label>Font Family</label>
                         <Dropdown fluid name='family' selection value={item.content.typo.family} options={fontsOptions}
                                   onChange={handleChangeTypo}/>
                     </div>
-                    <div className='field'>
-                        <Form.Input fluid label='Font Size' placeholder='16' name='size' type='number'
-                                    value={item.content.typo.size} onChange={handleChangeTypo}/>
-                    </div>
+
                     <div className='field'>
                         <label>Font Weight</label>
                         <Dropdown fluid name='weight' selection value={item.content.typo.weight}
@@ -325,20 +431,41 @@ export default function Title({element, onElementValueChange}) {
                                   options={decorationsOptions} onChange={handleChangeTypo}/>
                     </div>
                 </div>
-                <div className='form__inline_item'>
+                <div className="form__inline_item">
                     <div className='field'>
-                        <Form.Input fluid label='Line Height' placeholder='1' name='lineHeight' type='number'
-                                    value={item.content.typo.lineHeight} onChange={handleChangeTypo}/>
+                        <Form.Input fluid label='Line Height' placeholder='1' name='value' type='number' min="1"
+                                    max={item.content.typo.lineHeight.unit === 'px' ? 100 : 10}
+                                    step={item.content.typo.lineHeight.unit === 'px' ? 1 : 0.1}
+                                    value={item.content.typo.lineHeight.value}
+                                    onChange={(e, data) => handleChangeTypoSizeLh(e, data, 'lineHeight')}/>
                     </div>
-                    <div className='field'>
-                        <Form.Input fluid label='Letter Spacing' placeholder='0' name='letterSpacing' type='number'
-                                    value={item.content.typo.letterSpacing} onChange={handleChangeTypo}/>
+                    <div className="field-group">
+                        <label className={item.content.typo.lineHeight.unit === 'px' ? 'selected' : undefined}
+                               onClick={() => handleChangeTypoSizeLineHeightUnit('px', 'lineHeight')}>PX</label>
+                        <label className={item.content.typo.lineHeight.unit === 'em' ? 'selected' : undefined}
+                               onClick={() => handleChangeTypoSizeLineHeightUnit('em', 'lineHeight')}>EM</label>
                     </div>
+                </div>
+                <div className='field'>
+                    <Form.Input fluid label='Letter Spacing' placeholder='0' name='letterSpacing' type='number'
+                                value={item.content.typo.letterSpacing} onChange={handleChangeTypo}/>
                 </div>
             </Accordion>
             <Accordion active={false} title={'Advanced'}>
                 <div className='field'>
-                    <label>Margin</label>
+                    <div className="form__inline_item">
+                        <label>Margin</label>
+                        <div className="field-group">
+                            <label className={item.styles.margin.unit === 'px' ? 'selected' : undefined}
+                                   onClick={() => handleChangeGeneralStyleUnit('px', 'margin')}>PX</label>
+                            <label className={item.styles.margin.unit === 'em' ? 'selected' : undefined}
+                                   onClick={() => handleChangeGeneralStyleUnit('em', 'margin')}>EM</label>
+                            <label className={item.styles.margin.unit === '%' ? 'selected' : undefined}
+                                   onClick={() => handleChangeGeneralStyleUnit('%', 'margin')}>%</label>
+                            <label className={item.styles.margin.unit === 'rem' ? 'selected' : undefined}
+                                   onClick={() => handleChangeGeneralStyleUnit('rem', 'margin')}>REM</label>
+                        </div>
+                    </div>
                     <div className='form__inline_item bottom'>
                         <Form.Input fluid label='Top' placeholder='Top' name='top' type='number'
                                     value={item.styles.margin.top}
@@ -355,7 +482,19 @@ export default function Title({element, onElementValueChange}) {
                     </div>
                 </div>
                 <div className='field'>
-                    <label>Padding</label>
+                    <div className="form__inline_item">
+                        <label>Padding</label>
+                        <div className="field-group">
+                            <label className={item.styles.padding.unit === 'px' ? 'selected' : undefined}
+                                   onClick={() => handleChangeGeneralStyleUnit('px', 'padding')}>PX</label>
+                            <label className={item.styles.padding.unit === 'em' ? 'selected' : undefined}
+                                   onClick={() => handleChangeGeneralStyleUnit('em', 'padding')}>EM</label>
+                            <label className={item.styles.padding.unit === '%' ? 'selected' : undefined}
+                                   onClick={() => handleChangeGeneralStyleUnit('%', 'padding')}>%</label>
+                            <label className={item.styles.padding.unit === 'rem' ? 'selected' : undefined}
+                                   onClick={() => handleChangeGeneralStyleUnit('rem', 'padding')}>REM</label>
+                        </div>
+                    </div>
                     <div className='form__inline_item bottom'>
                         <Form.Input fluid label='Top' placeholder='Top' name='top' type='number'
                                     value={item.styles.padding.top}

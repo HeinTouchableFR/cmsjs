@@ -30,12 +30,18 @@ export default function Builder({ page = {}, onSubmit, pages, loading }) {
                 alignment: 'left',
                 typo: {
                     family: 'Roboto',
-                    size: '42',
+                    size: {
+                        unit: 'px',
+                        value: '42'
+                    },
                     weight: '600',
                     transform: 'initial',
                     style: 'normal',
                     decoration: 'none',
-                    lineHeight: '1',
+                    lineHeight: {
+                        unit: 'em',
+                        value: '1'
+                    },
                     letterSpacing: '0',
                 },
                 styles: {
@@ -57,6 +63,7 @@ export default function Builder({ page = {}, onSubmit, pages, loading }) {
                                 left: '0',
                             },
                             radius: {
+                                unit: 'px',
                                 top: '0',
                                 right: '0',
                                 bottom: '0',
@@ -73,6 +80,7 @@ export default function Builder({ page = {}, onSubmit, pages, loading }) {
                                 left: '0',
                             },
                             radius: {
+                                unit: 'px',
                                 top: '0',
                                 right: '0',
                                 bottom: '0',
@@ -259,12 +267,14 @@ export default function Builder({ page = {}, onSubmit, pages, loading }) {
             element.type = composant.type;
             element.styles = {
                 margin: {
+                    unit: 'px',
                     top: 0,
                     left: 0,
                     right: 0,
                     bottom: 0,
                 },
                 padding: {
+                    unit: 'px',
                     top: 0,
                     left: 0,
                     right: 0,

@@ -210,3 +210,20 @@ $secondaryColorsLength: length($secondaryColors);
     display: grid;
     grid-gap: 15px;
 }
+
+
+.field-group{
+    display: flex;
+}
+
+.field-group label{
+    font-weight: normal!important;
+    margin-right: 5px;
+    cursor: pointer;
+}
+.field-group label.selected{
+    font-weight: bold!important;
+}
+.field-group label:hover{
+    text-decoration: underline;
+}
