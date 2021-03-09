@@ -18,7 +18,7 @@ export default function Builder({page = {}, onSubmit, pages, loading}) {
 
     const [hideMenu, setHideMenu] = useState(false);
 
-    const [device, setDevice] = useState("mobile")
+    const [device, setDevice] = useState("desktop")
 
     const components = [
         {
