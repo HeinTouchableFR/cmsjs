@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { useIntl } from 'react-intl';
 import Head from 'next/head';
 import nookies from 'nookies';
 
@@ -7,6 +7,8 @@ import { auth } from 'utils/dbConnect';
 import Header from 'components/Header/Header';
 
 export default function HomeAdmin() {
+    const intl = useIntl();
+
     return (
         <>
             <Head>
@@ -16,9 +18,7 @@ export default function HomeAdmin() {
                     integrity='sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p'
                     crossOrigin='anonymous'
                 />
-                <title>
-                    <FormattedMessage id='administration' defaultMessage='Administration' />
-                </title>
+                <title>{intl.formatMessage({ id: 'administration', defaultMessage: 'Administration' })}</title>
             </Head>
             <Header />
         </>
