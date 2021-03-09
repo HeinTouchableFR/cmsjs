@@ -12,7 +12,7 @@ import {
 
 export default function Title({element, onElementValueChange}) {
     const [item, setItem] = useState(element);
-    const [device, setDevice] = useState('mobile')
+    const [device, setDevice] = useState('desktop')
 
     useEffect(
         function () {
@@ -133,13 +133,16 @@ export default function Title({element, onElementValueChange}) {
             ...item,
             content: {
                 ...item.content,
-                typo: {
-                    ...item.content.typo,
-                    [key]: {
-                        unit: unit,
-                        value: unit === 'px' ? (key === 'size' ? '42' : '') : (key === 'size' ? '3' : '1')
+                [device]: {
+                    ...item.content[device],
+                    typo: {
+                        ...item.content[device].typo,
+                        [key]: {
+                            unit: unit,
+                            value: unit === 'px' ? (key === 'size' ? '42' : '') : (key === 'size' ? '3' : '1')
+                        },
                     },
-                },
+                }
             },
         };
         setItem(updated);
