@@ -12,7 +12,7 @@ import {
 
 export default function Title({element, onElementValueChange}) {
     const [item, setItem] = useState(element);
-    const [device, setDevice] = useState('tablet')
+    const [device, setDevice] = useState('mobile')
 
     useEffect(
         function () {

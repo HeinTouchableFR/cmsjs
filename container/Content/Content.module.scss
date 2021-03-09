@@ -2,14 +2,14 @@
     display: block;
     position: relative;
     width: calc(100% - 350px);
-    transition: transform 0.5s, width 0.5s;
-    transform: translateX(350px);
+    transition: left 0.5s, width 0.5s;
+    left: 350px;
     min-width: 1050px;
 }
 
-.hide .content {
+.hide.content {
     width: 100%;
-    transform: translateX(0px);
+    left: 0px;
 }
 
 .container {

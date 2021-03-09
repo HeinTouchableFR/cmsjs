@@ -5,18 +5,10 @@ import styles from './Content.module.scss';
 import AddLayout from 'container/Layout/AddLayout/AddLayout';
 import Layout from 'container/Layout/Layout';
 
-export default function Content({
-    layouts,
-    layoutAdd,
-    layoutUpdate,
-    layoutDelete,
-    onElementClick,
-    currentElement,
-    setCurrentElement,
-}) {
+export default function Content({layouts, layoutAdd, layoutUpdate, layoutDelete, onElementClick, currentElement, setCurrentElement, hide}) {
     return (
         <>
-            <div className={`${styles.content} ${styles.container}`}>
+            <div className={`${styles.content} ${styles.container} ${hide ? styles.hide : undefined}`}>
                 {layouts.map((item) => (
                     <Layout
                         key={item.id}
@@ -28,7 +20,7 @@ export default function Content({
                         setCurrentElement={setCurrentElement}
                     />
                 ))}
-                <AddLayout handleAddLayout={layoutAdd} />
+                <AddLayout handleAddLayout={layoutAdd}/>
             </div>
         </>
     );

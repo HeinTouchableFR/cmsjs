@@ -8,7 +8,7 @@ import styles from './Navigation.module.scss';
 
 import Component, { ComponentEditor } from 'components/ComponentCollection/Component';
 
-export default function Navigation({ components, currentItem, onElementValueChange, setCurrentElement, page, onSubmit, pages = [], loading }) {
+export default function Navigation({ components, currentItem, onElementValueChange, setCurrentElement, page, onSubmit, pages = [], loading, hide }) {
     const intl = useIntl();
 
     const [form, setForm] = useState({ title: page.title || '', slug: page.slug || '', parentPage: page.parentPage || '' });
@@ -179,7 +179,7 @@ export default function Navigation({ components, currentItem, onElementValueChan
 
     return (
         <>
-            <div className={styles.navigation}>
+            <div className={`${styles.navigation} ${hide ? styles.hide : undefined}`}>
                 <Tab panes={panes} activeIndex={activeIndex} onTabChange={handleTabChange} />
             </div>
         </>

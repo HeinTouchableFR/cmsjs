@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
-import { DragDropContext } from 'react-beautiful-dnd';
+import React, {useState} from 'react';
+import {DragDropContext} from 'react-beautiful-dnd';
 
-import { useIntl } from 'react-intl';
+import {useIntl} from 'react-intl';
 
 import styles from './Builder.module.scss';
 
 import Content from 'container/Content/Content';
 import Navigation from 'container/Navigation/Navigation';
 
-export default function Builder({ page = {}, onSubmit, pages, loading }) {
+export default function Builder({page = {}, onSubmit, pages, loading}) {
     // Use translation
     const intl = useIntl();
 
@@ -21,11 +21,11 @@ export default function Builder({ page = {}, onSubmit, pages, loading }) {
     const components = [
         {
             tag: '<h1>',
-            label: intl.formatMessage({ id: 'title', defaultMessage: 'Title' }),
+            label: intl.formatMessage({id: 'title', defaultMessage: 'Title'}),
             color: 'orange',
             type: 'title',
             defaultValue: {
-                text: `${intl.formatMessage({ id: 'title.default', defaultMessage: 'My great title' })}`,
+                text: `${intl.formatMessage({id: 'title.default', defaultMessage: 'My great title'})}`,
                 tag: 'h2',
                 alignment: 'left',
                 desktop: {
@@ -233,7 +233,7 @@ export default function Builder({ page = {}, onSubmit, pages, loading }) {
         },
         {
             tag: '<p>',
-            label: intl.formatMessage({ id: 'textEditor', defaultMessage: 'Text Editor' }),
+            label: intl.formatMessage({id: 'textEditor', defaultMessage: 'Text Editor'}),
             color: 'purple',
             type: 'text',
             defaultValue:
@@ -241,14 +241,14 @@ export default function Builder({ page = {}, onSubmit, pages, loading }) {
         },
         {
             tag: '<img/>',
-            label: intl.formatMessage({ id: 'image', defaultMessage: 'Image' }),
+            label: intl.formatMessage({id: 'image', defaultMessage: 'Image'}),
             color: 'yellow',
             type: 'image',
             defaultValue: '<img src="/placeholder.png"/>',
         },
         {
             tag: '<button>',
-            label: intl.formatMessage({ id: 'button', defaultMessage: 'Button' }),
+            label: intl.formatMessage({id: 'button', defaultMessage: 'Button'}),
             color: 'teal',
             type: 'bouton',
             defaultValue: '<button>Mon bouton</button>',
@@ -282,7 +282,7 @@ export default function Builder({ page = {}, onSubmit, pages, loading }) {
         layout.columns.map((column) => {
             column.elements.map((element) => {
                 if (element.id === currentElement.id) {
-                    setCurrentElement({ id: 'empty' });
+                    setCurrentElement({id: 'empty'});
                 }
             });
         });
@@ -309,7 +309,7 @@ export default function Builder({ page = {}, onSubmit, pages, loading }) {
      * @param result
      */
     const onDragEnd = (result) => {
-        const { source, destination } = result;
+        const {source, destination} = result;
         // dropped outside the list
         if (!destination) {
             return;
@@ -515,6 +515,7 @@ export default function Builder({ page = {}, onSubmit, pages, loading }) {
                         page={page}
                         pages={pages}
                         loading={loading}
+                        hide={hideMenu}
                     />
                     <Content
                         layouts={layouts}
@@ -525,9 +526,10 @@ export default function Builder({ page = {}, onSubmit, pages, loading }) {
                         onElementClick={setCurrentElement}
                         currentElement={currentElement}
                         setCurrentElement={setCurrentElement}
+                        hide={hideMenu}
                     />
                 </DragDropContext>
-                <div className={styles.hideMenuBtn} onClick={() => handleHideMenu()} />
+                <div className={styles.hideMenuBtn} onClick={() => handleHideMenu()}/>
             </div>
         </>
     );
