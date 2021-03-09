@@ -20,7 +20,7 @@ const Disposition = function ({ disposition }) {
         <>
             <div className={`${styles.render} ${styles.disposition}`}>
                 <div className={`${styles.disposition__container}`}>
-                    {disposition.colonnes && disposition.colonnes.map((column) => <Column key={'element-' + column.id} column={column} />)}
+                    {disposition.columns && disposition.columns.map((column) => <Column key={'element-' + column.id} column={column} />)}
                 </div>
             </div>
         </>
@@ -30,9 +30,9 @@ const Disposition = function ({ disposition }) {
 const Column = function ({ column }) {
     return (
         <>
-            <div className={`${styles.colonne}`}>
+            <div className={`${styles.column}`}>
                 <div className={`${styles.element__wrap}`}>
-                    <div className={styles.colonne__populated}>
+                    <div className={styles.column__populated}>
                         {column.elements.map((item) => (
                             <div key={item.id} className={styles.element__widget}>
                                 <div className={'content'}>

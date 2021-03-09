@@ -5,40 +5,99 @@ import parse from 'html-react-parser';
 
 export default function TitleRender({element}) {
 
+    const typoStyle = (device) => {
+        return {
+            fontSize: `${element.content[device].typo.size.value}${element.content[device].typo.size.unit}`,
+            fontFamily: element.content[device].typo.family,
+            fontWeight: element.content[device].typo.weight,
+            textTransform: element.content[device].typo.transform,
+            fontStyle: element.content[device].typo.style,
+            textDecoration: element.content[device].typo.decoration,
+            lineHeight: `${element.content[device].typo.lineHeight.value}${element.content[device].typo.lineHeight.unit}`,
+            letterSpacing: element.content[device].typo.letterSpacing + 'px',
+        }
+    }
+
+    const marginPaddingStyle = (device) => {
+        return {
+            margin: `${element.styles[device].margin.top}${element.styles[device].margin.unit} ${element.styles[device].margin.right}${element.styles[device].margin.unit} ${element.styles[device].margin.bottom}${element.styles[device].margin.unit} ${element.styles[device].margin.left}${element.styles[device].margin.unit}`,
+            padding: `${element.styles[device].padding.top}${element.styles[device].padding.unit} ${element.styles[device].padding.right}${element.styles[device].padding.unit} ${element.styles[device].padding.bottom}${element.styles[device].padding.unit} ${element.styles[device].padding.left}${element.styles[device].padding.unit}`,
+        }
+    }
+
+    const colorStyle = (device, mode) => {
+        return {
+            color: element.content[device].typo.color[mode],
+        }
+    }
+
+    const backgroundStyle = (device, mode) => {
+        return {
+            background: element.content[device].styles.background[mode],
+        }
+    }
+
+    const borderStyle = (device, mode) => {
+        return {
+            borderStyle: (element.content[device].styles.border[mode].type !== 'none') && element.content[device].styles.border[mode].type,
+            borderWidth: (element.content[device].styles.border[mode].type !== 'none') && `${element.content[device].styles.border[mode].width.top}px ${element.content[device].styles.border[mode].width.right}px ${element.content[device].styles.border[mode].width.bottom}px ${element.content[device].styles.border[mode].width.left}px`,
+            borderColor: (element.content[device].styles.border[mode].type !== 'none') && element.content[device].styles.border[mode].color,
+            borderRadius: `${element.content[device].styles.border[mode].radius.top}${element.content[device].styles.border[mode].radius.unit} ${element.content[device].styles.border[mode].radius.right}${element.content[device].styles.border[mode].radius.unit} ${element.content[device].styles.border[mode].radius.bottom}${element.content[device].styles.border[mode].radius.unit} ${element.content[device].styles.border[mode].radius.left}${element.content[device].styles.border[mode].radius.unit}`,
+        }
+    }
+
     const Title = styled[element.content.tag](
         {
-            color: element.content.styles.color.normal,
+            ...colorStyle("desktop", "normal"),
             textAlign: element.content.alignment,
-            fontSize: `${element.content.typo.size.value}${element.content.typo.size.unit}`,
-            fontFamily: element.content.typo.family,
-            fontWeight: element.content.typo.weight,
-            textTransform: element.content.typo.transform,
-            fontStyle: element.content.typo.style,
-            textDecoration: element.content.typo.decoration,
-            lineHeight: `${element.content.typo.lineHeight.value}${element.content.typo.lineHeight.unit}`,
-            letterSpacing: element.content.typo.letterSpacing + 'px',
+            ...typoStyle("desktop"),
             transition: 'color .2s',
             '&:hover': css({
-                color: element.content.styles.color.hover,
+                ...colorStyle("desktop", "hover"),
+            }),
+            '@media (max-width: 1024px)': css({
+                ...typoStyle("tablet"),
+                ...colorStyle("tablet", "normal"),
+                '&:hover': css({
+                    ...colorStyle("tablet", "hover"),
+                })
+            }),
+            '@media (max-width: 768px)': css({
+                ...typoStyle("mobile"),
+                ...colorStyle("mobile", "normal"),
+                '&:hover': css({
+                    ...colorStyle("mobile", "hover"),
+                })
             })
         },
     );
 
     const styleDiv =
         {
-            margin: `${element.styles.margin.top}${element.styles.margin.unit} ${element.styles.margin.right}${element.styles.margin.unit} ${element.styles.margin.bottom}${element.styles.margin.unit} ${element.styles.margin.left}${element.styles.margin.unit}`,
-            padding: `${element.styles.padding.top}${element.styles.padding.unit} ${element.styles.padding.right}${element.styles.padding.unit} ${element.styles.padding.bottom}${element.styles.padding.unit} ${element.styles.padding.left}${element.styles.padding.unit}`,
-            background: element.content.styles.background.normal,
-            borderStyle: (element.content.styles.border.normal.type !== 'none') && element.content.styles.border.normal.type,
-            borderWidth: (element.content.styles.border.normal.type !== 'none') && `${element.content.styles.border.normal.width.top}px ${element.content.styles.border.normal.width.right}px ${element.content.styles.border.normal.width.bottom}px ${element.content.styles.border.normal.width.left}px`,
-            borderColor: (element.content.styles.border.normal.type !== 'none') && element.content.styles.border.normal.color,
-            borderRadius: `${element.content.styles.border.normal.radius.top}${element.content.styles.border.normal.radius.unit} ${element.content.styles.border.normal.radius.right}${element.content.styles.border.normal.radius.unit} ${element.content.styles.border.normal.radius.bottom}${element.content.styles.border.normal.radius.unit} ${element.content.styles.border.normal.radius.left}${element.content.styles.border.normal.radius.unit}`,
+            ...marginPaddingStyle("desktop"),
+            ...backgroundStyle("desktop", "normal"),
+            ...borderStyle("desktop", "normal"),
             '&:hover': css({
-                background: element.content.styles.background.hover,
-                borderStyle: (element.content.styles.border.hover.type !== 'none') && element.content.styles.border.hover.type,
-                borderWidth: (element.content.styles.border.hover.type !== 'none') && `${element.content.styles.border.hover.width.top}px ${element.content.styles.border.hover.width.right}px ${element.content.styles.border.hover.width.bottom}px ${element.content.styles.border.hover.width.left}px`,
-                borderColor: (element.content.styles.border.hover.type !== 'none') && element.content.styles.border.hover.color,
-                borderRadius: `${element.content.styles.border.hover.radius.top}${element.content.styles.border.hover.radius.unit} ${element.content.styles.border.hover.radius.right}${element.content.styles.border.hover.radius.unit} ${element.content.styles.border.hover.radius.bottom}${element.content.styles.border.hover.radius.unit} ${element.content.styles.border.hover.radius.left}${element.content.styles.border.hover.radius.unit}`,
+                ...backgroundStyle("desktop", "hover"),
+                ...borderStyle("desktop", "hover"),
+            }),
+            '@media (max-width: 1024px)': css({
+                ...marginPaddingStyle("tablet"),
+                ...backgroundStyle("tablet", "normal"),
+                ...borderStyle("tablet", "normal"),
+                '&:hover': css({
+                    ...backgroundStyle("tablet", "hover"),
+                    ...borderStyle("tablet", "hover"),
+                }),
+            }),
+            '@media (max-width: 768px)': css({
+                ...marginPaddingStyle("mobile"),
+                ...backgroundStyle("mobile", "normal"),
+                ...borderStyle("mobile", "normal"),
+                '&:hover': css({
+                    ...backgroundStyle("mobile", "hover"),
+                    ...borderStyle("mobile", "hover"),
+                }),
             })
         }
 
