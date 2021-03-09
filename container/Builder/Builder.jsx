@@ -18,6 +18,8 @@ export default function Builder({page = {}, onSubmit, pages, loading}) {
 
     const [hideMenu, setHideMenu] = useState(false);
 
+    const [device, setDevice] = useState("mobile")
+
     const components = [
         {
             tag: '<h1>',
@@ -516,6 +518,8 @@ export default function Builder({page = {}, onSubmit, pages, loading}) {
                         pages={pages}
                         loading={loading}
                         hide={hideMenu}
+                        device={device}
+                        setDevice={setDevice}
                     />
                     <Content
                         layouts={layouts}
@@ -527,6 +531,7 @@ export default function Builder({page = {}, onSubmit, pages, loading}) {
                         currentElement={currentElement}
                         setCurrentElement={setCurrentElement}
                         hide={hideMenu}
+                        device={device}
                     />
                 </DragDropContext>
                 <div className={styles.hideMenuBtn} onClick={() => handleHideMenu()}/>

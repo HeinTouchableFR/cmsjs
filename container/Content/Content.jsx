@@ -5,10 +5,10 @@ import styles from './Content.module.scss';
 import AddLayout from 'container/Layout/AddLayout/AddLayout';
 import Layout from 'container/Layout/Layout';
 
-export default function Content({layouts, layoutAdd, layoutUpdate, layoutDelete, onElementClick, currentElement, setCurrentElement, hide}) {
+export default function Content({layouts, layoutAdd, layoutUpdate, layoutDelete, onElementClick, currentElement, setCurrentElement, hide, device}) {
     return (
         <>
-            <div className={`${styles.content} ${styles.container} ${hide ? styles.hide : undefined}`}>
+            <div className={`${styles.content} ${styles.container} ${hide ? styles.hide : ''} ${device === "tablet" ? styles.tablet__preview : ''} ${device === "mobile" ? styles.mobile__preview : ''}`}>
                 {layouts.map((item) => (
                     <Layout
                         key={item.id}
@@ -18,6 +18,7 @@ export default function Content({layouts, layoutAdd, layoutUpdate, layoutDelete,
                         onElementClick={onElementClick}
                         currentElement={currentElement}
                         setCurrentElement={setCurrentElement}
+                        device={device}
                     />
                 ))}
                 <AddLayout handleAddLayout={layoutAdd}/>

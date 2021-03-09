@@ -1,10 +1,10 @@
 import styles from '../Layout.module.scss';
 import {Draggable, Droppable} from 'react-beautiful-dnd';
-import TitleRender from 'components/ComponentCollection/Title/TitleRender';
 import parse from 'html-react-parser';
 import React from 'react';
+import TitlePreview from 'components/ComponentCollection/Title/TitlePreview';
 
-export default function Column({ column, onElementClick, elementDelete, currentElement, setCurrentElement }) {
+export default function Column({ column, onElementClick, elementDelete, currentElement, setCurrentElement, device }) {
     /**
      * Allows you to delete a sub item
      * @param e
@@ -65,7 +65,7 @@ export default function Column({ column, onElementClick, elementDelete, currentE
                                                     style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}
                                                 >
                                                     <div className={'content'} onClick={() => handleElementClick(item)}>
-                                                        {item.type === 'title' ? <TitleRender element={item} /> : parse(item.content)}
+                                                        {item.type === 'title' ? <TitlePreview element={item} device={device} /> : parse(item.content)}
                                                     </div>
                                                     <button
                                                         key={'btn-empty' + item.id}

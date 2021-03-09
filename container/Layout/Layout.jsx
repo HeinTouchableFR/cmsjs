@@ -3,7 +3,7 @@ import React from 'react';
 import styles from './Layout.module.scss';
 import Column from './Column/Column'
 
-export default function Layout({ layout, layoutUpdate, layoutDelete, onElementClick, currentElement, setCurrentElement }) {
+export default function Layout({ layout, layoutUpdate, layoutDelete, onElementClick, currentElement, setCurrentElement, device }) {
     const structures = [];
     for (let i = 1; i < 7; i++) {
         const structure = {};
@@ -95,7 +95,7 @@ export default function Layout({ layout, layoutUpdate, layoutDelete, onElementCl
     };
 
     return (
-        <div className={`${styles.layout}`}>
+        <div className={`${styles.layout} ${device === "tablet" ? styles.tablet__preview : ''} ${device === "mobile" ? styles.mobile__preview : ''}`}>
             {layout.nbColumns > 0 ? (
                 <div className={`${styles.layout__container}`}>
                     {layout.columns &&
@@ -111,6 +111,7 @@ export default function Layout({ layout, layoutUpdate, layoutDelete, onElementCl
                                 onElementClick={onElementClick}
                                 setCurrentElement={setCurrentElement}
                                 currentElement={currentElement}
+                                device={device}
                             />
                         ))}
                 </div>

@@ -14,7 +14,7 @@ export default function Component({ tag, label }) {
     );
 }
 
-export function ComponentEditor({ element, onElementValueChange }) {
+export function ComponentEditor({ element, onElementValueChange, device }) {
     const [type, setType] = useState();
 
     useEffect(
@@ -28,7 +28,7 @@ export function ComponentEditor({ element, onElementValueChange }) {
         <>
             {type === 'title' && (
                 <>
-                    <Title element={element} onElementValueChange={onElementValueChange} />
+                    <Title element={element} onElementValueChange={onElementValueChange} device={device} />
                 </>
             )}
             {type === 'text' && (

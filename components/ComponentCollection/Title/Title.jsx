@@ -10,9 +10,8 @@ import {
     weightsOptions
 } from 'variables/title';
 
-export default function Title({element, onElementValueChange}) {
+export default function Title({element, onElementValueChange, device}) {
     const [item, setItem] = useState(element);
-    const [device, setDevice] = useState('desktop')
 
     useEffect(
         function () {

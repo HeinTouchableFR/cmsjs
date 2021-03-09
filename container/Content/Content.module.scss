@@ -2,9 +2,12 @@
     display: block;
     position: relative;
     width: calc(100% - 350px);
-    transition: left 0.5s, width 0.5s;
-    left: 350px;
+    transition: left 0.5s, width 0.5s, min-width 0.5s, max-width 0.5s;
+    left: 175px;
     min-width: 1050px;
+    max-width: 100%;
+    background-color: #FFF;
+    margin: 0 auto;
 }
 
 .hide.content {
@@ -14,4 +17,16 @@
 
 .container {
     padding: 0 100px;
+}
+
+.tablet__preview{
+    padding: 0 20px;
+    min-width: 775px;
+    max-width: 775px;
+}
+
+.mobile__preview{
+    padding: 0 20px;
+    min-width: 360px;
+    max-width: 360px;
 }

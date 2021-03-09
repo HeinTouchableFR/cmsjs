@@ -1,23 +1,27 @@
-import React, { useEffect, useState } from 'react';
-import { useIntl } from 'react-intl';
+import React, {useEffect, useState} from 'react';
+import {useIntl} from 'react-intl';
 import slugify from 'react-slugify';
-import { Droppable, Draggable } from 'react-beautiful-dnd';
-import { Button, Form, Tab } from 'semantic-ui-react';
+import {Droppable, Draggable} from 'react-beautiful-dnd';
+import {Button, Dropdown, Form, Tab} from 'semantic-ui-react';
 
 import styles from './Navigation.module.scss';
 
-import Component, { ComponentEditor } from 'components/ComponentCollection/Component';
+import Component, {ComponentEditor} from 'components/ComponentCollection/Component';
 
-export default function Navigation({ components, currentItem, onElementValueChange, setCurrentElement, page, onSubmit, pages = [], loading, hide }) {
+export default function Navigation({components, currentItem, onElementValueChange, setCurrentElement, page, onSubmit, pages = [], loading, hide, device, setDevice}) {
     const intl = useIntl();
 
-    const [form, setForm] = useState({ title: page.title || '', slug: page.slug || '', parentPage: page.parentPage || '' });
+    const [form, setForm] = useState({
+        title: page.title || '',
+        slug: page.slug || '',
+        parentPage: page.parentPage || ''
+    });
 
     const [activeIndex, setActiveIndex] = useState(0);
-    const handleTabChange = (_e, { activeIndex }) => {
+    const handleTabChange = (_e, {activeIndex}) => {
         setActiveIndex(activeIndex);
         if (activeIndex !== 0) {
-            setCurrentElement({ id: 'empty' });
+            setCurrentElement({id: 'empty'});
         }
     };
 
@@ -39,13 +43,17 @@ export default function Navigation({ components, currentItem, onElementValueChan
         onSubmit(form);
     };
 
-    const pagesOptions = [{ key: 'empty', value: '', text: intl.formatMessage({ id: 'parentPage.no', defaultMessage: 'No parent page' }) }];
+    const pagesOptions = [{
+        key: 'empty',
+        value: '',
+        text: intl.formatMessage({id: 'parentPage.no', defaultMessage: 'No parent page'})
+    }];
 
     const recursivePagesOptions = function (page, tiret = '', parent) {
         if (parent) {
             tiret += ' — ';
         }
-        pagesOptions.push({ key: page._id, value: page._id, text: (parent ? tiret : '') + page.title });
+        pagesOptions.push({key: page._id, value: page._id, text: (parent ? tiret : '') + page.title});
 
         if (page.childPagesData) {
             page.childPagesData.map((child) => recursivePagesOptions(child, tiret, page));
@@ -81,17 +89,27 @@ export default function Navigation({ components, currentItem, onElementValueChan
         );
     };
 
+    const deviceOptions = [
+        {key: 'Desktop', text: 'Desktop', value: 'desktop'},
+        {key: 'Tablet', text: 'Tablet', value: 'tablet'},
+        {key: 'Mobile', text: 'Mobile', value: 'mobile'},
+    ];
+
+    const handleDeviceChange = (e, data) => {
+        setDevice(data.value)
+    };
+
 
     const panes = [
         {
-            menuItem: intl.formatMessage({ id: 'settings', defaultMessage: 'Settings' }),
+            menuItem: intl.formatMessage({id: 'settings', defaultMessage: 'Settings'}),
             render: () => (
                 <Tab.Pane attached={true}>
                     <Form onSubmit={handleSubmit}>
                         <Form.Input
                             fluid
-                            label={intl.formatMessage({ id: 'title', defaultMessage: 'Title' })}
-                            placeholder={intl.formatMessage({ id: 'title', defaultMessage: 'Title' })}
+                            label={intl.formatMessage({id: 'title', defaultMessage: 'Title'})}
+                            placeholder={intl.formatMessage({id: 'title', defaultMessage: 'Title'})}
                             required
                             name='title'
                             defaultValue={form.title}
@@ -99,16 +117,16 @@ export default function Navigation({ components, currentItem, onElementValueChan
                         />
                         <Form.Input
                             fluid
-                            label={intl.formatMessage({ id: 'slug', defaultMessage: 'Slug' })}
-                            placeholder={intl.formatMessage({ id: 'slug', defaultMessage: 'Slug' })}
+                            label={intl.formatMessage({id: 'slug', defaultMessage: 'Slug'})}
+                            placeholder={intl.formatMessage({id: 'slug', defaultMessage: 'Slug'})}
                             required
                             name='slug'
                             value={form.slug}
                             onChange={handleChange}
                         />
                         <Form.Dropdown
-                            placeholder={intl.formatMessage({ id: 'parentPage', defaultMessage: 'Parent page' })}
-                            additionLabel={intl.formatMessage({ id: 'parentPage', defaultMessage: 'Parent page' })}
+                            placeholder={intl.formatMessage({id: 'parentPage', defaultMessage: 'Parent page'})}
+                            additionLabel={intl.formatMessage({id: 'parentPage', defaultMessage: 'Parent page'})}
                             fluid
                             search
                             clearable
@@ -120,15 +138,15 @@ export default function Navigation({ components, currentItem, onElementValueChan
                         />
                         <Button loading={loading} color={'green'} type='submit'>
                             {page.content
-                                ? intl.formatMessage({ id: 'update', defaultMessage: 'Update' })
-                                : intl.formatMessage({ id: 'publish', defaultMessage: 'Publish' })}
+                                ? intl.formatMessage({id: 'update', defaultMessage: 'Update'})
+                                : intl.formatMessage({id: 'publish', defaultMessage: 'Publish'})}
                         </Button>
                     </Form>
                 </Tab.Pane>
             ),
         },
         {
-            menuItem: intl.formatMessage({ id: 'component', defaultMessage: 'Component' }),
+            menuItem: intl.formatMessage({id: 'component', defaultMessage: 'Component'}),
             render: () => (
                 <Tab.Pane attached={true}>
                     <Droppable
@@ -141,24 +159,25 @@ export default function Navigation({ components, currentItem, onElementValueChan
                                 {components.map((item, index) => {
                                     const shouldRenderClone = item.type === _snapshot.draggingFromThisWith;
                                     return (
-                                            shouldRenderClone ?
-                                                <div className={'componentBackground'} key={item.type}>
-                                                    <Component tag={item.tag} label={item.label} color={item.color} tooltip={item.tooltip}/>
-                                                </div> :
-                                                <Draggable key={item.type} draggableId={item.type} index={index}>
-                                                    {(provided, _snapshot) => (
-                                                        <div
-                                                            className={'componentBackground'}
-                                                            ref={provided.innerRef}
-                                                            {...provided.draggableProps}
-                                                            {...provided.dragHandleProps}
-                                                        >
-                                                            <Component tag={item.tag} label={item.label} color={item.color}
-                                                                       tooltip={item.tooltip}/>
-                                                        </div>
-                                                    )}
-                                                </Draggable>
-                                        )
+                                        shouldRenderClone ?
+                                            <div className={'componentBackground'} key={item.type}>
+                                                <Component tag={item.tag} label={item.label} color={item.color}
+                                                           tooltip={item.tooltip}/>
+                                            </div> :
+                                            <Draggable key={item.type} draggableId={item.type} index={index}>
+                                                {(provided, _snapshot) => (
+                                                    <div
+                                                        className={'componentBackground'}
+                                                        ref={provided.innerRef}
+                                                        {...provided.draggableProps}
+                                                        {...provided.dragHandleProps}
+                                                    >
+                                                        <Component tag={item.tag} label={item.label} color={item.color}
+                                                                   tooltip={item.tooltip}/>
+                                                    </div>
+                                                )}
+                                            </Draggable>
+                                    )
                                 })}
                                 {provided.placeholder}
                             </div>
@@ -168,10 +187,21 @@ export default function Navigation({ components, currentItem, onElementValueChan
             ),
         },
         currentItem.type && {
-            menuItem: intl.formatMessage({ id: 'edit', defaultMessage: 'Edit' }) + ' ' + intl.formatMessage({ id: currentItem.type }),
+            menuItem: intl.formatMessage({
+                id: 'edit',
+                defaultMessage: 'Edit'
+            }) + ' ' + intl.formatMessage({id: currentItem.type}),
             render: () => (
                 <Tab.Pane attached={true}>
-                    <ComponentEditor element={currentItem} onElementValueChange={onElementValueChange} />
+                    <ComponentEditor element={currentItem} onElementValueChange={onElementValueChange} device={device}/>
+                    <Dropdown
+                        placeholder='Select Friend'
+                        fluid
+                        selection
+                        defaultValue={device}
+                        options={deviceOptions}
+                        onChange={handleDeviceChange}
+                    />
                 </Tab.Pane>
             ),
         },
@@ -179,8 +209,9 @@ export default function Navigation({ components, currentItem, onElementValueChan
 
     return (
         <>
-            <div className={`${styles.navigation} ${hide ? styles.hide : undefined}`}>
-                <Tab panes={panes} activeIndex={activeIndex} onTabChange={handleTabChange} />
+            <div className={`${styles.navigation} ${hide ? styles.hide : ''}`}>
+                <Tab panes={panes} activeIndex={activeIndex} onTabChange={handleTabChange}/>
+
             </div>
         </>
     );
