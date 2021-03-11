@@ -5,23 +5,35 @@ import parse from 'html-react-parser';
 
 export default function TitleRender({element}) {
 
+    const concatValueUnit = (value, unit = 'px') => {
+        return value + (value && unit)
+    }
+
+    const generateRuleFromValues = (values = [], unit = 'px') => {
+        if (!values.every(item => item === 0)) {
+            let string = ""
+            values.map(value => string += concatValueUnit(value, unit) + " ")
+            return string
+        }
+    }
+
     const typoStyle = (device) => {
         return {
-            fontSize: `${element.content[device].typo.size.value}${element.content[device].typo.size.unit}`,
+            fontSize: `${concatValueUnit(element.content[device].typo.size.value, element.content[device].typo.size.unit)}`,
             fontFamily: element.content[device].typo.family,
             fontWeight: element.content[device].typo.weight,
             textTransform: element.content[device].typo.transform,
             fontStyle: element.content[device].typo.style,
             textDecoration: element.content[device].typo.decoration,
-            lineHeight: `${element.content[device].typo.lineHeight.value}${element.content[device].typo.lineHeight.unit}`,
-            letterSpacing: element.content[device].typo.letterSpacing + 'px',
+            lineHeight: `${concatValueUnit(element.content[device].typo.lineHeight.value, element.content[device].typo.lineHeight.unit)}`,
+            letterSpacing: `${concatValueUnit(element.content[device].typo.letterSpacing)}`,
         }
     }
 
     const marginPaddingStyle = (device) => {
         return {
-            margin: `${element.styles[device].margin.top}${element.styles[device].margin.unit} ${element.styles[device].margin.right}${element.styles[device].margin.unit} ${element.styles[device].margin.bottom}${element.styles[device].margin.unit} ${element.styles[device].margin.left}${element.styles[device].margin.unit}`,
-            padding: `${element.styles[device].padding.top}${element.styles[device].padding.unit} ${element.styles[device].padding.right}${element.styles[device].padding.unit} ${element.styles[device].padding.bottom}${element.styles[device].padding.unit} ${element.styles[device].padding.left}${element.styles[device].padding.unit}`,
+            margin: generateRuleFromValues([element.styles[device].margin.top, element.styles[device].margin.right, element.styles[device].margin.bottom, element.styles[device].margin.left], element.styles[device].margin.unit),
+            padding: generateRuleFromValues([element.styles[device].padding.top, element.styles[device].padding.right, element.styles[device].padding.bottom, element.styles[device].padding.left], element.styles[device].padding.unit),
         }
     }
 
@@ -40,9 +52,9 @@ export default function TitleRender({element}) {
     const borderStyle = (device, mode) => {
         return {
             borderStyle: (element.content[device].styles.border[mode].type !== 'none') && element.content[device].styles.border[mode].type,
-            borderWidth: (element.content[device].styles.border[mode].type !== 'none') && `${element.content[device].styles.border[mode].width.top}px ${element.content[device].styles.border[mode].width.right}px ${element.content[device].styles.border[mode].width.bottom}px ${element.content[device].styles.border[mode].width.left}px`,
+            borderWidth: (element.content[device].styles.border[mode].type !== 'none') && generateRuleFromValues([element.content[device].styles.border[mode].width.top, element.content[device].styles.border[mode].width.right, element.content[device].styles.border[mode].width.bottom, element.content[device].styles.border[mode].width.left]),
             borderColor: (element.content[device].styles.border[mode].type !== 'none') && element.content[device].styles.border[mode].color,
-            borderRadius: `${element.content[device].styles.border[mode].radius.top}${element.content[device].styles.border[mode].radius.unit} ${element.content[device].styles.border[mode].radius.right}${element.content[device].styles.border[mode].radius.unit} ${element.content[device].styles.border[mode].radius.bottom}${element.content[device].styles.border[mode].radius.unit} ${element.content[device].styles.border[mode].radius.left}${element.content[device].styles.border[mode].radius.unit}`,
+            borderRadius: generateRuleFromValues([element.content[device].styles.border[mode].radius.top, element.content[device].styles.border[mode].radius.right, element.content[device].styles.border[mode].radius.bottom, element.content[device].styles.border[mode].radius.left], element.content[device].styles.border[mode].radius.unit),
         }
     }
 
@@ -52,22 +64,22 @@ export default function TitleRender({element}) {
             textAlign: element.content.alignment,
             ...typoStyle("desktop"),
             transition: 'color .2s',
-            '&:hover': css({
-                ...colorStyle("desktop", "hover"),
-            }),
+            '&:hover': {
+                ...colorStyle("desktop", "hover")
+            },
             '@media (max-width: 1024px)': css({
                 ...typoStyle("tablet"),
                 ...colorStyle("tablet", "normal"),
-                '&:hover': css({
-                    ...colorStyle("tablet", "hover"),
-                })
+                '&:hover': {
+                    ...colorStyle("tablet", "hover")
+                }
             }),
             '@media (max-width: 768px)': css({
                 ...typoStyle("mobile"),
                 ...colorStyle("mobile", "normal"),
-                '&:hover': css({
-                    ...colorStyle("mobile", "hover"),
-                })
+                '&:hover': {
+                    ...colorStyle("mobile", "hover")
+                }
             })
         },
     );
@@ -77,27 +89,27 @@ export default function TitleRender({element}) {
             ...marginPaddingStyle("desktop"),
             ...backgroundStyle("desktop", "normal"),
             ...borderStyle("desktop", "normal"),
-            '&:hover': css({
+            '&:hover': {
                 ...backgroundStyle("desktop", "hover"),
-                ...borderStyle("desktop", "hover"),
-            }),
+                ...borderStyle("desktop", "hover")
+            },
             '@media (max-width: 1024px)': css({
                 ...marginPaddingStyle("tablet"),
                 ...backgroundStyle("tablet", "normal"),
                 ...borderStyle("tablet", "normal"),
-                '&:hover': css({
+                '&:hover': {
                     ...backgroundStyle("tablet", "hover"),
-                    ...borderStyle("tablet", "hover"),
-                }),
+                    ...borderStyle("tablet", "hover")
+                },
             }),
             '@media (max-width: 768px)': css({
                 ...marginPaddingStyle("mobile"),
                 ...backgroundStyle("mobile", "normal"),
                 ...borderStyle("mobile", "normal"),
-                '&:hover': css({
+                '&:hover': {
                     ...backgroundStyle("mobile", "hover"),
-                    ...borderStyle("mobile", "hover"),
-                }),
+                    ...borderStyle("mobile", "hover")
+                },
             })
         }
 

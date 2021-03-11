@@ -36,7 +36,8 @@
     "sass": "^1.32.4",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^2.0.3",
-    "sharp": "^0.27.1"
+    "sharp": "^0.27.1",
+    "@emotion/cache": "latest"
   },
   "devDependencies": {
     "reactcss": "^1.2.3"

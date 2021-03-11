@@ -2,20 +2,29 @@ import React from 'react';
 import axios from 'axios';
 import Header from 'container/Sites/Header/Header';
 import RenderPage from 'container/Builder/RenderPage';
+import createCache from '@emotion/cache'
+import {CacheProvider} from '@emotion/react';
 
-export default function Page({ post }) {
+export default function Page({post}) {
+
+    const cache = createCache({
+        key: post.slug
+    })
+
     return (
         <>
-            <Header title={post.title} />
+            <Header title={post.title}/>
             <div className='container'>
-                <RenderPage page={post} />
+                <CacheProvider value={cache}>
+                    <RenderPage page={post}/>
+                </CacheProvider>
             </div>
         </>
     );
 }
 
-export async function getServerSideProps({ params }) {
-    const { slug } = params;
+export async function getServerSideProps({params}) {
+    const {slug} = params;
 
     let post = {};
     let success = false;
@@ -27,6 +36,6 @@ export async function getServerSideProps({ params }) {
     });
 
     return {
-        props: { post },
+        props: {post},
     };
 }

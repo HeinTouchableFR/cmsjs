@@ -7,6 +7,7 @@ import styles from './Builder.module.scss';
 
 import Content from 'container/Content/Content';
 import Navigation from 'container/Navigation/Navigation';
+import defaultComponents from 'variables/components'
 
 export default function Builder({page = {}, onSubmit, pages, loading}) {
     // Use translation
@@ -21,218 +22,7 @@ export default function Builder({page = {}, onSubmit, pages, loading}) {
     const [device, setDevice] = useState("desktop")
 
     const components = [
-        {
-            tag: '<h1>',
-            label: intl.formatMessage({id: 'title', defaultMessage: 'Title'}),
-            color: 'orange',
-            type: 'title',
-            defaultValue: {
-                text: `${intl.formatMessage({id: 'title.default', defaultMessage: 'My great title'})}`,
-                tag: 'h2',
-                alignment: 'left',
-                desktop: {
-                    typo: {
-                        family: 'Roboto',
-                        size: {
-                            unit: 'px',
-                            value: '42'
-                        },
-                        weight: '600',
-                        transform: 'initial',
-                        style: 'normal',
-                        decoration: 'none',
-                        lineHeight: {
-                            unit: 'em',
-                            value: '1'
-                        },
-                        letterSpacing: '0',
-                        color: {
-                            normal: '#CC3E33',
-                            hover: '#CC7E5A',
-                        },
-                    },
-                    styles: {
-                        background: {
-                            normal: '#FFFFFF00',
-                            hover: '#FFFFFF00',
-                        },
-                        border: {
-                            normal: {
-                                type: 'none',
-                                width: {
-                                    top: '0',
-                                    right: '0',
-                                    bottom: '0',
-                                    left: '0',
-                                },
-                                radius: {
-                                    unit: 'px',
-                                    top: '0',
-                                    right: '0',
-                                    bottom: '0',
-                                    left: '0',
-                                },
-                                color: 'inherit',
-                            },
-                            hover: {
-                                type: 'none',
-                                width: {
-                                    top: '0',
-                                    right: '0',
-                                    bottom: '0',
-                                    left: '0',
-                                },
-                                radius: {
-                                    unit: 'px',
-                                    top: '0',
-                                    right: '0',
-                                    bottom: '0',
-                                    left: '0',
-                                },
-                                color: 'inherit',
-                            },
-                        },
-                    }
-                },
-                tablet: {
-                    typo: {
-                        family: 'Roboto',
-                        size: {
-                            unit: 'px',
-                            value: '35'
-                        },
-                        weight: '600',
-                        transform: 'initial',
-                        style: 'normal',
-                        decoration: 'none',
-                        lineHeight: {
-                            unit: 'em',
-                            value: '1'
-                        },
-                        letterSpacing: '0',
-                        color: {
-                            normal: '#CC3E33',
-                            hover: '#CC7E5A',
-                        },
-                    },
-                    styles: {
-                        background: {
-                            normal: '#FFFFFF00',
-                            hover: '#FFFFFF00',
-                        },
-                        border: {
-                            normal: {
-                                type: 'none',
-                                width: {
-                                    top: '0',
-                                    right: '0',
-                                    bottom: '0',
-                                    left: '0',
-                                },
-                                radius: {
-                                    unit: 'px',
-                                    top: '0',
-                                    right: '0',
-                                    bottom: '0',
-                                    left: '0',
-                                },
-                                color: 'inherit',
-                            },
-                            hover: {
-                                type: 'none',
-                                width: {
-                                    top: '0',
-                                    right: '0',
-                                    bottom: '0',
-                                    left: '0',
-                                },
-                                radius: {
-                                    unit: 'px',
-                                    top: '0',
-                                    right: '0',
-                                    bottom: '0',
-                                    left: '0',
-                                },
-                                color: 'inherit',
-                            },
-                        },
-                    }
-                },
-                mobile: {
-                    typo: {
-                        family: 'Roboto',
-                        size: {
-                            unit: 'px',
-                            value: '25'
-                        },
-                        weight: '600',
-                        transform: 'initial',
-                        style: 'normal',
-                        decoration: 'none',
-                        lineHeight: {
-                            unit: 'em',
-                            value: '1'
-                        },
-                        letterSpacing: '0',
-                        color: {
-                            normal: '#CC3E33',
-                            hover: '#CC7E5A',
-                        },
-                    },
-                    styles: {
-                        background: {
-                            normal: '#FFFFFF00',
-                            hover: '#FFFFFF00',
-                        },
-                        border: {
-                            normal: {
-                                type: 'none',
-                                width: {
-                                    top: '0',
-                                    right: '0',
-                                    bottom: '0',
-                                    left: '0',
-                                },
-                                radius: {
-                                    unit: 'px',
-                                    top: '0',
-                                    right: '0',
-                                    bottom: '0',
-                                    left: '0',
-                                },
-                                color: 'inherit',
-                            },
-                            hover: {
-                                type: 'none',
-                                width: {
-                                    top: '0',
-                                    right: '0',
-                                    bottom: '0',
-                                    left: '0',
-                                },
-                                radius: {
-                                    unit: 'px',
-                                    top: '0',
-                                    right: '0',
-                                    bottom: '0',
-                                    left: '0',
-                                },
-                                color: 'inherit',
-                            },
-                        },
-                    }
-                },
-                styles: {
-
-                    textShadow: {
-                        color: '#FFFFFF00',
-                        blur: '10',
-                        horizontal: '0',
-                        vertical: '10',
-                    },
-                },
-            },
-        },
+        defaultComponents.defaultTitle(intl),
         {
             tag: '<p>',
             label: intl.formatMessage({id: 'textEditor', defaultMessage: 'Text Editor'}),
@@ -419,34 +209,34 @@ export default function Builder({page = {}, onSubmit, pages, loading}) {
                 },
                 tablet: {
                     margin: {
-                        unit: 'px',
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        bottom: 0,
+                        unit: '',
+                        top: '',
+                        left: '',
+                        right: '',
+                        bottom: '',
                     },
                     padding: {
-                        unit: 'px',
-                        top: 20,
-                        left: 0,
-                        right: 0,
-                        bottom: 0,
+                        unit: '',
+                        top: '',
+                        left: '',
+                        right: '',
+                        bottom: '',
                     }
                 },
                 mobile: {
                     margin: {
-                        unit: 'px',
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        bottom: 0,
+                        unit: '',
+                        top: '',
+                        left: '',
+                        right: '',
+                        bottom: '',
                     },
                     padding: {
-                        unit: 'px',
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        bottom: 0,
+                        unit: '',
+                        top: '',
+                        left: '',
+                        right: '',
+                        bottom: '',
                     }
                 },
             };
