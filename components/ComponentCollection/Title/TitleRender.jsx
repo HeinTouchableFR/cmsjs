@@ -2,11 +2,11 @@ import React from 'react';
 import {css} from '@emotion/react'
 import styled from '@emotion/styled'
 import parse from 'html-react-parser';
-import { useInView } from 'react-intersection-observer';
+import {useInView} from 'react-intersection-observer';
 
 export default function TitleRender({element}) {
 
-    const { ref, inView, entry } = useInView();
+    const {ref, inView, entry} = useInView();
 
     const concatValueUnit = (value, unit = 'px') => {
         return value + (value && unit)
@@ -61,6 +61,14 @@ export default function TitleRender({element}) {
         }
     }
 
+    const animationStyle = (device) => {
+        return {
+            animationDuration: (inView && element.content[device].animation.duration) && element.content[device].animation.duration,
+            animationDelay: `${(inView && element.content[device].animation.delay) && element.content[device].animation.delay}ms`,
+            animationName: `${inView && element.content[device].animation.name}`,
+        }
+    }
+
     const Title = styled[element.content.tag](
         {
             ...colorStyle("desktop", "normal"),
@@ -92,8 +100,7 @@ export default function TitleRender({element}) {
             ...marginPaddingStyle("desktop"),
             ...backgroundStyle("desktop", "normal"),
             ...borderStyle("desktop", "normal"),
-            animationDuration: (inView && element.content["desktop"].animation.duration) && element.content["desktop"].animation.duration,
-            animationDelay: `${(inView && element.content["desktop"].animation.delay) && element.content["desktop"].animation.delay}ms`,
+            ...animationStyle("desktop"),
             '&:hover': {
                 ...backgroundStyle("desktop", "hover"),
                 ...borderStyle("desktop", "hover")
@@ -102,6 +109,7 @@ export default function TitleRender({element}) {
                 ...marginPaddingStyle("tablet"),
                 ...backgroundStyle("tablet", "normal"),
                 ...borderStyle("tablet", "normal"),
+                ...animationStyle("tablet"),
                 '&:hover': {
                     ...backgroundStyle("tablet", "hover"),
                     ...borderStyle("tablet", "hover")
@@ -111,6 +119,7 @@ export default function TitleRender({element}) {
                 ...marginPaddingStyle("mobile"),
                 ...backgroundStyle("mobile", "normal"),
                 ...borderStyle("mobile", "normal"),
+                ...animationStyle("mobile"),
                 '&:hover': {
                     ...backgroundStyle("mobile", "hover"),
                     ...borderStyle("mobile", "hover")
@@ -120,7 +129,7 @@ export default function TitleRender({element}) {
 
     return (
         <>
-            <div ref={ref} css={styleDiv} className={`${inView && element.content["desktop"].animation.name}`}>
+            <div ref={ref} css={styleDiv}>
                 <Title>
                     {parse(element.content.text)}
                 </Title>

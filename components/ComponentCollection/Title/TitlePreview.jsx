@@ -17,143 +17,110 @@ export default function TitlePreview({element, device}) {
         }
     }
 
-    const typoStyle = () => {
-        let fontSize, fontFamily, fontWeight, textTransform, fontStyle, textDecoration, lineHeight, letterSpacing = ""
-        if (device === "desktop") {
-            fontSize = concatValueUnit(element.content["desktop"].typo.size.value, element.content["desktop"].typo.size.unit)
-            fontFamily = element.content["desktop"].typo.family
-            fontWeight = element.content["desktop"].typo.weight
-            textTransform = element.content["desktop"].typo.transform
-            fontStyle = element.content["desktop"].typo.style
-            textDecoration = element.content["desktop"].typo.decoration
-            lineHeight = concatValueUnit(element.content["desktop"].typo.lineHeight.value, element.content["desktop"].typo.lineHeight.unit)
-            letterSpacing = concatValueUnit(element.content["desktop"].typo.letterSpacing)
-        } else if (device === "tablet") {
-            fontSize = element.content[device].typo.size.value ? concatValueUnit(element.content[device].typo.size.value, element.content[device].typo.size.unit) : concatValueUnit(element.content["desktop"].typo.size.value, element.content["desktop"].typo.size.unit)
-            fontFamily = element.content[device].typo.family ? element.content[device].typo.family : element.content["desktop"].typo.family
-            fontWeight = element.content[device].typo.weight ? element.content[device].typo.weight : element.content["desktop"].typo.weight
-            textTransform = element.content[device].typo.transform ? element.content[device].typo.transform : element.content["desktop"].typo.transform
-            fontStyle = element.content[device].typo.style ? element.content[device].typo.style : element.content["desktop"].typo.style
-            textDecoration = element.content[device].typo.decoration ? element.content[device].typo.decoration : element.content["desktop"].typo.decoration
-            lineHeight = element.content[device].typo.lineHeight.value ? concatValueUnit(element.content[device].typo.lineHeight.value, element.content[device].typo.lineHeight.unit) : concatValueUnit(element.content["desktop"].typo.lineHeight.value, element.content["desktop"].typo.lineHeight.unit)
-            letterSpacing = element.content[device].typo.letterSpacing ? concatValueUnit(element.content[device].typo.letterSpacing) : concatValueUnit(element.content["desktop"].typo.letterSpacing)
-        } else if (device === "mobile") {
-            fontSize = element.content[device].typo.size.value ? concatValueUnit(element.content[device].typo.size.value, element.content[device].typo.size.unit) : (element.content["tablet"].typo.size.value ? concatValueUnit(element.content["tablet"].typo.size.value, element.content["tablet"].typo.size.unit) : concatValueUnit(element.content["desktop"].typo.size.value, element.content["desktop"].typo.size.unit))
-            fontFamily = element.content[device].typo.family ? element.content[device].typo.family : (element.content["tablet"].typo.family ? element.content["tablet"].typo.family : element.content["desktop"].typo.family)
-            fontWeight = element.content[device].typo.weight ? element.content[device].typo.weight : (element.content["tablet"].typo.weight ? element.content["tablet"].typo.weight : element.content["desktop"].typo.weight)
-            textTransform = element.content[device].typo.transform ? element.content[device].typo.transform : (element.content["tablet"].typo.transform ? element.content["tablet"].typo.transform : element.content["desktop"].typo.transform)
-            fontStyle = element.content[device].typo.style ? element.content[device].typo.style : (element.content["tablet"].typo.style ? element.content["tablet"].typo.style : element.content["desktop"].typo.style)
-            textDecoration = element.content[device].typo.decoration ? element.content[device].typo.decoration : (element.content["tablet"].typo.decoration ? element.content["tablet"].typo.decoration : element.content["desktop"].typo.decoration)
-            lineHeight = element.content[device].typo.lineHeight.value ? concatValueUnit(element.content[device].typo.lineHeight.value, element.content[device].typo.lineHeight.unit) : (element.content["tablet"].typo.lineHeight.value ? concatValueUnit(element.content["tablet"].typo.lineHeight.value, element.content["tablet"].typo.lineHeight.unit) : concatValueUnit(element.content["desktop"].typo.lineHeight.value, element.content["desktop"].typo.lineHeight.unit))
-            letterSpacing = element.content[device].typo.letterSpacing ? concatValueUnit(element.content[device].typo.letterSpacing) : (element.content["tablet"].typo.letterSpacing ? concatValueUnit(element.content["tablet"].typo.letterSpacing) : concatValueUnit(element.content["desktop"].typo.letterSpacing))
-        }
-
+    const typoStyle = (device) => {
         return {
-            fontSize: fontSize,
-            fontFamily: fontFamily,
-            fontWeight: fontWeight,
-            textTransform: textTransform,
-            fontStyle: fontStyle,
-            textDecoration: textDecoration,
-            lineHeight: lineHeight,
-            letterSpacing: letterSpacing,
+            fontSize: `${concatValueUnit(element.content[device].typo.size.value, element.content[device].typo.size.unit)}`,
+            fontFamily: element.content[device].typo.family,
+            fontWeight: element.content[device].typo.weight,
+            textTransform: element.content[device].typo.transform,
+            fontStyle: element.content[device].typo.style,
+            textDecoration: element.content[device].typo.decoration,
+            lineHeight: `${concatValueUnit(element.content[device].typo.lineHeight.value, element.content[device].typo.lineHeight.unit)}`,
+            letterSpacing: `${concatValueUnit(element.content[device].typo.letterSpacing)}`,
         }
     }
 
-    const marginPaddingStyle = () => {
-        let margin, padding = ""
-
-        if (device === "desktop") {
-            margin = generateRuleFromValues([element.styles[device].margin.top, element.styles[device].margin.right, element.styles[device].margin.bottom, element.styles[device].margin.left], element.styles[device].margin.unit)
-            padding = generateRuleFromValues([element.styles[device].padding.top, element.styles[device].padding.right, element.styles[device].padding.bottom, element.styles[device].padding.left], element.styles[device].padding.unit)
-        } else if (device === "tablet") {
-            margin = element.styles[device].margin.top || element.styles[device].margin.right || element.styles[device].margin.bottom || element.styles[device].margin.left ? generateRuleFromValues([element.styles[device].margin.top, element.styles[device].margin.right, element.styles[device].margin.bottom, element.styles[device].margin.left], element.styles[device].margin.unit) : generateRuleFromValues([element.styles["desktop"].margin.top, element.styles["desktop"].margin.right, element.styles["desktop"].margin.bottom, element.styles["desktop"].margin.left], element.styles["desktop"].margin.unit)
-            padding = element.styles[device].padding.top || element.styles[device].padding.right || element.styles[device].padding.bottom || element.styles[device].padding.left ? generateRuleFromValues([element.styles[device].padding.top, element.styles[device].padding.right, element.styles[device].padding.bottom, element.styles[device].padding.left], element.styles[device].padding.unit) : generateRuleFromValues([element.styles["desktop"].padding.top, element.styles["desktop"].padding.right, element.styles["desktop"].padding.bottom, element.styles["desktop"].padding.left], element.styles["desktop"].padding.unit)
-        } else if (device === "mobile") {
-            margin = element.styles[device].margin.top || element.styles[device].margin.right || element.styles[device].margin.bottom || element.styles[device].margin.left ? generateRuleFromValues([element.styles[device].margin.top, element.styles[device].margin.right, element.styles[device].margin.bottom, element.styles[device].margin.left], element.styles[device].margin.unit) : (element.styles["tablet"].margin.top || element.styles["tablet"].margin.right || element.styles["tablet"].margin.bottom || element.styles["tablet"].margin.left ? generateRuleFromValues([element.styles["tablet"].margin.top, element.styles["tablet"].margin.right, element.styles["tablet"].margin.bottom, element.styles["tablet"].margin.left], element.styles["tablet"].margin.unit) : generateRuleFromValues([element.styles["desktop"].margin.top, element.styles["desktop"].margin.right, element.styles["desktop"].margin.bottom, element.styles["desktop"].margin.left], element.styles["desktop"].margin.unit))
-            padding = element.styles[device].padding.top || element.styles[device].padding.right || element.styles[device].padding.bottom || element.styles[device].padding.left ? generateRuleFromValues([element.styles[device].padding.top, element.styles[device].padding.right, element.styles[device].padding.bottom, element.styles[device].padding.left], element.styles[device].padding.unit) : (element.styles["tablet"].padding.top || element.styles["tablet"].padding.right || element.styles["tablet"].padding.bottom || element.styles["tablet"].padding.left ? generateRuleFromValues([element.styles["tablet"].padding.top, element.styles["tablet"].padding.right, element.styles["tablet"].padding.bottom, element.styles["tablet"].padding.left], element.styles["tablet"].padding.unit) : generateRuleFromValues([element.styles["desktop"].padding.top, element.styles["desktop"].padding.right, element.styles["desktop"].padding.bottom, element.styles["desktop"].padding.left], element.styles["desktop"].padding.unit))
-        }
-
+    const marginPaddingStyle = (device) => {
         return {
-            margin: margin,
-            padding: padding,
+            margin: generateRuleFromValues([element.styles[device].margin.top, element.styles[device].margin.right, element.styles[device].margin.bottom, element.styles[device].margin.left], element.styles[device].margin.unit),
+            padding: generateRuleFromValues([element.styles[device].padding.top, element.styles[device].padding.right, element.styles[device].padding.bottom, element.styles[device].padding.left], element.styles[device].padding.unit),
         }
     }
 
-    const colorStyle = (mode) => {
-        let color = ""
-        if (device === "desktop") {
-            color = element.content[device].typo.color[mode]
-        } else if (device === "tablet") {
-            color = element.content[device].typo.color[mode] ? element.content[device].typo.color[mode] : element.content["desktop"].typo.color[mode]
-        } else if (device === "mobile") {
-            color = element.content[device].typo.color[mode] ? element.content[device].typo.color[mode] : (element.content["tablet"].typo.color[mode] ? element.content["tablet"].typo.color[mode] : element.content["desktop"].typo.color[mode])
-        }
+    const colorStyle = (device, mode) => {
         return {
-            color: color,
+            color: element.content[device].typo.color[mode],
         }
     }
 
-    const backgroundStyle = (mode) => {
-        let background = ""
-        if (device === "desktop") {
-            background = element.content[device].styles.background[mode]
-        } else if (device === "tablet") {
-            background = element.content[device].styles.background[mode] ? element.content[device].styles.background[mode] : element.content["desktop"].styles.background[mode]
-        } else if (device === "mobile") {
-            background = element.content[device].styles.background[mode] ? element.content[device].styles.background[mode] : (element.content["tablet"].styles.background[mode] ? element.content["tablet"].styles.background[mode] : element.content["desktop"].styles.background[mode])
-        }
+    const backgroundStyle = (device, mode) => {
         return {
-            background: background,
+            background: element.content[device].styles.background[mode],
         }
     }
 
-    const borderStyle = (mode) => {
-        let borderStyle = ""
-        if (device === "desktop") {
-            borderStyle = (element.content[device].styles.border[mode].type !== 'none') && element.content[device].styles.border[mode].type
-        } else if (device === "tablet") {
-            borderStyle = element.content[device].styles.background[mode] ? element.content[device].styles.background[mode] : element.content["desktop"].styles.background[mode]
-        } else if (device === "mobile") {
-            borderStyle = element.content[device].styles.background[mode] ? element.content[device].styles.background[mode] : (element.content["tablet"].styles.background[mode] ? element.content["tablet"].styles.background[mode] : element.content["desktop"].styles.background[mode])
-        }
-
+    const borderStyle = (device, mode) => {
         return {
-            borderStyle: borderStyle,
+            borderStyle: (element.content[device].styles.border[mode].type !== 'none') && element.content[device].styles.border[mode].type,
             borderWidth: (element.content[device].styles.border[mode].type !== 'none') && generateRuleFromValues([element.content[device].styles.border[mode].width.top, element.content[device].styles.border[mode].width.right, element.content[device].styles.border[mode].width.bottom, element.content[device].styles.border[mode].width.left]),
             borderColor: (element.content[device].styles.border[mode].type !== 'none') && element.content[device].styles.border[mode].color,
             borderRadius: generateRuleFromValues([element.content[device].styles.border[mode].radius.top, element.content[device].styles.border[mode].radius.right, element.content[device].styles.border[mode].radius.bottom, element.content[device].styles.border[mode].radius.left], element.content[device].styles.border[mode].radius.unit),
         }
     }
 
-    const Title = styled[element.content.tag](
-        {
-            ...colorStyle("normal"),
-            textAlign: element.content.alignment,
-            ...typoStyle(),
-            transition: 'color .2s',
-            '&:hover': css({
-                ...colorStyle("hover"),
-            }),
-        },
-    );
-
-    const styleDiv =
-        {
-            ...marginPaddingStyle(),
-            ...backgroundStyle("normal"),
-            ...borderStyle("normal"),
-            animationDuration: element.content["desktop"].animation.duration && element.content["desktop"].animation.duration,
-            animationDelay: `${ element.content["desktop"].animation.delay && element.content["desktop"].animation.delay}ms`,
-            '&:hover': css({
-                ...backgroundStyle("hover"),
-                ...borderStyle("hover"),
-            }),
+    const animationStyle = (device) => {
+        return {
+            animationDuration: (element.content[device].animation.duration) && element.content[device].animation.duration,
+            animationDelay: `${(element.content[device].animation.delay) && element.content[device].animation.delay}ms`,
+            animationName: `${element.content[device].animation.name}`,
         }
+    }
+
+    const titleStyle = function (device) {
+        return {
+            ...colorStyle(device, "normal"),
+            ...typoStyle(device)
+
+        }
+    }
+    const titleStyleHover = function (device) {
+        return {
+            ...colorStyle(device, "hover")
+        }
+    }
+
+    const Title = styled[element.content.tag]`
+            text-align: ${element.content.alignment};
+            transition: 'color .2s';
+            ${titleStyle("desktop")}
+            ${(device === "tablet" || device === "mobile") && titleStyle("tablet")}
+            ${device === "mobile" && titleStyle("mobile")}
+            &:hover {
+                ${titleStyleHover("desktop")}
+                ${(device === "tablet" || device === "mobile") && titleStyleHover("tablet")}
+                ${device === "mobile" && titleStyleHover("mobile")}
+            };
+        `
+
+    const containerStyle = function (device) {
+        return {
+            ...marginPaddingStyle(device),
+            ...backgroundStyle(device, "normal"),
+            ...borderStyle(device, "normal"),
+            ...animationStyle(device)
+        }
+    }
+    const containerStyleHover = function (device) {
+        return {
+            ...backgroundStyle(device, "hover"),
+            ...borderStyle(device, "hover")
+        }
+    }
+
+    const styleDiv = css`
+            ${containerStyle("desktop")}
+            ${(device === "tablet" || device === "mobile") && containerStyle("tablet")}
+            ${device === "mobile" && containerStyle("mobile")}
+            &:hover {
+                ${containerStyleHover("desktop")}
+                ${(device === "tablet" || device === "mobile") && containerStyleHover("tablet")}
+                ${device === "mobile" && containerStyleHover("mobile")}
+            };
+        `
 
     return (
         <>
-            <div css={styleDiv} className={`${element.content["desktop"].animation.name}`}>
+            <div css={styleDiv}>
                 <Title>
                     {parse(element.content.text)}
                 </Title>
