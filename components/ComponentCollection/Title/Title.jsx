@@ -7,8 +7,9 @@ import {
     fontsOptions, stylesOptions,
     tagsOptions,
     transformsOptions,
-    weightsOptions
-} from 'variables/title';
+    weightsOptions,
+    animationsOptions, durationsOptions
+} from 'variables/options';
 
 export default function Title({element, onElementValueChange, device}) {
     const [item, setItem] = useState(element);
@@ -107,6 +108,25 @@ export default function Title({element, onElementValueChange, device}) {
         setItem(updated);
         onElementValueChange(updated);
     };
+
+    const handleChangeAnimation = (e, data) => {
+        const updated = {
+            ...item,
+            content: {
+                ...item.content,
+                [device]: {
+                    ...item.content[device],
+                    animation: {
+                        ...item.content[device].animation,
+                        [data.name]: data.value,
+                    }
+                }
+            }
+        };
+        setItem(updated);
+        onElementValueChange(updated);
+    }
+
     const handleChangeTypoSizeLh = (e, data, key) => {
         const updated = {
             ...item,
@@ -546,6 +566,21 @@ export default function Title({element, onElementValueChange, device}) {
             </Accordion>
             <Accordion active={false} title={'Border'}>
                 <Tab menu={{secondary: true, pointing: true}} panes={borderPanes}/>
+            </Accordion>
+            <Accordion active={false} title={"Animation"}>
+                <div className='field'>
+                    <label>Entrance Animation</label>
+                    <Dropdown fluid name='name' selection search value={item.content[device].animation.name}
+                              options={animationsOptions} onChange={handleChangeAnimation}/>
+                </div>
+                <div className='field'>
+                    <label>Animation Duration</label>
+                    <Dropdown fluid name='duration' selection value={item.content[device].animation.duration}
+                              options={durationsOptions} onChange={handleChangeAnimation}/>
+                </div>
+                <Form.Input fluid label='Animation Delay (ms)' placeholder='0' name='delay' type='number'
+                            value={item.content[device].animation.delay}
+                            onChange={handleChangeAnimation}/>
             </Accordion>
         </>
     );

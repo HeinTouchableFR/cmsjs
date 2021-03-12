@@ -2,8 +2,11 @@ import React from 'react';
 import {css} from '@emotion/react'
 import styled from '@emotion/styled'
 import parse from 'html-react-parser';
+import { useInView } from 'react-intersection-observer';
 
 export default function TitleRender({element}) {
+
+    const { ref, inView, entry } = useInView();
 
     const concatValueUnit = (value, unit = 'px') => {
         return value + (value && unit)
@@ -12,7 +15,7 @@ export default function TitleRender({element}) {
     const generateRuleFromValues = (values = [], unit = 'px') => {
         if (!values.every(item => item === 0)) {
             let string = ""
-            values.map(value => string += concatValueUnit(value, unit) + " ")
+            values.map(value => string += concatValueUnit(value ? value : 0, unit) + " ")
             return string
         }
     }
@@ -89,6 +92,8 @@ export default function TitleRender({element}) {
             ...marginPaddingStyle("desktop"),
             ...backgroundStyle("desktop", "normal"),
             ...borderStyle("desktop", "normal"),
+            animationDuration: (inView && element.content["desktop"].animation.duration) && element.content["desktop"].animation.duration,
+            animationDelay: `${(inView && element.content["desktop"].animation.delay) && element.content["desktop"].animation.delay}ms`,
             '&:hover': {
                 ...backgroundStyle("desktop", "hover"),
                 ...borderStyle("desktop", "hover")
@@ -115,7 +120,7 @@ export default function TitleRender({element}) {
 
     return (
         <>
-            <div css={styleDiv}>
+            <div ref={ref} css={styleDiv} className={`${inView && element.content["desktop"].animation.name}`}>
                 <Title>
                     {parse(element.content.text)}
                 </Title>

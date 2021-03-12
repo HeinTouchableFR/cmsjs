@@ -72,6 +72,11 @@ export default class defaultComponents {
                                 color: 'inherit',
                             },
                         },
+                    },
+                    animation: {
+                        name: 'none',
+                        duration: '1s',
+                        delay: '0',
                     }
                 },
                 tablet: {
@@ -136,6 +141,11 @@ export default class defaultComponents {
                                 color: '',
                             },
                         },
+                    },
+                    animation: {
+                        name: '',
+                        duration: '',
+                        delay: '',
                     }
                 },
                 mobile: {
@@ -200,6 +210,11 @@ export default class defaultComponents {
                                 color: '',
                             },
                         },
+                    },
+                    animation: {
+                        name: '',
+                        duration: '',
+                        delay: '',
                     }
                 },
                 styles: {

@@ -209,14 +209,14 @@ export default function Builder({page = {}, onSubmit, pages, loading}) {
                 },
                 tablet: {
                     margin: {
-                        unit: '',
+                        unit: 'px',
                         top: '',
                         left: '',
                         right: '',
                         bottom: '',
                     },
                     padding: {
-                        unit: '',
+                        unit: 'px',
                         top: '',
                         left: '',
                         right: '',
@@ -225,14 +225,14 @@ export default function Builder({page = {}, onSubmit, pages, loading}) {
                 },
                 mobile: {
                     margin: {
-                        unit: '',
+                        unit: 'px',
                         top: '',
                         left: '',
                         right: '',
                         bottom: '',
                     },
                     padding: {
-                        unit: '',
+                        unit: 'px',
                         top: '',
                         left: '',
                         right: '',
