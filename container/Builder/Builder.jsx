@@ -24,13 +24,7 @@ export default function Builder({page = {}, onSubmit, pages, loading}) {
     const components = [
         defaultComponents.defaultTitle(intl),
         defaultComponents.defaultText(intl),
-        {
-            tag: '<img/>',
-            label: intl.formatMessage({id: 'image', defaultMessage: 'Image'}),
-            color: 'yellow',
-            type: 'image',
-            defaultValue: '<img src="/placeholder.png"/>',
-        },
+        defaultComponents.defaultImage(intl),
         {
             tag: '<button>',
             label: intl.formatMessage({id: 'button', defaultMessage: 'Button'}),

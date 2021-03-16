@@ -33,8 +33,8 @@ export default class defaultComponents {
                     },
                     styles: {
                         background: {
-                            normal: '#FFFFFF00',
-                            hover: '#FFFFFF00',
+                            normal: '',
+                            hover: '',
                         },
                         border: {
                             normal: {
@@ -219,7 +219,7 @@ export default class defaultComponents {
                 },
                 styles: {
                     textShadow: {
-                        color: '#FFFFFF00',
+                        color: '',
                         blur: '10',
                         horizontal: '0',
                         vertical: '10',
@@ -228,6 +228,7 @@ export default class defaultComponents {
             },
         }
     }
+
     static defaultText(intl) {
         return {
             tag: '<p>',
@@ -260,8 +261,8 @@ export default class defaultComponents {
                     },
                     styles: {
                         background: {
-                            normal: '#FFFFFF00',
-                            hover: '#FFFFFF00',
+                            normal: '',
+                            hover: '',
                         },
                         border: {
                             normal: {
@@ -395,6 +396,230 @@ export default class defaultComponents {
                             normal: '',
                             hover: '',
                         },
+                    },
+                    styles: {
+                        background: {
+                            normal: '',
+                            hover: '',
+                        },
+                        border: {
+                            normal: {
+                                type: '',
+                                width: {
+                                    top: '',
+                                    right: '',
+                                    bottom: '',
+                                    left: '',
+                                },
+                                radius: {
+                                    unit: '',
+                                    top: '',
+                                    right: '',
+                                    bottom: '',
+                                    left: '',
+                                },
+                                color: '',
+                            },
+                            hover: {
+                                type: '',
+                                width: {
+                                    top: '',
+                                    right: '',
+                                    bottom: '',
+                                    left: '',
+                                },
+                                radius: {
+                                    unit: '',
+                                    top: '',
+                                    right: '',
+                                    bottom: '',
+                                    left: '',
+                                },
+                                color: '',
+                            },
+                        },
+                    },
+                    animation: {
+                        name: '',
+                        duration: '',
+                        delay: '',
+                    }
+                }
+            },
+        }
+    }
+
+    static defaultImage(intl) {
+        return {
+            tag: '<img/>',
+            label: intl.formatMessage({id: 'image', defaultMessage: 'Image'}),
+            color: 'yellow',
+            type: 'image',
+            defaultValue: {
+                image: {
+                    url: '/placeholder.png',
+                    name: 'placeholder.png',
+                    originalName: 'placeholder.png',
+                },
+                alignment: 'left',
+                desktop: {
+                    image: {
+                        size: {
+                            width: {
+                                unit: '%',
+                                value: '100'
+                            },
+                            maxWidth: {
+                                unit: '%',
+                                value: '100'
+                            },
+                            height: {
+                                unit: 'px',
+                                value: 'auto'
+                            }
+                        },
+                        opacity: {
+                            normal: '1',
+                            hover: ''
+                        }
+                    },
+                    styles: {
+                        background: {
+                            normal: '',
+                            hover: '',
+                        },
+                        border: {
+                            normal: {
+                                type: 'none',
+                                width: {
+                                    top: 0,
+                                    right: 0,
+                                    bottom: 0,
+                                    left: 0,
+                                },
+                                radius: {
+                                    unit: 'px',
+                                    top: 0,
+                                    right: 0,
+                                    bottom: 0,
+                                    left: 0,
+                                },
+                                color: 'inherit',
+                            },
+                            hover: {
+                                type: 'none',
+                                width: {
+                                    top: 0,
+                                    right: 0,
+                                    bottom: 0,
+                                    left: 0,
+                                },
+                                radius: {
+                                    unit: 'px',
+                                    top: 0,
+                                    right: 0,
+                                    bottom: 0,
+                                    left: 0,
+                                },
+                                color: 'inherit',
+                            },
+                        },
+                    },
+                    animation: {
+                        name: 'none',
+                        duration: '1s',
+                        delay: '0',
+                    }
+                },
+                tablet: {
+                    image: {
+                        size: {
+                            width: {
+                                unit: '',
+                                value: ''
+                            },
+                            maxWidth: {
+                                unit: '',
+                                value: ''
+                            },
+                            height: {
+                                unit: '',
+                                value: ''
+                            }
+                        },
+                        opacity: {
+                            normal: '',
+                            hover: ''
+                        }
+                    },
+                    styles: {
+                        background: {
+                            normal: '',
+                            hover: '',
+                        },
+                        border: {
+                            normal: {
+                                type: '',
+                                width: {
+                                    top: '',
+                                    right: '',
+                                    bottom: '',
+                                    left: '',
+                                },
+                                radius: {
+                                    unit: '',
+                                    top: '',
+                                    right: '',
+                                    bottom: '',
+                                    left: '',
+                                },
+                                color: '',
+                            },
+                            hover: {
+                                type: '',
+                                width: {
+                                    top: '',
+                                    right: '',
+                                    bottom: '',
+                                    left: '',
+                                },
+                                radius: {
+                                    unit: '',
+                                    top: '',
+                                    right: '',
+                                    bottom: '',
+                                    left: '',
+                                },
+                                color: '',
+                            },
+                        },
+                    },
+                    animation: {
+                        name: '',
+                        duration: '',
+                        delay: '',
+                    }
+                },
+                mobile: {
+                    image: {
+                        size: {
+                            width: {
+                                unit: '',
+                                value: ''
+                            },
+                            maxWidth: {
+                                unit: '',
+                                value: ''
+                            },
+                            height: {
+                                unit: '',
+                                value: ''
+                            }
+                        },
+                        opacity: {
+                            normal: '',
+                            hover: ''
+                        }
                     },
                     styles: {
                         background: {

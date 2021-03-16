@@ -18,8 +18,7 @@ export default function FileManager({multiple = false, currentFiles, setCurrentF
 
     const [images, setImages] = useState([]);
 
-    const [selectedFiles, setSelectedFiles] = useState(currentFiles);
-
+    const [selectedFiles, setSelectedFiles] = useState(currentFiles || []);
     useEffect(
         async function () {
             await axios.get(process.env.URL + '/api/images').then((res) => {
@@ -48,7 +47,7 @@ export default function FileManager({multiple = false, currentFiles, setCurrentF
     };
 
     const handleInsertClick = function () {
-        setCurrentFiles(selectedFiles);
+        setCurrentFiles(multiple ? selectedFiles : selectedFiles[0]);
         setOpen(false);
     };
 

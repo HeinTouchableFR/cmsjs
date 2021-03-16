@@ -108,7 +108,6 @@ export default function Title({element, onElementValueChange, device}) {
         setItem(updated);
         onElementValueChange(updated);
     };
-
     const handleChangeAnimation = (e, data) => {
         const updated = {
             ...item,
@@ -126,7 +125,6 @@ export default function Title({element, onElementValueChange, device}) {
         setItem(updated);
         onElementValueChange(updated);
     }
-
     const handleChangeTypoSizeLh = (e, data, key) => {
         const updated = {
             ...item,

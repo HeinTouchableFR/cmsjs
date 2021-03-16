@@ -5,7 +5,6 @@ import {
     alignmentsOptions, animationsOptions,
     borderOptions, decorationsOptions, durationsOptions,
     fontsOptions, stylesOptions,
-    tagsOptions,
     transformsOptions,
     weightsOptions
 } from 'variables/options';
@@ -413,7 +412,7 @@ export default function Text({ element, onElementValueChange, device }) {
     ]
     return (
         <>
-            <Accordion active={true} title={'Title'}>
+            <Accordion active={true} title={'Text'}>
                 <Editor
                     value={item.content.text}
                     apiKey='01vj2ci2rp4w85rw2pa64fg88pw784bf67k0rskfg4ybks3z'
