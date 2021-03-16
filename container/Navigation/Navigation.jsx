@@ -7,6 +7,7 @@ import {Button, Dropdown, Form, Tab} from 'semantic-ui-react';
 import styles from './Navigation.module.scss';
 
 import Component, {ComponentEditor} from 'components/ComponentCollection/Component';
+import ComponentDispatcher from '../../components/ComponentCollection/ComponentDispatcher';
 
 export default function Navigation({components, currentItem, onElementValueChange, setCurrentElement, page, onSubmit, pages = [], loading, hide, device, setDevice}) {
     const intl = useIntl();
@@ -193,7 +194,7 @@ export default function Navigation({components, currentItem, onElementValueChang
             }) + ' ' + intl.formatMessage({id: currentItem.type}),
             render: () => (
                 <Tab.Pane attached={true}>
-                    <ComponentEditor element={currentItem} onElementValueChange={onElementValueChange} device={device}/>
+                    <ComponentDispatcher element={currentItem} mode="editor" device={device} onElementValueChange={onElementValueChange} />
                     <Dropdown
                         placeholder='Select Friend'
                         fluid

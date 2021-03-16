@@ -23,14 +23,7 @@ export default function Builder({page = {}, onSubmit, pages, loading}) {
 
     const components = [
         defaultComponents.defaultTitle(intl),
-        {
-            tag: '<p>',
-            label: intl.formatMessage({id: 'textEditor', defaultMessage: 'Text Editor'}),
-            color: 'purple',
-            type: 'text',
-            defaultValue:
-                '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.</p>',
-        },
+        defaultComponents.defaultText(intl),
         {
             tag: '<img/>',
             label: intl.formatMessage({id: 'image', defaultMessage: 'Image'}),

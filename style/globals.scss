@@ -228,3 +228,8 @@ $secondaryColorsLength: length($secondaryColors);
 .field-group label:hover{
     text-decoration: underline;
 }
+
+
+p {
+    line-height: inherit!important;
+}

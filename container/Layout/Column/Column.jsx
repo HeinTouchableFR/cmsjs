@@ -3,6 +3,7 @@ import {Draggable, Droppable} from 'react-beautiful-dnd';
 import parse from 'html-react-parser';
 import React from 'react';
 import TitlePreview from 'components/ComponentCollection/Title/TitlePreview';
+import ComponentDispatcher from '../../../components/ComponentCollection/ComponentDispatcher';
 
 export default function Column({ column, onElementClick, elementDelete, currentElement, setCurrentElement, device }) {
     /**
@@ -65,7 +66,7 @@ export default function Column({ column, onElementClick, elementDelete, currentE
                                                     style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}
                                                 >
                                                     <div className={'content'} onClick={() => handleElementClick(item)}>
-                                                        {item.type === 'title' ? <TitlePreview element={item} device={device} /> : parse(item.content)}
+                                                        <ComponentDispatcher element={item} device={device} mode="preview" />
                                                     </div>
                                                     <button
                                                         key={'btn-empty' + item.id}

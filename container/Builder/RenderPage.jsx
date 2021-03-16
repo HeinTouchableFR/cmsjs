@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styles from './Builder.module.scss';
 import parse from 'html-react-parser';
 import TitleRender from 'components/ComponentCollection/Title/TitleRender';
+import ComponentDispatcher from '../../components/ComponentCollection/ComponentDispatcher';
 
 export default function RenderPage({ page }) {
     const [content] = useState(JSON.parse(page.content));
@@ -36,7 +37,7 @@ const Column = function ({ column }) {
                         {column.elements.map((item) => (
                             <div key={item.id} className={styles.element__widget}>
                                 <div className={'content'}>
-                                    {item.type === 'title' ? <TitleRender element={item} /> : parse(item.content)}
+                                    <ComponentDispatcher element={item} />
                                 </div>
                             </div>
                         ))}
