@@ -320,7 +320,6 @@ export default function Builder({page = {}, onSubmit, pages, loading}) {
                         device={device}
                     />
                 </DragDropContext>
-                <div className={styles.hideMenuBtn} onClick={() => handleHideMenu()}/>
             </div>
         </>
     );

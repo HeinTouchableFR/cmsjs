@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useIntl} from 'react-intl';
 import slugify from 'react-slugify';
-import {Droppable, Draggable} from 'react-beautiful-dnd';
+import {Droppable, Draggable, DragDropContext} from 'react-beautiful-dnd';
 import {Button, Dropdown, Form, Tab} from 'semantic-ui-react';
 
 import styles from './Navigation.module.scss';
@@ -9,7 +9,7 @@ import styles from './Navigation.module.scss';
 import Component, {ComponentEditor} from 'components/ComponentCollection/Component';
 import ComponentDispatcher from '../../components/ComponentCollection/ComponentDispatcher';
 
-export default function Navigation({components, currentItem, onElementValueChange, setCurrentElement, page, onSubmit, pages = [], loading, hide, device, setDevice}) {
+export default function Navigation({components, currentItem, onElementValueChange, setCurrentElement, page, onSubmit, pages = [], loading, hide, device, setDevice, hideMenu}) {
     const intl = useIntl();
 
     const [form, setForm] = useState({
@@ -212,8 +212,8 @@ export default function Navigation({components, currentItem, onElementValueChang
         <>
             <div className={`${styles.navigation} ${hide ? styles.hide : ''}`}>
                 <Tab panes={panes} activeIndex={activeIndex} onTabChange={handleTabChange}/>
-
             </div>
+            <div className={`${styles.hideMenuBtn} ${hide ? styles.hide : ''}`} onClick={() => hideMenu()}/>
         </>
     );
 }

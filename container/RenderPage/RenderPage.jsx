@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import styles from '../Builder.module.scss';
+import styles from 'container/Layout/Layout.module.scss';
 import ComponentDispatcher from 'components/ComponentCollection/ComponentDispatcher';
 
 export default function RenderPage({page}) {

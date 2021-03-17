@@ -6,23 +6,23 @@
     margin-top: 45px;
     display: grid;
     grid-gap: 30px;
+}
 
-    & button {
-        border-radius: 50px;
-        font-family: Arial, serif;
-        background-color: dodgerblue;
-        color: #fff;
-        font-size: 24px;
-        width: 40px;
-        height: 40px;
-        cursor: pointer;
-        border: none;
-        outline: 0;
-        transition: background-color .3s;
-        margin: auto;
-    }
+.addLayoutBtn{
+    border-radius: 50px;
+    font-family: Arial, serif;
+    background-color: dodgerblue;
+    color: #fff;
+    font-size: 24px;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    border: none;
+    outline: 0;
+    transition: background-color .3s;
+    margin: auto;
+}
 
-    & button:hover {
-        background-color: blue;
-    }
+.addLayoutBtn:hover{
+    background-color: blue;
 }

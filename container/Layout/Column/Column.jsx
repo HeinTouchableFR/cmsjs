@@ -47,32 +47,17 @@ export default function Column({ column, onElementClick, elementDelete, currentE
             <div className={`${styles.column}`}>
                 <Droppable droppableId={`${column.id}`}>
                     {(provided, snapshot) => (
-                        <div
-                            {...provided.droppableProps}
-                            ref={provided.innerRef}
-                            className={`${styles.element__wrap}`}
-                            style={getListStyle(snapshot.isDraggingOver)}
-                        >
+                        <div {...provided.droppableProps} ref={provided.innerRef} className={`${styles.element__wrap}`} style={getListStyle(snapshot.isDraggingOver)}>
                             {column.elements.length > 0 ? (
                                 <div className={styles.column__populated}>
                                     {column.elements.map((item, index) => (
                                         <Draggable key={item.id} draggableId={item.id.toString()} index={index}>
                                             {(provided, snapshot) => (
-                                                <div
-                                                    className={styles.element__widget}
-                                                    ref={provided.innerRef}
-                                                    {...provided.draggableProps}
-                                                    {...provided.dragHandleProps}
-                                                    style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}
-                                                >
+                                                <div className={styles.element__widget} ref={provided.innerRef}{...provided.draggableProps}{...provided.dragHandleProps} style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}>
                                                     <div className={'content'} onClick={() => handleElementClick(item)}>
                                                         <ComponentDispatcher element={item} device={device} mode="preview" />
                                                     </div>
-                                                    <button
-                                                        key={'btn-empty' + item.id}
-                                                        onClick={() => handleElementDelete(item)}
-                                                        className={styles.element__widget__remove}
-                                                    >
+                                                    <button key={'btn-empty' + item.id} onClick={() => handleElementDelete(item)} className={styles.element__widget__remove}>
                                                         <i className="far fa-times" />
                                                     </button>
                                                 </div>

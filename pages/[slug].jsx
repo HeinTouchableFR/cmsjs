@@ -1,9 +1,9 @@
 import React from 'react';
 import axios from 'axios';
 import Header from 'container/Sites/Header/Header';
-import RenderPage from 'container/Builder/RenderPage/RenderPage';
 import createCache from '@emotion/cache'
 import {CacheProvider} from '@emotion/react';
+import RenderPage from 'container/RenderPage/RenderPage';
 
 export default function Page({post}) {
 

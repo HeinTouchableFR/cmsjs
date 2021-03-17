@@ -1,52 +1,53 @@
 .navigation {
-    width: 350px;
-    min-height: 100%;
-    background-color: #e6e9ec;
-    position: fixed;
-    transition: transform 0.5s;
-    z-index: 100;
+  width: 350px;
+  min-height: 100%;
+  background-color: #e6e9ec;
+  position: fixed;
+  transition: transform 0.5s;
+  z-index: 100;
 }
 
 .hide.navigation {
-    transform: translateX(-350px);
+  transform: translateX(-350px);
 }
 
 .hideMenuBtn {
-    position: fixed;
-    top: 50%;
-    left: 332px;
-    width: 40px;
-    height: 40px;
-    background-color: #e6e9ec;
-    border-radius: 50%;
-    color: #000;
-    font-weight: 700;
-    font-size: 20px;
-    cursor: pointer;
-    transition: left 0.5s;
+  position: fixed;
+  top: 50%;
+  left: 332px;
+  width: 40px;
+  height: 40px;
+  background-color: #e6e9ec;
+  border-radius: 50%;
+  color: #000;
+  font-weight: 700;
+  font-size: 20px;
+  cursor: pointer;
+  transition: left 0.5s;
+  z-index: 1;
 }
 
-.hide .hideMenuBtn {
-    left: -18px;
+.hide.hideMenuBtn {
+  left: -18px;
 }
 
 .hideMenuBtn:after {
-    content: '<';
-    position: relative;
-    top: 10px;
-    left: 20px;
-    cursor: pointer;
+  content: '<';
+  position: relative;
+  top: 10px;
+  left: 20px;
+  cursor: pointer;
 }
 
-.hide .hideMenuBtn:after {
-    content: '>';
+.hide.hideMenuBtn:after {
+  content: '>';
 }
 
-.hide .hideMenuBtn:after {
-    content: '>';
+.hide.hideMenuBtn:after {
+  content: '>';
 }
 
 .navGrid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
 }
