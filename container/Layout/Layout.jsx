@@ -2,17 +2,10 @@ import React from 'react';
 
 import styles from './Layout.module.scss';
 import Column from './Column/Column'
+import {structures} from 'variables/variables';
 
 export default function Layout({ layout, layoutUpdate, layoutDelete, onElementClick, currentElement, setCurrentElement, device }) {
-    const structures = [];
-    for (let i = 1; i < 7; i++) {
-        const structure = {};
-        structure.id = new Date().getTime() + i;
-        structure.nbColumns = i;
-        structures.push(structure);
-    }
-
-    /**
+        /**
      * Generates the button of the target structure
      * Button showing the shape of the structure
      * @param structure
@@ -27,7 +20,7 @@ export default function Layout({ layout, layoutUpdate, layoutDelete, onElementCl
             <button className={`${styles.layout__btn} ${styles.structure}`} onClick={handleClick}>
                 {[...Array(n)].map((e, i) => (
                     <span className={`${styles.structure__element}`} key={new Date().getTime() + i}>
-                        +
+                        <i className="far fa-plus" />
                     </span>
                 ))}
             </button>
@@ -118,11 +111,11 @@ export default function Layout({ layout, layoutUpdate, layoutDelete, onElementCl
             ) : (
                 <div className={`${styles.layout__no_columns}`}>
                     <p>Choose a structure</p>
-                    <ul>{structures && structures.map((structure) => <li key={structure.id}>{structurePreviewGenerate(structure)}</li>)}</ul>
+                    <ul>{structures() && structures().map((structure) => <li key={structure.id}>{structurePreviewGenerate(structure)}</li>)}</ul>
                 </div>
             )}
             <button className={`${styles.layout__remove_btn}`} onClick={() => layoutDelete(layout)}>
-                X
+                <i className="far fa-times" />
             </button>
         </div>
     );

@@ -248,12 +248,9 @@
     color: #a4afb7;
     cursor: pointer;
 }
-
-.element__first__icon:before {
-    content: '+';
-    font-weight: bold;
+.column__empty:hover .element__first__icon i{
+    color: dodgerblue;
 }
-
 
 .tablet__preview{
     @for $i from 5 through 5 {

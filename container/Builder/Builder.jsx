@@ -8,6 +8,7 @@ import styles from './Builder.module.scss';
 import Content from 'container/Content/Content';
 import Navigation from 'container/Navigation/Navigation';
 import defaultComponents from 'variables/components'
+import Head from 'next/head';
 
 export default function Builder({page = {}, onSubmit, pages, loading}) {
     // Use translation
@@ -282,6 +283,14 @@ export default function Builder({page = {}, onSubmit, pages, loading}) {
 
     return (
         <>
+            <Head>
+                <link
+                    rel='stylesheet'
+                    href='https://pro.fontawesome.com/releases/v5.10.0/css/all.css'
+                    integrity='sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p'
+                    crossOrigin='anonymous'
+                />
+            </Head>
             <div className={hideMenu ? styles.builder + ' ' + styles.hide : styles.builder}>
                 <DragDropContext onDragEnd={onDragEnd} className={styles.dnd}>
                     <Navigation

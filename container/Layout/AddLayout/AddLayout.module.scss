@@ -4,6 +4,8 @@
     border: dashed 2px #d5dadf;
     text-align: center;
     margin-top: 45px;
+    display: grid;
+    grid-gap: 30px;
 
     & button {
         border-radius: 50px;
@@ -16,6 +18,8 @@
         cursor: pointer;
         border: none;
         outline: 0;
+        transition: background-color .3s;
+        margin: auto;
     }
 
     & button:hover {

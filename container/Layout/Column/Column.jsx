@@ -73,7 +73,7 @@ export default function Column({ column, onElementClick, elementDelete, currentE
                                                         onClick={() => handleElementDelete(item)}
                                                         className={styles.element__widget__remove}
                                                     >
-                                                        X
+                                                        <i className="far fa-times" />
                                                     </button>
                                                 </div>
                                             )}
@@ -83,7 +83,9 @@ export default function Column({ column, onElementClick, elementDelete, currentE
                             ) : (
                                 <div className={styles.column__empty} onClick={() => handleElementClick({ id: 'empty' })}>
                                     <div className={styles.element__first__add}>
-                                        <div className={styles.element__first__icon} />
+                                        <div className={styles.element__first__icon}>
+                                            <i className="fal fa-plus" />
+                                        </div>
                                     </div>
                                 </div>
                             )}
