@@ -45,6 +45,7 @@ export default function Index({ items, errors }) {
                 method: 'DELETE',
             });
             setItemToDelete({});
+            setIsDeleting(false)
             router.push(`/admin/${url}`);
         } catch (error) {
             console.log(error);
