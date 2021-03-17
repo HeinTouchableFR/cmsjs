@@ -127,6 +127,7 @@ export async function getServerSideProps(ctx) {
         const token = await auth.verifyIdToken(cookies.token);
 
         if (!token.roles.some((r) => ['admin', 'editor', 'moderator'].includes(r))) {
+            console.log('test')
             throw new Error('unauthorized');
         }
 

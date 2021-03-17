@@ -1,5 +1,6 @@
 import React from 'react';
-import { Button, ActionButtonNoLink } from 'components/Button/Button';
+import { Button } from 'components/Button/Button';
+import {NoLinkButton} from '../../Button/NoLinkButton/NoLinkButton';
 
 export default function Category({ item, url, parentCategory, dash = '', handleDelete }) {
     if (parentCategory) {
@@ -18,7 +19,7 @@ export default function Category({ item, url, parentCategory, dash = '', handleD
                 <td className={'td'}>
                     <Button url={url} style={'show'} icon={'fa-eye'} action={'show'} id={item._id} />
                     <Button url={url} style={'edit'} icon={'fa-pen'} action={'edit'} id={item._id} />
-                    <ActionButtonNoLink style={'delete'} icon={'fa-trash'} onClick={() => handleDelete(item)} />
+                    <NoLinkButton style={'delete'} icon={'fa-trash'} onClick={() => handleDelete(item)} />
                 </td>
             </tr>
             {item.childCategoriesData &&

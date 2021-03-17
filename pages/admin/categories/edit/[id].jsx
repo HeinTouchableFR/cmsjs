@@ -136,7 +136,7 @@ export default function Modifier({ item, categories }) {
 export async function getServerSideProps(ctx) {
     try {
         const cookies = nookies.get(ctx);
-        const token = await auth().verifyIdToken(cookies.token);
+        const token = await auth.verifyIdToken(cookies.token);
 
         if (!token.roles.some((r) => ['admin', 'editor', 'moderator'].includes(r))) {
             throw new Error('unauthorized');

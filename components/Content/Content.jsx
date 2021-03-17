@@ -24,7 +24,7 @@ export default function Content({ title, icon, url, action, children }) {
                             )}
                         </div>
                     </h1>
-                    {!action && <Button url={url + '/add'} icon={'fa-plus'} />}
+                    {!action && <Button url={`${process.env.URL}/admin/${url}/add`} icon={'fa-plus'} />}
                 </div>
                 <div className={styles.adminTree}>
                     <div className={styles.adminTreeSection}>
