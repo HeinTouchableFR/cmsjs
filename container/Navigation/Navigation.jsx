@@ -21,9 +21,7 @@ export default function Navigation({components, currentItem, onElementValueChang
     const [activeIndex, setActiveIndex] = useState(0);
     const handleTabChange = (_e, {activeIndex}) => {
         setActiveIndex(activeIndex);
-        if (activeIndex !== 0) {
-            setCurrentElement({id: 'empty'});
-        }
+        setCurrentElement({id: 'empty'});
     };
 
     useEffect(
@@ -31,8 +29,6 @@ export default function Navigation({components, currentItem, onElementValueChang
             if (currentItem.id) {
                 if (currentItem.id !== 'empty') {
                     setActiveIndex(2);
-                } else {
-                    setActiveIndex(1);
                 }
             }
         },
