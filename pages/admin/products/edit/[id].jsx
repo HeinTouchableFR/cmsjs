@@ -7,8 +7,8 @@ import { Button, Card, Form } from 'semantic-ui-react';
 
 import Header from 'components/Header/Header';
 import Content from 'components/Content/Content';
-import { ActionButtonNoLink } from 'components/Button/Button';
 import FileManager from 'components/FileManager/FileManager';
+import {NoLinkButton} from 'components/Button/NoLinkButton/NoLinkButton';
 
 export default function Modifier({ item, categories, attributes }) {
     const intl = useIntl();
@@ -328,7 +328,7 @@ const Attribute = function ({ attribute, setForm, form, attributes }) {
                     <Form.Checkbox label='Used for variations' name='variation' onChange={handleChange} defaultChecked={attribute.variation} />
                 </Card.Content>
                 <Card.Content extra>
-                    <ActionButtonNoLink type='button' style={'delete'} icon={'fa-trash'} onClick={handleDelete} />
+                    <NoLinkButton type='button' style={'delete'} icon={'fa-trash'} onClick={handleDelete} />
                 </Card.Content>
             </Card>
         </>

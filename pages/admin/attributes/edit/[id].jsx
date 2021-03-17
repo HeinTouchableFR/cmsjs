@@ -6,7 +6,7 @@ import { Button, Card, Form, Input } from 'semantic-ui-react';
 
 import Header from 'components/Header/Header';
 import Content from 'components/Content/Content';
-import { ActionButtonNoLink } from 'components/Button/Button';
+import {NoLinkButton} from 'components/Button/NoLinkButton/NoLinkButton';
 
 export default function Modifier({ item }) {
     const url = 'attributes';
@@ -145,7 +145,7 @@ const Value = function ({ item, form, setForm, type = 'values' }) {
                 <Input fluid label='Name' placeholder='Name' name='name' defaultValue={item.name} required onChange={handleChange} />
             </Card.Content>
             <Card.Content extra>
-                <ActionButtonNoLink type='button' style={'supprimer'} icon={'fa-trash'} onClick={handleDelete} />
+                <NoLinkButton type='button' style={'supprimer'} icon={'fa-trash'} onClick={handleDelete} />
             </Card.Content>
         </Card>
     );
