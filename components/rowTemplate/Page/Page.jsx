@@ -3,6 +3,7 @@ import { useIntl } from 'react-intl';
 
 import { Button } from 'components/Button/Button';
 import {NoLinkButton} from 'components/Button/NoLinkButton/NoLinkButton';
+import styles from 'components/Table/Table.module.scss'
 
 export default function Page({ item, url, parentPage, tiret = '', handleDelete }) {
     const intl = useIntl();
@@ -13,12 +14,12 @@ export default function Page({ item, url, parentPage, tiret = '', handleDelete }
 
     return (
         <>
-            <tr className={'tr'}>
-                <td className={'td title'}>
+            <tr className={`${styles.tr}`}>
+                <td className={`${styles.td} ${styles.title}`}>
                     {parentPage ? tiret : ''} {item.title}
                 </td>
-                <td className={'td'}>{item.author}</td>
-                <td className={'td'}>
+                <td className={`${styles.td}`}>{item.author}</td>
+                <td className={`${styles.td}`}>
                     {item.updated
                         ? `${intl.formatMessage({ id: 'updated', defaultMessage: 'Updated' })} \n ${new Date(
                               item.updated
@@ -27,7 +28,7 @@ export default function Page({ item, url, parentPage, tiret = '', handleDelete }
                               item.published
                           ).toLocaleDateString()}  ${new Date(item.published).toLocaleTimeString()}`}
                 </td>
-                <td className={'td'}>
+                <td className={`${styles.td}`}>
                     <Button url={`${process.env.URL}/${item.slug}`} style={'show'} icon={'fa-eye'} id={item._id} target={"_blank"} />
                     <Button url={url} style={'edit'} icon={'fa-pen'} action={'edit'} id={item._id} />
                     <NoLinkButton style={'delete'} icon={'fa-trash'} onClick={() => handleDelete(item, item.childPages.length === 0)} />
