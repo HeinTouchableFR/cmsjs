@@ -230,19 +230,6 @@ export default function Modifier({ item, categories, attributes }) {
                             <FileManager
                                 currentFiles={form.productImage ? [form.productImage] : []}
                                 setCurrentFiles={handleSetProductImage}
-                                automaticReload={false}
-                                trigger={
-                                    <div className={`filemanager_btn`}>
-                                        {form.productImage && form.productImage.url ? (
-                                            <div className={`preview`} style={{ background: `url(${form.productImage.url})` }}></div>
-                                        ) : (
-                                            <div className={`preview`} style={{ background: `url(/placeholder.png)` }}></div>
-                                        )}
-                                        <div className={`preview__action`}>
-                                            {intl.formatMessage({ id: 'image.choose', defaultMessage: 'Choose an image' })}
-                                        </div>
-                                    </div>
-                                }
                             />
                         </div>
                         <div className='field'>
@@ -250,24 +237,7 @@ export default function Modifier({ item, categories, attributes }) {
                             <FileManager
                                 currentFiles={form.productGallery}
                                 setCurrentFiles={handleSetProductGallery}
-                                automaticReload={false}
                                 multiple={true}
-                                trigger={
-                                    <div className={`filemanager_btn`}>
-                                        {form.productGallery.length > 0 && form.productGallery[0].url ? (
-                                            <div className={`preview__gallery`}>
-                                                {form.productGallery.map((image) => (
-                                                    <img src={`${image.url}`} alt={`${image.name}`} key={image._id} />
-                                                ))}
-                                            </div>
-                                        ) : (
-                                            <div className={`preview`} style={{ background: `url(/placeholder.png)` }}></div>
-                                        )}
-                                        <div className={`preview__action`}>
-                                            {intl.formatMessage({ id: 'image.choose', defaultMessage: 'Choose an image' })}
-                                        </div>
-                                    </div>
-                                }
                             />
                         </div>
                         <div className='field'>

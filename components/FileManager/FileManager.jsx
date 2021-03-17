@@ -5,10 +5,12 @@ import axios from 'axios';
 import {Button, Header, Icon, Modal} from 'semantic-ui-react';
 
 import styles from './fileManager.module.scss';
+import Single from './Button/Single/Single';
+import Multiple from './Button/Multiple/Multiple';
 
 typeof window === 'object' ? require('@grafikart/drop-files-element') : () => false;
 
-export default function FileManager({multiple = false, currentFiles, setCurrentFiles, trigger}) {
+export default function FileManager({multiple = false, currentFiles, setCurrentFiles}) {
     const intl = useIntl();
 
     const [open, setOpen] = useState(false);
@@ -29,6 +31,14 @@ export default function FileManager({multiple = false, currentFiles, setCurrentF
     );
 
     useEffect(
+        function () {
+            console.log(currentFiles)
+            setSelectedFiles(currentFiles)
+        },
+        [currentFiles]
+    )
+
+    useEffect(
         async function () {
             setSelectedFiles(currentFiles);
         },
@@ -38,7 +48,7 @@ export default function FileManager({multiple = false, currentFiles, setCurrentF
     const handleSelectFile = function (file) {
         selectedFiles.some((f) => f._id === file._id)
             ? setSelectedFiles(selectedFiles.filter((f) => f._id !== file._id))
-            : setSelectedFiles([...selectedFiles, file]);
+            : setSelectedFiles(multiple ? [...selectedFiles, file] : [file]);
 
     };
 
@@ -77,6 +87,10 @@ export default function FileManager({multiple = false, currentFiles, setCurrentF
             console.log(error);
         }
     };
+
+    const trigger = multiple ?
+        <Multiple files={currentFiles} onClick={() => setOpen(true)}/> :
+        <Single url={currentFiles[0] ? currentFiles[0].url : null} onClick={setOpen}/>
 
     return (
         <>

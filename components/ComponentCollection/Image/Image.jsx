@@ -449,19 +449,6 @@ export default function Image({element, device, onElementValueChange}) {
                     currentFiles={item.content.image.url !== '/placeholder.png' ? [item.content.image] : []}
                     setCurrentFiles={handleChangeImage}
                     multiple={false}
-                    trigger={
-                        <div className={`${styles.filemanager_btn}`}>
-                            {item.content.image && item.content.image.url ? (
-                                <div className={`${styles.preview}`}
-                                     style={{background: `url(${item.content.image.url})`}}></div>
-                            ) : (
-                                <div className={`${styles.preview}`} style={{background: `url(/placeholder.png)`}}></div>
-                            )}
-                            <div className={`${styles.preview__action}`}>
-                                {intl.formatMessage({id: 'image.choose', defaultMessage: 'Choose an image'})}
-                            </div>
-                        </div>
-                    }
                 />
                 <div className="form__inline_item">
                     <div className='field'>

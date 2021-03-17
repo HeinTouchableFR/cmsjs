@@ -8,7 +8,7 @@ import axios from 'axios';
 import Header from 'components/Header/Header';
 import Content from 'components/Content/Content';
 import FileManager from 'components/FileManager/FileManager';
-import { ActionButtonNoLink } from 'components/Button/Button';
+import {NoLinkButton} from 'components/Button/NoLinkButton/NoLinkButton';
 
 export default function Add({ categories, attributes }) {
     const intl = useIntl();
@@ -99,10 +99,10 @@ export default function Add({ categories, attributes }) {
 
     categories.map((category) => recursiveCategoriesOptions(category));
 
-    const handleSetProductImage = function (files) {
+    const handleSetProductImage = function (file) {
         setForm({
             ...form,
-            productImage: files[0],
+            productImage: file,
         });
     };
 
@@ -184,19 +184,6 @@ export default function Add({ categories, attributes }) {
                             <FileManager
                                 currentFiles={form.productImage ? [form.productImage] : []}
                                 setCurrentFiles={handleSetProductImage}
-                                automaticReload={false}
-                                trigger={
-                                    <div className={`filemanager_btn`}>
-                                        {form.productImage && form.productImage.url ? (
-                                            <div className={`preview`} style={{ background: `url(${form.productImage.url})` }}></div>
-                                        ) : (
-                                            <div className={`preview`} style={{ background: `url(/placeholder.png)` }}></div>
-                                        )}
-                                        <div className={`preview__action`}>
-                                            {intl.formatMessage({ id: 'image.choose', defaultMessage: 'Choose an image' })}
-                                        </div>
-                                    </div>
-                                }
                             />
                         </div>
                         <div className='field'>
@@ -204,24 +191,7 @@ export default function Add({ categories, attributes }) {
                             <FileManager
                                 currentFiles={form.productGallery}
                                 setCurrentFiles={handleSetProductGallery}
-                                automaticReload={false}
                                 multiple={true}
-                                trigger={
-                                    <div className={`filemanager_btn`}>
-                                        {form.productGallery.length > 0 && form.productGallery[0].url ? (
-                                            <div className={`preview__gallery`}>
-                                                {form.productGallery.map((image) => (
-                                                    <img src={`${image.url}`} alt={`${image.name}`} key={image._id} />
-                                                ))}
-                                            </div>
-                                        ) : (
-                                            <div className={`preview`} style={{ background: `url(/placeholder.png)` }}></div>
-                                        )}
-                                        <div className={`preview__action`}>
-                                            {intl.formatMessage({ id: 'image.choose', defaultMessage: 'Choose an image' })}
-                                        </div>
-                                    </div>
-                                }
                             />
                         </div>
                         <div className='field'>
@@ -311,7 +281,7 @@ const Attribute = function ({ attribute, setForm, form, attributes }) {
                     <Form.Checkbox label='Used for variations' name='variation' onChange={handleChange} defaultChecked={attribute.variation} />
                 </Card.Content>
                 <Card.Content extra>
-                    <ActionButtonNoLink type='button' style={'delete'} icon={'fa-trash'} onClick={handleDelete} />
+                    <NoLinkButton type='button' style={'delete'} icon={'fa-trash'} onClick={handleDelete} />
                 </Card.Content>
             </Card>
         </>
