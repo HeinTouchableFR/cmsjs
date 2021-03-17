@@ -18,13 +18,15 @@ export default function TextPreview({element, device}) {
     }
 
     const typoStyle = (device) => {
+        let decorationString = ""
+        Array.from(element.content[device].typo.decoration).map(item => {decorationString += `${item} `})
         return {
             fontSize: `${concatValueUnit(element.content[device].typo.size.value, element.content[device].typo.size.unit)}`,
             fontFamily: element.content[device].typo.family,
             fontWeight: element.content[device].typo.weight,
             textTransform: element.content[device].typo.transform,
             fontStyle: element.content[device].typo.style,
-            textDecoration: element.content[device].typo.decoration,
+            textDecoration: decorationString,
             lineHeight: `${concatValueUnit(element.content[device].typo.lineHeight.value, element.content[device].typo.lineHeight.unit)}`,
             letterSpacing: `${concatValueUnit(element.content[device].typo.letterSpacing)}`,
         }

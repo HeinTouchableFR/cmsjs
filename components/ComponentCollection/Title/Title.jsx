@@ -476,7 +476,7 @@ export default function Title({element, onElementValueChange, device}) {
                     <div className='field'>
                         <label>Decoration</label>
                         <Dropdown fluid name='decoration' selection value={item.content[device].typo.decoration}
-                                  options={decorationsOptions} onChange={handleChangeTypo}/>
+                                  options={decorationsOptions} onChange={handleChangeTypo} multiple />
                     </div>
                 </div>
                 <div className="form__inline_item">

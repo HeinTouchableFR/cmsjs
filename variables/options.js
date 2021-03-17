@@ -400,23 +400,23 @@ export const fontsOptions = [
 
 export const transformsOptions = [
     {key: 'Default', text: 'Default', value: 'initial'},
-    {key: 'Uppercase', text: 'Uppercase', value: 'uppercase'},
-    {key: 'Lowercase', text: 'Lowercase', value: 'lowercase'},
-    {key: 'Capitalize', text: 'Capitalize', value: 'capitalize'},
-    {key: 'Normal', text: 'Normal', value: 'normal'},
+    {key: 'Uppercase', text: 'Uppercase', value: 'uppercase', content: (<span css={css`text-transform: uppercase;`}>Uppercase</span>)},
+    {key: 'Lowercase', text: 'Lowercase', value: 'lowercase', content: (<span css={css`text-transform: lowercase;`}>Lowercase</span>)},
+    {key: 'Capitalize', text: 'Capitalize', value: 'capitalize', content: (<span css={css`text-transform: capitalize;`}>Capitalize</span>)},
+    {key: 'Normal', text: 'Normal', value: 'normal', content: (<span css={css`text-transform: normal;`}>Normal</span>)},
 ];
 
 export const stylesOptions = [
-    {key: 'Normal', text: 'Normal', value: 'normal'},
-    {key: 'Italic', text: 'Italic', value: 'italic'},
-    {key: 'Oblique', text: 'Oblique', value: 'oblique'},
+    {key: 'Normal', text: 'Normal', value: 'normal', content: (<span css={css`font-style: normal;`}>Normal</span>)},
+    {key: 'Italic', text: 'Italic', value: 'italic', content: (<span css={css`font-style: italic;`}>Italic</span>)},
+    {key: 'Oblique', text: 'Oblique', value: 'oblique', content: (<span css={css`font-style: oblique;`}>Oblique</span>)},
 ];
 
 export const decorationsOptions = [
-    {key: 'None', text: 'None', value: 'none'},
-    {key: 'Underline', text: 'Underline', value: 'underline'},
-    {key: 'Overline', text: 'Overline', value: 'overline'},
-    {key: 'Line Through', text: 'Line Through', value: 'line-through'},
+    {key: 'None', text: 'None', value: 'none', content: (<span css={css`text-decoration: none;`}>None</span>)},
+    {key: 'Underline', text: 'Underline', value: 'underline', content: (<span css={css`text-decoration: underline;`}>Underline</span>)},
+    {key: 'Overline', text: 'Overline', value: 'overline', content: (<span css={css`text-decoration: overline;`}>Overline</span>)},
+    {key: 'Line Through', text: 'Line Through', value: 'line-through', content: (<span css={css`text-decoration: line-through;`}>Line Through</span>)},
 ];
 
 export const weightsOptions = [
