@@ -4,8 +4,6 @@ import styled from '@emotion/styled'
 import {useInView} from 'react-intersection-observer';
 
 export default function ImageRender({element}) {
-    console.log(element)
-
     const {ref, inView} = useInView();
 
     const concatValueUnit = (value, unit = 'px') => {

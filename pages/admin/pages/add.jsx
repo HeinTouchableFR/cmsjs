@@ -35,7 +35,6 @@ export default function Ajouter({ pages }) {
         });
 
         const result = await res.json();
-        console.log(result);
         setPost(result);
         setLoading(false);
         router.push(`/admin/${url}/edit/${result.data._id}`);

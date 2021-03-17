@@ -78,26 +78,26 @@
     padding: 0 100px;
 }
 
-//Composant Disposition
-.disposition {
+//Composant layout
+.layout {
     width: 100%;
     position: relative;
     margin: 10px auto;
     border: solid 1px #fff;
 }
 
-.disposition:hover {
+.layout:hover {
     width: 100%;
     position: relative;
     margin: 10px auto;
     border: solid 1px deepskyblue;
 }
 
-.disposition__remove_btn {
+.layout__remove_btn {
     display: none;
 }
 
-.disposition:hover .disposition__remove_btn {
+.layout:hover .layout__remove_btn {
     display: block;
     background-color: deepskyblue;
     color: #fff;
@@ -112,25 +112,25 @@
     right: -20px;
 }
 
-.disposition:hover .disposition__remove_btn:hover,
-.disposition:hover .disposition__remove_btn:active {
+.layout:hover .layout__remove_btn:hover,
+.layout:hover .layout__remove_btn:active {
     background-color: dodgerblue;
 }
 
-.disposition__no_columns {
+.layout__no_columns {
     width: 100%;
     padding: 40px 0;
     border: dashed 2px #d5dadf;
     text-align: center;
 }
 
-.disposition__btn {
+.layout__btn {
     background-color: inherit;
     border: none;
     cursor: pointer;
 }
 
-.disposition__no_columns ul {
+.layout__no_columns ul {
     list-style: none;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -142,7 +142,7 @@
     padding: 40px;
 }
 
-.disposition__ajouter_element {
+.layout__ajouter_element {
     border-radius: 50px;
     background-color: green;
     color: #fff;
@@ -156,11 +156,11 @@
     font-family: Arial, serif;
 }
 
-.disposition__ajouter_element:hover {
+.layout__ajouter_element:hover {
     background-color: darkgreen;
 }
 
-.disposition__container {
+.layout__container {
     display: flex;
     flex-wrap: wrap;
 }
@@ -301,7 +301,7 @@
     .container {
         padding: 0 30px;
     }
-    .disposition__no_columns ul {
+    .layout__no_columns ul {
         grid-template-columns: repeat(2, 1fr);
     }
 }
@@ -310,7 +310,7 @@
     .container {
         padding: 0 10px;
     }
-    .disposition__no_columns ul {
+    .layout__no_columns ul {
         grid-template-columns: repeat(1, 1fr);
     }
 }
@@ -336,10 +336,10 @@
 }
 
 .render {
-    &.disposition {
+    &.layout {
         border: none;
     }
-    &.disposition:hover {
+    &.layout:hover {
         border: none;
     }
 

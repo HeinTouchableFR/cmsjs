@@ -475,7 +475,7 @@ export default function Title({element, onElementValueChange, device}) {
                     </div>
                     <div className='field'>
                         <label>Decoration</label>
-                        <Dropdown fluid name='decoration' selection value={item.content[device].typo.decoration}
+                        <Dropdown fluid name='decoration' selection value={Array.from(item.content[device].typo.decoration)}
                                   options={decorationsOptions} onChange={handleChangeTypo} multiple />
                     </div>
                 </div>

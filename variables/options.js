@@ -413,7 +413,6 @@ export const stylesOptions = [
 ];
 
 export const decorationsOptions = [
-    {key: 'None', text: 'None', value: 'none', content: (<span css={css`text-decoration: none;`}>None</span>)},
     {key: 'Underline', text: 'Underline', value: 'underline', content: (<span css={css`text-decoration: underline;`}>Underline</span>)},
     {key: 'Overline', text: 'Overline', value: 'overline', content: (<span css={css`text-decoration: overline;`}>Overline</span>)},
     {key: 'Line Through', text: 'Line Through', value: 'line-through', content: (<span css={css`text-decoration: line-through;`}>Line Through</span>)},

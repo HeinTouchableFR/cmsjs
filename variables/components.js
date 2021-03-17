@@ -20,7 +20,7 @@ export default class defaultComponents {
                         weight: '600',
                         transform: 'initial',
                         style: 'normal',
-                        decoration: 'none',
+                        decoration: '',
                         lineHeight: {
                             unit: 'em',
                             value: '1'
@@ -248,7 +248,7 @@ export default class defaultComponents {
                         weight: '300',
                         transform: 'initial',
                         style: 'normal',
-                        decoration: 'none',
+                        decoration: '',
                         lineHeight: {
                             unit: 'em',
                             value: '1'
