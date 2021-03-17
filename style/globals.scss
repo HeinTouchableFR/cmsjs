@@ -168,41 +168,6 @@
     max-height: 100px;
 }
 
-$componentsColors: #56c7fa, #f2f2f2, #f76540, #f2f2f2, #ffcb05, #f2f2f2, #62cd9f, #f2f2f2, #b67baa;
-$secondaryColors: #f2f2f2, #56c, #f2f2f2, #540, #f2f2f2, #ffcb05, #f2f2f2, #62cd9f, #f2f2f2, #b67baa;
-$componentsColorsLength: length($componentsColors);
-$secondaryColorsLength: length($secondaryColors);
-
-.componentBackground {
-    font-family: 'Coiny', cursive;
-    width: 150px;
-    height: 75px;
-
-    margin-bottom: 5%;
-
-    box-sizing: border-box;
-    border-radius: 10px 0px;
-    position: relative;
-
-    @for $i from 1 through $componentsColorsLength {
-        &:nth-of-type(#{$componentsColorsLength}n + #{$i}) {
-            color: nth($componentsColors, $i);
-            background: linear-gradient(154deg, nth($componentsColors, $i) 50%, nth($secondaryColors, $i) 50%);
-            border: 1px solid nth($componentsColors, $i);
-            .tag {
-                color: nth($secondaryColors, $i);
-                padding: 5% 0% 0% 5%;
-            }
-            .label {
-                position: absolute;
-                bottom: 0;
-                right: 0;
-                padding: 0% 5% 5% 0%;
-            }
-        }
-    }
-}
-
 .accordion__pane {
     position: relative;
     background: #fff;

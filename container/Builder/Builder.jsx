@@ -29,7 +29,7 @@ export default function Builder({page = {}, onSubmit, pages, loading}) {
         {
             tag: '<button>',
             label: intl.formatMessage({id: 'button', defaultMessage: 'Button'}),
-            color: 'teal',
+            color: 'brown',
             type: 'bouton',
             defaultValue: '<button>Mon bouton</button>',
         },

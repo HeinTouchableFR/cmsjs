@@ -4,7 +4,7 @@ export default class defaultComponents {
         return {
             tag: '<h1>',
             label: intl.formatMessage({id: 'title', defaultMessage: 'Title'}),
-            color: 'orange',
+            color: 'blue',
             type: 'title',
             defaultValue: {
                 text: `${intl.formatMessage({id: 'title.default', defaultMessage: 'My great title'})}`,
@@ -453,7 +453,7 @@ export default class defaultComponents {
         return {
             tag: '<img/>',
             label: intl.formatMessage({id: 'image', defaultMessage: 'Image'}),
-            color: 'yellow',
+            color: 'orange',
             type: 'image',
             defaultValue: {
                 image: {

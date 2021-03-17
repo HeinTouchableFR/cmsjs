@@ -161,20 +161,17 @@ export default function Navigation({components, currentItem, onElementValueChang
                                     const shouldRenderClone = item.type === _snapshot.draggingFromThisWith;
                                     return (
                                         shouldRenderClone ?
-                                            <div className={'componentBackground'} key={item.type}>
-                                                <Component tag={item.tag} label={item.label} color={item.color}
-                                                           tooltip={item.tooltip}/>
-                                            </div> :
+                                            <Component tag={item.tag} label={item.label} color={item.color}
+                                                       tooltip={item.tooltip} key={item.type}/>
+                                            :
                                             <Draggable key={item.type} draggableId={item.type} index={index}>
                                                 {(provided, _snapshot) => (
                                                     <div
-                                                        className={'componentBackground'}
                                                         ref={provided.innerRef}
                                                         {...provided.draggableProps}
                                                         {...provided.dragHandleProps}
                                                     >
-                                                        <Component tag={item.tag} label={item.label} color={item.color}
-                                                                   tooltip={item.tooltip}/>
+                                                        <Component tag={item.tag} label={item.label} color={item.color} tooltip={item.tooltip}/>
                                                     </div>
                                                 )}
                                             </Draggable>
@@ -194,7 +191,8 @@ export default function Navigation({components, currentItem, onElementValueChang
             }) + ' ' + intl.formatMessage({id: currentItem.type}),
             render: () => (
                 <Tab.Pane attached={true}>
-                    <ComponentDispatcher element={currentItem} mode="editor" device={device} onElementValueChange={onElementValueChange} />
+                    <ComponentDispatcher element={currentItem} mode="editor" device={device}
+                                         onElementValueChange={onElementValueChange}/>
                     <Dropdown
                         placeholder='Select Friend'
                         fluid
