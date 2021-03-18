@@ -85,6 +85,25 @@ export default async (req, res) => {
             break;
         case 'DELETE':
             try {
+                const ref = db.doc(`pages/${id}`)
+                const snapshot = await  ref.get()
+                const item = {
+                    id: snapshot.id,
+                    ...snapshot.data()
+                }
+                if(item.parentPage){
+                    const parentRef = db.doc(`pages/${item.parentPage}`)
+                    const parentSnapshot = await parentRef.get()
+                    const parent = {
+                        id: parentSnapshot.id,
+                        ...parentSnapshot.data()
+                    }
+                    var index = parent.childPages.indexOf(id.toString());
+                    if (index > -1) {
+                        parent.childPages.splice(index, 1);
+                        await parentRef.set(parent, { merge: true });
+                    }
+                }
                 db.doc(`pages/${id}`)
                     .delete()
                     .then(res.status(200).json({ success: true }));

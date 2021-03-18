@@ -53,6 +53,7 @@ export default function Index({ items, errors }) {
             await fetch(`${process.env.URL}/api/${url}/${itemToDelete._id}`, {
                 method: 'DELETE',
             });
+            setIsDeleting(false)
             router.push(`/admin/${url}`);
         } catch (error) {
             console.log(error);
