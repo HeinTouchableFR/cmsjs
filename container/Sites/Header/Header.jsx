@@ -1,12 +1,33 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 
 import styles from './Header.module.scss';
+import {useHeader} from 'context/header';
 
-export default function Header({ title, children }) {
-    const router = useRouter();
+export default function Header({children, title, setShowRender}) {
+    const {header} = useHeader()
+
+    const [content, setContent] = useState([]);
+    const [logo, setLogo] = useState({});
+
+    useEffect(function () {
+        if(header){
+            setContent(JSON.parse(header.content))
+        }
+    }, [header])
+
+    useEffect(function () {
+        if(header){
+            setLogo(header.logo)
+        }
+    }, [header])
+
+    useEffect(function () {
+        if(content.length > 0 && logo.url){
+            setShowRender(true)
+        }
+    }, [content, logo])
 
     return (
         <>
@@ -17,38 +38,17 @@ export default function Header({ title, children }) {
                     integrity='sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p'
                     crossOrigin='anonymous'
                 />
-                {children}
-            </Head>
-            <Head>
                 <title>{title}</title>
+                {children}
             </Head>
             <header className={styles.nav}>
                 <Link href='/'>
                     <a className={styles.nav__logo} title="Page d'accueil">
-                        <img src='/logo.png' alt='Logo' />
+                        {logo.url && <img src={`${logo.url}`} alt='Logo' />}
                     </a>
                 </Link>
                 <ul className={styles.nav__menu}>
-                    <li>
-                        <Link href='/'>
-                            <a>Vêtements</a>
-                        </Link>
-                    </li>
-                    <li>
-                        <Link href='/'>
-                            <a>Accessoires</a>
-                        </Link>
-                    </li>
-                    <li>
-                        <Link href='/'>
-                            <a>Art</a>
-                        </Link>
-                    </li>
-                    <li>
-                        <Link href='/'>
-                            <a>Ma première page</a>
-                        </Link>
-                    </li>
+                    {content.length > 0 && content.map(item => <Item key={item.slug} item={item} />)}
                 </ul>
                 <button className={styles.nav__burger}>
                     <span></span>
@@ -56,4 +56,17 @@ export default function Header({ title, children }) {
             </header>
         </>
     );
+}
+
+const Item = function ({item}) {
+    return <li>
+        <Link href={`${item.slug}`}>
+            <a>{item.label}</a>
+        </Link>
+        {item.child.length > 0 &&
+            <ul className={styles.sub}>
+                {item.child.map(item => <Item key={item.slug} item={item}/>)}
+            </ul>
+        }
+    </li>
 }

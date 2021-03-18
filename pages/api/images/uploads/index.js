@@ -76,7 +76,7 @@ apiRoute.post(async (req, res) => {
                 })
             )
 
-            const resize = await sharp(img.buffer).jpeg().toBuffer();
+            const resize = await sharp(img.buffer).toBuffer();
             blobWriter.end(resize);
         }
         Promise.all(promises).then(() => {

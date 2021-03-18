@@ -32,7 +32,7 @@ export default async (req, res) => {
                         .then((data) => res.status(200).json({ success: true, data: data }))
                         .catch((err) => res.status(400).json({ success: false, errors: err }));
                 });
-                const resize = await sharp(img.buffer).jpeg().toBuffer();
+                const resize = await sharp(img.buffer).background({r: 255, g: 255, b: 255, alpha: 1}).jpeg().toBuffer();
                 blobWriter.end(resize);
             } catch (e) {
                 res.status(400).json({ success: false, erreurs: e });

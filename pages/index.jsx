@@ -1,33 +1,52 @@
-import React from 'react';
+import React, {useState} from 'react';
 import axios from 'axios';
 import { FormattedMessage } from 'react-intl';
 
 import Header from 'container/Sites/Header/Header';
 import ProductsGrid from 'container/Sites/Product/ProductsGrid';
+import createCache from '@emotion/cache';
+import {CacheProvider} from '@emotion/react';
+import RenderPage from '../container/RenderPage/RenderPage';
+import {db} from '../utils/dbConnect';
+import {useSiteName} from 'context/siteName';
 
-export default function Home({ items }) {
+export default function Home({ post }) {
+    const {siteName} = useSiteName()
+
+    const [showRender, setShowRender] = useState(false)
+
+    const cache = createCache({
+        key: 'homepage'
+    })
+
     return (
         <>
-            <Header title={'HomePage'} />
-            <FormattedMessage id='image.addNew' defaultMessage='Add a new image' />
+            <Header title={`HomePage | ${siteName}`} setShowRender={setShowRender} />
             <div className='container'>
-                <ProductsGrid items={items} />
+                <CacheProvider value={cache}>
+                    <RenderPage page={post} showRender={showRender}/>
+                </CacheProvider>
             </div>
         </>
     );
 }
 
 export async function getServerSideProps() {
-    let items = [];
+    const settingRef = db.collection(`settings`)
+    const homepageSnapshot = await settingRef.doc(`homepage`).get()
+    const homepage = {
+        ...homepageSnapshot.data()
+    }
 
-    await axios
-        .get(process.env.URL + '/api/produits')
-        .then((res) => {
-            items = res.data.data;
-        })
-        .catch(() => {});
+    const pageRef = db.doc(`pages/${homepage.value}`)
+    const pageSnapshot = await pageRef.get()
+    const post = {
+        _id: pageSnapshot.id,
+        ...pageSnapshot.data()
+    }
+
 
     return {
-        props: { items },
+        props: { post },
     };
 }

@@ -10,6 +10,8 @@ import 'semantic-ui-css/semantic.min.css';
 import en from 'intl/lang/en.json';
 import fr from 'intl/lang/fr.json';
 import { AuthProvider } from 'authentication/authContext';
+import {SiteNameProvider} from 'context/siteName';
+import {HeaderProvider} from 'context/header';
 
 const messages = {
     en: en,
@@ -29,7 +31,11 @@ function MyApp({ Component, pageProps }) {
     return (
         <IntlProvider locale={language} messages={messages[language]}>
             <AuthProvider>
-                <Component {...pageProps} />
+                <SiteNameProvider>
+                    <HeaderProvider>
+                        <Component {...pageProps} />
+                    </HeaderProvider>
+                </SiteNameProvider>
             </AuthProvider>
         </IntlProvider>
     );
