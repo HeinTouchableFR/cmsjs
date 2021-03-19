@@ -85,7 +85,14 @@ export default function Header({ children }) {
                     <div className={styles.header}>
                         <FormattedMessage id='settings' defaultMessage='Settings' />
                     </div>
-                    <div className={styles.menu}></div>
+                    <div className={styles.menu}>
+                        <Link href='/admin/menus'>
+                            <a className={styles.item + ' ' + (router.pathname.includes('/admin/menus') && styles.active)}>
+                                <i className='fad fa-bars' />
+                                <FormattedMessage id='menus' defaultMessage='Menus' />
+                            </a>
+                        </Link>
+                    </div>
                 </div>
             </div>
             <div className={styles.menu + ' ' + styles.fixed}>

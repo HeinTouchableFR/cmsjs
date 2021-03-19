@@ -1,8 +1,6 @@
 .sidebar{
   font-size: 1.1em;
   padding-bottom: 30px;
-  transform: translateZ(0);
-  transition: transform .5s ease;
   box-shadow: 0 0 20px rgba(34,36,38,.15);
   background: #1d212b;
   z-index: 1;
@@ -23,9 +21,10 @@
   font-family: Lato,"Helvetica Neue",Arial,Helvetica,sans-serif;
   font-weight: 400;
   visibility: visible!important;
+  transition: width .5s ease;
 }
 
-.hide {
+.sidebar.hide {
   width: 70px!important;
   overflow-x: hidden!important;
 }
@@ -151,9 +150,8 @@
   font-weight: 400;
   min-height: 2.85714286em;
   padding-right: 260px;
-  transform: translate3d(260px,0,0);
+  left: 260px;
   top: 0;
-  left: 0;
   right: auto;
   bottom: auto;
   border-radius: 0!important;
@@ -229,7 +227,8 @@
 }
 
 .hide~.fixed, .hide~.pusher {
-  transform: translate3d(70px,0,0)!important;
+  left: 70px!important;
+  transition: left .5s ease;
 }
 
 .hide .menu .item {
@@ -259,8 +258,10 @@
 }
 
 .sidebar~.pusher {
+  position: relative;
   padding-right: 260px;
-  transform: translate3d(260px,0,0);
+  left: 260px;
+  transition: left .5s ease;
 }
 
 .full.height {

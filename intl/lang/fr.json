@@ -31,6 +31,7 @@
     "logout": "Déconnexion",
     "mailAddress": "Adresse mail",
     "manage": "Gérer",
+    "menus": "Menus",
     "name": "Nom",
     "no": "Non",
     "nbSelectedImage": "{amount, plural, =0 {no languages} one {# one language} few {# several languages} many {# lots of languages} other {# wrong format}}",

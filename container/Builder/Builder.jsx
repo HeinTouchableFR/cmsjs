@@ -292,7 +292,7 @@ export default function Builder({page = {}, onSubmit, pages, loading}) {
                 />
             </Head>
             <div className={hideMenu ? styles.builder + ' ' + styles.hide : styles.builder}>
-                <DragDropContext onDragEnd={onDragEnd} className={styles.dnd}>
+                <DragDropContext onDragEnd={onDragEnd}>
                     <Navigation
                         components={components}
                         currentItem={currentElement}

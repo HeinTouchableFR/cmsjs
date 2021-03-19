@@ -9,12 +9,14 @@ export function SiteNameProvider({children}) {
     const [siteName, setSiteName] = useState("");
 
     useEffect(() => {
-        return firebase.firestore().doc(`settings/sitename`).get().then(snapshot => {
-            const item = {
-                ...snapshot.data()
-            }
-            setSiteName(item.value)
-        })
+        if(siteName === ""){
+            return firebase.firestore().doc(`settings/sitename`).get().then(snapshot => {
+                const item = {
+                    ...snapshot.data()
+                }
+                setSiteName(item.value)
+            })
+        }
     })
 
     return <SiteName.Provider value={{siteName}}>{children}</SiteName.Provider>;

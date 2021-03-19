@@ -31,6 +31,7 @@
     "logout": "Logout",
     "mailAddress": "Mail address",
     "manage": "Manage",
+    "menus": "Menus",
     "name": "Name",
     "no": "No",
     "nbSelectedImage": "{amount, plural, =0 {no languages} one {# one language} few {# several languages} many {# lots of languages} other {# wrong format}}",
