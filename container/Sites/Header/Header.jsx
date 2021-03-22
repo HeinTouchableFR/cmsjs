@@ -8,7 +8,7 @@ import {useHeader} from 'context/header';
 export default function Header({children, title, setShowRender}) {
     const {header} = useHeader()
 
-    const [content, setContent] = useState([]);
+    const [content, setContent] = useState(null);
     const [logo, setLogo] = useState({});
 
     useEffect(function () {
@@ -24,7 +24,7 @@ export default function Header({children, title, setShowRender}) {
     }, [header])
 
     useEffect(function () {
-        if(content.length > 0 && logo.url){
+        if(content && logo.url){
             setShowRender(true)
         }
     }, [content, logo])
@@ -38,6 +38,7 @@ export default function Header({children, title, setShowRender}) {
                     integrity='sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p'
                     crossOrigin='anonymous'
                 />
+                <meta name="viewport" content="width=device-width, initial-scale=1.0,  user-scalable=no" />
                 <title>{title}</title>
                 {children}
             </Head>
@@ -48,7 +49,7 @@ export default function Header({children, title, setShowRender}) {
                     </a>
                 </Link>
                 <ul className={styles.nav__menu}>
-                    {content.length > 0 && content.map(item => <Item key={item.slug} item={item} />)}
+                    {content && content.map(item => <Item key={item.slug} item={item} />)}
                 </ul>
                 <button className={styles.nav__burger}>
                     <span></span>

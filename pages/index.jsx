@@ -1,9 +1,5 @@
 import React, {useState} from 'react';
-import axios from 'axios';
-import { FormattedMessage } from 'react-intl';
-
 import Header from 'container/Sites/Header/Header';
-import ProductsGrid from 'container/Sites/Product/ProductsGrid';
 import createCache from '@emotion/cache';
 import {CacheProvider} from '@emotion/react';
 import RenderPage from '../container/RenderPage/RenderPage';

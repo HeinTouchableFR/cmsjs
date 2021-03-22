@@ -32,7 +32,6 @@ export function AuthProvider({ children }) {
     useEffect(() => {
         const handle = setInterval(async () => {
             const user = firebase.auth().currentUser;
-            console.log(user);
             if (user) await user.getIdToken(true);
         }, 30 * 60 * 1000);
         return () => clearInterval(handle);

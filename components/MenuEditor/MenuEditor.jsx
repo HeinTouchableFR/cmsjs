@@ -1,9 +1,8 @@
 import React, {useState} from 'react';
-import styles from './MenuEditor.module.scss';
 import {DragDropContext, Draggable, Droppable} from 'react-beautiful-dnd';
 import Accordion from 'components/Accordion/Accordion';
-import {createPortal} from 'react-dom';
-import nookies from 'nookies';
+import {Form, Grid} from 'semantic-ui-react';
+import {NoLinkButton} from '../Button/NoLinkButton/NoLinkButton';
 
 export default function MenuEditor({content, onChange}) {
     const items = JSON.parse(content)
@@ -100,35 +99,67 @@ export default function MenuEditor({content, onChange}) {
             if (item.id === id) {
                 i = item;
                 return
-            }else if(item.child.length > 0) {
-                item.child.forEach(child => {
-                    const response = getDroppableById(child.id, item.child)
-                    if(response.id){
-                        i = response
-                    }
-                })
+            } else if (item.child.length > 0) {
+                const response = getDroppableById(id, item.child)
+                if (response.id) {
+                    i = response
+                    return
+                }
             }
         });
         return i
     }
 
-    const updateChildren = (id, childrens, array = items) => {
-        let d = [];
-        array.map((item) => {
-            if (item.id === id) {
-                d = item;
-            }else if(item.child.length > 0){
-                const response = updateChildren(id, childrens, item.child)
-                if(response){
-                    d = response
-                }
-            }
-        });
+    const updateChildren = (id, childrens) => {
+        let d = getDroppableById((id))
         if (d) {
             d.child = childrens
             handleChange(items.map(i => i.id === d.id ? d : i))
         }
         return d;
+    }
+
+    const handleChangeItem = (e, data, id) => {
+        let d = getDroppableById(id)
+        if (d) {
+            d[data.name] = data.value
+            updateItem(id, d)
+        }
+    }
+
+
+    const deleteCondition = (item, id) => item.id !== id;
+
+    const deleteItem = (arr, id) => {
+        return arr.reduce(
+            (acc, item) => {
+                // acc -> abréviation de "accumulateur" (array)
+                // item -> l'élément courant du tableau
+
+                // afin de ne pas écraser le paramètre de l'élément
+                const newItem = item;
+                if (item.child) {
+                    newItem.child = deleteItem(item.child, id);
+                }
+                if (deleteCondition(newItem, id)) {
+                    // voici où acc prend le nouvel élément
+                    acc.push(newItem);
+                }
+                return acc;
+            },
+            // initialiser l'accumulateur (tableau vide)
+            []
+        );
+    };
+
+    const handleDeleteItem = (id) => {
+        const data = deleteItem(items, id)
+        onChange(data)
+    }
+
+    const updateItem = (id, data, array = items) => {
+        const items = array.map(i => i.id === data.id ? data : (i.child > 0 ? updateItem(id, data, i.child) : i))
+        onChange(items)
     }
 
 
@@ -142,8 +173,8 @@ export default function MenuEditor({content, onChange}) {
 
     const [isDisabled, setIsDisabled] = useState(false)
 
-    const onDragStart = (result) =>{
-        setIsDisabled(true );
+    const onDragStart = (result) => {
+        setIsDisabled(true);
     }
 
 
@@ -157,7 +188,8 @@ export default function MenuEditor({content, onChange}) {
                             {items.length > 0 && (
                                 <div className={"menu__container"}>
                                     {items.map((item, index) => (
-                                        <Item key={item.id} item={item} index={index} isDisabled={isDisabled}/>
+                                        <Item key={item.id} item={item} index={index} isDisabled={isDisabled}
+                                              handleChangeItem={handleChangeItem} handleDeleteItem={handleDeleteItem}/>
                                     ))}
                                 </div>
                             )}
@@ -170,7 +202,7 @@ export default function MenuEditor({content, onChange}) {
     );
 }
 
-function Item({item, isChild = false, index, isDisabled, parentIsDragging = false}) {
+function Item({item, isChild = false, index, isDisabled, parentIsDragging = false, handleChangeItem, handleDeleteItem}) {
     /**
      * Allows you to set the style of the moving element
      * @param isDragging
@@ -184,36 +216,48 @@ function Item({item, isChild = false, index, isDisabled, parentIsDragging = fals
         // change border if dragging
         border: isDragging ? 'dashed 1px dodgerblue' : '',
 
+        margin: '20px 0',
+
         // styles we need to apply on draggables
         ...draggableStyle,
     });
     const getListStyle = (isDraggingOver) => ({
         border: isDraggingOver ? 'dashed 1px gray' : '',
-        padding: '0 20px',
-        marginLeft: '20px',
+        marginLeft: '40px',
     });
 
     return <>
-            <Draggable key={item.id} draggableId={item.id} index={index} shouldRespectForcePress={true}>
-                {(provided, snapshot) => (
-                    <>
-                        <div ref={provided.innerRef}{...provided.draggableProps}{...provided.dragHandleProps}
-                             style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}>
-                            <Accordion title={item.label} active={false}>
-                                <p>test</p>
-                            </Accordion>
-                            <Droppable droppableId={`${item.id}`} isDropDisabled={(parentIsDragging ? parentIsDragging : (snapshot.isDragging ? isDisabled : false)) ? isDisabled : false}>
-                                {(provided, _snapshot) => (
-                                    <div {...provided.droppableProps} ref={provided.innerRef}
-                                         style={getListStyle(_snapshot.isDraggingOver)}>
-                                        {item.child.map((i, index) => <Item key={i.id} item={i} isChild={true} index={index} isDisabled={isDisabled} parentIsDragging={snapshot.isDragging}/>)}
-                                        {provided.placeholder}
-                                    </div>
-                                )}
-                            </Droppable>
-                        </div>
-                    </>
-                )}
-            </Draggable>
+        <Draggable key={item.id} draggableId={item.id} index={index} shouldRespectForcePress={true}>
+            {(provided, snapshot) => (
+                <>
+                    <div ref={provided.innerRef}{...provided.draggableProps}{...provided.dragHandleProps}
+                         style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}>
+                        <Accordion
+                            title={<Grid columns={2}><Grid.Column>{item.label}</Grid.Column><Grid.Column
+                                textAlign="right">{item.type}</Grid.Column></Grid>} active={false} border={true}>
+                            <Form.Input label="URL" name="slug" required defaultValue={item.slug}
+                                        onChange={(e, data) => handleChangeItem(e, data, item.id)}/>
+                            <Form.Input label="Navigation Label" name="label" required defaultValue={item.label}
+                                        onChange={(e, data) => handleChangeItem(e, data, item.id)}/>
+                            <NoLinkButton type={"button"} style={"delete"} icon={"fa-trash"} onClick={() => handleDeleteItem(item.id)}>delete</NoLinkButton>
+                        </Accordion>
+                        <Droppable droppableId={`${item.id}`}
+                                   isDropDisabled={(parentIsDragging ? parentIsDragging : (snapshot.isDragging ? isDisabled : false)) ? isDisabled : false}>
+                            {(provided, _snapshot) => (
+                                <div {...provided.droppableProps} ref={provided.innerRef}
+                                     style={getListStyle(_snapshot.isDraggingOver)}>
+                                    {item.child.map((i, index) => <Item key={i.id} item={i} isChild={true} index={index}
+                                                                        isDisabled={isDisabled}
+                                                                        parentIsDragging={snapshot.isDragging}
+                                                                        handleChangeItem={handleChangeItem}
+                                                                        handleDeleteItem={handleDeleteItem}/>)}
+                                    {provided.placeholder}
+                                </div>
+                            )}
+                        </Droppable>
+                    </div>
+                </>
+            )}
+        </Draggable>
     </>
 }

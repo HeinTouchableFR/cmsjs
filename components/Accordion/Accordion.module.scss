@@ -13,6 +13,8 @@
   color: #000;
   font-weight: bold;
   padding: 10px 10px;
+  display: grid;
+  grid-template-columns: 20px auto;
 }
 
 .accordion__title i:before {
@@ -43,6 +45,7 @@
 .accordion__content.active {
   display: grid;
   grid-gap: 15px;
+  border-radius: 5px;
 }
 
 
@@ -53,3 +56,11 @@
   margin-bottom: 5px;
 }
 
+.border {
+  border: solid 1px #c4c4c4;
+  border-radius: 5px;
+  & .accordion__title{
+    background-color: #fafafa;
+    border-radius: 5px;
+  }
+}
