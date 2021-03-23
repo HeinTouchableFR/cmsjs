@@ -20,16 +20,16 @@ export default function Navigation({components, currentItem, onElementValueChang
 
     const [activeIndex, setActiveIndex] = useState(0);
     const handleTabChange = (_e, {activeIndex}) => {
+        setCurrentElement({});
         setActiveIndex(activeIndex);
-        setCurrentElement({id: 'empty'});
     };
 
     useEffect(
         function () {
-            if (currentItem.id) {
-                if (currentItem.id !== 'empty') {
-                    setActiveIndex(2);
-                }
+            if (currentItem.id === 'empty') {
+                setActiveIndex(1);
+            }else if(currentItem.type){
+                setActiveIndex(2)
             }
         },
         [currentItem]
@@ -167,7 +167,8 @@ export default function Navigation({components, currentItem, onElementValueChang
                                                         {...provided.draggableProps}
                                                         {...provided.dragHandleProps}
                                                     >
-                                                        <Component tag={item.tag} label={item.label} color={item.color} tooltip={item.tooltip}/>
+                                                        <Component tag={item.tag} label={item.label} color={item.color}
+                                                                   tooltip={item.tooltip}/>
                                                     </div>
                                                 )}
                                             </Draggable>
