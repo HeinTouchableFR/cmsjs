@@ -28,7 +28,7 @@ export default function Navigation({components, currentItem, onElementValueChang
         function () {
             if (currentItem.id === 'empty') {
                 setActiveIndex(1);
-            }else if(currentItem.type){
+            } else if (currentItem.type) {
                 setActiveIndex(2)
             }
         },
@@ -102,43 +102,36 @@ export default function Navigation({components, currentItem, onElementValueChang
             menuItem: intl.formatMessage({id: 'settings', defaultMessage: 'Settings'}),
             render: () => (
                 <Tab.Pane attached={true}>
-                    <Form onSubmit={handleSubmit}>
-                        <Form.Input
-                            fluid
-                            label={intl.formatMessage({id: 'title', defaultMessage: 'Title'})}
-                            placeholder={intl.formatMessage({id: 'title', defaultMessage: 'Title'})}
-                            required
-                            name='title'
-                            defaultValue={form.title}
-                            onChange={handleChange}
-                        />
-                        <Form.Input
-                            fluid
-                            label={intl.formatMessage({id: 'slug', defaultMessage: 'Slug'})}
-                            placeholder={intl.formatMessage({id: 'slug', defaultMessage: 'Slug'})}
-                            required
-                            name='slug'
-                            value={form.slug}
-                            onChange={handleChange}
-                        />
-                        <Form.Dropdown
-                            placeholder={intl.formatMessage({id: 'parentPage', defaultMessage: 'Parent page'})}
-                            additionLabel={intl.formatMessage({id: 'parentPage', defaultMessage: 'Parent page'})}
-                            fluid
-                            search
-                            clearable
-                            selection
-                            options={pagesOptions}
-                            defaultValue={form.parentPage}
-                            onChange={handleChange}
-                            name='parentPage'
-                        />
-                        <Button loading={loading} color={'green'} type='submit'>
-                            {page.content
-                                ? intl.formatMessage({id: 'update', defaultMessage: 'Update'})
-                                : intl.formatMessage({id: 'publish', defaultMessage: 'Publish'})}
-                        </Button>
-                    </Form>
+                    <Form.Input
+                        fluid
+                        label={intl.formatMessage({id: 'title', defaultMessage: 'Title'})}
+                        placeholder={intl.formatMessage({id: 'title', defaultMessage: 'Title'})}
+                        required
+                        name='title'
+                        defaultValue={form.title}
+                        onChange={handleChange}
+                    />
+                    <Form.Input
+                        fluid
+                        label={intl.formatMessage({id: 'slug', defaultMessage: 'Slug'})}
+                        placeholder={intl.formatMessage({id: 'slug', defaultMessage: 'Slug'})}
+                        required
+                        name='slug'
+                        value={form.slug}
+                        onChange={handleChange}
+                    />
+                    <Form.Dropdown
+                        placeholder={intl.formatMessage({id: 'parentPage', defaultMessage: 'Parent page'})}
+                        additionLabel={intl.formatMessage({id: 'parentPage', defaultMessage: 'Parent page'})}
+                        fluid
+                        search
+                        clearable
+                        selection
+                        options={pagesOptions}
+                        defaultValue={form.parentPage}
+                        onChange={handleChange}
+                        name='parentPage'
+                    />
                 </Tab.Pane>
             ),
         },
@@ -190,14 +183,6 @@ export default function Navigation({components, currentItem, onElementValueChang
                 <Tab.Pane attached={true}>
                     <ComponentDispatcher element={currentItem} mode="editor" device={device}
                                          onElementValueChange={onElementValueChange}/>
-                    <Dropdown
-                        placeholder='Select Friend'
-                        fluid
-                        selection
-                        defaultValue={device}
-                        options={deviceOptions}
-                        onChange={handleDeviceChange}
-                    />
                 </Tab.Pane>
             ),
         },
@@ -205,9 +190,25 @@ export default function Navigation({components, currentItem, onElementValueChang
 
     return (
         <>
-            <div className={`${styles.navigation} ${hide ? styles.hide : ''}`}>
-                <Tab panes={panes} activeIndex={activeIndex} onTabChange={handleTabChange} className={styles.navigation__menu}/>
-            </div>
+            <Form onSubmit={handleSubmit}>
+                <div className={`${styles.navigation} ${hide ? styles.hide : ''}`}>
+                    <Tab panes={panes} activeIndex={activeIndex} onTabChange={handleTabChange}/>
+                    <div className={styles.navigation__bottom_menu}>
+                        <Button loading={loading} color={'green'} type='submit'>
+                            {page.content
+                                ? intl.formatMessage({id: 'update', defaultMessage: 'Update'})
+                                : intl.formatMessage({id: 'publish', defaultMessage: 'Publish'})}
+                        </Button>
+                        <Dropdown
+                            placeholder='Select Friend'
+                            fluid
+                            selection
+                            defaultValue={device}
+                            options={deviceOptions}
+                            onChange={handleDeviceChange}/>
+                    </div>
+                </div>
+            </Form>
             <div className={`${styles.hideMenuBtn} ${hide ? styles.hide : ''}`} onClick={() => hideMenu()}/>
         </>
     );
