@@ -22,6 +22,12 @@
     opacity: 1 !important;
 }
 
+.ui.tabular.menu .item {
+    padding: 0!important;
+    width: calc(350px/3);
+    justify-content: center;
+}
+
 #nprogress .bar {
     background: #3bff09 !important;
 }
