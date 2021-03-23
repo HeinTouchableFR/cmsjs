@@ -223,6 +223,7 @@
     height: 100%;
     align-items: center;
     justify-content: center;
+    position: relative;
 }
 
 .element__first__icon {
@@ -286,3 +287,16 @@
     }
 }
 
+.menu__elements{
+    visibility: hidden;
+    width: 150px;
+    height: 150px;
+    background-color: red;
+    color: white;
+    position: absolute;
+    bottom: -150px;
+}
+
+.element__first__add:hover .menu__elements {
+    visibility: visible;
+}

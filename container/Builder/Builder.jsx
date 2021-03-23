@@ -9,6 +9,8 @@ import Content from 'container/Content/Content';
 import Navigation from 'container/Navigation/Navigation';
 import defaultComponents from 'variables/components'
 import Head from 'next/head';
+import {Segment, TransitionablePortal} from 'semantic-ui-react';
+import Component from 'components/ComponentCollection/Component';
 
 export default function Builder({page = {}, onSubmit, pages, loading}) {
     // Use translation
@@ -124,7 +126,7 @@ export default function Builder({page = {}, onSubmit, pages, loading}) {
         let c = [];
         layouts.map((layout) => {
             layout.columns.map((column) => {
-                if (column.id.toString() === id) {
+                if (column.id.toString() === id.toString()) {
                     c = column;
                 }
             });
@@ -173,64 +175,12 @@ export default function Builder({page = {}, onSubmit, pages, loading}) {
         } else {
             const sourceClone = Array.from(source);
             const destClone = Array.from(destination);
-            const [composant] = sourceClone.splice(droppableSource.index, 1);
-            const element = {};
-            element.id = new Date().getTime();
-            element.content = composant.defaultValue;
-            element.type = composant.type;
-            element.styles = {
-                desktop: {
-                    margin: {
-                        unit: 'px',
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        bottom: 0,
-                    },
-                    padding: {
-                        unit: 'px',
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        bottom: 0,
-                    }
-                },
-                tablet: {
-                    margin: {
-                        unit: 'px',
-                        top: '',
-                        left: '',
-                        right: '',
-                        bottom: '',
-                    },
-                    padding: {
-                        unit: 'px',
-                        top: '',
-                        left: '',
-                        right: '',
-                        bottom: '',
-                    }
-                },
-                mobile: {
-                    margin: {
-                        unit: 'px',
-                        top: '',
-                        left: '',
-                        right: '',
-                        bottom: '',
-                    },
-                    padding: {
-                        unit: 'px',
-                        top: '',
-                        left: '',
-                        right: '',
-                        bottom: '',
-                    }
-                },
-            };
+            const [component] = sourceClone.splice(droppableSource.index, 1);
+            const element = generateElement(component);
             setCurrentElement(element);
             destClone.splice(droppableDestination.index, 0, element);
             result[droppableDestination.droppableId] = destClone;
+            handleClosePortal()
         }
         return result;
     };
@@ -281,6 +231,79 @@ export default function Builder({page = {}, onSubmit, pages, loading}) {
         onSubmit(e, layouts);
     };
 
+    const [portal, setPortal] = useState({open: false})
+
+    const handleOpenPortal = (e) => {
+        setPortal({x: e.clientX, y: e.clientY , open: true})
+    }
+    const handleClosePortal = () => setPortal(() => ({ open: false }))
+
+    const addComponentFromPortal = (component) => {
+        const column = getcolumnListeById(currentElement.column)
+        const element = generateElement(component)
+        setCurrentElement(element)
+        columnUpdate(column, [element]);
+        handleClosePortal()
+    }
+
+    const generateElement = (component) => {
+        const element = {}
+        element.id = new Date().getTime();
+        element.content = component.defaultValue;
+        element.type = component.type;
+        element.styles = {
+            desktop: {
+                margin: {
+                    unit: 'px',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                },
+                padding: {
+                    unit: 'px',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                }
+            },
+            tablet: {
+                margin: {
+                    unit: 'px',
+                    top: '',
+                    left: '',
+                    right: '',
+                    bottom: '',
+                },
+                padding: {
+                    unit: 'px',
+                    top: '',
+                    left: '',
+                    right: '',
+                    bottom: '',
+                }
+            },
+            mobile: {
+                margin: {
+                    unit: 'px',
+                    top: '',
+                    left: '',
+                    right: '',
+                    bottom: '',
+                },
+                padding: {
+                    unit: 'px',
+                    top: '',
+                    left: '',
+                    right: '',
+                    bottom: '',
+                }
+            },
+        };
+        return element
+    }
+
     return (
         <>
             <Head>
@@ -318,8 +341,20 @@ export default function Builder({page = {}, onSubmit, pages, loading}) {
                         setCurrentElement={setCurrentElement}
                         hide={hideMenu}
                         device={device}
+                        handleOpenPortal={handleOpenPortal}
                     />
                 </DragDropContext>
+                <TransitionablePortal
+                    open={portal.open}
+                    onClose={handleClosePortal}
+                    transition={{ animation: 'fly down', duration: 500 }}
+                >
+                    <Segment className={styles.builder__pallet_container} style={{top: `${portal.y}px`, left: `${portal.x}px`}}>
+                        <div className={styles.builder__pallet}>
+                            {components.map(item => <Component tag={item.tag} label={item.label} color={item.color} key={item.type} onClick={() => addComponentFromPortal(item)}/>)}
+                        </div>
+                    </Segment>
+                </TransitionablePortal>
             </div>
         </>
     );

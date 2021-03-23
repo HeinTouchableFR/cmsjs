@@ -4,7 +4,7 @@ import styles from './Layout.module.scss';
 import Column from './Column/Column'
 import {structures} from 'variables/variables';
 
-export default function Layout({ layout, layoutUpdate, layoutDelete, onElementClick, currentElement, setCurrentElement, device }) {
+export default function Layout({ layout, layoutUpdate, layoutDelete, onElementClick, currentElement, setCurrentElement, device, handleOpenPortal }) {
         /**
      * Generates the button of the target structure
      * Button showing the shape of the structure
@@ -105,6 +105,7 @@ export default function Layout({ layout, layoutUpdate, layoutDelete, onElementCl
                                 setCurrentElement={setCurrentElement}
                                 currentElement={currentElement}
                                 device={device}
+                                handleOpenPortal={handleOpenPortal}
                             />
                         ))}
                 </div>

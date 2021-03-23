@@ -1,11 +1,9 @@
 import styles from '../Layout.module.scss';
 import {Draggable, Droppable} from 'react-beautiful-dnd';
-import parse from 'html-react-parser';
 import React from 'react';
-import TitlePreview from 'components/ComponentCollection/Title/TitlePreview';
-import ComponentDispatcher from '../../../components/ComponentCollection/ComponentDispatcher';
+import ComponentDispatcher from 'components/ComponentCollection/ComponentDispatcher';
 
-export default function Column({ column, onElementClick, elementDelete, currentElement, setCurrentElement, device }) {
+export default function Column({ column, onElementClick, elementDelete, currentElement, setCurrentElement, device, handleOpenPortal }) {
     /**
      * Allows you to delete a sub item
      * @param e
@@ -66,8 +64,8 @@ export default function Column({ column, onElementClick, elementDelete, currentE
                                     ))}
                                 </div>
                             ) : (
-                                <div className={styles.column__empty} onClick={() => handleElementClick({ id: 'empty' })}>
-                                    <div className={styles.element__first__add}>
+                                <div className={styles.column__empty} onClick={() => handleElementClick({ id: 'empty', column: column.id })}>
+                                    <div className={styles.element__first__add} onClick={(e) => handleOpenPortal(e)}>
                                         <div className={styles.element__first__icon}>
                                             <i className="fal fa-plus" />
                                         </div>
