@@ -1,12 +1,12 @@
 import React from 'react';
-import { useIntl } from 'react-intl';
+import {useIntl} from 'react-intl';
 import Link from 'next/link';
 
 import styles from './content.module.scss';
 
 import {Button} from '../Button/Button';
 
-export default function Content({ title, icon, url, action, children }) {
+export default function Content({title, icon, url, action, children}) {
     const intl = useIntl();
 
     return (
@@ -14,33 +14,31 @@ export default function Content({ title, icon, url, action, children }) {
             <div className={styles.contentHeader}>
                 <div className={styles.contentHeaderColumn}>
                     <h1 className={styles.contentHeaderTitle}>
-                        <i className={'fad' + ' ' + icon + ' ' + styles.circular} />
+                        <i className={'fad' + ' ' + icon + ' ' + styles.circular}/>
                         <div className={styles.content}>
                             {title}
                             {!action && (
                                 <div className={styles.contentHeaderTitleSub}>
-                                    {intl.formatMessage({ id: 'manage', defaultMessage: 'Manage' })}: {title}
+                                    {intl.formatMessage({id: 'manage', defaultMessage: 'Manage'})}: {title}
                                 </div>
                             )}
                         </div>
                     </h1>
-                    {!action && <Button url={`${process.env.URL}/admin/${url}/add`} icon={'fa-plus'} />}
+                    {!action && <Button url={`${process.env.URL}/admin/${url}/add`} icon={'fa-plus'}/>}
                 </div>
                 <div className={styles.adminTree}>
                     <div className={styles.adminTreeSection}>
                         <Link href={'/admin'}>
                             <a className={styles.adminTreeSection}>Administration</a>
                         </Link>
-                        <i className={'fas fa-chevron-right ' + styles.adminTreeChevron} />
+                        <i className={'fas fa-chevron-right ' + styles.adminTreeChevron}/>
                         <Link href={'/admin/' + url}>
                             <a className={styles.adminTreeSection}>{title}</a>
                         </Link>
                         {action && (
                             <>
-                                <i className={'fas fa-chevron-right ' + styles.adminTreeChevron} />
-                                <Link href={'/admin/' + url + '/' + action}>
-                                    <a className={styles.adminTreeSection}>{action}</a>
-                                </Link>
+                                <i className={'fas fa-chevron-right ' + styles.adminTreeChevron}/>
+                                <a className={styles.adminTreeSection}>{action}</a>
                             </>
                         )}
                     </div>

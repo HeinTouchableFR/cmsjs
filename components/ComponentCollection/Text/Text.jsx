@@ -10,8 +10,10 @@ import {
 } from 'variables/options';
 import ColorPicker from 'components/ColorPicker/ColorPicker';
 import Accordion from 'components/Accordion/Accordion';
+import {useIntl} from 'react-intl';
 
 export default function Text({ element, onElementValueChange, device }) {
+    const intl = useIntl()
     const [item, setItem] = useState(element);
 
     useEffect(
@@ -277,39 +279,39 @@ export default function Text({ element, onElementValueChange, device }) {
 
     const borderPanes = [
         {
-            menuItem: 'Normal',
+            menuItem: intl.formatMessage({id: "builder.normal", defaultMessage: "Normal"}),
             render: () => <div className={'accordion__pane'}>
                 <div className='field'>
-                    <label>Border Type</label>
+                    <label>{intl.formatMessage({id: "builder.border.type", defaultMessage: "Border type"})}</label>
                     <Dropdown fluid name='type' selection value={item.content[device].styles.border.normal.type}
                               options={borderOptions}
                               onChange={(e, data) => handleChangeBorderType(e, data, 'normal')}/>
                 </div>
                 <div className='field'>
-                    <label>Border color</label>
+                    <label>{intl.formatMessage({id: "builder.color", defaultMessage: "Color"})}</label>
                     <ColorPicker defaultColor={item.content[device].styles.border.normal.color}
                                  onColorChange={(color) => handleBorderColorChange(color, 'normal')}/>
                 </div>
                 <div className="field">
-                    <label>Width</label>
+                    <label>{intl.formatMessage({id: "builder.border.weight", defaultMessage: "Border weight"})}</label>
                     <div className='form__inline_item bottom'>
-                        <Form.Input fluid label='Top' placeholder='Top' name='top' type='number'
+                        <Form.Input fluid label={intl.formatMessage({id: "builder.top", defaultMessage: "Top"})} placeholder={intl.formatMessage({id: "builder.top", defaultMessage: "Top"})} name='top' type='number'
                                     value={item.content[device].styles.border.normal.width.top}
                                     onChange={(e, data) => handleChangeBorder(e, data, 'width', 'normal')}/>
-                        <Form.Input fluid label='Right' placeholder='Right' name='right' type='number'
+                        <Form.Input fluid label={intl.formatMessage({id: "builder.right", defaultMessage: "Right"})} placeholder={intl.formatMessage({id: "builder.right", defaultMessage: "Right"})} name='right' type='number'
                                     value={item.content[device].styles.border.normal.width.right}
                                     onChange={(e, data) => handleChangeBorder(e, data, 'width', 'normal')}/>
-                        <Form.Input fluid label='Bottom' placeholder='Bottom' name='bottom' type='number'
+                        <Form.Input fluid label={intl.formatMessage({id: "builder.bottom", defaultMessage: "Bottom"})} placeholder={intl.formatMessage({id: "builder.bottom", defaultMessage: "Bottom"})} name='bottom' type='number'
                                     value={item.content[device].styles.border.normal.width.bottom}
                                     onChange={(e, data) => handleChangeBorder(e, data, 'width', 'normal')}/>
-                        <Form.Input fluid label='Left' placeholder='Left' name='left' type='number'
+                        <Form.Input fluid label={intl.formatMessage({id: "builder.left", defaultMessage: "Left"})} placeholder={intl.formatMessage({id: "builder.left", defaultMessage: "Left"})} name='left' type='number'
                                     value={item.content[device].styles.border.normal.width.left}
                                     onChange={(e, data) => handleChangeBorder(e, data, 'width', 'normal')}/>
                     </div>
                 </div>
                 <div className="field">
                     <div className="form__inline_item">
-                        <label>Border Radius</label>
+                        <label>{intl.formatMessage({id: "builder.border.radius", defaultMessage: "Border radius"})}</label>
                         <div className="field-group">
                             <label className={item.content[device].styles.border.normal.radius.unit === 'px' ? 'selected' : undefined}
                                    onClick={() => handleChangeBorderRadiusUnit('px', 'normal')}>PX</label>
@@ -318,16 +320,16 @@ export default function Text({ element, onElementValueChange, device }) {
                         </div>
                     </div>
                     <div className='form__inline_item bottom'>
-                        <Form.Input fluid label='Top' placeholder='Top' name='top' type='number'
+                        <Form.Input fluid label={intl.formatMessage({id: "builder.top", defaultMessage: "Top"})} placeholder={intl.formatMessage({id: "builder.top", defaultMessage: "Top"})} name='top' type='number'
                                     value={item.content[device].styles.border.normal.radius.top}
                                     onChange={(e, data) => handleChangeBorder(e, data, 'radius', 'normal')}/>
-                        <Form.Input fluid label='Right' placeholder='Right' name='right' type='number'
+                        <Form.Input fluid label={intl.formatMessage({id: "builder.right", defaultMessage: "Right"})} placeholder={intl.formatMessage({id: "builder.right", defaultMessage: "Right"})} name='right' type='number'
                                     value={item.content[device].styles.border.normal.radius.right}
                                     onChange={(e, data) => handleChangeBorder(e, data, 'radius', 'normal')}/>
-                        <Form.Input fluid label='Bottom' placeholder='Bottom' name='bottom' type='number'
+                        <Form.Input fluid label={intl.formatMessage({id: "builder.bottom", defaultMessage: "Bottom"})} placeholder={intl.formatMessage({id: "builder.bottom", defaultMessage: "Bottom"})} name='bottom' type='number'
                                     value={item.content[device].styles.border.normal.radius.bottom}
                                     onChange={(e, data) => handleChangeBorder(e, data, 'radius', 'normal')}/>
-                        <Form.Input fluid label='Left' placeholder='Left' name='left' type='number'
+                        <Form.Input fluid label={intl.formatMessage({id: "builder.left", defaultMessage: "Left"})} placeholder={intl.formatMessage({id: "builder.left", defaultMessage: "Left"})} name='left' type='number'
                                     value={item.content[device].styles.border.normal.radius.left}
                                     onChange={(e, data) => handleChangeBorder(e, data, 'radius', 'normal')}/>
                     </div>
@@ -335,39 +337,39 @@ export default function Text({ element, onElementValueChange, device }) {
             </div>,
         },
         {
-            menuItem: 'Hover',
+            menuItem: intl.formatMessage({id: "builder.hover", defaultMessage: "Hover"}),
             render: () => <div className={'accordion__pane'}>
                 <div className='field'>
-                    <label>Border Type</label>
+                    <label>{intl.formatMessage({id: "builder.border.type", defaultMessage: "Border type"})}</label>
                     <Dropdown fluid name='type' selection value={item.content[device].styles.border.hover.type}
                               options={borderOptions}
                               onChange={(e, data) => handleChangeBorderType(e, data, 'hover')}/>
                 </div>
                 <div className='field'>
-                    <label>Border color</label>
+                    <label>{intl.formatMessage({id: "builder.color", defaultMessage: "Color"})}</label>
                     <ColorPicker defaultColor={item.content[device].styles.border.hover.color}
                                  onColorChange={(color) => handleBorderColorChange(color, 'hover')}/>
                 </div>
                 <div className="field">
-                    <label>Width</label>
+                    <label>{intl.formatMessage({id: "builder.border.weight", defaultMessage: "Border weight"})}</label>
                     <div className='form__inline_item bottom'>
-                        <Form.Input fluid label='Top' placeholder='Top' name='top' type='number'
+                        <Form.Input fluid label={intl.formatMessage({id: "builder.top", defaultMessage: "Top"})} placeholder={intl.formatMessage({id: "builder.top", defaultMessage: "Top"})} name='top' type='number'
                                     value={item.content[device].styles.border.hover.width.top}
                                     onChange={(e, data) => handleChangeBorder(e, data, 'width', 'hover')}/>
-                        <Form.Input fluid label='Right' placeholder='Right' name='right' type='number'
+                        <Form.Input fluid label={intl.formatMessage({id: "builder.right", defaultMessage: "Right"})} placeholder={intl.formatMessage({id: "builder.right", defaultMessage: "Right"})} name='right' type='number'
                                     value={item.content[device].styles.border.hover.width.right}
                                     onChange={(e, data) => handleChangeBorder(e, data, 'width', 'hover')}/>
-                        <Form.Input fluid label='Bottom' placeholder='Bottom' name='bottom' type='number'
+                        <Form.Input fluid label={intl.formatMessage({id: "builder.bottom", defaultMessage: "Bottom"})} placeholder={intl.formatMessage({id: "builder.bottom", defaultMessage: "Bottom"})} name='bottom' type='number'
                                     value={item.content[device].styles.border.hover.width.bottom}
                                     onChange={(e, data) => handleChangeBorder(e, data, 'width', 'hover')}/>
-                        <Form.Input fluid label='Left' placeholder='Left' name='left' type='number'
+                        <Form.Input fluid label={intl.formatMessage({id: "builder.left", defaultMessage: "Left"})} placeholder={intl.formatMessage({id: "builder.left", defaultMessage: "Left"})} name='left' type='number'
                                     value={item.content[device].styles.border.hover.width.left}
                                     onChange={(e, data) => handleChangeBorder(e, data, 'width', 'hover')}/>
                     </div>
                 </div>
                 <div className="field">
                     <div className="form__inline_item">
-                        <label>Border Radius</label>
+                        <label>{intl.formatMessage({id: "builder.border.radius", defaultMessage: "Border radius"})}</label>
                         <div className="field-group">
                             <label className={item.content[device].styles.border.hover.radius.unit === 'px' ? 'selected' : undefined}
                                    onClick={() => handleChangeBorderRadiusUnit('px', 'hover')}>PX</label>
@@ -376,16 +378,16 @@ export default function Text({ element, onElementValueChange, device }) {
                         </div>
                     </div>
                     <div className='form__inline_item bottom'>
-                        <Form.Input fluid label='Top' placeholder='Top' name='top' type='number'
+                        <Form.Input fluid label={intl.formatMessage({id: "builder.top", defaultMessage: "Top"})} placeholder={intl.formatMessage({id: "builder.top", defaultMessage: "Top"})} name='top' type='number'
                                     value={item.content[device].styles.border.hover.radius.top}
                                     onChange={(e, data) => handleChangeBorder(e, data, 'radius', 'hover')}/>
-                        <Form.Input fluid label='Right' placeholder='Right' name='right' type='number'
+                        <Form.Input fluid label={intl.formatMessage({id: "builder.right", defaultMessage: "Right"})} placeholder={intl.formatMessage({id: "builder.right", defaultMessage: "Right"})} name='right' type='number'
                                     value={item.content[device].styles.border.hover.radius.right}
                                     onChange={(e, data) => handleChangeBorder(e, data, 'radius', 'hover')}/>
-                        <Form.Input fluid label='Bottom' placeholder='Bottom' name='bottom' type='number'
+                        <Form.Input fluid label={intl.formatMessage({id: "builder.bottom", defaultMessage: "Bottom"})} placeholder={intl.formatMessage({id: "builder.bottom", defaultMessage: "Bottom"})} name='bottom' type='number'
                                     value={item.content[device].styles.border.hover.radius.bottom}
                                     onChange={(e, data) => handleChangeBorder(e, data, 'radius', 'hover')}/>
-                        <Form.Input fluid label='Left' placeholder='Left' name='left' type='number'
+                        <Form.Input fluid label={intl.formatMessage({id: "builder.left", defaultMessage: "Left"})} placeholder={intl.formatMessage({id: "builder.left", defaultMessage: "Left"})} name='left' type='number'
                                     value={item.content[device].styles.border.hover.radius.left}
                                     onChange={(e, data) => handleChangeBorder(e, data, 'radius', 'hover')}/>
                     </div>
@@ -396,23 +398,24 @@ export default function Text({ element, onElementValueChange, device }) {
 
     const backgroundPanes = [
         {
-            menuItem: 'Normal',
+            menuItem: intl.formatMessage({id: "builder.normal", defaultMessage: "Normal"}),
             render: () => <div className={'accordion__pane'}>
                 <ColorPicker defaultColor={item.content[device].styles.background.normal}
                              onColorChange={(color) => handleColorChange(color, 'background', 'normal', 'styles')}/>
             </div>,
         },
         {
-            menuItem: 'Hover',
+            menuItem: intl.formatMessage({id: "builder.hover", defaultMessage: "Hover"}),
             render: () => <div className={'accordion__pane'}>
                 <ColorPicker defaultColor={item.content[device].styles.background.hover}
                              onColorChange={(color) => handleColorChange(color, 'background', 'hover', 'styles')}/>
             </div>,
         },
     ]
+
     return (
         <>
-            <Accordion active={true} title={'Text'}>
+            <Accordion active={true} title={intl.formatMessage({id: item.type, defaultMessage: item.type})}>
                 <Editor
                     value={item.content.text}
                     apiKey='01vj2ci2rp4w85rw2pa64fg88pw784bf67k0rskfg4ybks3z'
@@ -429,27 +432,27 @@ export default function Text({ element, onElementValueChange, device }) {
                     onEditorChange={handleChangeText}
                 />
                 <div className='field'>
-                    <label>Alignment</label>
+                    <label>{intl.formatMessage({id: "builder.alignment", defaultMessage: "Alignment"})}</label>
                     <Dropdown fluid name='alignment' selection value={item.content.alignment}
                               options={alignmentsOptions} onChange={handleChange}/>
                 </div>
             </Accordion>
-            <Accordion active={false} title={'Typography'}>
+            <Accordion active={false} title={intl.formatMessage({id: "builder.typography", defaultMessage: "Typography"})}>
                 <div className='form__inline_item'>
                     <div className='field'>
-                        <label>Color</label>
+                        <label>{intl.formatMessage({id: "builder.color", defaultMessage: "Color"})}</label>
                         <ColorPicker defaultColor={item.content[device].typo.color.normal}
                                      onColorChange={(color) => handleColorChange(color, 'color', 'normal', 'typo')}/>
                     </div>
                     <div className='field'>
-                        <label>Color on Hover</label>
+                        <label>{intl.formatMessage({id: "builder.color.hover", defaultMessage: "Color on hover"})}</label>
                         <ColorPicker defaultColor={item.content[device].typo.color.hover}
                                      onColorChange={(color) => handleColorChange(color, 'color', 'hover', 'typo')}/>
                     </div>
                 </div>
                 <div className="form__inline_item">
                     <div className='field'>
-                        <Form.Input fluid label='Font Size' placeholder='16' name='value' type='number' min="1"
+                        <Form.Input fluid label={intl.formatMessage({id: "builder.font.size", defaultMessage: "Font size"})} placeholder='16' name='value' type='number' min="1"
                                     max={item.content[device].typo.size.unit === 'px' ? 200 : 10}
                                     step={item.content[device].typo.size.unit === 'px' ? 1 : 0.1}
                                     value={item.content[device].typo.size.value}
@@ -468,37 +471,37 @@ export default function Text({ element, onElementValueChange, device }) {
                 </div>
                 <div className='form__inline_item'>
                     <div className='field'>
-                        <label>Font Family</label>
+                        <label>{intl.formatMessage({id: "builder.font.family", defaultMessage: "Font family"})}</label>
                         <Dropdown fluid name='family' selection value={item.content[device].typo.family} options={fontsOptions}
                                   onChange={handleChangeTypo}/>
                     </div>
 
                     <div className='field'>
-                        <label>Font Weight</label>
+                        <label>{intl.formatMessage({id: "builder.font.weight", defaultMessage: "Font weight"})}</label>
                         <Dropdown fluid name='weight' selection value={item.content[device].typo.weight}
                                   options={weightsOptions} onChange={handleChangeTypo}/>
                     </div>
                 </div>
                 <div className='form__inline_item'>
                     <div className='field'>
-                        <label>Transform</label>
+                        <label>{intl.formatMessage({id: "builder.transform", defaultMessage: "Transform"})}</label>
                         <Dropdown fluid name='transform' selection value={item.content[device].typo.transform}
                                   options={transformsOptions} onChange={handleChangeTypo}/>
                     </div>
                     <div className='field'>
-                        <label>Style</label>
+                        <label>{intl.formatMessage({id: "builder.style", defaultMessage: "Style"})}</label>
                         <Dropdown fluid name='style' selection value={item.content[device].typo.style} options={stylesOptions}
                                   onChange={handleChangeTypo}/>
                     </div>
                     <div className='field'>
-                        <label>Decoration</label>
+                        <label>{intl.formatMessage({id: "builder.decoration", defaultMessage: "Decoration"})}</label>
                         <Dropdown fluid name='decoration' selection value={Array.from(item.content[device].typo.decoration)}
                                   options={decorationsOptions} onChange={handleChangeTypo} multiple />
                     </div>
                 </div>
                 <div className="form__inline_item">
                     <div className='field'>
-                        <Form.Input fluid label='Line Height' placeholder='1' name='value' type='number' min="1"
+                        <Form.Input fluid label={intl.formatMessage({id: "builder.lineHeight", defaultMessage: "Line height"})} placeholder='1' name='value' type='number' min="1"
                                     max={item.content[device].typo.lineHeight.unit === 'px' ? 100 : 10}
                                     step={item.content[device].typo.lineHeight.unit === 'px' ? 1 : 0.1}
                                     value={item.content[device].typo.lineHeight.value}
@@ -512,14 +515,14 @@ export default function Text({ element, onElementValueChange, device }) {
                     </div>
                 </div>
                 <div className='field'>
-                    <Form.Input fluid label='Letter Spacing' placeholder='0' name='letterSpacing' type='number'
+                    <Form.Input fluid label={intl.formatMessage({id: "builder.letterSpacing", defaultMessage: "Letter spacing"})} placeholder='0' name='letterSpacing' type='number'
                                 value={item.content[device].typo.letterSpacing} onChange={handleChangeTypo}/>
                 </div>
             </Accordion>
-            <Accordion active={false} title={'Advanced'}>
+            <Accordion active={false} title={intl.formatMessage({id: "builder.advanced", defaultMessage: "Advanced"})}>
                 <div className='field'>
                     <div className="form__inline_item">
-                        <label>Margin</label>
+                        <label>{intl.formatMessage({id: "builder.margin", defaultMessage: "Margin"})}</label>
                         <div className="field-group">
                             <label className={item.styles[device].margin.unit === 'px' ? 'selected' : undefined}
                                    onClick={() => handleChangeGeneralStyleUnit('px', 'margin')}>PX</label>
@@ -532,23 +535,23 @@ export default function Text({ element, onElementValueChange, device }) {
                         </div>
                     </div>
                     <div className='form__inline_item bottom'>
-                        <Form.Input fluid label='Top' placeholder='Top' name='top' type='number'
+                        <Form.Input fluid label={intl.formatMessage({id: "builder.top", defaultMessage: "Top"})} placeholder={intl.formatMessage({id: "builder.top", defaultMessage: "Top"})} name='top' type='number'
                                     value={item.styles[device].margin.top}
                                     onChange={(e, data) => handleChangeGeneralStyle(e, data, 'margin')}/>
-                        <Form.Input fluid label='Right' placeholder='Right' name='right' type='number'
+                        <Form.Input fluid label={intl.formatMessage({id: "builder.right", defaultMessage: "Right"})} placeholder={intl.formatMessage({id: "builder.right", defaultMessage: "Right"})} name='right' type='number'
                                     value={item.styles[device].margin.right}
                                     onChange={(e, data) => handleChangeGeneralStyle(e, data, 'margin')}/>
-                        <Form.Input fluid label='Bottom' placeholder='Bottom' name='bottom' type='number'
+                        <Form.Input fluid label={intl.formatMessage({id: "builder.bottom", defaultMessage: "Bottom"})} placeholder={intl.formatMessage({id: "builder.bottom", defaultMessage: "Bottom"})} name='bottom' type='number'
                                     value={item.styles[device].margin.bottom}
                                     onChange={(e, data) => handleChangeGeneralStyle(e, data, 'margin')}/>
-                        <Form.Input fluid label='Left' placeholder='Left' name='left' type='number'
+                        <Form.Input fluid label={intl.formatMessage({id: "builder.left", defaultMessage: "Left"})} placeholder={intl.formatMessage({id: "builder.left", defaultMessage: "Left"})} name='left' type='number'
                                     value={item.styles[device].margin.left}
                                     onChange={(e, data) => handleChangeGeneralStyle(e, data, 'margin')}/>
                     </div>
                 </div>
                 <div className='field'>
                     <div className="form__inline_item">
-                        <label>Padding</label>
+                        <label>{intl.formatMessage({id: "builder.padding", defaultMessage: "Padding"})}</label>
                         <div className="field-group">
                             <label className={item.styles[device].padding.unit === 'px' ? 'selected' : undefined}
                                    onClick={() => handleChangeGeneralStyleUnit('px', 'padding')}>PX</label>
@@ -561,39 +564,39 @@ export default function Text({ element, onElementValueChange, device }) {
                         </div>
                     </div>
                     <div className='form__inline_item bottom'>
-                        <Form.Input fluid label='Top' placeholder='Top' name='top' type='number'
+                        <Form.Input fluid label={intl.formatMessage({id: "builder.top", defaultMessage: "Top"})} placeholder={intl.formatMessage({id: "builder.top", defaultMessage: "Top"})} name='top' type='number'
                                     value={item.styles[device].padding.top}
                                     onChange={(e, data) => handleChangeGeneralStyle(e, data, 'padding')}/>
-                        <Form.Input fluid label='Right' placeholder='Right' name='right' type='number'
+                        <Form.Input fluid label={intl.formatMessage({id: "builder.right", defaultMessage: "Right"})} placeholder={intl.formatMessage({id: "builder.right", defaultMessage: "Right"})} name='right' type='number'
                                     value={item.styles[device].padding.right}
                                     onChange={(e, data) => handleChangeGeneralStyle(e, data, 'padding')}/>
-                        <Form.Input fluid label='Bottom' placeholder='Bottom' name='bottom' type='number'
+                        <Form.Input fluid label={intl.formatMessage({id: "builder.bottom", defaultMessage: "Bottom"})} placeholder={intl.formatMessage({id: "builder.bottom", defaultMessage: "Bottom"})} name='bottom' type='number'
                                     value={item.styles[device].padding.bottom}
                                     onChange={(e, data) => handleChangeGeneralStyle(e, data, 'padding')}/>
-                        <Form.Input fluid label='Left' placeholder='Left' name='left' type='number'
+                        <Form.Input fluid label={intl.formatMessage({id: "builder.left", defaultMessage: "Left"})} placeholder={intl.formatMessage({id: "builder.left", defaultMessage: "Left"})} name='left' type='number'
                                     value={item.styles[device].padding.left}
                                     onChange={(e, data) => handleChangeGeneralStyle(e, data, 'padding')}/>
                     </div>
                 </div>
             </Accordion>
-            <Accordion active={false} title={'Background'}>
+            <Accordion active={false} title={intl.formatMessage({id: "builder.background", defaultMessage: "Background"})}>
                 <Tab menu={{secondary: true, pointing: true}} panes={backgroundPanes}/>
             </Accordion>
-            <Accordion active={false} title={'Border'}>
+            <Accordion active={false} title={intl.formatMessage({id: "builder.border", defaultMessage: "Border"})}>
                 <Tab menu={{secondary: true, pointing: true}} panes={borderPanes}/>
             </Accordion>
-            <Accordion active={false} title={"Animation"}>
+            <Accordion active={false} title={intl.formatMessage({id: "builder.animation", defaultMessage: "Animation"})}>
                 <div className='field'>
-                    <label>Entrance Animation</label>
+                    <label>{intl.formatMessage({id: "builder.animation.entrance", defaultMessage: "Entrance Animation"})}</label>
                     <Dropdown fluid name='name' selection search value={item.content[device].animation.name}
                               options={animationsOptions} onChange={handleChangeAnimation}/>
                 </div>
                 <div className='field'>
-                    <label>Animation Duration</label>
+                    <label>{intl.formatMessage({id: "builder.duration", defaultMessage: "Duration"})}</label>
                     <Dropdown fluid name='duration' selection value={item.content[device].animation.duration}
                               options={durationsOptions} onChange={handleChangeAnimation}/>
                 </div>
-                <Form.Input fluid label='Animation Delay (ms)' placeholder='0' name='delay' type='number'
+                <Form.Input fluid label={intl.formatMessage({id: "builder.animation.delay", defaultMessage: "Animation Delay (ms)"})} placeholder='0' name='delay' type='number'
                             value={item.content[device].animation.delay}
                             onChange={handleChangeAnimation}/>
             </Accordion>

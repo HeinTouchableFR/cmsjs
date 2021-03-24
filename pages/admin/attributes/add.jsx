@@ -6,8 +6,10 @@ import { Button, Card, Form, Input } from 'semantic-ui-react';
 import Header from 'components/Header/Header';
 import Content from 'components/Content/Content';
 import {NoLinkButton} from 'components/Button/NoLinkButton/NoLinkButton';
+import {useIntl} from 'react-intl';
 
 export default function Add() {
+    const intl = useIntl()
     const url = 'attributes';
 
     const [form, setForm] = useState({ name: '', values: [], filter: false });
@@ -75,28 +77,29 @@ export default function Add() {
     return (
         <>
             <Head>
-                <title>Add attribute</title>
+                <title>{intl.formatMessage({ id: 'add.new.attribute', defaultMessage: 'Add a new attribute' })}</title>
             </Head>
             <Header>
-                <Content title='Attributes' icon='fa-cubes' url={url} action={'add'}>
+                <Content title={intl.formatMessage({ id: 'attributes', defaultMessage: 'Attributes' })} icon='fa-cubes' url={url} action={intl.formatMessage({ id: 'add', defaultMessage: 'Add' })}>
                     <Form onSubmit={handleSubmit}>
                         <Form.Input
                             fluid
-                            error={errors.name ? { content: 'This field is required', pointing: 'below' } : null}
-                            label='Name'
-                            placeholder='Name'
+                            label={intl.formatMessage({ id: 'name', defaultMessage: 'Name' })}
+                            placeholder={intl.formatMessage({ id: 'name', defaultMessage: 'Name' })}
                             name='name'
                             required
                             onChange={handleChange}
                         />
-                        <Form.Checkbox label="Use the attribute as a product search filter" name='filter' onChange={handleChange} />
+                        <Form.Checkbox label={intl.formatMessage({ id: 'used.filter', defaultMessage: 'Use the attribute as a product search filter' })} name='filter' onChange={handleChange} />
                         {form.values.map((item) => (
                             <Value key={item._id} item={item} setForm={setForm} form={form} />
                         ))}
                         <Button type='button' color='teal' onClick={handleAddValue}>
-                            Add value
+                            {intl.formatMessage({ id: 'add.value', defaultMessage: 'Add value' })}
                         </Button>
-                        <Button type='submit'>Add</Button>
+                        <Button type='submit'>
+                            {intl.formatMessage({ id: 'add', defaultMessage: 'Add' })}
+                        </Button>
                     </Form>
                 </Content>
             </Header>
@@ -105,6 +108,7 @@ export default function Add() {
 }
 
 const Value = function ({ item, form, setForm }) {
+    const intl = useIntl()
     const handleChange = (e, data) => {
         item = { ...item, [data.name]: data.value ? data.value : data.checked };
 
@@ -119,10 +123,10 @@ const Value = function ({ item, form, setForm }) {
         <Card fluid color='teal'>
             <Card.Content header={item.name} />
             <Card.Content>
-                <Input fluid label='Name' placeholder='Name' name='name' required onChange={handleChange} />
+                <Input fluid label={intl.formatMessage({ id: 'name', defaultMessage: 'Name' })} placeholder={intl.formatMessage({ id: 'name', defaultMessage: 'Name' })} name='name' required onChange={handleChange} />
             </Card.Content>
             <Card.Content extra>
-                <NoLinkButton type='button' style={'supprimer'} icon={'fa-trash'} onClick={handleDelete} />
+                <NoLinkButton type='button' style={'delete'} icon={'fa-trash'} onClick={handleDelete} />
             </Card.Content>
         </Card>
     );

@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import Head from 'next/head';
-import {useRouter} from 'next/router';
 import Header from 'components/Header/Header';
 import Content from 'components/Content/Content';
 import {db} from 'utils/dbConnect';
@@ -8,10 +7,11 @@ import {Accordion, Card, Divider, Dropdown, Form, Grid, Icon, Segment} from 'sem
 import {NoLinkButton} from 'components/Button/NoLinkButton/NoLinkButton';
 import MenuEditor from 'components/MenuEditor/MenuEditor';
 import {firebase} from 'utils/firebaseClient';
+import {useIntl} from 'react-intl';
 
 export default function Index({menus, pages}) {
+    const intl = useIntl()
     const url = 'menus';
-    const router = useRouter();
 
     const [loading, setLoading] = useState(false)
 
@@ -130,16 +130,16 @@ export default function Index({menus, pages}) {
     return (
         <>
             <Head>
-                <title>Menus</title>
+                <title>{intl.formatMessage({ id: 'menus', defaultMessage: 'Menus' })}</title>
             </Head>
             <Header>
-                <Content title='Menus' icon='fa-bars' url={url} action={"menus"}>
+                <Content title={intl.formatMessage({ id: 'menus', defaultMessage: 'Menus' })} icon='fa-bars' url={url} action={intl.formatMessage({ id: 'menus', defaultMessage: 'Menus' })}>
                     <Card fluid color="teal">
                         <Segment>
                             <Grid columns={2} relaxed='very' verticalAlign="middle">
                                 <Grid.Column>
                                     <span>
-                                        Menu to edit {' '}
+                                        {intl.formatMessage({ id: 'menu.edit', defaultMessage: 'Menu to edit' })} {' '}
                                         <Dropdown
                                             inline
                                             options={menuOptions}
@@ -151,17 +151,17 @@ export default function Index({menus, pages}) {
                                     <Form onSubmit={handleCreateMenu}>
                                         <Grid columns={2}>
                                             <Grid.Column>
-                                                <Form.Input name="name" label="Menu name" inline placeholder="Menu name" required/>
+                                                <Form.Input name="name" label={intl.formatMessage({ id: 'name', defaultMessage: 'Name' })} inline placeholder={intl.formatMessage({ id: 'name', defaultMessage: 'Names' })} required/>
                                             </Grid.Column>
                                             <Grid.Column textAlign="right">
-                                                <Form.Button secondary loading={loading}>Create menu</Form.Button>
+                                                <Form.Button secondary loading={loading}>{intl.formatMessage({ id: 'menu.create', defaultMessage: 'Create menu' })}</Form.Button>
                                             </Grid.Column>
                                         </Grid>
                                     </Form>
                                 </Grid.Column>
                             </Grid>
 
-                            <Divider vertical>Or</Divider>
+                            <Divider vertical>{intl.formatMessage({ id: 'or', defaultMessage: 'OR' })}</Divider>
                         </Segment>
                     </Card>
                     <Grid columns={2}>
@@ -170,7 +170,7 @@ export default function Index({menus, pages}) {
                                 <Accordion fluid styled>
                                     <Accordion.Title active={activeIndex === 0} index={0} onClick={handleClick}>
                                         <Icon name='dropdown'/>
-                                        Pages
+                                        {intl.formatMessage({ id: 'pages', defaultMessage: 'Pages' })}
                                     </Accordion.Title>
                                     <Accordion.Content active={activeIndex === 0}>
                                         <Form onSubmit={handleAddPage}>
@@ -179,40 +179,40 @@ export default function Index({menus, pages}) {
                                                 {pageOptions.map(option => <option key={option.key}
                                                                                    value={option.value}>{option.text}</option>)}
                                             </Form.Field>
-                                            <Form.Button fluid secondary type="submit">Add to menu</Form.Button>
+                                            <Form.Button fluid secondary type="submit">{intl.formatMessage({ id: 'menu.add', defaultMessage: 'Add to menu' })}</Form.Button>
                                         </Form>
 
                                     </Accordion.Content>
                                     <Accordion.Title active={activeIndex === 1} index={1} onClick={handleClick}>
                                         <Icon name='dropdown'/>
-                                        Articles
+                                        {intl.formatMessage({ id: 'articles', defaultMessage: 'Articles' })}
                                     </Accordion.Title>
                                     <Accordion.Content active={activeIndex === 1}>
 
                                     </Accordion.Content>
                                     <Accordion.Title active={activeIndex === 2} index={2} onClick={handleClick}>
                                         <Icon name='dropdown'/>
-                                        Product categories
+                                        {intl.formatMessage({ id: 'categories', defaultMessage: 'Categories' })}
                                     </Accordion.Title>
                                     <Accordion.Content active={activeIndex === 2}>
 
                                     </Accordion.Content>
                                     <Accordion.Title active={activeIndex === 3} index={3} onClick={handleClick}>
                                         <Icon name='dropdown'/>
-                                        Products
+                                        {intl.formatMessage({ id: 'products', defaultMessage: 'Products' })}
                                     </Accordion.Title>
                                     <Accordion.Content active={activeIndex === 3}>
 
                                     </Accordion.Content>
                                     <Accordion.Title active={activeIndex === 4} index={4} onClick={handleClick}>
                                         <Icon name='dropdown'/>
-                                        Custom Link
+                                        {intl.formatMessage({ id: 'menu.custom.link', defaultMessage: 'Custom link' })}
                                     </Accordion.Title>
                                     <Accordion.Content active={activeIndex === 4}>
                                         <Form onSubmit={handleAddLink}>
-                                            <Form.Input label="URL" placeholder="https://" name="url" required/>
-                                            <Form.Input label="Link Text" name="label" required/>
-                                            <Form.Button fluid secondary type="submit">Add to menu</Form.Button>
+                                            <Form.Input label={intl.formatMessage({ id: 'url', defaultMessage: 'URL' })} placeholder="https://" name="url" required/>
+                                            <Form.Input label={intl.formatMessage({ id: 'navigation.label', defaultMessage: 'Navigation label' })} name="label" required/>
+                                            <Form.Button fluid secondary type="submit">{intl.formatMessage({ id: 'menu.add', defaultMessage: 'Add to menu' })}</Form.Button>
                                         </Form>
                                     </Accordion.Content>
                                 </Accordion>
@@ -224,12 +224,12 @@ export default function Index({menus, pages}) {
                                     <Card.Content>
                                         <Grid columns={2}>
                                             <Grid.Column>
-                                                <Form.Input inline label="Menu Name" name="name" value={`${form.name}`} onChange={handleChangeMenuName}/>
+                                                <Form.Input inline label={intl.formatMessage({ id: 'name', defaultMessage: 'Name' })} name="name" value={`${form.name}`} onChange={handleChangeMenuName}/>
                                             </Grid.Column>
                                             <Grid.Column textAlign="right">
                                                 <Form.Button loading={loading} primary>
                                                     <Icon disabled name='check'/>
-                                                    Save Menu
+                                                    {intl.formatMessage({ id: 'menu.save', defaultMessage: 'Save menu' })}
                                                 </Form.Button>
                                             </Grid.Column>
                                         </Grid>
@@ -245,7 +245,7 @@ export default function Index({menus, pages}) {
                                             <Grid.Column textAlign="right">
                                                 <Form.Button loading={loading} primary>
                                                     <Icon disabled name='check'/>
-                                                    Save Menu
+                                                    {intl.formatMessage({ id: 'menu.save', defaultMessage: 'Save menu' })}
                                                 </Form.Button>
                                             </Grid.Column>
                                         </Grid>

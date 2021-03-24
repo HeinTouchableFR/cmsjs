@@ -87,9 +87,9 @@ export default function Navigation({components, currentItem, onElementValueChang
     };
 
     const deviceOptions = [
-        {key: 'Desktop', text: 'Desktop', value: 'desktop'},
-        {key: 'Tablet', text: 'Tablet', value: 'tablet'},
-        {key: 'Mobile', text: 'Mobile', value: 'mobile'},
+        {key: intl.formatMessage({id: 'builder.desktop', defaultMessage: 'Desktop'}), text: intl.formatMessage({id: 'builder.desktop', defaultMessage: 'Desktop'}), value: 'desktop'},
+        {key: intl.formatMessage({id: 'builder.tablet', defaultMessage: 'Tablet'}), text: intl.formatMessage({id: 'builder.tablet', defaultMessage: 'Tablet'}), value: 'tablet'},
+        {key: intl.formatMessage({id: 'builder.mobile', defaultMessage: 'Mobile'}), text: intl.formatMessage({id: 'builder.mobile', defaultMessage: 'Mobile'}), value: 'mobile'},
     ];
 
     const handleDeviceChange = (e, data) => {
@@ -200,7 +200,6 @@ export default function Navigation({components, currentItem, onElementValueChang
                                 : intl.formatMessage({id: 'publish', defaultMessage: 'Publish'})}
                         </Button>
                         <Dropdown
-                            placeholder='Select Friend'
                             fluid
                             selection
                             defaultValue={device}

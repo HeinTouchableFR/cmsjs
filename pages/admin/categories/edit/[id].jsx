@@ -8,8 +8,10 @@ import nookies from 'nookies';
 import { auth } from 'utils/dbConnect';
 import Header from 'components/Header/Header';
 import Content from 'components/Content/Content';
+import {useIntl} from 'react-intl';
 
 export default function Modifier({ item, categories }) {
+    const intl = useIntl();
     const url = 'categories';
 
     const [form, setForm] = useState({
@@ -72,7 +74,7 @@ export default function Modifier({ item, categories }) {
         });
     };
 
-    const categoriesOptions = [{ key: 'empty', value: '', text: 'No parent category' }];
+    const categoriesOptions = [{ key: 'empty', value: '', text: intl.formatMessage({ id: 'no.parent.category', defaultMessage: 'No parent category' }) }];
 
     const recursiveCategoriesOptions = function (category, dash = '', parent) {
         if (category._id !== item._id) {
@@ -92,30 +94,29 @@ export default function Modifier({ item, categories }) {
     return (
         <>
             <Head>
-                <title>Edit Category {item.name}</title>
+                <title>{intl.formatMessage({ id: 'edit.category', defaultMessage: 'Edit Category' })} {item.name}</title>
             </Head>
             <Header>
-                <Content title='Categories' icon='fa-folder' url={url} action={'edit'}>
+                <Content title='Categories' icon='fa-folder' url={url} action={intl.formatMessage({ id: 'edit', defaultMessage: 'Edit' })}>
                     <Form onSubmit={handleSubmit}>
                         <Form.Input
                             fluid
-                            error={errors.name ? { content: 'This field is required', pointing: 'below' } : null}
-                            label='Name'
-                            placeholder='Name'
+                            label={intl.formatMessage({ id: 'name', defaultMessage: 'Name' })}
+                            placeholder={intl.formatMessage({ id: 'name', defaultMessage: 'Name' })}
                             name='name'
                             defaultValue={item.name}
                             onChange={handleChange}
                             required
                         />
                         <Form.TextArea
-                            label='Description'
-                            placeholder='Description'
+                            label={intl.formatMessage({ id: 'description', defaultMessage: 'Description' })}
+                            placeholder={intl.formatMessage({ id: 'description', defaultMessage: 'Description' })}
                             name='description'
                             defaultValue={item.description}
                             onChange={handleChange}
                         />
                         <Form.Dropdown
-                            placeholder='Choose a parent category'
+                            placeholder={intl.formatMessage({ id: 'choose.parent.category', defaultMessage: 'Choose a parent category' })}
                             fluid
                             search
                             clearable
@@ -125,7 +126,7 @@ export default function Modifier({ item, categories }) {
                             name='parentCategory'
                             onChange={handleChange}
                         />
-                        <Button type='submit'>Edit</Button>
+                        <Button type='submit'>{intl.formatMessage({ id: 'edit', defaultMessage: 'Edit' })}</Button>
                     </Form>
                 </Content>
             </Header>

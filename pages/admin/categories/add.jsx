@@ -7,8 +7,10 @@ import axios from 'axios';
 import { Button, Form } from 'semantic-ui-react';
 import nookies from 'nookies';
 import { auth } from 'utils/dbConnect';
+import {useIntl} from 'react-intl';
 
 export default function Add({ categories }) {
+    const intl = useIntl()
     const url = 'categories';
 
     const [form, setForm] = useState({ name: '', description: '', parentCategory: null });
@@ -68,7 +70,7 @@ export default function Add({ categories }) {
         });
     };
 
-    const categoriesOptions = [{ key: 'empty', value: '', text: 'No parent category' }];
+    const categoriesOptions = [{ key: 'empty', value: '', text: intl.formatMessage({ id: 'no.parent.category', defaultMessage: 'No parent category' }) }];
 
     const recursiveCategoriesOptions = function (category, dash = '', parent) {
         if (parent) {
@@ -86,23 +88,22 @@ export default function Add({ categories }) {
     return (
         <>
             <Head>
-                <title>Add a category</title>
+                <title>{intl.formatMessage({ id: 'add.new.category', defaultMessage: 'Add a nex category' })}</title>
             </Head>
             <Header>
-                <Content title='Categories' icon='fa-folder' url={url} action={'add'}>
+                <Content title='Categories' icon='fa-folder' url={url} action={intl.formatMessage({ id: 'add', defaultMessage: 'Add' })}>
                     <Form onSubmit={handleSubmit}>
                         <Form.Input
                             fluid
-                            error={errors.name ? { content: 'This field is required', pointing: 'below' } : null}
-                            label='Name'
-                            placeholder='Name'
+                            label={intl.formatMessage({ id: 'name', defaultMessage: 'Name' })}
+                            placeholder={intl.formatMessage({ id: 'name', defaultMessage: 'Name' })}
                             name='name'
                             onChange={handleChange}
                             required
                         />
-                        <Form.TextArea label='Description' placeholder='Description' name='description' onChange={handleChange} />
+                        <Form.TextArea label={intl.formatMessage({ id: 'description', defaultMessage: 'Description' })} placeholder={intl.formatMessage({ id: 'description', defaultMessage: 'Description' })} name='description' onChange={handleChange} />
                         <Form.Dropdown
-                            placeholder='Choose a parent category'
+                            placeholder={intl.formatMessage({ id: 'choose.parent.category', defaultMessage: 'Choose a parent category' })}
                             fluid
                             search
                             clearable
@@ -112,7 +113,7 @@ export default function Add({ categories }) {
                             onChange={handleChange}
                         />
                         <Button disabled={isSubmitting} loading={isSubmitting} type='submit'>
-                            Add
+                            {intl.formatMessage({ id: 'add', defaultMessage: 'Add' })}
                         </Button>
                     </Form>
                 </Content>

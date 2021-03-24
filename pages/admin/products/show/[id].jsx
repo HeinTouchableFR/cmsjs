@@ -5,8 +5,10 @@ import { Card, Form } from 'semantic-ui-react';
 
 import Header from 'components/Header/Header';
 import Content from 'components/Content/Content';
+import {useIntl} from 'react-intl';
 
 export default function Detail({ item, categories, attributes }) {
+    const intl = useIntl()
     const url = 'products';
 
     const categoriesOptions = [];
@@ -27,16 +29,16 @@ export default function Detail({ item, categories, attributes }) {
     return (
         <>
             <Head>
-                <title>Detail of the products {item.nom}</title>
+                <title>{intl.formatMessage({ id: 'product.detail', defaultMessage: 'Detail of the product {name}'}, {name: item.name})}</title>
             </Head>
             <Header>
-                <Content title='Products' icon='fa-cubes' url={url}>
+                <Content title={intl.formatMessage({ id: 'products', defaultMessage: 'Products' })} icon='fa-cubes' url={url} action={intl.formatMessage({ id: 'detail', defaultMessage: 'Detail' })}>
                     <Form>
-                        <Form.Input fluid label='Name' placeholder='Name' name='Name' disabled defaultValue={item.name} />
+                        <Form.Input fluid label={intl.formatMessage({ id: 'name', defaultMessage: 'Name' })} placeholder={intl.formatMessage({ id: 'name', defaultMessage: 'Name' })} name='Name' disabled defaultValue={item.name} />
                         <Form.Input
                             fluid
-                            label='Price'
-                            placeholder='Price'
+                            label={intl.formatMessage({ id: 'price', defaultMessage: 'Price' })}
+                            placeholder={intl.formatMessage({ id: 'price', defaultMessage: 'Price' })}
                             name='price'
                             type='number'
                             step='0.01'
@@ -45,20 +47,20 @@ export default function Detail({ item, categories, attributes }) {
                         />
                         <Form.Input
                             fluid
-                            label='Special Price'
-                            placeholder='Special Price'
+                            label={intl.formatMessage({ id: 'price.special', defaultMessage: 'Special Price' })}
+                            placeholder={intl.formatMessage({ id: 'price.special', defaultMessage: 'Special Price' })}
                             name='specialPrice'
                             type='number'
                             step='0.01'
                             disabled
                             defaultValue={item.specialPrice}
                         />
-                        <Form.TextArea label='Description' placeholder='Description' name='description' disabled defaultValue={item.description} />
-                        <Form.Checkbox label='On Sale' name='onSale' disabled defaultChecked={item.onSale} />
+                        <Form.TextArea label={intl.formatMessage({ id: 'description', defaultMessage: 'Description' })} placeholder={intl.formatMessage({ id: 'description', defaultMessage: 'Description' })} name='description' disabled defaultValue={item.description} />
+                        <Form.Checkbox label={intl.formatMessage({ id: 'on.sale', defaultMessage: 'On sale' })} name='onSale' disabled defaultChecked={item.onSale} />
                         <Form.Input
                             fluid
-                            label='Length (cm)'
-                            placeholder='Length'
+                            label={intl.formatMessage({ id: 'length', defaultMessage: 'Length (cm)' })}
+                            placeholder={intl.formatMessage({ id: 'length', defaultMessage: 'Length (cm)' })}
                             name='length'
                             type='number'
                             step='0.01'
@@ -67,8 +69,8 @@ export default function Detail({ item, categories, attributes }) {
                         />
                         <Form.Input
                             fluid
-                            label='Width (cm)'
-                            placeholder='Width'
+                            label={intl.formatMessage({ id: 'width', defaultMessage: 'Width (cm)' })}
+                            placeholder={intl.formatMessage({ id: 'width', defaultMessage: 'Width (cm)' })}
                             name='width'
                             type='number'
                             step='0.01'
@@ -77,8 +79,8 @@ export default function Detail({ item, categories, attributes }) {
                         />
                         <Form.Input
                             fluid
-                            label='Height (cm)'
-                            placeholder='Height'
+                            label={intl.formatMessage({ id: 'height', defaultMessage: 'Height (cm)' })}
+                            placeholder={intl.formatMessage({ id: 'height', defaultMessage: 'Height (cm)' })}
                             name='height'
                             type='number'
                             step='0.01'
@@ -87,8 +89,8 @@ export default function Detail({ item, categories, attributes }) {
                         />
                         <Form.Input
                             fluid
-                            label='Weight (Kg)'
-                            placeholder='Weight'
+                            label={intl.formatMessage({ id: 'weight', defaultMessage: 'Weight (lb)' })}
+                            placeholder={intl.formatMessage({ id: 'weight', defaultMessage: 'Weight (lb)' })}
                             name='weight'
                             type='number'
                             step='0.001'
@@ -96,11 +98,11 @@ export default function Detail({ item, categories, attributes }) {
                             defaultValue={item.weight}
                         />
                         <div className='field'>
-                            <label>Product Image</label>
+                            <label>{intl.formatMessage({ id: 'product.image', defaultMessage: 'Product Image' })}</label>
                             {item.productImage && <img width={120} height={120} src={item.productImage.url} />}
                         </div>
                         <div className='field'>
-                            <label>Product Gallery</label>
+                            <label>{intl.formatMessage({ id: 'product.gallery', defaultMessage: 'Product Gallery' })}</label>
                             {item.productGallery && (
                                 <div className={'galerie'}>
                                     {item.productGallery.map((image) => (
@@ -110,9 +112,9 @@ export default function Detail({ item, categories, attributes }) {
                             )}
                         </div>
                         <div className='field'>
-                            <label>Category</label>
+                            <label>{intl.formatMessage({ id: 'categories', defaultMessage: 'Categories' })}</label>
                             <Form.Dropdown
-                                placeholder='Catégories'
+                                placeholder={intl.formatMessage({ id: 'choose.one.more.categories', defaultMessage: 'Choose one or more categories' })}
                                 fluid
                                 search
                                 clearable
@@ -125,7 +127,7 @@ export default function Detail({ item, categories, attributes }) {
                             />
                         </div>
                         <div className='field'>
-                            <label>Attributes</label>
+                            <label>{intl.formatMessage({ id: 'attributes', defaultMessage: 'Attributes' })}</label>
                             {item.attributes.map((attribute) => (
                                 <Attribute key={new Date().getTime()} attribute={attribute} attributes={attributes} />
                             ))}
@@ -138,6 +140,7 @@ export default function Detail({ item, categories, attributes }) {
 }
 
 const Attribute = function ({ attribute, attributes }) {
+    const intl = useIntl()
     const realAttribute = attributes.find((element) => {
         return element._id === attribute.attribute;
     });
@@ -151,7 +154,7 @@ const Attribute = function ({ attribute, attributes }) {
                 <Card.Content header={realAttribute.name} />
                 <Card.Content>
                     <Form.Dropdown
-                        placeholder='Choose one or more values'
+                        placeholder={intl.formatMessage({ id: 'choose.one.more.values', defaultMessage: 'Choose one or more values' })}
                         fluid
                         search
                         clearable
@@ -162,8 +165,8 @@ const Attribute = function ({ attribute, attributes }) {
                         defaultValue={attribute.values}
                         disabled
                     />
-                    <Form.Checkbox label='Visible on the product page' name='visible' defaultChecked={attribute.visible} disabled />
-                    <Form.Checkbox label='Used for variations' name='variation' defaultChecked={attribute.variation} disabled />
+                    <Form.Checkbox label={intl.formatMessage({ id: 'visible.product.page', defaultMessage: 'Visible on the product page' })} name='visible' defaultChecked={attribute.visible} disabled />
+                    <Form.Checkbox label={intl.formatMessage({ id: 'used.variations', defaultMessage: 'Used for variations' })} name='variation' defaultChecked={attribute.variation} disabled />
                 </Card.Content>
             </Card>
         </>

@@ -2,10 +2,10 @@ import { IntlProvider } from 'react-intl';
 import Router, { useRouter } from 'next/router';
 import NProgress from 'nprogress'; //nprogress module
 import 'nprogress/nprogress.css'; //styles of nprogress
+import 'semantic-ui-css/semantic.min.css';
 import 'style/globals.scss';
 import 'style/sandbox.scss';
 import 'style/tools/reset.scss';
-import 'semantic-ui-css/semantic.min.css';
 
 import en from 'intl/lang/en.json';
 import fr from 'intl/lang/fr.json';

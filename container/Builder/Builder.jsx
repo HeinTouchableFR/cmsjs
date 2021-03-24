@@ -27,14 +27,7 @@ export default function Builder({page = {}, onSubmit, pages, loading}) {
     const components = [
         defaultComponents.defaultTitle(intl),
         defaultComponents.defaultText(intl),
-        defaultComponents.defaultImage(intl),
-        {
-            tag: '<button>',
-            label: intl.formatMessage({id: 'button', defaultMessage: 'Button'}),
-            color: 'brown',
-            type: 'bouton',
-            defaultValue: '<button>Mon bouton</button>',
-        },
+        defaultComponents.defaultImage(intl)
     ];
 
     /**
@@ -210,14 +203,6 @@ export default function Builder({page = {}, onSubmit, pages, loading}) {
 
     /**
      *
-     * @return {*}
-     */
-    const getClassName = function () {
-        return hideMenu ? styles.builder + ' ' + styles.hide : styles.builder;
-    };
-
-    /**
-     *
      */
     const handleHideMenu = function () {
         setHideMenu(!hideMenu);
@@ -314,7 +299,7 @@ export default function Builder({page = {}, onSubmit, pages, loading}) {
                     crossOrigin='anonymous'
                 />
             </Head>
-            <div className={hideMenu ? styles.builder + ' ' + styles.hide : styles.builder}>
+            <div className={styles.builder}>
                 <DragDropContext onDragEnd={onDragEnd}>
                     <Navigation
                         components={components}

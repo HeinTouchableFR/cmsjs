@@ -1,5 +1,6 @@
 import {css} from '@emotion/react';
 import React from 'react';
+import {FormattedMessage} from 'react-intl';
 
 export const tagsOptions = [
     {key: 'H1', text: 'H1', value: 'h1'},
@@ -7,18 +8,14 @@ export const tagsOptions = [
     {key: 'H3', text: 'H3', value: 'h3'},
     {key: 'H4', text: 'H4', value: 'h4'},
     {key: 'H5', text: 'H5', value: 'h5'},
-    {
-        key: 'H6',
-        text: 'H6',
-        value: 'h6',
-    },
+    {key: 'H6', text: 'H6', value: 'h6'},
 ];
 
 export const alignmentsOptions = [
-    {key: 'Left', text: 'Left', value: 'left'},
-    {key: 'Center', text: 'Center', value: 'center'},
-    {key: 'Right', text: 'Right', value: 'right'},
-    {key: 'Justified', text: 'Justified', value: 'justify'},
+    {key: 'left', text: <FormattedMessage id='builder.left' defaultMessage='Left' />, value: 'left'},
+    {key: 'center', text: <FormattedMessage id='builder.center' defaultMessage='Center' />, value: 'center'},
+    {key: 'right', text: <FormattedMessage id='builder.right' defaultMessage='Right' />, value: 'right'},
+    {key: 'justify', text: <FormattedMessage id='builder.justify' defaultMessage='Justify' />, value: 'justify'},
 ];
 
 export const fontsOptions = [
@@ -399,23 +396,23 @@ export const fontsOptions = [
 ];
 
 export const transformsOptions = [
-    {key: 'Default', text: 'Default', value: 'initial'},
-    {key: 'Uppercase', text: 'Uppercase', value: 'uppercase', content: (<span css={css`text-transform: uppercase;`}>Uppercase</span>)},
-    {key: 'Lowercase', text: 'Lowercase', value: 'lowercase', content: (<span css={css`text-transform: lowercase;`}>Lowercase</span>)},
-    {key: 'Capitalize', text: 'Capitalize', value: 'capitalize', content: (<span css={css`text-transform: capitalize;`}>Capitalize</span>)},
-    {key: 'Normal', text: 'Normal', value: 'normal', content: (<span css={css`text-transform: normal;`}>Normal</span>)},
+    {key: 'default', text: <FormattedMessage id='builder.transform.default' defaultMessage='Default' />, value: 'initial', content: (<span><FormattedMessage id='builder.transform.default' defaultMessage='Default' /></span>)},
+    {key: 'uppercase', text: <FormattedMessage id='builder.transform.uppercase' defaultMessage='Uppercase' />, value: 'uppercase', content: (<span css={css`text-transform: uppercase;`}><FormattedMessage id='builder.transform.uppercase' defaultMessage='Uppercase' /></span>)},
+    {key: 'lowercase', text: <FormattedMessage id='builder.transform.lowercase' defaultMessage='Lowercase' />, value: 'lowercase', content: (<span css={css`text-transform: lowercase;`}><FormattedMessage id='builder.transform.lowercase' defaultMessage='Lowercase' /></span>)},
+    {key: 'capitalize', text: <FormattedMessage id='builder.transform.capitalize' defaultMessage='Capitalize' />, value: 'capitalize', content: (<span css={css`text-transform: capitalize;`}><FormattedMessage id='builder.transform.capitalize' defaultMessage='Capitalize' /></span>)},
+    {key: 'normal', text: <FormattedMessage id='builder.transform.normal' defaultMessage='Normal' />, value: 'normal', content: (<span css={css`text-transform: normal;`}><FormattedMessage id='builder.transform.normal' defaultMessage='Normal' /></span>)},
 ];
 
 export const stylesOptions = [
-    {key: 'Normal', text: 'Normal', value: 'normal', content: (<span css={css`font-style: normal;`}>Normal</span>)},
-    {key: 'Italic', text: 'Italic', value: 'italic', content: (<span css={css`font-style: italic;`}>Italic</span>)},
-    {key: 'Oblique', text: 'Oblique', value: 'oblique', content: (<span css={css`font-style: oblique;`}>Oblique</span>)},
+    {key: 'Normal', text: <FormattedMessage id='builder.style.normal' defaultMessage='Normal' />, value: 'normal', content: (<span css={css`font-style: normal;`}><FormattedMessage id='builder.style.normal' defaultMessage='Normal' /></span>)},
+    {key: 'Italic', text: <FormattedMessage id='builder.style.italic' defaultMessage='Italic' />, value: 'italic', content: (<span css={css`font-style: italic;`}><FormattedMessage id='builder.style.italic' defaultMessage='Italic' /></span>)},
+    {key: 'Oblique', text: <FormattedMessage id='builder.style.oblique' defaultMessage='Oblique' />, value: 'oblique', content: (<span css={css`font-style: oblique;`}><FormattedMessage id='builder.style.oblique' defaultMessage='Oblique' /></span>)},
 ];
 
 export const decorationsOptions = [
-    {key: 'Underline', text: 'Underline', value: 'underline', content: (<span css={css`text-decoration: underline;`}>Underline</span>)},
-    {key: 'Overline', text: 'Overline', value: 'overline', content: (<span css={css`text-decoration: overline;`}>Overline</span>)},
-    {key: 'Line Through', text: 'Line Through', value: 'line-through', content: (<span css={css`text-decoration: line-through;`}>Line Through</span>)},
+    {key: 'Underline', text: <FormattedMessage id='builder.decoration.underline' defaultMessage='Underline' />, value: 'underline', content: (<span css={css`text-decoration: underline;`}><FormattedMessage id='builder.decoration.underline' defaultMessage='Underline' /></span>)},
+    {key: 'Overline', text: <FormattedMessage id='builder.decoration.overline' defaultMessage='Overline' />, value: 'overline', content: (<span css={css`text-decoration: overline;`}><FormattedMessage id='builder.decoration.overline' defaultMessage='Overline' /></span>)},
+    {key: 'Line Through', text: <FormattedMessage id='builder.decoration.lineThrough' defaultMessage='Line Through' />, value: 'line-through', content: (<span css={css`text-decoration: line-through;`}><FormattedMessage id='builder.decoration.lineThrough' defaultMessage='Line Through' /></span>)},
 ];
 
 export const weightsOptions = [
@@ -433,12 +430,12 @@ export const weightsOptions = [
 ];
 
 export const borderOptions = [
-    {key: 'None', text: 'None', value: 'none'},
-    {key: 'Solid', text: 'Solid', value: 'solid'},
-    {key: 'Double', text: 'Double', value: 'double'},
-    {key: 'Dotted', text: 'Dotted', value: 'dotted'},
-    {key: 'Dashed', text: 'Dashed', value: 'dashed'},
-    {key: 'Groove', text: 'Groove', value: 'groove'},
+    {key: 'None', text: <FormattedMessage id='builder.border.none' defaultMessage='None' />, value: 'none'},
+    {key: 'Solid', text: <FormattedMessage id='builder.border.solid' defaultMessage='Solid' />, value: 'solid'},
+    {key: 'Double', text: <FormattedMessage id='builder.border.double' defaultMessage='Double' />, value: 'double'},
+    {key: 'Dotted', text: <FormattedMessage id='builder.border.dotted' defaultMessage='Dotted' />, value: 'dotted'},
+    {key: 'Dashed', text: <FormattedMessage id='builder.border.dashed' defaultMessage='Dashed' />, value: 'dashed'},
+    {key: 'Groove', text: <FormattedMessage id='builder.border.groove' defaultMessage='Groove' />, value: 'groove'},
 ];
 
 export const animationsOptions = [
@@ -482,7 +479,7 @@ export const animationsOptions = [
 ]
 
 export const durationsOptions = [
-    {key: 'Slow', text: 'Slow', value: '2s'},
-    {key: 'Normal', text: 'Normal', value: '1s'},
-    {key: 'Fast', text: 'Fast', value: '0.75s'},
+    {key: 'Slow', text: <FormattedMessage id='builder.duration.slow' defaultMessage='Slow' />, value: '2s'},
+    {key: 'Normal', text: <FormattedMessage id='builder.duration.normal' defaultMessage='Normal' />, value: '1s'},
+    {key: 'Fast', text: <FormattedMessage id='builder.duration.fast' defaultMessage='Fast' />, value: '0.75s'},
 ]

@@ -69,10 +69,10 @@ export default function Index({ items, errors }) {
     return (
         <>
             <Head>
-                <title>Pages</title>
+                <title>{intl.formatMessage({ id: 'pages', defaultMessage: 'Pages' })}</title>
             </Head>
             <Header>
-                <Content title='Pages' icon='fa-file-word' url={url}>
+                <Content title={intl.formatMessage({ id: 'pages', defaultMessage: 'Pages' })} icon='fa-file-word' url={url}>
                     {errors}
                     <Table labels={labels}>{items && items.map((item) => <Page item={item} url={url} key={item._id} handleDelete={open} />)}</Table>
                     <Confirm

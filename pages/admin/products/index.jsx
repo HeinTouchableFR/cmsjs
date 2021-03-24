@@ -8,8 +8,10 @@ import Header from 'components/Header/Header';
 import Content from 'components/Content/Content';
 import Table from 'components/Table/Table';
 import Product from 'components/rowTemplate/Product/Product';
+import {useIntl} from 'react-intl';
 
 export default function Index({ items }) {
+    const intl = useIntl()
     const url = 'products';
     const router = useRouter();
 
@@ -58,10 +60,10 @@ export default function Index({ items }) {
     return (
         <>
             <Head>
-                <title>Produits</title>
+                <title>{intl.formatMessage({ id: 'products', defaultMessage: 'Products' })}</title>
             </Head>
             <Header>
-                <Content title='Produits' icon='fa-cubes' url={url}>
+                <Content title={intl.formatMessage({ id: 'products', defaultMessage: 'Products' })} icon='fa-cubes' url={url}>
                     <Table labels={labels}>
                         {items && items.map((item) => <Product item={item} url={url} key={item._id} handleDelete={open} />)}
                     </Table>
@@ -69,9 +71,9 @@ export default function Index({ items }) {
                         open={confirm}
                         onCancel={close}
                         onConfirm={handleDelete}
-                        content='Are you sure you want to delete this item ?'
-                        cancelButton='No'
-                        confirmButton='Yes'
+                        content={intl.formatMessage({ id: 'item.deleteSentence', defaultMessage: 'Are you sure you want to delete this item?' })}
+                        cancelButton={intl.formatMessage({ id: 'no', defaultMessage: 'No' })}
+                        confirmButton={intl.formatMessage({ id: 'yes', defaultMessage: 'Yes' })}
                     />
                 </Content>
             </Header>

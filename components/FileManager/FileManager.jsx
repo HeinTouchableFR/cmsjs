@@ -32,7 +32,7 @@ export default function FileManager({multiple = false, currentFiles, setCurrentF
 
     useEffect(
         function () {
-            console.log(currentFiles)
+
             setSelectedFiles(currentFiles)
         },
         [currentFiles]

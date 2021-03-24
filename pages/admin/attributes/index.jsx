@@ -61,10 +61,10 @@ export default function Index({ items, errors }) {
     return (
         <>
             <Head>
-                <title>Attributes</title>
+                <title>{intl.formatMessage({ id: 'attributes', defaultMessage: 'Attribute' })}</title>
             </Head>
             <Header>
-                <Content title='Attributes' icon='fa-cubes' url={url}>
+                <Content title={intl.formatMessage({ id: 'attributes', defaultMessage: 'Attributes' })} icon='fa-cubes' url={url}>
                     {errors}
                     <Table labels={labels}>
                         {items && items.map((item) => <Attribute item={item} url={url} key={item._id} handleDelete={open} />)}

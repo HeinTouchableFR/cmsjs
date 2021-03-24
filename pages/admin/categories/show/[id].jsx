@@ -7,8 +7,10 @@ import nookies from 'nookies';
 import { auth } from 'utils/dbConnect';
 import Header from 'components/Header/Header';
 import Content from 'components/Content/Content';
+import {useIntl} from 'react-intl';
 
-export default function Detail({ item, errors, categories }) {
+export default function Detail({ item, categories }) {
+    const intl = useIntl();
     const url = 'categories';
 
     const categoriesOptions = [];
@@ -29,13 +31,13 @@ export default function Detail({ item, errors, categories }) {
     return (
         <>
             <Head>
-                <title>Detail of the {item.name} category</title>
+                <title>{intl.formatMessage({ id: 'category.detail', defaultMessage: 'Detail of the {name} category'}, {name: item.name})}</title>
             </Head>
             <Header>
-                <Content title='Categories' icon='fa-folder' url={url} action={'show'}>
+                <Content title='Categories' icon='fa-folder' url={url} action={intl.formatMessage({ id: 'detail', defaultMessage: 'Detail' })}>
                     <Form>
-                        <Form.Input fluid label='Name' placeholder='Name' name='name' disabled defaultValue={item.name} required />
-                        <Form.TextArea label='Description' placeholder='Description' name='description' disabled defaultValue={item.description} />
+                        <Form.Input fluid label={intl.formatMessage({ id: 'name', defaultMessage: 'Name' })} placeholder={intl.formatMessage({ id: 'name', defaultMessage: 'Name' })} name='name' disabled defaultValue={item.name} required />
+                        <Form.TextArea label={intl.formatMessage({ id: 'description', defaultMessage: 'Description' })} placeholder={intl.formatMessage({ id: 'description', defaultMessage: 'Description' })} name='description' disabled defaultValue={item.description} />
                         <Form.Dropdown
                             fluid
                             search
@@ -65,7 +67,6 @@ export async function getServerSideProps(ctx) {
         const { id } = ctx.params;
 
         let item = {};
-        let errors = [];
 
         await axios
             .get(process.env.URL + '/api/categories/' + id)
@@ -73,7 +74,6 @@ export async function getServerSideProps(ctx) {
                 item = res.data.data;
             })
             .catch((error) => {
-                errors = JSON.stringify(error);
             });
 
         let categories = [];
@@ -88,7 +88,7 @@ export async function getServerSideProps(ctx) {
             });
 
         return {
-            props: { item, errors, categories },
+            props: { item, categories },
         };
     } catch (err) {
         return {

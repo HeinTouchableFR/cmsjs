@@ -140,16 +140,15 @@ export default function Modifier({ item, categories, attributes }) {
     return (
         <>
             <Head>
-                <title>Edit product {item.name}</title>
+                <title>{intl.formatMessage({ id: 'edit.product', defaultMessage: 'Edit product' })} {item.name}</title>
             </Head>
             <Header>
-                <Content title='Products' icon='fa-cubes' url={url} action={'modifier'}>
+                <Content title={intl.formatMessage({ id: 'products', defaultMessage: 'Products' })} icon='fa-cubes' url={url} action={intl.formatMessage({ id: 'edit', defaultMessage: 'Edit' })}>
                     <Form>
                         <Form.Input
                             fluid
-                            error={errors.name ? { content: 'This field is required', pointing: 'below' } : null}
-                            label='Name'
-                            placeholder='Name'
+                            label={intl.formatMessage({ id: 'name', defaultMessage: 'Name' })}
+                            placeholder={intl.formatMessage({ id: 'name', defaultMessage: 'Name' })}
                             onChange={handleChange}
                             name='name'
                             required
@@ -157,9 +156,8 @@ export default function Modifier({ item, categories, attributes }) {
                         />
                         <Form.Input
                             fluid
-                            error={errors.price ? { content: 'This field is required', pointing: 'below' } : null}
-                            label='Price'
-                            placeholder='Price'
+                            label={intl.formatMessage({ id: 'price', defaultMessage: 'Price' })}
+                            placeholder={intl.formatMessage({ id: 'price', defaultMessage: 'Price' })}
                             name='price'
                             type='number'
                             onChange={handleChange}
@@ -169,8 +167,8 @@ export default function Modifier({ item, categories, attributes }) {
                         />
                         <Form.Input
                             fluid
-                            label='Special Price'
-                            placeholder='Special Price'
+                            label={intl.formatMessage({ id: 'price.special', defaultMessage: 'Special Price' })}
+                            placeholder={intl.formatMessage({ id: 'price.special', defaultMessage: 'Special Price' })}
                             name='specialPrice'
                             type='number'
                             onChange={handleChange}
@@ -178,17 +176,17 @@ export default function Modifier({ item, categories, attributes }) {
                             defaultValue={form.specialPrice}
                         />
                         <Form.TextArea
-                            label='Description'
-                            placeholder='Description'
+                            label={intl.formatMessage({ id: 'description', defaultMessage: 'Description' })}
+                            placeholder={intl.formatMessage({ id: 'description', defaultMessage: 'Description' })}
                             onChange={handleChange}
                             name='description'
                             defaultValue={form.description}
                         />
-                        <Form.Checkbox label='On Sale' onChange={handleChange} name='onSale' defaultChecked={form.onSale} />
+                        <Form.Checkbox label={intl.formatMessage({ id: 'on.sale', defaultMessage: 'On sale' })} onChange={handleChange} name='onSale' defaultChecked={form.onSale} />
                         <Form.Input
                             fluid
-                            label='Length (cm)'
-                            placeholder='Length'
+                            label={intl.formatMessage({ id: 'length', defaultMessage: 'Length (cm)' })}
+                            placeholder={intl.formatMessage({ id: 'length', defaultMessage: 'Length (cm)' })}
                             name='length'
                             type='number'
                             onChange={handleChange}
@@ -197,8 +195,8 @@ export default function Modifier({ item, categories, attributes }) {
                         />
                         <Form.Input
                             fluid
-                            label='Width (cm)'
-                            placeholder='Width'
+                            label={intl.formatMessage({ id: 'width', defaultMessage: 'Width (cm)' })}
+                            placeholder={intl.formatMessage({ id: 'width', defaultMessage: 'Width (cm)' })}
                             name='width'
                             onChange={handleChange}
                             type='number'
@@ -207,8 +205,8 @@ export default function Modifier({ item, categories, attributes }) {
                         />
                         <Form.Input
                             fluid
-                            label='Height (cm)'
-                            placeholder='Height'
+                            label={intl.formatMessage({ id: 'height', defaultMessage: 'Height (cm)' })}
+                            placeholder={intl.formatMessage({ id: 'height', defaultMessage: 'Height (cm)' })}
                             name='height'
                             onChange={handleChange}
                             type='number'
@@ -217,8 +215,8 @@ export default function Modifier({ item, categories, attributes }) {
                         />
                         <Form.Input
                             fluid
-                            label='Weight (Kg)'
-                            placeholder='Weight'
+                            label={intl.formatMessage({ id: 'weight', defaultMessage: 'Weight (lb)' })}
+                            placeholder={intl.formatMessage({ id: 'weight', defaultMessage: 'Weight (lb)' })}
                             name='weight'
                             onChange={handleChange}
                             type='number'
@@ -226,14 +224,14 @@ export default function Modifier({ item, categories, attributes }) {
                             defaultValue={form.weight}
                         />
                         <div className='field'>
-                            <label>Product Image</label>
+                            <label>{intl.formatMessage({ id: 'product.image', defaultMessage: 'Product Image' })}</label>
                             <FileManager
                                 currentFiles={form.productImage ? [form.productImage] : []}
                                 setCurrentFiles={handleSetProductImage}
                             />
                         </div>
                         <div className='field'>
-                            <label>Product Gallery</label>
+                            <label>{intl.formatMessage({ id: 'product.gallery', defaultMessage: 'Product Gallery' })}</label>
                             <FileManager
                                 currentFiles={form.productGallery}
                                 setCurrentFiles={handleSetProductGallery}
@@ -241,9 +239,9 @@ export default function Modifier({ item, categories, attributes }) {
                             />
                         </div>
                         <div className='field'>
-                            <label>Category</label>
+                            <label>{intl.formatMessage({ id: 'categories', defaultMessage: 'Categories' })}</label>
                             <Form.Dropdown
-                                placeholder='Choose one or more categories'
+                                placeholder={intl.formatMessage({ id: 'choose.one.more.categories', defaultMessage: 'Choose one or more categories' })}
                                 fluid
                                 search
                                 clearable
@@ -256,12 +254,12 @@ export default function Modifier({ item, categories, attributes }) {
                             />
                         </div>
                         <div className='field'>
-                            <label>Attributes</label>
+                            <label>{intl.formatMessage({ id: 'attributes', defaultMessage: 'Attributes' })}</label>
                             {form.attributes.map((attribute) => (
                                 <Attribute key={new Date().getTime()} attribute={attribute} setForm={setForm} form={form} attributes={attributes} />
                             ))}
                             <Form.Dropdown
-                                placeholder='Choose an attribute'
+                                placeholder={intl.formatMessage({ id: 'choose.attribute', defaultMessage: 'Choose an attribute' })}
                                 fluid
                                 search
                                 clearable
@@ -272,7 +270,7 @@ export default function Modifier({ item, categories, attributes }) {
                             />
                         </div>
                         <Button type='button' onClick={handleSubmit}>
-                            Edit
+                            {intl.formatMessage({ id: 'edit', defaultMessage: 'Edit' })}
                         </Button>
                     </Form>
                 </Content>
@@ -282,6 +280,7 @@ export default function Modifier({ item, categories, attributes }) {
 }
 
 const Attribute = function ({ attribute, setForm, form, attributes }) {
+    const intl = useIntl()
     const realAttribute = attributes.find((element) => {
         return element._id === attribute.attribute;
     });
@@ -313,7 +312,7 @@ const Attribute = function ({ attribute, setForm, form, attributes }) {
                 <Card.Content header={realAttribute.name} />
                 <Card.Content>
                     <Form.Dropdown
-                        placeholder='Choose one or more values'
+                        placeholder={intl.formatMessage({ id: 'choose.one.more.values', defaultMessage: 'Choose one or more values' })}
                         fluid
                         search
                         clearable
@@ -324,8 +323,8 @@ const Attribute = function ({ attribute, setForm, form, attributes }) {
                         onChange={handleChange}
                         defaultValue={attribute.values}
                     />
-                    <Form.Checkbox label='Visible on the product page' name='visible' onChange={handleChange} defaultChecked={attribute.visible} />
-                    <Form.Checkbox label='Used for variations' name='variation' onChange={handleChange} defaultChecked={attribute.variation} />
+                    <Form.Checkbox label={intl.formatMessage({ id: 'visible.product.page', defaultMessage: 'Visible on the product page' })} name='visible' onChange={handleChange} defaultChecked={attribute.visible} />
+                    <Form.Checkbox label={intl.formatMessage({ id: 'used.variations', defaultMessage: 'Used for variations' })} name='variation' onChange={handleChange} defaultChecked={attribute.variation} />
                 </Card.Content>
                 <Card.Content extra>
                     <NoLinkButton type='button' style={'delete'} icon={'fa-trash'} onClick={handleDelete} />
