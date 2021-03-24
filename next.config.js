@@ -1,6 +1,5 @@
 module.exports = {
     env: {
-        MONGO_URI: process.env.MONGO_URI,
         URL: process.env.SERVER,
         GCLOUD_PROJECT_ID: process.env.GCLOUD_PROJECT_ID,
         GCLOUD_STORAGE_BUCKET_URL: process.env.GCLOUD_STORAGE_BUCKET_URL,
@@ -17,7 +16,8 @@ module.exports = {
         domains: ['firebasestorage.googleapis.com'],
     },
     i18n: {
-        locales: ['en-US', 'fr'],
+        locales: ['en-US', 'en', 'fr', 'de'],
         defaultLocale: 'en-US',
+        localeDetection: false,
     },
 };
