@@ -1,5 +1,6 @@
 import React, {useState, useEffect, useContext, createContext} from 'react';
 import { firebase } from 'utils/firebaseClient';
+import axios from 'axios';
 
 const Header = createContext({
     value: "[]",
@@ -15,10 +16,13 @@ export function HeaderProvider({children}) {
         if(!header){
             let logo = {}, content = "[]";
 
-            const snapshot = await firebase.firestore().doc(`menus/jBAOJwV8A1DWnzkP5PEQ`).get()
-            const item = {
-                ...snapshot.data()
-            }
+            let item = {};
+            await axios
+                .get(process.env.URL + '/api/menus/jBAOJwV8A1DWnzkP5PEQ')
+                .then((res) => {
+                    item = res.data.data;
+                })
+                .catch(() => {});
             content = item.items
 
             const settingsSnapshot = await firebase.firestore().doc(`settings/logo`).get()

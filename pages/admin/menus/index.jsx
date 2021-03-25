@@ -2,12 +2,13 @@ import React, {useState} from 'react';
 import Head from 'next/head';
 import Header from 'components/Header/Header';
 import Content from 'components/Content/Content';
-import {db} from 'utils/dbConnect';
+import {auth} from 'utils/dbConnect';
 import {Accordion, Card, Divider, Dropdown, Form, Grid, Icon, Segment} from 'semantic-ui-react'
 import {NoLinkButton} from 'components/Button/NoLinkButton/NoLinkButton';
 import MenuEditor from 'components/MenuEditor/MenuEditor';
-import {firebase} from 'utils/firebaseClient';
 import {useIntl} from 'react-intl';
+import axios from 'axios';
+import nookies from 'nookies';
 
 export default function Index({menus, pages}) {
     const intl = useIntl()
@@ -37,7 +38,15 @@ export default function Index({menus, pages}) {
     const save = async (e) => {
         e.preventDefault()
         setLoading(true)
-        await firebase.firestore().doc(`menus/${form.id}`).set(form, {merge: true})
+        const res = await fetch(`${process.env.URL}/api/menus/${form.id}`, {
+            method: 'PUT',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(form),
+        });
+        await res.json();
         setLoading(false)
     }
 
@@ -89,20 +98,28 @@ export default function Index({menus, pages}) {
     }
 
     const pageOptions = []
-    pages.map(page => pageOptions.push({key: page.id, text: page.title, value: page.id}))
+    pages.map(page => pageOptions.push({key: page._id, text: page.title, value: page.id}))
 
     const menuOptions = []
     menusList.map((menu, index) => menuOptions.push({key: menu.id, text: menu.name, value: index}))
 
-    const handleCreateMenu = async(e) => {
+    const handleCreateMenu = async (e) => {
         e.preventDefault()
         setLoading(true)
         const menu = {
             name: e.target.name.value,
             items: "[]"
         }
-        const data = await firebase.firestore().collection("menus").add(menu)
-        menu.id = data.id
+        const res = await fetch('/api/menus', {
+            body: JSON.stringify(menu),
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            method: 'POST',
+        });
+
+        const result = await res.json();
+        menu.id = result.data.id
         const list = [...menusList, menu]
         setMenusList(list)
         setForm(list[list.length - 1])
@@ -110,12 +127,17 @@ export default function Index({menus, pages}) {
         e.target.reset()
     }
 
-    const handleDeleteMenu = async() => {
+    const handleDeleteMenu = async () => {
         setLoading(true)
-        firebase.firestore().collection('menus').doc(`${form.id}`).delete().then()
-        const list = menusList.filter((m) => m.id !== form.id)
-        setForm(list[0])
-        setMenusList(list)
+        const res = await fetch(`${process.env.URL}/api/menus/${form.id}`, {
+            method: 'DELETE',
+        });
+        const result = await res.json();
+        if(result.success){
+            const list = menusList.filter((m) => m.id !== form.id)
+            setForm(list[0])
+            setMenusList(list)
+        }
         setLoading(false)
     }
 
@@ -130,20 +152,22 @@ export default function Index({menus, pages}) {
     return (
         <>
             <Head>
-                <title>{intl.formatMessage({ id: 'menus', defaultMessage: 'Menus' })}</title>
+                <title>{intl.formatMessage({id: 'menus', defaultMessage: 'Menus'})}</title>
             </Head>
             <Header>
-                <Content title={intl.formatMessage({ id: 'menus', defaultMessage: 'Menus' })} icon='fa-bars' url={url} action={intl.formatMessage({ id: 'menus', defaultMessage: 'Menus' })}>
+                <Content title={intl.formatMessage({id: 'menus', defaultMessage: 'Menus'})} icon='fa-bars' url={url}
+                         action={intl.formatMessage({id: 'menus', defaultMessage: 'Menus'})}>
                     <Card fluid color="teal">
                         <Segment>
                             <Grid columns={2} relaxed='very' verticalAlign="middle">
                                 <Grid.Column>
                                     <span>
-                                        {intl.formatMessage({ id: 'menu.edit', defaultMessage: 'Menu to edit' })} {' '}
+                                        {intl.formatMessage({id: 'menu.edit', defaultMessage: 'Menu to edit'})} {' '}
                                         <Dropdown
                                             inline
                                             options={menuOptions}
-                                            value={menusList.findIndex(p => p.id === form.id)} onChange={handleMenuChange}
+                                            value={menusList.findIndex(p => p.id === form.id)}
+                                            onChange={handleMenuChange}
                                         />
                                     </span>
                                 </Grid.Column>
@@ -151,17 +175,26 @@ export default function Index({menus, pages}) {
                                     <Form onSubmit={handleCreateMenu}>
                                         <Grid columns={2}>
                                             <Grid.Column>
-                                                <Form.Input name="name" label={intl.formatMessage({ id: 'name', defaultMessage: 'Name' })} inline placeholder={intl.formatMessage({ id: 'name', defaultMessage: 'Names' })} required/>
+                                                <Form.Input name="name" label={intl.formatMessage({
+                                                    id: 'name',
+                                                    defaultMessage: 'Name'
+                                                })} inline placeholder={intl.formatMessage({
+                                                    id: 'name',
+                                                    defaultMessage: 'Names'
+                                                })} required/>
                                             </Grid.Column>
                                             <Grid.Column textAlign="right">
-                                                <Form.Button secondary loading={loading}>{intl.formatMessage({ id: 'menu.create', defaultMessage: 'Create menu' })}</Form.Button>
+                                                <Form.Button secondary loading={loading}>{intl.formatMessage({
+                                                    id: 'menu.create',
+                                                    defaultMessage: 'Create menu'
+                                                })}</Form.Button>
                                             </Grid.Column>
                                         </Grid>
                                     </Form>
                                 </Grid.Column>
                             </Grid>
 
-                            <Divider vertical>{intl.formatMessage({ id: 'or', defaultMessage: 'OR' })}</Divider>
+                            <Divider vertical>{intl.formatMessage({id: 'or', defaultMessage: 'OR'})}</Divider>
                         </Segment>
                     </Card>
                     <Grid columns={2}>
@@ -170,7 +203,7 @@ export default function Index({menus, pages}) {
                                 <Accordion fluid styled>
                                     <Accordion.Title active={activeIndex === 0} index={0} onClick={handleClick}>
                                         <Icon name='dropdown'/>
-                                        {intl.formatMessage({ id: 'pages', defaultMessage: 'Pages' })}
+                                        {intl.formatMessage({id: 'pages', defaultMessage: 'Pages'})}
                                     </Accordion.Title>
                                     <Accordion.Content active={activeIndex === 0}>
                                         <Form onSubmit={handleAddPage}>
@@ -179,40 +212,50 @@ export default function Index({menus, pages}) {
                                                 {pageOptions.map(option => <option key={option.key}
                                                                                    value={option.value}>{option.text}</option>)}
                                             </Form.Field>
-                                            <Form.Button fluid secondary type="submit">{intl.formatMessage({ id: 'menu.add', defaultMessage: 'Add to menu' })}</Form.Button>
+                                            <Form.Button fluid secondary type="submit">{intl.formatMessage({
+                                                id: 'menu.add',
+                                                defaultMessage: 'Add to menu'
+                                            })}</Form.Button>
                                         </Form>
 
                                     </Accordion.Content>
                                     <Accordion.Title active={activeIndex === 1} index={1} onClick={handleClick}>
                                         <Icon name='dropdown'/>
-                                        {intl.formatMessage({ id: 'articles', defaultMessage: 'Articles' })}
+                                        {intl.formatMessage({id: 'articles', defaultMessage: 'Articles'})}
                                     </Accordion.Title>
                                     <Accordion.Content active={activeIndex === 1}>
 
                                     </Accordion.Content>
                                     <Accordion.Title active={activeIndex === 2} index={2} onClick={handleClick}>
                                         <Icon name='dropdown'/>
-                                        {intl.formatMessage({ id: 'categories', defaultMessage: 'Categories' })}
+                                        {intl.formatMessage({id: 'categories', defaultMessage: 'Categories'})}
                                     </Accordion.Title>
                                     <Accordion.Content active={activeIndex === 2}>
 
                                     </Accordion.Content>
                                     <Accordion.Title active={activeIndex === 3} index={3} onClick={handleClick}>
                                         <Icon name='dropdown'/>
-                                        {intl.formatMessage({ id: 'products', defaultMessage: 'Products' })}
+                                        {intl.formatMessage({id: 'products', defaultMessage: 'Products'})}
                                     </Accordion.Title>
                                     <Accordion.Content active={activeIndex === 3}>
 
                                     </Accordion.Content>
                                     <Accordion.Title active={activeIndex === 4} index={4} onClick={handleClick}>
                                         <Icon name='dropdown'/>
-                                        {intl.formatMessage({ id: 'menu.custom.link', defaultMessage: 'Custom link' })}
+                                        {intl.formatMessage({id: 'menu.custom.link', defaultMessage: 'Custom link'})}
                                     </Accordion.Title>
                                     <Accordion.Content active={activeIndex === 4}>
                                         <Form onSubmit={handleAddLink}>
-                                            <Form.Input label={intl.formatMessage({ id: 'url', defaultMessage: 'URL' })} placeholder="https://" name="url" required/>
-                                            <Form.Input label={intl.formatMessage({ id: 'navigation.label', defaultMessage: 'Navigation label' })} name="label" required/>
-                                            <Form.Button fluid secondary type="submit">{intl.formatMessage({ id: 'menu.add', defaultMessage: 'Add to menu' })}</Form.Button>
+                                            <Form.Input label={intl.formatMessage({id: 'url', defaultMessage: 'URL'})}
+                                                        placeholder="https://" name="url" required/>
+                                            <Form.Input label={intl.formatMessage({
+                                                id: 'navigation.label',
+                                                defaultMessage: 'Navigation label'
+                                            })} name="label" required/>
+                                            <Form.Button fluid secondary type="submit">{intl.formatMessage({
+                                                id: 'menu.add',
+                                                defaultMessage: 'Add to menu'
+                                            })}</Form.Button>
                                         </Form>
                                     </Accordion.Content>
                                 </Accordion>
@@ -224,12 +267,15 @@ export default function Index({menus, pages}) {
                                     <Card.Content>
                                         <Grid columns={2}>
                                             <Grid.Column>
-                                                <Form.Input inline label={intl.formatMessage({ id: 'name', defaultMessage: 'Name' })} name="name" value={`${form.name}`} onChange={handleChangeMenuName}/>
+                                                <Form.Input inline label={intl.formatMessage({
+                                                    id: 'name',
+                                                    defaultMessage: 'Name'
+                                                })} name="name" value={`${form.name}`} onChange={handleChangeMenuName}/>
                                             </Grid.Column>
                                             <Grid.Column textAlign="right">
                                                 <Form.Button loading={loading} primary>
                                                     <Icon disabled name='check'/>
-                                                    {intl.formatMessage({ id: 'menu.save', defaultMessage: 'Save menu' })}
+                                                    {intl.formatMessage({id: 'menu.save', defaultMessage: 'Save menu'})}
                                                 </Form.Button>
                                             </Grid.Column>
                                         </Grid>
@@ -240,12 +286,12 @@ export default function Index({menus, pages}) {
                                     <Card.Content extra>
                                         <Grid columns={2}>
                                             <Grid.Column>
-                                                <NoLinkButton icon={"fa-trash"} style={"delete"} onClick={handleDeleteMenu}/>
+                                                <NoLinkButton icon={"fa-trash"} style={"delete"} onClick={handleDeleteMenu} type={"button"}/>
                                             </Grid.Column>
                                             <Grid.Column textAlign="right">
                                                 <Form.Button loading={loading} primary>
                                                     <Icon disabled name='check'/>
-                                                    {intl.formatMessage({ id: 'menu.save', defaultMessage: 'Save menu' })}
+                                                    {intl.formatMessage({id: 'menu.save', defaultMessage: 'Save menu'})}
                                                 </Form.Button>
                                             </Grid.Column>
                                         </Grid>
@@ -260,29 +306,41 @@ export default function Index({menus, pages}) {
     );
 }
 
-export async function getServerSideProps() {
-    let menus = [];
-    let pages = [];
+export async function getServerSideProps(ctx) {
+    try {
+        const cookies = nookies.get(ctx);
+        const token = await auth.verifyIdToken(cookies.token);
 
-    const snapshots = await db.collection(`menus`).get()
-    snapshots.docs.map(snapshot => {
-        const item = {
-            id: snapshot.id,
-            ...snapshot.data()
+        if (!token.roles.some((r) => ['admin', 'editor', 'moderator'].includes(r))) {
+            throw new Error('unauthorized');
         }
-        menus.push(item)
-    })
 
-    const pagesSnapshots = await db.collection(`pages`).get()
-    pagesSnapshots.docs.map(snapshot => {
-        const item = {
-            id: snapshot.id,
-            ...snapshot.data()
-        }
-        pages.push(item)
-    })
+        let menus = [];
+        await axios
+            .get(process.env.URL + '/api/menus')
+            .then((res) => {
+                menus = res.data.data;
+            })
+            .catch((error) => {});
 
-    return {
-        props: {menus, pages},
-    };
+        let pages = [];
+        await axios
+            .get(process.env.URL + '/api/pages')
+            .then((res) => {
+                pages = res.data.data;
+            })
+            .catch((error) => {});
+
+        return {
+            props: {menus, pages},
+        };
+    } catch (err) {
+        return {
+            redirect: {
+                permanent: false,
+                destination: '/admin/login',
+            },
+            props: {},
+        };
+    }
 }

@@ -60,7 +60,6 @@ export async function getServerSideProps(ctx) {
         }
 
         let pages = [];
-
         await axios
             .get(process.env.URL + '/api/pages')
             .then((res) => {
