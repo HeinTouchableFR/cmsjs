@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useIntl} from 'react-intl';
 import Image from 'next/image';
-import axios from 'axios';
 import {Button, Header, Icon, Modal} from 'semantic-ui-react';
 
 import styles from './fileManager.module.scss';
@@ -10,7 +9,7 @@ import Multiple from './Button/Multiple/Multiple';
 
 typeof window === 'object' ? require('@grafikart/drop-files-element') : () => false;
 
-export default function FileManager({multiple = false, currentFiles, setCurrentFiles}) {
+export default function FileManager({multiple = false, currentFiles, setCurrentFiles, images = [], setImages}) {
     const intl = useIntl();
 
     const [open, setOpen] = useState(false);
@@ -18,25 +17,7 @@ export default function FileManager({multiple = false, currentFiles, setCurrentF
 
     const [loading, setLoading] = useState(false);
 
-    const [images, setImages] = useState([]);
-
     const [selectedFiles, setSelectedFiles] = useState(currentFiles || []);
-    useEffect(
-        async function () {
-            await axios.get(process.env.URL + '/api/images').then((res) => {
-                setImages(res.data.data);
-            });
-        },
-        []
-    );
-
-    useEffect(
-        function () {
-
-            setSelectedFiles(currentFiles)
-        },
-        [currentFiles]
-    )
 
     useEffect(
         async function () {

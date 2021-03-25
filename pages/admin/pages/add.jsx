@@ -6,14 +6,15 @@ import axios from 'axios';
 import nookies from 'nookies';
 
 import Builder from 'container/Builder/Builder';
-import { auth } from 'utils/dbConnect';
+import {auth, db} from 'utils/dbConnect';
 
-export default function Ajouter({ pages }) {
+export default function Ajouter({ pages, images }) {
     const url = 'pages';
 
     const intl = useIntl();
 
     const [post, setPost] = useState({});
+    const [imagesList, setImagesList] = useState(JSON.parse(images))
     const [loading, setLoading] = useState(false);
     const router = useRouter();
 
@@ -45,7 +46,7 @@ export default function Ajouter({ pages }) {
             <Head>
                 <title>{intl.formatMessage({ id: 'page.addNew', defaultMessage: 'Add a new page' })}</title>
             </Head>
-            <Builder url={url} onSubmit={onSubmit} pages={pages} page={post} loading={loading} />
+            <Builder url={url} onSubmit={onSubmit} pages={pages} page={post} loading={loading} images={imagesList} setImages={setImagesList} />
         </>
     );
 }
@@ -68,8 +69,18 @@ export async function getServerSideProps(ctx) {
             })
             .catch((error) => {});
 
+        let images = []
+        const imagesSnapshot = await db.collection('images').orderBy('created_at', 'desc').get()
+        imagesSnapshot.docs.map(snapshot => {
+            const item = {
+                _id: snapshot.id,
+                ...snapshot.data()
+            }
+            images.push(item)
+        })
+
         return {
-            props: { pages },
+            props: { pages, images: JSON.stringify(images) },
         };
     } catch (err) {
         return {

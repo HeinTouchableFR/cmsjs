@@ -11,7 +11,7 @@ import ImageRender from './Image/ImageRender';
 import ImagePreview from './Image/ImagePreview';
 import Image from './Image/Image';
 
-export default function ComponentDispatcher({ element, device = "desktop", mode = "render", onElementValueChange }) {
+export default function ComponentDispatcher({ element, device = "desktop", mode = "render", onElementValueChange, images, setImages }) {
     const [type, setType] = useState(element.type);
 
     useEffect(
@@ -28,7 +28,7 @@ export default function ComponentDispatcher({ element, device = "desktop", mode 
             return mode === "render" ? <TextRender element={element} /> : (mode === "preview" ? <TextPreview element={element} device={device} /> : <Text element={element} device={device} onElementValueChange={onElementValueChange} />)
             break;
         case "image":
-            return mode === "render" ? <ImageRender element={element} /> : (mode === "preview" ? <ImagePreview element={element} device={device} /> : <Image element={element} device={device} onElementValueChange={onElementValueChange} />)
+            return mode === "render" ? <ImageRender element={element} /> : (mode === "preview" ? <ImagePreview element={element} device={device} /> : <Image element={element} device={device} onElementValueChange={onElementValueChange} images={images} setImages={setImages} />)
             break;
     }
 }

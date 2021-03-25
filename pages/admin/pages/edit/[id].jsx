@@ -4,15 +4,16 @@ import Head from 'next/head';
 import axios from 'axios';
 import nookies from 'nookies';
 
-import { auth } from 'utils/dbConnect';
+import {auth, db} from 'utils/dbConnect';
 import Builder from 'container/Builder/Builder';
 
-export default function Edit({ item, pages }) {
+export default function Edit({ item, pages, images }) {
     const url = 'pages';
 
     const intl = useIntl();
 
     const [post, setPost] = useState(item);
+    const [imagesList, setImagesList] = useState(JSON.parse(images))
     const [loading, setLoading] = useState(false);
 
     const onSubmit = async function (e, content) {
@@ -45,7 +46,7 @@ export default function Edit({ item, pages }) {
                     {item.title}
                 </title>
             </Head>
-            <Builder url={url} pages={pages} page={post} loading={loading} onSubmit={onSubmit} />
+            <Builder url={url} pages={pages} page={post} loading={loading} onSubmit={onSubmit} setImages={setImagesList} images={imagesList} />
         </>
     );
 }
@@ -84,8 +85,18 @@ export async function getServerSideProps(ctx) {
                 console.log(error);
             });
 
+        let images = []
+        const imagesSnapshot = await db.collection('images').orderBy('created_at', 'desc').get()
+        imagesSnapshot.docs.map(snapshot => {
+            const item = {
+                _id: snapshot.id,
+                ...snapshot.data()
+            }
+            images.push(item)
+        })
+
         return {
-            props: { item, errors, pages },
+            props: { item, errors, pages, images: JSON.stringify(images) },
         };
     } catch (err) {
         return {

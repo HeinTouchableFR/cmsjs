@@ -9,10 +9,13 @@ import Header from 'components/Header/Header';
 import Content from 'components/Content/Content';
 import FileManager from 'components/FileManager/FileManager';
 import {NoLinkButton} from 'components/Button/NoLinkButton/NoLinkButton';
+import {db} from 'utils/dbConnect';
 
-export default function Add({ categories, attributes }) {
+export default function Add({ categories, attributes, images }) {
     const intl = useIntl();
     const url = 'products';
+
+    const [imagesList, setImagesList] = useState(JSON.parse(images))
 
     const [form, setForm] = useState({
         name: '',
@@ -180,6 +183,8 @@ export default function Add({ categories, attributes }) {
                         <div className='field'>
                             <label>{intl.formatMessage({ id: 'product.image', defaultMessage: 'Product Image' })}</label>
                             <FileManager
+                                images={imagesList}
+                                setImages={setImagesList}
                                 currentFiles={form.productImage ? [form.productImage] : []}
                                 setCurrentFiles={handleSetProductImage}
                             />
@@ -187,6 +192,8 @@ export default function Add({ categories, attributes }) {
                         <div className='field'>
                             <label>{intl.formatMessage({ id: 'product.gallery', defaultMessage: 'Product Gallery' })}</label>
                             <FileManager
+                                images={imagesList}
+                                setImages={setImagesList}
                                 currentFiles={form.productGallery}
                                 setCurrentFiles={handleSetProductGallery}
                                 multiple={true}
@@ -290,6 +297,7 @@ const Attribute = function ({ attribute, setForm, form, attributes }) {
 export async function getServerSideProps() {
     let categories = [];
     let attributes = [];
+    let images = []
     await axios
         .get(process.env.URL + '/api/categories')
         .then((res) => {
@@ -303,7 +311,16 @@ export async function getServerSideProps() {
         })
         .catch(() => {});
 
+    const imagesSnapshot = await db.collection('images').orderBy('created_at', 'desc').get()
+    imagesSnapshot.docs.map(snapshot => {
+        const item = {
+            _id: snapshot.id,
+            ...snapshot.data()
+        }
+        images.push(item)
+    })
+
     return {
-        props: { categories, attributes },
+        props: { categories, attributes, images: JSON.stringify(images) },
     };
 }

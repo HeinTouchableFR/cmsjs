@@ -9,7 +9,7 @@ import styles from './Navigation.module.scss';
 import Component from 'components/ComponentCollection/Component';
 import ComponentDispatcher from 'components/ComponentCollection/ComponentDispatcher';
 
-export default function Navigation({components, currentItem, onElementValueChange, setCurrentElement, page, onSubmit, pages = [], loading, hide, device, setDevice, hideMenu}) {
+export default function Navigation({components, currentItem, onElementValueChange, setCurrentElement, page, onSubmit, pages = [], loading, hide, device, setDevice, hideMenu, images, setImages}) {
     const intl = useIntl();
 
     const [form, setForm] = useState({
@@ -182,7 +182,7 @@ export default function Navigation({components, currentItem, onElementValueChang
             render: () => (
                 <Tab.Pane attached={true}>
                     <ComponentDispatcher element={currentItem} mode="editor" device={device}
-                                         onElementValueChange={onElementValueChange}/>
+                                         onElementValueChange={onElementValueChange} images={images} setImages={setImages}/>
                 </Tab.Pane>
             ),
         },

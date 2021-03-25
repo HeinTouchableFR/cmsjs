@@ -9,10 +9,13 @@ import Header from 'components/Header/Header';
 import Content from 'components/Content/Content';
 import FileManager from 'components/FileManager/FileManager';
 import {NoLinkButton} from 'components/Button/NoLinkButton/NoLinkButton';
+import {db} from '../../../../utils/dbConnect';
 
-export default function Modifier({ item, categories, attributes }) {
+export default function Modifier({ item, categories, attributes, images }) {
     const intl = useIntl();
     const url = 'products';
+
+    const [imagesList, setImagesList] = useState(JSON.parse(images))
 
     const [form, setForm] = useState({
         _id: item._id,
@@ -226,6 +229,8 @@ export default function Modifier({ item, categories, attributes }) {
                         <div className='field'>
                             <label>{intl.formatMessage({ id: 'product.image', defaultMessage: 'Product Image' })}</label>
                             <FileManager
+                                images={imagesList}
+                                setImages={setImagesList}
                                 currentFiles={form.productImage ? [form.productImage] : []}
                                 setCurrentFiles={handleSetProductImage}
                             />
@@ -233,6 +238,8 @@ export default function Modifier({ item, categories, attributes }) {
                         <div className='field'>
                             <label>{intl.formatMessage({ id: 'product.gallery', defaultMessage: 'Product Gallery' })}</label>
                             <FileManager
+                                images={imagesList}
+                                setImages={setImagesList}
                                 currentFiles={form.productGallery}
                                 setCurrentFiles={handleSetProductGallery}
                                 multiple={true}
@@ -364,7 +371,17 @@ export async function getServerSideProps({ params }) {
         })
         .catch(() => {});
 
+    let images = []
+    const imagesSnapshot = await db.collection('images').orderBy('created_at', 'desc').get()
+    imagesSnapshot.docs.map(snapshot => {
+        const item = {
+            _id: snapshot.id,
+            ...snapshot.data()
+        }
+        images.push(item)
+    })
+
     return {
-        props: { item, categories, attributes },
+        props: { item, categories, attributes, images: JSON.stringify(images) },
     };
 }

@@ -12,7 +12,7 @@ import Head from 'next/head';
 import {Segment, TransitionablePortal} from 'semantic-ui-react';
 import Component from 'components/ComponentCollection/Component';
 
-export default function Builder({page = {}, onSubmit, pages, loading}) {
+export default function Builder({page = {}, onSubmit, pages, loading, images, setImages}) {
     // Use translation
     const intl = useIntl();
 
@@ -314,6 +314,8 @@ export default function Builder({page = {}, onSubmit, pages, loading}) {
                         hide={hideMenu}
                         device={device}
                         setDevice={setDevice}
+                        images={images}
+                        setImages={setImages}
                     />
                     <Content
                         layouts={layouts}

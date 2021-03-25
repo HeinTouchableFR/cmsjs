@@ -15,7 +15,7 @@ import {
 import Accordion from '../../Accordion/Accordion';
 import ColorPicker from '../../ColorPicker/ColorPicker';
 
-export default function Image({element, device, onElementValueChange}) {
+export default function Image({element, device, onElementValueChange, images, setImages}) {
     // Use translation
     const intl = useIntl();
     const [item, setItem] = useState(element);
@@ -496,6 +496,8 @@ export default function Image({element, device, onElementValueChange}) {
         <>
             <Accordion active={true} title={'Image'}>
                 <FileManager
+                    images={images}
+                    setImages={setImages}
                     currentFiles={item.content.image.url !== '/placeholder.png' ? [item.content.image] : []}
                     setCurrentFiles={handleChangeImage}
                     multiple={false}
