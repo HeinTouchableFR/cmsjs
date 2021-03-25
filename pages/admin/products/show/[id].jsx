@@ -6,6 +6,8 @@ import { Card, Form } from 'semantic-ui-react';
 import Header from 'components/Header/Header';
 import Content from 'components/Content/Content';
 import {useIntl} from 'react-intl';
+import nookies from 'nookies';
+import {auth} from '../../../../utils/dbConnect';
 
 export default function Detail({ item, categories, attributes }) {
     const intl = useIntl()
@@ -173,37 +175,51 @@ const Attribute = function ({ attribute, attributes }) {
     );
 };
 
-export async function getServerSideProps({ params }) {
-    const { id } = params;
+export async function getServerSideProps(ctx) {
+    try{
+        const cookies = nookies.get(ctx);
+        const token = await auth.verifyIdToken(cookies.token);
 
-    let item = {};
+        if (!token.roles.some((r) => ['admin', 'editor', 'moderator'].includes(r))) {
+            throw new Error('unauthorized');
+        }
 
-    await axios
-        .get(process.env.URL + '/api/products/' + id)
-        .then((res) => {
-            item = res.data.data;
-        })
-        .catch(() => {});
+        const { id } = ctx.params;
 
-    let categories = [];
+        let item = {};
+        await axios
+            .get(process.env.URL + '/api/products/' + id)
+            .then((res) => {
+                item = res.data.data;
+            })
+            .catch(() => {});
 
-    await axios
-        .get(process.env.URL + '/api/categories')
-        .then((res) => {
-            categories = res.data.data;
-        })
-        .catch(() => {});
+        let categories = [];
+        await axios
+            .get(process.env.URL + '/api/categories')
+            .then((res) => {
+                categories = res.data.data;
+            })
+            .catch(() => {});
 
-    let attributes = [];
+        let attributes = [];
+        await axios
+            .get(process.env.URL + '/api/attributes')
+            .then((res) => {
+                attributes = res.data.data;
+            })
+            .catch(() => {});
 
-    await axios
-        .get(process.env.URL + '/api/attributes')
-        .then((res) => {
-            attributes = res.data.data;
-        })
-        .catch(() => {});
-
-    return {
-        props: { item, categories, attributes },
-    };
+        return {
+            props: { item, categories, attributes },
+        };
+    }catch (err) {
+        return {
+            redirect: {
+                permanent: false,
+                destination: '/admin/login',
+            },
+            props: {},
+        };
+    }
 }

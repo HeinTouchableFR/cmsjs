@@ -4,12 +4,12 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 import { Button, Card, Form } from 'semantic-ui-react';
-
 import Header from 'components/Header/Header';
 import Content from 'components/Content/Content';
 import FileManager from 'components/FileManager/FileManager';
 import {NoLinkButton} from 'components/Button/NoLinkButton/NoLinkButton';
-import {db} from '../../../../utils/dbConnect';
+import nookies from 'nookies';
+import {auth} from 'utils/dbConnect';
 
 export default function Modifier({ item, categories, attributes, images }) {
     const intl = useIntl();
@@ -341,47 +341,59 @@ const Attribute = function ({ attribute, setForm, form, attributes }) {
     );
 };
 
-export async function getServerSideProps({ params }) {
-    const { id } = params;
+export async function getServerSideProps(ctx) {
+    try {
+        const cookies = nookies.get(ctx);
+        const token = await auth.verifyIdToken(cookies.token);
 
-    let item = {};
-
-    await axios
-        .get(process.env.URL + '/api/products/' + id)
-        .then((res) => {
-            item = res.data.data;
-        })
-        .catch(() => {});
-
-    let categories = [];
-
-    await axios
-        .get(process.env.URL + '/api/categories')
-        .then((res) => {
-            categories = res.data.data;
-        })
-        .catch(() => {});
-
-    let attributes = [];
-
-    await axios
-        .get(process.env.URL + '/api/attributes')
-        .then((res) => {
-            attributes = res.data.data;
-        })
-        .catch(() => {});
-
-    let images = []
-    const imagesSnapshot = await db.collection('images').orderBy('created_at', 'desc').get()
-    imagesSnapshot.docs.map(snapshot => {
-        const item = {
-            _id: snapshot.id,
-            ...snapshot.data()
+        if (!token.roles.some((r) => ['admin', 'editor', 'moderator'].includes(r))) {
+            throw new Error('unauthorized');
         }
-        images.push(item)
-    })
 
-    return {
-        props: { item, categories, attributes, images: JSON.stringify(images) },
-    };
+        const { id } = ctx.params;
+
+        let item = {};
+        await axios
+            .get(process.env.URL + '/api/products/' + id)
+            .then((res) => {
+                item = res.data.data;
+            })
+            .catch(() => {});
+
+        let categories = [];
+        await axios
+            .get(process.env.URL + '/api/categories')
+            .then((res) => {
+                categories = res.data.data;
+            })
+            .catch(() => {});
+
+        let attributes = [];
+        await axios
+            .get(process.env.URL + '/api/attributes')
+            .then((res) => {
+                attributes = res.data.data;
+            })
+            .catch(() => {});
+
+        let images = []
+        await axios
+            .get(process.env.URL + '/api/images')
+            .then((res) => {
+                images = res.data.data;
+            })
+            .catch(() => {});
+
+        return {
+            props: { item, categories, attributes, images: JSON.stringify(images) },
+        };
+    }catch (err) {
+        return {
+            redirect: {
+                permanent: false,
+                destination: '/admin/login',
+            },
+            props: {},
+        };
+    }
 }

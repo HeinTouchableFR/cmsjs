@@ -2,14 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { Button, Card, Form, Input } from 'semantic-ui-react';
+import { Button, Card, Form } from 'semantic-ui-react';
 import axios from 'axios';
 
 import Header from 'components/Header/Header';
 import Content from 'components/Content/Content';
 import FileManager from 'components/FileManager/FileManager';
 import {NoLinkButton} from 'components/Button/NoLinkButton/NoLinkButton';
-import {db} from 'utils/dbConnect';
+import nookies from 'nookies';
+import {auth} from 'utils/dbConnect';
 
 export default function Add({ categories, attributes, images }) {
     const intl = useIntl();
@@ -294,33 +295,49 @@ const Attribute = function ({ attribute, setForm, form, attributes }) {
     );
 };
 
-export async function getServerSideProps() {
-    let categories = [];
-    let attributes = [];
-    let images = []
-    await axios
-        .get(process.env.URL + '/api/categories')
-        .then((res) => {
-            categories = res.data.data;
-        })
-        .catch(() => {});
-    await axios
-        .get(process.env.URL + '/api/attributes')
-        .then((res) => {
-            attributes = res.data.data;
-        })
-        .catch(() => {});
+export async function getServerSideProps(ctx) {
+    try {
+        const cookies = nookies.get(ctx);
+        const token = await auth.verifyIdToken(cookies.token);
 
-    const imagesSnapshot = await db.collection('images').orderBy('created_at', 'desc').get()
-    imagesSnapshot.docs.map(snapshot => {
-        const item = {
-            _id: snapshot.id,
-            ...snapshot.data()
+        if (!token.roles.some((r) => ['admin', 'editor', 'moderator'].includes(r))) {
+            throw new Error('unauthorized');
         }
-        images.push(item)
-    })
 
-    return {
-        props: { categories, attributes, images: JSON.stringify(images) },
-    };
+        let categories = [];
+        await axios
+            .get(process.env.URL + '/api/categories')
+            .then((res) => {
+                categories = res.data.data;
+            })
+            .catch(() => {});
+
+        let attributes = [];
+        await axios
+            .get(process.env.URL + '/api/attributes')
+            .then((res) => {
+                attributes = res.data.data;
+            })
+            .catch(() => {});
+
+        let images = []
+        await axios
+            .get(process.env.URL + '/api/images')
+            .then((res) => {
+                images = res.data.data;
+            })
+            .catch(() => {});
+
+        return {
+            props: { categories, attributes, images: JSON.stringify(images) },
+        };
+    }catch (err) {
+        return {
+            redirect: {
+                permanent: false,
+                destination: '/admin/login',
+            },
+            props: {},
+        };
+    }
 }

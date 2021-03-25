@@ -4,9 +4,8 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 import nookies from 'nookies';
-
 import Builder from 'container/Builder/Builder';
-import {auth, db} from 'utils/dbConnect';
+import {auth} from 'utils/dbConnect';
 
 export default function Ajouter({ pages, images }) {
     const url = 'pages';
@@ -70,14 +69,12 @@ export async function getServerSideProps(ctx) {
             .catch((error) => {});
 
         let images = []
-        const imagesSnapshot = await db.collection('images').orderBy('created_at', 'desc').get()
-        imagesSnapshot.docs.map(snapshot => {
-            const item = {
-                _id: snapshot.id,
-                ...snapshot.data()
-            }
-            images.push(item)
-        })
+        await axios
+            .get(process.env.URL + '/api/images')
+            .then((res) => {
+                images = res.data.data;
+            })
+            .catch(() => {});
 
         return {
             props: { pages, images: JSON.stringify(images) },

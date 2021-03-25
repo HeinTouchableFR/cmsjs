@@ -9,6 +9,8 @@ import Content from 'components/Content/Content';
 import Table from 'components/Table/Table';
 import Product from 'components/rowTemplate/Product/Product';
 import {useIntl} from 'react-intl';
+import nookies from 'nookies';
+import {auth} from 'utils/dbConnect';
 
 export default function Index({ items }) {
     const intl = useIntl()
@@ -81,20 +83,34 @@ export default function Index({ items }) {
     );
 }
 
-export async function getServerSideProps() {
-    let items = [];
-    let errors = [];
+export async function getServerSideProps(ctx) {
+    try {
+        const cookies = nookies.get(ctx);
+        const token = await auth.verifyIdToken(cookies.token);
 
-    await axios
-        .get(process.env.URL + '/api/products')
-        .then((res) => {
-            items = res.data.data;
-        })
-        .catch((error) => {
-            errors = JSON.stringify(error);
-        });
+        if (!token.roles.some((r) => ['admin', 'editor', 'moderator'].includes(r))) {
+            throw new Error('unauthorized');
+        }
 
-    return {
-        props: { items, errors },
-    };
+        let items = [];
+
+        await axios
+            .get(process.env.URL + '/api/products')
+            .then((res) => {
+                items = res.data.data;
+            })
+            .catch((error) => {});
+
+        return {
+            props: { items },
+        };
+    }catch (err) {
+        return {
+            redirect: {
+                permanent: false,
+                destination: '/admin/login',
+            },
+            props: {},
+        };
+    }
 }
