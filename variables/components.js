@@ -672,4 +672,461 @@ export default class defaultComponents {
             },
         }
     }
+
+    static defaultLogo(intl) {
+        return {
+            tag: '<img/>',
+            label: intl.formatMessage({id: 'logo', defaultMessage: 'Logo'}),
+            color: 'blue',
+            type: 'logo',
+            defaultValue: {
+                alignment: 'left',
+                desktop: {
+                    image: {
+                        size: {
+                            width: {
+                                unit: '%',
+                                value: '100'
+                            },
+                            maxWidth: {
+                                unit: '%',
+                                value: '100'
+                            },
+                            height: {
+                                unit: 'px',
+                                value: 'auto'
+                            }
+                        },
+                        opacity: {
+                            normal: '1',
+                            hover: ''
+                        }
+                    },
+                    styles: {
+                        background: {
+                            normal: '',
+                            hover: '',
+                        },
+                        border: {
+                            normal: {
+                                type: 'none',
+                                width: {
+                                    top: 0,
+                                    right: 0,
+                                    bottom: 0,
+                                    left: 0,
+                                },
+                                radius: {
+                                    unit: 'px',
+                                    top: 0,
+                                    right: 0,
+                                    bottom: 0,
+                                    left: 0,
+                                },
+                                color: 'inherit',
+                            },
+                            hover: {
+                                type: 'none',
+                                width: {
+                                    top: 0,
+                                    right: 0,
+                                    bottom: 0,
+                                    left: 0,
+                                },
+                                radius: {
+                                    unit: 'px',
+                                    top: 0,
+                                    right: 0,
+                                    bottom: 0,
+                                    left: 0,
+                                },
+                                color: 'inherit',
+                            },
+                        },
+                    },
+                    animation: {
+                        name: 'none',
+                        duration: '1s',
+                        delay: '0',
+                    }
+                },
+                tablet: {
+                    image: {
+                        size: {
+                            width: {
+                                unit: '',
+                                value: ''
+                            },
+                            maxWidth: {
+                                unit: '',
+                                value: ''
+                            },
+                            height: {
+                                unit: '',
+                                value: ''
+                            }
+                        },
+                        opacity: {
+                            normal: '',
+                            hover: ''
+                        }
+                    },
+                    styles: {
+                        background: {
+                            normal: '',
+                            hover: '',
+                        },
+                        border: {
+                            normal: {
+                                type: '',
+                                width: {
+                                    top: '',
+                                    right: '',
+                                    bottom: '',
+                                    left: '',
+                                },
+                                radius: {
+                                    unit: '',
+                                    top: '',
+                                    right: '',
+                                    bottom: '',
+                                    left: '',
+                                },
+                                color: '',
+                            },
+                            hover: {
+                                type: '',
+                                width: {
+                                    top: '',
+                                    right: '',
+                                    bottom: '',
+                                    left: '',
+                                },
+                                radius: {
+                                    unit: '',
+                                    top: '',
+                                    right: '',
+                                    bottom: '',
+                                    left: '',
+                                },
+                                color: '',
+                            },
+                        },
+                    },
+                    animation: {
+                        name: '',
+                        duration: '',
+                        delay: '',
+                    }
+                },
+                mobile: {
+                    image: {
+                        size: {
+                            width: {
+                                unit: '',
+                                value: ''
+                            },
+                            maxWidth: {
+                                unit: '',
+                                value: ''
+                            },
+                            height: {
+                                unit: '',
+                                value: ''
+                            }
+                        },
+                        opacity: {
+                            normal: '',
+                            hover: ''
+                        }
+                    },
+                    styles: {
+                        background: {
+                            normal: '',
+                            hover: '',
+                        },
+                        border: {
+                            normal: {
+                                type: '',
+                                width: {
+                                    top: '',
+                                    right: '',
+                                    bottom: '',
+                                    left: '',
+                                },
+                                radius: {
+                                    unit: '',
+                                    top: '',
+                                    right: '',
+                                    bottom: '',
+                                    left: '',
+                                },
+                                color: '',
+                            },
+                            hover: {
+                                type: '',
+                                width: {
+                                    top: '',
+                                    right: '',
+                                    bottom: '',
+                                    left: '',
+                                },
+                                radius: {
+                                    unit: '',
+                                    top: '',
+                                    right: '',
+                                    bottom: '',
+                                    left: '',
+                                },
+                                color: '',
+                            },
+                        },
+                    },
+                    animation: {
+                        name: '',
+                        duration: '',
+                        delay: '',
+                    }
+                }
+            },
+        }
+    }
+
+    static defaultMenu(intl) {
+        return {
+            tag: '<nav/>',
+            label: intl.formatMessage({id: 'menu', defaultMessage: 'Menu'}),
+            color: 'orange',
+            type: 'menu',
+            defaultValue: {
+                menu: {
+                    value: 'jBAOJwV8A1DWnzkP5PEQ',
+                },
+                alignment: 'left',
+                desktop: {
+                    typo: {
+                        family: 'Roboto',
+                        size: {
+                            unit: 'px',
+                            value: '16'
+                        },
+                        weight: '300',
+                        transform: 'initial',
+                        style: 'normal',
+                        decoration: '',
+                        lineHeight: {
+                            unit: 'em',
+                            value: '1'
+                        },
+                        letterSpacing: '0',
+                        color: {
+                            normal: '#000',
+                            hover: '#000',
+                        },
+                    },
+                    styles: {
+                        background: {
+                            normal: '',
+                            hover: '',
+                        },
+                        border: {
+                            normal: {
+                                type: 'none',
+                                width: {
+                                    top: 0,
+                                    right: 0,
+                                    bottom: 0,
+                                    left: 0,
+                                },
+                                radius: {
+                                    unit: 'px',
+                                    top: 0,
+                                    right: 0,
+                                    bottom: 0,
+                                    left: 0,
+                                },
+                                color: 'inherit',
+                            },
+                            hover: {
+                                type: 'none',
+                                width: {
+                                    top: 0,
+                                    right: 0,
+                                    bottom: 0,
+                                    left: 0,
+                                },
+                                radius: {
+                                    unit: 'px',
+                                    top: 0,
+                                    right: 0,
+                                    bottom: 0,
+                                    left: 0,
+                                },
+                                color: 'inherit',
+                            },
+                        },
+                    },
+                    animation: {
+                        name: 'none',
+                        duration: '1s',
+                        delay: '0',
+                    }
+                },
+                tablet: {
+                    typo: {
+                        family: '',
+                        size: {
+                            unit: '',
+                            value: ''
+                        },
+                        weight: '',
+                        transform: '',
+                        style: '',
+                        decoration: '',
+                        lineHeight: {
+                            unit: '',
+                            value: ''
+                        },
+                        letterSpacing: '',
+                        color: {
+                            normal: '',
+                            hover: '',
+                        },
+                    },
+                    styles: {
+                        background: {
+                            normal: '',
+                            hover: '',
+                        },
+                        border: {
+                            normal: {
+                                type: '',
+                                width: {
+                                    top: '',
+                                    right: '',
+                                    bottom: '',
+                                    left: '',
+                                },
+                                radius: {
+                                    unit: '',
+                                    top: '',
+                                    right: '',
+                                    bottom: '',
+                                    left: '',
+                                },
+                                color: '',
+                            },
+                            hover: {
+                                type: '',
+                                width: {
+                                    top: '',
+                                    right: '',
+                                    bottom: '',
+                                    left: '',
+                                },
+                                radius: {
+                                    unit: '',
+                                    top: '',
+                                    right: '',
+                                    bottom: '',
+                                    left: '',
+                                },
+                                color: '',
+                            },
+                        },
+                    },
+                    animation: {
+                        name: '',
+                        duration: '',
+                        delay: '',
+                    }
+                },
+                mobile: {
+                    typo: {
+                        family: '',
+                        size: {
+                            unit: '',
+                            value: ''
+                        },
+                        weight: '',
+                        transform: '',
+                        style: '',
+                        decoration: '',
+                        lineHeight: {
+                            unit: '',
+                            value: ''
+                        },
+                        letterSpacing: '',
+                        color: {
+                            normal: '',
+                            hover: '',
+                        },
+                    },
+                    styles: {
+                        background: {
+                            normal: '',
+                            hover: '',
+                        },
+                        border: {
+                            normal: {
+                                type: '',
+                                width: {
+                                    top: '',
+                                    right: '',
+                                    bottom: '',
+                                    left: '',
+                                },
+                                radius: {
+                                    unit: '',
+                                    top: '',
+                                    right: '',
+                                    bottom: '',
+                                    left: '',
+                                },
+                                color: '',
+                            },
+                            hover: {
+                                type: '',
+                                width: {
+                                    top: '',
+                                    right: '',
+                                    bottom: '',
+                                    left: '',
+                                },
+                                radius: {
+                                    unit: '',
+                                    top: '',
+                                    right: '',
+                                    bottom: '',
+                                    left: '',
+                                },
+                                color: '',
+                            },
+                        },
+                    },
+                    animation: {
+                        name: '',
+                        duration: '',
+                        delay: '',
+                    }
+                }
+            },
+        }
+    }
+
+    static pageComponents(intl) {
+        return [
+            this.defaultTitle(intl),
+            this.defaultText(intl),
+            this.defaultImage(intl)
+        ]
+    }
+
+    static templateComponents(intl) {
+        return [
+            this.defaultLogo(intl),
+            this.defaultMenu(intl)
+        ]
+    }
+
 }

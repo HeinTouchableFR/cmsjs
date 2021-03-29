@@ -92,6 +92,12 @@ export default function Header({ children }) {
                                 <FormattedMessage id='menus' defaultMessage='Menus' />
                             </a>
                         </Link>
+                        <Link href='/admin/templates'>
+                            <a className={styles.item + ' ' + (router.pathname.includes('/admin/templates') && styles.active)}>
+                                <i className="fad fa-project-diagram" />
+                                <FormattedMessage id='templates' defaultMessage='Templates' />
+                            </a>
+                        </Link>
                     </div>
                 </div>
             </div>

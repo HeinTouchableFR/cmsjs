@@ -1,0 +1,222 @@
+@import './style/app';
+
+
+.nav {
+  @extend %container;
+  align-items: center;
+  margin-top: space(1);
+}
+
+.nav__pre {
+  @extend %container;
+  display: flex;
+  align-items: center;
+  margin-top: space(2);
+  margin-bottom: space(1);
+  justify-content: flex-end;
+}
+
+.nav__pre a {
+  font-size: 25px;
+  margin-left: 15px;
+  text-decoration: none;
+  color: #2C2E36;
+}
+
+.nav__pre a:hover, .nav__pre a:active {
+  color: $orange;
+}
+
+.nav__logo {
+  display: block;
+  width: 150px;
+  flex: none;
+}
+
+.nav__menu {
+  margin-left: auto;
+  display: flex;
+  font-size: 18px;
+  font-weight: 500;
+  list-style: none;
+  margin-bottom: 0;
+}
+
+.nav__menu > * + * {
+  margin-left: space(3);
+}
+
+.nav a {
+  transition: color .3s;
+  text-decoration: none;
+  color: #2C2E36;
+  font-family: $f-sf;
+}
+
+.nav a:hover,
+.nav a[aria-current] {
+  color: $orange;
+}
+
+.nav__menu_item {
+  position: relative;
+}
+
+.sub {
+  position: absolute;
+  visibility: hidden;
+  opacity: 0;
+  z-index: 100;
+  transition: .3s ease-in-out;
+  background: #fff;
+  box-shadow: 0 3px 5px -1px #ccc;
+  width: 240px;
+}
+
+.nav__menu_item:hover > .sub {
+  visibility: visible;
+  opacity: 1;
+}
+
+.sub .sub {
+  left: 240px;
+  top: 0;
+  box-shadow: 3 px​3px 5px -3px #ccc;
+}
+
+.sub {
+  li {
+    padding: 5px 20px;
+    font-size: 14px;
+    margin-bottom: 5px;
+  }
+
+  li a:hover {
+    padding-left: 10px;
+    border-left: 2px solid $orange;
+    transition: all 0.3s ease-in-out;
+  }
+}
+
+// Burger
+// ==================
+.nav__burger {
+  display: none;
+  margin-left: auto;
+  height: 37px;
+  z-index: 51;
+}
+
+.nav__burger span {
+  position: relative;
+}
+
+.nav__burger span,
+.nav__burger span::after,
+.nav__burger span::before {
+  content: '';
+  width: 20px;
+  height: 2px;
+  background-color: currentColor;
+  display: block;
+  transition: transform .4s, background .2s;
+}
+
+.nav__burger span::after,
+.nav__burger span::before {
+  position: absolute;
+}
+
+.nav__burger span::before {
+  transform-origin: 0 50%;
+  top: -6px;
+}
+
+.nav__burger span::after {
+  bottom: -6px;
+  transform-origin: 0 50%;
+}
+
+.nav__burger.isActive {
+  position: relative;
+
+  span {
+    background: transparent;
+  }
+
+  span::before {
+    transform: translateY(-2px) rotate(45deg);
+  }
+
+  span::after {
+    transform: rotate(-45deg);
+  }
+}
+
+@include down(440) {
+  .nav {
+    margin-top: space(4);
+  }
+
+  .nav__pre {
+    position: absolute;
+    left: 48%;
+  }
+
+  .nav__burger {
+    display: block;
+  }
+  .nav__menu {
+    position: fixed;
+    z-index: 50;
+    background: rgba(#FFF, .95);
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .3s;
+  }
+  .nav__menu > * {
+    transform: translateY(-10px);
+    transition: transform .3s, opacity .3s;
+    opacity: 0;
+  }
+
+
+  @each $i in 2, 3, 4 {
+    .nav__menu > *:nth-child(#{$i}n) {
+      transition-delay: $i * .05s;
+    }
+  }
+
+  .nav__menu.isActive {
+    pointer-events: auto;
+    display: flex;
+    animation: menuIn 1s;
+    opacity: 1;
+
+    & > * {
+      opacity: 1;
+      transform: translateY(0px);
+    }
+  }
+  .nav__menu > * + * {
+    margin-left: 0;
+    margin-top: space(4);
+  }
+}
+
+@include up(1000) {
+  .home .nav__menu {
+    margin-left: 0;
+    max-width: calc(517px - 32px);
+    width: calc(51% - 72px);
+    justify-content: flex-end;
+  }
+}

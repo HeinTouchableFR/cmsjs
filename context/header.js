@@ -14,29 +14,32 @@ export function HeaderProvider({children}) {
 
     useEffect(async() => {
         if(!header){
-            let logo = {}, content = "[]";
+            let logo = {}, nav = "[]", template = "[]";
 
-            let item = {};
             await axios
-                .get(process.env.URL + '/api/menus/jBAOJwV8A1DWnzkP5PEQ')
+                .get(process.env.URL + '/api/templates/header')
                 .then((res) => {
-                    item = res.data.data;
+                    template = res.data.data;
                 })
                 .catch(() => {});
-            content = item.items
 
-            const settingsSnapshot = await firebase.firestore().doc(`settings/logo`).get()
-            const setting = {
-                ...settingsSnapshot.data()
-            }
-            const imageSnapshot = await firebase.firestore().doc(`images/${setting.value}`).get()
-            const image = {
-                id: imageSnapshot.id,
-                ...imageSnapshot.data()
-            }
-            logo = image
+            JSON.parse(template.content).forEach(layout => {
+                layout.columns.forEach(column =>{
+                    column.elements.forEach(async element => {
+                        if(element.type === "menu"){
+                            const res = await axios.get(`${process.env.URL}/api/menus/${element.content.menu.value}`)
+                            nav = res.data.data.items
+                            return nav
+                        }
+                    })
+                })
+            })
 
-            setHeader({content, logo})
+            const logoSnapshot = await firebase.firestore().doc(`settings/logo`).get()
+            logo = {
+                ...logoSnapshot.data()
+            }
+            setHeader({nav, logo, template})
             return true
         }
     })

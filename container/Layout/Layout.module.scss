@@ -3,6 +3,10 @@
     position: relative;
     margin: 10px auto;
     border: solid 1px #fff;
+    z-index: 1;
+}
+.header__layout{
+    z-index: 100;
 }
 
 .layout:hover {
@@ -299,4 +303,13 @@
 
 .element__first__add:hover .menu__elements {
     visibility: visible;
+}
+
+.header__layout {
+    @for $i from 1 through 6 {
+        .column:first-child:nth-last-child(#{$i}),
+        .column:first-child:nth-last-child(#{$i}) ~ .column {
+            width: 100% / $i;
+        }
+    }
 }

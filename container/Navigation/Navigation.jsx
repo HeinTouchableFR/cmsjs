@@ -9,7 +9,7 @@ import styles from './Navigation.module.scss';
 import Component from 'components/ComponentCollection/Component';
 import ComponentDispatcher from 'components/ComponentCollection/ComponentDispatcher';
 
-export default function Navigation({components, currentItem, onElementValueChange, setCurrentElement, page, onSubmit, pages = [], loading, hide, device, setDevice, hideMenu, images, setImages}) {
+export default function Navigation({components, currentItem, onElementValueChange, setCurrentElement, page, onSubmit, pages = [], loading, hide, device, setDevice, hideMenu, images, setImages, mode}) {
     const intl = useIntl();
 
     const [form, setForm] = useState({
@@ -102,16 +102,17 @@ export default function Navigation({components, currentItem, onElementValueChang
             menuItem: intl.formatMessage({id: 'settings', defaultMessage: 'Settings'}),
             render: () => (
                 <Tab.Pane attached={true}>
-                    <Form.Input
-                        fluid
-                        label={intl.formatMessage({id: 'title', defaultMessage: 'Title'})}
-                        placeholder={intl.formatMessage({id: 'title', defaultMessage: 'Title'})}
-                        required
-                        name='title'
-                        defaultValue={form.title}
-                        onChange={handleChange}
-                    />
-                    <Form.Input
+                    {mode === "page" ? <>
+                        <Form.Input
+                            fluid
+                            label={intl.formatMessage({id: 'title', defaultMessage: 'Title'})}
+                            placeholder={intl.formatMessage({id: 'title', defaultMessage: 'Title'})}
+                            required
+                            name='title'
+                            defaultValue={form.title}
+                            onChange={handleChange}
+                        />
+                        <Form.Input
                         fluid
                         label={intl.formatMessage({id: 'slug', defaultMessage: 'Slug'})}
                         placeholder={intl.formatMessage({id: 'slug', defaultMessage: 'Slug'})}
@@ -119,8 +120,8 @@ export default function Navigation({components, currentItem, onElementValueChang
                         name='slug'
                         value={form.slug}
                         onChange={handleChange}
-                    />
-                    <Form.Dropdown
+                        />
+                        <Form.Dropdown
                         placeholder={intl.formatMessage({id: 'parentPage', defaultMessage: 'Parent page'})}
                         additionLabel={intl.formatMessage({id: 'parentPage', defaultMessage: 'Parent page'})}
                         fluid
@@ -131,7 +132,12 @@ export default function Navigation({components, currentItem, onElementValueChang
                         defaultValue={form.parentPage}
                         onChange={handleChange}
                         name='parentPage'
-                    />
+                        />
+                        </>
+                        :
+                        <>{mode}</>
+                    }
+
                 </Tab.Pane>
             ),
         },

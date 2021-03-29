@@ -12,7 +12,7 @@ export default function Home({post}) {
 
     return (
         <>
-            <Header title={`HomePage | ${siteName}`} setShowRender={setShowRender}/>
+            <Header title={`HomePage | ${siteName}`} setShowRender={setShowRender} showRender={showRender}/>
             <div className='container'>
                 <RenderPage page={post} showRender={showRender}/>
             </div>

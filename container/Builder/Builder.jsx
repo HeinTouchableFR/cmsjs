@@ -7,12 +7,11 @@ import styles from './Builder.module.scss';
 
 import Content from 'container/Content/Content';
 import Navigation from 'container/Navigation/Navigation';
-import defaultComponents from 'variables/components'
 import Head from 'next/head';
 import {Segment, TransitionablePortal} from 'semantic-ui-react';
 import Component from 'components/ComponentCollection/Component';
 
-export default function Builder({page = {}, onSubmit, pages, loading, images, setImages}) {
+export default function Builder({page = {}, onSubmit, pages, loading, images, setImages, modules, mode = "page"}) {
     // Use translation
     const intl = useIntl();
 
@@ -24,11 +23,7 @@ export default function Builder({page = {}, onSubmit, pages, loading, images, se
 
     const [device, setDevice] = useState("desktop")
 
-    const components = [
-        defaultComponents.defaultTitle(intl),
-        defaultComponents.defaultText(intl),
-        defaultComponents.defaultImage(intl)
-    ];
+    const components = modules
 
     /**
      * Allows you to add a layout
@@ -316,6 +311,7 @@ export default function Builder({page = {}, onSubmit, pages, loading, images, se
                         setDevice={setDevice}
                         images={images}
                         setImages={setImages}
+                        mode={mode}
                     />
                     <Content
                         layouts={layouts}
@@ -329,6 +325,7 @@ export default function Builder({page = {}, onSubmit, pages, loading, images, se
                         hide={hideMenu}
                         device={device}
                         handleOpenPortal={handleOpenPortal}
+                        mode={mode}
                     />
                 </DragDropContext>
                 <TransitionablePortal

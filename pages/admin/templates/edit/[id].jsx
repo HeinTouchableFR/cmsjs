@@ -1,52 +1,49 @@
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import Head from 'next/head';
-import { useRouter } from 'next/router';
 import axios from 'axios';
 import nookies from 'nookies';
-import Builder from 'container/Builder/Builder';
 import {auth} from 'utils/dbConnect';
+import Builder from 'container/Builder/Builder';
 import defaultComponents from 'variables/components'
 
-export default function Ajouter({ pages, images }) {
-    const url = 'pages';
+export default function Edit({ item, images }) {
+    const url = 'templates';
 
     const intl = useIntl();
 
-    const [post, setPost] = useState({});
+    const [post, setPost] = useState(item);
     const [imagesList, setImagesList] = useState(JSON.parse(images))
     const [loading, setLoading] = useState(false);
-    const router = useRouter();
 
     const onSubmit = async function (e, content) {
         setLoading(true);
-        const res = await fetch('/api/pages', {
+        console.log(item._id)
+        const res = await fetch(`/api/templates/${item._id}`, {
             body: JSON.stringify({
-                title: e.title,
-                slug: e.slug,
-                author: 'A faire',
-                published: new Date(),
                 content: JSON.stringify(content),
-                parentPage: e.parentPage,
             }),
             headers: {
                 'Content-Type': 'application/json',
             },
-            method: 'POST',
+            method: 'PUT',
         });
 
         const result = await res.json();
-        setPost(result);
+        setPost(result.data);
         setLoading(false);
-        router.push(`/admin/${url}/edit/${result.data._id}`);
     };
 
     return (
         <>
             <Head>
-                <title>{intl.formatMessage({ id: 'page.addNew', defaultMessage: 'Add a new page' })}</title>
+                <title>
+                    {intl.formatMessage({ id: 'page.edit', defaultMessage: 'Edit' })}
+                    {': '}
+                    {item.name}
+                </title>
             </Head>
-            <Builder url={url} onSubmit={onSubmit} pages={pages} page={post} loading={loading} images={imagesList} setImages={setImagesList} modules={defaultComponents.pageComponents(intl)} />
+            <Builder url={url} mode={"template"} page={post} loading={loading} onSubmit={onSubmit} setImages={setImagesList} images={imagesList} modules={defaultComponents.templateComponents(intl)} />
         </>
     );
 }
@@ -60,13 +57,19 @@ export async function getServerSideProps(ctx) {
             throw new Error('unauthorized');
         }
 
-        let pages = [];
+        const { id } = ctx.params;
+
+        let item = {};
+        let errors = [];
+
         await axios
-            .get(process.env.URL + '/api/pages')
+            .get(process.env.URL + '/api/templates/' + id)
             .then((res) => {
-                pages = res.data.data;
+                item = res.data.data;
             })
-            .catch((error) => {});
+            .catch((error) => {
+                errors = JSON.stringify(error);
+            });
 
         let images = []
         await axios
@@ -77,7 +80,7 @@ export async function getServerSideProps(ctx) {
             .catch(() => {});
 
         return {
-            props: { pages, images: JSON.stringify(images) },
+            props: { item, errors, images: JSON.stringify(images) },
         };
     } catch (err) {
         return {

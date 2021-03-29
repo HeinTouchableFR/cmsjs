@@ -1,33 +1,42 @@
 import React, {useEffect, useState} from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
-
-import styles from './Header.module.scss';
 import {useHeader} from 'context/header';
+import RenderHeader from '../../RenderHeader/RenderHeader';
 
-export default function Header({children, title, setShowRender}) {
+export default function Header({children, title, setShowRender, showRender}) {
     const {header} = useHeader()
 
-    const [content, setContent] = useState(null);
+    const [template, setTemplate] = useState(null);
+    const [nav, setNav] = useState(null);
     const [logo, setLogo] = useState({});
 
     useEffect(function () {
         if(header){
-            setContent(JSON.parse(header.content))
+            setNav(JSON.parse(header.nav))
         }
     }, [header])
 
     useEffect(function () {
         if(header){
-            setLogo(header.logo)
+            setTemplate(JSON.parse(header.template.content))
         }
     }, [header])
 
     useEffect(function () {
-        if(content && logo.url){
-            setShowRender(true)
+        if(header){
+            setLogo(header.logo.image)
         }
-    }, [content, logo])
+    }, [header])
+
+    useEffect(function () {
+        if(nav && logo.url){
+            setShowRender(true)
+        }else{
+            setShowRender(false)
+        }
+    }, [nav, logo])
+
 
     return (
         <>
@@ -42,30 +51,20 @@ export default function Header({children, title, setShowRender}) {
                 <title>{title}</title>
                 {children}
             </Head>
-            <header className={styles.nav}>
-                <Link href='/'>
-                    <a className={styles.nav__logo} title="Page d'accueil">
-                        {logo.url && <img src={`${logo.url}`} alt='Logo' />}
-                    </a>
-                </Link>
-                <ul className={styles.nav__menu}>
-                    {content && content.map(item => <Item key={item.slug} item={item} />)}
-                </ul>
-                <button className={styles.nav__burger}>
-                    <span></span>
-                </button>
+            <header className={"nav"}>
+                <RenderHeader showRender={showRender} nav={nav} template={template} />
             </header>
         </>
     );
 }
 
 const Item = function ({item}) {
-    return <li>
+    return <li className={"nav__menu_item"}>
         <Link href={`${item.slug}`}>
             <a>{item.label}</a>
         </Link>
         {item.child.length > 0 &&
-            <ul className={styles.sub}>
+            <ul className={"sub"}>
                 {item.child.map(item => <Item key={item.slug} item={item}/>)}
             </ul>
         }

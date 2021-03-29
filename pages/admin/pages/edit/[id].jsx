@@ -5,6 +5,7 @@ import axios from 'axios';
 import nookies from 'nookies';
 import {auth} from 'utils/dbConnect';
 import Builder from 'container/Builder/Builder';
+import defaultComponents from 'variables/components'
 
 export default function Edit({ item, pages, images }) {
     const url = 'pages';
@@ -45,7 +46,7 @@ export default function Edit({ item, pages, images }) {
                     {item.title}
                 </title>
             </Head>
-            <Builder url={url} pages={pages} page={post} loading={loading} onSubmit={onSubmit} setImages={setImagesList} images={imagesList} />
+            <Builder url={url} pages={pages} page={post} loading={loading} onSubmit={onSubmit} setImages={setImagesList} images={imagesList} modules={defaultComponents.pageComponents(intl)} />
         </>
     );
 }

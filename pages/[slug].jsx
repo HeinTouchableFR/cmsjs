@@ -11,7 +11,7 @@ export default function Page({post}) {
 
     return (
         <>
-            <Header title={`${post.title} | ${siteName}`} setShowRender={setShowRender}/>
+            <Header title={`${post.title} | ${siteName}`} setShowRender={setShowRender} showRender={showRender}/>
             <div className='container'>
                 <RenderPage page={post} showRender={showRender}/>
             </div>
