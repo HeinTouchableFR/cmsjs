@@ -48,7 +48,7 @@ export default function ComponentDispatcher({element, device = "desktop", mode =
                 <Logo element={element} device={device} onElementValueChange={onElementValueChange}/>)
             break;
         case "menu":
-            return mode === "render" ? <MenuRender element={element} nav={nav} /> : (mode === "preview" ?
+            return mode === "render" ? <MenuRender element={element} nav={nav[element.id] ? JSON.parse(nav[element.id].items) : []} /> : (mode === "preview" ?
                 <MenuPreview element={element} device={device}/> :
                 <Menu element={element} device={device} onElementValueChange={onElementValueChange}/>)
             break;

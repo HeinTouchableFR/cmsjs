@@ -1,9 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {css} from '@emotion/react'
 import styled from '@emotion/styled'
-import {useHeader} from '../../../context/header';
 import axios from 'axios';
-import styles from '../../../container/Sites/Header/Header.module.scss';
 import Link from 'next/link';
 
 export default function MenuPreview({element, device}) {

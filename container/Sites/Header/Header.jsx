@@ -1,41 +1,28 @@
 import React, {useEffect, useState} from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
-import {useHeader} from 'context/header';
 import RenderHeader from '../../RenderHeader/RenderHeader';
+import {useLogo} from 'context/logo';
+import {useTemplates} from 'context/template';
 
 export default function Header({children, title, setShowRender, showRender}) {
-    const {header} = useHeader()
+    const {logo} = useLogo()
+    const {templates} = useTemplates()
 
-    const [template, setTemplate] = useState(null);
-    const [nav, setNav] = useState(null);
-    const [logo, setLogo] = useState({});
-
+    const [header, setHeader] = useState([])
     useEffect(function () {
-        if(header){
-            setNav(JSON.parse(header.nav))
-        }
-    }, [header])
-
-    useEffect(function () {
-        if(header){
-            setTemplate(JSON.parse(header.template.content))
-        }
-    }, [header])
-
-    useEffect(function () {
-        if(header){
-            setLogo(header.logo.image)
-        }
-    }, [header])
-
-    useEffect(function () {
-        if(nav && logo.url){
+        if(templates.header && logo.image){
             setShowRender(true)
         }else{
             setShowRender(false)
         }
-    }, [nav, logo])
+    }, [templates, logo])
+
+    useEffect(function () {
+        if(templates.header){
+            setHeader(templates.header)
+        }
+    }, [templates])
 
 
     return (
@@ -52,21 +39,8 @@ export default function Header({children, title, setShowRender, showRender}) {
                 {children}
             </Head>
             <header className={"nav"}>
-                <RenderHeader showRender={showRender} nav={nav} template={template} />
+                <RenderHeader showRender={showRender} nav={header.nav ?? []} template={header.template ? JSON.parse(header.template.content) : []} />
             </header>
         </>
     );
-}
-
-const Item = function ({item}) {
-    return <li className={"nav__menu_item"}>
-        <Link href={`${item.slug}`}>
-            <a>{item.label}</a>
-        </Link>
-        {item.child.length > 0 &&
-            <ul className={"sub"}>
-                {item.child.map(item => <Item key={item.slug} item={item}/>)}
-            </ul>
-        }
-    </li>
 }

@@ -1,19 +1,12 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {css} from '@emotion/react'
 import styled from '@emotion/styled'
 import {useInView} from 'react-intersection-observer';
-import {useHeader} from '../../../context/header';
 import Link from 'next/link';
+import {useLogo} from '../../../context/logo';
 
 export default function LogoRender({element}) {
-    const {header} = useHeader()
-    const [logo, setLogo] = useState({});
-
-    useEffect(function () {
-        if (header) {
-            setLogo(header.logo.image)
-        }
-    }, [header])
+    const {logo} = useLogo()
     const {ref, inView} = useInView();
 
     const concatValueUnit = (value, unit = 'px') => {
@@ -122,7 +115,7 @@ export default function LogoRender({element}) {
             <div ref={ref} css={styleDiv}>
                 <Link href='/'>
                     <a className={"nav__logo"} title="Page d'accueil">
-                        <Image src={logo.url} alt={"Logo"}/>
+                        <Image src={logo.image.url} alt={"Logo"}/>
                     </a>
                 </Link>
             </div>

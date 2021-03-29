@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {css} from '@emotion/react'
 import styled from '@emotion/styled'
 import {useInView} from 'react-intersection-observer';
@@ -7,6 +7,12 @@ import Link from 'next/link';
 export default function MenuRender({element, nav}) {
     const {ref, inView} = useInView();
     const [isNavActive, setIsNavActive] = useState(false)
+
+    const [menu, setMenu] = useState(nav)
+
+    useEffect(function () {
+        setMenu(nav)
+    }, [nav])
 
     const concatValueUnit = (value, unit = 'px') => {
         return value + (value && unit)
@@ -109,7 +115,7 @@ export default function MenuRender({element, nav}) {
             <div ref={ref} css={styleDiv}>
                 <Nav>
                     <ul className={`nav__menu ${isNavActive ? "isActive" : ''}`}>
-                        {nav && nav.map(item => <Item key={item.slug} item={item} setIsNavActive={setIsNavActive} />)}
+                        {menu && menu.map(item => <Item key={item.slug} item={item} setIsNavActive={setIsNavActive} />)}
                     </ul>
                     <button className={`nav__burger ${isNavActive ? "isActive" : ''}`} onClick={() => setIsNavActive(!isNavActive)}>
                         <span></span>

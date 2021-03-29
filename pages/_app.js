@@ -11,8 +11,9 @@ import en from 'intl/lang/en.json';
 import fr from 'intl/lang/fr.json';
 import { AuthProvider } from 'authentication/authContext';
 import {SiteNameProvider} from 'context/siteName';
-import {HeaderProvider} from 'context/header';
 import {useEffect, useState} from 'react';
+import {TemplatesProvider} from 'context/template';
+import {LogoProvider} from 'context/logo';
 
 const messages = {
     en: en,
@@ -42,9 +43,11 @@ function MyApp({ Component, pageProps }) {
         <IntlProvider locale={language} messages={messages[language] ? messages[language] : en}>
             <AuthProvider>
                 <SiteNameProvider>
-                    <HeaderProvider>
-                        <Component {...pageProps} />
-                    </HeaderProvider>
+                    <TemplatesProvider>
+                        <LogoProvider>
+                            <Component {...pageProps} />
+                        </LogoProvider>
+                    </TemplatesProvider>
                 </SiteNameProvider>
             </AuthProvider>
         </IntlProvider>

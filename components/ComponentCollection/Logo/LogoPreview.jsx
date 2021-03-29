@@ -1,17 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {css} from '@emotion/react'
 import styled from '@emotion/styled'
-import {useHeader} from '../../../context/header';
+import {useLogo} from '../../../context/logo';
 
 export default function LogoPreview({element, device}) {
-    const {header} = useHeader()
-    const [logo, setLogo] = useState({});
-
-    useEffect(function () {
-        if(header){
-            setLogo(header.logo.image)
-        }
-    }, [header])
+    const {logo} = useLogo()
 
     const concatValueUnit = (value, unit = 'px') => {
         return value + (value && unit)
@@ -107,7 +100,7 @@ export default function LogoPreview({element, device}) {
     return (
         <>
             <div css={styleDiv}>
-                <Image src={logo.url} alt={"Logo"}/>
+                <Image src={logo.image.url} alt={"Logo"}/>
             </div>
         </>
     );
