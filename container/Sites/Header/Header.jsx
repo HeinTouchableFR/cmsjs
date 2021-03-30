@@ -38,9 +38,7 @@ export default function Header({children, title, setShowRender, showRender}) {
                 <title>{title}</title>
                 {children}
             </Head>
-            <header className={"nav"}>
-                <RenderHeader showRender={showRender} nav={header.nav ?? []} template={header.template ? JSON.parse(header.template.content) : []} />
-            </header>
+            <RenderHeader showRender={showRender} nav={header.nav ?? []} template={header.template ? JSON.parse(header.template.content) : []} />
         </>
     );
 }

@@ -4,7 +4,7 @@ import styles from './Layout.module.scss';
 import Column from './Column/Column'
 import {structures} from 'variables/variables';
 
-export default function Layout({ layout, layoutUpdate, layoutDelete, onElementClick, currentElement, setCurrentElement, device, handleOpenPortal }) {
+export default function Layout({ layout, layoutUpdate, layoutDelete, onElementClick, currentElement, setCurrentElement, device, handleOpenPortal, mode }) {
         /**
      * Generates the button of the target structure
      * Button showing the shape of the structure
@@ -88,7 +88,7 @@ export default function Layout({ layout, layoutUpdate, layoutDelete, onElementCl
     };
 
     return (
-        <div className={`${styles.layout} ${device === "tablet" ? styles.tablet__preview : ''} ${device === "mobile" ? styles.mobile__preview : ''}`}>
+        <div className={`${mode === "page" ? styles.layout : styles.header__layout} ${device === "tablet" ? styles.tablet__preview : ''} ${device === "mobile" ? styles.mobile__preview : ''}`}>
             {layout.nbColumns > 0 ? (
                 <div className={`${styles.layout__container}`}>
                     {layout.columns &&

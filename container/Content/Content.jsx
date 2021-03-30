@@ -32,6 +32,7 @@ export default function Content({layouts, layoutAdd, layoutUpdate, layoutDelete,
                         setCurrentElement={setCurrentElement}
                         device={device}
                         handleOpenPortal={handleOpenPortal}
+                        mode={mode}
                     />
                 ))}</header>}
                 <AddLayout handleAddLayout={layoutAdd}/>

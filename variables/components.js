@@ -902,15 +902,15 @@ export default class defaultComponents {
                 menu: {
                     value: 'jBAOJwV8A1DWnzkP5PEQ',
                 },
-                alignment: 'left',
+                alignment: 'flex-end',
                 desktop: {
                     typo: {
                         family: 'Roboto',
                         size: {
                             unit: 'px',
-                            value: '16'
+                            value: '18'
                         },
-                        weight: '300',
+                        weight: '500',
                         transform: 'initial',
                         style: 'normal',
                         decoration: '',
@@ -921,7 +921,7 @@ export default class defaultComponents {
                         letterSpacing: '0',
                         color: {
                             normal: '#000',
-                            hover: '#000',
+                            hover: '#ff792d',
                         },
                     },
                     styles: {

@@ -18,6 +18,12 @@ export const alignmentsOptions = [
     {key: 'justify', text: <FormattedMessage id='builder.justify' defaultMessage='Justify' />, value: 'justify'},
 ];
 
+export const flexAlignmentsOptions = [
+    {key: 'left', text: <FormattedMessage id='builder.left' defaultMessage='Left' />, value: 'flex-start'},
+    {key: 'center', text: <FormattedMessage id='builder.center' defaultMessage='Center' />, value: 'center'},
+    {key: 'right', text: <FormattedMessage id='builder.right' defaultMessage='Right' />, value: 'flex-end'},
+];
+
 export const fontsOptions = [
     {key: 'Abril Fatface',
         text: 'Abril Fatface',

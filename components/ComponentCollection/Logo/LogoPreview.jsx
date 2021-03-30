@@ -100,7 +100,7 @@ export default function LogoPreview({element, device}) {
     return (
         <>
             <div css={styleDiv}>
-                <Image src={logo.image.url} alt={"Logo"}/>
+                <Image src={logo.image && logo.image.url} alt={"Logo"}/>
             </div>
         </>
     );

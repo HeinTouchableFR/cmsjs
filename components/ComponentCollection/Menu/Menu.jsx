@@ -3,10 +3,10 @@ import {useIntl} from 'react-intl';
 //Components
 import {Dropdown, Form, Tab} from 'semantic-ui-react';
 import {
-    alignmentsOptions,
+    flexAlignmentsOptions,
     animationsOptions,
     borderOptions,
-    durationsOptions
+    durationsOptions, fontsOptions, weightsOptions, transformsOptions, stylesOptions, decorationsOptions
 } from 'variables/options';
 import Accordion from 'components/Accordion/Accordion';
 import ColorPicker from 'components/ColorPicker/ColorPicker';
@@ -89,6 +89,63 @@ export default function Menu({element, device, onElementValueChange}) {
                     },
                 }
             },
+        };
+        setItem(updated);
+        onElementValueChange(updated);
+    };
+    const handleChangeTypoSizeLh = (e, data, key) => {
+        const updated = {
+            ...item,
+            content: {
+                ...item.content,
+                [device]: {
+                    ...item.content[device],
+                    typo: {
+                        ...item.content[device].typo,
+                        [key]: {
+                            ...item.content[device].typo[key],
+                            [data.name]: data.value
+                        },
+                    }
+                }
+            },
+        };
+        setItem(updated);
+        onElementValueChange(updated);
+    }
+    const handleChangeTypoSizeLineHeightUnit = (unit, key) => {
+        const updated = {
+            ...item,
+            content: {
+                ...item.content,
+                [device]: {
+                    ...item.content[device],
+                    typo: {
+                        ...item.content[device].typo,
+                        [key]: {
+                            unit: unit,
+                            value: unit === 'px' ? (key === 'size' ? '16' : '') : (key === 'size' ? '1.2' : '1')
+                        },
+                    },
+                }
+            },
+        };
+        setItem(updated);
+        onElementValueChange(updated);
+    }
+    const handleChangeTypo = (e, data) => {
+        const updated = {
+            ...item,
+            content: {
+                ...item.content,
+                [device]: {
+                    ...item.content[device],
+                    typo: {
+                        ...item.content[device].typo,
+                        [data.name]: data.value,
+                    }
+                }
+            }
         };
         setItem(updated);
         onElementValueChange(updated);
@@ -456,11 +513,93 @@ export default function Menu({element, device, onElementValueChange}) {
 
     return (
         <>
-            <Accordion active={true} title={'Image'}>
+            <Accordion active={true} title={'Menu'}>
                 <div className='field'>
                     <label>{intl.formatMessage({id: "builder.alignment", defaultMessage: "Alignment"})}</label>
                     <Dropdown fluid name='alignment' selection value={item.content.alignment}
-                              options={alignmentsOptions} onChange={handleChange}/>
+                              options={flexAlignmentsOptions} onChange={handleChange}/>
+                </div>
+            </Accordion>
+            <Accordion active={false} title={intl.formatMessage({id: "builder.typography", defaultMessage: "Typography"})}>
+                <div className='form__inline_item'>
+                    <div className='field'>
+                        <label>{intl.formatMessage({id: "builder.color", defaultMessage: "Color"})}</label>
+                        <ColorPicker defaultColor={item.content[device].typo.color.normal}
+                                     onColorChange={(color) => handleColorChange(color, 'color', 'normal', 'typo')}/>
+                    </div>
+                    <div className='field'>
+                        <label>{intl.formatMessage({id: "builder.color.hover", defaultMessage: "Color on hover"})}</label>
+                        <ColorPicker defaultColor={item.content[device].typo.color.hover}
+                                     onColorChange={(color) => handleColorChange(color, 'color', 'hover', 'typo')}/>
+                    </div>
+                </div>
+                <div className="form__inline_item">
+                    <div className='field'>
+                        <Form.Input fluid label={intl.formatMessage({id: "builder.font.size", defaultMessage: "Font size"})} placeholder='16' name='value' type='number' min="1"
+                                    max={item.content[device].typo.size.unit === 'px' ? 200 : 10}
+                                    step={item.content[device].typo.size.unit === 'px' ? 1 : 0.1}
+                                    value={item.content[device].typo.size.value}
+                                    onChange={(e, data) => handleChangeTypoSizeLh(e, data, 'size')}/>
+                    </div>
+                    <div className="field-group">
+                        <label className={item.content[device].typo.size.unit === 'px' ? 'selected' : undefined}
+                               onClick={() => handleChangeTypoSizeLineHeightUnit('px', 'size')}>PX</label>
+                        <label className={item.content[device].typo.size.unit === 'em' ? 'selected' : undefined}
+                               onClick={() => handleChangeTypoSizeLineHeightUnit('em', 'size')}>EM</label>
+                        <label className={item.content[device].typo.size.unit === 'rem' ? 'selected' : undefined}
+                               onClick={() => handleChangeTypoSizeLineHeightUnit('rem', 'size')}>REM</label>
+                        <label className={item.content[device].typo.size.unit === 'vw' ? 'selected' : undefined}
+                               onClick={() => handleChangeTypoSizeLineHeightUnit('vw', 'size')}>VW</label>
+                    </div>
+                </div>
+                <div className='form__inline_item'>
+                    <div className='field'>
+                        <label>{intl.formatMessage({id: "builder.font.family", defaultMessage: "Font family"})}</label>
+                        <Dropdown fluid name='family' selection value={item.content[device].typo.family} options={fontsOptions}
+                                  onChange={handleChangeTypo}/>
+                    </div>
+
+                    <div className='field'>
+                        <label>{intl.formatMessage({id: "builder.font.weight", defaultMessage: "Font weight"})}</label>
+                        <Dropdown fluid name='weight' selection value={item.content[device].typo.weight}
+                                  options={weightsOptions} onChange={handleChangeTypo}/>
+                    </div>
+                </div>
+                <div className='form__inline_item'>
+                    <div className='field'>
+                        <label>{intl.formatMessage({id: "builder.transform", defaultMessage: "Transform"})}</label>
+                        <Dropdown fluid name='transform' selection value={item.content[device].typo.transform}
+                                  options={transformsOptions} onChange={handleChangeTypo}/>
+                    </div>
+                    <div className='field'>
+                        <label>{intl.formatMessage({id: "builder.style", defaultMessage: "Style"})}</label>
+                        <Dropdown fluid name='style' selection value={item.content[device].typo.style} options={stylesOptions}
+                                  onChange={handleChangeTypo}/>
+                    </div>
+                    <div className='field'>
+                        <label>{intl.formatMessage({id: "builder.decoration", defaultMessage: "Decoration"})}</label>
+                        <Dropdown fluid name='decoration' selection value={Array.from(item.content[device].typo.decoration)}
+                                  options={decorationsOptions} onChange={handleChangeTypo} multiple />
+                    </div>
+                </div>
+                <div className="form__inline_item">
+                    <div className='field'>
+                        <Form.Input fluid label={intl.formatMessage({id: "builder.lineHeight", defaultMessage: "Line height"})} placeholder='1' name='value' type='number' min="1"
+                                    max={item.content[device].typo.lineHeight.unit === 'px' ? 100 : 10}
+                                    step={item.content[device].typo.lineHeight.unit === 'px' ? 1 : 0.1}
+                                    value={item.content[device].typo.lineHeight.value}
+                                    onChange={(e, data) => handleChangeTypoSizeLh(e, data, 'lineHeight')}/>
+                    </div>
+                    <div className="field-group">
+                        <label className={item.content[device].typo.lineHeight.unit === 'px' ? 'selected' : undefined}
+                               onClick={() => handleChangeTypoSizeLineHeightUnit('px', 'lineHeight')}>PX</label>
+                        <label className={item.content[device].typo.lineHeight.unit === 'em' ? 'selected' : undefined}
+                               onClick={() => handleChangeTypoSizeLineHeightUnit('em', 'lineHeight')}>EM</label>
+                    </div>
+                </div>
+                <div className='field'>
+                    <Form.Input fluid label={intl.formatMessage({id: "builder.letterSpacing", defaultMessage: "Letter spacing"})} placeholder='0' name='letterSpacing' type='number'
+                                value={item.content[device].typo.letterSpacing} onChange={handleChangeTypo}/>
                 </div>
             </Accordion>
             <Accordion active={false} title={intl.formatMessage({id: "builder.advanced", defaultMessage: "Advanced"})}>
