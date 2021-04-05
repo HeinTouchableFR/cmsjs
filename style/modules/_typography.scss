@@ -3,6 +3,12 @@
 $f-sf: 'SF Pro Text', sans-serif;
 $f-gotham: 'Gotham', sans-serif;
 
+:root{
+  --main-color: #5a2fdd;
+  --color-dark: #1D2231;
+  --text-grey: #8390A2;
+}
+
 // Font face
 // ==================
 /*@include font-face('SF Pro Text', 'fonts/SFProText-Light', 300, null, woff2 woff ttf svg eot);
