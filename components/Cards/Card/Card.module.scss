@@ -1,0 +1,18 @@
+.card {
+  background: #FFF;
+  border-radius: 5px;
+
+  h3 {
+    font-weight: 600;
+    font-size: 1.5rem;
+  }
+}
+
+.card_header, .card_body {
+  padding: 1rem;
+}
+.card_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

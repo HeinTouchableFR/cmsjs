@@ -1,25 +1,22 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
-
 import { Button } from 'components/Button/Button';
-import {NoLinkButton} from 'components/Button/NoLinkButton/NoLinkButton';
-import styles from 'components/Table/Table.module.scss'
 
-export default function Page({ item, url, parentPage, tiret = '', handleDelete }) {
+export default function Page({ item, url, parentPage, dash = '', handleDelete }) {
     const intl = useIntl();
 
     if (parentPage) {
-        tiret += ' — ';
+        dash += ' — ';
     }
 
     return (
         <>
-            <tr className={`${styles.tr}`}>
-                <td className={`${styles.td} ${styles.title}`}>
-                    {parentPage ? tiret : ''} {item.title}
+            <tr>
+                <td>
+                    {parentPage ? dash : ''} {item.title}
                 </td>
-                <td className={`${styles.td}`}>{item.author}</td>
-                <td className={`${styles.td}`}>
+                <td>{item.author}</td>
+                <td>
                     {item.updated
                         ? `${intl.formatMessage({ id: 'updated', defaultMessage: 'Updated' })} \n ${new Date(
                               item.updated
@@ -28,15 +25,15 @@ export default function Page({ item, url, parentPage, tiret = '', handleDelete }
                               item.published
                           ).toLocaleDateString()}  ${new Date(item.published).toLocaleTimeString()}`}
                 </td>
-                <td className={`${styles.td}`}>
-                    <Button url={`${process.env.URL}/${item.slug}`} style={'show'} icon={'fa-eye'} id={item._id} target={"_blank"} />
-                    <Button url={url} style={'edit'} icon={'fa-pen'} action={'edit'} id={item._id} />
-                    <NoLinkButton style={'delete'} icon={'fa-trash'} onClick={() => handleDelete(item, item.childPages.length === 0)} />
+                <td>
+                    <Button action={`${process.env.URL}/${item.slug}`} icon={'las la-eye'} target={"_blank"} />
+                    <Button action={`/admin/${url}/edit/${item._id}`} icon={'las la-edit'} />
+                    <Button action={() => handleDelete(item, item.childPages.length === 0)} icon={'las la-trash-alt'} />
                 </td>
             </tr>
             {item.childPagesData &&
                 item.childPagesData.map((itemE) => (
-                    <Page handleDelete={handleDelete} item={itemE} url={url} parentPage={item} tiret={tiret} key={itemE._id} />
+                    <Page handleDelete={handleDelete} item={itemE} url={url} parentPage={item} dash={dash} key={itemE._id} />
                 ))}
         </>
     );

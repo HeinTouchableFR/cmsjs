@@ -1,0 +1,24 @@
+.card_single {
+  display: flex;
+  justify-content: space-between;
+  background: #FFF;
+  padding: 2rem;
+  border-radius: 2px;
+
+  div:first-child span {
+    color: var(--text-grey);
+  }
+
+  div:last-child span {
+    color: var(--main-color);
+    font-size: 3rem;
+  }
+
+  &:last-child {
+    background: var(--main-color);
+
+    div:first-child span, div:last-child span, h2 {
+      color: #FFF;
+    }
+  }
+}

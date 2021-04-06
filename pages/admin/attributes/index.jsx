@@ -1,17 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
-
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 import { Confirm } from 'semantic-ui-react';
-
-import Header from 'components/Header/Header';
-import Content from 'components/Content/Content';
 import Table from 'components/Table/Table';
 import Attribute from 'components/rowTemplate/Attribute/Attribute';
+import Card from 'components/Cards/Card/Card';
+import Admin from 'container/Admin/Admin';
 
-export default function Index({ items, errors }) {
+export default function Index({ items }) {
     const intl = useIntl();
     const url = 'attributes';
     const router = useRouter();
@@ -63,9 +61,8 @@ export default function Index({ items, errors }) {
             <Head>
                 <title>{intl.formatMessage({ id: 'attributes', defaultMessage: 'Attribute' })}</title>
             </Head>
-            <Header>
-                <Content title={intl.formatMessage({ id: 'attributes', defaultMessage: 'Attributes' })} icon='fa-cubes' url={url}>
-                    {errors}
+            <Admin>
+                <Card title={intl.formatMessage({ id: 'attributes', defaultMessage: 'Attributes' })} buttonLabel={intl.formatMessage({ id: 'add', defaultMessage: 'Add' })} buttonAction={`/admin/${url}/add`} buttonIcon={"las la-plus"}>
                     <Table labels={labels}>
                         {items && items.map((item) => <Attribute item={item} url={url} key={item._id} handleDelete={open} />)}
                     </Table>
@@ -77,15 +74,14 @@ export default function Index({ items, errors }) {
                         cancelButton={intl.formatMessage({ id: 'no', defaultMessage: 'No' })}
                         confirmButton={intl.formatMessage({ id: 'yes', defaultMessage: 'Yes' })}
                     />
-                </Content>
-            </Header>
+                </Card>
+            </Admin>
         </>
     );
 }
 
 export async function getServerSideProps() {
     let items = [];
-    let errors = [];
 
     await axios
         .get(process.env.URL + '/api/attributes')
@@ -93,10 +89,9 @@ export async function getServerSideProps() {
             items = res.data.data;
         })
         .catch((error) => {
-            errors = JSON.stringify(error);
         });
 
     return {
-        props: { items, errors },
+        props: { items },
     };
 }

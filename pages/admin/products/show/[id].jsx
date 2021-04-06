@@ -1,13 +1,12 @@
 import React from 'react';
 import Head from 'next/head';
 import axios from 'axios';
-import { Card, Form } from 'semantic-ui-react';
-
-import Header from 'components/Header/Header';
-import Content from 'components/Content/Content';
+import { Card as SementicCard, Form } from 'semantic-ui-react';
 import {useIntl} from 'react-intl';
 import nookies from 'nookies';
-import {auth} from '../../../../utils/dbConnect';
+import {auth} from 'utils/dbConnect';
+import Card from 'components/Cards/Card/Card';
+import Admin from 'container/Admin/Admin';
 
 export default function Detail({ item, categories, attributes }) {
     const intl = useIntl()
@@ -33,8 +32,8 @@ export default function Detail({ item, categories, attributes }) {
             <Head>
                 <title>{intl.formatMessage({ id: 'product.detail', defaultMessage: 'Detail of the product {name}'}, {name: item.name})}</title>
             </Head>
-            <Header>
-                <Content title={intl.formatMessage({ id: 'products', defaultMessage: 'Products' })} icon='fa-cubes' url={url} action={intl.formatMessage({ id: 'detail', defaultMessage: 'Detail' })}>
+            <Admin>
+                <Card title={intl.formatMessage({ id: 'product.detail', defaultMessage: 'Detail of the product {name}'}, {name: item.name})} buttonLabel={intl.formatMessage({ id: 'back', defaultMessage: 'Back' })} buttonAction={`/admin/${url}`} buttonIcon={"las la-arrow-left"}>
                     <Form>
                         <Form.Input fluid label={intl.formatMessage({ id: 'name', defaultMessage: 'Name' })} placeholder={intl.formatMessage({ id: 'name', defaultMessage: 'Name' })} name='Name' disabled defaultValue={item.name} />
                         <Form.Input
@@ -135,8 +134,8 @@ export default function Detail({ item, categories, attributes }) {
                             ))}
                         </div>
                     </Form>
-                </Content>
-            </Header>
+                </Card>
+            </Admin>
         </>
     );
 }
@@ -152,9 +151,9 @@ const Attribute = function ({ attribute, attributes }) {
 
     return (
         <>
-            <Card fluid color='teal'>
-                <Card.Content header={realAttribute.name} />
-                <Card.Content>
+            <SementicCard fluid color='teal'>
+                <SementicCard.Content header={realAttribute.name} />
+                <SementicCard.Content>
                     <Form.Dropdown
                         placeholder={intl.formatMessage({ id: 'choose.one.more.values', defaultMessage: 'Choose one or more values' })}
                         fluid
@@ -169,8 +168,8 @@ const Attribute = function ({ attribute, attributes }) {
                     />
                     <Form.Checkbox label={intl.formatMessage({ id: 'visible.product.page', defaultMessage: 'Visible on the product page' })} name='visible' defaultChecked={attribute.visible} disabled />
                     <Form.Checkbox label={intl.formatMessage({ id: 'used.variations', defaultMessage: 'Used for variations' })} name='variation' defaultChecked={attribute.variation} disabled />
-                </Card.Content>
-            </Card>
+                </SementicCard.Content>
+            </SementicCard>
         </>
     );
 };

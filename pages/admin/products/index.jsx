@@ -3,14 +3,13 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 import { Confirm } from 'semantic-ui-react';
-
-import Header from 'components/Header/Header';
-import Content from 'components/Content/Content';
 import Table from 'components/Table/Table';
 import Product from 'components/rowTemplate/Product/Product';
 import {useIntl} from 'react-intl';
 import nookies from 'nookies';
 import {auth} from 'utils/dbConnect';
+import Card from 'components/Cards/Card/Card';
+import Admin from 'container/Admin/Admin';
 
 export default function Index({ items }) {
     const intl = useIntl()
@@ -64,8 +63,8 @@ export default function Index({ items }) {
             <Head>
                 <title>{intl.formatMessage({ id: 'products', defaultMessage: 'Products' })}</title>
             </Head>
-            <Header>
-                <Content title={intl.formatMessage({ id: 'products', defaultMessage: 'Products' })} icon='fa-cubes' url={url}>
+            <Admin>
+                <Card title={intl.formatMessage({ id: 'products', defaultMessage: 'Products' })} buttonLabel={intl.formatMessage({ id: 'add', defaultMessage: 'Add' })} buttonAction={`/admin/${url}/add`} buttonIcon={"las la-plus"}>
                     <Table labels={labels}>
                         {items && items.map((item) => <Product item={item} url={url} key={item._id} handleDelete={open} />)}
                     </Table>
@@ -77,8 +76,8 @@ export default function Index({ items }) {
                         cancelButton={intl.formatMessage({ id: 'no', defaultMessage: 'No' })}
                         confirmButton={intl.formatMessage({ id: 'yes', defaultMessage: 'Yes' })}
                     />
-                </Content>
-            </Header>
+                </Card>
+            </Admin>
         </>
     );
 }

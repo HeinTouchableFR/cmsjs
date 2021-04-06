@@ -2,8 +2,8 @@ import React, {useState} from 'react';
 import {DragDropContext, Draggable, Droppable} from 'react-beautiful-dnd';
 import Accordion from 'components/Accordion/Accordion';
 import {Form, Grid} from 'semantic-ui-react';
-import {NoLinkButton} from '../Button/NoLinkButton/NoLinkButton';
 import {useIntl} from 'react-intl';
+import {Button} from '../Button/Button';
 
 export default function MenuEditor({content, onChange}) {
     const items = JSON.parse(content)
@@ -241,7 +241,7 @@ function Item({item, isChild = false, index, isDisabled, parentIsDragging = fals
                                         onChange={(e, data) => handleChangeItem(e, data, item.id)}/>
                             <Form.Input label={intl.formatMessage({ id: 'navigation.label', defaultMessage: 'Navigation label' })} name="label" required defaultValue={item.label}
                                         onChange={(e, data) => handleChangeItem(e, data, item.id)}/>
-                            <NoLinkButton type={"button"} style={"delete"} icon={"fa-trash"} onClick={() => handleDeleteItem(item.id)}>delete</NoLinkButton>
+                            <Button action={() =>  handleDeleteItem(item.id)} icon={'las la-trash-alt'} />
                         </Accordion>
                         <Droppable droppableId={`${item.id}`}
                                    isDropDisabled={(parentIsDragging ? parentIsDragging : (snapshot.isDragging ? isDisabled : false)) ? isDisabled : false}>

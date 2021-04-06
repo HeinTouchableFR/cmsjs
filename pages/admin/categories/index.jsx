@@ -1,28 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import { useIntl } from 'react-intl';
-
+import React, {useEffect, useState} from 'react';
+import {useIntl} from 'react-intl';
 import Head from 'next/head';
-import { useRouter } from 'next/router';
-import { Confirm } from 'semantic-ui-react';
+import {useRouter} from 'next/router';
+import {Confirm} from 'semantic-ui-react';
 import axios from 'axios';
 import nookies from 'nookies';
-
-import { auth } from 'utils/dbConnect';
-
-import Header from 'components/Header/Header';
-import Content from 'components/Content/Content';
+import {auth} from 'utils/dbConnect';
 import Table from 'components/Table/Table';
 import Category from 'components/rowTemplate/Category/Category';
+import Admin from 'container/Admin/Admin';
+import Card from 'components/Cards/Card/Card';
 
-export default function Index({ items, errors }) {
+export default function Index({items}) {
     const intl = useIntl();
     const url = 'categories';
     const router = useRouter();
 
     const labels = [
-        { id: 'id', defaultMessage: 'Id' },
-        { id: 'name', defaultMessage: 'Name' },
-        { id: 'actions', defaultMessage: 'Actions' },
+        {id: 'id', defaultMessage: 'Id'},
+        {id: 'name', defaultMessage: 'Name'},
+        {id: 'actions', defaultMessage: 'Actions'},
     ];
 
     const [isDeleting, setIsDeleting] = useState(false);
@@ -63,24 +60,27 @@ export default function Index({ items, errors }) {
     return (
         <>
             <Head>
-                <title>Categories</title>
+                <title>{intl.formatMessage({id: 'categories', defaultMessage: 'Categories'})}</title>
             </Head>
-            <Header>
-                <Content title='Categories' icon='fa-folder' url={url}>
-                    {errors}
+            <Admin>
+                <Card title={intl.formatMessage({ id: 'categories', defaultMessage: 'Categories' })} buttonLabel={intl.formatMessage({ id: 'add', defaultMessage: 'Add' })} buttonAction={`/admin/${url}/add`} buttonIcon={"las la-plus"}>
                     <Table labels={labels}>
-                        {items && items.map((item) => <Category item={item} url={url} key={item._id} handleDelete={open} />)}
+                        {items && items.map((item) => <Category item={item} url={url} key={item._id}
+                                                                handleDelete={open}/>)}
                     </Table>
                     <Confirm
                         open={confirm}
                         onCancel={close}
                         onConfirm={handleDelete}
-                        content={intl.formatMessage({ id: 'item.deleteSentence', defaultMessage: 'Are you sure you want to delete this item?' })}
-                        cancelButton={intl.formatMessage({ id: 'no', defaultMessage: 'No' })}
-                        confirmButton={intl.formatMessage({ id: 'yes', defaultMessage: 'Yes' })}
+                        content={intl.formatMessage({
+                            id: 'item.deleteSentence',
+                            defaultMessage: 'Are you sure you want to delete this item?'
+                        })}
+                        cancelButton={intl.formatMessage({id: 'no', defaultMessage: 'No'})}
+                        confirmButton={intl.formatMessage({id: 'yes', defaultMessage: 'Yes'})}
                     />
-                </Content>
-            </Header>
+                </Card>
+            </Admin>
         </>
     );
 }
@@ -95,19 +95,16 @@ export async function getServerSideProps(ctx) {
         }
 
         let items = [];
-        let errors = [];
-
         await axios
             .get(process.env.URL + '/api/categories')
             .then((res) => {
                 items = res.data.data;
             })
             .catch((error) => {
-                errors = JSON.stringify(error);
             });
 
         return {
-            props: { items, errors },
+            props: {items},
         };
     } catch (err) {
         return {

@@ -1,19 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
-
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 import { Confirm } from 'semantic-ui-react';
 import nookies from 'nookies';
-
 import { auth } from 'utils/dbConnect';
-import Header from 'components/Header/Header';
-import Content from 'components/Content/Content';
 import Table from 'components/Table/Table';
 import Page from 'components/rowTemplate/Page/Page';
+import Admin from 'container/Admin/Admin';
+import Card from 'components/Cards/Card/Card';
 
-export default function Index({ items, errors }) {
+export default function Index({ items }) {
     const intl = useIntl();
     const url = 'pages';
     const router = useRouter();
@@ -71,9 +69,8 @@ export default function Index({ items, errors }) {
             <Head>
                 <title>{intl.formatMessage({ id: 'pages', defaultMessage: 'Pages' })}</title>
             </Head>
-            <Header>
-                <Content title={intl.formatMessage({ id: 'pages', defaultMessage: 'Pages' })} icon='fa-file-word' url={url}>
-                    {errors}
+            <Admin>
+                <Card title={intl.formatMessage({ id: 'pages', defaultMessage: 'Pages' })} buttonLabel={intl.formatMessage({ id: 'add', defaultMessage: 'Add' })} buttonAction={"/admin/pages/add"} buttonIcon={"las la-plus"}>
                     <Table labels={labels}>{items && items.map((item) => <Page item={item} url={url} key={item._id} handleDelete={open} />)}</Table>
                     <Confirm
                         open={confirm}
@@ -93,8 +90,9 @@ export default function Index({ items, errors }) {
                                 'You cannot delete a page that has children. Please delete child pages or edit the parent page for each child.',
                         })}
                     />
-                </Content>
-            </Header>
+                </Card>
+
+            </Admin>
         </>
     );
 }
@@ -109,7 +107,6 @@ export async function getServerSideProps(ctx) {
         }
 
         let items = [];
-        let errors = [];
 
         await axios
             .get(process.env.URL + '/api/pages')
@@ -117,11 +114,10 @@ export async function getServerSideProps(ctx) {
                 items = res.data.data;
             })
             .catch((error) => {
-                errors = JSON.stringify(error);
             });
 
         return {
-            props: { items, errors },
+            props: { items },
         };
     } catch (err) {
         return {

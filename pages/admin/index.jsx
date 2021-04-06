@@ -1,29 +1,7 @@
 import React from 'react';
-import { useIntl } from 'react-intl';
-import Head from 'next/head';
 import nookies from 'nookies';
-
 import { auth } from 'utils/dbConnect';
-import Header from 'components/Header/Header';
 
-export default function HomeAdmin() {
-    const intl = useIntl();
-
-    return (
-        <>
-            <Head>
-                <link
-                    rel='stylesheet'
-                    href='https://pro.fontawesome.com/releases/v5.10.0/css/all.css'
-                    integrity='sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p'
-                    crossOrigin='anonymous'
-                />
-                <title>{intl.formatMessage({ id: 'administration', defaultMessage: 'Administration' })}</title>
-            </Head>
-            <Header />
-        </>
-    );
-}
 
 export const getServerSideProps = async (ctx) => {
     try {
@@ -35,6 +13,10 @@ export const getServerSideProps = async (ctx) => {
         }
 
         return {
+            redirect: {
+                permanent: true,
+                destination: '/admin/dashboard',
+            },
             props: {},
         };
     } catch (err) {

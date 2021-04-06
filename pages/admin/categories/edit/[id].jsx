@@ -4,11 +4,10 @@ import { useRouter } from 'next/router';
 import axios from 'axios';
 import { Button, Form } from 'semantic-ui-react';
 import nookies from 'nookies';
-
 import { auth } from 'utils/dbConnect';
-import Header from 'components/Header/Header';
-import Content from 'components/Content/Content';
 import {useIntl} from 'react-intl';
+import Card from 'components/Cards/Card/Card';
+import Admin from 'container/Admin/Admin';
 
 export default function Modifier({ item, categories }) {
     const intl = useIntl();
@@ -96,8 +95,8 @@ export default function Modifier({ item, categories }) {
             <Head>
                 <title>{intl.formatMessage({ id: 'edit.category', defaultMessage: 'Edit Category' })} {item.name}</title>
             </Head>
-            <Header>
-                <Content title='Categories' icon='fa-folder' url={url} action={intl.formatMessage({ id: 'edit', defaultMessage: 'Edit' })}>
+            <Admin>
+                <Card title={`${intl.formatMessage({ id: 'edit.category', defaultMessage: 'Edit Category' })} ${item.name}`} buttonLabel={intl.formatMessage({ id: 'back', defaultMessage: 'Back' })} buttonAction={`/admin/${url}`} buttonIcon={"las la-arrow-left"}>
                     <Form onSubmit={handleSubmit}>
                         <Form.Input
                             fluid
@@ -128,8 +127,8 @@ export default function Modifier({ item, categories }) {
                         />
                         <Button type='submit'>{intl.formatMessage({ id: 'edit', defaultMessage: 'Edit' })}</Button>
                     </Form>
-                </Content>
-            </Header>
+                </Card>
+            </Admin>
         </>
     );
 }

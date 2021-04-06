@@ -3,11 +3,10 @@ import Head from 'next/head';
 import axios from 'axios';
 import { Form } from 'semantic-ui-react';
 import nookies from 'nookies';
-
 import { auth } from 'utils/dbConnect';
-import Header from 'components/Header/Header';
-import Content from 'components/Content/Content';
 import {useIntl} from 'react-intl';
+import Admin from 'container/Admin/Admin';
+import Card from 'components/Cards/Card/Card';
 
 export default function Detail({ item, categories }) {
     const intl = useIntl();
@@ -33,8 +32,8 @@ export default function Detail({ item, categories }) {
             <Head>
                 <title>{intl.formatMessage({ id: 'category.detail', defaultMessage: 'Detail of the {name} category'}, {name: item.name})}</title>
             </Head>
-            <Header>
-                <Content title='Categories' icon='fa-folder' url={url} action={intl.formatMessage({ id: 'detail', defaultMessage: 'Detail' })}>
+            <Admin>
+                <Card title={intl.formatMessage({ id: 'category.detail', defaultMessage: 'Detail of the {name} category'}, {name: item.name})} buttonLabel={intl.formatMessage({ id: 'back', defaultMessage: 'Back' })} buttonAction={`/admin/${url}`} buttonIcon={"las la-arrow-left"}>
                     <Form>
                         <Form.Input fluid label={intl.formatMessage({ id: 'name', defaultMessage: 'Name' })} placeholder={intl.formatMessage({ id: 'name', defaultMessage: 'Name' })} name='name' disabled defaultValue={item.name} required />
                         <Form.TextArea label={intl.formatMessage({ id: 'description', defaultMessage: 'Description' })} placeholder={intl.formatMessage({ id: 'description', defaultMessage: 'Description' })} name='description' disabled defaultValue={item.description} />
@@ -49,8 +48,8 @@ export default function Detail({ item, categories }) {
                             name='parentCategory'
                         />
                     </Form>
-                </Content>
-            </Header>
+                </Card>
+            </Admin>
         </>
     );
 }

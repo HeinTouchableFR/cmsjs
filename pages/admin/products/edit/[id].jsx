@@ -3,13 +3,13 @@ import { useIntl } from 'react-intl';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import axios from 'axios';
-import { Button, Card, Form } from 'semantic-ui-react';
-import Header from 'components/Header/Header';
-import Content from 'components/Content/Content';
+import { Button as SementicButton, Card as SementicCard, Form } from 'semantic-ui-react';
 import FileManager from 'components/FileManager/FileManager';
-import {NoLinkButton} from 'components/Button/NoLinkButton/NoLinkButton';
 import nookies from 'nookies';
 import {auth} from 'utils/dbConnect';
+import {Button} from 'components/Button/Button';
+import Card from 'components/Cards/Card/Card';
+import Admin from 'container/Admin/Admin';
 
 export default function Modifier({ item, categories, attributes, images }) {
     const intl = useIntl();
@@ -145,8 +145,8 @@ export default function Modifier({ item, categories, attributes, images }) {
             <Head>
                 <title>{intl.formatMessage({ id: 'edit.product', defaultMessage: 'Edit product' })} {item.name}</title>
             </Head>
-            <Header>
-                <Content title={intl.formatMessage({ id: 'products', defaultMessage: 'Products' })} icon='fa-cubes' url={url} action={intl.formatMessage({ id: 'edit', defaultMessage: 'Edit' })}>
+            <Admin>
+                <Card title={`${intl.formatMessage({ id: 'edit.product', defaultMessage: 'Edit product' })} ${item.name}`} buttonLabel={intl.formatMessage({ id: 'back', defaultMessage: 'Back' })} buttonAction={`/admin/${url}`} buttonIcon={"las la-arrow-left"}>
                     <Form>
                         <Form.Input
                             fluid
@@ -276,12 +276,12 @@ export default function Modifier({ item, categories, attributes, images }) {
                                 onChange={handleAddAttribute}
                             />
                         </div>
-                        <Button type='button' onClick={handleSubmit}>
+                        <SementicButton type='button' onClick={handleSubmit}>
                             {intl.formatMessage({ id: 'edit', defaultMessage: 'Edit' })}
-                        </Button>
+                        </SementicButton>
                     </Form>
-                </Content>
-            </Header>
+                </Card>
+            </Admin>
         </>
     );
 }
@@ -315,9 +315,9 @@ const Attribute = function ({ attribute, setForm, form, attributes }) {
 
     return (
         <>
-            <Card fluid color='teal'>
-                <Card.Content header={realAttribute.name} />
-                <Card.Content>
+            <SementicCard fluid color='teal'>
+                <SementicCard.Content header={realAttribute.name} />
+                <SementicCard.Content>
                     <Form.Dropdown
                         placeholder={intl.formatMessage({ id: 'choose.one.more.values', defaultMessage: 'Choose one or more values' })}
                         fluid
@@ -332,11 +332,11 @@ const Attribute = function ({ attribute, setForm, form, attributes }) {
                     />
                     <Form.Checkbox label={intl.formatMessage({ id: 'visible.product.page', defaultMessage: 'Visible on the product page' })} name='visible' onChange={handleChange} defaultChecked={attribute.visible} />
                     <Form.Checkbox label={intl.formatMessage({ id: 'used.variations', defaultMessage: 'Used for variations' })} name='variation' onChange={handleChange} defaultChecked={attribute.variation} />
-                </Card.Content>
-                <Card.Content extra>
-                    <NoLinkButton type='button' style={'delete'} icon={'fa-trash'} onClick={handleDelete} />
-                </Card.Content>
-            </Card>
+                </SementicCard.Content>
+                <SementicCard.Content extra>
+                    <Button action={() => handleDelete()} icon={'las la-trash-alt'} />
+                </SementicCard.Content>
+            </SementicCard>
         </>
     );
 };

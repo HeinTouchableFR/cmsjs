@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { Button, Card, Form, Input } from 'semantic-ui-react';
-
-import Header from 'components/Header/Header';
-import Content from 'components/Content/Content';
-import {NoLinkButton} from 'components/Button/NoLinkButton/NoLinkButton';
+import { Button as SementicButton, Card as SementicCard, Form, Input } from 'semantic-ui-react';
 import {useIntl} from 'react-intl';
+import Card from 'components/Cards/Card/Card';
+import Admin from 'container/Admin/Admin';
+import {Button} from 'components/Button/Button';
 
 export default function Add() {
     const intl = useIntl()
@@ -79,8 +78,8 @@ export default function Add() {
             <Head>
                 <title>{intl.formatMessage({ id: 'add.new.attribute', defaultMessage: 'Add a new attribute' })}</title>
             </Head>
-            <Header>
-                <Content title={intl.formatMessage({ id: 'attributes', defaultMessage: 'Attributes' })} icon='fa-cubes' url={url} action={intl.formatMessage({ id: 'add', defaultMessage: 'Add' })}>
+            <Admin>
+                <Card title={intl.formatMessage({ id: 'add.new.attribute', defaultMessage: 'Add a new attribute' })} buttonLabel={intl.formatMessage({ id: 'back', defaultMessage: 'Back' })} buttonAction={`/admin/${url}`} buttonIcon={"las la-arrow-left"}>
                     <Form onSubmit={handleSubmit}>
                         <Form.Input
                             fluid
@@ -94,15 +93,15 @@ export default function Add() {
                         {form.values.map((item) => (
                             <Value key={item._id} item={item} setForm={setForm} form={form} />
                         ))}
-                        <Button type='button' color='teal' onClick={handleAddValue}>
+                        <SementicButton type='button' color='teal' onClick={handleAddValue}>
                             {intl.formatMessage({ id: 'add.value', defaultMessage: 'Add value' })}
-                        </Button>
-                        <Button type='submit'>
+                        </SementicButton>
+                        <SementicButton type='submit'>
                             {intl.formatMessage({ id: 'add', defaultMessage: 'Add' })}
-                        </Button>
+                        </SementicButton>
                     </Form>
-                </Content>
-            </Header>
+                </Card>
+            </Admin>
         </>
     );
 }
@@ -120,14 +119,14 @@ const Value = function ({ item, form, setForm }) {
     };
 
     return (
-        <Card fluid color='teal'>
-            <Card.Content header={item.name} />
-            <Card.Content>
+        <SementicCard fluid color='teal'>
+            <SementicCard.Content header={item.name} />
+            <SementicCard.Content>
                 <Input fluid label={intl.formatMessage({ id: 'name', defaultMessage: 'Name' })} placeholder={intl.formatMessage({ id: 'name', defaultMessage: 'Name' })} name='name' required onChange={handleChange} />
-            </Card.Content>
-            <Card.Content extra>
-                <NoLinkButton type='button' style={'delete'} icon={'fa-trash'} onClick={handleDelete} />
-            </Card.Content>
-        </Card>
+            </SementicCard.Content>
+            <SementicCard.Content extra>
+                <Button action={() => handleDelete()} icon={'las la-trash-alt'} />
+            </SementicCard.Content>
+        </SementicCard>
     );
 };

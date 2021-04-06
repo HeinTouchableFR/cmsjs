@@ -1,22 +1,24 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 import styles from 'components/Table/Table.module.scss'
 
-export default function Table({ labels, children }) {
+export default function Table({labels, children}) {
 
     return (
-        <table className={`${styles.table} ${styles.tableStriped}`}>
-            <thead className={`${styles.thead}`}>
-                <tr>
+        <div className={styles.table_responsive}>
+            <table className={`${styles.table}`}>
+                <thead className={`${styles.thead}`}>
+                <tr className={styles.tr}>
                     {labels &&
-                        labels.map((label) => (
-                            <th className={`${styles.th}`} scope='col' key={label.id}>
-                                <FormattedMessage id={label.id} defaultMessage={label.defaultMessage} />
-                            </th>
-                        ))}
+                    labels.map((label) => (
+                        <td className={styles.td} scope='col' key={label.id}>
+                            <FormattedMessage id={label.id} defaultMessage={label.defaultMessage}/>
+                        </td>
+                    ))}
                 </tr>
-            </thead>
-            <tbody className={`${styles.tbody}`}>{children}</tbody>
-        </table>
+                </thead>
+                <tbody>{children}</tbody>
+            </table>
+        </div>
     );
 }

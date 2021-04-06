@@ -1,0 +1,19 @@
+@import "style/tools/mixins";
+
+.button {
+  background: var(--main-color);
+  border-radius: 10px;
+  color: #FFF;
+  font-size: .8rem;
+  padding: .5rem 1rem;
+  border: 1px solid var(--main-color);
+
+  span {
+    margin-left: .5rem;
+  }
+}
+
+.button:hover {
+  color: #FFF;
+  background: darkenFromVar(var(--main-color), 0.2);
+}

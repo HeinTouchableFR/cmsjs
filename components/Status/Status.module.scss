@@ -1,0 +1,19 @@
+.status {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 1rem;
+
+  &.red {
+    background: red;
+  }
+
+  &.orange {
+    background: orange;
+  }
+
+  &.green {
+    background: green;
+  }
+}

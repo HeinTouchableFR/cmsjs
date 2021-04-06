@@ -1,18 +1,15 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
-
 import Head from 'next/head';
 import axios from 'axios';
 import nookies from 'nookies';
-
 import { auth } from 'utils/dbConnect';
-
-import Header from 'components/Header/Header';
-import Content from 'components/Content/Content';
 import Table from 'components/Table/Table';
 import Template from 'components/rowTemplate/Template/Template';
+import Admin from 'container/Admin/Admin';
+import Card from 'components/Cards/Card/Card';
 
-export default function Index({ items, errors }) {
+export default function Index({ items }) {
     const intl = useIntl();
     const url = 'templates';
 
@@ -27,14 +24,13 @@ export default function Index({ items, errors }) {
             <Head>
                 <title>{intl.formatMessage({ id: 'templates', defaultMessage: 'Templates' })}</title>
             </Head>
-            <Header>
-                <Content title={intl.formatMessage({ id: 'templates', defaultMessage: 'Templates' })} icon='fa-project-diagram' url={url} action={intl.formatMessage({ id: 'templates', defaultMessage: 'Templates' })}>
-                    {errors}
+            <Admin>
+                <Card title={intl.formatMessage({ id: 'templates', defaultMessage: 'Templates' })}>
                     <Table labels={labels}>
                         {items && items.map((item) => <Template item={item} url={url} key={item._id} />)}
                     </Table>
-                </Content>
-            </Header>
+                </Card>
+            </Admin>
         </>
     );
 }
@@ -49,19 +45,16 @@ export async function getServerSideProps(ctx) {
         }
 
         let items = [];
-        let errors = [];
-
         await axios
             .get(process.env.URL + '/api/templates')
             .then((res) => {
                 items = res.data.data;
             })
             .catch((error) => {
-                errors = JSON.stringify(error);
             });
 
         return {
-            props: { items, errors },
+            props: { items },
         };
     } catch (err) {
         return {

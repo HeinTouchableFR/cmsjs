@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
-import Header from 'components/Header/Header';
-import Content from 'components/Content/Content';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 import { Button, Form } from 'semantic-ui-react';
 import nookies from 'nookies';
 import { auth } from 'utils/dbConnect';
 import {useIntl} from 'react-intl';
+import Admin from 'container/Admin/Admin';
+import Card from 'components/Cards/Card/Card';
 
 export default function Add({ categories }) {
     const intl = useIntl()
@@ -88,10 +88,10 @@ export default function Add({ categories }) {
     return (
         <>
             <Head>
-                <title>{intl.formatMessage({ id: 'add.new.category', defaultMessage: 'Add a nex category' })}</title>
+                <title>{intl.formatMessage({ id: 'add.new.category', defaultMessage: 'Add a new category' })}</title>
             </Head>
-            <Header>
-                <Content title='Categories' icon='fa-folder' url={url} action={intl.formatMessage({ id: 'add', defaultMessage: 'Add' })}>
+            <Admin>
+                <Card title={intl.formatMessage({ id: 'add.new.category', defaultMessage: 'Add a new category' })} buttonLabel={intl.formatMessage({ id: 'back', defaultMessage: 'Back' })} buttonAction={`/admin/${url}`} buttonIcon={"las la-arrow-left"}>
                     <Form onSubmit={handleSubmit}>
                         <Form.Input
                             fluid
@@ -116,8 +116,8 @@ export default function Add({ categories }) {
                             {intl.formatMessage({ id: 'add', defaultMessage: 'Add' })}
                         </Button>
                     </Form>
-                </Content>
-            </Header>
+                </Card>
+            </Admin>
         </>
     );
 }

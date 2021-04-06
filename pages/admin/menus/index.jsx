@@ -1,14 +1,14 @@
 import React, {useState} from 'react';
 import Head from 'next/head';
-import Header from 'components/Header/Header';
-import Content from 'components/Content/Content';
 import {auth} from 'utils/dbConnect';
-import {Accordion, Card, Divider, Dropdown, Form, Grid, Icon, Segment} from 'semantic-ui-react'
-import {NoLinkButton} from 'components/Button/NoLinkButton/NoLinkButton';
+import {Accordion, Card as SementicCard, Divider, Dropdown, Form, Grid, Icon, Segment} from 'semantic-ui-react'
 import MenuEditor from 'components/MenuEditor/MenuEditor';
 import {useIntl} from 'react-intl';
 import axios from 'axios';
 import nookies from 'nookies';
+import Admin from 'container/Admin/Admin';
+import Card from 'components/Cards/Card/Card';
+import {Button} from '../../../components/Button/Button';
 
 export default function Index({menus, pages}) {
     const intl = useIntl()
@@ -154,10 +154,9 @@ export default function Index({menus, pages}) {
             <Head>
                 <title>{intl.formatMessage({id: 'menus', defaultMessage: 'Menus'})}</title>
             </Head>
-            <Header>
-                <Content title={intl.formatMessage({id: 'menus', defaultMessage: 'Menus'})} icon='fa-bars' url={url}
-                         action={intl.formatMessage({id: 'menus', defaultMessage: 'Menus'})}>
-                    <Card fluid color="teal">
+            <Admin>
+                <Card title={intl.formatMessage({id: 'menus', defaultMessage: 'Menus'})}>
+                    <SementicCard fluid color="teal">
                         <Segment>
                             <Grid columns={2} relaxed='very' verticalAlign="middle">
                                 <Grid.Column>
@@ -196,10 +195,10 @@ export default function Index({menus, pages}) {
 
                             <Divider vertical>{intl.formatMessage({id: 'or', defaultMessage: 'OR'})}</Divider>
                         </Segment>
-                    </Card>
+                    </SementicCard>
                     <Grid columns={2}>
                         <Grid.Column width={3}>
-                            <Card fluid color='green'>
+                            <SementicCard fluid color='green'>
                                 <Accordion fluid styled>
                                     <Accordion.Title active={activeIndex === 0} index={0} onClick={handleClick}>
                                         <Icon name='dropdown'/>
@@ -259,12 +258,12 @@ export default function Index({menus, pages}) {
                                         </Form>
                                     </Accordion.Content>
                                 </Accordion>
-                            </Card>
+                            </SementicCard>
                         </Grid.Column>
                         <Grid.Column width={13}>
                             <Form onSubmit={save}>
-                                <Card fluid>
-                                    <Card.Content>
+                                <SementicCard fluid>
+                                    <SementicCard.Content>
                                         <Grid columns={2}>
                                             <Grid.Column>
                                                 <Form.Input inline label={intl.formatMessage({
@@ -279,14 +278,14 @@ export default function Index({menus, pages}) {
                                                 </Form.Button>
                                             </Grid.Column>
                                         </Grid>
-                                    </Card.Content>
-                                    <Card.Content>
+                                    </SementicCard.Content>
+                                    <SementicCard.Content>
                                         <MenuEditor content={form.items} onChange={onMenuChange}/>
-                                    </Card.Content>
-                                    <Card.Content extra>
+                                    </SementicCard.Content>
+                                    <SementicCard.Content extra>
                                         <Grid columns={2}>
                                             <Grid.Column>
-                                                <NoLinkButton icon={"fa-trash"} style={"delete"} onClick={handleDeleteMenu} type={"button"}/>
+                                                <Button action={() => handleDeleteMenu()} icon={'las la-trash-alt'} />
                                             </Grid.Column>
                                             <Grid.Column textAlign="right">
                                                 <Form.Button loading={loading} primary>
@@ -295,13 +294,13 @@ export default function Index({menus, pages}) {
                                                 </Form.Button>
                                             </Grid.Column>
                                         </Grid>
-                                    </Card.Content>
-                                </Card>
+                                    </SementicCard.Content>
+                                </SementicCard>
                             </Form>
                         </Grid.Column>
                     </Grid>
-                </Content>
-            </Header>
+                </Card>
+            </Admin>
         </>
     );
 }
