@@ -3,6 +3,10 @@ import nookies from 'nookies';
 import { auth } from 'utils/dbConnect';
 
 
+export default function Home() {
+    return <></>
+}
+
 export const getServerSideProps = async (ctx) => {
     try {
         const cookies = nookies.get(ctx);
