@@ -1,0 +1,80 @@
+@import "style/tools/mixins";
+
+.container {
+  width: 100%;
+  margin: 0 auto;
+  min-height: 100vh;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+  background: linear-gradient(-135deg, #c850c0, #4158d0);
+}
+
+.tilt{
+  display: block;
+  margin: auto;
+}
+
+.login_wrapper {
+  width: 960px;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 2rem;
+  justify-content: space-between;
+  padding: 100px 95px;
+
+  img{
+    display: block;
+    margin: auto;
+  }
+
+  form{
+    margin: auto;
+    width: 100%;
+
+    button {
+      display: block;
+      background: var(--main-color);
+      border-radius: 10px;
+      color: #FFF;
+      font-size: 1.3rem;
+      font-family: "Poppins", sans-serif;
+      padding: 0.5rem 1rem;
+      border: 1px solid var(--main-color);
+      margin: auto;
+
+      &:hover {
+        background: darkenFromVar(var(--main-color), 0.2);
+      }
+
+      i {
+        margin-left: 1rem;
+      }
+    }
+  }
+}
+
+.login_title {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 2rem;
+  color: #333333;
+  line-height: 1.2;
+  text-align: center;
+  width: 100%;
+  display: block;
+  padding-bottom: 54px;
+}
+
+
+@media only screen and (max-width: 920px) {
+  .login_wrapper{
+    grid-template-columns: 100%;
+    padding: 50px 50px;
+  }
+}
