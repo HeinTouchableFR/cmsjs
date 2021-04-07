@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext, createContext } from 'react';
 import nookies from 'nookies';
 import { firebase } from 'utils/firebaseClient';
 
-const AuthContext = createContext({
+const Auth = createContext({
     user: null,
 });
 
@@ -37,9 +37,9 @@ export function AuthProvider({ children }) {
         return () => clearInterval(handle);
     }, []);
 
-    return <AuthContext.Provider value={{ user }}>{children}</AuthContext.Provider>;
+    return <Auth.Provider value={{ user }}>{children}</Auth.Provider>;
 }
 
 export const useAuth = () => {
-    return useContext(AuthContext);
+    return useContext(Auth);
 };

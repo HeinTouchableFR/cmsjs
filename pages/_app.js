@@ -9,7 +9,7 @@ import 'style/tools/reset.scss';
 
 import en from 'intl/lang/en.json';
 import fr from 'intl/lang/fr.json';
-import { AuthProvider } from 'authentication/authContext';
+import { AuthProvider } from 'context/auth';
 import {SiteNameProvider} from 'context/siteName';
 import {useEffect, useState} from 'react';
 import {TemplatesProvider} from 'context/template';

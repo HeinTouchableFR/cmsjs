@@ -2,6 +2,7 @@ import React from 'react';
 import Head from 'next/head';
 import styles from './Admin.module.scss'
 import {useSiteName} from 'context/siteName';
+import {useAuth} from 'context/auth';
 import Link from 'next/link';
 import {useRouter} from 'next/router';
 import {FormattedMessage} from 'react-intl';
@@ -9,6 +10,7 @@ import {FormattedMessage} from 'react-intl';
 export default function Admin({children}) {
     const router = useRouter();
     const {siteName} = useSiteName()
+    const {user} = useAuth()
 
     return (
         <>
@@ -42,7 +44,7 @@ export default function Admin({children}) {
                                 <Link href={"/admin/pages"}>
                                     <a className={router.pathname.includes('pages') ? styles.active : undefined}>
                                         <span className="las la-file-alt"/>
-                                        <span><FormattedMessage id='pages' defaultMessage='Pages' /></span>
+                                        <span><FormattedMessage id='pages' defaultMessage='Pages'/></span>
                                     </a>
                                 </Link>
                             </li>
@@ -50,7 +52,7 @@ export default function Admin({children}) {
                                 <Link href={"/admin/categories"}>
                                     <a className={router.pathname.includes('categories') ? styles.active : undefined}>
                                         <span className="las la-folder"/>
-                                        <span><FormattedMessage id='categories' defaultMessage='Categories' /></span>
+                                        <span><FormattedMessage id='categories' defaultMessage='Categories'/></span>
                                     </a>
                                 </Link>
                             </li>
@@ -58,7 +60,7 @@ export default function Admin({children}) {
                                 <Link href={"/admin/products"}>
                                     <a className={router.pathname.includes('products') ? styles.active : undefined}>
                                         <span className="las la-cube"/>
-                                        <span><FormattedMessage id='products' defaultMessage='Products' /></span>
+                                        <span><FormattedMessage id='products' defaultMessage='Products'/></span>
                                     </a>
                                 </Link>
                             </li>
@@ -66,7 +68,7 @@ export default function Admin({children}) {
                                 <Link href={"/admin/attributes"}>
                                     <a className={router.pathname.includes('attributes') ? styles.active : undefined}>
                                         <span className="las la-cubes"/>
-                                        <span><FormattedMessage id='attributes' defaultMessage='Attributes' /></span>
+                                        <span><FormattedMessage id='attributes' defaultMessage='Attributes'/></span>
                                     </a>
                                 </Link>
                             </li>
@@ -74,7 +76,7 @@ export default function Admin({children}) {
                                 <Link href={"/admin/menus"}>
                                     <a className={router.pathname.includes('menus') ? styles.active : undefined}>
                                         <span className="las la-bars"/>
-                                        <span><FormattedMessage id='menus' defaultMessage='Menus' /></span>
+                                        <span><FormattedMessage id='menus' defaultMessage='Menus'/></span>
                                     </a>
                                 </Link>
                             </li>
@@ -82,7 +84,7 @@ export default function Admin({children}) {
                                 <Link href={"/admin/templates"}>
                                     <a className={router.pathname.includes('templates') ? styles.active : undefined}>
                                         <span className="las la-project-diagram"/>
-                                        <span><FormattedMessage id='templates' defaultMessage='Templates' /></span>
+                                        <span><FormattedMessage id='templates' defaultMessage='Templates'/></span>
                                     </a>
                                 </Link>
                             </li>
@@ -104,8 +106,8 @@ export default function Admin({children}) {
                         <div className={styles.user_wrapper}>
                             <img src="/placeholder.png" alt=""/>
                             <div>
-                                <h4>John Doe</h4>
-                                <small>Super admin</small>
+                                <h4>{user && user.displayName}</h4>
+                                <small>{user && user.email}</small>
                             </div>
                         </div>
                     </header>
