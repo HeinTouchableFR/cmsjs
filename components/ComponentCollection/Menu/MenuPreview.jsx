@@ -32,7 +32,9 @@ export default function MenuPreview({element, device}) {
     }
     const typoStyle = (device) => {
         let decorationString = ""
-        Array.from(element.content[device].typo.decoration).map(item => {decorationString += `${item} `})
+        Array.from(element.content[device].typo.decoration).map(item => {
+            decorationString += `${item} `
+        })
         return {
             fontSize: `${concatValueUnit(element.content[device].typo.size.value, element.content[device].typo.size.unit)}`,
             fontFamily: element.content[device].typo.family,
@@ -89,6 +91,11 @@ export default function MenuPreview({element, device}) {
             ...borderStyle(device, "hover")
         }
     }
+    const spanSize = (device) => {
+        return {
+            fontSize: `${concatValueUnit(element.content[device].typo.size.value, element.content[device].typo.size.unit)}`,
+        }
+    }
 
     const Nav = styled.nav({
         transition: 'width .2s',
@@ -143,62 +150,76 @@ export default function MenuPreview({element, device}) {
         }
     }
 
-    const NavMenu = styled.ul({
-        marginLeft: "auto",
-        display: "flex",
-        fontSize: "18px",
-        fontWeight: "500",
-        listStyle: "none",
-        marginBottom: "0",
-        justifyContent: element.content.alignment,
-        "a": {
-            ...typoStyle("desktop"),
-            ...colorStyle("desktop", "normal"),
-        },
-        "a:hover, a[aria-current]": {
-            ...colorStyle("desktop", "hover"),
-        },
-        "> * + *": {
-            marginLeft: "24px",
-        },
-        ...device === "mobile" && css({
-            display: isNavActive ?? "flex",
-            position: "fixed",
-            zIndex: "50",
-            background: "hsla(0,0%,100%,.95)",
-            margin: "auto",
-            top: 0,
-            left: "360px",
-            right: 0,
-            bottom: 0,
-            width: "360px",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            fontSize: "24px",
-            opacity: isNavActive ? "1" : "0",
-            pointerEvents: isNavActive ? "auto" : "none",
-            transition: "opacity .3s",
-            animation: isNavActive ?? "menuIn 1s",
-            "> *": {
-                transform: isNavActive ? "translateY(0px)" : "translateY(-10px)",
-                transition: "transform .3s, opacity .3s",
-                opacity: isNavActive ? '1' : "0",
-            },
-            "* + *": {
-                marginLeft: 0,
-                marginTop: "32px",
-            },
-        })
-    })
-
-    const NavMenuItem = styled.li({
-        position: "relative",
-        "&:hover > ul": {
-            visibility: "visible",
-            opacity: "1",
+    const NavMenu = styled.ul`
+        margin-left: auto;
+        display: flex;
+        font-size: 18px;
+        font-weight: 500;
+        list-style: none;
+        margin-bottom: 0;
+        justify-content: ${element.content.alignment};
+        label {
+            ${typoStyle("desktop")}
+            ${(device === "tablet" || device === "mobile") && typoStyle("tablet")}
+            ${device === "mobile" && typoStyle("mobile")}
+            ${colorStyle("desktop", "normal")}
+            ${(device === "tablet" || device === "mobile") && colorStyle("tablet", "normal")}
+            ${(device === "mobile") && colorStyle("mobile", "normal")}
         }
-    })
+        label:hover, a[aria-current] {
+            ${colorStyle("desktop", "hover")}
+        }
+        > * + * {
+            margin-left: 24px;
+        }
+        ${device === "mobile" && `
+            display: ${isNavActive ? "flex" : "none"};
+            position: fixed;
+            z-index: 50;
+            justify-content: normal;
+            background: hsla(0,0%,100%,.95);
+            top: 0;
+            right: 0;
+            bottom: 0;
+            flex-direction: column;
+            font-size: 24px;
+            padding: 60px 35px;
+            opacity: 1;
+            pointer-events: auto;
+            transition: opacity .3s;
+            width: 360px;
+            left: 360px;
+            margin: auto;
+    `
+        }
+       
+        `
+    const NavMenuItem = styled.li`
+        position: relative;
+        &:hover > ul {
+            visibility: visible;
+            opacity: 1;
+        }
+        span {
+            margin-left: 1rem;
+            ${spanSize("desktop")}
+            ${(device === "tablet" || device === "mobile") && spanSize("tablet")}
+            ${device === "mobile" && spanSize("mobile")}
+            ${colorStyle("desktop", "normal")}
+            ${(device === "tablet" || device === "mobile") && colorStyle("tablet", "normal")}
+            ${device === "mobile" && colorStyle("mobile", "normal")}
+        }
+        :hover > ul {
+            display: block;
+         }
+        ${device === "mobile" && `
+            width: 100%;
+            padding: 10px 0;
+            text-align: left;
+            margin-left: 0;
+            `
+        }
+    `
 
     const SubMenu = styled.ul({
         position: "absolute",
@@ -219,22 +240,40 @@ export default function MenuPreview({element, device}) {
             fontSize: "14px",
             marginBottom: "5px",
         },
-        "li a:hover": {
+        "li label:hover": {
             paddingLeft: "10px",
             borderLeft: `2px solid ${element.content["desktop"].typo.color["hover"]}`,
             transition: " all 0.3s ease-in-out",
-        }
+        },
+        ...device === "mobile" && css({
+            background: 'transparent',
+            boxShadow: 'none',
+            position: 'relative',
+            display: 'none',
+            "li": {
+                padding: "10px 25px",
+                fontSize: "14px",
+                marginBottom: "5px",
+            },
+            "ul": {
+                left: "0px",
+                top: "0",
+            },
+        }),
     })
 
-    const Item = ({item, setIsNavActive}) => {
+    const Item = ({item, setIsNavActive, icon = "la-angle-double-down"}) => {
         return <NavMenuItem>
-            <Link href={`${item.slug}`}>
-                <a onClick={() => setIsNavActive(false)}>{item.label}</a>
-            </Link>
+            <label onClick={() => setIsNavActive(false)}>{item.label}</label>
+
             {item.child.length > 0 &&
-            <SubMenu>
-                {item.child.map(item => <Item key={item.slug} item={item}/>)}
-            </SubMenu>
+            <>
+                <span className={`las ${icon}`}/>
+                <SubMenu>
+                    {item.child.map(item => <Item key={item.slug} item={item} icon="la-angle-double-right"
+                                                  setIsNavActive={setIsNavActive}/>)}
+                </SubMenu>
+            </>
             }
         </NavMenuItem>
     }
@@ -243,7 +282,8 @@ export default function MenuPreview({element, device}) {
         <>
             <Nav>
                 <NavMenu>
-                    {menu.items && JSON.parse(menu.items).map(item => <Item key={item.slug} item={item}/>)}
+                    {menu.items && JSON.parse(menu.items).map(item => <Item key={item.slug} item={item}
+                                                                            setIsNavActive={setIsNavActive}/>)}
                 </NavMenu>
                 <button key={"burger-button"} css={Burger} onClick={() => setIsNavActive(!isNavActive)}
                         className={`${isNavActive ? "isActive" : ''}`}>

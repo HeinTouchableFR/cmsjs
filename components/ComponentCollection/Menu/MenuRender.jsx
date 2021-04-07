@@ -162,11 +162,11 @@ export default function MenuRender({element, nav}) {
         "a:hover, a[aria-current]": {
             ...colorStyle("desktop", "hover"),
         },
-        "> * + *": {
-            marginLeft: "24px",
-        },
         '@media (min-width: 768px)': css({
             justifyContent: element.content.alignment,
+            "> * + *": {
+                marginLeft: "24px",
+            },
         }),
         '@media (max-width: 768px)': css({
             display: isNavActive ?? "flex",
@@ -178,31 +178,52 @@ export default function MenuRender({element, nav}) {
             right: 0,
             bottom: 0,
             flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
             fontSize: "24px",
+            padding: '60px 35px',
             opacity: isNavActive ? "1" : "0",
             pointerEvents: isNavActive ? "auto" : "none",
             transition: "opacity .3s",
             animation: isNavActive ?? "menuIn 1s",
+            "a": {
+                ...typoStyle("mobile"),
+                ...colorStyle("mobile", "normal"),
+            },
+            "a:hover, a[aria-current]": {
+                ...colorStyle("mobile", "hover"),
+            },
             "> *": {
                 transform: isNavActive ? "translateY(0px)" : "translateY(-10px)",
                 transition: "transform .3s, opacity .3s",
                 opacity: isNavActive ? '1' : "0",
             },
-            "* + *": {
-                marginLeft: 0,
-                marginTop: "32px",
-            },
+
         })
     })
 
     const NavMenuItem = styled.li({
         position: "relative",
+        "span": {
+            marginLeft: '1rem',
+            fontSize: `${concatValueUnit(element.content["desktop"].typo.size.value, element.content["desktop"].typo.size.unit)}`,
+            ...colorStyle("desktop", "normal"),
+        },
         "&:hover > ul": {
             visibility: "visible",
             opacity: "1",
-        }
+        },
+        '@media (max-width: 768px)': css({
+            width: '100%',
+            padding: '10px 0',
+            textAlign: 'left',
+            marginLeft: '0',
+            "&:hover > ul": {
+                display: 'block',
+            },
+            "span": {
+                fontSize: `${concatValueUnit(element.content["mobile"].typo.size.value, element.content["mobile"].typo.size.unit)}`,
+                ...colorStyle("mobile", "normal"),
+            }
+        })
     })
 
     const SubMenu = styled.ul({
@@ -228,18 +249,37 @@ export default function MenuRender({element, nav}) {
             paddingLeft: "10px",
             borderLeft: `2px solid ${element.content["desktop"].typo.color["hover"]}`,
             transition: " all 0.3s ease-in-out",
-        }
+        },
+        '@media (max-width: 768px)': css({
+            background: 'transparent',
+            boxShadow: 'none',
+            position: 'relative',
+            display: 'none',
+            "li": {
+                padding: "10px 25px",
+                fontSize: "14px",
+                marginBottom: "5px",
+            },
+            "ul": {
+                left: "0px",
+                top: "0",
+            },
+        })
     })
 
-    const Item = ({item, setIsNavActive}) => {
+    const Item = ({item, setIsNavActive, icon = "la-angle-double-down"}) => {
         return <NavMenuItem>
             <Link href={`${item.slug}`}>
                 <a onClick={() => setIsNavActive(false)}>{item.label}</a>
             </Link>
+
             {item.child.length > 0 &&
-            <SubMenu>
-                {item.child.map(item => <Item key={item.slug} item={item}/>)}
-            </SubMenu>
+            <>
+                <span className={`las ${icon}`} />
+                <SubMenu>
+                    {item.child.map(item => <Item key={item.slug} item={item} icon="la-angle-double-right"/>)}
+                </SubMenu>
+            </>
             }
         </NavMenuItem>
     }

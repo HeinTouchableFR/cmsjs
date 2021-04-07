@@ -1,5 +1,6 @@
 import Document, { Html, Head, Main, NextScript } from 'next/document';
 import { resetServerContext } from 'react-beautiful-dnd';
+import React from 'react';
 
 class MyDocument extends Document {
     static async getInitialProps(ctx) {
@@ -12,7 +13,9 @@ class MyDocument extends Document {
     render() {
         return (
             <Html>
-                <Head />
+                <Head>
+                    <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css"/>
+                </Head>
                 <body>
                     <Main />
                     <NextScript />
