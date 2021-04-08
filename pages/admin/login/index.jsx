@@ -61,6 +61,7 @@ export default function Index() {
                 <div className={styles.login_wrapper}>
                     <Tilt className={styles.tilt} scale={1.2}>
                         {logo.image && <img src={logo.image.url} alt="Logo"/>}
+                        <div className={styles.inner}>Welcome</div>
                     </Tilt>
                     <Form onSubmit={handleSubmit}>
                         <span className={styles.login_title}>
