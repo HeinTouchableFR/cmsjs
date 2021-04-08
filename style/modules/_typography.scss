@@ -4,19 +4,37 @@ $f-sf: 'SF Pro Text', sans-serif;
 $f-gotham: 'Gotham', sans-serif;
 
 :root{
-  --main-color: #5a2fdd;
-  --color-dark: #1D2231;
-  --text-grey: #8390A2;
+  --admin-main-color: #5a2fdd;
+  --admin-sidebar-color: var(--admin-main-color);
+  --admin-icon: var(--admin-main-color);
+  --admin-text-grey: #8390A2;
+  --admin-border: #d5e3ec;
+  --admin-background: #F1F5F9;
+  --admin-header: #FFF;
+  --admin-color: #222;
+  --admin-shadow: rgb(0 0 0 / 20%);
+  --admin-card: #FFF;
+  ---admin-table-hover: #E4E4E4;
+  --contrast: #e6eff4;
+}
+
+@include dark {
+  --admin-main-color: #141429;
+  --admin-sidebar-color: var(--admin-main-color);
+  --admin-icon: var(--contrast);
+  --admin-text-grey: #a4b1c3;
+  --admin-border: #2a2e5e;
+  --admin-background: #1b1e3d;
+  --admin-header: #171933;
+  --admin-color: #FFF;
+  --admin-shadow: rgb(255 255 255 / 20%);
+  --admin-card: #1d204d;
+  ---admin-table-hover: var(--admin-main-color);
+  --contrast: #e6eff4;
 }
 
 // Font face
 // ==================
-/*@include font-face('SF Pro Text', 'fonts/SFProText-Light', 300, null, woff2 woff ttf svg eot);
-@include font-face('SF Pro Text', 'fonts/SFProText-Regular', 400, null, woff2 woff ttf svg eot);
-@include font-face('SF Pro Text', 'fonts/SFProText-Medium', 500, null, woff2 woff ttf svg eot);
-@include font-face('SF Pro Text', 'fonts/SFProText-Semibold', 600, null, woff2 woff ttf svg eot);
-@include font-face('Gotham', 'fonts/Gotham-Bold', 700, null, woff2 woff ttf svg eot);
-*/
 
 //Google Fonts
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');

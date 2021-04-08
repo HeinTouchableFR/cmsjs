@@ -86,3 +86,26 @@ $space: 8px;
 @function darkenFromVar($variable, $opacity) {
   @return unquote('linear-gradient(to top,rgba(0, 0, 0,'+ $opacity +'),rgba(0, 0, 0,' + $opacity + '))' + $variable);
 }
+
+@mixin dark () {
+  @if (&) {
+    @media (prefers-color-scheme: dark) {
+      body:not([class~='theme-light']) & {
+        @content;
+      }
+    }
+    .theme-dark &{
+      @content;
+    }
+  } @else {
+
+    @media (prefers-color-scheme: dark) {
+      body:not([class~='theme-light']) {
+        @content;
+      }
+    }
+    .theme-dark {
+      @content;
+    }
+  }
+}

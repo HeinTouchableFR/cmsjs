@@ -4,8 +4,8 @@
 
   .thead {
     tr {
-      border-top: solid 1px #F0F0F0;
-      border-bottom: solid 2px #F0F0F0;
+      border-top: solid 1px var(--admin-border);
+      border-bottom: solid 2px var(--admin-border);
 
       &:hover, &:focus{
         background: inherit;
@@ -25,10 +25,11 @@
 
   tr {
     &:hover, &:focus{
-      background: #E4E4E4;
+      background: var(---admin-table-hover);
     }
     td {
       vertical-align: middle;
+      color: var(--admin-color);
     }
   }
 }

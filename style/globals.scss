@@ -45,16 +45,16 @@
 }
 
 #nprogress .bar {
-    background: #3bff09 !important;
+    background: var(--admin-icon) !important;
 }
 
 #nprogress .peg {
-    box-shadow: 0 0 10px #3bff09, 0 0 5px #3bff09;
+    box-shadow: 0 0 10px var(--admin-icon), 0 0 5px var(--admin-icon);
 }
 
 #nprogress .spinner-icon {
-    border-top-color: #3bff09;
-    border-left-color: #3bff09;
+    border-top-color: var(--admin-icon);
+    border-left-color: var(--admin-icon);
 }
 
 .container,

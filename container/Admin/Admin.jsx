@@ -6,6 +6,7 @@ import {useAuth} from 'context/auth';
 import Link from 'next/link';
 import {useRouter} from 'next/router';
 import {FormattedMessage} from 'react-intl';
+import {DarkModeButton} from 'components/Button/DarkModeButton/DarkModeButton';
 
 export default function Admin({children}) {
     const router = useRouter();
@@ -97,12 +98,12 @@ export default function Admin({children}) {
                             <label htmlFor="nav-toggle">
                                 <span className="las la-bars"/>
                             </label>
-                            <FormattedMessage id='dashboard' defaultMessage='Dashboard'/>
                         </h2>
                         <div className={styles.search_wrapper}>
                             <span className="las la-search"/>
                             <input type="search" placeholder="Search here"/>
                         </div>
+                        <DarkModeButton />
                         <div className={styles.user_wrapper}>
                             <img src="/placeholder.png" alt=""/>
                             <div>

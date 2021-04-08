@@ -3,6 +3,7 @@ import { useIntl } from 'react-intl';
 import { Button } from 'semantic-ui-react';
 
 import Component from 'components/ComponentCollection/Component';
+import {DarkModeButton} from 'components/Button/DarkModeButton/DarkModeButton';
 
 export default function Index() {
     // Utilisation de la traduction
@@ -86,6 +87,8 @@ export default function Index() {
                     color='orange'
                 />
             </div>
+
+            <DarkModeButton />
         </div>
     );
 }
