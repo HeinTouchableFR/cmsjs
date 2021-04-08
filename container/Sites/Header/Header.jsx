@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import Head from 'next/head';
-import Link from 'next/link';
 import RenderHeader from '../../RenderHeader/RenderHeader';
 import {useLogo} from 'context/logo';
 import {useTemplates} from 'context/template';
