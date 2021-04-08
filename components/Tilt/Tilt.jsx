@@ -1,30 +1,34 @@
-import React, {useState, useRef, useEffect, useLayoutEffect, useCallback,} from 'react';
+import React, {useState, useRef, useEffect, useCallback,} from 'react';
 
 export default function Tilt({
-                   style = {},
-                   className = '',
-                   reverse = false,
-                   max = 35,
-                   perspective = 1000,
-                   easing = 'cubic-bezier(.03,.98,.52,.99)',
-                   scale = 1,
-                   speed = 300,
-                   axis = '',
-                   reset = true,
-                   glare = true,
-                   maxGlare = 1,
-                   glareStyle = {},
-                   gyroscope = true,
-                   gyroscopeMinAngleX = -35,
-                   gyroscopeMaxAngleX = 35,
-                   gyroscopeMinAngleY = -35,
-                   gyroscopeMaxAngleY = 35,
-                   onMouseEnter = () => {},
-                   onMouseMove = () => {},
-                   onMouseLeave = () => {},
-                   onTiltChange = () => {},
-                   children,
-               }) {
+                                 style = {},
+                                 className = '',
+                                 reverse = false,
+                                 max = 35,
+                                 perspective = 1000,
+                                 easing = 'cubic-bezier(.03,.98,.52,.99)',
+                                 scale = 1,
+                                 speed = 300,
+                                 axis = '',
+                                 reset = true,
+                                 glare = false,
+                                 maxGlare = 1,
+                                 glareStyle = {},
+                                 gyroscope = true,
+                                 gyroscopeMinAngleX = -35,
+                                 gyroscopeMaxAngleX = 35,
+                                 gyroscopeMinAngleY = -35,
+                                 gyroscopeMaxAngleY = 35,
+                                 onMouseEnter = () => {
+                                 },
+                                 onMouseMove = () => {
+                                 },
+                                 onMouseLeave = () => {
+                                 },
+                                 onTiltChange = () => {
+                                 },
+                                 children,
+                             }) {
     // VARIABLES
     const [styleState, setStyle] = useState({
         position: 'relative',
@@ -64,7 +68,8 @@ export default function Tilt({
     // GLARE
     useEffect(() => {
         if (!glare || typeof window === 'undefined') {
-            return () => {};
+            return () => {
+            };
         }
 
         const updateGlareSize = () => {
@@ -82,11 +87,11 @@ export default function Tilt({
         };
     }, [glare]);
 
-    useLayoutEffect(() => {
+    useEffect(() => {
         setGlareStyle((prevGlareStyle) => ({
             ...prevGlareStyle,
-            width: element.current.offsetWidth * 2,
-            height: element.current.offsetWidth * 2,
+            width: element.current.offsetWidth === 0 ? '400%' : element.current.offsetWidth * 2,
+            height: element.current.offsetWidth === 0 ? '400%' :element.current.offsetWidth * 2,
         }));
     }, []);
 
@@ -159,7 +164,7 @@ export default function Tilt({
                 })
             );
 
-            onTiltChange({ detail: values });
+            onTiltChange({detail: values});
 
             updateCall.current = null;
         },
@@ -230,7 +235,8 @@ export default function Tilt({
     // DEVICE GYROSCOPE TILTING
     useEffect(() => {
         if (!gyroscope) {
-            return () => {};
+            return () => {
+            };
         }
 
         const onDeviceOrientation = (e) => {

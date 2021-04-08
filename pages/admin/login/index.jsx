@@ -45,11 +45,6 @@ export default function Index() {
         });
     };
 
-    /*
-    <Tilty className={styles.tilt} scale={1.2}>
-                        {logo.image && <img src={logo.image.url} alt="Logo"/>}
-                    </Tilty>
-     */
     return (
         <>
             <Head>
@@ -59,9 +54,8 @@ export default function Index() {
             <div className={styles.container}>
                 <DarkModeButton />
                 <div className={styles.login_wrapper}>
-                    <Tilt className={styles.tilt} scale={1.2}>
+                    <Tilt className={styles.tilt} scale={1.2} glare>
                         {logo.image && <img src={logo.image.url} alt="Logo"/>}
-                        <div className={styles.inner}>Welcome</div>
                     </Tilt>
                     <Form onSubmit={handleSubmit}>
                         <span className={styles.login_title}>
