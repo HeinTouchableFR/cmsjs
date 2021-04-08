@@ -7,6 +7,7 @@ import {useLogo} from 'context/logo';
 import styles from './login.module.scss';
 import {Form, Icon} from 'semantic-ui-react';
 import Head from 'next/head';
+import {DarkModeButton} from '../../../components/Button/DarkModeButton/DarkModeButton';
 
 export default function Index() {
     const {logo} = useLogo()
@@ -51,8 +52,15 @@ export default function Index() {
                 <title>Login</title>
             </Head>
             <div className={styles.container}>
+                <DarkModeButton />
                 <div className={styles.login_wrapper}>
-                    <Tilt className={styles.tilt} options={{max: 25}}>
+                    <Tilt className={styles.tilt} options={{
+                        gyroscope: true,
+                        gyroscopeMinAngleX: -45,
+                        gyroscopeMaxAngleX:     45,
+                        gyroscopeMinAngleY:     -45,
+                        gyroscopeMaxAngleY:     45
+                    }}>
                         {logo.image && <img src={logo.image.url} alt="Logo"/>}
                     </Tilt>
                     <Form onSubmit={handleSubmit}>

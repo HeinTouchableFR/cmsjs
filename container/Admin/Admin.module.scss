@@ -82,6 +82,8 @@
 
   h2, h4 {
     color: var(--admin-color);
+    margin-top: auto;
+    margin-bottom: auto;
   }
 
   label span {
@@ -254,8 +256,8 @@
   }
 
   .main {
-    margin-top: 70px;
-    min-height: calc(100vh - 70px);
+    margin-top: 68px;
+    min-height: calc(100vh - 68px);
   }
 
   .main_content {

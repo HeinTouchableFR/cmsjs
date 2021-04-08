@@ -19,7 +19,7 @@
 
 .login_wrapper {
   width: 960px;
-  background: #fff;
+  background: var(--admin-card);
   border-radius: 10px;
   overflow: hidden;
   display: grid;
@@ -39,17 +39,17 @@
 
     button {
       display: block;
-      background: var(--main-color);
+      background: var(--admin-main-color);
       border-radius: 10px;
       color: #FFF;
       font-size: 1.3rem;
       font-family: "Poppins", sans-serif;
       padding: 0.5rem 1rem;
-      border: 1px solid var(--main-color);
+      border: 1px solid var(--admin-main-color);
       margin: auto;
 
       &:hover {
-        background: darkenFromVar(var(--main-color), 0.2);
+        background: darkenFromVar(var(--admin-main-color), 0.2);
       }
 
       i {
@@ -63,7 +63,7 @@
   font-family: 'Poppins', sans-serif;
   font-weight: 600;
   font-size: 2rem;
-  color: #333333;
+  color: var(--admin-color);
   line-height: 1.2;
   text-align: center;
   width: 100%;
