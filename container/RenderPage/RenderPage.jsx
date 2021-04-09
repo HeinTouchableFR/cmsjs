@@ -4,10 +4,10 @@ import ComponentDispatcher from 'components/ComponentCollection/ComponentDispatc
 import {Loader} from 'semantic-ui-react';
 
 export default function RenderPage({page, showRender = false}) {
-    const [content, setContent] = useState(JSON.parse(page.content));
+    const [content, setContent] = useState(page.content ? JSON.parse(page.content) : {});
 
     useEffect(function () {
-        setContent(JSON.parse(page.content))
+        setContent(page.content ? JSON.parse(page.content) : {})
     }, [page])
 
     return (

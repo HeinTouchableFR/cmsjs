@@ -1,16 +1,11 @@
 import * as admin from 'firebase-admin'
 
-const serviceAccount = {
-  client_email: process.env.CLIENT_EMAIL,
-  private_key: process.env.PRIVATE_KEY,
-  project_id: process.env.GCLOUD_PROJECT_ID,
-}
+const serviceAccount = JSON.parse(process.env.GOOGLE_APPLICATION_CREDENTIALS)
 
 if (!admin.apps.length) {
   try {
     admin.initializeApp({
       credential: admin.credential.cert(serviceAccount),
-      databaseURL: process.env.DATABASEURL
     });
   } catch (error) {
     console.log('Firebase admin initialization error', error.stack);

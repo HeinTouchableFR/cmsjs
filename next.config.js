@@ -1,16 +1,13 @@
 module.exports = {
     env: {
-        URL: process.env.SERVER,
-        GCLOUD_PROJECT_ID: process.env.GCLOUD_PROJECT_ID,
-        GCLOUD_STORAGE_BUCKET_URL: process.env.GCLOUD_STORAGE_BUCKET_URL,
-        CLIENT_EMAIL: process.env.CLIENT_EMAIL,
-        PRIVATE_KEY: process.env.PRIVATE_KEY.replace(/\\n/g, '\n'),
-        APIKEY: process.env.APIKEY,
-        AUTHDOMAIN: process.env.AUTHDOMAIN,
-        DATABASEURL: process.env.DATABASEURL,
-        MESSAGINGSENDERID: process.env.MESSAGINGSENDERID,
-        APPID: process.env.APPID,
-        MEASUREMENTID: process.env.MEASUREMENTID,
+        URL: process.env.server,
+        apiKey: process.env.apiKey,
+        authDomain: process.env.authDomain,
+        projectId: process.env.projectId,
+        storageBucket: process.env.storageBucket,
+        messagingSenderId: process.env.messagingSenderId,
+        appId: process.env.appId,
+        GOOGLE_APPLICATION_CREDENTIALS: process.env.GOOGLE_APPLICATION_CREDENTIALS
     },
     images: {
         domains: ['firebasestorage.googleapis.com'],
