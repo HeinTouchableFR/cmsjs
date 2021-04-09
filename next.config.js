@@ -1,13 +1,8 @@
 module.exports = {
     env: {
         URL: process.env.server,
-        apiKey: process.env.apiKey,
-        authDomain: process.env.authDomain,
-        projectId: process.env.projectId,
-        storageBucket: process.env.storageBucket,
-        messagingSenderId: process.env.messagingSenderId,
-        appId: process.env.appId,
-        GOOGLE_APPLICATION_CREDENTIALS: process.env.GOOGLE_APPLICATION_CREDENTIALS
+        GOOGLE_APPLICATION_CREDENTIALS: process.env.GOOGLE_APPLICATION_CREDENTIALS,
+        FIREBASE_CONFIG: process.env.FIREBASE_CONFIG,
     },
     images: {
         domains: ['firebasestorage.googleapis.com'],
