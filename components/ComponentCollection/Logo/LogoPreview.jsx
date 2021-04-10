@@ -1,10 +1,17 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {css} from '@emotion/react'
 import styled from '@emotion/styled'
-import {useLogo} from '../../../context/logo';
+import {useSettings} from 'context/settings';
 
 export default function LogoPreview({element, device}) {
-    const {logo} = useLogo()
+    const {settings} = useSettings()
+    const [logo, setLogo] = useState([])
+
+    useEffect(function () {
+        if(settings.logo){
+            setLogo(settings.logo)
+        }
+    }, [settings])
 
     const concatValueUnit = (value, unit = 'px') => {
         return value + (value && unit)

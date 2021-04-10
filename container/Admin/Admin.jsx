@@ -1,17 +1,24 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import Head from 'next/head';
 import styles from './Admin.module.scss'
-import {useSiteName} from 'context/siteName';
 import {useAuth} from 'context/auth';
 import Link from 'next/link';
 import {useRouter} from 'next/router';
 import {FormattedMessage} from 'react-intl';
 import {DarkModeButton} from 'components/Button/DarkModeButton/DarkModeButton';
+import {useSettings} from 'context/settings';
 
 export default function Admin({children}) {
     const router = useRouter();
-    const {siteName} = useSiteName()
+    const {settings} = useSettings()
+    const [siteName, setSiteName] = useState("")
     const {user} = useAuth()
+
+    useEffect(function () {
+        if(settings.sitename){
+            setSiteName(settings.sitename.value)
+        }
+    }, [settings])
 
     return (
         <>

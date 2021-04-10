@@ -2,15 +2,22 @@ import React, {useEffect, useState} from 'react';
 import {useIntl} from 'react-intl';
 import {useRouter} from 'next/router';
 import {firebase} from 'utils/firebaseClient';
-import {useLogo} from 'context/logo';
 import styles from './login.module.scss';
 import {Form, Icon} from 'semantic-ui-react';
 import Head from 'next/head';
 import {DarkModeButton} from 'components/Button/DarkModeButton/DarkModeButton';
-import Tilt from '../../../components/Tilt/Tilt';
+import Tilt from 'components/Tilt/Tilt';
+import {useSettings} from 'context/settings';
 
 export default function Index() {
-    const {logo} = useLogo()
+    const {settings} = useSettings()
+    const [logo, setLogo] = useState([])
+
+    useEffect(function () {
+        if(settings.logo){
+            setLogo(settings.logo)
+        }
+    }, [settings])
     const intl = useIntl();
 
     const [form, setForm] = useState({email: '', password: ''});

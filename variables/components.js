@@ -896,7 +896,7 @@ export default class defaultComponents {
         return {
             tag: '<nav/>',
             label: intl.formatMessage({id: 'menu', defaultMessage: 'Menu'}),
-            color: 'orange',
+            color: 'yellow',
             type: 'menu',
             defaultValue: {
                 menu: {
@@ -1125,7 +1125,10 @@ export default class defaultComponents {
     static templateComponents(intl) {
         return [
             this.defaultLogo(intl),
-            this.defaultMenu(intl)
+            this.defaultMenu(intl),
+            this.defaultTitle(intl),
+            this.defaultText(intl),
+            this.defaultImage(intl)
         ]
     }
 

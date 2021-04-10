@@ -1,14 +1,14 @@
 import Header from 'container/Sites/Header/Header';
 import React, {useState} from 'react';
-import {useSiteName} from '../context/siteName';
+import {useSettings} from 'context/settings';
 
 export default function Error404() {
-    const {siteName} = useSiteName()
+    const {settings} = useSettings()
     const [showRender, setShowRender] = useState(false)
 
     return (
         <>
-            <Header title={`Error 404 | ${siteName}`} setShowRender={setShowRender} showRender={showRender}/>
+            <Header title={`Error 404`} settings={settings} setShowRender={setShowRender} showRender={showRender}/>
             <div className='container'>:(</div>
         </>
     );

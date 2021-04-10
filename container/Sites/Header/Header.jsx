@@ -1,27 +1,32 @@
 import React, {useEffect, useState} from 'react';
 import Head from 'next/head';
 import RenderHeader from '../../RenderHeader/RenderHeader';
-import {useLogo} from 'context/logo';
 import {useTemplates} from 'context/template';
 
-export default function Header({children, title, setShowRender, showRender}) {
-    const {logo} = useLogo()
+export default function Header({children, title, settings, setShowRender, showRender}) {
     const {templates} = useTemplates()
 
     const [header, setHeader] = useState([])
+    const [siteName, setSiteName] = useState("")
     useEffect(function () {
-        if(templates.header && logo.image){
+        if(templates.header){
             setShowRender(true)
         }else{
             setShowRender(false)
         }
-    }, [templates, logo])
+    }, [templates])
 
     useEffect(function () {
         if(templates.header){
             setHeader(templates.header)
         }
     }, [templates])
+
+    useEffect(function () {
+        if(settings.sitename){
+            setSiteName(settings.sitename.value)
+        }
+    }, [settings])
 
 
     return (
@@ -34,7 +39,7 @@ export default function Header({children, title, setShowRender, showRender}) {
                     crossOrigin='anonymous'
                 />
                 <meta name="viewport" content="width=device-width, initial-scale=1.0,  user-scalable=no" />
-                <title>{title}</title>
+                <title>{title} | {siteName}</title>
                 {children}
             </Head>
             <RenderHeader showRender={showRender} nav={header.nav ?? []} template={header.template ? JSON.parse(header.template.content) : []} />

@@ -1,13 +1,20 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {css} from '@emotion/react'
 import styled from '@emotion/styled'
 import {useInView} from 'react-intersection-observer';
 import Link from 'next/link';
-import {useLogo} from '../../../context/logo';
+import {useSettings} from 'context/settings';
 
 export default function LogoRender({element}) {
-    const {logo} = useLogo()
+    const {settings} = useSettings()
     const {ref, inView} = useInView();
+    const [logo, setLogo] = useState([])
+
+    useEffect(function () {
+        if(settings.logo){
+            setLogo(settings.logo)
+        }
+    }, [settings])
 
     const concatValueUnit = (value, unit = 'px') => {
         return value + (value && unit)
@@ -115,7 +122,7 @@ export default function LogoRender({element}) {
             <div ref={ref} css={styleDiv}>
                 <Link href='/'>
                     <a className={"nav__logo"} title="Page d'accueil">
-                        <Image src={logo.image.url} alt={"Logo"}/>
+                        <Image src={logo.image && logo.image.url} alt={"Logo"}/>
                     </a>
                 </Link>
             </div>

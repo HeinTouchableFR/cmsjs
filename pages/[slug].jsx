@@ -1,17 +1,16 @@
 import React, {useState} from 'react';
 import Header from 'container/Sites/Header/Header';
 import RenderPage from 'container/RenderPage/RenderPage';
-import {db} from '../utils/dbConnect';
-import {useSiteName} from 'context/siteName';
+import {db} from 'utils/dbConnect';
+import {useSettings} from 'context/settings';
 
 export default function Page({post}) {
-    const {siteName} = useSiteName()
-
+    const {settings} = useSettings()
     const [showRender, setShowRender] = useState(false)
 
     return (
         <>
-            <Header title={`${post.title} | ${siteName}`} setShowRender={setShowRender} showRender={showRender}/>
+            <Header title={`${post.title}`} settings={settings} setShowRender={setShowRender} showRender={showRender}/>
             <div className='container'>
                 <RenderPage page={post} showRender={showRender}/>
             </div>

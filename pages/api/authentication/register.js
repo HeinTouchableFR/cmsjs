@@ -6,7 +6,7 @@ export default async (req, res) => {
     switch (method) {
         case 'POST':
             let userInfo = {
-                email: "aymericlhomme2@orange.fr",
+                email: "aymericlhomme@orange.fr",
                 password: "admin1234",
                 lastname: "Lhomme",
                 firstname: "Aymeric"
