@@ -1,37 +1,35 @@
-import React, {useState, useEffect, useContext, createContext} from 'react';
-import {useRouter} from 'next/router';
+import React, { useState, useEffect, useContext, createContext } from 'react';
+import { useRouter } from 'next/router';
 
 const Settings = createContext({
     value: null,
 });
 
-export function SettingsProvider({children}) {
+export function SettingsProvider({ children }) {
     const [settings, setSettings] = useState([]);
-    const router = useRouter()
+    const router = useRouter();
 
     useEffect(async () => {
-        const res = await fetch('/api/settings')
+        const res = await fetch('/api/settings');
         res.json().then(async (data) => {
-            const tmpSettings = []
+            const tmpSettings = [];
 
-            data.data.map(item => {
-                tmpSettings[item._id] = item
-            })
+            data.data.map((item) => {
+                tmpSettings[item._id] = item;
+            });
 
-            if (tmpSettings["sitename"] === undefined) {
-                const resInstallToken = await fetch('/api/install/token')
-                const installToken = await resInstallToken.json()
-                tmpSettings["installToken"] = installToken.data
-                router.push('/admin/install')
+            if (tmpSettings['sitename'] === undefined) {
+                const resInstallToken = await fetch('/api/install/token');
+                const installToken = await resInstallToken.json();
+                tmpSettings['installToken'] = installToken.data;
+                router.push('/admin/install');
             }
 
-            setSettings(tmpSettings)
-        })
+            setSettings(tmpSettings);
+        });
+    }, []);
 
-
-    }, [])
-
-    return <Settings.Provider value={{settings}}>{children}</Settings.Provider>;
+    return <Settings.Provider value={{ settings }}>{children}</Settings.Provider>;
 }
 
 export const useSettings = () => {

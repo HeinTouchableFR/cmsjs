@@ -8,7 +8,6 @@ import {
     decorationsOptions,
     fontsOptions,
     stylesOptions,
-    tagsOptions,
     transformsOptions,
     weightsOptions,
     animationsOptions,
@@ -16,13 +15,13 @@ import {
 } from 'variables/options';
 import { useIntl } from 'react-intl';
 
-export default function Title({ element, onElementValueChange, device }) {
+export default function Link({ element, onElementValueChange, device }) {
     const intl = useIntl();
     const [item, setItem] = useState(element);
 
     useEffect(
         function () {
-            if (element.content.text && element.type === 'title') {
+            if (element.content.text && element.type === 'link') {
                 setItem(element);
             }
         },
@@ -556,10 +555,15 @@ export default function Title({ element, onElementValueChange, device }) {
                     value={item.content.text}
                     onChange={handleChange}
                 />
-                <div className='field'>
-                    <label>{intl.formatMessage({ id: 'builder.htmlTag', defaultMessage: 'HTML Tag' })}</label>
-                    <Dropdown fluid name='tag' selection value={item.content.tag} options={tagsOptions} onChange={handleChange} />
-                </div>
+                <Form.Input
+                    fluid
+                    label={intl.formatMessage({ id: 'url', defaultMessage: 'url' })}
+                    placeholder={intl.formatMessage({ id: 'url', defaultMessage: 'url' })}
+                    name='url'
+                    type='url'
+                    value={item.content.url}
+                    onChange={handleChange}
+                />
                 <div className='field'>
                     <label>{intl.formatMessage({ id: 'builder.alignment', defaultMessage: 'Alignment' })}</label>
                     <Dropdown fluid name='alignment' selection value={item.content.alignment} options={alignmentsOptions} onChange={handleChange} />

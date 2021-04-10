@@ -1,83 +1,101 @@
-.component{
-  font-family: 'Coiny', cursive;
-  height: 75px;
-  box-sizing: border-box;
-  border-radius: 10px 0;
-  position: relative;
-  cursor: pointer;
+.component {
+    font-family: 'Coiny', cursive;
+    height: 75px;
+    box-sizing: border-box;
+    border-radius: 10px 0;
+    position: relative;
+    cursor: pointer;
 }
 
 .tag {
-  position: absolute;
-  top: 5%;
-  left: 5%;
+    position: absolute;
+    top: 5%;
+    left: 5%;
 }
 
-.label{
-  position: absolute;
-  bottom: 5%;
-  right: 5%;
+.label {
+    position: absolute;
+    bottom: 5%;
+    right: 5%;
 }
 
-.blue{
-  color: #56c7fa;
-  background: linear-gradient(154deg, #56c7fa 50%, #f2f2f2 50%);
-  border: 1px solid #56c7fa;
-  .tag {
+.blue {
+    color: #56c7fa;
+    background: linear-gradient(154deg, #56c7fa 50%, #f2f2f2 50%);
+    border: 1px solid #56c7fa;
+    .tag {
+        color: #f2f2f2;
+    }
+}
+
+.purple {
     color: #f2f2f2;
-  }
+    background: linear-gradient(154deg, #f2f2f2 50%, purple 50%);
+    border: 1px solid purple;
+    .tag {
+        color: purple;
+    }
 }
 
-.purple{
-  color: #f2f2f2;
-  background: linear-gradient(154deg, #f2f2f2 50%, #56c 50%);
-  border: 1px solid #56c;
-  .tag {
-    color: #56c;
-  }
-}
-
-.orange{
-  color: #f76540;
-  background: linear-gradient(154deg, #f76540 50%, #f2f2f2 50%);
-  border: 1px solid #f76540;
-  .tag {
+.violet {
     color: #f2f2f2;
-  }
+    background: linear-gradient(154deg, #f2f2f2 50%, violet 50%);
+    border: 1px solid violet;
+    .tag {
+        color: violet;
+    }
 }
 
-.brown{
-  color: #f2f2f2;
-  background: linear-gradient(154deg, #f2f2f2 50%, #540 50%);
-  border: 1px solid #540;
-  .tag {
-    color: #540;
-  }
-}
-
-.yellow{
-  color: #ffcb05;
-  background: linear-gradient(154deg, #ffcb05 50%, #f2f2f2 50%);
-  border: 1px solid #ffcb05;
-  .tag {
+.violet {
     color: #f2f2f2;
-  }
+    background: linear-gradient(154deg, #f2f2f2 50%, violet 50%);
+    border: 1px solid violet;
+    .tag {
+        color: violet;
+    }
 }
 
-.teal{
-  color: #f2f2f2;
-  background: linear-gradient(154deg, #f2f2f2 50%, #62cd9f 50%);
-  border: 1px solid #62cd9f;
-  .tag {
-    color: #62cd9f;
-  }
+.orange {
+    color: #f76540;
+    background: linear-gradient(154deg, #f76540 50%, #f2f2f2 50%);
+    border: 1px solid #f76540;
+    .tag {
+        color: #f2f2f2;
+    }
 }
 
-.pink{
-  color: #b67baa;
-  background: linear-gradient(154deg, #b67baa 50%, #f2f2f2 50%);
-  border: 1px solid #b67baa;
-  .tag {
+.brown {
     color: #f2f2f2;
-  }
+    background: linear-gradient(154deg, #f2f2f2 50%, #540 50%);
+    border: 1px solid #540;
+    .tag {
+        color: #540;
+    }
+}
+
+.yellow {
+    color: #ffcb05;
+    background: linear-gradient(154deg, #ffcb05 50%, #f2f2f2 50%);
+    border: 1px solid #ffcb05;
+    .tag {
+        color: #f2f2f2;
+    }
+}
+
+.teal {
+    color: #f2f2f2;
+    background: linear-gradient(154deg, #f2f2f2 50%, #62cd9f 50%);
+    border: 1px solid #62cd9f;
+    .tag {
+        color: #62cd9f;
+    }
+}
+
+.pink {
+    color: #b67baa;
+    background: linear-gradient(154deg, #b67baa 50%, #f2f2f2 50%);
+    border: 1px solid #b67baa;
+    .tag {
+        color: #f2f2f2;
+    }
 }

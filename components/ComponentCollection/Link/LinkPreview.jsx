@@ -1,9 +1,10 @@
 import React from 'react';
+
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import parse from 'html-react-parser';
 
-export default function TitlePreview({ element, device }) {
+export default function LinkPreview({ element, device }) {
     const concatValueUnit = (value, unit = 'px') => {
         return value + (value && unit);
     };
@@ -100,28 +101,28 @@ export default function TitlePreview({ element, device }) {
         };
     };
 
-    const titleStyle = function (device) {
+    const linkStyle = function (device) {
         return {
             ...colorStyle(device, 'normal'),
             ...typoStyle(device),
         };
     };
-    const titleStyleHover = function (device) {
+    const linkStyleHover = function (device) {
         return {
             ...colorStyle(device, 'hover'),
         };
     };
 
-    const Title = styled[element.content.tag]`
+    const LinkComp = styled.div`
         text-align: ${element.content.alignment};
         transition: 'color .2s';
-        ${titleStyle('desktop')}
-        ${(device === 'tablet' || device === 'mobile') && titleStyle('tablet')}
-            ${device === 'mobile' && titleStyle('mobile')}
+        ${linkStyle('desktop')}
+        ${(device === 'tablet' || device === 'mobile') && linkStyle('tablet')}
+            ${device === 'mobile' && linkStyle('mobile')}
             &:hover {
-            ${titleStyleHover('desktop')}
-            ${(device === 'tablet' || device === 'mobile') && titleStyleHover('tablet')}
-                ${device === 'mobile' && titleStyleHover('mobile')}
+            ${linkStyleHover('desktop')}
+            ${(device === 'tablet' || device === 'mobile') && linkStyleHover('tablet')}
+                ${device === 'mobile' && linkStyleHover('mobile')}
         } ;
     `;
 
@@ -154,7 +155,7 @@ export default function TitlePreview({ element, device }) {
     return (
         <>
             <div css={styleDiv}>
-                <Title>{parse(element.content.text)}</Title>
+                <LinkComp>{parse(element.content.text)}</LinkComp>
             </div>
         </>
     );

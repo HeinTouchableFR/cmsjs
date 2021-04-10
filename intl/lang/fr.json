@@ -113,6 +113,8 @@
     "lastname": "Nom",
     "layout.tooltip.add": "Cliquer sur le bouton + pour insérer une disposition",
     "length": "Longueur (cm)",
+    "link.default": "Mon lien",
+    "link": "Lien",
     "login": "Connexion",
     "logo": "Logo",
     "logout": "Déconnexion",

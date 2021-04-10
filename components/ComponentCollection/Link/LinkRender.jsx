@@ -1,9 +1,13 @@
 import React from 'react';
+import { useInView } from 'react-intersection-observer';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import parse from 'html-react-parser';
+import Link from 'next/link';
 
-export default function TitlePreview({ element, device }) {
+export default function LinkRender({ element }) {
+    const { ref, inView, entry } = useInView();
+
     const concatValueUnit = (value, unit = 'px') => {
         return value + (value && unit);
     };
@@ -94,67 +98,76 @@ export default function TitlePreview({ element, device }) {
 
     const animationStyle = (device) => {
         return {
-            animationDuration: element.content[device].animation.duration && element.content[device].animation.duration,
-            animationDelay: `${element.content[device].animation.delay && element.content[device].animation.delay}ms`,
-            animationName: `${element.content[device].animation.name}`,
+            animationDuration: inView && element.content[device].animation.duration && element.content[device].animation.duration,
+            animationDelay: `${inView && element.content[device].animation.delay && element.content[device].animation.delay}ms`,
+            animationName: `${inView && element.content[device].animation.name}`,
         };
     };
 
-    const titleStyle = function (device) {
-        return {
-            ...colorStyle(device, 'normal'),
-            ...typoStyle(device),
-        };
-    };
-    const titleStyleHover = function (device) {
-        return {
-            ...colorStyle(device, 'hover'),
-        };
-    };
+    const LinkComp = styled.div({
+        ...colorStyle('desktop', 'normal'),
+        textAlign: element.content.alignment,
+        ...typoStyle('desktop'),
+        transition: 'color .2s',
+        cursor: 'pointer',
+        '&:hover': {
+            ...colorStyle('desktop', 'hover'),
+        },
+        '@media (max-width: 1024px)': css({
+            ...typoStyle('tablet'),
+            ...colorStyle('tablet', 'normal'),
+            '&:hover': {
+                ...colorStyle('tablet', 'hover'),
+            },
+        }),
+        '@media (max-width: 768px)': css({
+            ...typoStyle('mobile'),
+            ...colorStyle('mobile', 'normal'),
+            '&:hover': {
+                ...colorStyle('mobile', 'hover'),
+            },
+        }),
+    });
 
-    const Title = styled[element.content.tag]`
-        text-align: ${element.content.alignment};
-        transition: 'color .2s';
-        ${titleStyle('desktop')}
-        ${(device === 'tablet' || device === 'mobile') && titleStyle('tablet')}
-            ${device === 'mobile' && titleStyle('mobile')}
-            &:hover {
-            ${titleStyleHover('desktop')}
-            ${(device === 'tablet' || device === 'mobile') && titleStyleHover('tablet')}
-                ${device === 'mobile' && titleStyleHover('mobile')}
-        } ;
-    `;
-
-    const containerStyle = function (device) {
-        return {
-            ...marginPaddingStyle(device),
-            ...backgroundStyle(device, 'normal'),
-            ...borderStyle(device, 'normal'),
-            ...animationStyle(device),
-        };
+    const styleDiv = {
+        ...marginPaddingStyle('desktop'),
+        ...backgroundStyle('desktop', 'normal'),
+        ...borderStyle('desktop', 'normal'),
+        ...animationStyle('desktop'),
+        '&:hover': {
+            ...backgroundStyle('desktop', 'hover'),
+            ...borderStyle('desktop', 'hover'),
+        },
+        '@media (max-width: 1024px)': css({
+            ...marginPaddingStyle('tablet'),
+            ...backgroundStyle('tablet', 'normal'),
+            ...borderStyle('tablet', 'normal'),
+            ...animationStyle('tablet'),
+            '&:hover': {
+                ...backgroundStyle('tablet', 'hover'),
+                ...borderStyle('tablet', 'hover'),
+            },
+        }),
+        '@media (max-width: 768px)': css({
+            ...marginPaddingStyle('mobile'),
+            ...backgroundStyle('mobile', 'normal'),
+            ...borderStyle('mobile', 'normal'),
+            ...animationStyle('mobile'),
+            '&:hover': {
+                ...backgroundStyle('mobile', 'hover'),
+                ...borderStyle('mobile', 'hover'),
+            },
+        }),
     };
-    const containerStyleHover = function (device) {
-        return {
-            ...backgroundStyle(device, 'hover'),
-            ...borderStyle(device, 'hover'),
-        };
-    };
-
-    const styleDiv = css`
-        ${containerStyle('desktop')}
-        ${(device === 'tablet' || device === 'mobile') && containerStyle('tablet')}
-            ${device === 'mobile' && containerStyle('mobile')}
-            &:hover {
-            ${containerStyleHover('desktop')}
-            ${(device === 'tablet' || device === 'mobile') && containerStyleHover('tablet')}
-                ${device === 'mobile' && containerStyleHover('mobile')}
-        } ;
-    `;
 
     return (
         <>
-            <div css={styleDiv}>
-                <Title>{parse(element.content.text)}</Title>
+            <div ref={ref} css={styleDiv}>
+                <div>
+                    <Link href={element.content.url}>
+                        <LinkComp>{parse(element.content.text)}</LinkComp>
+                    </Link>
+                </div>
             </div>
         </>
     );

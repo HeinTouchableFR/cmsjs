@@ -1,13 +1,12 @@
 export default class defaultComponents {
-
     static defaultTitle(intl) {
         return {
             tag: '<h1>',
-            label: intl.formatMessage({id: 'title', defaultMessage: 'Title'}),
+            label: intl.formatMessage({ id: 'title', defaultMessage: 'Title' }),
             color: 'blue',
             type: 'title',
             defaultValue: {
-                text: `${intl.formatMessage({id: 'title.default', defaultMessage: 'My great title'})}`,
+                text: `${intl.formatMessage({ id: 'title.default', defaultMessage: 'My great title' })}`,
                 tag: 'h2',
                 alignment: 'left',
                 desktop: {
@@ -15,7 +14,7 @@ export default class defaultComponents {
                         family: 'Roboto',
                         size: {
                             unit: 'px',
-                            value: '42'
+                            value: '42',
                         },
                         weight: '600',
                         transform: 'initial',
@@ -23,7 +22,7 @@ export default class defaultComponents {
                         decoration: '',
                         lineHeight: {
                             unit: 'em',
-                            value: '1'
+                            value: '1',
                         },
                         letterSpacing: '0',
                         color: {
@@ -77,14 +76,14 @@ export default class defaultComponents {
                         name: 'none',
                         duration: '1s',
                         delay: '0',
-                    }
+                    },
                 },
                 tablet: {
                     typo: {
                         family: '',
                         size: {
                             unit: '',
-                            value: ''
+                            value: '',
                         },
                         weight: '',
                         transform: '',
@@ -92,7 +91,7 @@ export default class defaultComponents {
                         decoration: '',
                         lineHeight: {
                             unit: '',
-                            value: ''
+                            value: '',
                         },
                         letterSpacing: '',
                         color: {
@@ -146,14 +145,14 @@ export default class defaultComponents {
                         name: '',
                         duration: '',
                         delay: '',
-                    }
+                    },
                 },
                 mobile: {
                     typo: {
                         family: '',
                         size: {
                             unit: '',
-                            value: ''
+                            value: '',
                         },
                         weight: '',
                         transform: '',
@@ -161,7 +160,7 @@ export default class defaultComponents {
                         decoration: '',
                         lineHeight: {
                             unit: '',
-                            value: ''
+                            value: '',
                         },
                         letterSpacing: '',
                         color: {
@@ -215,7 +214,7 @@ export default class defaultComponents {
                         name: '',
                         duration: '',
                         delay: '',
-                    }
+                    },
                 },
                 styles: {
                     textShadow: {
@@ -226,14 +225,14 @@ export default class defaultComponents {
                     },
                 },
             },
-        }
+        };
     }
 
     static defaultText(intl) {
         return {
             tag: '<p>',
-            label: intl.formatMessage({id: 'textEditor', defaultMessage: 'Text'}),
-            color: 'purple',
+            label: intl.formatMessage({ id: 'textEditor', defaultMessage: 'Text' }),
+            color: 'violet',
             type: 'text',
             defaultValue: {
                 text: `<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.</p>`,
@@ -243,7 +242,7 @@ export default class defaultComponents {
                         family: 'Roboto',
                         size: {
                             unit: 'px',
-                            value: '16'
+                            value: '16',
                         },
                         weight: '300',
                         transform: 'initial',
@@ -251,7 +250,7 @@ export default class defaultComponents {
                         decoration: '',
                         lineHeight: {
                             unit: 'em',
-                            value: '1'
+                            value: '1',
                         },
                         letterSpacing: '0',
                         color: {
@@ -305,14 +304,14 @@ export default class defaultComponents {
                         name: 'none',
                         duration: '1s',
                         delay: '0',
-                    }
+                    },
                 },
                 tablet: {
                     typo: {
                         family: '',
                         size: {
                             unit: '',
-                            value: ''
+                            value: '',
                         },
                         weight: '',
                         transform: '',
@@ -320,7 +319,7 @@ export default class defaultComponents {
                         decoration: '',
                         lineHeight: {
                             unit: '',
-                            value: ''
+                            value: '',
                         },
                         letterSpacing: '',
                         color: {
@@ -374,14 +373,14 @@ export default class defaultComponents {
                         name: '',
                         duration: '',
                         delay: '',
-                    }
+                    },
                 },
                 mobile: {
                     typo: {
                         family: '',
                         size: {
                             unit: '',
-                            value: ''
+                            value: '',
                         },
                         weight: '',
                         transform: '',
@@ -389,7 +388,7 @@ export default class defaultComponents {
                         decoration: '',
                         lineHeight: {
                             unit: '',
-                            value: ''
+                            value: '',
                         },
                         letterSpacing: '',
                         color: {
@@ -443,16 +442,16 @@ export default class defaultComponents {
                         name: '',
                         duration: '',
                         delay: '',
-                    }
-                }
+                    },
+                },
             },
-        }
+        };
     }
 
     static defaultImage(intl) {
         return {
             tag: '<img/>',
-            label: intl.formatMessage({id: 'image', defaultMessage: 'Image'}),
+            label: intl.formatMessage({ id: 'image', defaultMessage: 'Image' }),
             color: 'orange',
             type: 'image',
             defaultValue: {
@@ -467,21 +466,21 @@ export default class defaultComponents {
                         size: {
                             width: {
                                 unit: '%',
-                                value: '100'
+                                value: '100',
                             },
                             maxWidth: {
                                 unit: '%',
-                                value: '100'
+                                value: '100',
                             },
                             height: {
                                 unit: 'px',
-                                value: 'auto'
-                            }
+                                value: 'auto',
+                            },
                         },
                         opacity: {
                             normal: '1',
-                            hover: ''
-                        }
+                            hover: '',
+                        },
                     },
                     styles: {
                         background: {
@@ -529,28 +528,28 @@ export default class defaultComponents {
                         name: 'none',
                         duration: '1s',
                         delay: '0',
-                    }
+                    },
                 },
                 tablet: {
                     image: {
                         size: {
                             width: {
                                 unit: '',
-                                value: ''
+                                value: '',
                             },
                             maxWidth: {
                                 unit: '',
-                                value: ''
+                                value: '',
                             },
                             height: {
                                 unit: '',
-                                value: ''
-                            }
+                                value: '',
+                            },
                         },
                         opacity: {
                             normal: '',
-                            hover: ''
-                        }
+                            hover: '',
+                        },
                     },
                     styles: {
                         background: {
@@ -598,28 +597,28 @@ export default class defaultComponents {
                         name: '',
                         duration: '',
                         delay: '',
-                    }
+                    },
                 },
                 mobile: {
                     image: {
                         size: {
                             width: {
                                 unit: '',
-                                value: ''
+                                value: '',
                             },
                             maxWidth: {
                                 unit: '',
-                                value: ''
+                                value: '',
                             },
                             height: {
                                 unit: '',
-                                value: ''
-                            }
+                                value: '',
+                            },
                         },
                         opacity: {
                             normal: '',
-                            hover: ''
-                        }
+                            hover: '',
+                        },
                     },
                     styles: {
                         background: {
@@ -667,16 +666,245 @@ export default class defaultComponents {
                         name: '',
                         duration: '',
                         delay: '',
-                    }
-                }
+                    },
+                },
             },
-        }
+        };
+    }
+
+    static defaultLink(intl) {
+        return {
+            tag: '<Link>',
+            label: intl.formatMessage({ id: 'link', defaultMessage: 'link' }),
+            color: 'purple',
+            type: 'link',
+            defaultValue: {
+                text: `${intl.formatMessage({ id: 'link.default', defaultMessage: 'My great link' })}`,
+                url: '',
+                alignment: 'left',
+                desktop: {
+                    typo: {
+                        family: 'Roboto',
+                        size: {
+                            unit: 'px',
+                            value: '30',
+                        },
+                        weight: '600',
+                        transform: 'initial',
+                        style: 'normal',
+                        decoration: '',
+                        lineHeight: {
+                            unit: 'em',
+                            value: '1',
+                        },
+                        letterSpacing: '0',
+                        color: {
+                            normal: '#000000',
+                            hover: '#000000',
+                        },
+                    },
+                    styles: {
+                        background: {
+                            normal: '',
+                            hover: '',
+                        },
+                        border: {
+                            normal: {
+                                type: 'none',
+                                width: {
+                                    top: 0,
+                                    right: 0,
+                                    bottom: 0,
+                                    left: 0,
+                                },
+                                radius: {
+                                    unit: 'px',
+                                    top: 0,
+                                    right: 0,
+                                    bottom: 0,
+                                    left: 0,
+                                },
+                                color: 'inherit',
+                            },
+                            hover: {
+                                type: 'none',
+                                width: {
+                                    top: 0,
+                                    right: 0,
+                                    bottom: 0,
+                                    left: 0,
+                                },
+                                radius: {
+                                    unit: 'px',
+                                    top: 0,
+                                    right: 0,
+                                    bottom: 0,
+                                    left: 0,
+                                },
+                                color: 'inherit',
+                            },
+                        },
+                    },
+                    animation: {
+                        name: 'none',
+                        duration: '1s',
+                        delay: '0',
+                    },
+                },
+                tablet: {
+                    typo: {
+                        family: '',
+                        size: {
+                            unit: '',
+                            value: '',
+                        },
+                        weight: '',
+                        transform: '',
+                        style: '',
+                        decoration: '',
+                        lineHeight: {
+                            unit: '',
+                            value: '',
+                        },
+                        letterSpacing: '',
+                        color: {
+                            normal: '',
+                            hover: '',
+                        },
+                    },
+                    styles: {
+                        background: {
+                            normal: '',
+                            hover: '',
+                        },
+                        border: {
+                            normal: {
+                                type: '',
+                                width: {
+                                    top: '',
+                                    right: '',
+                                    bottom: '',
+                                    left: '',
+                                },
+                                radius: {
+                                    unit: '',
+                                    top: '',
+                                    right: '',
+                                    bottom: '',
+                                    left: '',
+                                },
+                                color: '',
+                            },
+                            hover: {
+                                type: '',
+                                width: {
+                                    top: '',
+                                    right: '',
+                                    bottom: '',
+                                    left: '',
+                                },
+                                radius: {
+                                    unit: '',
+                                    top: '',
+                                    right: '',
+                                    bottom: '',
+                                    left: '',
+                                },
+                                color: '',
+                            },
+                        },
+                    },
+                    animation: {
+                        name: '',
+                        duration: '',
+                        delay: '',
+                    },
+                },
+                mobile: {
+                    typo: {
+                        family: '',
+                        size: {
+                            unit: '',
+                            value: '',
+                        },
+                        weight: '',
+                        transform: '',
+                        style: '',
+                        decoration: '',
+                        lineHeight: {
+                            unit: '',
+                            value: '',
+                        },
+                        letterSpacing: '',
+                        color: {
+                            normal: '',
+                            hover: '',
+                        },
+                    },
+                    styles: {
+                        background: {
+                            normal: '',
+                            hover: '',
+                        },
+                        border: {
+                            normal: {
+                                type: '',
+                                width: {
+                                    top: '',
+                                    right: '',
+                                    bottom: '',
+                                    left: '',
+                                },
+                                radius: {
+                                    unit: '',
+                                    top: '',
+                                    right: '',
+                                    bottom: '',
+                                    left: '',
+                                },
+                                color: '',
+                            },
+                            hover: {
+                                type: '',
+                                width: {
+                                    top: '',
+                                    right: '',
+                                    bottom: '',
+                                    left: '',
+                                },
+                                radius: {
+                                    unit: '',
+                                    top: '',
+                                    right: '',
+                                    bottom: '',
+                                    left: '',
+                                },
+                                color: '',
+                            },
+                        },
+                    },
+                    animation: {
+                        name: '',
+                        duration: '',
+                        delay: '',
+                    },
+                },
+                styles: {
+                    textShadow: {
+                        color: '',
+                        blur: '10',
+                        horizontal: '0',
+                        vertical: '10',
+                    },
+                },
+            },
+        };
     }
 
     static defaultLogo(intl) {
         return {
             tag: '<img/>',
-            label: intl.formatMessage({id: 'logo', defaultMessage: 'Logo'}),
+            label: intl.formatMessage({ id: 'logo', defaultMessage: 'Logo' }),
             color: 'blue',
             type: 'logo',
             defaultValue: {
@@ -686,21 +914,21 @@ export default class defaultComponents {
                         size: {
                             width: {
                                 unit: '%',
-                                value: '100'
+                                value: '100',
                             },
                             maxWidth: {
                                 unit: '%',
-                                value: '100'
+                                value: '100',
                             },
                             height: {
                                 unit: 'px',
-                                value: 'auto'
-                            }
+                                value: 'auto',
+                            },
                         },
                         opacity: {
                             normal: '1',
-                            hover: ''
-                        }
+                            hover: '',
+                        },
                     },
                     styles: {
                         background: {
@@ -748,28 +976,28 @@ export default class defaultComponents {
                         name: 'none',
                         duration: '1s',
                         delay: '0',
-                    }
+                    },
                 },
                 tablet: {
                     image: {
                         size: {
                             width: {
                                 unit: '',
-                                value: ''
+                                value: '',
                             },
                             maxWidth: {
                                 unit: '',
-                                value: ''
+                                value: '',
                             },
                             height: {
                                 unit: '',
-                                value: ''
-                            }
+                                value: '',
+                            },
                         },
                         opacity: {
                             normal: '',
-                            hover: ''
-                        }
+                            hover: '',
+                        },
                     },
                     styles: {
                         background: {
@@ -817,28 +1045,28 @@ export default class defaultComponents {
                         name: '',
                         duration: '',
                         delay: '',
-                    }
+                    },
                 },
                 mobile: {
                     image: {
                         size: {
                             width: {
                                 unit: '',
-                                value: ''
+                                value: '',
                             },
                             maxWidth: {
                                 unit: '',
-                                value: ''
+                                value: '',
                             },
                             height: {
                                 unit: '',
-                                value: ''
-                            }
+                                value: '',
+                            },
                         },
                         opacity: {
                             normal: '',
-                            hover: ''
-                        }
+                            hover: '',
+                        },
                     },
                     styles: {
                         background: {
@@ -886,16 +1114,16 @@ export default class defaultComponents {
                         name: '',
                         duration: '',
                         delay: '',
-                    }
-                }
+                    },
+                },
             },
-        }
+        };
     }
 
     static defaultMenu(intl) {
         return {
             tag: '<nav/>',
-            label: intl.formatMessage({id: 'menu', defaultMessage: 'Menu'}),
+            label: intl.formatMessage({ id: 'menu', defaultMessage: 'Menu' }),
             color: 'yellow',
             type: 'menu',
             defaultValue: {
@@ -908,7 +1136,7 @@ export default class defaultComponents {
                         family: 'Roboto',
                         size: {
                             unit: 'px',
-                            value: '18'
+                            value: '18',
                         },
                         weight: '500',
                         transform: 'initial',
@@ -916,7 +1144,7 @@ export default class defaultComponents {
                         decoration: '',
                         lineHeight: {
                             unit: 'em',
-                            value: '1'
+                            value: '1',
                         },
                         letterSpacing: '0',
                         color: {
@@ -970,14 +1198,14 @@ export default class defaultComponents {
                         name: 'none',
                         duration: '1s',
                         delay: '0',
-                    }
+                    },
                 },
                 tablet: {
                     typo: {
                         family: '',
                         size: {
                             unit: '',
-                            value: ''
+                            value: '',
                         },
                         weight: '',
                         transform: '',
@@ -985,7 +1213,7 @@ export default class defaultComponents {
                         decoration: '',
                         lineHeight: {
                             unit: '',
-                            value: ''
+                            value: '',
                         },
                         letterSpacing: '',
                         color: {
@@ -1039,14 +1267,14 @@ export default class defaultComponents {
                         name: '',
                         duration: '',
                         delay: '',
-                    }
+                    },
                 },
                 mobile: {
                     typo: {
                         family: '',
                         size: {
                             unit: '',
-                            value: ''
+                            value: '',
                         },
                         weight: '',
                         transform: '',
@@ -1054,7 +1282,7 @@ export default class defaultComponents {
                         decoration: '',
                         lineHeight: {
                             unit: '',
-                            value: ''
+                            value: '',
                         },
                         letterSpacing: '',
                         color: {
@@ -1108,28 +1336,17 @@ export default class defaultComponents {
                         name: '',
                         duration: '',
                         delay: '',
-                    }
-                }
+                    },
+                },
             },
-        }
+        };
     }
 
     static pageComponents(intl) {
-        return [
-            this.defaultTitle(intl),
-            this.defaultText(intl),
-            this.defaultImage(intl)
-        ]
+        return [this.defaultTitle(intl), this.defaultText(intl), this.defaultImage(intl), this.defaultLink(intl)];
     }
 
     static templateComponents(intl) {
-        return [
-            this.defaultLogo(intl),
-            this.defaultMenu(intl),
-            this.defaultTitle(intl),
-            this.defaultText(intl),
-            this.defaultImage(intl)
-        ]
+        return [this.defaultLogo(intl), this.defaultMenu(intl), this.defaultTitle(intl), this.defaultText(intl), this.defaultImage(intl)];
     }
-
 }
