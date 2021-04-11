@@ -7,6 +7,8 @@ import nookies from 'nookies';
 import {auth} from 'utils/dbConnect';
 import Card from 'components/Cards/Card/Card';
 import Admin from 'container/Admin/Admin';
+import Input from 'components/Form/Input/Input';
+import Dropdown from 'components/Form/Dropdown/Dropdown';
 
 export default function Detail({ item, categories, attributes }) {
     const intl = useIntl()
@@ -35,69 +37,15 @@ export default function Detail({ item, categories, attributes }) {
             <Admin>
                 <Card title={intl.formatMessage({ id: 'product.detail', defaultMessage: 'Detail of the product {name}'}, {name: item.name})} buttonLabel={intl.formatMessage({ id: 'back', defaultMessage: 'Back' })} buttonAction={`/admin/${url}`} buttonIcon={"las la-arrow-left"}>
                     <Form>
-                        <Form.Input fluid label={intl.formatMessage({ id: 'name', defaultMessage: 'Name' })} placeholder={intl.formatMessage({ id: 'name', defaultMessage: 'Name' })} name='Name' disabled defaultValue={item.name} />
-                        <Form.Input
-                            fluid
-                            label={intl.formatMessage({ id: 'price', defaultMessage: 'Price' })}
-                            placeholder={intl.formatMessage({ id: 'price', defaultMessage: 'Price' })}
-                            name='price'
-                            type='number'
-                            step='0.01'
-                            disabled
-                            defaultValue={item.price}
-                        />
-                        <Form.Input
-                            fluid
-                            label={intl.formatMessage({ id: 'price.special', defaultMessage: 'Special Price' })}
-                            placeholder={intl.formatMessage({ id: 'price.special', defaultMessage: 'Special Price' })}
-                            name='specialPrice'
-                            type='number'
-                            step='0.01'
-                            disabled
-                            defaultValue={item.specialPrice}
-                        />
+                        <Input label={intl.formatMessage({ id: 'name', defaultMessage: 'Name' })} placeholder={intl.formatMessage({ id: 'name', defaultMessage: 'Name' })} name='Name' disabled defaultValue={item.name} />
+                        <Input label={intl.formatMessage({ id: 'price', defaultMessage: 'Price' })} placeholder={intl.formatMessage({ id: 'price', defaultMessage: 'Price' })} name='price' type='number' step='0.01' disabled defaultValue={item.price}/>
+                        <Input label={intl.formatMessage({ id: 'price.special', defaultMessage: 'Special Price' })} placeholder={intl.formatMessage({ id: 'price.special', defaultMessage: 'Special Price' })} name='specialPrice' type='number' step='0.01' disabled defaultValue={item.specialPrice}/>
                         <Form.TextArea label={intl.formatMessage({ id: 'description', defaultMessage: 'Description' })} placeholder={intl.formatMessage({ id: 'description', defaultMessage: 'Description' })} name='description' disabled defaultValue={item.description} />
                         <Form.Checkbox label={intl.formatMessage({ id: 'on.sale', defaultMessage: 'On sale' })} name='onSale' disabled defaultChecked={item.onSale} />
-                        <Form.Input
-                            fluid
-                            label={intl.formatMessage({ id: 'length', defaultMessage: 'Length (cm)' })}
-                            placeholder={intl.formatMessage({ id: 'length', defaultMessage: 'Length (cm)' })}
-                            name='length'
-                            type='number'
-                            step='0.01'
-                            disabled
-                            defaultValue={item.length}
-                        />
-                        <Form.Input
-                            fluid
-                            label={intl.formatMessage({ id: 'width', defaultMessage: 'Width (cm)' })}
-                            placeholder={intl.formatMessage({ id: 'width', defaultMessage: 'Width (cm)' })}
-                            name='width'
-                            type='number'
-                            step='0.01'
-                            disabled
-                            defaultValue={item.width}
-                        />
-                        <Form.Input
-                            fluid
-                            label={intl.formatMessage({ id: 'height', defaultMessage: 'Height (cm)' })}
-                            placeholder={intl.formatMessage({ id: 'height', defaultMessage: 'Height (cm)' })}
-                            name='height'
-                            type='number'
-                            step='0.01'
-                            disabled
-                            defaultValue={item.height}
-                        />
-                        <Form.Input
-                            fluid
-                            label={intl.formatMessage({ id: 'weight', defaultMessage: 'Weight (lb)' })}
-                            placeholder={intl.formatMessage({ id: 'weight', defaultMessage: 'Weight (lb)' })}
-                            name='weight'
-                            type='number'
-                            step='0.001'
-                            disabled
-                            defaultValue={item.weight}
-                        />
+                        <Input label={intl.formatMessage({ id: 'length', defaultMessage: 'Length (cm)' })} placeholder={intl.formatMessage({ id: 'length', defaultMessage: 'Length (cm)' })} name='length' type='number' step='0.01' disabled defaultValue={item.length}/>
+                        <Input label={intl.formatMessage({ id: 'width', defaultMessage: 'Width (cm)' })} placeholder={intl.formatMessage({ id: 'width', defaultMessage: 'Width (cm)' })} name='width' type='number' step='0.01' disabled defaultValue={item.width}/>
+                        <Input label={intl.formatMessage({ id: 'height', defaultMessage: 'Height (cm)' })} placeholder={intl.formatMessage({ id: 'height', defaultMessage: 'Height (cm)' })} name='height' type='number' step='0.01' disabled defaultValue={item.height}/>
+                        <Input label={intl.formatMessage({ id: 'weight', defaultMessage: 'Weight (lb)' })} placeholder={intl.formatMessage({ id: 'weight', defaultMessage: 'Weight (lb)' })} name='weight' type='number' step='0.001' disabled defaultValue={item.weight}/>
                         <div className='field'>
                             <label>{intl.formatMessage({ id: 'product.image', defaultMessage: 'Product Image' })}</label>
                             {item.productImage && <img width={120} height={120} src={item.productImage.url} />}
@@ -114,18 +62,7 @@ export default function Detail({ item, categories, attributes }) {
                         </div>
                         <div className='field'>
                             <label>{intl.formatMessage({ id: 'categories', defaultMessage: 'Categories' })}</label>
-                            <Form.Dropdown
-                                placeholder={intl.formatMessage({ id: 'choose.one.more.categories', defaultMessage: 'Choose one or more categories' })}
-                                fluid
-                                search
-                                clearable
-                                selection
-                                multiple
-                                options={categoriesOptions}
-                                name='categories'
-                                disabled
-                                defaultValue={item.categories}
-                            />
+                            <Dropdown placeholder={intl.formatMessage({ id: 'choose.one.more.categories', defaultMessage: 'Choose one or more categories' })} multiple options={categoriesOptions} name='categories' disabled defaultValue={item.categories}/>
                         </div>
                         <div className='field'>
                             <label>{intl.formatMessage({ id: 'attributes', defaultMessage: 'Attributes' })}</label>
@@ -154,18 +91,7 @@ const Attribute = function ({ attribute, attributes }) {
             <SementicCard fluid color='teal'>
                 <SementicCard.Content header={realAttribute.name} />
                 <SementicCard.Content>
-                    <Form.Dropdown
-                        placeholder={intl.formatMessage({ id: 'choose.one.more.values', defaultMessage: 'Choose one or more values' })}
-                        fluid
-                        search
-                        clearable
-                        selection
-                        multiple
-                        options={valuesOptions}
-                        name='values'
-                        defaultValue={attribute.values}
-                        disabled
-                    />
+                    <Dropdown placeholder={intl.formatMessage({ id: 'choose.one.more.values', defaultMessage: 'Choose one or more values' })} multiple options={valuesOptions} name='values' defaultValue={attribute.values} disabled/>
                     <Form.Checkbox label={intl.formatMessage({ id: 'visible.product.page', defaultMessage: 'Visible on the product page' })} name='visible' defaultChecked={attribute.visible} disabled />
                     <Form.Checkbox label={intl.formatMessage({ id: 'used.variations', defaultMessage: 'Used for variations' })} name='variation' defaultChecked={attribute.variation} disabled />
                 </SementicCard.Content>

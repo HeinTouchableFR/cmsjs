@@ -8,6 +8,8 @@ import { auth } from 'utils/dbConnect';
 import {useIntl} from 'react-intl';
 import Admin from 'container/Admin/Admin';
 import Card from 'components/Cards/Card/Card';
+import Input from 'components/Form/Input/Input';
+import Dropdown from 'components/Form/Dropdown/Dropdown';
 
 export default function Add({ categories }) {
     const intl = useIntl()
@@ -70,7 +72,7 @@ export default function Add({ categories }) {
         });
     };
 
-    const categoriesOptions = [{ key: 'empty', value: '', text: intl.formatMessage({ id: 'no.parent.category', defaultMessage: 'No parent category' }) }];
+    const categoriesOptions = [];
 
     const recursiveCategoriesOptions = function (category, dash = '', parent) {
         if (parent) {
@@ -93,25 +95,9 @@ export default function Add({ categories }) {
             <Admin>
                 <Card title={intl.formatMessage({ id: 'add.new.category', defaultMessage: 'Add a new category' })} buttonLabel={intl.formatMessage({ id: 'back', defaultMessage: 'Back' })} buttonAction={`/admin/${url}`} buttonIcon={"las la-arrow-left"}>
                     <Form onSubmit={handleSubmit}>
-                        <Form.Input
-                            fluid
-                            label={intl.formatMessage({ id: 'name', defaultMessage: 'Name' })}
-                            placeholder={intl.formatMessage({ id: 'name', defaultMessage: 'Name' })}
-                            name='name'
-                            onChange={handleChange}
-                            required
-                        />
+                        <Input label={intl.formatMessage({ id: 'name', defaultMessage: 'Name' })} placeholder={intl.formatMessage({ id: 'name', defaultMessage: 'Name' })} name='name' onChange={handleChange} required/>
                         <Form.TextArea label={intl.formatMessage({ id: 'description', defaultMessage: 'Description' })} placeholder={intl.formatMessage({ id: 'description', defaultMessage: 'Description' })} name='description' onChange={handleChange} />
-                        <Form.Dropdown
-                            placeholder={intl.formatMessage({ id: 'choose.parent.category', defaultMessage: 'Choose a parent category' })}
-                            fluid
-                            search
-                            clearable
-                            selection
-                            options={categoriesOptions}
-                            name='parentCategory'
-                            onChange={handleChange}
-                        />
+                        <Dropdown label={intl.formatMessage({ id: 'choose.parent.category', defaultMessage: 'Choose a parent category' })} options={categoriesOptions} name='parentCategory' onChange={handleChange}/>
                         <Button disabled={isSubmitting} loading={isSubmitting} type='submit'>
                             {intl.formatMessage({ id: 'add', defaultMessage: 'Add' })}
                         </Button>

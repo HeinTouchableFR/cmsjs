@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Dropdown, Form, Tab } from 'semantic-ui-react';
+import { Tab } from 'semantic-ui-react';
 import ColorPicker from 'components/ColorPicker/ColorPicker';
 import Accordion from 'components/Accordion/Accordion';
 import {
@@ -14,6 +14,8 @@ import {
     durationsOptions,
 } from 'variables/options';
 import { useIntl } from 'react-intl';
+import Input from 'components/Form/Input/Input';
+import Dropdown from 'components/Form/Dropdown/Dropdown';
 
 export default function Link({ element, onElementValueChange, device }) {
     const intl = useIntl();
@@ -277,9 +279,7 @@ export default function Link({ element, onElementValueChange, device }) {
                     <div className='field'>
                         <label>{intl.formatMessage({ id: 'builder.border.type', defaultMessage: 'Border type' })}</label>
                         <Dropdown
-                            fluid
                             name='type'
-                            selection
                             value={item.content[device].styles.border.normal.type}
                             options={borderOptions}
                             onChange={(e, data) => handleChangeBorderType(e, data, 'normal')}
@@ -295,8 +295,7 @@ export default function Link({ element, onElementValueChange, device }) {
                     <div className='field'>
                         <label>{intl.formatMessage({ id: 'builder.border.weight', defaultMessage: 'Border weight' })}</label>
                         <div className='form__inline_item bottom'>
-                            <Form.Input
-                                fluid
+                            <Input
                                 label={intl.formatMessage({ id: 'builder.top', defaultMessage: 'Top' })}
                                 placeholder={intl.formatMessage({ id: 'builder.top', defaultMessage: 'Top' })}
                                 name='top'
@@ -304,8 +303,7 @@ export default function Link({ element, onElementValueChange, device }) {
                                 value={item.content[device].styles.border.normal.width.top}
                                 onChange={(e, data) => handleChangeBorder(e, data, 'width', 'normal')}
                             />
-                            <Form.Input
-                                fluid
+                            <Input
                                 label={intl.formatMessage({ id: 'builder.right', defaultMessage: 'Right' })}
                                 placeholder={intl.formatMessage({ id: 'builder.right', defaultMessage: 'Right' })}
                                 name='right'
@@ -313,8 +311,7 @@ export default function Link({ element, onElementValueChange, device }) {
                                 value={item.content[device].styles.border.normal.width.right}
                                 onChange={(e, data) => handleChangeBorder(e, data, 'width', 'normal')}
                             />
-                            <Form.Input
-                                fluid
+                            <Input
                                 label={intl.formatMessage({ id: 'builder.bottom', defaultMessage: 'Bottom' })}
                                 placeholder={intl.formatMessage({ id: 'builder.bottom', defaultMessage: 'Bottom' })}
                                 name='bottom'
@@ -322,8 +319,7 @@ export default function Link({ element, onElementValueChange, device }) {
                                 value={item.content[device].styles.border.normal.width.bottom}
                                 onChange={(e, data) => handleChangeBorder(e, data, 'width', 'normal')}
                             />
-                            <Form.Input
-                                fluid
+                            <Input
                                 label={intl.formatMessage({ id: 'builder.left', defaultMessage: 'Left' })}
                                 placeholder={intl.formatMessage({ id: 'builder.left', defaultMessage: 'Left' })}
                                 name='left'
@@ -352,8 +348,7 @@ export default function Link({ element, onElementValueChange, device }) {
                             </div>
                         </div>
                         <div className='form__inline_item bottom'>
-                            <Form.Input
-                                fluid
+                            <Input
                                 label={intl.formatMessage({ id: 'builder.top', defaultMessage: 'Top' })}
                                 placeholder={intl.formatMessage({ id: 'builder.top', defaultMessage: 'Top' })}
                                 name='top'
@@ -361,8 +356,7 @@ export default function Link({ element, onElementValueChange, device }) {
                                 value={item.content[device].styles.border.normal.radius.top}
                                 onChange={(e, data) => handleChangeBorder(e, data, 'radius', 'normal')}
                             />
-                            <Form.Input
-                                fluid
+                            <Input
                                 label={intl.formatMessage({ id: 'builder.right', defaultMessage: 'Right' })}
                                 placeholder={intl.formatMessage({ id: 'builder.right', defaultMessage: 'Right' })}
                                 name='right'
@@ -370,8 +364,7 @@ export default function Link({ element, onElementValueChange, device }) {
                                 value={item.content[device].styles.border.normal.radius.right}
                                 onChange={(e, data) => handleChangeBorder(e, data, 'radius', 'normal')}
                             />
-                            <Form.Input
-                                fluid
+                            <Input
                                 label={intl.formatMessage({ id: 'builder.bottom', defaultMessage: 'Bottom' })}
                                 placeholder={intl.formatMessage({ id: 'builder.bottom', defaultMessage: 'Bottom' })}
                                 name='bottom'
@@ -379,8 +372,7 @@ export default function Link({ element, onElementValueChange, device }) {
                                 value={item.content[device].styles.border.normal.radius.bottom}
                                 onChange={(e, data) => handleChangeBorder(e, data, 'radius', 'normal')}
                             />
-                            <Form.Input
-                                fluid
+                            <Input
                                 label={intl.formatMessage({ id: 'builder.left', defaultMessage: 'Left' })}
                                 placeholder={intl.formatMessage({ id: 'builder.left', defaultMessage: 'Left' })}
                                 name='left'
@@ -400,9 +392,7 @@ export default function Link({ element, onElementValueChange, device }) {
                     <div className='field'>
                         <label>{intl.formatMessage({ id: 'builder.border.type', defaultMessage: 'Border type' })}</label>
                         <Dropdown
-                            fluid
                             name='type'
-                            selection
                             value={item.content[device].styles.border.hover.type}
                             options={borderOptions}
                             onChange={(e, data) => handleChangeBorderType(e, data, 'hover')}
@@ -418,8 +408,7 @@ export default function Link({ element, onElementValueChange, device }) {
                     <div className='field'>
                         <label>{intl.formatMessage({ id: 'builder.border.weight', defaultMessage: 'Border weight' })}</label>
                         <div className='form__inline_item bottom'>
-                            <Form.Input
-                                fluid
+                            <Input
                                 label={intl.formatMessage({ id: 'builder.top', defaultMessage: 'Top' })}
                                 placeholder={intl.formatMessage({ id: 'builder.top', defaultMessage: 'Top' })}
                                 name='top'
@@ -427,8 +416,7 @@ export default function Link({ element, onElementValueChange, device }) {
                                 value={item.content[device].styles.border.hover.width.top}
                                 onChange={(e, data) => handleChangeBorder(e, data, 'width', 'hover')}
                             />
-                            <Form.Input
-                                fluid
+                            <Input
                                 label={intl.formatMessage({ id: 'builder.right', defaultMessage: 'Right' })}
                                 placeholder={intl.formatMessage({ id: 'builder.right', defaultMessage: 'Right' })}
                                 name='right'
@@ -436,8 +424,7 @@ export default function Link({ element, onElementValueChange, device }) {
                                 value={item.content[device].styles.border.hover.width.right}
                                 onChange={(e, data) => handleChangeBorder(e, data, 'width', 'hover')}
                             />
-                            <Form.Input
-                                fluid
+                            <Input
                                 label={intl.formatMessage({ id: 'builder.bottom', defaultMessage: 'Bottom' })}
                                 placeholder={intl.formatMessage({ id: 'builder.bottom', defaultMessage: 'Bottom' })}
                                 name='bottom'
@@ -445,8 +432,7 @@ export default function Link({ element, onElementValueChange, device }) {
                                 value={item.content[device].styles.border.hover.width.bottom}
                                 onChange={(e, data) => handleChangeBorder(e, data, 'width', 'hover')}
                             />
-                            <Form.Input
-                                fluid
+                            <Input
                                 label={intl.formatMessage({ id: 'builder.left', defaultMessage: 'Left' })}
                                 placeholder={intl.formatMessage({ id: 'builder.left', defaultMessage: 'Left' })}
                                 name='left'
@@ -475,8 +461,7 @@ export default function Link({ element, onElementValueChange, device }) {
                             </div>
                         </div>
                         <div className='form__inline_item bottom'>
-                            <Form.Input
-                                fluid
+                            <Input
                                 label={intl.formatMessage({ id: 'builder.top', defaultMessage: 'Top' })}
                                 placeholder={intl.formatMessage({ id: 'builder.top', defaultMessage: 'Top' })}
                                 name='top'
@@ -484,8 +469,7 @@ export default function Link({ element, onElementValueChange, device }) {
                                 value={item.content[device].styles.border.hover.radius.top}
                                 onChange={(e, data) => handleChangeBorder(e, data, 'radius', 'hover')}
                             />
-                            <Form.Input
-                                fluid
+                            <Input
                                 label={intl.formatMessage({ id: 'builder.right', defaultMessage: 'Right' })}
                                 placeholder={intl.formatMessage({ id: 'builder.right', defaultMessage: 'Right' })}
                                 name='right'
@@ -493,8 +477,7 @@ export default function Link({ element, onElementValueChange, device }) {
                                 value={item.content[device].styles.border.hover.radius.right}
                                 onChange={(e, data) => handleChangeBorder(e, data, 'radius', 'hover')}
                             />
-                            <Form.Input
-                                fluid
+                            <Input
                                 label={intl.formatMessage({ id: 'builder.bottom', defaultMessage: 'Bottom' })}
                                 placeholder={intl.formatMessage({ id: 'builder.bottom', defaultMessage: 'Bottom' })}
                                 name='bottom'
@@ -502,8 +485,7 @@ export default function Link({ element, onElementValueChange, device }) {
                                 value={item.content[device].styles.border.hover.radius.bottom}
                                 onChange={(e, data) => handleChangeBorder(e, data, 'radius', 'hover')}
                             />
-                            <Form.Input
-                                fluid
+                            <Input
                                 label={intl.formatMessage({ id: 'builder.left', defaultMessage: 'Left' })}
                                 placeholder={intl.formatMessage({ id: 'builder.left', defaultMessage: 'Left' })}
                                 name='left'
@@ -546,8 +528,7 @@ export default function Link({ element, onElementValueChange, device }) {
     return (
         <>
             <Accordion active={true} title={intl.formatMessage({ id: item.type, defaultMessage: item.type })}>
-                <Form.Input
-                    fluid
+                <Input
                     label={intl.formatMessage({ id: item.type, defaultMessage: item.type })}
                     placeholder={intl.formatMessage({ id: item.type, defaultMessage: item.type })}
                     name='text'
@@ -555,8 +536,7 @@ export default function Link({ element, onElementValueChange, device }) {
                     value={item.content.text}
                     onChange={handleChange}
                 />
-                <Form.Input
-                    fluid
+                <Input
                     label={intl.formatMessage({ id: 'url', defaultMessage: 'url' })}
                     placeholder={intl.formatMessage({ id: 'url', defaultMessage: 'url' })}
                     name='url'
@@ -566,7 +546,7 @@ export default function Link({ element, onElementValueChange, device }) {
                 />
                 <div className='field'>
                     <label>{intl.formatMessage({ id: 'builder.alignment', defaultMessage: 'Alignment' })}</label>
-                    <Dropdown fluid name='alignment' selection value={item.content.alignment} options={alignmentsOptions} onChange={handleChange} />
+                    <Dropdown name='alignment' value={item.content.alignment} options={alignmentsOptions} onChange={handleChange} />
                 </div>
             </Accordion>
             <Accordion active={false} title={intl.formatMessage({ id: 'builder.typography', defaultMessage: 'Typography' })}>
@@ -588,8 +568,7 @@ export default function Link({ element, onElementValueChange, device }) {
                 </div>
                 <div className='form__inline_item'>
                     <div className='field'>
-                        <Form.Input
-                            fluid
+                        <Input
                             label={intl.formatMessage({ id: 'builder.font.size', defaultMessage: 'Font size' })}
                             placeholder='16'
                             name='value'
@@ -632,9 +611,7 @@ export default function Link({ element, onElementValueChange, device }) {
                     <div className='field'>
                         <label>{intl.formatMessage({ id: 'builder.font.family', defaultMessage: 'Font family' })}</label>
                         <Dropdown
-                            fluid
                             name='family'
-                            selection
                             value={item.content[device].typo.family}
                             options={fontsOptions}
                             onChange={handleChangeTypo}
@@ -644,9 +621,7 @@ export default function Link({ element, onElementValueChange, device }) {
                     <div className='field'>
                         <label>{intl.formatMessage({ id: 'builder.font.weight', defaultMessage: 'Font weight' })}</label>
                         <Dropdown
-                            fluid
                             name='weight'
-                            selection
                             value={item.content[device].typo.weight}
                             options={weightsOptions}
                             onChange={handleChangeTypo}
@@ -657,9 +632,7 @@ export default function Link({ element, onElementValueChange, device }) {
                     <div className='field'>
                         <label>{intl.formatMessage({ id: 'builder.transform', defaultMessage: 'Transform' })}</label>
                         <Dropdown
-                            fluid
                             name='transform'
-                            selection
                             value={item.content[device].typo.transform}
                             options={transformsOptions}
                             onChange={handleChangeTypo}
@@ -668,9 +641,7 @@ export default function Link({ element, onElementValueChange, device }) {
                     <div className='field'>
                         <label>{intl.formatMessage({ id: 'builder.style', defaultMessage: 'Style' })}</label>
                         <Dropdown
-                            fluid
                             name='style'
-                            selection
                             value={item.content[device].typo.style}
                             options={stylesOptions}
                             onChange={handleChangeTypo}
@@ -679,9 +650,7 @@ export default function Link({ element, onElementValueChange, device }) {
                     <div className='field'>
                         <label>{intl.formatMessage({ id: 'builder.decoration', defaultMessage: 'Decoration' })}</label>
                         <Dropdown
-                            fluid
                             name='decoration'
-                            selection
                             value={Array.from(item.content[device].typo.decoration)}
                             options={decorationsOptions}
                             onChange={handleChangeTypo}
@@ -691,8 +660,7 @@ export default function Link({ element, onElementValueChange, device }) {
                 </div>
                 <div className='form__inline_item'>
                     <div className='field'>
-                        <Form.Input
-                            fluid
+                        <Input
                             label={intl.formatMessage({ id: 'builder.lineHeight', defaultMessage: 'Line height' })}
                             placeholder='1'
                             name='value'
@@ -720,8 +688,7 @@ export default function Link({ element, onElementValueChange, device }) {
                     </div>
                 </div>
                 <div className='field'>
-                    <Form.Input
-                        fluid
+                    <Input
                         label={intl.formatMessage({ id: 'builder.letterSpacing', defaultMessage: 'Letter spacing' })}
                         placeholder='0'
                         name='letterSpacing'
@@ -763,8 +730,7 @@ export default function Link({ element, onElementValueChange, device }) {
                         </div>
                     </div>
                     <div className='form__inline_item bottom'>
-                        <Form.Input
-                            fluid
+                        <Input
                             label={intl.formatMessage({ id: 'builder.top', defaultMessage: 'Top' })}
                             placeholder={intl.formatMessage({ id: 'builder.top', defaultMessage: 'Top' })}
                             name='top'
@@ -772,8 +738,7 @@ export default function Link({ element, onElementValueChange, device }) {
                             value={item.styles[device].margin.top}
                             onChange={(e, data) => handleChangeGeneralStyle(e, data, 'margin')}
                         />
-                        <Form.Input
-                            fluid
+                        <Input
                             label={intl.formatMessage({ id: 'builder.right', defaultMessage: 'Right' })}
                             placeholder={intl.formatMessage({ id: 'builder.right', defaultMessage: 'Right' })}
                             name='right'
@@ -781,8 +746,7 @@ export default function Link({ element, onElementValueChange, device }) {
                             value={item.styles[device].margin.right}
                             onChange={(e, data) => handleChangeGeneralStyle(e, data, 'margin')}
                         />
-                        <Form.Input
-                            fluid
+                        <Input
                             label={intl.formatMessage({ id: 'builder.bottom', defaultMessage: 'Bottom' })}
                             placeholder={intl.formatMessage({ id: 'builder.bottom', defaultMessage: 'Bottom' })}
                             name='bottom'
@@ -790,8 +754,7 @@ export default function Link({ element, onElementValueChange, device }) {
                             value={item.styles[device].margin.bottom}
                             onChange={(e, data) => handleChangeGeneralStyle(e, data, 'margin')}
                         />
-                        <Form.Input
-                            fluid
+                        <Input
                             label={intl.formatMessage({ id: 'builder.left', defaultMessage: 'Left' })}
                             placeholder={intl.formatMessage({ id: 'builder.left', defaultMessage: 'Left' })}
                             name='left'
@@ -832,8 +795,7 @@ export default function Link({ element, onElementValueChange, device }) {
                         </div>
                     </div>
                     <div className='form__inline_item bottom'>
-                        <Form.Input
-                            fluid
+                        <Input
                             label={intl.formatMessage({ id: 'builder.top', defaultMessage: 'Top' })}
                             placeholder={intl.formatMessage({ id: 'builder.top', defaultMessage: 'Top' })}
                             name='top'
@@ -841,8 +803,7 @@ export default function Link({ element, onElementValueChange, device }) {
                             value={item.styles[device].padding.top}
                             onChange={(e, data) => handleChangeGeneralStyle(e, data, 'padding')}
                         />
-                        <Form.Input
-                            fluid
+                        <Input
                             label={intl.formatMessage({ id: 'builder.right', defaultMessage: 'Right' })}
                             placeholder={intl.formatMessage({ id: 'builder.right', defaultMessage: 'Right' })}
                             name='right'
@@ -850,8 +811,7 @@ export default function Link({ element, onElementValueChange, device }) {
                             value={item.styles[device].padding.right}
                             onChange={(e, data) => handleChangeGeneralStyle(e, data, 'padding')}
                         />
-                        <Form.Input
-                            fluid
+                        <Input
                             label={intl.formatMessage({ id: 'builder.bottom', defaultMessage: 'Bottom' })}
                             placeholder={intl.formatMessage({ id: 'builder.bottom', defaultMessage: 'Bottom' })}
                             name='bottom'
@@ -859,8 +819,7 @@ export default function Link({ element, onElementValueChange, device }) {
                             value={item.styles[device].padding.bottom}
                             onChange={(e, data) => handleChangeGeneralStyle(e, data, 'padding')}
                         />
-                        <Form.Input
-                            fluid
+                        <Input
                             label={intl.formatMessage({ id: 'builder.left', defaultMessage: 'Left' })}
                             placeholder={intl.formatMessage({ id: 'builder.left', defaultMessage: 'Left' })}
                             name='left'
@@ -881,10 +840,7 @@ export default function Link({ element, onElementValueChange, device }) {
                 <div className='field'>
                     <label>{intl.formatMessage({ id: 'builder.animation.entrance', defaultMessage: 'Entrance Animation' })}</label>
                     <Dropdown
-                        fluid
                         name='name'
-                        selection
-                        search
                         value={item.content[device].animation.name}
                         options={animationsOptions}
                         onChange={handleChangeAnimation}
@@ -893,16 +849,13 @@ export default function Link({ element, onElementValueChange, device }) {
                 <div className='field'>
                     <label>{intl.formatMessage({ id: 'builder.duration', defaultMessage: 'Duration' })}</label>
                     <Dropdown
-                        fluid
                         name='duration'
-                        selection
                         value={item.content[device].animation.duration}
                         options={durationsOptions}
                         onChange={handleChangeAnimation}
                     />
                 </div>
-                <Form.Input
-                    fluid
+                <Input
                     label={intl.formatMessage({ id: 'builder.animation.delay', defaultMessage: 'Animation Delay (ms)' })}
                     placeholder='0'
                     name='delay'

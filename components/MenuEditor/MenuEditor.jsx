@@ -1,9 +1,10 @@
 import React, {useState} from 'react';
 import {DragDropContext, Draggable, Droppable} from 'react-beautiful-dnd';
 import Accordion from 'components/Accordion/Accordion';
-import {Form, Grid} from 'semantic-ui-react';
+import {Grid} from 'semantic-ui-react';
 import {useIntl} from 'react-intl';
 import {Button} from '../Button/Button';
+import Input from '../Form/Input/Input';
 
 export default function MenuEditor({content, onChange}) {
     const items = JSON.parse(content)
@@ -237,9 +238,9 @@ function Item({item, isChild = false, index, isDisabled, parentIsDragging = fals
                         <Accordion
                             title={<Grid columns={2}><Grid.Column>{item.label}</Grid.Column><Grid.Column
                                 textAlign="right">{item.type}</Grid.Column></Grid>} active={false} border={true}>
-                            <Form.Input label={intl.formatMessage({ id: 'url', defaultMessage: 'URL' })} name="slug" required defaultValue={item.slug}
+                            <Input label={intl.formatMessage({ id: 'url', defaultMessage: 'URL' })} name="slug" required defaultValue={item.slug}
                                         onChange={(e, data) => handleChangeItem(e, data, item.id)}/>
-                            <Form.Input label={intl.formatMessage({ id: 'navigation.label', defaultMessage: 'Navigation label' })} name="label" required defaultValue={item.label}
+                            <Input label={intl.formatMessage({ id: 'navigation.label', defaultMessage: 'Navigation label' })} name="label" required defaultValue={item.label}
                                         onChange={(e, data) => handleChangeItem(e, data, item.id)}/>
                             <Button action={() =>  handleDeleteItem(item.id)} icon={'las la-trash-alt'} />
                         </Accordion>

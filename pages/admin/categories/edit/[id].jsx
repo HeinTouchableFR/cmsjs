@@ -8,6 +8,8 @@ import { auth } from 'utils/dbConnect';
 import {useIntl} from 'react-intl';
 import Card from 'components/Cards/Card/Card';
 import Admin from 'container/Admin/Admin';
+import Input from 'components/Form/Input/Input';
+import Dropdown from 'components/Form/Dropdown/Dropdown';
 
 export default function Modifier({ item, categories }) {
     const intl = useIntl();
@@ -73,7 +75,7 @@ export default function Modifier({ item, categories }) {
         });
     };
 
-    const categoriesOptions = [{ key: 'empty', value: '', text: intl.formatMessage({ id: 'no.parent.category', defaultMessage: 'No parent category' }) }];
+    const categoriesOptions = [];
 
     const recursiveCategoriesOptions = function (category, dash = '', parent) {
         if (category._id !== item._id) {
@@ -98,15 +100,7 @@ export default function Modifier({ item, categories }) {
             <Admin>
                 <Card title={`${intl.formatMessage({ id: 'edit.category', defaultMessage: 'Edit Category' })} ${item.name}`} buttonLabel={intl.formatMessage({ id: 'back', defaultMessage: 'Back' })} buttonAction={`/admin/${url}`} buttonIcon={"las la-arrow-left"}>
                     <Form onSubmit={handleSubmit}>
-                        <Form.Input
-                            fluid
-                            label={intl.formatMessage({ id: 'name', defaultMessage: 'Name' })}
-                            placeholder={intl.formatMessage({ id: 'name', defaultMessage: 'Name' })}
-                            name='name'
-                            defaultValue={item.name}
-                            onChange={handleChange}
-                            required
-                        />
+                        <Input label={intl.formatMessage({ id: 'name', defaultMessage: 'Name' })} placeholder={intl.formatMessage({ id: 'name', defaultMessage: 'Name' })} name='name' defaultValue={item.name} onChange={handleChange} required/>
                         <Form.TextArea
                             label={intl.formatMessage({ id: 'description', defaultMessage: 'Description' })}
                             placeholder={intl.formatMessage({ id: 'description', defaultMessage: 'Description' })}
@@ -114,17 +108,7 @@ export default function Modifier({ item, categories }) {
                             defaultValue={item.description}
                             onChange={handleChange}
                         />
-                        <Form.Dropdown
-                            placeholder={intl.formatMessage({ id: 'choose.parent.category', defaultMessage: 'Choose a parent category' })}
-                            fluid
-                            search
-                            clearable
-                            selection
-                            options={categoriesOptions}
-                            defaultValue={item.parentCategory}
-                            name='parentCategory'
-                            onChange={handleChange}
-                        />
+                        <Dropdown placeholder={intl.formatMessage({ id: 'choose.parent.category', defaultMessage: 'Choose a parent category' })} options={categoriesOptions} defaultValue={item.parentCategory} name='parentCategory' onChange={handleChange}/>
                         <Button type='submit'>{intl.formatMessage({ id: 'edit', defaultMessage: 'Edit' })}</Button>
                     </Form>
                 </Card>

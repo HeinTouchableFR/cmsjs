@@ -8,6 +8,7 @@ import Head from 'next/head';
 import {DarkModeButton} from 'components/Button/DarkModeButton/DarkModeButton';
 import Tilt from 'components/Tilt/Tilt';
 import {useSettings} from 'context/settings';
+import Input from 'components/Form/Input/Input';
 
 export default function Index() {
     const {settings} = useSettings()
@@ -68,14 +69,8 @@ export default function Index() {
                         <span className={styles.login_title}>
                             {intl.formatMessage({ id: 'dashboard.login', defaultMessage: 'Dashboard login' })}
                         </span>
-                        <Form.Input name="email" fluid iconPosition='left' placeholder={intl.formatMessage({ id: 'mailAddress', defaultMessage: 'Mail address' })} required type="email" onChange={handleChange}>
-                            <Icon name='at' />
-                            <input />
-                        </Form.Input>
-                        <Form.Input name="password" fluid iconPosition='left' placeholder={intl.formatMessage({ id: 'password', defaultMessage: 'Password' })} required type="password" onChange={handleChange}>
-                            <Icon name='key' />
-                            <input />
-                        </Form.Input>
+                        <Input name="email" label={intl.formatMessage({ id: 'mailAddress', defaultMessage: 'Mail address' })} placeholder={intl.formatMessage({ id: 'mailAddress', defaultMessage: 'Mail address' })} required type="email" onChange={handleChange}/>
+                        <Input name="password" label={intl.formatMessage({ id: 'password', defaultMessage: 'Password' })} placeholder={intl.formatMessage({ id: 'password', defaultMessage: 'Password' })} required type="password" onChange={handleChange}/>
                         <button>
                             {intl.formatMessage({ id: 'login', defaultMessage: 'Login' })}
                             <i className="las la-sign-in-alt" />

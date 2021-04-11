@@ -1,12 +1,13 @@
 import React from 'react';
 import Head from 'next/head';
 import axios from 'axios';
-import { Form, Input, Card as SementicCard } from 'semantic-ui-react';
+import { Form, Card as SementicCard } from 'semantic-ui-react';
 import {useIntl} from 'react-intl';
 import Admin from 'container/Admin/Admin';
 import Card from 'components/Cards/Card/Card';
 import nookies from 'nookies';
 import {auth} from 'utils/dbConnect';
+import Input from 'components/Form/Input/Input';
 
 export default function Detail({ item }) {
     const intl = useIntl()
@@ -20,7 +21,7 @@ export default function Detail({ item }) {
             <Admin>
                 <Card title={intl.formatMessage({ id: 'attribute.detail', defaultMessage: 'Detail of the {name} attribute'}, {name: item.name})} buttonLabel={intl.formatMessage({ id: 'back', defaultMessage: 'Back' })} buttonAction={`/admin/${url}`} buttonIcon={"las la-arrow-left"}>
                     <Form>
-                        <Form.Input fluid label={intl.formatMessage({ id: 'name', defaultMessage: 'Name' })} placeholder={intl.formatMessage({ id: 'name', defaultMessage: 'Name' })} defaultValue={item.name} name='name' disabled required />
+                        <Input label={intl.formatMessage({ id: 'name', defaultMessage: 'Name' })} placeholder={intl.formatMessage({ id: 'name', defaultMessage: 'Name' })} defaultValue={item.name} name='name' disabled required />
                         <Form.Checkbox label={intl.formatMessage({ id: 'used.filter', defaultMessage: 'Use the attribute as a product search filter' })} name='filter' checked={item.filter} disabled />
                         <div className='field'>
                             <label>{intl.formatMessage({ id: 'values', defaultMessage: 'Values' })}</label>
@@ -39,7 +40,7 @@ const Value = function ({ item }) {
         <SementicCard fluid color='teal'>
             <SementicCard.Content header={item.name} />
             <SementicCard.Content>
-                <Input fluid label={intl.formatMessage({ id: 'name', defaultMessage: 'Name' })} placeholder={intl.formatMessage({ id: 'name', defaultMessage: 'Name' })} name='name' defaultValue={item.name} disabled />
+                <Input label={intl.formatMessage({ id: 'name', defaultMessage: 'Name' })} placeholder={intl.formatMessage({ id: 'name', defaultMessage: 'Name' })} name='name' defaultValue={item.name} disabled required />
             </SementicCard.Content>
         </SementicCard>
     );

@@ -1,14 +1,16 @@
 import React, {useState} from 'react';
 import Head from 'next/head';
 import {auth} from 'utils/dbConnect';
-import {Accordion, Card as SementicCard, Divider, Dropdown, Form, Grid, Icon, Segment} from 'semantic-ui-react'
+import {Accordion, Card as SementicCard, Divider, Form, Grid, Icon, Segment} from 'semantic-ui-react'
 import MenuEditor from 'components/MenuEditor/MenuEditor';
 import {useIntl} from 'react-intl';
 import axios from 'axios';
 import nookies from 'nookies';
 import Admin from 'container/Admin/Admin';
 import Card from 'components/Cards/Card/Card';
-import {Button} from '../../../components/Button/Button';
+import {Button} from 'components/Button/Button';
+import Input from 'components/Form/Input/Input';
+import Dropdown from '../../../components/Form/Dropdown/Dropdown';
 
 export default function Index({menus, pages}) {
     const intl = useIntl()
@@ -94,14 +96,14 @@ export default function Index({menus, pages}) {
     }
 
     const handleMenuChange = (e, data) => {
-        setForm(menusList[data.value])
+        setForm(menusList.find(x => x.id === data.value))
     }
 
     const pageOptions = []
     pages.map(page => pageOptions.push({key: page._id, text: page.title, value: page.id}))
 
     const menuOptions = []
-    menusList.map((menu, index) => menuOptions.push({key: menu.id, text: menu.name, value: index}))
+    menusList.map((menu) => menuOptions.push({key: menu.id, text: menu.name, value: menu.id}))
 
     const handleCreateMenu = async (e) => {
         e.preventDefault()
@@ -162,22 +164,17 @@ export default function Index({menus, pages}) {
                                 <Grid.Column>
                                     <span>
                                         {intl.formatMessage({id: 'menu.edit', defaultMessage: 'Menu to edit'})} {' '}
-                                        <Dropdown
-                                            inline
-                                            options={menuOptions}
-                                            value={menusList.findIndex(p => p.id === form.id)}
-                                            onChange={handleMenuChange}
-                                        />
+                                        <Dropdown options={menuOptions} defaultValue={form.id} onChange={handleMenuChange} />
                                     </span>
                                 </Grid.Column>
                                 <Grid.Column>
                                     <Form onSubmit={handleCreateMenu}>
                                         <Grid columns={2}>
                                             <Grid.Column>
-                                                <Form.Input name="name" label={intl.formatMessage({
+                                                <Input name="name" label={intl.formatMessage({
                                                     id: 'name',
                                                     defaultMessage: 'Name'
-                                                })} inline placeholder={intl.formatMessage({
+                                                })} placeholder={intl.formatMessage({
                                                     id: 'name',
                                                     defaultMessage: 'Names'
                                                 })} required/>
@@ -245,9 +242,9 @@ export default function Index({menus, pages}) {
                                     </Accordion.Title>
                                     <Accordion.Content active={activeIndex === 4}>
                                         <Form onSubmit={handleAddLink}>
-                                            <Form.Input label={intl.formatMessage({id: 'url', defaultMessage: 'URL'})}
+                                            <Input label={intl.formatMessage({id: 'url', defaultMessage: 'URL'})}
                                                         placeholder="https://" name="url" required/>
-                                            <Form.Input label={intl.formatMessage({
+                                            <Input label={intl.formatMessage({
                                                 id: 'navigation.label',
                                                 defaultMessage: 'Navigation label'
                                             })} name="label" required/>
@@ -266,7 +263,7 @@ export default function Index({menus, pages}) {
                                     <SementicCard.Content>
                                         <Grid columns={2}>
                                             <Grid.Column>
-                                                <Form.Input inline label={intl.formatMessage({
+                                                <Input label={intl.formatMessage({
                                                     id: 'name',
                                                     defaultMessage: 'Name'
                                                 })} name="name" value={`${form.name}`} onChange={handleChangeMenuName}/>

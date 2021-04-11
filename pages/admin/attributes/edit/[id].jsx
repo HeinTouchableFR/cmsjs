@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import axios from 'axios';
-import { Button as SementicButton, Card as SementicCard, Form, Input } from 'semantic-ui-react';
+import { Button as SementicButton, Card as SementicCard, Form } from 'semantic-ui-react';
 import {useIntl} from 'react-intl';
 import {Button} from 'components/Button/Button';
 import Card from 'components/Cards/Card/Card';
 import Admin from 'container/Admin/Admin';
+import Input from 'components/Form/Input/Input';
 
 export default function Modifier({ item }) {
     const intl = useIntl()
@@ -82,14 +83,7 @@ export default function Modifier({ item }) {
             <Admin>
                 <Card title={`${intl.formatMessage({ id: 'edit.attribute', defaultMessage: 'Edit attribute' })} ${item.name}`} buttonLabel={intl.formatMessage({ id: 'back', defaultMessage: 'Back' })} buttonAction={`/admin/${url}`} buttonIcon={"las la-arrow-left"}>
                     <Form onSubmit={handleSubmit}>
-                        <Form.Input
-                            fluid
-                            label={intl.formatMessage({ id: 'name', defaultMessage: 'Name' })}
-                            placeholder={intl.formatMessage({ id: 'name', defaultMessage: 'Name' })}
-                            name='name'
-                            defaultValue={item.name}
-                            onChange={handleChange}
-                        />
+                        <Input label={intl.formatMessage({ id: 'name', defaultMessage: 'Name' })} placeholder={intl.formatMessage({ id: 'name', defaultMessage: 'Name' })} name='name' defaultValue={item.name} onChange={handleChange}/>
                         <Form.Checkbox
                             label={intl.formatMessage({ id: 'used.filter', defaultMessage: 'Use the attribute as a product search filter' })}
                             name='filter'
@@ -145,7 +139,7 @@ const Value = function ({ item, form, setForm, type = 'values' }) {
         <SementicCard fluid color='teal'>
             <SementicCard.Content header={item.name} />
             <SementicCard.Content>
-                <Input fluid label={intl.formatMessage({ id: 'name', defaultMessage: 'Name' })} placeholder={intl.formatMessage({ id: 'name', defaultMessage: 'Name' })} name='name' defaultValue={item.name} required onChange={handleChange} />
+                <Input label={intl.formatMessage({ id: 'name', defaultMessage: 'Name' })} placeholder={intl.formatMessage({ id: 'name', defaultMessage: 'Name' })} name='name' defaultValue={item.name} required onChange={handleChange} />
             </SementicCard.Content>
             <SementicCard.Content extra>
                 <Button action={() => handleDelete()} icon={'las la-trash-alt'} />

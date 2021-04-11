@@ -10,6 +10,8 @@ import {auth} from 'utils/dbConnect';
 import {Button} from 'components/Button/Button';
 import Card from 'components/Cards/Card/Card';
 import Admin from 'container/Admin/Admin';
+import Input from 'components/Form/Input/Input';
+import Dropdown from 'components/Form/Dropdown/Dropdown';
 
 export default function Modifier({ item, categories, attributes, images }) {
     const intl = useIntl();
@@ -148,36 +150,9 @@ export default function Modifier({ item, categories, attributes, images }) {
             <Admin>
                 <Card title={`${intl.formatMessage({ id: 'edit.product', defaultMessage: 'Edit product' })} ${item.name}`} buttonLabel={intl.formatMessage({ id: 'back', defaultMessage: 'Back' })} buttonAction={`/admin/${url}`} buttonIcon={"las la-arrow-left"}>
                     <Form>
-                        <Form.Input
-                            fluid
-                            label={intl.formatMessage({ id: 'name', defaultMessage: 'Name' })}
-                            placeholder={intl.formatMessage({ id: 'name', defaultMessage: 'Name' })}
-                            onChange={handleChange}
-                            name='name'
-                            required
-                            defaultValue={form.name}
-                        />
-                        <Form.Input
-                            fluid
-                            label={intl.formatMessage({ id: 'price', defaultMessage: 'Price' })}
-                            placeholder={intl.formatMessage({ id: 'price', defaultMessage: 'Price' })}
-                            name='price'
-                            type='number'
-                            onChange={handleChange}
-                            step='0.01'
-                            required
-                            defaultValue={form.price}
-                        />
-                        <Form.Input
-                            fluid
-                            label={intl.formatMessage({ id: 'price.special', defaultMessage: 'Special Price' })}
-                            placeholder={intl.formatMessage({ id: 'price.special', defaultMessage: 'Special Price' })}
-                            name='specialPrice'
-                            type='number'
-                            onChange={handleChange}
-                            step='0.01'
-                            defaultValue={form.specialPrice}
-                        />
+                        <Input label={intl.formatMessage({ id: 'name', defaultMessage: 'Name' })} placeholder={intl.formatMessage({ id: 'name', defaultMessage: 'Name' })} onChange={handleChange} name='name' required defaultValue={form.name}/>
+                        <Input label={intl.formatMessage({ id: 'price', defaultMessage: 'Price' })} placeholder={intl.formatMessage({ id: 'price', defaultMessage: 'Price' })} name='price' type='number' onChange={handleChange} step='0.01' required defaultValue={form.price}/>
+                        <Input label={intl.formatMessage({ id: 'price.special', defaultMessage: 'Special Price' })} placeholder={intl.formatMessage({ id: 'price.special', defaultMessage: 'Special Price' })} name='specialPrice' type='number' onChange={handleChange} step='0.01' defaultValue={form.specialPrice}/>
                         <Form.TextArea
                             label={intl.formatMessage({ id: 'description', defaultMessage: 'Description' })}
                             placeholder={intl.formatMessage({ id: 'description', defaultMessage: 'Description' })}
@@ -186,46 +161,10 @@ export default function Modifier({ item, categories, attributes, images }) {
                             defaultValue={form.description}
                         />
                         <Form.Checkbox label={intl.formatMessage({ id: 'on.sale', defaultMessage: 'On sale' })} onChange={handleChange} name='onSale' defaultChecked={form.onSale} />
-                        <Form.Input
-                            fluid
-                            label={intl.formatMessage({ id: 'length', defaultMessage: 'Length (cm)' })}
-                            placeholder={intl.formatMessage({ id: 'length', defaultMessage: 'Length (cm)' })}
-                            name='length'
-                            type='number'
-                            onChange={handleChange}
-                            step='0.01'
-                            defaultValue={form.length}
-                        />
-                        <Form.Input
-                            fluid
-                            label={intl.formatMessage({ id: 'width', defaultMessage: 'Width (cm)' })}
-                            placeholder={intl.formatMessage({ id: 'width', defaultMessage: 'Width (cm)' })}
-                            name='width'
-                            onChange={handleChange}
-                            type='number'
-                            step='0.01'
-                            defaultValue={form.width}
-                        />
-                        <Form.Input
-                            fluid
-                            label={intl.formatMessage({ id: 'height', defaultMessage: 'Height (cm)' })}
-                            placeholder={intl.formatMessage({ id: 'height', defaultMessage: 'Height (cm)' })}
-                            name='height'
-                            onChange={handleChange}
-                            type='number'
-                            step='0.01'
-                            defaultValue={form.height}
-                        />
-                        <Form.Input
-                            fluid
-                            label={intl.formatMessage({ id: 'weight', defaultMessage: 'Weight (lb)' })}
-                            placeholder={intl.formatMessage({ id: 'weight', defaultMessage: 'Weight (lb)' })}
-                            name='weight'
-                            onChange={handleChange}
-                            type='number'
-                            step='0.001'
-                            defaultValue={form.weight}
-                        />
+                        <Input label={intl.formatMessage({ id: 'length', defaultMessage: 'Length (cm)' })} placeholder={intl.formatMessage({ id: 'length', defaultMessage: 'Length (cm)' })} name='length' type='number' onChange={handleChange} step='0.01' defaultValue={form.length}/>
+                        <Input label={intl.formatMessage({ id: 'width', defaultMessage: 'Width (cm)' })} placeholder={intl.formatMessage({ id: 'width', defaultMessage: 'Width (cm)' })} name='width' onChange={handleChange} type='number' step='0.01' defaultValue={form.width}/>
+                        <Input label={intl.formatMessage({ id: 'height', defaultMessage: 'Height (cm)' })} placeholder={intl.formatMessage({ id: 'height', defaultMessage: 'Height (cm)' })} name='height' onChange={handleChange} type='number' step='0.01' defaultValue={form.height}/>
+                        <Input label={intl.formatMessage({ id: 'weight', defaultMessage: 'Weight (lb)' })} placeholder={intl.formatMessage({ id: 'weight', defaultMessage: 'Weight (lb)' })} name='weight' onChange={handleChange} type='number' step='0.001' defaultValue={form.weight}/>
                         <div className='field'>
                             <label>{intl.formatMessage({ id: 'product.image', defaultMessage: 'Product Image' })}</label>
                             <FileManager
@@ -247,34 +186,14 @@ export default function Modifier({ item, categories, attributes, images }) {
                         </div>
                         <div className='field'>
                             <label>{intl.formatMessage({ id: 'categories', defaultMessage: 'Categories' })}</label>
-                            <Form.Dropdown
-                                placeholder={intl.formatMessage({ id: 'choose.one.more.categories', defaultMessage: 'Choose one or more categories' })}
-                                fluid
-                                search
-                                clearable
-                                selection
-                                multiple
-                                options={categoriesOptions}
-                                name='categories'
-                                onChange={handleChange}
-                                defaultValue={form.categories}
-                            />
+                            <Dropdown placeholder={intl.formatMessage({ id: 'choose.one.more.categories', defaultMessage: 'Choose one or more categories' })} options={categoriesOptions} name='categories' onChange={handleChange} defaultValue={form.categories}/>
                         </div>
                         <div className='field'>
                             <label>{intl.formatMessage({ id: 'attributes', defaultMessage: 'Attributes' })}</label>
                             {form.attributes.map((attribute) => (
                                 <Attribute key={new Date().getTime()} attribute={attribute} setForm={setForm} form={form} attributes={attributes} />
                             ))}
-                            <Form.Dropdown
-                                placeholder={intl.formatMessage({ id: 'choose.attribute', defaultMessage: 'Choose an attribute' })}
-                                fluid
-                                search
-                                clearable
-                                selection
-                                options={attributesOptions}
-                                name='attributes'
-                                onChange={handleAddAttribute}
-                            />
+                            <Dropdown placeholder={intl.formatMessage({ id: 'choose.attribute', defaultMessage: 'Choose an attribute' })} options={attributesOptions} name='attributes' onChange={handleAddAttribute}/>
                         </div>
                         <SementicButton type='button' onClick={handleSubmit}>
                             {intl.formatMessage({ id: 'edit', defaultMessage: 'Edit' })}
@@ -318,18 +237,7 @@ const Attribute = function ({ attribute, setForm, form, attributes }) {
             <SementicCard fluid color='teal'>
                 <SementicCard.Content header={realAttribute.name} />
                 <SementicCard.Content>
-                    <Form.Dropdown
-                        placeholder={intl.formatMessage({ id: 'choose.one.more.values', defaultMessage: 'Choose one or more values' })}
-                        fluid
-                        search
-                        clearable
-                        selection
-                        multiple
-                        options={valuesOptions}
-                        name='values'
-                        onChange={handleChange}
-                        defaultValue={attribute.values}
-                    />
+                    <Dropdown placeholder={intl.formatMessage({ id: 'choose.one.more.values', defaultMessage: 'Choose one or more values' })} multiple options={valuesOptions} name='values' onChange={handleChange} defaultValue={attribute.values}/>
                     <Form.Checkbox label={intl.formatMessage({ id: 'visible.product.page', defaultMessage: 'Visible on the product page' })} name='visible' onChange={handleChange} defaultChecked={attribute.visible} />
                     <Form.Checkbox label={intl.formatMessage({ id: 'used.variations', defaultMessage: 'Used for variations' })} name='variation' onChange={handleChange} defaultChecked={attribute.variation} />
                 </SementicCard.Content>

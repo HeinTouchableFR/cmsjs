@@ -2,12 +2,14 @@ import React, {useEffect, useState} from 'react';
 import {useIntl} from 'react-intl';
 import slugify from 'react-slugify';
 import {Droppable, Draggable} from 'react-beautiful-dnd';
-import {Button, Dropdown, Form, Tab} from 'semantic-ui-react';
+import {Button, Form, Tab} from 'semantic-ui-react';
 
 import styles from './Navigation.module.scss';
 
 import Component from 'components/ComponentCollection/Component';
 import ComponentDispatcher from 'components/ComponentCollection/ComponentDispatcher';
+import Input from 'components/Form/Input/Input';
+import Dropdown from 'components/Form/Dropdown/Dropdown';
 
 export default function Navigation({components, currentItem, onElementValueChange, setCurrentElement, page, onSubmit, pages = [], loading, hide, device, setDevice, hideMenu, images, setImages, mode}) {
     const intl = useIntl();
@@ -40,11 +42,7 @@ export default function Navigation({components, currentItem, onElementValueChang
         onSubmit(form);
     };
 
-    const pagesOptions = [{
-        key: 'empty',
-        value: '',
-        text: intl.formatMessage({id: 'parentPage.no', defaultMessage: 'No parent page'})
-    }];
+    const pagesOptions = [];
 
     const recursivePagesOptions = function (page, tiret = '', parent) {
         if (parent) {
@@ -103,8 +101,7 @@ export default function Navigation({components, currentItem, onElementValueChang
             render: () => (
                 <Tab.Pane attached={true}>
                     {mode === "page" ? <>
-                        <Form.Input
-                            fluid
+                        <Input
                             label={intl.formatMessage({id: 'title', defaultMessage: 'Title'})}
                             placeholder={intl.formatMessage({id: 'title', defaultMessage: 'Title'})}
                             required
@@ -112,8 +109,7 @@ export default function Navigation({components, currentItem, onElementValueChang
                             defaultValue={form.title}
                             onChange={handleChange}
                         />
-                        <Form.Input
-                        fluid
+                        <Input
                         label={intl.formatMessage({id: 'slug', defaultMessage: 'Slug'})}
                         placeholder={intl.formatMessage({id: 'slug', defaultMessage: 'Slug'})}
                         required
@@ -121,13 +117,9 @@ export default function Navigation({components, currentItem, onElementValueChang
                         value={form.slug}
                         onChange={handleChange}
                         />
-                        <Form.Dropdown
+                        <Dropdown
                         placeholder={intl.formatMessage({id: 'parentPage', defaultMessage: 'Parent page'})}
                         additionLabel={intl.formatMessage({id: 'parentPage', defaultMessage: 'Parent page'})}
-                        fluid
-                        search
-                        clearable
-                        selection
                         options={pagesOptions}
                         defaultValue={form.parentPage}
                         onChange={handleChange}
@@ -206,8 +198,6 @@ export default function Navigation({components, currentItem, onElementValueChang
                                 : intl.formatMessage({id: 'publish', defaultMessage: 'Publish'})}
                         </Button>
                         <Dropdown
-                            fluid
-                            selection
                             defaultValue={device}
                             options={deviceOptions}
                             onChange={handleDeviceChange}/>
