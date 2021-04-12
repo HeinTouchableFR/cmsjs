@@ -235,7 +235,7 @@ export default class defaultComponents {
             color: 'violet',
             type: 'text',
             defaultValue: {
-                text: `<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.</p>`,
+                text: '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.</p>',
                 alignment: 'left',
                 desktop: {
                     typo: {
@@ -1343,10 +1343,21 @@ export default class defaultComponents {
     }
 
     static pageComponents(intl) {
-        return [this.defaultTitle(intl), this.defaultText(intl), this.defaultImage(intl), this.defaultLink(intl)];
+        return [
+            this.defaultTitle(intl),
+            this.defaultText(intl),
+            this.defaultImage(intl),
+            this.defaultLink(intl),
+        ];
     }
 
     static templateComponents(intl) {
-        return [this.defaultLogo(intl), this.defaultMenu(intl), this.defaultTitle(intl), this.defaultText(intl), this.defaultImage(intl)];
+        return [
+            this.defaultLogo(intl),
+            this.defaultMenu(intl),
+            this.defaultTitle(intl),
+            this.defaultText(intl),
+            this.defaultImage(intl),
+        ];
     }
 }

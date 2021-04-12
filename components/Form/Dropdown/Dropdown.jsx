@@ -132,6 +132,7 @@ export default function Dropdown({
                     <i
                         className={`las la-times-circle ${styles.dropdown} ${styles.icon}`}
                         onClick={handleResetValue}
+                        role=''
                     />
                 )}
                 <div className={`${isExpend && styles.visible} ${styles.menu}`}>
@@ -146,10 +147,11 @@ export default function Dropdown({
 
 Dropdown.propTypes = {
     name: PropTypes.string.isRequired,
-    option: PropTypes.objectOf({
-        key: PropTypes.string.isRequired,
-    }).isRequired,
-    options: PropTypes.arrayOf().isRequired,
+    options: PropTypes.arrayOf(
+        PropTypes.shape({
+            key: PropTypes.string.isRequired,
+        }).isRequired,
+    ).isRequired,
     multiple: PropTypes.string.isRequired,
     defaultValue: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
