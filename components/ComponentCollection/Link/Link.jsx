@@ -22,12 +22,12 @@ export default function Link({ element, onElementValueChange, device }) {
     const [item, setItem] = useState(element);
 
     useEffect(
-        function () {
+        () => {
             if (element.content.text && element.type === 'link') {
                 setItem(element);
             }
         },
-        [element]
+        [element],
     );
 
     const handleChange = function (_e, data) {
@@ -66,7 +66,7 @@ export default function Link({ element, onElementValueChange, device }) {
                 [device]: {
                     ...item.styles[device],
                     [key]: {
-                        unit: unit,
+                        unit,
                         top: 0,
                         right: 0,
                         bottom: 0,
@@ -162,7 +162,7 @@ export default function Link({ element, onElementValueChange, device }) {
                     typo: {
                         ...item.content[device].typo,
                         [key]: {
-                            unit: unit,
+                            unit,
                             value: unit === 'px' ? (key === 'size' ? '42' : '') : key === 'size' ? '3' : '1',
                         },
                     },
@@ -213,7 +213,7 @@ export default function Link({ element, onElementValueChange, device }) {
                                 ...item.content[device].styles.border[mode],
                                 radius: {
                                     ...item.content[device].styles.border[mode].radius,
-                                    unit: unit,
+                                    unit,
                                 },
                             },
                         },
@@ -260,7 +260,7 @@ export default function Link({ element, onElementValueChange, device }) {
                             ...item.content[device].styles.border,
                             [mode]: {
                                 ...item.content[device].styles.border[mode],
-                                color: color,
+                                color,
                             },
                         },
                     },
@@ -275,7 +275,7 @@ export default function Link({ element, onElementValueChange, device }) {
         {
             menuItem: intl.formatMessage({ id: 'builder.normal', defaultMessage: 'Normal' }),
             render: () => (
-                <div className={'accordion__pane'}>
+                <div className='accordion__pane'>
                     <div className='field'>
                         <label>{intl.formatMessage({ id: 'builder.border.type', defaultMessage: 'Border type' })}</label>
                         <Dropdown
@@ -388,7 +388,7 @@ export default function Link({ element, onElementValueChange, device }) {
         {
             menuItem: intl.formatMessage({ id: 'builder.hover', defaultMessage: 'Hover' }),
             render: () => (
-                <div className={'accordion__pane'}>
+                <div className='accordion__pane'>
                     <div className='field'>
                         <label>{intl.formatMessage({ id: 'builder.border.type', defaultMessage: 'Border type' })}</label>
                         <Dropdown
@@ -504,7 +504,7 @@ export default function Link({ element, onElementValueChange, device }) {
         {
             menuItem: intl.formatMessage({ id: 'builder.normal', defaultMessage: 'Normal' }),
             render: () => (
-                <div className={'accordion__pane'}>
+                <div className='accordion__pane'>
                     <ColorPicker
                         defaultColor={item.content[device].styles.background.normal}
                         onColorChange={(color) => handleColorChange(color, 'background', 'normal', 'styles')}
@@ -515,7 +515,7 @@ export default function Link({ element, onElementValueChange, device }) {
         {
             menuItem: intl.formatMessage({ id: 'builder.hover', defaultMessage: 'Hover' }),
             render: () => (
-                <div className={'accordion__pane'}>
+                <div className='accordion__pane'>
                     <ColorPicker
                         defaultColor={item.content[device].styles.background.hover}
                         onColorChange={(color) => handleColorChange(color, 'background', 'hover', 'styles')}
@@ -527,7 +527,7 @@ export default function Link({ element, onElementValueChange, device }) {
 
     return (
         <>
-            <Accordion active={true} title={intl.formatMessage({ id: item.type, defaultMessage: item.type })}>
+            <Accordion active title={intl.formatMessage({ id: item.type, defaultMessage: item.type })}>
                 <Input
                     label={intl.formatMessage({ id: item.type, defaultMessage: item.type })}
                     placeholder={intl.formatMessage({ id: item.type, defaultMessage: item.type })}
