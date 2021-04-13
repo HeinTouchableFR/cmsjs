@@ -15,20 +15,27 @@ module.exports = {
     plugins: ['react'],
     rules: {
         'linebreak-style': 'off',
-        indent: ['error', 4],
+        indent: ['error', 4, {
+            ignoredNodes: ['JSXElement *', 'JSXElement'],
+        }],
         'react/jsx-indent': [2, 4],
         'react/jsx-indent-props': [2, 4],
         'jsx-quotes': ['error', 'prefer-single'],
-        'react/jsx-first-prop-new-line': ['error', 'never'],
+        'react/jsx-first-prop-new-line': ['error', 'multiline'],
         'react/jsx-max-props-per-line': [1, {
             maximum: 1,
         }],
         'function-paren-newline': ['error', 'never'],
         'one-var-declaration-per-line': ['error', 'always'],
-        'object-property-newline': ['error', {
-            allowAllPropertiesOnSameLine: false,
-        }],
         'object-curly-newline': ['error', 'always'],
         'array-element-newline': ['error', 'consistent'],
+
+        // Ternary
+        'no-unneeded-ternary': ['error', {
+            defaultAssignment: false,
+        }],
+
+        // rules to ignore
+        'import/no-unresolved': 'off',
     },
 };
