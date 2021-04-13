@@ -2,9 +2,7 @@ import PropTypes from 'prop-types';
 import React, {
     useEffect, useState,
 } from 'react';
-import {
-    Tab,
-} from 'semantic-ui-react';
+import { Tab } from 'semantic-ui-react';
 import ColorPicker from 'components/ColorPicker/ColorPicker';
 import Accordion from 'components/Accordion/Accordion';
 import {
@@ -18,15 +16,11 @@ import {
     animationsOptions,
     durationsOptions,
 } from 'variables/options';
-import {
-    useIntl,
-} from 'react-intl';
+import { useIntl } from 'react-intl';
 import Input from 'components/Form/Input/Input';
 import Dropdown from 'components/Form/Dropdown/Dropdown';
 
-export default function Button({
-    element, onElementValueChange, device,
-}) {
+export default function Button({ element, onElementValueChange, device }) {
     const intl = useIntl();
     const [item, setItem] = useState(element);
 

@@ -27,7 +27,15 @@ module.exports = {
         }],
         'function-paren-newline': ['error', 'never'],
         'one-var-declaration-per-line': ['error', 'always'],
-        'object-curly-newline': ['error', 'always'],
+        'object-curly-newline': ['error', {
+            ImportDeclaration: {
+                multiline: true, minProperties: 2,
+            },
+            ExportDeclaration: 'never',
+            ObjectExpression: 'always',
+            ObjectPattern: 'never',
+
+        }],
         'array-element-newline': ['error', 'consistent'],
 
         // Ternary

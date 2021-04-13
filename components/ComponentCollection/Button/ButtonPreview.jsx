@@ -1,119 +1,99 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import parse from 'html-react-parser';
 
-export default function LinkPreview({ element, device }) {
-    const concatValueUnit = (value, unit = 'px') => {
-        return value + (value && unit);
-    };
+export default function ButtonPreview({ element,
+    device }) {
+    const concatValueUnit = (value, unit = 'px') => value + (value && unit);
 
     const generateRuleFromValues = (values = [], unit = 'px') => {
+        let string = '';
         if (!values.every((item) => item === 0)) {
-            let string = '';
-            values.map((value) => (string += concatValueUnit(value ? value : 0, unit) + ' '));
-            return string;
+            values.map((value) => (string += `${concatValueUnit(value || 0, unit)} `));
         }
+        return string;
     };
 
-    const typoStyle = (device) => {
+    const typoStyle = (screen) => {
         let decorationString = '';
-        Array.from(element.content[device].typo.decoration).map((item) => {
+        Array.from(element.content[screen].typo.decoration).forEach((item) => {
             decorationString += `${item} `;
         });
         return {
-            fontSize: `${concatValueUnit(element.content[device].typo.size.value, element.content[device].typo.size.unit)}`,
-            fontFamily: element.content[device].typo.family,
-            fontWeight: element.content[device].typo.weight,
-            textTransform: element.content[device].typo.transform,
-            fontStyle: element.content[device].typo.style,
+            fontSize: `${concatValueUnit(element.content[screen].typo.size.value, element.content[screen].typo.size.unit)}`,
+            fontFamily: element.content[screen].typo.family,
+            fontWeight: element.content[screen].typo.weight,
+            textTransform: element.content[screen].typo.transform,
+            fontStyle: element.content[screen].typo.style,
             textDecoration: decorationString,
-            lineHeight: `${concatValueUnit(element.content[device].typo.lineHeight.value, element.content[device].typo.lineHeight.unit)}`,
-            letterSpacing: `${concatValueUnit(element.content[device].typo.letterSpacing)}`,
+            lineHeight: `${concatValueUnit(element.content[screen].typo.lineHeight.value, element.content[screen].typo.lineHeight.unit)}`,
+            letterSpacing: `${concatValueUnit(element.content[screen].typo.letterSpacing)}`,
         };
     };
 
-    const marginPaddingStyle = (device) => {
-        return {
-            margin: generateRuleFromValues(
-                [
-                    element.styles[device].margin.top,
-                    element.styles[device].margin.right,
-                    element.styles[device].margin.bottom,
-                    element.styles[device].margin.left,
-                ],
-                element.styles[device].margin.unit
-            ),
-            padding: generateRuleFromValues(
-                [
-                    element.styles[device].padding.top,
-                    element.styles[device].padding.right,
-                    element.styles[device].padding.bottom,
-                    element.styles[device].padding.left,
-                ],
-                element.styles[device].padding.unit
-            ),
-        };
-    };
+    const marginPaddingStyle = (screen) => ({
+        margin: generateRuleFromValues([
+            element.styles[screen].margin.top,
+            element.styles[screen].margin.right,
+            element.styles[screen].margin.bottom,
+            element.styles[screen].margin.left,
+        ],
+        element.styles[screen].margin.unit),
+        padding: generateRuleFromValues([
+            element.styles[screen].padding.top,
+            element.styles[screen].padding.right,
+            element.styles[screen].padding.bottom,
+            element.styles[screen].padding.left,
+        ],
+        element.styles[screen].padding.unit),
+    });
 
-    const colorStyle = (device, mode) => {
-        return {
-            color: element.content[device].typo.color[mode],
-        };
-    };
+    const colorStyle = (screen, mode) => ({
+        color: element.content[screen].typo.color[mode],
+    });
 
-    const backgroundStyle = (device, mode) => {
-        return {
-            background: element.content[device].styles.background[mode],
-        };
-    };
+    const backgroundStyle = (screen, mode) => ({
+        background: element.content[screen].styles.background[mode],
+    });
 
-    const borderStyle = (device, mode) => {
-        return {
-            borderStyle: element.content[device].styles.border[mode].type !== 'none' && element.content[device].styles.border[mode].type,
-            borderWidth:
-                element.content[device].styles.border[mode].type !== 'none' &&
-                generateRuleFromValues([
-                    element.content[device].styles.border[mode].width.top,
-                    element.content[device].styles.border[mode].width.right,
-                    element.content[device].styles.border[mode].width.bottom,
-                    element.content[device].styles.border[mode].width.left,
+    const borderStyle = (screen, mode) => ({
+        borderStyle: element.content[screen].styles.border[mode].type !== 'none' && element.content[screen].styles.border[mode].type,
+        borderWidth:
+                element.content[screen].styles.border[mode].type !== 'none'
+                && generateRuleFromValues([
+                    element.content[screen].styles.border[mode].width.top,
+                    element.content[screen].styles.border[mode].width.right,
+                    element.content[screen].styles.border[mode].width.bottom,
+                    element.content[screen].styles.border[mode].width.left,
                 ]),
-            borderColor: element.content[device].styles.border[mode].type !== 'none' && element.content[device].styles.border[mode].color,
-            borderRadius: generateRuleFromValues(
-                [
-                    element.content[device].styles.border[mode].radius.top,
-                    element.content[device].styles.border[mode].radius.right,
-                    element.content[device].styles.border[mode].radius.bottom,
-                    element.content[device].styles.border[mode].radius.left,
-                ],
-                element.content[device].styles.border[mode].radius.unit
-            ),
-        };
-    };
+        borderColor: element.content[screen].styles.border[mode].type !== 'none' && element.content[screen].styles.border[mode].color,
+        borderRadius: generateRuleFromValues([
+            element.content[screen].styles.border[mode].radius.top,
+            element.content[screen].styles.border[mode].radius.right,
+            element.content[screen].styles.border[mode].radius.bottom,
+            element.content[screen].styles.border[mode].radius.left,
+        ],
+        element.content[screen].styles.border[mode].radius.unit),
+    });
 
-    const animationStyle = (device) => {
-        return {
-            animationDuration: element.content[device].animation.duration && element.content[device].animation.duration,
-            animationDelay: `${element.content[device].animation.delay && element.content[device].animation.delay}ms`,
-            animationName: `${element.content[device].animation.name}`,
-        };
-    };
+    const animationStyle = (screen) => ({
+        animationDuration: element.content[screen].animation.duration,
+        animationDelay: `${element.content[screen].animation.delay && element.content[screen].animation.delay}ms`,
+        animationName: `${element.content[screen].animation.name}`,
+    });
 
-    const linkStyle = function (device) {
-        return {
-            ...colorStyle(device, 'normal'),
-            ...typoStyle(device),
-        };
-    };
-    const linkStyleHover = function (device) {
-        return {
-            ...colorStyle(device, 'hover'),
-        };
-    };
+    const linkStyle = (screen) => ({
+        ...colorStyle(screen, 'normal'),
+        ...typoStyle(screen),
+    });
+    const linkStyleHover = (screen) => ({
+        ...colorStyle(screen, 'hover'),
+    });
 
-    const LinkComp = styled.div`
+    const Button = styled.button`
         text-align: ${element.content.alignment};
         transition: 'color .2s';
         ${linkStyle('desktop')}
@@ -126,20 +106,16 @@ export default function LinkPreview({ element, device }) {
         } ;
     `;
 
-    const containerStyle = function (device) {
-        return {
-            ...marginPaddingStyle(device),
-            ...backgroundStyle(device, 'normal'),
-            ...borderStyle(device, 'normal'),
-            ...animationStyle(device),
-        };
-    };
-    const containerStyleHover = function (device) {
-        return {
-            ...backgroundStyle(device, 'hover'),
-            ...borderStyle(device, 'hover'),
-        };
-    };
+    const containerStyle = (screen) => ({
+        ...marginPaddingStyle(screen),
+        ...backgroundStyle(screen, 'normal'),
+        ...borderStyle(screen, 'normal'),
+        ...animationStyle(screen),
+    });
+    const containerStyleHover = (screen) => ({
+        ...backgroundStyle(screen, 'hover'),
+        ...borderStyle(screen, 'hover'),
+    });
 
     const styleDiv = css`
         ${containerStyle('desktop')}
@@ -155,8 +131,20 @@ export default function LinkPreview({ element, device }) {
     return (
         <>
             <div css={styleDiv}>
-                <LinkComp>{parse(element.content.text)}</LinkComp>
+                <Button>{parse(element.content.text)}</Button>
             </div>
         </>
     );
 }
+
+ButtonPreview.propTypes = {
+    device: PropTypes.string.isRequired,
+    element: PropTypes.shape({
+        content: PropTypes.shape({
+            alignment: PropTypes.string.isRequired,
+            text: PropTypes.string.isRequired,
+        }).isRequired,
+        styles: PropTypes.shape({
+        }).isRequired,
+    }).isRequired,
+};

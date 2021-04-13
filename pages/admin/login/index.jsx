@@ -1,27 +1,31 @@
-import React, {useEffect, useState} from 'react';
-import {useIntl} from 'react-intl';
-import {useRouter} from 'next/router';
-import {firebase} from 'utils/firebaseClient';
-import styles from './login.module.scss';
-import {Form, Icon} from 'semantic-ui-react';
+import React, {
+    useEffect, useState,
+} from 'react';
+import { useIntl } from 'react-intl';
+import { useRouter } from 'next/router';
+import { firebase } from 'utils/firebaseClient';
+import { Form } from 'semantic-ui-react';
 import Head from 'next/head';
-import {DarkModeButton} from 'components/Button/DarkModeButton/DarkModeButton';
+import { DarkModeButton } from 'components/Button/DarkModeButton/DarkModeButton';
 import Tilt from 'components/Tilt/Tilt';
-import {useSettings} from 'context/settings';
+import { useSettings } from 'context/settings';
 import Input from 'components/Form/Input/Input';
+import styles from './login.module.scss';
 
 export default function Index() {
-    const {settings} = useSettings()
-    const [logo, setLogo] = useState([])
+    const { settings } = useSettings();
+    const [logo, setLogo] = useState([]);
 
-    useEffect(function () {
-        if(settings.logo){
-            setLogo(settings.logo)
+    useEffect(() => {
+        if (settings.logo) {
+            setLogo(settings.logo);
         }
-    }, [settings])
+    }, [settings]);
     const intl = useIntl();
 
-    const [form, setForm] = useState({email: '', password: ''});
+    const [form, setForm] = useState({
+        email: '', password: '',
+    });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const router = useRouter();
 
@@ -35,7 +39,7 @@ export default function Index() {
         try {
             const data = await firebase.auth().signInWithEmailAndPassword(form.email, form.password);
             setIsSubmitting(false);
-            router.push(`/admin/`);
+            router.push('/admin/');
         } catch (error) {
             setIsSubmitting(false);
         }
@@ -56,24 +60,62 @@ export default function Index() {
     return (
         <>
             <Head>
-                <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css"/>
+                <link
+                    rel='stylesheet'
+                    href='https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css'
+                />
                 <title>Login</title>
             </Head>
             <div className={styles.container}>
                 <DarkModeButton />
                 <div className={styles.login_wrapper}>
-                    <Tilt className={styles.tilt} scale={1.2} glare>
-                        {logo.image && <img src={logo.image.url} alt="Logo"/>}
+                    <Tilt
+                        className={styles.tilt}
+                        scale={1.2}
+                        glare
+                    >
+                        {logo.image && (
+                        <img
+                            src={logo.image.url}
+                            alt='Logo'
+                        />
+)}
                     </Tilt>
                     <Form onSubmit={handleSubmit}>
                         <span className={styles.login_title}>
-                            {intl.formatMessage({ id: 'dashboard.login', defaultMessage: 'Dashboard login' })}
+                            {intl.formatMessage({
+ id: 'dashboard.login', defaultMessage: 'Dashboard login',
+})}
                         </span>
-                        <Input name="email" label={intl.formatMessage({ id: 'mailAddress', defaultMessage: 'Mail address' })} placeholder={intl.formatMessage({ id: 'mailAddress', defaultMessage: 'Mail address' })} required type="email" onChange={handleChange}/>
-                        <Input name="password" label={intl.formatMessage({ id: 'password', defaultMessage: 'Password' })} placeholder={intl.formatMessage({ id: 'password', defaultMessage: 'Password' })} required type="password" onChange={handleChange}/>
+                        <Input
+                            name='email'
+                            label={intl.formatMessage({
+ id: 'mailAddress', defaultMessage: 'Mail address',
+})}
+                            placeholder={intl.formatMessage({
+ id: 'mailAddress', defaultMessage: 'Mail address',
+})}
+                            required
+                            type='email'
+                            onChange={handleChange}
+                        />
+                        <Input
+                            name='password'
+                            label={intl.formatMessage({
+ id: 'password', defaultMessage: 'Password',
+})}
+                            placeholder={intl.formatMessage({
+ id: 'password', defaultMessage: 'Password',
+})}
+                            required
+                            type='password'
+                            onChange={handleChange}
+                        />
                         <button>
-                            {intl.formatMessage({ id: 'login', defaultMessage: 'Login' })}
-                            <i className="las la-sign-in-alt" />
+                            {intl.formatMessage({
+ id: 'login', defaultMessage: 'Login',
+})}
+                            <i className='las la-sign-in-alt' />
                         </button>
                     </Form>
                 </div>

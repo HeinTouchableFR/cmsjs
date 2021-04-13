@@ -21,7 +21,8 @@ export default function DarkModeButton() {
 
     return (
         <div className={`${styles.theme_switcher} ${styles.form_switch}`}>
-            <input type='checkbox'
+            <input
+                type='checkbox'
                 id='theme-switcher'
                 checked={isDark}
                 onChange={handleChange}
