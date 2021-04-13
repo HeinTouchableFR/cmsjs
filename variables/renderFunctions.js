@@ -4,7 +4,8 @@ export const concatValueUnit = (value, unit = 'px') => value + (value && unit);
 
 export const generateRuleFromValues = (values = [], unit = 'px') => {
     let string = '';
-    if (!values.every((item) => item === 0)) {
+    if (!values.every((item) => item === '' || item === 0)) {
+        console.log(values)
         values.map((value) => (string += `${concatValueUnit(value || 0, unit)} `));
     }
     return string;
@@ -85,6 +86,10 @@ export const imageStyle = (device, element) => ({
     maxWidth: `${element.content[device].image.size.maxWidth.value}${element.content[device].image.size.maxWidth.unit}`,
     height: `${element.content[device].image.size.height.value}${element.content[device].image.size.height.value !== 'auto' ? element.content[device].image.size.height.unit : ''}`,
     opacity: `${element.content[device].image.opacity.normal}`,
+});
+
+export const imageStyleHover = (device, element) => ({
+    opacity: `${element.content[device].image.opacity.hover}`,
 });
 
 export const styleDiv = (element, inView) => ({

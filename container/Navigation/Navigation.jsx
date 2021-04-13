@@ -124,6 +124,7 @@ export default function Navigation({components, currentItem, onElementValueChang
     ];
 
     const handleDeviceChange = (e, data) => {
+        console.log(data)
         setDevice(data.value);
     };
 

@@ -25,7 +25,7 @@ export default function Logo({ element, device, onElementValueChange }) {
     const [item, setItem] = useState(element);
 
     useEffect(() => {
-        if (element.content.image && element.type === 'logo') {
+        if (element.type === 'logo') {
             setItem(element);
         }
     },
@@ -60,9 +60,9 @@ export default function Logo({ element, device, onElementValueChange }) {
                             id: 'builder.opacity', defaultMessage: 'Opacity',
                         })}
                         name='opacity'
-                        min={0}
-                        max={1}
-                        step={0.01}
+                        min='0'
+                        max='1'
+                        step='0.01'
                         onChange={(e, data) => handleChangeOpacity(e, data, 'opacity', 'normal')}
                         value={item.content[device].image.opacity.normal}
                     />
@@ -81,9 +81,9 @@ export default function Logo({ element, device, onElementValueChange }) {
                             id: 'builder.opacity', defaultMessage: 'Opacity',
                         })}
                         name='opacity'
-                        min={0}
-                        max={1}
-                        step={0.01}
+                        min='1'
+                        max='1'
+                        step='0.01'
                         onChange={(e, data) => handleChangeOpacity(e, data, 'opacity', 'hover')}
                         value={item.content[device].image.opacity.hover}
                     />
@@ -107,30 +107,39 @@ export default function Logo({ element, device, onElementValueChange }) {
                         name='value'
                         type='number'
                         min='1'
-                        max={item.content[device].image.size.width.unit === 'px' ? 1000 : 100}
-                        step={1}
+                        max={item.content[device].image.size.width.unit === 'px' ? '1000' : '100'}
+                        step='1'
                         value={item.content[device].image.size.width.value}
                         onChange={(e, data) => handleChangeImageValue(e, data, 'size', 'width')}
                     />
                     <div className='field-group'>
-                        <label
+                        <span
                             className={item.content[device].image.size.width.unit === '%' ? 'selected' : undefined}
                             onClick={() => handleChangeImageValueUnit('%', 'size', 'width')}
+                            onKeyDown={() => handleChangeImageValueUnit('%', 'size', 'width')}
+                            role='button'
+                            tabIndex='0'
                         >
                             %
-                        </label>
-                        <label
+                        </span>
+                        <span
                             className={item.content[device].image.size.width.unit === 'px' ? 'selected' : undefined}
                             onClick={() => handleChangeImageValueUnit('px', 'size', 'width')}
+                            onKeyDown={() => handleChangeImageValueUnit('px', 'size', 'width')}
+                            role='button'
+                            tabIndex='0'
                         >
                             PX
-                        </label>
-                        <label
+                        </span>
+                        <span
                             className={item.content[device].image.size.width.unit === 'vw' ? 'selected' : undefined}
                             onClick={() => handleChangeImageValueUnit('vw', 'size', 'width')}
+                            onKeyDown={() => handleChangeImageValueUnit('vw', 'size', 'width')}
+                            role='button'
+                            tabIndex='0'
                         >
                             VW
-                        </label>
+                        </span>
                     </div>
                 </div>
                 <div className='form__inline_item'>
@@ -142,30 +151,39 @@ export default function Logo({ element, device, onElementValueChange }) {
                         name='value'
                         type='number'
                         min='1'
-                        max={item.content[device].image.size.maxWidth.unit === 'px' ? 1000 : 100}
-                        step={1}
+                        max={item.content[device].image.size.maxWidth.unit === 'px' ? '1000' : '100'}
+                        step='1'
                         value={item.content[device].image.size.maxWidth.value}
                         onChange={(e, data) => handleChangeImageValue(e, data, 'size', 'maxWidth')}
                     />
                     <div className='field-group'>
-                        <label
+                        <span
                             className={item.content[device].image.size.maxWidth.unit === '%' ? 'selected' : undefined}
                             onClick={() => handleChangeImageValueUnit('%', 'size', 'maxWidth')}
+                            onKeyDown={() => handleChangeImageValueUnit('%', 'size', 'maxWidth')}
+                            role='button'
+                            tabIndex='0'
                         >
                             %
-                        </label>
-                        <label
+                        </span>
+                        <span
                             className={item.content[device].image.size.maxWidth.unit === 'px' ? 'selected' : undefined}
                             onClick={() => handleChangeImageValueUnit('px', 'size', 'maxWidth')}
+                            onKeyDown={() => handleChangeImageValueUnit('px', 'size', 'maxWidth')}
+                            role='button'
+                            tabIndex='0'
                         >
                             PX
-                        </label>
-                        <label
+                        </span>
+                        <span
                             className={item.content[device].image.size.maxWidth.unit === 'vw' ? 'selected' : undefined}
                             onClick={() => handleChangeImageValueUnit('vw', 'size', 'maxWidth')}
+                            onKeyDown={() => handleChangeImageValueUnit('vw', 'size', 'maxWidth')}
+                            role='button'
+                            tabIndex='0'
                         >
                             VW
-                        </label>
+                        </span>
                     </div>
                 </div>
                 <div className='form__inline_item'>
@@ -177,24 +195,30 @@ export default function Logo({ element, device, onElementValueChange }) {
                         name='value'
                         type='number'
                         min='1'
-                        max={item.content[device].image.size.height.unit === 'px' ? 500 : 100}
-                        step={1}
+                        max={item.content[device].image.size.height.unit === 'px' ? '500' : '100'}
+                        step='1'
                         value={item.content[device].image.size.height.value !== 'auto' ? item.content[device].image.size.height.value : ''}
                         onChange={(e, data) => handleChangeImageValue(e, data, 'size', 'height')}
                     />
                     <div className='field-group'>
-                        <label
+                        <span
                             className={item.content[device].image.size.height.unit === 'px' ? 'selected' : undefined}
                             onClick={() => handleChangeImageValueUnit('px', 'size', 'height')}
+                            onKeyDown={() => handleChangeImageValueUnit('px', 'size', 'height')}
+                            role='button'
+                            tabIndex='0'
                         >
                             PX
-                        </label>
-                        <label
+                        </span>
+                        <span
                             className={item.content[device].image.size.height.unit === 'vh' ? 'selected' : undefined}
                             onClick={() => handleChangeImageValueUnit('vh', 'size', 'height')}
+                            onKeyDown={() => handleChangeImageValueUnit('vh', 'size', 'height')}
+                            role='button'
+                            tabIndex='0'
                         >
                             VH
-                        </label>
+                        </span>
                     </div>
                 </div>
                 <Tab
@@ -203,19 +227,16 @@ export default function Logo({ element, device, onElementValueChange }) {
                     }}
                     panes={opacityPanes}
                 />
-                <div className='field'>
-                    <label>
-                        {intl.formatMessage({
-                            id: 'builder.alignment', defaultMessage: 'Alignment',
-                        })}
-                    </label>
-                    <Dropdown
-                        name='alignment'
-                        value={item.content.alignment}
-                        options={alignmentsOptions}
-                        onChange={handleChange}
-                    />
-                </div>
+                <Dropdown
+                    name='alignment'
+                    value={item.content.alignment}
+                    options={alignmentsOptions}
+                    onChange={handleChange}
+                    label={intl.formatMessage({
+                        id: 'builder.alignment',
+                        defaultMessage: 'Alignment',
+                    })}
+                />
             </Accordion>
             <Advanced
                 item={item}
@@ -246,12 +267,9 @@ export default function Logo({ element, device, onElementValueChange }) {
 }
 
 Logo.propTypes = {
-    device: PropTypes.shape({
-    }).isRequired,
+    device: PropTypes.string.isRequired,
     element: PropTypes.shape({
         content: PropTypes.shape({
-            image: PropTypes.shape({
-            }).isRequired,
         }).isRequired,
         type: PropTypes.string.isRequired,
     }).isRequired,

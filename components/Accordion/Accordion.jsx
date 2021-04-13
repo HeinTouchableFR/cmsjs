@@ -1,23 +1,22 @@
 import PropTypes from 'prop-types';
-import React, {
-    useState,
-} from 'react';
+import React, { useState } from 'react';
 import styles from './Accordion.module.scss';
 
-export default function Accordion({
-    title,
-    active = false,
-    children, border = false,
-}) {
+export default function Accordion({ title,
+    active,
+    children,
+    border }) {
     const [isActive, setIsActive] = useState(active);
 
     return (
         <>
             <div className={`${styles.accordion} ${border ? styles.border : ''}`}>
-                <div className={`${styles.accordion__title} ${isActive && styles.active}`}
+                <div
+                    className={`${styles.accordion__title} ${isActive && styles.active}`}
                     onClick={() => setIsActive(!isActive)}
                 >
-                    <i aria-hidden='true'
+                    <i
+                        aria-hidden='true'
                         className='dropdown icon'
                     />
                     {title}
@@ -31,8 +30,18 @@ export default function Accordion({
 }
 
 Accordion.propTypes = {
-    active: PropTypes.bool.isRequired,
-    border: PropTypes.bool.isRequired,
-    children: PropTypes.string.isRequired,
+    active: PropTypes.bool,
+    border: PropTypes.bool,
     title: PropTypes.string.isRequired,
+    children: PropTypes.oneOfType([
+        PropTypes.shape({
+        }),
+        PropTypes.arrayOf(PropTypes.shape({
+        })),
+    ]).isRequired,
+};
+
+Accordion.defaultProps = {
+    active: false,
+    border: false,
 };

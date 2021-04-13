@@ -37,34 +37,39 @@ export default function Advanced({ item, device, setItem, onChange }) {
                             })}
                         </div>
                         <div className='field-group'>
-                            <button
-                                className={item.styles[device].margin.unit === 'px' && 'selected'}
+                            <span
+                                className={`${item.styles[device].margin.unit === 'px' && 'selected'}`}
                                 onClick={() => handleChangeStyleUnit('px', 'margin')}
-                                type='button'
+                                onKeyDown={() => handleChangeStyleUnit('px', 'margin')}
+                                role='button'
+                                tabIndex='0'
                             >
                                 PX
-                            </button>
-                            <button
-                                className={item.styles[device].margin.unit === 'em' && 'selected'}
-                                onClick={() => handleChangeStyleUnit('em', 'margin')}
-                                type='button'
+                            </span>
+                            <span
+                                className={`${item.styles[device].margin.unit === 'em' && 'selected'}`}
+                                onKeyDown={() => handleChangeStyleUnit('em', 'margin')}
+                                role='button'
+                                tabIndex='0'
                             >
                                 EM
-                            </button>
-                            <button
-                                className={item.styles[device].margin.unit === '%' && 'selected'}
-                                onClick={() => handleChangeStyleUnit('%', 'margin')}
-                                type='button'
+                            </span>
+                            <span
+                                className={`${item.styles[device].margin.unit === '%' && 'selected'}`}
+                                onKeyDown={() => handleChangeStyleUnit('%', 'margin')}
+                                role='button'
+                                tabIndex='0'
                             >
                                 %
-                            </button>
-                            <button
-                                className={item.styles[device].margin.unit === 'rem' && 'selected'}
-                                onClick={() => handleChangeStyleUnit('rem', 'margin')}
-                                type='button'
+                            </span>
+                            <span
+                                className={`${item.styles[device].margin.unit === 'rem' && 'selected'}`}
+                                onKeyDown={() => handleChangeStyleUnit('rem', 'margin')}
+                                role='button'
+                                tabIndex='0'
                             >
                                 REM
-                            </button>
+                            </span>
                         </div>
                     </div>
                     <div className='form__inline_item bottom'>
@@ -135,34 +140,42 @@ export default function Advanced({ item, device, setItem, onChange }) {
                             })}
                         </div>
                         <div className='field-group'>
-                            <button
-                                className={item.styles[device].padding.unit === 'px' && 'selected'}
+                            <span
+                                className={`${item.styles[device].padding.unit === 'px' && 'selected'}`}
                                 onClick={() => handleChangeStyleUnit('px', 'padding')}
-                                type='button'
+                                onKeyDown={() => handleChangeStyleUnit('px', 'padding')}
+                                role='button'
+                                tabIndex='0'
                             >
                                 PX
-                            </button>
-                            <button
-                                className={item.styles[device].padding.unit === 'em' && 'selected'}
+                            </span>
+                            <span
+                                className={`${item.styles[device].padding.unit === 'em' && 'selected'}`}
                                 onClick={() => handleChangeStyleUnit('em', 'padding')}
-                                type='button'
+                                onKeyDown={() => handleChangeStyleUnit('em', 'padding')}
+                                role='button'
+                                tabIndex='0'
                             >
                                 EM
-                            </button>
-                            <button
-                                className={item.styles[device].padding.unit === '%' && 'selected'}
+                            </span>
+                            <span
+                                className={`${item.styles[device].padding.unit === '%' && 'selected'}`}
                                 onClick={() => handleChangeStyleUnit('%', 'padding')}
-                                type='button'
+                                onKeyDown={() => handleChangeStyleUnit('%', 'padding')}
+                                role='button'
+                                tabIndex='0'
                             >
                                 %
-                            </button>
-                            <button
-                                className={item.styles[device].padding.unit === 'rem' && 'selected'}
+                            </span>
+                            <span
+                                className={`${item.styles[device].padding.unit === 'rem' && 'selected'}`}
                                 onClick={() => handleChangeStyleUnit('rem', 'padding')}
-                                type='button'
+                                onKeyDown={() => handleChangeStyleUnit('rem', 'padding')}
+                                role='button'
+                                tabIndex='0'
                             >
                                 REM
-                            </button>
+                            </span>
                         </div>
                     </div>
                     <div className='form__inline_item bottom'>

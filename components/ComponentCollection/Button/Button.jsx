@@ -116,8 +116,7 @@ export default function Button({ element, onElementValueChange, device }) {
 }
 
 Button.propTypes = {
-    device: PropTypes.shape({
-    }).isRequired,
+    device: PropTypes.string.isRequired,
     element: PropTypes.shape({
         content: PropTypes.shape({
             text: PropTypes.string.isRequired,

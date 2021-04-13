@@ -74,6 +74,7 @@
     "builder.width": "Largeur",
     "builder.width.max": "Largeur max",
     "builder.height": "Hauteur",
+    "button.default": "Mon boutton",
     "button.tooltip": "Les boutons vous permettent de mutiples actions: Créer des liens, réaliser des événements, valider des formulaires...",
     "button": "Bouton",
     "cancel": "Annuler",

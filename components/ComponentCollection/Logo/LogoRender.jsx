@@ -12,6 +12,7 @@ import {
     borderStyle,
     marginPaddingStyle,
     imageStyle,
+    imageStyleHover,
 } from 'variables/renderFunctions';
 import PropTypes from 'prop-types';
 
@@ -26,17 +27,11 @@ export default function LogoRender({ element }) {
         }
     }, [settings]);
 
-    const imageStyleHover = function (device) {
-        return {
-            opacity: `${element.content[device].image.opacity.hover}`,
-        };
-    };
-
     const Image = styled.img({
         ...imageStyle('desktop', element),
         transition: 'width .2s',
         '&:hover': {
-            ...imageStyleHover('tablet'),
+            ...imageStyleHover('tablet', element),
         },
         '@media (max-width: 1024px)': css({
             '&:hover': {
@@ -44,7 +39,7 @@ export default function LogoRender({ element }) {
         }),
         '@media (max-width: 768px)': css({
             '&:hover': {
-                ...imageStyleHover('mobile'),
+                ...imageStyleHover('mobile', element),
             },
         }),
     });

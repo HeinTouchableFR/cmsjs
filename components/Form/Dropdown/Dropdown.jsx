@@ -24,7 +24,7 @@ export default function Dropdown({ name,
 
     const handleChange = (worth) => {
         const data = {
-            name, worth,
+            name, value: worth,
         };
         onChange(wrapperRef, data);
     };
@@ -138,8 +138,6 @@ export default function Dropdown({ name,
 Dropdown.propTypes = {
     options: PropTypes.arrayOf(PropTypes.shape({
         key: PropTypes.string.isRequired,
-        text: PropTypes.string.isRequired,
-        value: PropTypes.string.isRequired,
     }).isRequired).isRequired,
     onChange: PropTypes.func.isRequired,
     name: PropTypes.string,

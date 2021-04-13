@@ -110,8 +110,7 @@ export default function Link({ element, onElementValueChange, device }) {
 }
 
 Link.propTypes = {
-    device: PropTypes.shape({
-    }).isRequired,
+    device: PropTypes.string.isRequired,
     element: PropTypes.shape({
         content: PropTypes.shape({
             text: PropTypes.string.isRequired,

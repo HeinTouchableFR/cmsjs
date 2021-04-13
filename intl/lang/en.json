@@ -74,6 +74,7 @@
     "builder.width": "Width",
     "builder.width.max": "Max width",
     "builder.height": "Height",
+    "button.default": "My button",
     "button.tooltip": "A button allow you multiple possibility: Create link, event, submit...",
     "button": "Button",
     "cancel": "Cancel",

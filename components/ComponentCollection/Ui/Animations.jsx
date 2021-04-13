@@ -26,34 +26,26 @@ export default function Animations({ item, device, setItem, onChange }) {
                     defaultMessage: 'Animation',
                 })}
             >
-                <div className='field'>
-                    <div>
-                        {intl.formatMessage({
-                            id: 'builder.animation.entrance',
-                            defaultMessage: 'Entrance Animation',
-                        })}
-                    </div>
-                    <Dropdown
-                        name='name'
-                        value={item.content[device].animation.name}
-                        options={animationsOptions}
-                        onChange={handleChangeAnimation}
-                    />
-                </div>
-                <div className='field'>
-                    <div>
-                        {intl.formatMessage({
-                            id: 'builder.duration',
-                            defaultMessage: 'Duration',
-                        })}
-                    </div>
-                    <Dropdown
-                        name='duration'
-                        value={item.content[device].animation.duration}
-                        options={durationsOptions}
-                        onChange={handleChangeAnimation}
-                    />
-                </div>
+                <Dropdown
+                    name='name'
+                    value={item.content[device].animation.name}
+                    options={animationsOptions}
+                    onChange={handleChangeAnimation}
+                    label={intl.formatMessage({
+                        id: 'builder.animation.entrance',
+                        defaultMessage: 'Entrance Animation',
+                    })}
+                />
+                <Dropdown
+                    name='duration'
+                    value={item.content[device].animation.duration}
+                    options={durationsOptions}
+                    onChange={handleChangeAnimation}
+                    label={intl.formatMessage({
+                        id: 'builder.duration',
+                        defaultMessage: 'Duration',
+                    })}
+                />
                 <Input
                     label={
                         intl.formatMessage({

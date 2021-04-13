@@ -84,8 +84,7 @@ export default function Menu({ element, device, onElementValueChange }) {
 }
 
 Menu.propTypes = {
-    device: PropTypes.shape({
-    }).isRequired,
+    device: PropTypes.string.isRequired,
     element: PropTypes.shape({
         content: PropTypes.shape({
             menu: PropTypes.shape({

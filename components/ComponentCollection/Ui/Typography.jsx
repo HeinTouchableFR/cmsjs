@@ -24,19 +24,19 @@ export default function Typography({ item, device, setItem, onChange }) {
 
     const handleColorChange = (color, key, mode, location) => {
         colorChange(item, device, setItem, onChange, color, key, mode, location);
-    }
+    };
 
     const handleChangeTypo = (_e, data) => {
         changeTypo(_e, data, item, device, setItem, onChange);
-    }
+    };
 
     const handleChangeTypoWithKey = (_e, data, key) => {
         changeTypoWithKey(_e, data, key, item, device, setItem, onChange);
-    }
+    };
 
     const handleChangeTypoUnit = (unit, key) => {
         changeTypoUnit(unit, key, item, device, setItem, onChange);
-    }
+    };
 
     return (
         <>
@@ -74,175 +74,161 @@ export default function Typography({ item, device, setItem, onChange }) {
                     </div>
                 </div>
                 <div className='form__inline_item'>
-                    <div className='field'>
-                        <Input
-                            label={intl.formatMessage({
-                                id: 'builder.font.size',
-                                defaultMessage: 'Font size',
-                            })}
-                            placeholder='16'
-                            name='value'
-                            type='number'
-                            min='1'
-                            max={item.content[device].typo.size.unit === 'px' ? 200 : 10}
-                            step={item.content[device].typo.size.unit === 'px' ? 1 : 0.1}
-                            value={item.content[device].typo.size.value}
-                            onChange={(e, data) => handleChangeTypoWithKey(e, data, 'size')}
-                        />
-                    </div>
-                    <div className='field-group'>
-                        <button
-                            className={item.content[device].typo.size.unit === 'px' && 'selected'}
-                            onClick={() => handleChangeTypoUnit('px', 'size')}
-                            type='button'
-                        >
-                            PX
-                        </button>
-                        <button
-                            className={item.content[device].typo.size.unit === 'em' && 'selected'}
-                            onClick={() => handleChangeTypoUnit('em', 'size')}
-                            type='button'
-                        >
-                            EM
-                        </button>
-                        <button
-                            className={item.content[device].typo.size.unit === 'rem' && 'selected'}
-                            onClick={() => handleChangeTypoUnit('rem', 'size')}
-                            type='button'
-                        >
-                            REM
-                        </button>
-                        <button
-                            className={item.content[device].typo.size.unit === 'vw' && 'selected'}
-                            onClick={() => handleChangeTypoUnit('vw', 'size')}
-                            type='button'
-                        >
-                            VW
-                        </button>
-                    </div>
-                </div>
-                <div className='form__inline_item'>
-                    <div className='field'>
-                        <div>
-                            {intl.formatMessage({
-                                id: 'builder.font.family',
-                                defaultMessage: 'Font family',
-                            })}
-                        </div>
-                        <Dropdown
-                            name='family'
-                            value={item.content[device].typo.family}
-                            options={fontsOptions}
-                            onChange={handleChangeTypo}
-                        />
-                    </div>
-                    <div className='field'>
-                        <div>
-                            {intl.formatMessage({
-                                id: 'builder.font.weight',
-                                defaultMessage: 'Font weight',
-                            })}
-                        </div>
-                        <Dropdown
-                            name='weight'
-                            value={item.content[device].typo.weight}
-                            options={weightsOptions}
-                            onChange={handleChangeTypo}
-                        />
-                    </div>
-                </div>
-                <div className='form__inline_item'>
-                    <div className='field'>
-                        <div>
-                            {intl.formatMessage({
-                                id: 'builder.transform',
-                                defaultMessage: 'Transform',
-                            })}
-                        </div>
-                        <Dropdown
-                            name='transform'
-                            value={item.content[device].typo.transform}
-                            options={transformsOptions}
-                            onChange={handleChangeTypo}
-                        />
-                    </div>
-                    <div className='field'>
-                        <div>
-                            {intl.formatMessage({
-                                id: 'builder.style',
-                                defaultMessage: 'Style',
-                            })}
-                        </div>
-                        <Dropdown
-                            name='style'
-                            value={item.content[device].typo.style}
-                            options={stylesOptions}
-                            onChange={handleChangeTypo}
-                        />
-                    </div>
-                    <div className='field'>
-                        <div>
-                            {intl.formatMessage({
-                                id: 'builder.decoration',
-                                defaultMessage: 'Decoration',
-                            })}
-                        </div>
-                        <Dropdown
-                            name='decoration'
-                            value={Array.from(item.content[device].typo.decoration)}
-                            options={decorationsOptions}
-                            onChange={handleChangeTypo}
-                            multiple
-                        />
-                    </div>
-                </div>
-                <div className='form__inline_item'>
-                    <div className='field'>
-                        <Input
-                            label={intl.formatMessage({
-                                id: 'builder.lineHeight',
-                                defaultMessage: 'Line height',
-                            })}
-                            placeholder='1'
-                            name='value'
-                            type='number'
-                            min='1'
-                            max={item.content[device].typo.lineHeight.unit === 'px' ? 100 : 10}
-                            step={item.content[device].typo.lineHeight.unit === 'px' ? 1 : 0.1}
-                            value={item.content[device].typo.lineHeight.value}
-                            onChange={(e, data) => handleChangeTypoWithKey(e, data, 'lineHeight')}
-                        />
-                    </div>
-                    <div className='field-group'>
-                        <button
-                            className={item.content[device].typo.lineHeight.unit === 'px' && 'selected'}
-                            onClick={() => handleChangeTypoUnit('px', 'lineHeight')}
-                            type='button'
-                        >
-                            PX
-                        </button>
-                        <button
-                            className={item.content[device].typo.lineHeight.unit === 'em' && 'selected'}
-                            onClick={() => handleChangeTypoUnit('em', 'lineHeight')}
-                            type='button'
-                        >
-                            EM
-                        </button>
-                    </div>
-                </div>
-                <div className='field'>
                     <Input
                         label={intl.formatMessage({
-                            id: 'builder.letterSpacing',
-                            defaultMessage: 'Letter spacing',
+                            id: 'builder.font.size',
+                            defaultMessage: 'Font size',
                         })}
-                        placeholder='0'
-                        name='letterSpacing'
+                        placeholder='16'
+                        name='value'
                         type='number'
-                        value={item.content[device].typo.letterSpacing}
+                        min='1'
+                        max={item.content[device].typo.size.unit === 'px' ? '200' : '10'}
+                        step={item.content[device].typo.size.unit === 'px' ? '1' : '0.1'}
+                        value={item.content[device].typo.size.value}
+                        onChange={(e, data) => handleChangeTypoWithKey(e, data, 'size')}
+                    />
+                    <div className='field-group'>
+                        <span
+                            className={`${item.content[device].typo.size.unit === 'px' && 'selected'}`}
+                            onClick={() => handleChangeTypoUnit('px', 'size')}
+                            onKeyDown={() => handleChangeTypoUnit('px', 'size')}
+                            role='button'
+                            tabIndex='0'
+                        >
+                            PX
+                        </span>
+                        <span
+                            className={`${item.content[device].typo.size.unit === 'em' && 'selected'}`}
+                            onClick={() => handleChangeTypoUnit('em', 'size')}
+                            onKeyDown={() => handleChangeTypoUnit('em', 'size')}
+                            role='button'
+                            tabIndex='0'
+                        >
+                            EM
+                        </span>
+                        <span
+                            className={`${item.content[device].typo.size.unit === 'rem' && 'selected'}`}
+                            onClick={() => handleChangeTypoUnit('rem', 'size')}
+                            onKeyDown={() => handleChangeTypoUnit('rem', 'size')}
+                            role='button'
+                            tabIndex='0'
+                        >
+                            REM
+                        </span>
+                        <span
+                            className={`${item.content[device].typo.size.unit === 'vw' && 'selected'}`}
+                            onClick={() => handleChangeTypoUnit('vw', 'size')}
+                            onKeyDown={() => handleChangeTypoUnit('vw', 'size')}
+                            role='button'
+                            tabIndex='0'
+                        >
+                            VW
+                        </span>
+                    </div>
+                </div>
+                <div className='form__inline_item'>
+                    <Dropdown
+                        name='family'
+                        value={item.content[device].typo.family}
+                        options={fontsOptions}
                         onChange={handleChangeTypo}
+                        label={intl.formatMessage({
+                            id: 'builder.font.family',
+                            defaultMessage: 'Font family',
+                        })}
+                    />
+                    <Dropdown
+                        name='weight'
+                        value={item.content[device].typo.weight}
+                        options={weightsOptions}
+                        onChange={handleChangeTypo}
+                        label={intl.formatMessage({
+                            id: 'builder.font.weight',
+                            defaultMessage: 'Font weight',
+                        })}
                     />
                 </div>
+                <div className='form__inline_item'>
+                    <Dropdown
+                        name='transform'
+                        value={item.content[device].typo.transform}
+                        options={transformsOptions}
+                        onChange={handleChangeTypo}
+                        label={intl.formatMessage({
+                            id: 'builder.transform',
+                            defaultMessage: 'Transform',
+                        })}
+                    />
+                    <Dropdown
+                        name='style'
+                        value={item.content[device].typo.style}
+                        options={stylesOptions}
+                        onChange={handleChangeTypo}
+                        label={intl.formatMessage({
+                            id: 'builder.style',
+                            defaultMessage: 'Style',
+                        })}
+                    />
+                    <Dropdown
+                        name='decoration'
+                        value={Array.from(item.content[device].typo.decoration)}
+                        options={decorationsOptions}
+                        onChange={handleChangeTypo}
+                        multiple
+                        label={intl.formatMessage({
+                            id: 'builder.decoration',
+                            defaultMessage: 'Decoration',
+                        })}
+                    />
+                </div>
+                <div className='form__inline_item'>
+                    <Input
+                        label={intl.formatMessage({
+                            id: 'builder.lineHeight',
+                            defaultMessage: 'Line height',
+                        })}
+                        placeholder='1'
+                        name='value'
+                        type='number'
+                        min='1'
+                        max={item.content[device].typo.lineHeight.unit === 'px' ? '100' : '10'}
+                        step={item.content[device].typo.lineHeight.unit === 'px' ? '1' : '0.1'}
+                        value={item.content[device].typo.lineHeight.value}
+                        onChange={(e, data) => handleChangeTypoWithKey(e, data, 'lineHeight')}
+                    />
+                    <div className='field-group'>
+                        <span
+                            className={`${item.content[device].typo.lineHeight.unit === 'px' && 'selected'}`}
+                            onClick={() => handleChangeTypoUnit('px', 'lineHeight')}
+                            onKeyDown={() => handleChangeTypoUnit('px', 'lineHeight')}
+                            role='button'
+                            tabIndex='0'
+                        >
+                            PX
+                        </span>
+                        <span
+                            className={`${item.content[device].typo.lineHeight.unit === 'em' && 'selected'}`}
+                            onClick={() => handleChangeTypoUnit('em', 'lineHeight')}
+                            onKeyDown={() => handleChangeTypoUnit('em', 'lineHeight')}
+                            role='button'
+                            tabIndex='0'
+                        >
+                            EM
+                        </span>
+                    </div>
+                </div>
+                <Input
+                    label={intl.formatMessage({
+                        id: 'builder.letterSpacing',
+                        defaultMessage: 'Letter spacing',
+                    })}
+                    placeholder='0'
+                    name='letterSpacing'
+                    type='number'
+                    value={item.content[device].typo.letterSpacing}
+                    onChange={handleChangeTypo}
+                />
             </Accordion>
         </>
     );
@@ -251,7 +237,6 @@ export default function Typography({ item, device, setItem, onChange }) {
 Typography.propTypes = {
     item: PropTypes.shape({
         content: PropTypes.shape({
-            text: PropTypes.string.isRequired,
         }).isRequired,
         type: PropTypes.string.isRequired,
     }).isRequired,

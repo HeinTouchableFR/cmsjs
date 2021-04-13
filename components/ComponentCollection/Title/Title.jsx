@@ -115,8 +115,7 @@ export default function Title({ element, onElementValueChange, device }) {
 }
 
 Title.propTypes = {
-    device: PropTypes.shape({
-    }).isRequired,
+    device: PropTypes.string.isRequired,
     element: PropTypes.shape({
         content: PropTypes.shape({
             text: PropTypes.string.isRequired,

@@ -19,7 +19,7 @@ export default function Option({ option, onClick, value }) {
                 tabIndex='0'
             >
                 <span className='text'>
-                    {option.content ? option.content : option.text}
+                    {option.content ? option.content : option.text.toString()}
                 </span>
             </div>
         </>
@@ -31,5 +31,9 @@ Option.propTypes = {
         key: PropTypes.string.isRequired,
     }.isRequired).isRequired,
     onClick: PropTypes.func.isRequired,
-    value: PropTypes.string.isRequired,
+    value: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.arrayOf(PropTypes.shape({
+        })),
+    ]).isRequired,
 };

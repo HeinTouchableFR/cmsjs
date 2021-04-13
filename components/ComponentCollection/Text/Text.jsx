@@ -113,8 +113,7 @@ export default function Text({ element, onElementValueChange, device }) {
 }
 
 Text.propTypes = {
-    device: PropTypes.shape({
-    }).isRequired,
+    device: PropTypes.string.isRequired,
     element: PropTypes.shape({
         content: PropTypes.shape({
             text: PropTypes.string.isRequired,

@@ -41,20 +41,16 @@ export default function Border({ item, device, setItem, onChange }) {
             }),
             render: () => (
                 <div className='accordion__pane'>
-                    <div className='field'>
-                        <div>
-                            {intl.formatMessage({
-                                id: 'builder.border.type',
-                                defaultMessage: 'Border type',
-                            })}
-                        </div>
-                        <Dropdown
-                            name='type'
-                            value={item.content[device].styles.border.normal.type}
-                            options={borderOptions}
-                            onChange={(e, data) => handleChangeBorderType(e, data, 'normal')}
-                        />
-                    </div>
+                    <Dropdown
+                        name='type'
+                        value={item.content[device].styles.border.normal.type}
+                        options={borderOptions}
+                        onChange={(e, data) => handleChangeBorderType(e, data, 'normal')}
+                        label={intl.formatMessage({
+                            id: 'builder.border.type',
+                            defaultMessage: 'Border type',
+                        })}
+                    />
                     <div className='field'>
                         <div>
                             {intl.formatMessage({
@@ -142,20 +138,24 @@ export default function Border({ item, device, setItem, onChange }) {
                                 })}
                             </div>
                             <div className='field-group'>
-                                <button
-                                    className={item.content[device].styles.border.normal.radius.unit === 'px' && 'selected'}
+                                <span
+                                    className={`${item.content[device].styles.border.normal.radius.unit === 'px' && 'selected'}`}
                                     onClick={() => handleChangeBorderRadiusUnit('px', 'normal')}
-                                    type='button'
+                                    onKeyDown={() => handleChangeBorderRadiusUnit('px', 'normal')}
+                                    role='button'
+                                    tabIndex='0'
                                 >
                                     PX
-                                </button>
-                                <button
-                                    className={item.content[device].styles.border.normal.radius.unit === '%' && 'selected'}
+                                </span>
+                                <span
+                                    className={`${item.content[device].styles.border.normal.radius.unit === '%' && 'selected'}`}
                                     onClick={() => handleChangeBorderRadiusUnit('%', 'normal')}
-                                    type='button'
+                                    onKeyDown={() => handleChangeBorderRadiusUnit('%', 'normal')}
+                                    role='button'
+                                    tabIndex='0'
                                 >
                                     %
-                                </button>
+                                </span>
                             </div>
                         </div>
                         <div className='form__inline_item bottom'>
@@ -227,20 +227,16 @@ export default function Border({ item, device, setItem, onChange }) {
             }),
             render: () => (
                 <div className='accordion__pane'>
-                    <div className='field'>
-                        <div>
-                            {intl.formatMessage({
-                                id: 'builder.border.type',
-                                defaultMessage: 'Border type',
-                            })}
-                        </div>
-                        <Dropdown
-                            name='type'
-                            value={item.content[device].styles.border.hover.type}
-                            options={borderOptions}
-                            onChange={(e, data) => handleChangeBorderType(e, data, 'hover')}
-                        />
-                    </div>
+                    <Dropdown
+                        name='type'
+                        value={item.content[device].styles.border.hover.type}
+                        options={borderOptions}
+                        onChange={(e, data) => handleChangeBorderType(e, data, 'hover')}
+                        label={intl.formatMessage({
+                            id: 'builder.border.type',
+                            defaultMessage: 'Border type',
+                        })}
+                    />
                     <div className='field'>
                         <div>
                             {intl.formatMessage({
@@ -328,20 +324,24 @@ export default function Border({ item, device, setItem, onChange }) {
                                 })}
                             </div>
                             <div className='field-group'>
-                                <button
-                                    className={item.content[device].styles.border.hover.radius.unit === 'px' && 'selected'}
+                                <span
+                                    className={`${item.content[device].styles.border.hover.radius.unit === 'px' && 'selected'}`}
                                     onClick={() => handleChangeBorderRadiusUnit('px', 'hover')}
-                                    type='button'
+                                    onKeyDown={() => handleChangeBorderRadiusUnit('px', 'hover')}
+                                    role='button'
+                                    tabIndex='0'
                                 >
                                     PX
-                                </button>
-                                <button
-                                    className={item.content[device].styles.border.hover.radius.unit === '%' && 'selected'}
+                                </span>
+                                <span
+                                    className={`${item.content[device].styles.border.hover.radius.unit === '%' && 'selected'}`}
                                     onClick={() => handleChangeBorderRadiusUnit('%', 'hover')}
-                                    type='button'
+                                    onKeyDown={() => handleChangeBorderRadiusUnit('%', 'hover')}
+                                    role='button'
+                                    tabIndex='0'
                                 >
                                     %
-                                </button>
+                                </span>
                             </div>
                         </div>
                         <div className='form__inline_item bottom'>
