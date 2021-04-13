@@ -8,9 +8,9 @@ import axios from 'axios';
 import nookies from 'nookies';
 import Admin from 'container/Admin/Admin';
 import Card from 'components/Cards/Card/Card';
-import {Button} from 'components/Button/Button';
+import Button from 'components/Button/Button';
 import Input from 'components/Form/Input/Input';
-import Dropdown from '../../../components/Form/Dropdown/Dropdown';
+import Dropdown from 'components/Form/Dropdown/Dropdown';
 
 export default function Index({menus, pages}) {
     const intl = useIntl()

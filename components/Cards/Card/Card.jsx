@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from 'components/Cards/Card/Card.module.scss'
-import {ActionButton} from 'components/Button/ActionButton/ActionButton';
+import ActionButton from 'components/Button/ActionButton/ActionButton';
 
 export default function Card({title, buttonLabel, buttonAction, buttonIcon, children}) {
 

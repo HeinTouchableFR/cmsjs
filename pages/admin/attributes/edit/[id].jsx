@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import axios from 'axios';
 import { Button as SementicButton, Card as SementicCard, Form } from 'semantic-ui-react';
 import {useIntl} from 'react-intl';
-import {Button} from 'components/Button/Button';
+import Button from 'components/Button/Button';
 import Card from 'components/Cards/Card/Card';
 import Admin from 'container/Admin/Admin';
 import Input from 'components/Form/Input/Input';

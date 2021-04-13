@@ -1,6 +1,6 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { Button } from 'components/Button/Button';
+import Button from 'components/Button/Button';
 
 export default function Page({ item, url, parentPage, dash = '', handleDelete }) {
     const intl = useIntl();

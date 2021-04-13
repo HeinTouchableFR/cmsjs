@@ -7,7 +7,7 @@ import { Button as SementicButton, Card as SementicCard, Form } from 'semantic-u
 import FileManager from 'components/FileManager/FileManager';
 import nookies from 'nookies';
 import {auth} from 'utils/dbConnect';
-import {Button} from 'components/Button/Button';
+import Button from 'components/Button/Button';
 import Card from 'components/Cards/Card/Card';
 import Admin from 'container/Admin/Admin';
 import Input from 'components/Form/Input/Input';

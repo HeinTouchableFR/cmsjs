@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from 'components/Button/Button';
+import Button from 'components/Button/Button';
 
 export default function Attribute({ item, url, handleDelete }) {
     return (

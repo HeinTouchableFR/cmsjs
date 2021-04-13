@@ -5,7 +5,7 @@ import { useAuth } from 'context/auth';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FormattedMessage } from 'react-intl';
-import { DarkModeButton } from 'components/Button/DarkModeButton/DarkModeButton';
+import DarkModeButton from 'components/Button/DarkModeButton/DarkModeButton';
 import { useSettings } from 'context/settings';
 
 export default function Admin({ children }) {

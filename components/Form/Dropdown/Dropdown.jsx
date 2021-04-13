@@ -1,27 +1,39 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, {
+    useEffect, useRef, useState,
+} from 'react';
 import styles from 'components/Form/Dropdown/Dropdown.module.scss';
 import PropTypes from 'prop-types';
+import Option from './Component/Option';
+import SelectedOption from './Component/SelectedOption';
 
-export default function Dropdown({
-    name,
-    options = [],
+export default function Dropdown({ name,
+    label,
+    options,
     multiple,
     defaultValue,
-    onChange,
-}) {
+    onChange }) {
     const wrapperRef = useRef(null);
     const inputRef = useRef(null);
     const [isExpend, setIsExpend] = useState(false);
     const [search, setSearch] = useState('');
     const [value, setValue] = useState(defaultValue || (multiple ? [] : ''));
+
     const handleExpend = () => {
         setIsExpend(true);
     };
+
+    const handleChange = (worth) => {
+        const data = {
+            name, worth,
+        };
+        onChange(wrapperRef, data);
+    };
+
     const handleItemClick = (item) => {
         let tmp;
         if (multiple) {
             tmp = value.includes(item.value)
-                ? value.filter((value) => value !== item.value)
+                ? value.filter((worth) => worth !== item.value)
                 : [...value, item.value];
         } else {
             tmp = item.value;
@@ -30,11 +42,6 @@ export default function Dropdown({
         }
         setValue(tmp);
         handleChange(tmp);
-    };
-
-    const handleChange = (value) => {
-        const data = { name, value };
-        onChange(wrapperRef, data);
     };
 
     useEffect(() => {
@@ -52,93 +59,76 @@ export default function Dropdown({
 
     const filteredOptions = options.filter((option) => option.text.toString().includes(search));
 
-    const Option = ({ option }) => {
-        const handleClick = () => {
-            handleItemClick(option);
-        };
-        const isSelected = value.includes(option.value);
-
-        return (
-            <>
-                <div
-                    className={`${styles.item} ${isSelected && styles.selected}`}
-                    onClick={handleClick}
-                >
-                    <span className='text'>
-                        {option.content ? option.content : option.text}
-                    </span>
-                </div>
-            </>
-        );
-    };
-
-    const SelectedOption = ({ option }) => {
-        const handleDeleteOption = () => {
-            setValue(value.filter((value) => value !== option.value));
-        };
-        return (
-            <>
-                <a className={`${styles.ui} ${styles.label}`}>
-                    {option.text}
-                    <i
-                        className={`las la-times-circle ${styles.dropdown}`}
-                        onClick={handleDeleteOption}
-                    />
-                </a>
-            </>
-        );
-    };
-
     const handleResetValue = () => {
-        multiple ? setValue([]) : setValue('');
+        setValue(multiple ? [] : '');
         setIsExpend(false);
     };
 
     return (
         <>
-            <div
-                ref={wrapperRef}
-                name={name}
-                className={`${styles.ui} ${styles.dropdown} ${
-                    isExpend && styles.active
-                } ${isExpend && styles.visible} ${multiple ? styles.multiple : ''}`}
-                onFocus={handleExpend}
-                onClick={() => {
-                    inputRef.current.focus();
-                }}
-            >
-                {multiple
-          && options.map(
-              (option) => value.includes(option.value) && (
-                  <SelectedOption key={option.key} option={option} />
-              ),
-          )}
-                <input
-                    ref={inputRef}
-                    type='text'
-                    value={search}
-                    onChange={(e) => setSearch(e.target.value)}
-                />
-                {!multiple && value && search === '' && (
-                    <div className={`${styles.divider} ${styles.text}`}>
-                        {options.map((option) => option.value === value && option.text)}
-                    </div>
-                )}
-                {value === '' || value.length === 0 ? (
-                    <i
-                        className={`las la-caret-down ${styles.dropdown} ${styles.icon}`}
-                    />
-                ) : (
-                    <i
-                        className={`las la-times-circle ${styles.dropdown} ${styles.icon}`}
-                        onClick={handleResetValue}
-                        role=''
-                    />
-                )}
-                <div className={`${isExpend && styles.visible} ${styles.menu}`}>
-                    {filteredOptions.map((option) => (
-                        <Option key={option.key} option={option} />
+            <div className={styles.field}>
+                <label htmlFor={name}>{label}</label>
+                <div
+                    ref={wrapperRef}
+                    role='listbox'
+                    tabIndex='0'
+                    name={name}
+                    className={`${styles.ui} ${styles.dropdown} ${
+                        isExpend && styles.active
+                    } ${isExpend && styles.visible} ${multiple ? styles.multiple : ''}`}
+                    onFocus={handleExpend}
+                    onClick={() => {
+                        inputRef.current.focus();
+                    }}
+                    onKeyDown={() => {
+                        inputRef.current.focus();
+                    }}
+                >
+                    {multiple
+                    && options.map((option) => value.includes(option.value) && (
+                        <SelectedOption
+                            key={option.key}
+                            option={option}
+                            value={value}
+                            setValue={setValue}
+                        />
                     ))}
+                    <input
+                        ref={inputRef}
+                        type='text'
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                    />
+                    {!multiple && value && search === '' && (
+                        <div className={`${styles.divider} ${styles.text}`}>
+                            {options.map((option) => option.value === value && option.text)}
+                        </div>
+                    )}
+                    {value === '' || value.length === 0 ? (
+                        <i
+                            className={`las la-caret-down ${styles.dropdown} ${styles.icon}`}
+                        />
+                    ) : (
+                        <i
+                            className={`las la-times-circle ${styles.dropdown} ${styles.icon}`}
+                            onClick={handleResetValue}
+                            onKeyDown={handleResetValue}
+                            tabIndex={0}
+                            role='button'
+                        />
+                    )}
+                    <div
+                        className={`${isExpend && styles.visible} ${styles.menu}`}
+                    >
+                        {filteredOptions.map((option) => (
+                            <Option
+                                key={option.key}
+                                option={option}
+                                onClick={(item) => handleItemClick(item)}
+                                value={value}
+                            />
+                        ))}
+                    </div>
                 </div>
             </div>
         </>
@@ -146,13 +136,21 @@ export default function Dropdown({
 }
 
 Dropdown.propTypes = {
-    name: PropTypes.string.isRequired,
-    options: PropTypes.arrayOf(
-        PropTypes.shape({
-            key: PropTypes.string.isRequired,
-        }).isRequired,
-    ).isRequired,
-    multiple: PropTypes.string.isRequired,
-    defaultValue: PropTypes.string.isRequired,
+    options: PropTypes.arrayOf(PropTypes.shape({
+        key: PropTypes.string.isRequired,
+        text: PropTypes.string.isRequired,
+        value: PropTypes.string.isRequired,
+    }).isRequired).isRequired,
     onChange: PropTypes.func.isRequired,
+    name: PropTypes.string,
+    label: PropTypes.string,
+    multiple: PropTypes.bool,
+    defaultValue: PropTypes.string,
+};
+
+Dropdown.defaultProps = {
+    name: '',
+    label: '',
+    multiple: false,
+    defaultValue: '',
 };

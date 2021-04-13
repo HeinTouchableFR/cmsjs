@@ -9,7 +9,7 @@ import nookies from 'nookies';
 import {auth} from 'utils/dbConnect';
 import Card from 'components/Cards/Card/Card';
 import Admin from 'container/Admin/Admin';
-import {Button} from 'components/Button/Button';
+import Button from 'components/Button/Button';
 import Input from 'components/Form/Input/Input';
 import Dropdown from 'components/Form/Dropdown/Dropdown';
 

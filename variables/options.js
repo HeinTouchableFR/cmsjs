@@ -1,31 +1,93 @@
-import {css} from '@emotion/react';
+import { css } from '@emotion/react';
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 
 export const tagsOptions = [
-    {key: 'H1', text: 'H1', value: 'h1'},
-    {key: 'H2', text: 'H2', value: 'h2'},
-    {key: 'H3', text: 'H3', value: 'h3'},
-    {key: 'H4', text: 'H4', value: 'h4'},
-    {key: 'H5', text: 'H5', value: 'h5'},
-    {key: 'H6', text: 'H6', value: 'h6'},
+    {
+        key: 'H1', text: 'H1', value: 'h1',
+    },
+    {
+        key: 'H2', text: 'H2', value: 'h2',
+    },
+    {
+        key: 'H3', text: 'H3', value: 'h3',
+    },
+    {
+        key: 'H4', text: 'H4', value: 'h4',
+    },
+    {
+        key: 'H5', text: 'H5', value: 'h5',
+    },
+    {
+        key: 'H6', text: 'H6', value: 'h6',
+    },
 ];
 
 export const alignmentsOptions = [
-    {key: 'left', text: <FormattedMessage id='builder.left' defaultMessage='Left' />, value: 'left'},
-    {key: 'center', text: <FormattedMessage id='builder.center' defaultMessage='Center' />, value: 'center'},
-    {key: 'right', text: <FormattedMessage id='builder.right' defaultMessage='Right' />, value: 'right'},
-    {key: 'justify', text: <FormattedMessage id='builder.justify' defaultMessage='Justify' />, value: 'justify'},
+    {
+        key: 'left',
+        text: <FormattedMessage
+            id='builder.left'
+            defaultMessage='Left'
+        />,
+        value: 'left',
+    },
+    {
+        key: 'center',
+        text: <FormattedMessage
+            id='builder.center'
+            defaultMessage='Center'
+        />,
+        value: 'center',
+    },
+    {
+        key: 'right',
+        text: <FormattedMessage
+            id='builder.right'
+            defaultMessage='Right'
+        />,
+        value: 'right',
+    },
+    {
+        key: 'justify',
+        text: <FormattedMessage
+            id='builder.justify'
+            defaultMessage='Justify'
+        />,
+        value: 'justify',
+    },
 ];
 
 export const flexAlignmentsOptions = [
-    {key: 'left', text: <FormattedMessage id='builder.left' defaultMessage='Left' />, value: 'flex-start'},
-    {key: 'center', text: <FormattedMessage id='builder.center' defaultMessage='Center' />, value: 'center'},
-    {key: 'right', text: <FormattedMessage id='builder.right' defaultMessage='Right' />, value: 'flex-end'},
+    {
+        key: 'left',
+        text: <FormattedMessage
+            id='builder.left'
+            defaultMessage='Left'
+        />,
+        value: 'flex-start',
+    },
+    {
+        key: 'center',
+        text: <FormattedMessage
+            id='builder.center'
+            defaultMessage='Center'
+        />,
+        value: 'center',
+    },
+    {
+        key: 'right',
+        text: <FormattedMessage
+            id='builder.right'
+            defaultMessage='Right'
+        />,
+        value: 'flex-end',
+    },
 ];
 
 export const fontsOptions = [
-    {key: 'Abril Fatface',
+    {
+        key: 'Abril Fatface',
         text: 'Abril Fatface',
         value: 'Abril Fatface',
         content: (
@@ -35,8 +97,8 @@ export const fontsOptions = [
                         font-weight: normal;
                     `}
             >
-                    Abril Fatface
-                </span>
+                Abril Fatface
+            </span>
         ),
     },
     {
@@ -50,8 +112,8 @@ export const fontsOptions = [
                         font-weight: normal;
                     `}
             >
-                    Alegreya
-                </span>
+                Alegreya
+            </span>
         ),
     },
     {
@@ -65,8 +127,8 @@ export const fontsOptions = [
                         font-weight: normal;
                     `}
             >
-                    Archivo
-                </span>
+                Archivo
+            </span>
         ),
     },
     {
@@ -80,8 +142,8 @@ export const fontsOptions = [
                         font-weight: normal;
                     `}
             >
-                    B612
-                </span>
+                B612
+            </span>
         ),
     },
     {
@@ -95,8 +157,8 @@ export const fontsOptions = [
                         font-weight: normal;
                     `}
             >
-                    BioRhyme
-                </span>
+                BioRhyme
+            </span>
         ),
     },
     {
@@ -110,8 +172,8 @@ export const fontsOptions = [
                         font-weight: normal;
                     `}
             >
-                    Cairo
-                </span>
+                Cairo
+            </span>
         ),
     },
     {
@@ -125,8 +187,8 @@ export const fontsOptions = [
                         font-weight: normal;
                     `}
             >
-                    Coiny
-                </span>
+                Coiny
+            </span>
         ),
     },
     {
@@ -140,8 +202,8 @@ export const fontsOptions = [
                         font-weight: normal;
                     `}
             >
-                    Cormorant
-                </span>
+                Cormorant
+            </span>
         ),
     },
     {
@@ -155,8 +217,8 @@ export const fontsOptions = [
                         font-weight: normal;
                     `}
             >
-                    Crimson Text
-                </span>
+                Crimson Text
+            </span>
         ),
     },
     {
@@ -170,8 +232,8 @@ export const fontsOptions = [
                         font-weight: normal;
                     `}
             >
-                    Frank Ruhl Libre
-                </span>
+                Frank Ruhl Libre
+            </span>
         ),
     },
     {
@@ -185,8 +247,8 @@ export const fontsOptions = [
                         font-weight: normal;
                     `}
             >
-                    IBM Plex Serif
-                </span>
+                IBM Plex Serif
+            </span>
         ),
     },
     {
@@ -200,8 +262,8 @@ export const fontsOptions = [
                         font-weight: normal;
                     `}
             >
-                    Impact
-                </span>
+                Impact
+            </span>
         ),
     },
     {
@@ -215,8 +277,8 @@ export const fontsOptions = [
                         font-weight: normal;
                     `}
             >
-                    Karla
-                </span>
+                Karla
+            </span>
         ),
     },
     {
@@ -230,8 +292,8 @@ export const fontsOptions = [
                         font-weight: normal;
                     `}
             >
-                    Lora
-                </span>
+                Lora
+            </span>
         ),
     },
     {
@@ -245,8 +307,8 @@ export const fontsOptions = [
                         font-weight: normal;
                     `}
             >
-                    Montserrat
-                </span>
+                Montserrat
+            </span>
         ),
     },
     {
@@ -260,8 +322,8 @@ export const fontsOptions = [
                         font-weight: normal;
                     `}
             >
-                    Muli
-                </span>
+                Muli
+            </span>
         ),
     },
     {
@@ -275,8 +337,8 @@ export const fontsOptions = [
                         font-weight: normal;
                     `}
             >
-                    Playfair Display
-                </span>
+                Playfair Display
+            </span>
         ),
     },
     {
@@ -290,8 +352,8 @@ export const fontsOptions = [
                         font-weight: normal;
                     `}
             >
-                    PT Banana Split
-                </span>
+                PT Banana Split
+            </span>
         ),
     },
     {
@@ -305,8 +367,8 @@ export const fontsOptions = [
                         font-weight: normal;
                     `}
             >
-                    Roboto
-                </span>
+                Roboto
+            </span>
         ),
     },
     {
@@ -320,8 +382,8 @@ export const fontsOptions = [
                         font-weight: normal;
                     `}
             >
-                    Spectral
-                </span>
+                Spectral
+            </span>
         ),
     },
     {
@@ -335,8 +397,8 @@ export const fontsOptions = [
                         font-weight: normal;
                     `}
             >
-                    Titillium Web
-                </span>
+                Titillium Web
+            </span>
         ),
     },
     {
@@ -350,8 +412,8 @@ export const fontsOptions = [
                         font-weight: normal;
                     `}
             >
-                    TrashHand
-                </span>
+                TrashHand
+            </span>
         ),
     },
     {
@@ -365,8 +427,8 @@ export const fontsOptions = [
                         font-weight: normal;
                     `}
             >
-                    Ubuntu
-                </span>
+                Ubuntu
+            </span>
         ),
     },
     {
@@ -380,8 +442,8 @@ export const fontsOptions = [
                         font-weight: normal;
                     `}
             >
-                    Varela
-                </span>
+                Varela
+            </span>
         ),
     },
     {
@@ -395,97 +457,399 @@ export const fontsOptions = [
                         font-weight: normal;
                     `}
             >
-                    Vollkorn
-                </span>
+                Vollkorn
+            </span>
         ),
     },
 ];
 
 export const transformsOptions = [
-    {key: 'default', text: <FormattedMessage id='builder.transform.default' defaultMessage='Default' />, value: 'initial', content: (<span><FormattedMessage id='builder.transform.default' defaultMessage='Default' /></span>)},
-    {key: 'uppercase', text: <FormattedMessage id='builder.transform.uppercase' defaultMessage='Uppercase' />, value: 'uppercase', content: (<span css={css`text-transform: uppercase;`}><FormattedMessage id='builder.transform.uppercase' defaultMessage='Uppercase' /></span>)},
-    {key: 'lowercase', text: <FormattedMessage id='builder.transform.lowercase' defaultMessage='Lowercase' />, value: 'lowercase', content: (<span css={css`text-transform: lowercase;`}><FormattedMessage id='builder.transform.lowercase' defaultMessage='Lowercase' /></span>)},
-    {key: 'capitalize', text: <FormattedMessage id='builder.transform.capitalize' defaultMessage='Capitalize' />, value: 'capitalize', content: (<span css={css`text-transform: capitalize;`}><FormattedMessage id='builder.transform.capitalize' defaultMessage='Capitalize' /></span>)},
-    {key: 'normal', text: <FormattedMessage id='builder.transform.normal' defaultMessage='Normal' />, value: 'normal', content: (<span css={css`text-transform: normal;`}><FormattedMessage id='builder.transform.normal' defaultMessage='Normal' /></span>)},
+    {
+        key: 'default',
+        text: <FormattedMessage
+            id='builder.transform.default'
+            defaultMessage='Default'
+        />,
+        value: 'initial',
+        content: (<span>
+            <FormattedMessage
+                id='builder.transform.default'
+                defaultMessage='Default'
+            />
+        </span>),
+    },
+    {
+        key: 'uppercase',
+        text: <FormattedMessage
+            id='builder.transform.uppercase'
+            defaultMessage='Uppercase'
+        />,
+        value: 'uppercase',
+        content: (<span css={css`text-transform: uppercase;`}>
+            <FormattedMessage
+                id='builder.transform.uppercase'
+                defaultMessage='Uppercase'
+            />
+        </span>),
+    },
+    {
+        key: 'lowercase',
+        text: <FormattedMessage
+            id='builder.transform.lowercase'
+            defaultMessage='Lowercase'
+        />,
+        value: 'lowercase',
+        content: (<span css={css`text-transform: lowercase;`}>
+            <FormattedMessage
+                id='builder.transform.lowercase'
+                defaultMessage='Lowercase'
+            />
+        </span>),
+    },
+    {
+        key: 'capitalize',
+        text: <FormattedMessage
+            id='builder.transform.capitalize'
+            defaultMessage='Capitalize'
+        />,
+        value: 'capitalize',
+        content: (<span css={css`text-transform: capitalize;`}>
+            <FormattedMessage
+                id='builder.transform.capitalize'
+                defaultMessage='Capitalize'
+            />
+        </span>),
+    },
+    {
+        key: 'normal',
+        text: <FormattedMessage
+            id='builder.transform.normal'
+            defaultMessage='Normal'
+        />,
+        value: 'normal',
+        content: (<span css={css`text-transform: normal;`}>
+            <FormattedMessage
+                id='builder.transform.normal'
+                defaultMessage='Normal'
+            />
+        </span>),
+    },
 ];
 
 export const stylesOptions = [
-    {key: 'Normal', text: <FormattedMessage id='builder.style.normal' defaultMessage='Normal' />, value: 'normal', content: (<span css={css`font-style: normal;`}><FormattedMessage id='builder.style.normal' defaultMessage='Normal' /></span>)},
-    {key: 'Italic', text: <FormattedMessage id='builder.style.italic' defaultMessage='Italic' />, value: 'italic', content: (<span css={css`font-style: italic;`}><FormattedMessage id='builder.style.italic' defaultMessage='Italic' /></span>)},
-    {key: 'Oblique', text: <FormattedMessage id='builder.style.oblique' defaultMessage='Oblique' />, value: 'oblique', content: (<span css={css`font-style: oblique;`}><FormattedMessage id='builder.style.oblique' defaultMessage='Oblique' /></span>)},
+    {
+        key: 'Normal',
+        text: <FormattedMessage
+            id='builder.style.normal'
+            defaultMessage='Normal'
+        />,
+        value: 'normal',
+        content: (<span css={css`font-style: normal;`}>
+            <FormattedMessage
+                id='builder.style.normal'
+                defaultMessage='Normal'
+            />
+        </span>),
+    },
+    {
+        key: 'Italic',
+        text: <FormattedMessage
+            id='builder.style.italic'
+            defaultMessage='Italic'
+        />,
+        value: 'italic',
+        content: (<span css={css`font-style: italic;`}>
+            <FormattedMessage
+                id='builder.style.italic'
+                defaultMessage='Italic'
+            />
+        </span>),
+    },
+    {
+        key: 'Oblique',
+        text: <FormattedMessage
+            id='builder.style.oblique'
+            defaultMessage='Oblique'
+        />,
+        value: 'oblique',
+        content: (<span css={css`font-style: oblique;`}>
+            <FormattedMessage
+                id='builder.style.oblique'
+                defaultMessage='Oblique'
+            />
+        </span>),
+    },
 ];
 
 export const decorationsOptions = [
-    {key: 'Underline', text: <FormattedMessage id='builder.decoration.underline' defaultMessage='Underline' />, value: 'underline', content: (<span css={css`text-decoration: underline;`}><FormattedMessage id='builder.decoration.underline' defaultMessage='Underline' /></span>)},
-    {key: 'Overline', text: <FormattedMessage id='builder.decoration.overline' defaultMessage='Overline' />, value: 'overline', content: (<span css={css`text-decoration: overline;`}><FormattedMessage id='builder.decoration.overline' defaultMessage='Overline' /></span>)},
-    {key: 'Line Through', text: <FormattedMessage id='builder.decoration.lineThrough' defaultMessage='Line Through' />, value: 'line-through', content: (<span css={css`text-decoration: line-through;`}><FormattedMessage id='builder.decoration.lineThrough' defaultMessage='Line Through' /></span>)},
+    {
+        key: 'Underline',
+        text: <FormattedMessage
+            id='builder.decoration.underline'
+            defaultMessage='Underline'
+        />,
+        value: 'underline',
+        content: (<span css={css`text-decoration: underline;`}>
+            <FormattedMessage
+                id='builder.decoration.underline'
+                defaultMessage='Underline'
+            />
+        </span>),
+    },
+    {
+        key: 'Overline',
+        text: <FormattedMessage
+            id='builder.decoration.overline'
+            defaultMessage='Overline'
+        />,
+        value: 'overline',
+        content: (<span css={css`text-decoration: overline;`}>
+            <FormattedMessage
+                id='builder.decoration.overline'
+                defaultMessage='Overline'
+            />
+        </span>),
+    },
+    {
+        key: 'Line Through',
+        text: <FormattedMessage
+            id='builder.decoration.lineThrough'
+            defaultMessage='Line Through'
+        />,
+        value: 'line-through',
+        content: (<span css={css`text-decoration: line-through;`}>
+            <FormattedMessage
+                id='builder.decoration.lineThrough'
+                defaultMessage='Line Through'
+            />
+        </span>),
+    },
 ];
 
 export const weightsOptions = [
-    {key: '100', text: '100', value: '100'},
-    {key: '200', text: '200', value: '200'},
-    {key: '300', text: '300', value: '300'},
-    {key: '400', text: '400', value: '400'},
-    {key: '500', text: '500', value: '500'},
-    {key: '600', text: '600', value: '600'},
-    {key: '700', text: '700', value: '700'},
-    {key: '800', text: '800', value: '800'},
-    {key: '900', text: '900', value: '900'},
-    {key: 'Normal', text: 'Normal', value: 'normal'},
-    {key: 'Bold', text: 'Bold', value: 'bold'},
+    {
+        key: '100', text: '100', value: '100',
+    },
+    {
+        key: '200', text: '200', value: '200',
+    },
+    {
+        key: '300', text: '300', value: '300',
+    },
+    {
+        key: '400', text: '400', value: '400',
+    },
+    {
+        key: '500', text: '500', value: '500',
+    },
+    {
+        key: '600', text: '600', value: '600',
+    },
+    {
+        key: '700', text: '700', value: '700',
+    },
+    {
+        key: '800', text: '800', value: '800',
+    },
+    {
+        key: '900', text: '900', value: '900',
+    },
+    {
+        key: 'Normal', text: 'Normal', value: 'normal',
+    },
+    {
+        key: 'Bold', text: 'Bold', value: 'bold',
+    },
 ];
 
 export const borderOptions = [
-    {key: 'None', text: <FormattedMessage id='builder.border.none' defaultMessage='None' />, value: 'none'},
-    {key: 'Solid', text: <FormattedMessage id='builder.border.solid' defaultMessage='Solid' />, value: 'solid'},
-    {key: 'Double', text: <FormattedMessage id='builder.border.double' defaultMessage='Double' />, value: 'double'},
-    {key: 'Dotted', text: <FormattedMessage id='builder.border.dotted' defaultMessage='Dotted' />, value: 'dotted'},
-    {key: 'Dashed', text: <FormattedMessage id='builder.border.dashed' defaultMessage='Dashed' />, value: 'dashed'},
-    {key: 'Groove', text: <FormattedMessage id='builder.border.groove' defaultMessage='Groove' />, value: 'groove'},
+    {
+        key: 'None',
+        text: <FormattedMessage
+            id='builder.border.none'
+            defaultMessage='None'
+        />,
+        value: 'none',
+    },
+    {
+        key: 'Solid',
+        text: <FormattedMessage
+            id='builder.border.solid'
+            defaultMessage='Solid'
+        />,
+        value: 'solid',
+    },
+    {
+        key: 'Double',
+        text: <FormattedMessage
+            id='builder.border.double'
+            defaultMessage='Double'
+        />,
+        value: 'double',
+    },
+    {
+        key: 'Dotted',
+        text: <FormattedMessage
+            id='builder.border.dotted'
+            defaultMessage='Dotted'
+        />,
+        value: 'dotted',
+    },
+    {
+        key: 'Dashed',
+        text: <FormattedMessage
+            id='builder.border.dashed'
+            defaultMessage='Dashed'
+        />,
+        value: 'dashed',
+    },
+    {
+        key: 'Groove',
+        text: <FormattedMessage
+            id='builder.border.groove'
+            defaultMessage='Groove'
+        />,
+        value: 'groove',
+    },
 ];
 
 export const animationsOptions = [
-    {key: 'None', text: 'None', value: 'none'},
-    {key: 'Fade In', text: 'Fade In', value: 'fadeIn'},
-    {key: 'Fade In Up', text: 'Fade In Up', value: 'fadeInUp'},
-    {key: 'Fade In Left', text: 'Fade In Left', value: 'fadeInLeft'},
-    {key: 'Fade In Right', text: 'Fade In Right', value: 'fadeInRight'},
-    {key: 'Fade Down', text: 'Fade Down', value: 'fadeInDown'},
-    {key: 'Zoom In', text: 'Zoom In', value: 'zoomIn'},
-    {key: 'Zoom In Up', text: 'Zoom In Up', value: 'zoomInUp'},
-    {key: 'Zoom In Left', text: 'Zoom In Left', value: 'zoomInLeft'},
-    {key: 'Zoom In Right', text: 'Zoom In Right', value: 'zoomInRight'},
-    {key: 'Zoom Down', text: 'Zoom Down', value: 'zoomInDown'},
-    {key: 'Bounce', text: 'Bounce', value: 'bounce'},
-    {key: 'Bounce In', text: 'Bounce In', value: 'bounceIn'},
-    {key: 'Bounce In Up', text: 'Bounce In Up', value: 'bounceInUp'},
-    {key: 'Bounce In Left', text: 'Bounce In Left', value: 'bounceInLeft'},
-    {key: 'Bounce In Right', text: 'Bounce In Right', value: 'bounceInRight'},
-    {key: 'Bounce In Down', text: 'Bounce In Down', value: 'bounceInDown'},
-    {key: 'Slide In Up', text: 'Slide In Up', value: 'slideInUp'},
-    {key: 'Slide In Left', text: 'Slide In Left', value: 'slideInLeft'},
-    {key: 'Slide In Right', text: 'Slide In Right', value: 'slideInRight'},
-    {key: 'Slide In Down', text: 'Slide In Down', value: 'slideInDown'},
-    {key: 'Rotate In', text: 'Rotate In', value: 'rotateIn'},
-    {key: 'Rotate In Up Left', text: 'Rotate In Up Left', value: 'rotateInUpLeft'},
-    {key: 'Rotate In Up Right', text: 'Rotate In Up Right', value: 'rotateInUpRight'},
-    {key: 'Rotate In Down Left', text: 'Rotate In Down Left', value: 'rotateInDownLeft'},
-    {key: 'Rotate In Down Right', text: 'Rotate In Down Right', value: 'rotateInDownRight'},
-    {key: 'Roll In', text: 'Roll In', value: 'rollIn'},
-    {key: 'Light Speed In', text: 'Light Speed In', value: 'lightSpeedIn'},
-    {key: 'Flash', text: 'Flash', value: 'flash'},
-    {key: 'Pulse', text: 'Pluse', value: 'pulse'},
-    {key: 'Rubber Band', text: 'Rubber Band', value: 'rubberBand'},
-    {key: 'Shake', text: 'Shake', value: 'shake'},
-    {key: 'Head Shake', text: 'Head Shake', value: 'headShake'},
-    {key: 'Swing', text: 'Swing', value: 'swing'},
-    {key: 'Tada', text: 'Tada', value: 'tada'},
-    {key: 'Wobble', text: 'Wobble', value: 'wobble'},
-    {key: 'Jello', text: 'Jello', value: 'jello'},
-]
+    {
+        key: 'None', text: 'None', value: 'none',
+    },
+    {
+        key: 'Fade In', text: 'Fade In', value: 'fadeIn',
+    },
+    {
+        key: 'Fade In Up', text: 'Fade In Up', value: 'fadeInUp',
+    },
+    {
+        key: 'Fade In Left', text: 'Fade In Left', value: 'fadeInLeft',
+    },
+    {
+        key: 'Fade In Right', text: 'Fade In Right', value: 'fadeInRight',
+    },
+    {
+        key: 'Fade Down', text: 'Fade Down', value: 'fadeInDown',
+    },
+    {
+        key: 'Zoom In', text: 'Zoom In', value: 'zoomIn',
+    },
+    {
+        key: 'Zoom In Up', text: 'Zoom In Up', value: 'zoomInUp',
+    },
+    {
+        key: 'Zoom In Left', text: 'Zoom In Left', value: 'zoomInLeft',
+    },
+    {
+        key: 'Zoom In Right', text: 'Zoom In Right', value: 'zoomInRight',
+    },
+    {
+        key: 'Zoom Down', text: 'Zoom Down', value: 'zoomInDown',
+    },
+    {
+        key: 'Bounce', text: 'Bounce', value: 'bounce',
+    },
+    {
+        key: 'Bounce In', text: 'Bounce In', value: 'bounceIn',
+    },
+    {
+        key: 'Bounce In Up', text: 'Bounce In Up', value: 'bounceInUp',
+    },
+    {
+        key: 'Bounce In Left', text: 'Bounce In Left', value: 'bounceInLeft',
+    },
+    {
+        key: 'Bounce In Right', text: 'Bounce In Right', value: 'bounceInRight',
+    },
+    {
+        key: 'Bounce In Down', text: 'Bounce In Down', value: 'bounceInDown',
+    },
+    {
+        key: 'Slide In Up', text: 'Slide In Up', value: 'slideInUp',
+    },
+    {
+        key: 'Slide In Left', text: 'Slide In Left', value: 'slideInLeft',
+    },
+    {
+        key: 'Slide In Right', text: 'Slide In Right', value: 'slideInRight',
+    },
+    {
+        key: 'Slide In Down', text: 'Slide In Down', value: 'slideInDown',
+    },
+    {
+        key: 'Rotate In', text: 'Rotate In', value: 'rotateIn',
+    },
+    {
+        key: 'Rotate In Up Left', text: 'Rotate In Up Left', value: 'rotateInUpLeft',
+    },
+    {
+        key: 'Rotate In Up Right', text: 'Rotate In Up Right', value: 'rotateInUpRight',
+    },
+    {
+        key: 'Rotate In Down Left', text: 'Rotate In Down Left', value: 'rotateInDownLeft',
+    },
+    {
+        key: 'Rotate In Down Right', text: 'Rotate In Down Right', value: 'rotateInDownRight',
+    },
+    {
+        key: 'Roll In', text: 'Roll In', value: 'rollIn',
+    },
+    {
+        key: 'Light Speed In', text: 'Light Speed In', value: 'lightSpeedIn',
+    },
+    {
+        key: 'Flash', text: 'Flash', value: 'flash',
+    },
+    {
+        key: 'Pulse', text: 'Pluse', value: 'pulse',
+    },
+    {
+        key: 'Rubber Band', text: 'Rubber Band', value: 'rubberBand',
+    },
+    {
+        key: 'Shake', text: 'Shake', value: 'shake',
+    },
+    {
+        key: 'Head Shake', text: 'Head Shake', value: 'headShake',
+    },
+    {
+        key: 'Swing', text: 'Swing', value: 'swing',
+    },
+    {
+        key: 'Tada', text: 'Tada', value: 'tada',
+    },
+    {
+        key: 'Wobble', text: 'Wobble', value: 'wobble',
+    },
+    {
+        key: 'Jello', text: 'Jello', value: 'jello',
+    },
+];
 
 export const durationsOptions = [
-    {key: 'Slow', text: <FormattedMessage id='builder.duration.slow' defaultMessage='Slow' />, value: '2s'},
-    {key: 'Normal', text: <FormattedMessage id='builder.duration.normal' defaultMessage='Normal' />, value: '1s'},
-    {key: 'Fast', text: <FormattedMessage id='builder.duration.fast' defaultMessage='Fast' />, value: '0.75s'},
-]
+    {
+        key: 'Slow',
+        text: <FormattedMessage
+            id='builder.duration.slow'
+            defaultMessage='Slow'
+        />,
+        value: '2s',
+    },
+    {
+        key: 'Normal',
+        text: <FormattedMessage
+            id='builder.duration.normal'
+            defaultMessage='Normal'
+        />,
+        value: '1s',
+    },
+    {
+        key: 'Fast',
+        text: <FormattedMessage
+            id='builder.duration.fast'
+            defaultMessage='Fast'
+        />,
+        value: '0.75s',
+    },
+];

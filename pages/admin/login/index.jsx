@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 import { firebase } from 'utils/firebaseClient';
 import { Form } from 'semantic-ui-react';
 import Head from 'next/head';
-import { DarkModeButton } from 'components/Button/DarkModeButton/DarkModeButton';
+import DarkModeButton from 'components/Button/DarkModeButton/DarkModeButton';
 import Tilt from 'components/Tilt/Tilt';
 import { useSettings } from 'context/settings';
 import Input from 'components/Form/Input/Input';

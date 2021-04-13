@@ -5,7 +5,7 @@ import { Button as SementicButton, Card as SementicCard, Form } from 'semantic-u
 import {useIntl} from 'react-intl';
 import Card from 'components/Cards/Card/Card';
 import Admin from 'container/Admin/Admin';
-import {Button} from 'components/Button/Button';
+import Button from 'components/Button/Button';
 import Input from 'components/Form/Input/Input';
 
 export default function Add() {

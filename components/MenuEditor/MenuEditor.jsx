@@ -3,7 +3,7 @@ import {DragDropContext, Draggable, Droppable} from 'react-beautiful-dnd';
 import Accordion from 'components/Accordion/Accordion';
 import {Grid} from 'semantic-ui-react';
 import {useIntl} from 'react-intl';
-import {Button} from '../Button/Button';
+import Button from '../Button/Button';
 import Input from '../Form/Input/Input';
 
 export default function MenuEditor({content, onChange}) {
