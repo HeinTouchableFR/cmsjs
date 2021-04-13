@@ -66,20 +66,16 @@ export default function Button({ element, onElementValueChange, device }) {
                     value={item.content.url}
                     onChange={handleChange}
                 />
-                <div className='field'>
-                    <div>
-                        {intl.formatMessage({
-                            id: 'builder.alignment',
-                            defaultMessage: 'Alignment',
-                        })}
-                    </div>
-                    <Dropdown
-                        name='alignment'
-                        value={item.content.alignment}
-                        options={alignmentsOptions}
-                        onChange={handleChange}
-                    />
-                </div>
+                <Dropdown
+                    name='alignment'
+                    value={item.content.alignment}
+                    options={alignmentsOptions}
+                    onChange={handleChange}
+                    label={intl.formatMessage({
+                        id: 'builder.alignment',
+                        defaultMessage: 'Alignment',
+                    })}
+                />
             </Accordion>
             <Typography
                 item={item}

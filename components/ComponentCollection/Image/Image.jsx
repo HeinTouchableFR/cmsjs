@@ -128,24 +128,33 @@ export default function Image({ element, device, onElementValueChange, images, s
                         onChange={(e, data) => handleChangeImageValue(e, data, 'size', 'width')}
                     />
                     <div className='field-group'>
-                        <label
-                            className={item.content[device].image.size.width.unit === '%' ? 'selected' : undefined}
+                        <span
+                            className={`${item.content[device].image.size.width.unit === '%' && 'selected'}`}
                             onClick={() => handleChangeImageValueUnit('%', 'size', 'width')}
+                            onKeyDown={() => handleChangeImageValueUnit('%', 'size', 'width')}
+                            role='button'
+                            tabIndex='0'
                         >
                             %
-                        </label>
-                        <label
-                            className={item.content[device].image.size.width.unit === 'px' ? 'selected' : undefined}
+                        </span>
+                        <span
+                            className={`${item.content[device].image.size.width.unit === 'px' && 'selected'}`}
                             onClick={() => handleChangeImageValueUnit('px', 'size', 'width')}
+                            onKeyDown={() => handleChangeImageValueUnit('px', 'size', 'width')}
+                            role='button'
+                            tabIndex='0'
                         >
                             PX
-                        </label>
-                        <label
-                            className={item.content[device].image.size.width.unit === 'vw' ? 'selected' : undefined}
+                        </span>
+                        <span
+                            className={`${item.content[device].image.size.width.unit === 'vw' && 'selected'}`}
                             onClick={() => handleChangeImageValueUnit('vw', 'size', 'width')}
+                            onKeyDown={() => handleChangeImageValueUnit('vw', 'size', 'width')}
+                            role='button'
+                            tabIndex='0'
                         >
                             VW
-                        </label>
+                        </span>
                     </div>
                 </div>
                 <div className='form__inline_item'>
@@ -163,24 +172,33 @@ export default function Image({ element, device, onElementValueChange, images, s
                         onChange={(e, data) => handleChangeImageValue(e, data, 'size', 'maxWidth')}
                     />
                     <div className='field-group'>
-                        <label
-                            className={item.content[device].image.size.maxWidth.unit === '%' ? 'selected' : undefined}
+                        <span
+                            className={`${item.content[device].image.size.maxWidth.unit === '%' && 'selected'}`}
                             onClick={() => handleChangeImageValueUnit('%', 'size', 'maxWidth')}
+                            onKeyDown={() => handleChangeImageValueUnit('%', 'size', 'maxWidth')}
+                            role='button'
+                            tabIndex='0'
                         >
                             %
-                        </label>
-                        <label
-                            className={item.content[device].image.size.maxWidth.unit === 'px' ? 'selected' : undefined}
+                        </span>
+                        <span
+                            className={`${item.content[device].image.size.maxWidth.unit === 'px' && 'selected'}`}
                             onClick={() => handleChangeImageValueUnit('px', 'size', 'maxWidth')}
+                            onKeyDown={() => handleChangeImageValueUnit('px', 'size', 'maxWidth')}
+                            role='button'
+                            tabIndex='0'
                         >
                             PX
-                        </label>
-                        <label
-                            className={item.content[device].image.size.maxWidth.unit === 'vw' ? 'selected' : undefined}
+                        </span>
+                        <span
+                            className={`${item.content[device].image.size.maxWidth.unit === 'vw' && 'selected'}`}
                             onClick={() => handleChangeImageValueUnit('vw', 'size', 'maxWidth')}
+                            onKeyDown={() => handleChangeImageValueUnit('vw', 'size', 'maxWidth')}
+                            role='button'
+                            tabIndex='0'
                         >
                             VW
-                        </label>
+                        </span>
                     </div>
                 </div>
                 <div className='form__inline_item'>
@@ -198,18 +216,24 @@ export default function Image({ element, device, onElementValueChange, images, s
                         onChange={(e, data) => handleChangeImageValue(e, data, 'size', 'height')}
                     />
                     <div className='field-group'>
-                        <label
-                            className={item.content[device].image.size.height.unit === 'px' ? 'selected' : undefined}
+                        <span
+                            className={`${item.content[device].image.size.height.unit === 'px' && 'selected'}`}
                             onClick={() => handleChangeImageValueUnit('px', 'size', 'height')}
+                            onKeyDown={() => handleChangeImageValueUnit('px', 'size', 'height')}
+                            role='button'
+                            tabIndex='0'
                         >
                             PX
-                        </label>
-                        <label
-                            className={item.content[device].image.size.height.unit === 'vh' ? 'selected' : undefined}
+                        </span>
+                        <span
+                            className={`${item.content[device].image.size.height.unit === 'vh' && 'selected'}`}
                             onClick={() => handleChangeImageValueUnit('vh', 'size', 'height')}
+                            onKeyDown={() => handleChangeImageValueUnit('vh', 'size', 'height')}
+                            role='button'
+                            tabIndex='0'
                         >
                             VH
-                        </label>
+                        </span>
                     </div>
                 </div>
                 <Tab
@@ -218,19 +242,15 @@ export default function Image({ element, device, onElementValueChange, images, s
                     }}
                     panes={opacityPanes}
                 />
-                <div className='field'>
-                    <label>
-                        {intl.formatMessage({
-                            id: 'builder.alignment', defaultMessage: 'Alignment',
-                        })}
-                    </label>
-                    <Dropdown
-                        name='alignment'
-                        value={item.content.alignment}
-                        options={alignmentsOptions}
-                        onChange={handleChange}
-                    />
-                </div>
+                <Dropdown
+                    name='alignment'
+                    value={item.content.alignment}
+                    options={alignmentsOptions}
+                    onChange={handleChange}
+                    label={intl.formatMessage({
+                        id: 'builder.alignment', defaultMessage: 'Alignment',
+                    })}
+                />
             </Accordion>
             <Advanced
                 item={item}

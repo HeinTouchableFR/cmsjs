@@ -114,7 +114,7 @@ export default function Logo({ element, device, onElementValueChange }) {
                     />
                     <div className='field-group'>
                         <span
-                            className={item.content[device].image.size.width.unit === '%' ? 'selected' : undefined}
+                            className={`${item.content[device].image.size.width.unit === '%' && 'selected'}`}
                             onClick={() => handleChangeImageValueUnit('%', 'size', 'width')}
                             onKeyDown={() => handleChangeImageValueUnit('%', 'size', 'width')}
                             role='button'
@@ -123,7 +123,7 @@ export default function Logo({ element, device, onElementValueChange }) {
                             %
                         </span>
                         <span
-                            className={item.content[device].image.size.width.unit === 'px' ? 'selected' : undefined}
+                            className={`${item.content[device].image.size.width.unit === 'px' && 'selected'}`}
                             onClick={() => handleChangeImageValueUnit('px', 'size', 'width')}
                             onKeyDown={() => handleChangeImageValueUnit('px', 'size', 'width')}
                             role='button'
@@ -132,7 +132,7 @@ export default function Logo({ element, device, onElementValueChange }) {
                             PX
                         </span>
                         <span
-                            className={item.content[device].image.size.width.unit === 'vw' ? 'selected' : undefined}
+                            className={`${item.content[device].image.size.width.unit === 'vw' && 'selected'}`}
                             onClick={() => handleChangeImageValueUnit('vw', 'size', 'width')}
                             onKeyDown={() => handleChangeImageValueUnit('vw', 'size', 'width')}
                             role='button'
@@ -158,7 +158,7 @@ export default function Logo({ element, device, onElementValueChange }) {
                     />
                     <div className='field-group'>
                         <span
-                            className={item.content[device].image.size.maxWidth.unit === '%' ? 'selected' : undefined}
+                            className={`${item.content[device].image.size.maxWidth.unit === '%' && 'selected'}`}
                             onClick={() => handleChangeImageValueUnit('%', 'size', 'maxWidth')}
                             onKeyDown={() => handleChangeImageValueUnit('%', 'size', 'maxWidth')}
                             role='button'
@@ -167,7 +167,7 @@ export default function Logo({ element, device, onElementValueChange }) {
                             %
                         </span>
                         <span
-                            className={item.content[device].image.size.maxWidth.unit === 'px' ? 'selected' : undefined}
+                            className={`${item.content[device].image.size.maxWidth.unit === 'px' && 'selected'}`}
                             onClick={() => handleChangeImageValueUnit('px', 'size', 'maxWidth')}
                             onKeyDown={() => handleChangeImageValueUnit('px', 'size', 'maxWidth')}
                             role='button'
@@ -176,7 +176,7 @@ export default function Logo({ element, device, onElementValueChange }) {
                             PX
                         </span>
                         <span
-                            className={item.content[device].image.size.maxWidth.unit === 'vw' ? 'selected' : undefined}
+                            className={`${item.content[device].image.size.maxWidth.unit === 'vw' && 'selected'}`}
                             onClick={() => handleChangeImageValueUnit('vw', 'size', 'maxWidth')}
                             onKeyDown={() => handleChangeImageValueUnit('vw', 'size', 'maxWidth')}
                             role='button'
@@ -202,7 +202,7 @@ export default function Logo({ element, device, onElementValueChange }) {
                     />
                     <div className='field-group'>
                         <span
-                            className={item.content[device].image.size.height.unit === 'px' ? 'selected' : undefined}
+                            className={`${item.content[device].image.size.height.unit === 'px' && 'selected'}`}
                             onClick={() => handleChangeImageValueUnit('px', 'size', 'height')}
                             onKeyDown={() => handleChangeImageValueUnit('px', 'size', 'height')}
                             role='button'
@@ -211,7 +211,7 @@ export default function Logo({ element, device, onElementValueChange }) {
                             PX
                         </span>
                         <span
-                            className={item.content[device].image.size.height.unit === 'vh' ? 'selected' : undefined}
+                            className={`${item.content[device].image.size.height.unit === 'vh' && 'selected'}`}
                             onClick={() => handleChangeImageValueUnit('vh', 'size', 'height')}
                             onKeyDown={() => handleChangeImageValueUnit('vh', 'size', 'height')}
                             role='button'

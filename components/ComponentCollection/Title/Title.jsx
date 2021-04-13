@@ -53,32 +53,24 @@ export default function Title({ element, onElementValueChange, device }) {
                     value={item.content.text}
                     onChange={handleChange}
                 />
-                <div className='field'>
-                    <label>
-                        {intl.formatMessage({
-                            id: 'builder.htmlTag', defaultMessage: 'HTML Tag',
-                        })}
-                    </label>
-                    <Dropdown
-                        name='tag'
-                        value={item.content.tag}
-                        options={tagsOptions}
-                        onChange={handleChange}
-                    />
-                </div>
-                <div className='field'>
-                    <label>
-                        {intl.formatMessage({
-                            id: 'builder.alignment', defaultMessage: 'Alignment',
-                        })}
-                    </label>
-                    <Dropdown
-                        name='alignment'
-                        value={item.content.alignment}
-                        options={alignmentsOptions}
-                        onChange={handleChange}
-                    />
-                </div>
+                <Dropdown
+                    name='tag'
+                    value={item.content.tag}
+                    options={tagsOptions}
+                    onChange={handleChange}
+                    label={intl.formatMessage({
+                        id: 'builder.htmlTag', defaultMessage: 'HTML Tag',
+                    })}
+                />
+                <Dropdown
+                    name='alignment'
+                    value={item.content.alignment}
+                    options={alignmentsOptions}
+                    onChange={handleChange}
+                    label={intl.formatMessage({
+                        id: 'builder.alignment', defaultMessage: 'Alignment',
+                    })}
+                />
             </Accordion>
             <Typography
                 item={item}

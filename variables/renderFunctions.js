@@ -5,7 +5,6 @@ export const concatValueUnit = (value, unit = 'px') => value + (value && unit);
 export const generateRuleFromValues = (values = [], unit = 'px') => {
     let string = '';
     if (!values.every((item) => item === '' || item === 0)) {
-        console.log(values)
         values.map((value) => (string += `${concatValueUnit(value || 0, unit)} `));
     }
     return string;

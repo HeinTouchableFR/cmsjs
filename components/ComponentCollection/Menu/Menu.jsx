@@ -35,19 +35,15 @@ export default function Menu({ element, device, onElementValueChange }) {
                 active
                 title='Menu'
             >
-                <div className='field'>
-                    <label>
-                        {intl.formatMessage({
-                            id: 'builder.alignment', defaultMessage: 'Alignment',
-                        })}
-                    </label>
-                    <Dropdown
-                        name='alignment'
-                        value={item.content.alignment}
-                        options={flexAlignmentsOptions}
-                        onChange={handleChange}
-                    />
-                </div>
+                <Dropdown
+                    name='alignment'
+                    value={item.content.alignment}
+                    options={flexAlignmentsOptions}
+                    onChange={handleChange}
+                    label={intl.formatMessage({
+                        id: 'builder.alignment', defaultMessage: 'Alignment',
+                    })}
+                />
             </Accordion>
             <Typography
                 item={item}

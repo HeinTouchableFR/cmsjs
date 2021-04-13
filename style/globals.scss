@@ -125,15 +125,15 @@
     display: flex;
 }
 
-.field-group label{
+.field-group span{
     font-weight: normal!important;
     margin-right: 5px;
     cursor: pointer;
 }
-.field-group label.selected{
+.field-group span.selected{
     font-weight: bold!important;
 }
-.field-group label:hover{
+.field-group span:hover{
     text-decoration: underline;
 }
 
