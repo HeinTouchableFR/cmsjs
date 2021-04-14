@@ -11,16 +11,17 @@ export default function Accordion({ title,
     return (
         <>
             <div className={`${styles.accordion} ${border ? styles.border : ''}`}>
-                <div
+                <button
                     className={`${styles.accordion__title} ${isActive && styles.active}`}
                     onClick={() => setIsActive(!isActive)}
+                    type='button'
                 >
                     <i
                         aria-hidden='true'
                         className='dropdown icon'
                     />
                     {title}
-                </div>
+                </button>
                 <div className={`${styles.accordion__content} ${isActive && styles.active}`}>
                     {children}
                 </div>

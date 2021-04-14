@@ -77,4 +77,4 @@ export const styleImagePreview = (device, element) => {
             };
         `;
     return Image;
-}
+};

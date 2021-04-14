@@ -52,6 +52,10 @@ export const backgroundStyle = (device, mode, element) => ({
     background: element.content[device].styles.background[mode],
 });
 
+export const buttonBackgroundStyle = (device, mode, element) => ({
+    background: element.content[device].styles.buttonBackground[mode],
+});
+
 export const borderStyle = (device, mode, element) => ({
     borderStyle: element.content[device].styles.border[mode].type !== 'none' && element.content[device].styles.border[mode].type,
     borderWidth:

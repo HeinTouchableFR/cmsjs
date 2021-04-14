@@ -7,6 +7,7 @@ import parse from 'html-react-parser';
 import {
     typoStyle,
     colorStyle,
+    buttonBackgroundStyle,
     styleDiv,
 } from 'variables/renderFunctions';
 
@@ -15,12 +16,14 @@ export default function ButtonRender({ element }) {
 
     const Button = styled.button({
         ...colorStyle('desktop', 'normal', element),
-        textAlign: element.content.alignment,
+        ...buttonBackgroundStyle('desktop', 'normal', element),
         ...typoStyle('desktop', element),
+        textAlign: element.content.alignment,
         transition: 'color .2s',
         cursor: 'pointer',
         '&:hover': {
             ...colorStyle('desktop', 'hover', element),
+            ...buttonBackgroundStyle('desktop', 'hover', element),
         },
         '@media (max-width: 1024px)': css({
             ...typoStyle('tablet', element),
@@ -55,6 +58,7 @@ export default function ButtonRender({ element }) {
 ButtonRender.propTypes = {
     element: PropTypes.shape({
         content: PropTypes.shape({
+            buttonBackground: PropTypes.string.isRequired,
             alignment: PropTypes.string.isRequired,
             text: PropTypes.string.isRequired,
             url: PropTypes.string.isRequired,

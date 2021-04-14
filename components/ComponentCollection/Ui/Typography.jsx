@@ -22,8 +22,8 @@ import {
 export default function Typography({ item, device, setItem, onChange }) {
     const intl = useIntl();
 
-    const handleColorChange = (color, key, mode, location) => {
-        colorChange(item, device, setItem, onChange, color, key, mode, location);
+    const handleColorChange = (color, mode) => {
+        colorChange(item, device, setItem, onChange, color, 'color', mode, 'typo');
     };
 
     const handleChangeTypo = (_e, data) => {
@@ -57,7 +57,7 @@ export default function Typography({ item, device, setItem, onChange }) {
                         </div>
                         <ColorPicker
                             defaultColor={item.content[device].typo.color.normal}
-                            onColorChange={(color) => handleColorChange(color, 'color', 'normal', 'typo')}
+                            onColorChange={(color) => handleColorChange(color, 'normal')}
                         />
                     </div>
                     <div className='field'>
@@ -69,7 +69,7 @@ export default function Typography({ item, device, setItem, onChange }) {
                         </div>
                         <ColorPicker
                             defaultColor={item.content[device].typo.color.hover}
-                            onColorChange={(color) => handleColorChange(color, 'color', 'hover', 'typo')}
+                            onColorChange={(color) => handleColorChange(color, 'hover')}
                         />
                     </div>
                 </div>

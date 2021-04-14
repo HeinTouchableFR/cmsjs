@@ -39,6 +39,10 @@ export default class defaultComponents {
                             normal: '',
                             hover: '',
                         },
+                        buttonBackground: {
+                            normal: '',
+                            hover: '',
+                        },
                         border: {
                             normal: {
                                 type: 'none',
@@ -108,6 +112,10 @@ export default class defaultComponents {
                             normal: '',
                             hover: '',
                         },
+                        buttonBackground: {
+                            normal: '',
+                            hover: '',
+                        },
                         border: {
                             normal: {
                                 type: '',
@@ -174,6 +182,10 @@ export default class defaultComponents {
                     },
                     styles: {
                         background: {
+                            normal: '',
+                            hover: '',
+                        },
+                        buttonBackground: {
                             normal: '',
                             hover: '',
                         },

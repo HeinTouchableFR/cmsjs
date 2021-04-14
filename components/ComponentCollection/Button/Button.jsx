@@ -3,11 +3,15 @@ import React, {
     useEffect, useState,
 } from 'react';
 import Accordion from 'components/Accordion/Accordion';
+import ColorPicker from 'components/ColorPicker/ColorPicker';
 import { alignmentsOptions } from 'variables/options';
+import {
+    colorChange, change,
+} from 'variables/functions';
 import { useIntl } from 'react-intl';
 import Input from 'components/Form/Input/Input';
 import Dropdown from 'components/Form/Dropdown/Dropdown';
-import { change } from 'variables/functions';
+
 import Typography from '../Ui/Typography';
 import Animations from '../Ui/Animations';
 import Advanced from '../Ui/Advanced';
@@ -24,6 +28,10 @@ export default function Button({ element, onElementValueChange, device }) {
         }
     },
     [element]);
+
+    const handleColorChange = (color, mode) => {
+        colorChange(item, device, setItem, onElementValueChange, color, 'buttonBackground', mode, 'styles');
+    };
 
     const handleChange = (_e, data) => {
         change(_e, data, item, setItem, onElementValueChange);
@@ -67,15 +75,45 @@ export default function Button({ element, onElementValueChange, device }) {
                     onChange={handleChange}
                 />
                 <Dropdown
-                    name='alignment'
-                    value={item.content.alignment}
-                    options={alignmentsOptions}
-                    onChange={handleChange}
                     label={intl.formatMessage({
                         id: 'builder.alignment',
                         defaultMessage: 'Alignment',
                     })}
+                    placeholder={intl.formatMessage({
+                        id: 'builder.alignment',
+                        defaultMessage: 'Alignment',
+                    })}
+                    name='alignment'
+                    value={item.content.alignment}
+                    options={alignmentsOptions}
+                    onChange={handleChange}
                 />
+                <div className='form__inline_item'>
+                    <div className='field'>
+                        <div>
+                            {intl.formatMessage({
+                                id: 'builder.buttonColor',
+                                defaultMessage: 'Button color',
+                            })}
+                        </div>
+                        <ColorPicker
+                            defaultColor={item.content[device].styles.buttonBackground.normal}
+                            onColorChange={(color) => handleColorChange(color, 'normal')}
+                        />
+                    </div>
+                    <div className='field'>
+                        <div>
+                            {intl.formatMessage({
+                                id: 'builder.buttonColor.hover',
+                                defaultMessage: 'button Color on hover',
+                            })}
+                        </div>
+                        <ColorPicker
+                            defaultColor={item.content[device].styles.buttonBackground.hover}
+                            onColorChange={(color) => handleColorChange(color, 'hover')}
+                        />
+                    </div>
+                </div>
             </Accordion>
             <Typography
                 item={item}
