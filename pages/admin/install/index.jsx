@@ -5,7 +5,7 @@ import {useSettings} from 'context/settings';
 import Card from 'components/Cards/Card/Card';
 import {Form} from 'semantic-ui-react';
 import Input from 'components/Form/Input/Input';
-import {DarkModeButton} from 'components/Button/DarkModeButton/DarkModeButton';
+import DarkModeButton from 'components/Button/DarkModeButton/DarkModeButton';
 
 export default function Index() {
     const {settings} = useSettings()
