@@ -1,18 +1,17 @@
 import React, { useState } from 'react';
-import styles from 'components/Form/Input/Input.module.scss';
+import styles from 'components/Form/TextArea/TextArea.module.scss';
 import PropTypes from 'prop-types';
 import Tooltip from 'components/Form/Tooltip/Tooltip';
 
-export default function Input({ label,
+export default function TextArea({ label,
     defaultValue,
     name,
     placeholder,
-    type,
+    minLength,
+    maxLength,
+    rows,
     required,
     onChange,
-    step,
-    min,
-    max,
     iconTip,
     tip,
     disabled }) {
@@ -42,17 +41,16 @@ export default function Input({ label,
                     )}
                 </label>
                 <div className={`${styles.ui}`}>
-                    <input
-                        type={type}
-                        placeholder={placeholder}
+                    <textarea
                         name={name}
+                        placeholder={placeholder}
                         required={required}
                         onChange={handleChange}
-                        value={value || ''}
-                        step={step}
-                        min={min}
-                        max={max}
                         disabled={disabled}
+                        rows={rows}
+                        minLength={minLength}
+                        maxLength={maxLength}
+                        defaultValue={value}
                     />
                 </div>
             </div>
@@ -60,32 +58,30 @@ export default function Input({ label,
     );
 }
 
-Input.propTypes = {
+TextArea.propTypes = {
     onChange: PropTypes.func.isRequired,
     name: PropTypes.string.isRequired,
     label: PropTypes.string,
     placeholder: PropTypes.string,
-    type: PropTypes.string,
+    rows: PropTypes.string,
     defaultValue: PropTypes.string,
     required: PropTypes.bool,
     disabled: PropTypes.bool,
-    min: PropTypes.string,
-    max: PropTypes.string,
-    step: PropTypes.string,
+    minLength: PropTypes.string,
+    maxLength: PropTypes.string,
     tip: PropTypes.string,
     iconTip: PropTypes.string,
 };
 
-Input.defaultProps = {
+TextArea.defaultProps = {
     label: '',
     placeholder: '',
-    type: 'text',
+    rows: '5',
     required: false,
     disabled: false,
     defaultValue: '',
-    min: '',
-    max: '',
-    step: '',
+    minLength: '0',
+    maxLength: '240',
     tip: '',
     iconTip: 'la-question-circle',
 };

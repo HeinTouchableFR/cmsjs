@@ -1,94 +1,42 @@
 import React from 'react';
-import { useIntl } from 'react-intl';
-import { Button } from 'semantic-ui-react';
-
-import Component from 'components/ComponentCollection/Component';
-import {DarkModeButton} from 'components/Button/DarkModeButton/DarkModeButton';
+import Input from 'components/Form/Input/Input';
+import DarkModeButton from 'components/Button/DarkModeButton/DarkModeButton';
+import Dropdown from 'components/Form/Dropdown/Dropdown';
+import TextArea from 'components/Form/TextArea/TextArea';
 
 export default function Index() {
-    // Utilisation de la traduction
-    const intl = useIntl();
-
-    //Page a créer ou modifier
-    const page = {};
-    page.nom = 'Ma super Page';
-    page.contenu = {};
-    page.contenu.dispositions = [];
+    const options = [
+        {
+            key: '1', text: 'mon text', value: '1',
+        },
+    ];
 
     return (
-        <div>
-            <div>
-                <div class='ui facebook button'>
-                    <i class='facebook icon'></i>
-                    Facebook
-                </div>
-                <br />
-                <Button className='menu-button'>
-                    <div className='menu-button-icon'>{'<p> '}</div>
-                    <div className='menu-button-text'>Text</div>
-                </Button>
-                <br />
-                <br />
-                <Button
-                    className='menu-button fluid ui button'
-                    data-inverted=''
-                    data-tooltip="Les balises <h1> jusqu'à <h6> permettent de créer
-          des titres de moins en moins grand."
-                    data-position='right center'
-                    data-variation='wide'
-                >
-                    <div className='menu-button-icon'>{'<h1> - <h6> '}</div>
-                    <div className='menu-button-text'>Title</div>
-                </Button>
-                <br />
-                <br />
-                <Button className='menu-button'>
-                    <div className='menu-button-icon'>{'<img> '}</div>
-                    <div className='menu-button-text'>Image</div>
-                </Button>
-                <br />
-                <br />
-                <Button className='menu-button'>
-                    <div className='menu-button-icon'>{'<table> '}</div>
-                    <div className='menu-button-text'>Table</div>
-                </Button>
-                <br />
-                <div
-                    className='ui labeled button'
-                    tabindex='0'
-                    data-tooltip="Les balises <h1> jusqu'à <h6> permettent de créer
-        des titres de moins en moins grand."
-                    data-position='right center'
-                    data-variation='brown'
-                >
-                    <div class='ui olive button'>{'<p> '}</div>
-                    <a class='ui basic olive left pointing label'>Text</a>
-                </div>
-                <br />
-                <br />
-                <div
-                    className='ui labeled circular button'
-                    tabindex='0'
-                    data-tooltip="Les balises <h1> jusqu'à <h6> permettent de créer
-        des titres de moins en moins grand."
-                    data-position='right center'
-                >
-                    <div class='ui oranged-icon button'>{'<h1>'}</div>
-                    <a className='ui basic oranged-text left pointing label'>{intl.formatMessage({ id: 'titleLabel' })}</a>
-                </div>
-                <br />
-                <br />
-                <Component tag='<p>' label='Paragraphe' hover='Je suis une description' color='red' />
-                <Component
-                    tag='<h1>'
-                    label='Title'
-                    hover="Les balises <h1> jusqu'à <h6> permettent de créer
-                  des titres de moins en moins grand."
-                    color='orange'
+        <>
+            <div className='sandbox-container'>
+                <DarkModeButton />
+                <Input
+                    onChange={(data) => { console.log(data); }}
+                    name='input'
+                    label='Mon super input'
+                    tip={'Beurrez une plaque allant au four ou recouvrez-la d\'une plaque de silicone. À l\'aide de deux cuillères à soupe ou simplement avec les mains, formez des noix de pâte en les espaçant car elles s\'étaleront à la cuisson.'}
+                />
+                <Dropdown
+                    options={options}
+                    onChange={(data) => console.log(data)}
+                    name='dropdown'
+                    label='Mon super dropdown'
+                    iconTip='la-utensil-spoon'
+                    tip={'Recouvrir d\'une couche de crème au mascarpone puis répéter l\'opération en alternant couche de biscuits et couche de crème en terminant par cette dernière.'}
+                />
+                <TextArea
+                    onChange={(data) => { console.log(data); }}
+                    name='textarea'
+                    required
+                    label='Mon super textarea'
+                    tip={'Dans un autocuiseur, versez 3 cuillères à soupe d\'huile d\'olive. Mettez à chauffer et faites-y dorer les pilons de poulet. Quand ils sont dorés, versez l\'équivalent d\'1 litre d\'eau et ajouter les cubes de bouillon de boeuf, le concentré de tomate, les carottes, navets et tomates, les épices à couscous et l\'harissa.'}
                 />
             </div>
-
-            <DarkModeButton />
-        </div>
+        </>
     );
 }

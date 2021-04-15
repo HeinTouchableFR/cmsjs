@@ -5,12 +5,15 @@ import styles from 'components/Form/Dropdown/Dropdown.module.scss';
 import PropTypes from 'prop-types';
 import Option from './Component/Option';
 import SelectedOption from './Component/SelectedOption';
+import Tooltip from '../Tooltip/Tooltip';
 
 export default function Dropdown({ name,
     label,
     options,
     multiple,
     defaultValue,
+    iconTip,
+    tip,
     onChange }) {
     const wrapperRef = useRef(null);
     const inputRef = useRef(null);
@@ -67,7 +70,16 @@ export default function Dropdown({ name,
     return (
         <>
             <div className={styles.field}>
-                <label htmlFor={name}>{label}</label>
+                <label htmlFor={name}>
+                    {label}
+                    {' '}
+                    {tip && (
+                        <Tooltip
+                            tip={tip}
+                            iconTip={iconTip}
+                        />
+                    )}
+                </label>
                 <div
                     ref={wrapperRef}
                     role='listbox'
@@ -144,6 +156,8 @@ Dropdown.propTypes = {
     label: PropTypes.string,
     multiple: PropTypes.bool,
     defaultValue: PropTypes.string,
+    tip: PropTypes.string,
+    iconTip: PropTypes.string,
 };
 
 Dropdown.defaultProps = {
@@ -151,4 +165,6 @@ Dropdown.defaultProps = {
     label: '',
     multiple: false,
     defaultValue: '',
+    tip: '',
+    iconTip: 'la-question-circle',
 };

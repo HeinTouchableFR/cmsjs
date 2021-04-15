@@ -85,7 +85,7 @@ export default async (req, res) => {
                     }
                     match /{document=**} {
                       allow read, write: if
-                          request.time < timestamp.date(2021, 5, 17);
+                          request.time < timestamp.date(2022, 5, 17);
                     }
                   }
                 }`;

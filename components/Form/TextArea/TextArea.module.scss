@@ -1,0 +1,41 @@
+.field {
+  clear: both;
+  margin: 0 0 1rem;
+
+  label {
+    display: block;
+    margin: 0 0 0.3rem 0;
+    font-size: 1rem;
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+    color: var(--admin-color);
+  }
+}
+
+
+.required {
+  label {
+    &:after{
+      content: '*';
+      color: #FF0000;
+      margin: -0.2em 0 0 0.2em;
+    }
+  }
+}
+
+
+.ui {
+  textarea {
+    border: 1px solid var(--admin-border);
+    background: var(--admin-header);
+    color: var(--admin-color);
+    font-size: 1rem;
+    margin: 0;
+    padding: .70em 1em;
+    border-radius: .3rem;
+    width: 100%;
+    max-width: 100%!important;
+    min-width: 100%!important;
+    outline: none;
+  }
+}

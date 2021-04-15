@@ -59,16 +59,11 @@
     padding: 0.34em 2.1em 0.34em 1em;
     color: var(--admin-color);
     box-shadow: none;
-    border: 1px solid rgba(34, 36, 38, .15);
+    border: 1px solid var(--admin-border);
     border-radius: .3rem;
     display: block;
     width: 100%;
     min-width: 0;
-
-    &:hover {
-      border-color: rgba(38, 168, 239, 0.35);
-      box-shadow: none
-    }
 
     &.multiple {
       input {

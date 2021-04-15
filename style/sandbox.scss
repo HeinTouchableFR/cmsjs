@@ -1,31 +1,6 @@
-.menu-button {
-  width: 15rem;
-  display: grid !important;
-  grid-template-columns: auto 1fr;
-  color: red;
-  transition: all 1s;
-}
-
-.menu-button-icon {
-  width: 100%;
-  height: 100%;
-  font-weight: bold;
-  background-color: darkgray;
-  max-height: max-content;
-}
-
-.menu-button-text {
-  width: fit-content;
-  background-color: whitesmoke;
-}
-
-.oranged-text {
-  color: brown !important;
-  border-color: brown !important;
-}
-
-.oranged-icon {
-  color: white !important;
-  background-color: C74F00 !important;
-  border-color: brown !important;
+.sandbox-container {
+  background: var(--admin-background);
+  margin: auto;
+  max-width: 1300px;
+  padding: 200px;
 }
