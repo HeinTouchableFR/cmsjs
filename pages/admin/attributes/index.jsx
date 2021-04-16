@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, {
+    useEffect, useState,
+} from 'react';
 import { useIntl } from 'react-intl';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
@@ -15,17 +17,26 @@ export default function Index({ items }) {
     const router = useRouter();
 
     const labels = [
-        { id: 'id', defaultMessage: 'Id' },
-        { id: 'name', defaultMessage: 'Name' },
-        { id: 'value.nb', defaultMessage: 'Number of value(s)' },
-        { id: 'actions', defaultMessage: 'Actions' },
+        {
+            id: 'id', defaultMessage: 'Id',
+        },
+        {
+            id: 'name', defaultMessage: 'Name',
+        },
+        {
+            id: 'value.nb', defaultMessage: 'Number of value(s)',
+        },
+        {
+            id: 'actions', defaultMessage: 'Actions',
+        },
     ];
 
     const [isDeleting, setIsDeleting] = useState(false);
     const [confirm, setConfirm] = useState(false);
-    const [itemToDelete, setItemToDelete] = useState({});
+    const [itemToDelete, setItemToDelete] = useState({
+    });
 
-    const open = function (item) {
+    const open = (item) => {
         setConfirm(true);
         setItemToDelete(item);
     };
@@ -42,8 +53,9 @@ export default function Index({ items }) {
             const response = await fetch(`${process.env.URL}/api/${url}/${itemToDelete._id}`, {
                 method: 'DELETE',
             });
-            setItemToDelete({});
-            setIsDeleting(false)
+            setItemToDelete({
+            });
+            setIsDeleting(false);
             router.push(`/admin/${url}`);
         } catch (error) {
             console.log(error);
@@ -59,21 +71,50 @@ export default function Index({ items }) {
     return (
         <>
             <Head>
-                <title>{intl.formatMessage({ id: 'attributes', defaultMessage: 'Attribute' })}</title>
+                <title>
+                    {intl.formatMessage({
+                        id: 'attributes', defaultMessage: 'Attribute',
+                    })}
+                </title>
             </Head>
             <Admin>
-                <Card title={intl.formatMessage({ id: 'attributes', defaultMessage: 'Attributes' })} buttonLabel={intl.formatMessage({ id: 'add', defaultMessage: 'Add' })} buttonAction={`/admin/${url}/add`} buttonIcon={"las la-plus"}>
-                    <Table labels={labels}>
-                        {items && items.map((item) => <Attribute item={item} url={url} key={item._id} handleDelete={open} />)}
-                    </Table>
-                    <Confirm
-                        open={confirm}
-                        onCancel={close}
-                        onConfirm={handleDelete}
-                        content={intl.formatMessage({ id: 'item.deleteSentence', defaultMessage: 'Are you sure you want to delete this item?' })}
-                        cancelButton={intl.formatMessage({ id: 'no', defaultMessage: 'No' })}
-                        confirmButton={intl.formatMessage({ id: 'yes', defaultMessage: 'Yes' })}
+                <Card color='brown'>
+                    <Card.Header
+                        title={intl.formatMessage({
+                            id: 'attributes', defaultMessage: 'Attributes',
+                        })}
+                        buttonLabel={intl.formatMessage({
+                            id: 'add', defaultMessage: 'Add',
+                        })}
+                        buttonAction={`/admin/${url}/add`}
+                        buttonIcon='las la-plus'
                     />
+                    <Card.Body>
+                        <Table labels={labels}>
+                            {items && items.map((item) => (
+                                <Attribute
+                                    item={item}
+                                    url={url}
+                                    key={item._id}
+                                    handleDelete={open}
+                                />
+                            ))}
+                        </Table>
+                        <Confirm
+                            open={confirm}
+                            onCancel={close}
+                            onConfirm={handleDelete}
+                            content={intl.formatMessage({
+                                id: 'item.deleteSentence', defaultMessage: 'Are you sure you want to delete this item?',
+                            })}
+                            cancelButton={intl.formatMessage({
+                                id: 'no', defaultMessage: 'No',
+                            })}
+                            confirmButton={intl.formatMessage({
+                                id: 'yes', defaultMessage: 'Yes',
+                            })}
+                        />
+                    </Card.Body>
                 </Card>
             </Admin>
         </>
@@ -84,7 +125,7 @@ export async function getServerSideProps() {
     let items = [];
 
     await axios
-        .get(process.env.URL + '/api/attributes')
+        .get(`${process.env.URL}/api/attributes`)
         .then((res) => {
             items = res.data.data;
         })
@@ -92,6 +133,8 @@ export async function getServerSideProps() {
         });
 
     return {
-        props: { items },
+        props: {
+            items,
+        },
     };
 }

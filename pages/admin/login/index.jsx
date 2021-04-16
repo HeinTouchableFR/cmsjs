@@ -75,26 +75,26 @@ export default function Index() {
                         glare
                     >
                         {logo.image && (
-                        <img
-                            src={logo.image.url}
-                            alt='Logo'
-                        />
-)}
+                            <img
+                                src={logo.image.url}
+                                alt='Logo'
+                            />
+                        )}
                     </Tilt>
                     <Form onSubmit={handleSubmit}>
                         <span className={styles.login_title}>
                             {intl.formatMessage({
- id: 'dashboard.login', defaultMessage: 'Dashboard login',
-})}
+                                id: 'dashboard.login', defaultMessage: 'Dashboard login',
+                            })}
                         </span>
                         <Input
                             name='email'
                             label={intl.formatMessage({
- id: 'mailAddress', defaultMessage: 'Mail address',
-})}
+                                id: 'mailAddress', defaultMessage: 'Mail address',
+                            })}
                             placeholder={intl.formatMessage({
- id: 'mailAddress', defaultMessage: 'Mail address',
-})}
+                                id: 'mailAddress', defaultMessage: 'Mail address',
+                            })}
                             required
                             type='email'
                             onChange={handleChange}
@@ -102,19 +102,19 @@ export default function Index() {
                         <Input
                             name='password'
                             label={intl.formatMessage({
- id: 'password', defaultMessage: 'Password',
-})}
+                                id: 'password', defaultMessage: 'Password',
+                            })}
                             placeholder={intl.formatMessage({
- id: 'password', defaultMessage: 'Password',
-})}
+                                id: 'password', defaultMessage: 'Password',
+                            })}
                             required
                             type='password'
                             onChange={handleChange}
                         />
                         <button>
                             {intl.formatMessage({
- id: 'login', defaultMessage: 'Login',
-})}
+                                id: 'login', defaultMessage: 'Login',
+                            })}
                             <i className='las la-sign-in-alt' />
                         </button>
                     </Form>

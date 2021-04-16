@@ -9,26 +9,51 @@ import Template from 'components/rowTemplate/Template/Template';
 import Admin from 'container/Admin/Admin';
 import Card from 'components/Cards/Card/Card';
 
-export default function Index({ items }) {
+export default function Index({items}) {
     const intl = useIntl();
     const url = 'templates';
 
     const labels = [
-        { id: 'id', defaultMessage: 'Id' },
-        { id: 'name', defaultMessage: 'Name' },
-        { id: 'actions', defaultMessage: 'Actions' },
+        {
+            id: 'id', defaultMessage: 'Id',
+        },
+        {
+            id: 'name', defaultMessage: 'Name',
+        },
+        {
+            id: 'actions', defaultMessage: 'Actions',
+        },
     ];
 
     return (
         <>
             <Head>
-                <title>{intl.formatMessage({ id: 'templates', defaultMessage: 'Templates' })}</title>
+                <title>
+                    {intl.formatMessage({
+                        id: 'templates', defaultMessage: 'Templates',
+                    })}
+                </title>
             </Head>
             <Admin>
-                <Card title={intl.formatMessage({ id: 'templates', defaultMessage: 'Templates' })}>
-                    <Table labels={labels}>
-                        {items && items.map((item) => <Template item={item} url={url} key={item._id} />)}
-                    </Table>
+                <Card
+                    color='red'
+                >
+                    <Card.Header
+                        title={intl.formatMessage({
+                            id: 'templates', defaultMessage: 'Templates',
+                        })}
+                    />
+                    <Card.Body>
+                        <Table labels={labels}>
+                            {items && items.map((item) => (
+                                <Template
+                                    item={item}
+                                    url={url}
+                                    key={item._id}
+                                />
+                            ))}
+                        </Table>
+                    </Card.Body>
                 </Card>
             </Admin>
         </>
@@ -46,7 +71,7 @@ export async function getServerSideProps(ctx) {
 
         let items = [];
         await axios
-            .get(process.env.URL + '/api/templates')
+            .get(`${process.env.URL}/api/templates`)
             .then((res) => {
                 items = res.data.data;
             })
@@ -54,7 +79,9 @@ export async function getServerSideProps(ctx) {
             });
 
         return {
-            props: { items },
+            props: {
+                items,
+            },
         };
     } catch (err) {
         return {

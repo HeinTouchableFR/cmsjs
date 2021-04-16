@@ -1,34 +1,46 @@
-import React, { useEffect, useState } from 'react';
+import React, {
+    useEffect, useState,
+} from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 import { Confirm } from 'semantic-ui-react';
 import Table from 'components/Table/Table';
 import Product from 'components/rowTemplate/Product/Product';
-import {useIntl} from 'react-intl';
+import { useIntl } from 'react-intl';
 import nookies from 'nookies';
-import {auth} from 'utils/dbConnect';
+import { auth } from 'utils/dbConnect';
 import Card from 'components/Cards/Card/Card';
 import Admin from 'container/Admin/Admin';
 
-export default function Index({ items }) {
-    const intl = useIntl()
+export default function Index({items}) {
+    const intl = useIntl();
     const url = 'products';
     const router = useRouter();
 
     const labels = [
-        { id: 'id', defaultMessage: 'Id' },
-        { id: 'image', defaultMessage: 'Image' },
-        { id: 'name', defaultMessage: 'Name' },
-        { id: 'price', defaultMessage: 'Price' },
-        { id: 'actions', defaultMessage: 'Actions' },
+        {
+            id: 'id', defaultMessage: 'Id',
+        },
+        {
+            id: 'image', defaultMessage: 'Image',
+        },
+        {
+            id: 'name', defaultMessage: 'Name',
+        },
+        {
+            id: 'price', defaultMessage: 'Price',
+        },
+        {
+            id: 'actions', defaultMessage: 'Actions',
+        },
     ];
 
     const [isDeleting, setIsDeleting] = useState(false);
     const [confirm, setConfirm] = useState(false);
     const [itemToDelete, setItemToDelete] = useState({});
 
-    const open = function (item) {
+    const open = (item) => {
         setConfirm(true);
         setItemToDelete(item);
     };
@@ -61,21 +73,52 @@ export default function Index({ items }) {
     return (
         <>
             <Head>
-                <title>{intl.formatMessage({ id: 'products', defaultMessage: 'Products' })}</title>
+                <title>
+                    {intl.formatMessage({
+                        id: 'products', defaultMessage: 'Products',
+                    })}
+                </title>
             </Head>
             <Admin>
-                <Card title={intl.formatMessage({ id: 'products', defaultMessage: 'Products' })} buttonLabel={intl.formatMessage({ id: 'add', defaultMessage: 'Add' })} buttonAction={`/admin/${url}/add`} buttonIcon={"las la-plus"}>
-                    <Table labels={labels}>
-                        {items && items.map((item) => <Product item={item} url={url} key={item._id} handleDelete={open} />)}
-                    </Table>
-                    <Confirm
-                        open={confirm}
-                        onCancel={close}
-                        onConfirm={handleDelete}
-                        content={intl.formatMessage({ id: 'item.deleteSentence', defaultMessage: 'Are you sure you want to delete this item?' })}
-                        cancelButton={intl.formatMessage({ id: 'no', defaultMessage: 'No' })}
-                        confirmButton={intl.formatMessage({ id: 'yes', defaultMessage: 'Yes' })}
+                <Card
+                    color='green'
+                >
+                    <Card.Header
+                        title={intl.formatMessage({
+                            id: 'products', defaultMessage: 'Products',
+                        })}
+                        buttonLabel={intl.formatMessage({
+                            id: 'add', defaultMessage: 'Add',
+                        })}
+                        buttonAction={`/admin/${url}/add`}
+                        buttonIcon='las la-plus'
                     />
+                    <Card.Body>
+                        <Table labels={labels}>
+                            {items && items.map((item) => (
+                                <Product
+                                    item={item}
+                                    url={url}
+                                    key={item._id}
+                                    handleDelete={open}
+                                />
+                            ))}
+                        </Table>
+                        <Confirm
+                            open={confirm}
+                            onCancel={close}
+                            onConfirm={handleDelete}
+                            content={intl.formatMessage({
+                                id: 'item.deleteSentence', defaultMessage: 'Are you sure you want to delete this item?',
+                            })}
+                            cancelButton={intl.formatMessage({
+                                id: 'no', defaultMessage: 'No',
+                            })}
+                            confirmButton={intl.formatMessage({
+                                id: 'yes', defaultMessage: 'Yes',
+                            })}
+                        />
+                    </Card.Body>
                 </Card>
             </Admin>
         </>
@@ -94,16 +137,19 @@ export async function getServerSideProps(ctx) {
         let items = [];
 
         await axios
-            .get(process.env.URL + '/api/products')
+            .get(`${process.env.URL}/api/products`)
             .then((res) => {
                 items = res.data.data;
             })
-            .catch((error) => {});
+            .catch((error) => {
+            });
 
         return {
-            props: { items },
+            props: {
+                items,
+            },
         };
-    }catch (err) {
+    } catch (err) {
         return {
             redirect: {
                 permanent: false,
