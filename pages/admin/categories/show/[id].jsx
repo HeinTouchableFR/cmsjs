@@ -1,7 +1,6 @@
 import React from 'react';
 import Head from 'next/head';
 import axios from 'axios';
-import { Form } from 'semantic-ui-react';
 import nookies from 'nookies';
 import { auth } from 'utils/dbConnect';
 import { useIntl } from 'react-intl';
@@ -60,7 +59,7 @@ export default function Detail({item, categories}) {
                         buttonIcon='las la-arrow-left'
                     />
                     <Card.Body>
-                        <Form>
+                        <form>
                             <Input
                                 label={intl.formatMessage({
                                     id: 'name', defaultMessage: 'Name',
@@ -90,7 +89,7 @@ export default function Detail({item, categories}) {
                                 defaultValue={item.parentCategory}
                                 name='parentCategory'
                             />
-                        </Form>
+                        </form>
                     </Card.Body>
                 </Card>
             </Admin>

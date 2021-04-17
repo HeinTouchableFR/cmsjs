@@ -7,7 +7,7 @@ import {
     Droppable, Draggable,
 } from 'react-beautiful-dnd';
 import {
-    Button, Form, Tab,
+   Tab,
 } from 'semantic-ui-react';
 
 import Component from 'components/ComponentCollection/Component';
@@ -15,6 +15,7 @@ import ComponentDispatcher from 'components/ComponentCollection/ComponentDispatc
 import Input from 'components/Form/Input/Input';
 import Dropdown from 'components/Form/Dropdown/Dropdown';
 import styles from './Navigation.module.scss';
+import Button from 'components/Button/Button';
 
 export default function Navigation({components, currentItem, onElementValueChange, setCurrentElement, page, onSubmit, pages = [], loading, hide, device, setDevice, hideMenu, images, setImages, mode}) {
     const intl = useIntl();
@@ -264,7 +265,7 @@ export default function Navigation({components, currentItem, onElementValueChang
 
     return (
         <>
-            <Form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit}>
                 <div className={`${styles.navigation} ${hide ? styles.hide : ''}`}>
                     <Tab
                         panes={panes}
@@ -273,18 +274,17 @@ export default function Navigation({components, currentItem, onElementValueChang
                     />
                     <div className={styles.navigation__bottom_menu}>
                         <Button
-                            loading={loading}
-                            color='green'
-                            type='submit'
-                        >
-                            {page.content
+                            label={page.content
                                 ? intl.formatMessage({
                                     id: 'update', defaultMessage: 'Update',
                                 })
                                 : intl.formatMessage({
                                     id: 'publish', defaultMessage: 'Publish',
                                 })}
-                        </Button>
+                            loading={loading}
+                            color='green'
+                            type='submit'
+                        />
                         <Dropdown
                             defaultValue={device}
                             options={deviceOptions}
@@ -292,7 +292,7 @@ export default function Navigation({components, currentItem, onElementValueChang
                         />
                     </div>
                 </div>
-            </Form>
+            </form>
             <div
                 className={`${styles.hideMenuBtn} ${hide ? styles.hide : ''}`}
                 onClick={() => hideMenu()}

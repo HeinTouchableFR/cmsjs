@@ -4,9 +4,6 @@ import React, {
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import axios from 'axios';
-import {
-    Button, Form,
-} from 'semantic-ui-react';
 import nookies from 'nookies';
 import { auth } from 'utils/dbConnect';
 import { useIntl } from 'react-intl';
@@ -15,6 +12,7 @@ import Card from 'components/Cards/Card/Card';
 import Input from 'components/Form/Input/Input';
 import Dropdown from 'components/Form/Dropdown/Dropdown';
 import TextArea from 'components/Form/TextArea/TextArea';
+import Button from 'components/Button/Button';
 
 export default function Add({categories}) {
     const intl = useIntl();
@@ -120,7 +118,7 @@ export default function Add({categories}) {
                         buttonIcon='las la-arrow-left'
                     />
                     <Card.Body>
-                        <Form onSubmit={handleSubmit}>
+                        <form onSubmit={handleSubmit}>
                             <Input
                                 label={intl.formatMessage({
                                     id: 'name', defaultMessage: 'Name',
@@ -151,15 +149,14 @@ export default function Add({categories}) {
                                 onChange={handleChange}
                             />
                             <Button
+                                label={intl.formatMessage({
+                                    id: 'add', defaultMessage: 'Add',
+                                })}
                                 disabled={isSubmitting}
                                 loading={isSubmitting}
                                 type='submit'
-                            >
-                                {intl.formatMessage({
-                                    id: 'add', defaultMessage: 'Add',
-                                })}
-                            </Button>
-                        </Form>
+                            />
+                        </form>
                     </Card.Body>
                 </Card>
             </Admin>

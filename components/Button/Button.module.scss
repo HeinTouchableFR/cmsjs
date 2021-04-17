@@ -1,12 +1,19 @@
 @import "style/tools/mixins";
 
 .button {
-    font-size: 1.5rem;
-    display: inline-block;
-    margin-left: .5rem;
-    color: var(--admin-icon);
+    background: var(--admin-main-color);
+    border-radius: 10px;
+    color: #FFF;
+    font-size: .8rem;
+    padding: .5rem 1rem;
+    border: 1px solid var(--admin-border);
 
     &:hover {
-        color: darkenFromVar(var(--admin-icon), 0.2);
+        color: #FFF;
+        background: darkenFromVar(var(--admin-main-color), 0.2);
+    }
+
+    span {
+        margin-left: .5rem;
     }
 }

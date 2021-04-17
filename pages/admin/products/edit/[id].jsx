@@ -5,9 +5,6 @@ import { useIntl } from 'react-intl';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import axios from 'axios';
-import {
-    Button as SementicButton, Form,
-} from 'semantic-ui-react';
 import FileManager from 'components/FileManager/FileManager';
 import nookies from 'nookies';
 import { auth } from 'utils/dbConnect';
@@ -17,6 +14,8 @@ import Admin from 'container/Admin/Admin';
 import Input from 'components/Form/Input/Input';
 import Dropdown from 'components/Form/Dropdown/Dropdown';
 import TextArea from 'components/Form/TextArea/TextArea';
+import Checkbox from 'components/Form/Checkbox/Checkbox';
+import IconButton from 'components/Button/IconButton/IconButton';
 
 export default function Modifier({item, categories, attributes, images}) {
     const intl = useIntl();
@@ -173,7 +172,7 @@ export default function Modifier({item, categories, attributes, images}) {
                         buttonIcon='las la-arrow-left'
                     />
                     <Card.Body>
-                        <Form>
+                        <form>
                             <Input
                                 label={intl.formatMessage({
                                     id: 'name', defaultMessage: 'Name',
@@ -224,7 +223,7 @@ export default function Modifier({item, categories, attributes, images}) {
                                 name='description'
                                 defaultValue={form.description}
                             />
-                            <Form.Checkbox
+                            <Checkbox
                                 label={intl.formatMessage({
                                     id: 'on.sale', defaultMessage: 'On sale',
                                 })}
@@ -311,22 +310,18 @@ export default function Modifier({item, categories, attributes, images}) {
                                     multiple
                                 />
                             </div>
-                            <div className='field'>
-                                <label>
-                                    {intl.formatMessage({
-                                        id: 'categories', defaultMessage: 'Categories',
-                                    })}
-                                </label>
-                                <Dropdown
-                                    placeholder={intl.formatMessage({
-                                        id: 'choose.one.more.categories', defaultMessage: 'Choose one or more categories',
-                                    })}
-                                    options={categoriesOptions}
-                                    name='categories'
-                                    onChange={handleChange}
-                                    defaultValue={form.categories}
-                                />
-                            </div>
+                            <Dropdown
+                                label={intl.formatMessage({
+                                    id: 'categories', defaultMessage: 'Categories',
+                                })}
+                                placeholder={intl.formatMessage({
+                                    id: 'choose.one.more.categories', defaultMessage: 'Choose one or more categories',
+                                })}
+                                options={categoriesOptions}
+                                name='categories'
+                                onChange={handleChange}
+                                defaultValue={form.categories}
+                            />
                             <div className='field'>
                                 <label>
                                     {intl.formatMessage({
@@ -351,15 +346,14 @@ export default function Modifier({item, categories, attributes, images}) {
                                     onChange={handleAddAttribute}
                                 />
                             </div>
-                            <SementicButton
-                                type='button'
-                                onClick={handleSubmit}
-                            >
-                                {intl.formatMessage({
+                            <Button
+                                label={intl.formatMessage({
                                     id: 'edit', defaultMessage: 'Edit',
                                 })}
-                            </SementicButton>
-                        </Form>
+                                type='button'
+                                onClick={handleSubmit}
+                            />
+                        </form>
                     </Card.Body>
                 </Card>
             </Admin>
@@ -413,7 +407,7 @@ const Attribute = ({attribute, setForm, form, attributes}) => {
                         onChange={handleChange}
                         defaultValue={attribute.values}
                     />
-                    <Form.Checkbox
+                    <Checkbox
                         label={intl.formatMessage({
                             id: 'visible.product.page', defaultMessage: 'Visible on the product page',
                         })}
@@ -421,7 +415,7 @@ const Attribute = ({attribute, setForm, form, attributes}) => {
                         onChange={handleChange}
                         defaultChecked={attribute.visible}
                     />
-                    <Form.Checkbox
+                    <Checkbox
                         label={intl.formatMessage({
                             id: 'used.variations', defaultMessage: 'Used for variations',
                         })}
@@ -431,7 +425,7 @@ const Attribute = ({attribute, setForm, form, attributes}) => {
                     />
                 </Card.Body>
                 <Card.Footer>
-                    <Button
+                    <IconButton
                         action={() => handleDelete()}
                         icon='las la-trash-alt'
                     />

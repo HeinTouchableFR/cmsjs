@@ -1,7 +1,6 @@
 import React from 'react';
 import Head from 'next/head';
 import axios from 'axios';
-import { Form } from 'semantic-ui-react';
 import { useIntl } from 'react-intl';
 import nookies from 'nookies';
 import { auth } from 'utils/dbConnect';
@@ -10,6 +9,7 @@ import Admin from 'container/Admin/Admin';
 import Input from 'components/Form/Input/Input';
 import Dropdown from 'components/Form/Dropdown/Dropdown';
 import TextArea from 'components/Form/TextArea/TextArea';
+import Checkbox from 'components/Form/Checkbox/Checkbox';
 
 export default function Detail({item, categories, attributes}) {
     const intl = useIntl();
@@ -60,7 +60,7 @@ export default function Detail({item, categories, attributes}) {
                         buttonIcon='las la-arrow-left'
                     />
                     <Card.Body>
-                        <Form>
+                        <form>
                             <Input
                                 label={intl.formatMessage({
                                     id: 'name', defaultMessage: 'Name',
@@ -109,7 +109,7 @@ export default function Detail({item, categories, attributes}) {
                                 disabled
                                 defaultValue={item.description}
                             />
-                            <Form.Checkbox
+                            <Checkbox
                                 label={intl.formatMessage({
                                     id: 'on.sale', defaultMessage: 'On sale',
                                 })}
@@ -202,23 +202,19 @@ export default function Detail({item, categories, attributes}) {
                                     </div>
                                 )}
                             </div>
-                            <div className='field'>
-                                <label>
-                                    {intl.formatMessage({
-                                        id: 'categories', defaultMessage: 'Categories',
-                                    })}
-                                </label>
-                                <Dropdown
-                                    placeholder={intl.formatMessage({
-                                        id: 'choose.one.more.categories', defaultMessage: 'Choose one or more categories',
-                                    })}
-                                    multiple
-                                    options={categoriesOptions}
-                                    name='categories'
-                                    disabled
-                                    defaultValue={item.categories}
-                                />
-                            </div>
+                            <Dropdown
+                                label={intl.formatMessage({
+                                    id: 'categories', defaultMessage: 'Categories',
+                                })}
+                                placeholder={intl.formatMessage({
+                                    id: 'choose.one.more.categories', defaultMessage: 'Choose one or more categories',
+                                })}
+                                multiple
+                                options={categoriesOptions}
+                                name='categories'
+                                disabled
+                                defaultValue={item.categories}
+                            />
                             <div className='field'>
                                 <label>
                                     {intl.formatMessage({
@@ -233,7 +229,7 @@ export default function Detail({item, categories, attributes}) {
                                     />
                                 ))}
                             </div>
-                        </Form>
+                        </form>
                     </Card.Body>
                 </Card>
             </Admin>
@@ -269,7 +265,7 @@ const Attribute = ({attribute, attributes}) => {
                         defaultValue={attribute.values}
                         disabled
                     />
-                    <Form.Checkbox
+                    <Checkbox
                         label={intl.formatMessage({
                             id: 'visible.product.page', defaultMessage: 'Visible on the product page',
                         })}
@@ -277,7 +273,7 @@ const Attribute = ({attribute, attributes}) => {
                         defaultChecked={attribute.visible}
                         disabled
                     />
-                    <Form.Checkbox
+                    <Checkbox
                         label={intl.formatMessage({
                             id: 'used.variations', defaultMessage: 'Used for variations',
                         })}

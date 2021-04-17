@@ -1,15 +1,15 @@
 import React from 'react';
 import Head from 'next/head';
 import axios from 'axios';
-import { Form } from 'semantic-ui-react';
 import { useIntl } from 'react-intl';
 import Admin from 'container/Admin/Admin';
 import Card from 'components/Cards/Card/Card';
 import nookies from 'nookies';
 import { auth } from 'utils/dbConnect';
 import Input from 'components/Form/Input/Input';
+import Checkbox from 'components/Form/Checkbox/Checkbox';
 
-export default function Detail({item}) {
+export default function Detail({ item }) {
     const intl = useIntl();
     const url = 'attributes';
 
@@ -41,7 +41,7 @@ export default function Detail({item}) {
                         buttonIcon='las la-arrow-left'
                     />
                     <Card.Body>
-                        <Form>
+                        <form>
                             <Input
                                 label={intl.formatMessage({
                                     id: 'name', defaultMessage: 'Name',
@@ -54,12 +54,12 @@ export default function Detail({item}) {
                                 disabled
                                 required
                             />
-                            <Form.Checkbox
+                            <Checkbox
                                 label={intl.formatMessage({
                                     id: 'used.filter', defaultMessage: 'Use the attribute as a product search filter',
                                 })}
                                 name='filter'
-                                checked={item.filter}
+                                defaultChecked={item.filters}
                                 disabled
                             />
                             <div className='field'>
@@ -75,7 +75,7 @@ export default function Detail({item}) {
                                     item={item}
                                 />
                             ))}
-                        </Form>
+                        </form>
                     </Card.Body>
                 </Card>
             </Admin>
@@ -83,7 +83,7 @@ export default function Detail({item}) {
     );
 }
 
-const Value = ({item}) => {
+const Value = ({ item }) => {
     const intl = useIntl();
     return (
         <Card
@@ -117,9 +117,10 @@ export async function getServerSideProps(ctx) {
             throw new Error('unauthorized');
         }
 
-        const {id} = ctx.params;
+        const { id } = ctx.params;
 
-        let item = {};
+        let item = {
+        };
 
         await axios
             .get(`${process.env.URL}/api/attributes/${id}`)
@@ -140,7 +141,8 @@ export async function getServerSideProps(ctx) {
                 permanent: false,
                 destination: '/admin/login',
             },
-            props: {},
+            props: {
+            },
         };
     }
 }

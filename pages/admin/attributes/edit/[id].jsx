@@ -4,14 +4,13 @@ import React, {
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import axios from 'axios';
-import {
-    Button as SementicButton, Form,
-} from 'semantic-ui-react';
 import { useIntl } from 'react-intl';
 import Button from 'components/Button/Button';
 import Card from 'components/Cards/Card/Card';
 import Admin from 'container/Admin/Admin';
 import Input from 'components/Form/Input/Input';
+import Checkbox from 'components/Form/Checkbox/Checkbox';
+import IconButton from 'components/Button/IconButton/IconButton';
 
 export default function Modifier({ item }) {
     const intl = useIntl();
@@ -111,7 +110,7 @@ export default function Modifier({ item }) {
                         buttonIcon='las la-arrow-left'
                     />
                     <Card.Body>
-                        <Form onSubmit={handleSubmit}>
+                        <form onSubmit={handleSubmit}>
                             <Input
                                 label={intl.formatMessage({
                                     id: 'name', defaultMessage: 'Name',
@@ -123,12 +122,12 @@ export default function Modifier({ item }) {
                                 defaultValue={item.name}
                                 onChange={handleChange}
                             />
-                            <Form.Checkbox
+                            <Checkbox
                                 label={intl.formatMessage({
                                     id: 'used.filter', defaultMessage: 'Use the attribute as a product search filter',
                                 })}
                                 name='filter'
-                                defaultChecked={item.filter}
+                                defaultChecked={item.filters}
                                 onChange={handleChange}
                             />
                             {form.values.map((item) => (
@@ -148,21 +147,20 @@ export default function Modifier({ item }) {
                                     type='newValues'
                                 />
                             ))}
-                            <SementicButton
-                                type='button'
-                                color='teal'
+                            <Button
+                                icon='las la-plus'
                                 onClick={handleAddValue}
-                            >
-                                {intl.formatMessage({
+                                label={intl.formatMessage({
                                     id: 'add.value', defaultMessage: 'Add value',
                                 })}
-                            </SementicButton>
-                            <SementicButton type='submit'>
-                                {intl.formatMessage({
+                            />
+                            <Button
+                                type='submit'
+                                label={intl.formatMessage({
                                     id: 'edit', defaultMessage: 'Edit',
                                 })}
-                            </SementicButton>
-                        </Form>
+                            />
+                        </form>
                     </Card.Body>
                 </Card>
             </Admin>
@@ -228,7 +226,7 @@ const Value = ({ item, form, setForm, type = 'values' }) => {
                 />
             </Card.Body>
             <Card.Footer>
-                <Button
+                <IconButton
                     action={() => handleDelete()}
                     icon='las la-trash-alt'
                 />

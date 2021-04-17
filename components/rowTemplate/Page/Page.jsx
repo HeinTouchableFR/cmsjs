@@ -1,6 +1,6 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
-import Button from 'components/Button/Button';
+import IconButton from 'components/Button/IconButton/IconButton';
 
 export default function Page({ item, url, parentPage, dash = '', handleDelete }) {
     const intl = useIntl();
@@ -26,9 +26,9 @@ export default function Page({ item, url, parentPage, dash = '', handleDelete })
                           ).toLocaleDateString()}  ${new Date(item.published).toLocaleTimeString()}`}
                 </td>
                 <td>
-                    <Button action={`${process.env.URL}/${item.slug}`} icon={'las la-eye'} target={"_blank"} />
-                    <Button action={`/admin/${url}/edit/${item._id}`} icon={'las la-edit'} />
-                    <Button action={() => handleDelete(item, item.childPages.length === 0)} icon={'las la-trash-alt'} />
+                    <IconButton action={`${process.env.URL}/${item.slug}`} icon={'las la-eye'} target={"_blank"} />
+                    <IconButton action={`/admin/${url}/edit/${item._id}`} icon={'las la-edit'} />
+                    <IconButton action={() => handleDelete(item, item.childPages.length === 0)} icon={'las la-trash-alt'} />
                 </td>
             </tr>
             {item.childPagesData &&

@@ -4,13 +4,13 @@ import React, {
 import { useIntl } from 'react-intl';
 import { useRouter } from 'next/router';
 import { firebase } from 'utils/firebaseClient';
-import { Form } from 'semantic-ui-react';
 import Head from 'next/head';
 import DarkModeButton from 'components/Button/DarkModeButton/DarkModeButton';
 import Tilt from 'components/Tilt/Tilt';
 import { useSettings } from 'context/settings';
 import Input from 'components/Form/Input/Input';
 import styles from './login.module.scss';
+import Button from '../../../components/Button/Button';
 
 export default function Index() {
     const { settings } = useSettings();
@@ -81,7 +81,7 @@ export default function Index() {
                             />
                         )}
                     </Tilt>
-                    <Form onSubmit={handleSubmit}>
+                    <form onSubmit={handleSubmit}>
                         <span className={styles.login_title}>
                             {intl.formatMessage({
                                 id: 'dashboard.login', defaultMessage: 'Dashboard login',
@@ -111,13 +111,14 @@ export default function Index() {
                             type='password'
                             onChange={handleChange}
                         />
-                        <button>
-                            {intl.formatMessage({
+                        <Button
+                            label={intl.formatMessage({
                                 id: 'login', defaultMessage: 'Login',
                             })}
-                            <i className='las la-sign-in-alt' />
-                        </button>
-                    </Form>
+                            icon='las la-sign-in-alt'
+                            type='submit'
+                        />
+                    </form>
                 </div>
             </div>
         </>
