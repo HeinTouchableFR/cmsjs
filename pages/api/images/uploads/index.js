@@ -8,15 +8,17 @@ var path = require("path");
 
 const {Storage} = require("@google-cloud/storage");
 
+var firebaseConfig = eval("("+process.env.FIREBASE_CONFIG+")");
+const serviceAccount = JSON.parse(process.env.GOOGLE_APPLICATION_CREDENTIALS)
 const storage = new Storage({
-    projectId: process.env.GCLOUD_PROJECT_ID,
+    projectId: serviceAccount.project_id,
     credentials: {
-        client_email: process.env.CLIENT_EMAIL,
-        private_key: process.env.PRIVATE_KEY,
+        client_email: serviceAccount.client_email,
+        private_key: serviceAccount.private_key,
     },
 });
 
-const bucket = storage.bucket(process.env.GCLOUD_STORAGE_BUCKET_URL);
+const bucket = storage.bucket(firebaseConfig.storageBucket);
 
 const upload = multer({
     storage: multer.memoryStorage(),

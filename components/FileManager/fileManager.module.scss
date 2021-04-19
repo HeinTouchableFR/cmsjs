@@ -2,23 +2,24 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, 125px);
   grid-gap: 10px;
-}
 
-.filemanager__container .element{
-  border: solid 1px lightgray;
-  cursor: pointer;
-}
+  .element{
+    border: solid 1px var(--admin-border);
+    cursor: pointer;
+    outline: none;
 
-.filemanager__container .element:hover{
-  border: solid 2px dodgerblue;
-}
+    &:hover{
+      border: solid 2px dodgerblue;
+    }
 
-.filemanager__container .element.selected{
-  border: solid 2px lime;
-}
+    &.selected{
+      border: solid 2px lime;
 
-.filemanager__container .element.selected:hover{
-  border: solid 2px red;
+      &:hover{
+        border: solid 2px red;
+      }
+    }
+  }
 }
 
 .filemanager__files{
@@ -28,32 +29,29 @@
   margin-bottom: auto;
   overflow: hidden;
   display: flex;
-}
 
-.filemanager__files span{
-  margin-top: auto;
-  margin-bottom: auto;
-  min-width: 155px;
-}
+  span{
+    margin-top: auto;
+    margin-bottom: auto;
+    min-width: 155px;
+  }
 
-.filemanager__files img{
-  width: 35px;
-  height: 35px;
-  margin-left: 10px;
-}
+  img{
+    width: 35px;
+    height: 35px;
+    margin-left: 10px;
+  }
 
-.filemanager__files img:nth-child(12){
-  opacity: .3;
+  img:nth-child(12){
+    opacity: .3;
+  }
 }
 
 .filemanager__upload__container{
-  top: 25%
-}
-
-.filemanager__upload__container form{
+  top: 25%;
   text-align: center;
-}
 
-.filemanager__upload__container button{
-  margin-top: 15px!important;
+  button{
+    margin-top: 15px!important;
+  }
 }
