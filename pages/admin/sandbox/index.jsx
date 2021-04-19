@@ -6,7 +6,6 @@ import Button from '../../../components/Button/Button';
 
 export default function Index() {
     const [open, setOpen] = useState(false);
-    console.log(open)
     const trigger = (
         <Multiple
             onClick={() => setOpen(true)}
@@ -23,6 +22,7 @@ export default function Index() {
                     open={open}
                     onClose={() => setOpen(false)}
                     onOpen={() => setOpen(true)}
+                    name='modal'
                 >
                     <Modal.Header
                         title='Mon super titre'

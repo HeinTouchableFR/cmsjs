@@ -5,6 +5,7 @@
   display: inline-block;
   margin-left: .5rem;
   color: var(--admin-icon);
+  min-height: 35px;
 
   &:hover {
     color: darkenFromVar(var(--admin-icon), 0.2);

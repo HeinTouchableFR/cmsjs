@@ -4,7 +4,6 @@ import React, {
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import axios from 'axios';
-import { Confirm } from 'semantic-ui-react';
 import Table from 'components/Table/Table';
 import Product from 'components/rowTemplate/Product/Product';
 import { useIntl } from 'react-intl';
@@ -12,6 +11,7 @@ import nookies from 'nookies';
 import { auth } from 'utils/dbConnect';
 import Card from 'components/Cards/Card/Card';
 import Admin from 'container/Admin/Admin';
+import Confirm from 'components/Confirm/Confirm';
 
 export default function Index({items}) {
     const intl = useIntl();
@@ -105,6 +105,7 @@ export default function Index({items}) {
                             ))}
                         </Table>
                         <Confirm
+                            name='productsConfirm'
                             open={confirm}
                             onCancel={close}
                             onConfirm={handleDelete}

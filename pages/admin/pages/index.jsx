@@ -5,13 +5,13 @@ import {useIntl} from 'react-intl';
 import Head from 'next/head';
 import {useRouter} from 'next/router';
 import axios from 'axios';
-import {Confirm} from 'semantic-ui-react';
 import nookies from 'nookies';
 import {auth} from 'utils/dbConnect';
 import Table from 'components/Table/Table';
 import Page from 'components/rowTemplate/Page/Page';
 import Admin from 'container/Admin/Admin';
 import Card from 'components/Cards/Card/Card';
+import Confirm from 'components/Confirm/Confirm';
 
 export default function Index({items}) {
     const intl = useIntl();
@@ -109,6 +109,7 @@ export default function Index({items}) {
                             ))}
                         </Table>
                         <Confirm
+                            name='pagesConfirm'
                             open={confirm}
                             onCancel={close}
                             onConfirm={handleDelete}
@@ -123,6 +124,7 @@ export default function Index({items}) {
                             })}
                         />
                         <Confirm
+                            name='CantDeletePage'
                             open={confirmCannotDelete}
                             onConfirm={closeCannotDelete}
                             onCancel={closeCannotDelete}
