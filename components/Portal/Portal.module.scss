@@ -1,0 +1,76 @@
+.portal {
+  position: absolute;
+  z-index: 1000;
+  width: 300px;
+
+  &.fly_down {
+    display: block;
+    visibility: visible;
+    transition-timing-function: cubic-bezier(.215,.61,.355,1);
+    animation-duration: .6s;
+
+    &.in {
+      animation-name: flyInDown;
+    }
+
+    &.out {
+      animation-name: flyOutDown;
+    }
+  }
+
+  .pallet_container{
+    position: absolute!important;
+    z-index: 1000;
+    width: 300px;
+    border: solid 1px var(--admin-border);
+    background: var(--admin-header);
+    padding: 1rem;
+    border-radius: 0.3em;
+  }
+
+  .pallet{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 10px;
+  }
+}
+
+
+@keyframes flyInDown {
+  0%
+  {
+    opacity: 0;
+    transform: translate3d(0,-1500px,0);
+  }
+  60% {
+    opacity: 1;
+    transform: translate3d(0,25px,0);
+  }
+  75% {
+    transform: translate3d(0,-10px,0);
+  }
+  90% {
+    transform: translate3d(0,5px,0);
+  }
+  100% {
+    transform: none;
+  }
+}
+
+@keyframes flyOutDown {
+  20% {
+    -webkit-transform: translate3d(0, -10px, 0);
+    transform: translate3d(0, -10px, 0)
+  }
+  40%, 45% {
+    opacity: 1;
+    -webkit-transform: translate3d(0, 20px, 0);
+    transform: translate3d(0, 20px, 0)
+  }
+  100% {
+    opacity: 0;
+    -webkit-transform: translate3d(0, -2000px, 0);
+    transform: translate3d(0, -2000px, 0)
+  }
+}
+

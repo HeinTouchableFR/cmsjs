@@ -1,35 +1,37 @@
-import React, {useState} from 'react';
-import {DragDropContext} from 'react-beautiful-dnd';
+import React, { useState } from 'react';
+import { DragDropContext } from 'react-beautiful-dnd';
 
-import {useIntl} from 'react-intl';
-
-import styles from './Builder.module.scss';
+import { useIntl } from 'react-intl';
 
 import Content from 'container/Content/Content';
 import Navigation from 'container/Navigation/Navigation';
 import Head from 'next/head';
-import {Segment, TransitionablePortal} from 'semantic-ui-react';
 import Component from 'components/ComponentCollection/Component';
+import Portal from 'components/Portal/Portal';
+import styles from './Builder.module.scss';
 
-export default function Builder({page = {}, onSubmit, pages, loading, images, setImages, modules, mode = "page"}) {
+export default function Builder({ page = {
+}, onSubmit, pages, loading, images, setImages, modules, mode = 'page' }) {
     // Use translation
     const intl = useIntl();
 
     const [layouts, setLayouts] = useState(page.content ? JSON.parse(page.content) : []);
 
-    const [currentElement, setCurrentElement] = useState({});
+    const [currentElement, setCurrentElement] = useState({
+    });
 
     const [hideMenu, setHideMenu] = useState(false);
 
-    const [device, setDevice] = useState("desktop")
+    const [device, setDevice] = useState('desktop');
 
-    const components = modules
+    const components = modules;
 
     /**
      * Allows you to add a layout
      */
     const layoutAdd = function () {
-        const layout = {};
+        const layout = {
+        };
         layout.id = new Date().getTime();
         layout.nbColumns = 0;
         layout.columns = [];
@@ -52,7 +54,9 @@ export default function Builder({page = {}, onSubmit, pages, loading, images, se
         layout.columns.map((column) => {
             column.elements.map((element) => {
                 if (element.id === currentElement.id) {
-                    setCurrentElement({id: 'empty'});
+                    setCurrentElement({
+                        id: 'empty',
+                    });
                 }
             });
         });
@@ -79,7 +83,7 @@ export default function Builder({page = {}, onSubmit, pages, loading, images, se
      * @param result
      */
     const onDragEnd = (result) => {
-        const {source, destination} = result;
+        const { source, destination } = result;
         // dropped outside the list
         if (!destination) {
             return;
@@ -128,7 +132,8 @@ export default function Builder({page = {}, onSubmit, pages, loading, images, se
      * @param elements
      */
     const columnUpdate = function (column, elements) {
-        let layout = {};
+        let layout = {
+        };
         column.elements = elements;
         layouts.map((d) => {
             d.columns.map((c) => {
@@ -152,7 +157,8 @@ export default function Builder({page = {}, onSubmit, pages, loading, images, se
      * @return {{}}
      */
     const move = (source, destination, droppableSource, droppableDestination) => {
-        const result = {};
+        const result = {
+        };
         if (droppableSource.droppableId !== 'components') {
             const sourceClone = Array.from(source);
             const destClone = Array.from(destination);
@@ -168,7 +174,7 @@ export default function Builder({page = {}, onSubmit, pages, loading, images, se
             setCurrentElement(element);
             destClone.splice(droppableDestination.index, 0, element);
             result[droppableDestination.droppableId] = destClone;
-            handleClosePortal()
+            handleClosePortal();
         }
         return result;
     };
@@ -178,7 +184,8 @@ export default function Builder({page = {}, onSubmit, pages, loading, images, se
      * @param element
      */
     const elementUpdate = function (element) {
-        let column = {};
+        let column = {
+        };
         let elements = [];
         if (element.id === currentElement.id) {
             layouts.map((layout) => {
@@ -211,23 +218,30 @@ export default function Builder({page = {}, onSubmit, pages, loading, images, se
         onSubmit(e, layouts);
     };
 
-    const [portal, setPortal] = useState({open: false})
+    const [portal, setPortal] = useState({
+        open: false,
+    });
 
     const handleOpenPortal = (e) => {
-        setPortal({x: e.clientX, y: e.clientY , open: true})
-    }
-    const handleClosePortal = () => setPortal(() => ({ open: false }))
+        setPortal({
+            x: e.clientX, y: e.clientY, open: true,
+        });
+    };
+    const handleClosePortal = () => setPortal(() => ({
+        open: false,
+    }));
 
     const addComponentFromPortal = (component) => {
-        const column = getcolumnListeById(currentElement.column)
-        const element = generateElement(component)
-        setCurrentElement(element)
+        const column = getcolumnListeById(currentElement.column);
+        const element = generateElement(component);
+        setCurrentElement(element);
         columnUpdate(column, [element]);
-        handleClosePortal()
-    }
+        handleClosePortal();
+    };
 
     const generateElement = (component) => {
-        const element = {}
+        const element = {
+        };
         element.id = new Date().getTime();
         element.content = component.defaultValue;
         element.type = component.type;
@@ -246,7 +260,7 @@ export default function Builder({page = {}, onSubmit, pages, loading, images, se
                     left: 0,
                     right: 0,
                     bottom: 0,
-                }
+                },
             },
             tablet: {
                 margin: {
@@ -262,7 +276,7 @@ export default function Builder({page = {}, onSubmit, pages, loading, images, se
                     left: '',
                     right: '',
                     bottom: '',
-                }
+                },
             },
             mobile: {
                 margin: {
@@ -278,11 +292,11 @@ export default function Builder({page = {}, onSubmit, pages, loading, images, se
                     left: '',
                     right: '',
                     bottom: '',
-                }
+                },
             },
         };
-        return element
-    }
+        return element;
+    };
 
     return (
         <>
@@ -328,17 +342,27 @@ export default function Builder({page = {}, onSubmit, pages, loading, images, se
                         mode={mode}
                     />
                 </DragDropContext>
-                <TransitionablePortal
+                <Portal
                     open={portal.open}
                     onClose={handleClosePortal}
-                    transition={{ animation: 'fly down', duration: 500 }}
+                    transition={{
+                        animation: 'fly_down', duration: 500,
+                    }}
+                    top={portal.y}
+                    left={portal.x}
                 >
-                    <Segment className={styles.builder__pallet_container} style={{top: `${portal.y}px`, left: `${portal.x}px`}}>
-                        <div className={styles.builder__pallet}>
-                            {components.map(item => <Component tag={item.tag} label={item.label} color={item.color} key={item.type} onClick={() => addComponentFromPortal(item)}/>)}
-                        </div>
-                    </Segment>
-                </TransitionablePortal>
+                    <Portal.Pallet>
+                        {components.map((item) => (
+                            <Component
+                                tag={item.tag}
+                                label={item.label}
+                                color={item.color}
+                                key={item.type}
+                                onClick={() => addComponentFromPortal(item)}
+                            />
+                        ))}
+                    </Portal.Pallet>
+                </Portal>
             </div>
         </>
     );
