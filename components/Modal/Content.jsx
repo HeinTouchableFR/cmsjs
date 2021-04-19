@@ -18,5 +18,6 @@ Content.propTypes = {
         }),
         PropTypes.arrayOf(PropTypes.shape({
         })),
+        PropTypes.string,
     ]).isRequired,
 };

@@ -64,7 +64,7 @@ Modal.propTypes = {
     onOpen: PropTypes.func,
     onClose: PropTypes.func,
     trigger: PropTypes.shape({
-    }).isRequired,
+    }),
 };
 
 Modal.defaultProps = {
@@ -73,4 +73,5 @@ Modal.defaultProps = {
     },
     onClose: () => {
     },
+    trigger: null,
 };
