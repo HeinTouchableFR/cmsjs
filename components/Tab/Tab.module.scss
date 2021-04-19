@@ -1,0 +1,63 @@
+.ui {
+  display: flex;
+  font-size: 0.9rem;
+  font-family: 'Poppins' ,sans-serif;
+  font-weight: 400;
+  border-bottom: 2px solid var(--admin-border);
+  height: 3em;
+
+  .item {
+    display: flex;
+    align-items: center;
+    position: relative;
+    vertical-align: middle;
+    line-height: 1;
+    text-decoration: none;
+    flex: 0 0 auto;
+    user-select: none;
+    background: 0 0;
+    padding: 1em 1.15em;
+    text-transform: none;
+    color: var(--admin-color);
+    font-weight: 400;
+    transition: background .1s ease,box-shadow .1s ease,color .1s ease;
+    cursor: pointer;
+    outline: none;
+    border-bottom: solid 2px var(--admin-border);
+    margin: 0 0 -2px;
+
+    &.active {
+      font-weight: 700;
+      border-bottom-color: var(--admin-color);
+    }
+
+
+  }
+}
+
+.tab {
+  display: block;
+  position: relative;
+  color: var(--admin-color);
+  padding: 1em 1em;
+  max-height: 100vh;
+  overflow-y: scroll;
+
+  &::-webkit-scrollbar-track
+  {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    border-radius: 10px;
+  }
+
+  &::-webkit-scrollbar
+  {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-thumb
+  {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+    background-color: #555;
+  }
+}

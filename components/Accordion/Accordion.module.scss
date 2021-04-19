@@ -1,5 +1,5 @@
 .accordion {
-  background-color: #fff;
+  background-color: var(--admin-header);
   cursor: pointer;
   width: 100%;
   text-align: left;
@@ -10,7 +10,9 @@
 }
 
 .accordion__title{
-  color: #000;
+  width: 100%;
+  text-align: left;
+  color: var(--admin-color);
   font-weight: bold;
   padding: 10px 10px;
   display: grid;
@@ -33,12 +35,12 @@
 }
 
 .accordion__title.active{
-  border-bottom: 1px solid #e6e9ec;
+  border-bottom: 1px solid var(--admin-border);
 }
 
 .accordion__content {
   padding: 20px 5px;
-  background-color: white;
+  background-color: var(--admin-header);
   display: none;
 }
 

@@ -6,16 +6,14 @@ import slugify from 'react-slugify';
 import {
     Droppable, Draggable,
 } from 'react-beautiful-dnd';
-import {
-   Tab,
-} from 'semantic-ui-react';
-
 import Component from 'components/ComponentCollection/Component';
 import ComponentDispatcher from 'components/ComponentCollection/ComponentDispatcher';
 import Input from 'components/Form/Input/Input';
 import Dropdown from 'components/Form/Dropdown/Dropdown';
-import styles from './Navigation.module.scss';
 import Button from 'components/Button/Button';
+import styles from './Navigation.module.scss';
+import Tab from '../../components/Tab/Tab';
+import DarkModeButton from '../../components/Button/DarkModeButton/DarkModeButton';
 
 export default function Navigation({components, currentItem, onElementValueChange, setCurrentElement, page, onSubmit, pages = [], loading, hide, device, setDevice, hideMenu, images, setImages, mode}) {
     const intl = useIntl();
@@ -27,9 +25,9 @@ export default function Navigation({components, currentItem, onElementValueChang
     });
 
     const [activeIndex, setActiveIndex] = useState(0);
-    const handleTabChange = (_e, {activeIndex}) => {
+    const handleTabChange = (index) => {
         setCurrentElement({});
-        setActiveIndex(activeIndex);
+        setActiveIndex(index);
     };
 
     useEffect(() => {
@@ -41,14 +39,14 @@ export default function Navigation({components, currentItem, onElementValueChang
         },
         [currentItem]);
 
-    const handleSubmit = function (e) {
+    const handleSubmit = (e) => {
         e.preventDefault();
         onSubmit(form);
     };
 
     const pagesOptions = [];
 
-    const recursivePagesOptions = function (page, tiret = '', parent) {
+    const recursivePagesOptions = (page, tiret = '', parent) => {
         if (parent) {
             tiret += ' — ';
         }
@@ -125,17 +123,16 @@ export default function Navigation({components, currentItem, onElementValueChang
     ];
 
     const handleDeviceChange = (e, data) => {
-        console.log(data)
         setDevice(data.value);
     };
 
     const panes = [
         {
-            menuItem: intl.formatMessage({
+            label: intl.formatMessage({
                 id: 'settings', defaultMessage: 'Settings',
             }),
             render: () => (
-                <Tab.Pane attached>
+                <Tab.Pane>
                     {mode === 'page' ? (
                             <>
                                 <Input
@@ -182,11 +179,11 @@ export default function Navigation({components, currentItem, onElementValueChang
             ),
         },
         {
-            menuItem: intl.formatMessage({
+            label: intl.formatMessage({
                 id: 'component', defaultMessage: 'Component',
             }),
             render: () => (
-                <Tab.Pane attached>
+                <Tab.Pane>
                     <Droppable
                         droppableId='components'
                         renderClone={getRenderItem(components)}
@@ -242,14 +239,14 @@ export default function Navigation({components, currentItem, onElementValueChang
             ),
         },
         currentItem.type && {
-            menuItem: `${intl.formatMessage({
+            label: `${intl.formatMessage({
                 id: 'edit',
                 defaultMessage: 'Edit',
             })} ${intl.formatMessage({
                 id: currentItem.type,
             })}`,
             render: () => (
-                <Tab.Pane attached>
+                <Tab.Pane>
                     <ComponentDispatcher
                         element={currentItem}
                         mode='editor'
@@ -273,6 +270,7 @@ export default function Navigation({components, currentItem, onElementValueChang
                         onTabChange={handleTabChange}
                     />
                     <div className={styles.navigation__bottom_menu}>
+                        <DarkModeButton />
                         <Button
                             label={page.content
                                 ? intl.formatMessage({

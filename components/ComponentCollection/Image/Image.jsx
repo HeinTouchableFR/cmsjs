@@ -6,7 +6,6 @@ import { useIntl } from 'react-intl';
 // Style
 // Components
 import FileManager from 'components/FileManager/FileManager';
-import { Tab } from 'semantic-ui-react';
 import { alignmentsOptions } from 'variables/options';
 import Accordion from 'components/Accordion/Accordion';
 import Input from 'components/Form/Input/Input';
@@ -19,6 +18,7 @@ import {
     changeOpacity,
     changeImage,
 } from 'variables/functions';
+import Tab from 'components/Tab/Tab';
 import Advanced from '../Ui/Advanced';
 import Background from '../Ui/Background';
 import Border from '../Ui/Border';
@@ -57,11 +57,11 @@ export default function Image({ element, device, onElementValueChange, images, s
 
     const opacityPanes = [
         {
-            menuItem: intl.formatMessage({
+            label: intl.formatMessage({
                 id: 'builder.normal', defaultMessage: 'Normal',
             }),
             render: () => (
-                <div className='accordion__pane'>
+                <Tab.Pane>
                     <Input
                         type='number'
                         label={intl.formatMessage({
@@ -74,15 +74,15 @@ export default function Image({ element, device, onElementValueChange, images, s
                         onChange={(e, data) => handleChangeOpacity(e, data, 'opacity', 'normal')}
                         value={item.content[device].image.opacity.normal}
                     />
-                </div>
+                </Tab.Pane>
             ),
         },
         {
-            menuItem: intl.formatMessage({
+            label: intl.formatMessage({
                 id: 'builder.hover', defaultMessage: 'Hover',
             }),
             render: () => (
-                <div className='accordion__pane'>
+                <Tab.Pane>
                     <Input
                         type='number'
                         label={intl.formatMessage({
@@ -95,7 +95,7 @@ export default function Image({ element, device, onElementValueChange, images, s
                         onChange={(e, data) => handleChangeOpacity(e, data, 'opacity', 'hover')}
                         value={item.content[device].image.opacity.hover}
                     />
-                </div>
+                </Tab.Pane>
             ),
         },
     ];
@@ -237,9 +237,6 @@ export default function Image({ element, device, onElementValueChange, images, s
                     </div>
                 </div>
                 <Tab
-                    menu={{
-                        secondary: true, pointing: true,
-                    }}
                     panes={opacityPanes}
                 />
                 <Dropdown

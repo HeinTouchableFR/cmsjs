@@ -1,8 +1,8 @@
 import React from 'react';
 import ColorPicker from 'components/ColorPicker/ColorPicker';
 import Accordion from 'components/Accordion/Accordion';
-import { borderOptions } from 'variables/options';
-import { useIntl } from 'react-intl';
+import {borderOptions} from 'variables/options';
+import {useIntl} from 'react-intl';
 import Input from 'components/Form/Input/Input';
 import Dropdown from 'components/Form/Dropdown/Dropdown';
 import PropTypes from 'prop-types';
@@ -12,9 +12,9 @@ import {
     changeBorderType,
     changeBorderColor,
 } from 'variables/functions';
-import { Tab } from 'semantic-ui-react';
+import Tab from 'components/Tab/Tab';
 
-export default function Border({ item, device, setItem, onChange }) {
+export default function Border({item, device, setItem, onChange}) {
     const intl = useIntl();
 
     const handleChangeBorder = (_e, data, key, mode) => {
@@ -35,12 +35,12 @@ export default function Border({ item, device, setItem, onChange }) {
 
     const borderPanes = [
         {
-            menuItem: intl.formatMessage({
+            label: intl.formatMessage({
                 id: 'builder.normal',
                 defaultMessage: 'Normal',
             }),
             render: () => (
-                <div className='accordion__pane'>
+                <Tab.Pane>
                     <Dropdown
                         name='type'
                         value={item.content[device].styles.border.normal.type}
@@ -217,16 +217,16 @@ export default function Border({ item, device, setItem, onChange }) {
                             />
                         </div>
                     </div>
-                </div>
+                </Tab.Pane>
             ),
         },
         {
-            menuItem: intl.formatMessage({
+            label: intl.formatMessage({
                 id: 'builder.hover',
                 defaultMessage: 'Hover',
             }),
             render: () => (
-                <div className='accordion__pane'>
+                <Tab.Pane>
                     <Dropdown
                         name='type'
                         value={item.content[device].styles.border.hover.type}
@@ -403,7 +403,7 @@ export default function Border({ item, device, setItem, onChange }) {
                             />
                         </div>
                     </div>
-                </div>
+                </Tab.Pane>
             ),
         },
     ];
@@ -418,10 +418,6 @@ export default function Border({ item, device, setItem, onChange }) {
                 })}
             >
                 <Tab
-                    menu={{
-                        secondary: true,
-                        pointing: true,
-                    }}
                     panes={borderPanes}
                 />
             </Accordion>
@@ -431,8 +427,7 @@ export default function Border({ item, device, setItem, onChange }) {
 
 Border.propTypes = {
     item: PropTypes.shape({
-        content: PropTypes.shape({
-        }).isRequired,
+        content: PropTypes.shape({}).isRequired,
     }).isRequired,
     device: PropTypes.string.isRequired,
     setItem: PropTypes.func.isRequired,

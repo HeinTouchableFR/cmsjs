@@ -4,7 +4,7 @@ import Accordion from 'components/Accordion/Accordion';
 import { useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 import { colorChange } from 'variables/functions';
-import { Tab } from 'semantic-ui-react';
+import Tab from 'components/Tab/Tab';
 
 export default function Background({ item, device, setItem, onChange }) {
     const intl = useIntl();
@@ -15,31 +15,31 @@ export default function Background({ item, device, setItem, onChange }) {
 
     const backgroundPanes = [
         {
-            menuItem: intl.formatMessage({
+            label: intl.formatMessage({
                 id: 'builder.normal',
                 defaultMessage: 'Normal',
             }),
             render: () => (
-                <div className='accordion__pane'>
+                <Tab.Pane>
                     <ColorPicker
                         defaultColor={item.content[device].styles.background.normal}
                         onColorChange={(color) => handleColorChange(color, 'background', 'normal', 'styles')}
                     />
-                </div>
+                </Tab.Pane>
             ),
         },
         {
-            menuItem: intl.formatMessage({
+            label: intl.formatMessage({
                 id: 'builder.hover',
                 defaultMessage: 'Hover',
             }),
             render: () => (
-                <div className='accordion__pane'>
+                <Tab.Pane>
                     <ColorPicker
                         defaultColor={item.content[device].styles.background.hover}
                         onColorChange={(color) => handleColorChange(color, 'background', 'hover', 'styles')}
                     />
-                </div>
+                </Tab.Pane>
             ),
         },
     ];
@@ -54,10 +54,6 @@ export default function Background({ item, device, setItem, onChange }) {
                 })}
             >
                 <Tab
-                    menu={{
-                        secondary: true,
-                        pointing: true,
-                    }}
                     panes={backgroundPanes}
                 />
             </Accordion>
