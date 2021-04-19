@@ -3,7 +3,7 @@ import React, {
 } from 'react';
 import styles from 'container/Layout/Layout.module.scss';
 import ComponentDispatcher from 'components/ComponentCollection/ComponentDispatcher';
-import { Loader } from 'semantic-ui-react';
+import Loader from 'components/Loader/Loader';
 
 export default function RenderPage({ page, showRender = false }) {
     const [content, setContent] = useState(page.content ? JSON.parse(page.content) : {
@@ -41,7 +41,7 @@ export default function RenderPage({ page, showRender = false }) {
                         </div>
                     </div>
                 ))
-                : <Loader active />}
+                : <Loader />}
         </>
     );
 }

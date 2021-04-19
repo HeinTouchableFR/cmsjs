@@ -2,8 +2,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import styles from './Button.module.scss';
+import Loader from '../Loader/Loader';
 
-export default function Button({ label, onClick, icon, type }) {
+export default function Button({ label, onClick, icon, type, loading }) {
     return (
         <>
             <button
@@ -11,9 +12,16 @@ export default function Button({ label, onClick, icon, type }) {
                 className={styles.button}
                 /* eslint-disable-next-line react/button-has-type */
                 type={type}
+                disabled={loading}
             >
-                {label}
-                {icon && <span className={icon} />}
+                {loading
+                    ? <Loader size='small' />
+                    : (
+                        <>
+                            {label}
+                            {icon && <span className={icon} />}
+                        </>
+                  )}
             </button>
         </>
     );
@@ -22,6 +30,7 @@ export default function Button({ label, onClick, icon, type }) {
 Button.propTypes = {
     onClick: PropTypes.func,
     icon: PropTypes.string,
+    loading: PropTypes.bool,
     label: PropTypes.string.isRequired,
     type: PropTypes.oneOf(['submit', 'button', 'reset']),
 };
@@ -29,5 +38,6 @@ Button.propTypes = {
 Button.defaultProps = {
     onClick: null,
     icon: '',
+    loading: false,
     type: 'button',
 };
