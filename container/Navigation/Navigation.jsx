@@ -126,6 +126,19 @@ export default function Navigation({components, currentItem, onElementValueChang
         setDevice(data.value);
     };
 
+    const getStyle = (style, snapshot) => {
+        if (!snapshot.isDragging) return {};
+        if (!snapshot.isDropAnimating) {
+            return style;
+        }
+
+        return {
+            ...style,
+            // cannot be 0, but make it super tiny
+            transitionDuration: `0.001s`
+        };
+    }
+
     const panes = [
         {
             label: intl.formatMessage({
@@ -191,7 +204,7 @@ export default function Navigation({components, currentItem, onElementValueChang
                     >
                         {(provided, _snapshot) => (
                             <div
-                                className={`${'dropable' + ' '}${styles.navGrid}`}
+                                className={`dropable ${styles.navGrid}`}
                                 ref={provided.innerRef}
                             >
                                 {components.map((item, index) => {
@@ -213,11 +226,12 @@ export default function Navigation({components, currentItem, onElementValueChang
                                                     draggableId={item.type}
                                                     index={index}
                                                 >
-                                                    {(provided, _snapshot) => (
+                                                    {(provided, snapshot) => (
                                                         <div
                                                             ref={provided.innerRef}
                                                             {...provided.draggableProps}
                                                             {...provided.dragHandleProps}
+                                                            style={getStyle(provided.draggableProps.style, snapshot)}
                                                         >
                                                             <Component
                                                                 tag={item.tag}
