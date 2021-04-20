@@ -61,6 +61,7 @@ export default function Title({ element, onElementValueChange, device }) {
                     label={intl.formatMessage({
                         id: 'builder.htmlTag', defaultMessage: 'HTML Tag',
                     })}
+                    searchable
                 />
                 <Dropdown
                     name='alignment'
@@ -70,6 +71,7 @@ export default function Title({ element, onElementValueChange, device }) {
                     label={intl.formatMessage({
                         id: 'builder.alignment', defaultMessage: 'Alignment',
                     })}
+                    searchable
                 />
             </Accordion>
             <Typography

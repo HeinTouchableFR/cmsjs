@@ -66,12 +66,16 @@
 }
 
 .navigation__bottom_menu{
-  padding: 5px;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: auto 130px 130px;
+  grid-gap: 5px;
   height: 45px;
+  margin-left: 10px;
+  margin-right: 10px;
 
-  & button{
+  & button, & div{
     z-index: 100;
+    margin-top: auto;
+    margin-bottom: auto;
   }
 }

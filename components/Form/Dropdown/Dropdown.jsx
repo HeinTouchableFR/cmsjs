@@ -9,12 +9,14 @@ import Tooltip from '../Tooltip/Tooltip';
 
 export default function Dropdown({ name,
     label,
+    position,
     options,
     multiple,
     defaultValue,
     iconTip,
     tip,
-    onChange }) {
+    onChange,
+    searchable }) {
     const wrapperRef = useRef(null);
     const inputRef = useRef(null);
     const [isExpend, setIsExpend] = useState(false);
@@ -67,19 +69,27 @@ export default function Dropdown({ name,
         setIsExpend(false);
     };
 
+    const handleFocus = () => {
+        if (searchable) {
+            inputRef.current.focus();
+        }
+    };
+
     return (
         <>
             <div className={styles.field}>
-                <label htmlFor={name}>
-                    {label}
-                    {' '}
-                    {tip && (
-                        <Tooltip
-                            tip={tip}
-                            iconTip={iconTip}
-                        />
-                    )}
-                </label>
+                {label && (
+                    <label htmlFor={name}>
+                        {label}
+                        {' '}
+                        {tip && (
+                            <Tooltip
+                                tip={tip}
+                                iconTip={iconTip}
+                            />
+                        )}
+                    </label>
+                )}
                 <div
                     ref={wrapperRef}
                     role='listbox'
@@ -89,12 +99,8 @@ export default function Dropdown({ name,
                         isExpend && styles.active
                     } ${isExpend && styles.visible} ${multiple ? styles.multiple : ''}`}
                     onFocus={handleExpend}
-                    onClick={() => {
-                        inputRef.current.focus();
-                    }}
-                    onKeyDown={() => {
-                        inputRef.current.focus();
-                    }}
+                    onClick={() => handleFocus()}
+                    onKeyDown={() => handleFocus()}
                 >
                     {multiple
                     && options.map((option) => value.includes(option.value) && (
@@ -105,12 +111,14 @@ export default function Dropdown({ name,
                             setValue={setValue}
                         />
                     ))}
-                    <input
-                        ref={inputRef}
-                        type='text'
-                        value={search}
-                        onChange={(e) => setSearch(e.target.value)}
-                    />
+                    {searchable && (
+                        <input
+                            ref={inputRef}
+                            type='text'
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
+                        />
+                    )}
                     {!multiple && value && search === '' && (
                         <div className={`${styles.divider} ${styles.text}`}>
                             {options.map((option) => option.value === value && option.text)}
@@ -121,6 +129,7 @@ export default function Dropdown({ name,
                             className={`las la-caret-down ${styles.dropdown} ${styles.icon}`}
                         />
                     ) : (
+                        // eslint-disable-next-line jsx-a11y/control-has-associated-label
                         <i
                             className={`las la-times-circle ${styles.dropdown} ${styles.icon}`}
                             onClick={handleResetValue}
@@ -130,7 +139,7 @@ export default function Dropdown({ name,
                         />
                     )}
                     <div
-                        className={`${isExpend && styles.visible} ${styles.menu}`}
+                        className={`${isExpend && styles.visible} ${styles.menu} ${styles[position]}`}
                     >
                         {filteredOptions.map((option) => (
                             <Option
@@ -154,7 +163,9 @@ Dropdown.propTypes = {
     onChange: PropTypes.func.isRequired,
     name: PropTypes.string,
     label: PropTypes.string,
+    position: PropTypes.oneOf(['up', 'down']),
     multiple: PropTypes.bool,
+    searchable: PropTypes.bool,
     defaultValue: PropTypes.string,
     tip: PropTypes.string,
     iconTip: PropTypes.string,
@@ -163,7 +174,9 @@ Dropdown.propTypes = {
 Dropdown.defaultProps = {
     name: '',
     label: '',
+    position: 'down',
     multiple: false,
+    searchable: false,
     defaultValue: '',
     tip: '',
     iconTip: 'la-question-circle',

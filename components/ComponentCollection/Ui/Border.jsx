@@ -50,6 +50,7 @@ export default function Border({item, device, setItem, onChange}) {
                             id: 'builder.border.type',
                             defaultMessage: 'Border type',
                         })}
+                        searchable
                     />
                     <div className='field'>
                         <div>
@@ -236,6 +237,7 @@ export default function Border({item, device, setItem, onChange}) {
                             id: 'builder.border.type',
                             defaultMessage: 'Border type',
                         })}
+                        searchable
                     />
                     <div className='field'>
                         <div>

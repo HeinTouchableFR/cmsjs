@@ -247,6 +247,7 @@ export default function Image({ element, device, onElementValueChange, images, s
                     label={intl.formatMessage({
                         id: 'builder.alignment', defaultMessage: 'Alignment',
                     })}
+                    searchable
                 />
             </Accordion>
             <Advanced

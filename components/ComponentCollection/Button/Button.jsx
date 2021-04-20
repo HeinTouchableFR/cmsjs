@@ -87,6 +87,7 @@ export default function Button({ element, onElementValueChange, device }) {
                     value={item.content.alignment}
                     options={alignmentsOptions}
                     onChange={handleChange}
+                    searchable
                 />
                 <div className='form__inline_item'>
                     <div className='field'>

@@ -155,6 +155,7 @@ export default function Modifier({item, categories}) {
                                 defaultValue={item.parentCategory}
                                 name='parentCategory'
                                 onChange={handleChange}
+                                searchable
                             />
                             <Button
                                 label={intl.formatMessage({

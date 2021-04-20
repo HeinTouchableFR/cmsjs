@@ -190,6 +190,7 @@ export default function Navigation({ components, currentItem, onElementValueChan
                                 defaultValue={form.parentPage}
                                 onChange={handleChange}
                                 name='parentPage'
+                                searchable
                             />
                         </>
                         )
@@ -374,6 +375,7 @@ export default function Navigation({ components, currentItem, onElementValueChan
                             defaultValue={device}
                             options={deviceOptions}
                             onChange={handleDeviceChange}
+                            position='up'
                         />
                     </div>
                 </div>

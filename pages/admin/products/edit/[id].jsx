@@ -321,6 +321,7 @@ export default function Modifier({item, categories, attributes, images}) {
                                 name='categories'
                                 onChange={handleChange}
                                 defaultValue={form.categories}
+                                searchable
                             />
                             <div className='field'>
                                 <label>
@@ -344,6 +345,7 @@ export default function Modifier({item, categories, attributes, images}) {
                                     options={attributesOptions}
                                     name='attributes'
                                     onChange={handleAddAttribute}
+                                    searchable
                                 />
                             </div>
                             <Button
@@ -406,6 +408,7 @@ const Attribute = ({attribute, setForm, form, attributes}) => {
                         name='values'
                         onChange={handleChange}
                         defaultValue={attribute.values}
+                        searchable
                     />
                     <Checkbox
                         label={intl.formatMessage({

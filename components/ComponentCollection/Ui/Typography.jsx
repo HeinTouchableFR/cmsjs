@@ -137,6 +137,7 @@ export default function Typography({ item, device, setItem, onChange }) {
                             id: 'builder.font.family',
                             defaultMessage: 'Font family',
                         })}
+                        searchable
                     />
                     <Dropdown
                         name='weight'
@@ -147,6 +148,7 @@ export default function Typography({ item, device, setItem, onChange }) {
                             id: 'builder.font.weight',
                             defaultMessage: 'Font weight',
                         })}
+                        searchable
                     />
                 </div>
                 <div className='form__inline_item'>
@@ -159,6 +161,7 @@ export default function Typography({ item, device, setItem, onChange }) {
                             id: 'builder.transform',
                             defaultMessage: 'Transform',
                         })}
+                        searchable
                     />
                     <Dropdown
                         name='style'
@@ -169,6 +172,7 @@ export default function Typography({ item, device, setItem, onChange }) {
                             id: 'builder.style',
                             defaultMessage: 'Style',
                         })}
+                        searchable
                     />
                     <Dropdown
                         name='decoration'
@@ -180,6 +184,7 @@ export default function Typography({ item, device, setItem, onChange }) {
                             id: 'builder.decoration',
                             defaultMessage: 'Decoration',
                         })}
+                        searchable
                     />
                 </div>
                 <div className='form__inline_item'>

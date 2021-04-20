@@ -312,6 +312,7 @@ export default function Add({categories, attributes, images}) {
                                     options={categoriesOptions}
                                     name='categories'
                                     onChange={handleChange}
+                                    searchable
                                 />
                             </div>
                             <div className='field'>
@@ -336,6 +337,7 @@ export default function Add({categories, attributes, images}) {
                                     options={attributesOptions}
                                     name='attributes'
                                     onChange={handleAddAttribute}
+                                    searchable
                                 />
                             </div>
                             <Button
@@ -398,6 +400,7 @@ const Attribute = ({attribute, setForm, form, attributes}) => {
                         name='values'
                         onChange={handleChange}
                         defaultValue={attribute.values}
+                        searchable
                     />
                     <Checkbox
                         label={intl.formatMessage({

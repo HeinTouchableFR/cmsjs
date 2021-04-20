@@ -223,6 +223,7 @@ export default function Index({ menus, pages }) {
                                         options={menuOptions}
                                         defaultValue={form.id}
                                         onChange={handleMenuChange}
+                                        searchable
                                     />
                                 </span>
                             </Grid.Column>
@@ -276,6 +277,7 @@ export default function Index({ menus, pages }) {
                                             options={pageOptions}
                                             onChange={handleChangeFormPage}
                                             defaultValue={formPage.page}
+                                            searchable
                                         />
                                         <Button
                                             label={intl.formatMessage({

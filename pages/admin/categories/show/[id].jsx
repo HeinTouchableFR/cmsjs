@@ -88,6 +88,7 @@ export default function Detail({item, categories}) {
                                 disabled
                                 defaultValue={item.parentCategory}
                                 name='parentCategory'
+                                searchable
                             />
                         </form>
                     </Card.Body>

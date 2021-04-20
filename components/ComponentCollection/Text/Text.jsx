@@ -72,6 +72,7 @@ export default function Text({ element, onElementValueChange, device }) {
                     label={intl.formatMessage({
                         id: 'builder.alignment', defaultMessage: 'Alignment',
                     })}
+                    searchable
                 />
             </Accordion>
             <Typography

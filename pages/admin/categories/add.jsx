@@ -147,6 +147,7 @@ export default function Add({categories}) {
                                 options={categoriesOptions}
                                 name='parentCategory'
                                 onChange={handleChange}
+                                searchable
                             />
                             <Button
                                 label={intl.formatMessage({

@@ -233,6 +233,7 @@ export default function Logo({ element, device, onElementValueChange }) {
                         id: 'builder.alignment',
                         defaultMessage: 'Alignment',
                     })}
+                    searchable
                 />
             </Accordion>
             <Advanced

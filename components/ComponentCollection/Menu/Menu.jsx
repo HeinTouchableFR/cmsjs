@@ -43,6 +43,7 @@ export default function Menu({ element, device, onElementValueChange }) {
                     label={intl.formatMessage({
                         id: 'builder.alignment', defaultMessage: 'Alignment',
                     })}
+                    searchable
                 />
             </Accordion>
             <Typography

@@ -214,6 +214,7 @@ export default function Detail({item, categories, attributes}) {
                                 name='categories'
                                 disabled
                                 defaultValue={item.categories}
+                                searchable
                             />
                             <div className='field'>
                                 <label>
@@ -264,6 +265,7 @@ const Attribute = ({attribute, attributes}) => {
                         name='values'
                         defaultValue={attribute.values}
                         disabled
+                        searchable
                     />
                     <Checkbox
                         label={intl.formatMessage({
