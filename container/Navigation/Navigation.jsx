@@ -352,31 +352,37 @@ export default function Navigation({ components, currentItem, onElementValueChan
         <>
             <form onSubmit={handleSubmit}>
                 <div className={`${styles.navigation} ${hide ? styles.hide : ''}`}>
-                    <Tab
-                        panes={panes}
-                        activeIndex={activeIndex}
-                        onTabChange={handleTabChange}
-                    />
-                    <div className={styles.navigation__bottom_menu}>
-                        <DarkModeButton />
-                        <Button
-                            label={page.content
-                                ? intl.formatMessage({
-                                    id: 'update', defaultMessage: 'Update',
-                                })
-                                : intl.formatMessage({
-                                    id: 'publish', defaultMessage: 'Publish',
-                                })}
-                            loading={loading}
-                            color='green'
-                            type='submit'
-                        />
-                        <Dropdown
-                            defaultValue={device}
-                            options={deviceOptions}
-                            onChange={handleDeviceChange}
-                            position='up'
-                        />
+                    <div className={styles.inner}>
+                        <main>
+                            <Tab
+                                panes={panes}
+                                activeIndex={activeIndex}
+                                onTabChange={handleTabChange}
+                            />
+                        </main>
+                        <footer>
+                            <div className={styles.navigation__bottom_menu}>
+                                <DarkModeButton />
+                                <Button
+                                    label={page.content
+                                        ? intl.formatMessage({
+                                            id: 'update', defaultMessage: 'Update',
+                                        })
+                                        : intl.formatMessage({
+                                            id: 'publish', defaultMessage: 'Publish',
+                                        })}
+                                    loading={loading}
+                                    color='green'
+                                    type='submit'
+                                />
+                                <Dropdown
+                                    defaultValue={device}
+                                    options={deviceOptions}
+                                    onChange={handleDeviceChange}
+                                    position='up'
+                                />
+                            </div>
+                        </footer>
                     </div>
                 </div>
             </form>

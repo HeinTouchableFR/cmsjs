@@ -5,7 +5,7 @@ import styles from 'components/Tab/Tab.module.scss';
 import PropTypes from 'prop-types';
 import Pane from './Pane';
 
-export default function Tab({ panes, activeIndex, onTabChange }) {
+export default function Tab({panes, activeIndex, onTabChange}) {
     const [tabIndex, setTabIndex] = useState(activeIndex || 0);
 
     const handleTabChange = (index) => {
@@ -21,8 +21,8 @@ export default function Tab({ panes, activeIndex, onTabChange }) {
 
     return (
         <>
-            <div>
-                <div className={styles.ui}>
+            <div className={styles.ui}>
+                <div className={styles.header}>
                     {panes && panes.map((item, index) => (item !== undefined
                         && (
                             <span
@@ -58,5 +58,6 @@ Tab.propTypes = {
 
 Tab.defaultProps = {
     activeIndex: 0,
-    onTabChange: () => {},
+    onTabChange: () => {
+    },
 };
