@@ -78,6 +78,9 @@ export default function Builder({ page = {
         return result;
     };
 
+    const rightComponents = components.filter((item, index) => index % 2 && item);
+    const leftComponents = components.filter((item, index) => !(index % 2) && item);
+
     /**
      *
      * @param result
@@ -99,7 +102,7 @@ export default function Builder({ page = {
             let result = [];
             const columnDestination = getcolumnListeById(destination.droppableId);
             if (source.droppableId === 'componentsLeft' || source.droppableId === 'componentsRight') {
-                result = move(components, columnDestination.elements, source, destination);
+                result = move(source.droppableId === 'componentsLeft' ? leftComponents : rightComponents, columnDestination.elements, source, destination);
             } else {
                 const columnSource = getcolumnListeById(source.droppableId);
                 result = move(columnSource.elements, columnDestination.elements, source, destination);
