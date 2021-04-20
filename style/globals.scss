@@ -3,15 +3,6 @@
 @import 'style/modules/animations';
 @import 'style/modules/menu';
 
-.container{
-    padding-top: 100px;
-}
-
-@media only screen and (max-width: 768px){
-    .container{
-        padding-top: 120px;
-    }
-}
 
 // Header Bar
 .header-bar {

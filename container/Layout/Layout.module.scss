@@ -271,6 +271,9 @@
 
 //Render
 .render {
+    &:first-child {
+        margin-top: 0;
+    }
     &.layout {
         border: none;
     }
