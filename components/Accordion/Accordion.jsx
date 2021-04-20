@@ -33,12 +33,19 @@ export default function Accordion({ title,
 Accordion.propTypes = {
     active: PropTypes.bool,
     border: PropTypes.bool,
-    title: PropTypes.string.isRequired,
+    title: PropTypes.oneOfType([
+        PropTypes.shape({
+        }),
+        PropTypes.arrayOf(PropTypes.shape({
+        })),
+        PropTypes.string,
+    ]).isRequired,
     children: PropTypes.oneOfType([
         PropTypes.shape({
         }),
         PropTypes.arrayOf(PropTypes.shape({
         })),
+        PropTypes.string,
     ]).isRequired,
 };
 

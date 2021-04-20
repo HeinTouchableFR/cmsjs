@@ -1,0 +1,86 @@
+.grid {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding: 0.5rem;
+  margin: -1rem;
+  justify-content: center;
+  align-items: center;
+
+  .column {
+    position: relative;
+    display: inline-block;
+    width: calc(100% / var(--i));
+    vertical-align: top;
+    padding: 1rem;
+    color: var(--admin-color);
+
+    &.one{
+      width: calc((100% * 1) / 16);
+    }
+    &.two{
+      width: calc((100% * 2) / 16);
+    }
+    &.three{
+      width: calc((100% * 3) / 16);
+    }
+    &.four{
+      width: calc((100% * 4) / 16);
+    }
+    &.five{
+      width: calc((100% * 5) / 16);
+    }
+    &.six{
+      width: calc((100% * 6) / 16);
+    }
+    &.seven{
+      width: calc((100% * 7) / 16);
+    }
+    &.eight{
+      width: calc((100% * 8) / 16);
+    }
+    &.nine{
+      width: calc((100% * 9) / 16);
+    }
+    &.ten{
+      width: calc((100% * 10) / 16);
+    }
+    &.eleven{
+      width: calc((100% * 11) / 16);
+    }
+    &.twelve{
+      width: calc((100% * 12) / 16);
+    }
+    &.thirteen{
+      width: calc((100% * 13) / 16);
+    }
+    &.fourteen{
+      width: calc((100% * 14) / 16);
+    }
+    &.fifteen{
+      width: calc((100% * 15) / 16);
+    }
+    &.sixteen{
+      width: calc((100% * 16) / 16);
+    }
+  }
+
+  @media only screen and (max-width: 768px) {
+    .column {
+      width: 100%;
+    }
+  }
+
+  .align_right {
+    text-align: right;
+  }
+
+  .align_center {
+    text-align: center;
+  }
+
+  .align_left {
+    text-align: left;
+  }
+}
+

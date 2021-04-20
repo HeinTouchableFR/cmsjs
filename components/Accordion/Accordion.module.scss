@@ -59,10 +59,10 @@
 }
 
 .border {
-  border: solid 1px #c4c4c4;
+  border: solid 1px var(--admin-border);
   border-radius: 5px;
   & .accordion__title{
-    background-color: #fafafa;
+    background-color: var(--admin-header);
     border-radius: 5px;
   }
 }

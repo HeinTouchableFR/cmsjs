@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
 import Head from 'next/head';
 import { auth } from 'utils/dbConnect';
-import {
-    Accordion, Divider, Form, Grid, Icon, Segment,
-} from 'semantic-ui-react';
 import MenuEditor from 'components/MenuEditor/MenuEditor';
 import { useIntl } from 'react-intl';
 import axios from 'axios';
@@ -13,8 +10,11 @@ import Card from 'components/Cards/Card/Card';
 import Button from 'components/Button/Button';
 import Input from 'components/Form/Input/Input';
 import Dropdown from 'components/Form/Dropdown/Dropdown';
+import Grid from 'container/Grid/Grid';
+import Accordion from 'components/Accordion/Accordion';
+import IconButton from 'components/Button/IconButton/IconButton';
 
-export default function Index({menus, pages}) {
+export default function Index({ menus, pages }) {
     const intl = useIntl();
 
     const [loading, setLoading] = useState(false);
@@ -22,14 +22,6 @@ export default function Index({menus, pages}) {
     const [menusList, setMenusList] = useState(menus);
 
     const [form, setForm] = useState(menusList[0]);
-
-    const [activeIndex, setActiveIndex] = useState(0);
-
-    const handleClick = (e, titleProps) => {
-        const {index} = titleProps;
-        const newIndex = activeIndex === index ? -1 : index;
-        setActiveIndex(newIndex);
-    };
 
     const onMenuChange = (items) => {
         setForm({
@@ -53,35 +45,62 @@ export default function Index({menus, pages}) {
         setLoading(false);
     };
 
+    const [formLink, setFormLink] = useState({
+        url: '',
+        label: '',
+    });
+
+    const handleChangeFormLink = (_e, data) => {
+        setFormLink({
+            ...formLink,
+            [data.name]: data.value ? data.value : null,
+        });
+    };
+
     const handleAddLink = (e) => {
         e.preventDefault();
-        const data = e.target;
         const item = {
             id: new Date().getTime().toString(),
-            label: data.label.value,
+            label: formLink.label,
             type: 'Custom Link',
-            slug: data.url.value,
+            slug: formLink.url,
             child: [],
         };
         const items = JSON.parse(form.items);
         items.push(item);
         onMenuChange(items);
+        setFormLink({
+            url: '',
+            label: '',
+        });
     };
 
     const findPageById = (id) => {
-        let p = {};
+        let p = {
+        };
         pages.map((page) => {
-            if (page.id === id) {
+            if (page._id === id) {
                 p = page;
             }
         });
         return p;
     };
 
+    const [formPage, setFormPage] = useState({
+        page: '',
+    });
+
+    const handleChangeFormPage = (_e, data) => {
+        setFormPage({
+            ...formPage,
+            [data.name]: data.value ? data.value : null,
+        });
+    };
+
     const handleAddPage = (e) => {
         e.preventDefault();
-        if (e.target.pages.value) {
-            const page = findPageById(e.target.pages.value);
+        if (formPage.page) {
+            const page = findPageById(formPage.page);
             const item = {
                 id: new Date().getTime().toString(),
                 label: page.title,
@@ -94,6 +113,9 @@ export default function Index({menus, pages}) {
             onMenuChange(items);
         }
         e.target.reset();
+        setFormPage({
+            page: '',
+        });
     };
 
     const handleMenuChange = (e, data) => {
@@ -102,7 +124,7 @@ export default function Index({menus, pages}) {
 
     const pageOptions = [];
     pages.map((page) => pageOptions.push({
-        key: page._id, text: page.title, value: page.id,
+        key: page._id, text: page.title, value: page._id,
     }));
 
     const menuOptions = [];
@@ -110,11 +132,22 @@ export default function Index({menus, pages}) {
         key: menu.id, text: menu.name, value: menu.id,
     }));
 
+    const [formCreateMenu, setFormCreateMenu] = useState({
+        name: '',
+    });
+
+    const handleChangeFormCreateMenu = (_e, data) => {
+        setFormCreateMenu({
+            ...formCreateMenu,
+            [data.name]: data.value ? data.value : null,
+        });
+    };
+
     const handleCreateMenu = async (e) => {
         e.preventDefault();
         setLoading(true);
         const menu = {
-            name: e.target.name.value,
+            name: formCreateMenu.name,
             items: '[]',
         };
         const res = await fetch('/api/menus', {
@@ -132,6 +165,9 @@ export default function Index({menus, pages}) {
         setForm(list[list.length - 1]);
         setLoading(false);
         e.target.reset();
+        setFormCreateMenu({
+            name: '',
+        });
     };
 
     const handleDeleteMenu = async () => {
@@ -174,193 +210,142 @@ export default function Index({menus, pages}) {
                     <Card
                         color='pink'
                     >
-                        <Segment>
-                            <Grid
-                                columns={2}
-                                relaxed='very'
-                                verticalAlign='middle'
-                            >
-                                <Grid.Column>
-                                    <span>
-                                        {intl.formatMessage({
-                                            id: 'menu.edit', defaultMessage: 'Menu to edit',
-                                        })}
-                                        {' '}
-                                        {' '}
-                                        <Dropdown
-                                            options={menuOptions}
-                                            defaultValue={form.id}
-                                            onChange={handleMenuChange}
-                                        />
-                                    </span>
-                                </Grid.Column>
-                                <Grid.Column>
-                                    <Form onSubmit={handleCreateMenu}>
-                                        <Grid columns={2}>
-                                            <Grid.Column>
-                                                <Input
-                                                    name='name'
-                                                    label={intl.formatMessage({
-                                                        id: 'name',
-                                                        defaultMessage: 'Name',
-                                                    })}
-                                                    placeholder={intl.formatMessage({
-                                                        id: 'name',
-                                                        defaultMessage: 'Names',
-                                                    })}
-                                                    required
-                                                />
-                                            </Grid.Column>
-                                            <Grid.Column textAlign='right'>
-                                                <Form.Button
-                                                    secondary
-                                                    loading={loading}
-                                                >
-                                                    {intl.formatMessage({
-                                                        id: 'menu.create',
-                                                        defaultMessage: 'Create menu',
-                                                    })}
-                                                </Form.Button>
-                                            </Grid.Column>
-                                        </Grid>
-                                    </Form>
-                                </Grid.Column>
-                            </Grid>
-
-                            <Divider vertical>
-                                {intl.formatMessage({
-                                    id: 'or', defaultMessage: 'OR',
-                                })}
-                            </Divider>
-                        </Segment>
+                        <Grid
+                            columns={2}
+                        >
+                            <Grid.Column>
+                                <span>
+                                    {intl.formatMessage({
+                                        id: 'menu.edit', defaultMessage: 'Menu to edit',
+                                    })}
+                                    {' '}
+                                    <Dropdown
+                                        options={menuOptions}
+                                        defaultValue={form.id}
+                                        onChange={handleMenuChange}
+                                    />
+                                </span>
+                            </Grid.Column>
+                            <Grid.Column>
+                                <form onSubmit={handleCreateMenu}>
+                                    <Grid columns={2}>
+                                        <Grid.Column>
+                                            <Input
+                                                name='name'
+                                                label={intl.formatMessage({
+                                                    id: 'name',
+                                                    defaultMessage: 'Name',
+                                                })}
+                                                placeholder={intl.formatMessage({
+                                                    id: 'name',
+                                                    defaultMessage: 'Names',
+                                                })}
+                                                required
+                                                onChange={handleChangeFormCreateMenu}
+                                            />
+                                        </Grid.Column>
+                                        <Grid.Column align='right'>
+                                            <Button
+                                                label={intl.formatMessage({
+                                                    id: 'menu.create',
+                                                    defaultMessage: 'Create menu',
+                                                })}
+                                                loading={loading}
+                                                type='submit'
+                                            />
+                                        </Grid.Column>
+                                    </Grid>
+                                </form>
+                            </Grid.Column>
+                        </Grid>
                     </Card>
                     <Grid columns={2}>
-                        <Grid.Column width={3}>
+                        <Grid.Column width='three'>
                             <Card
                                 color='olive'
                             >
                                 <Accordion
-                                    fluid
-                                    styled
+                                    title={intl.formatMessage({
+                                        id: 'pages', defaultMessage: 'Pages',
+                                    })}
+                                    active
                                 >
-                                    <Accordion.Title
-                                        active={activeIndex === 0}
-                                        index={0}
-                                        onClick={handleClick}
-                                    >
-                                        <Icon name='dropdown'/>
-                                        {intl.formatMessage({
-                                            id: 'pages', defaultMessage: 'Pages',
-                                        })}
-                                    </Accordion.Title>
-                                    <Accordion.Content active={activeIndex === 0}>
-                                        <Form onSubmit={handleAddPage}>
-                                            <Form.Field
-                                                label='Page'
-                                                control='select'
-                                                name='pages'
-                                            >
-                                                <option value=''/>
-                                                {pageOptions.map((option) => (
-                                                    <option
-                                                        key={option.key}
-                                                        value={option.value}
-                                                    >
-                                                        {option.text}
-                                                    </option>
-                                                ))}
-                                            </Form.Field>
-                                            <Form.Button
-                                                fluid
-                                                secondary
-                                                type='submit'
-                                            >
-                                                {intl.formatMessage({
-                                                    id: 'menu.add',
-                                                    defaultMessage: 'Add to menu',
-                                                })}
-                                            </Form.Button>
-                                        </Form>
-
-                                    </Accordion.Content>
-                                    <Accordion.Title
-                                        active={activeIndex === 1}
-                                        index={1}
-                                        onClick={handleClick}
-                                    >
-                                        <Icon name='dropdown'/>
-                                        {intl.formatMessage({
-                                            id: 'articles', defaultMessage: 'Articles',
-                                        })}
-                                    </Accordion.Title>
-                                    <Accordion.Content active={activeIndex === 1}/>
-                                    <Accordion.Title
-                                        active={activeIndex === 2}
-                                        index={2}
-                                        onClick={handleClick}
-                                    >
-                                        <Icon name='dropdown'/>
-                                        {intl.formatMessage({
-                                            id: 'categories', defaultMessage: 'Categories',
-                                        })}
-                                    </Accordion.Title>
-                                    <Accordion.Content active={activeIndex === 2}/>
-                                    <Accordion.Title
-                                        active={activeIndex === 3}
-                                        index={3}
-                                        onClick={handleClick}
-                                    >
-                                        <Icon name='dropdown'/>
-                                        {intl.formatMessage({
-                                            id: 'products', defaultMessage: 'Products',
-                                        })}
-                                    </Accordion.Title>
-                                    <Accordion.Content active={activeIndex === 3}/>
-                                    <Accordion.Title
-                                        active={activeIndex === 4}
-                                        index={4}
-                                        onClick={handleClick}
-                                    >
-                                        <Icon name='dropdown'/>
-                                        {intl.formatMessage({
-                                            id: 'menu.custom.link', defaultMessage: 'Custom link',
-                                        })}
-                                    </Accordion.Title>
-                                    <Accordion.Content active={activeIndex === 4}>
-                                        <Form onSubmit={handleAddLink}>
-                                            <Input
-                                                label={intl.formatMessage({
-                                                    id: 'url', defaultMessage: 'URL',
-                                                })}
-                                                placeholder='https://'
-                                                name='url'
-                                                required
-                                            />
-                                            <Input
-                                                label={intl.formatMessage({
-                                                    id: 'navigation.label',
-                                                    defaultMessage: 'Navigation label',
-                                                })}
-                                                name='label'
-                                                required
-                                            />
-                                            <Form.Button
-                                                fluid
-                                                secondary
-                                                type='submit'
-                                            >
-                                                {intl.formatMessage({
-                                                    id: 'menu.add',
-                                                    defaultMessage: 'Add to menu',
-                                                })}
-                                            </Form.Button>
-                                        </Form>
-                                    </Accordion.Content>
+                                    <form onSubmit={handleAddPage}>
+                                        <Dropdown
+                                            name='page'
+                                            options={pageOptions}
+                                            onChange={handleChangeFormPage}
+                                            defaultValue={formPage.page}
+                                        />
+                                        <Button
+                                            label={intl.formatMessage({
+                                                id: 'menu.add',
+                                                defaultMessage: 'Add to menu',
+                                            })}
+                                            type='submit'
+                                            loading={formPage.page === ''}
+                                        />
+                                    </form>
+                                </Accordion>
+                                <Accordion
+                                    title={intl.formatMessage({
+                                        id: 'articles', defaultMessage: 'Articles',
+                                    })}
+                                >
+                                    TODO
+                                </Accordion>
+                                <Accordion
+                                    title={intl.formatMessage({
+                                        id: 'categories', defaultMessage: 'Categories',
+                                    })}
+                                >
+                                    TODO
+                                </Accordion>
+                                <Accordion
+                                    title={intl.formatMessage({
+                                        id: 'products', defaultMessage: 'Products',
+                                    })}
+                                >
+                                    TODO
+                                </Accordion>
+                                <Accordion
+                                    title={intl.formatMessage({
+                                        id: 'menu.custom.link', defaultMessage: 'Custom link',
+                                    })}
+                                >
+                                    <form onSubmit={handleAddLink}>
+                                        <Input
+                                            label={intl.formatMessage({
+                                                id: 'url', defaultMessage: 'URL',
+                                            })}
+                                            placeholder='https://'
+                                            name='url'
+                                            required
+                                            onChange={handleChangeFormLink}
+                                        />
+                                        <Input
+                                            label={intl.formatMessage({
+                                                id: 'navigation.label',
+                                                defaultMessage: 'Navigation label',
+                                            })}
+                                            name='label'
+                                            required
+                                            onChange={handleChangeFormLink}
+                                        />
+                                        <Button
+                                            label={intl.formatMessage({
+                                                id: 'menu.add',
+                                                defaultMessage: 'Add to menu',
+                                            })}
+                                            type='submit'
+                                            loading={(formLink.label === '' && formLink.url === '')}
+                                        />
+                                    </form>
                                 </Accordion>
                             </Card>
                         </Grid.Column>
-                        <Grid.Column width={13}>
-                            <Form onSubmit={save}>
+                        <Grid.Column width='thirteen'>
+                            <form onSubmit={save}>
                                 <Card>
                                     <Card.Body>
                                         <Grid columns={2}>
@@ -375,19 +360,14 @@ export default function Index({menus, pages}) {
                                                     onChange={handleChangeMenuName}
                                                 />
                                             </Grid.Column>
-                                            <Grid.Column textAlign='right'>
-                                                <Form.Button
-                                                    loading={loading}
-                                                    primary
-                                                >
-                                                    <Icon
-                                                        disabled
-                                                        name='check'
-                                                    />
-                                                    {intl.formatMessage({
+                                            <Grid.Column align='right'>
+                                                <Button
+                                                    label={intl.formatMessage({
                                                         id: 'menu.save', defaultMessage: 'Save menu',
                                                     })}
-                                                </Form.Button>
+                                                    loading={loading}
+                                                    type='submit'
+                                                />
                                             </Grid.Column>
                                         </Grid>
                                         <MenuEditor
@@ -398,29 +378,24 @@ export default function Index({menus, pages}) {
                                     <Card.Footer>
                                         <Grid columns={2}>
                                             <Grid.Column>
-                                                <Button
+                                                <IconButton
                                                     action={() => handleDeleteMenu()}
                                                     icon='las la-trash-alt'
                                                 />
                                             </Grid.Column>
-                                            <Grid.Column textAlign='right'>
-                                                <Form.Button
-                                                    loading={loading}
-                                                    primary
-                                                >
-                                                    <Icon
-                                                        disabled
-                                                        name='check'
-                                                    />
-                                                    {intl.formatMessage({
+                                            <Grid.Column align='right'>
+                                                <Button
+                                                    label={intl.formatMessage({
                                                         id: 'menu.save', defaultMessage: 'Save menu',
                                                     })}
-                                                </Form.Button>
+                                                    loading={loading}
+                                                    type='submit'
+                                                />
                                             </Grid.Column>
                                         </Grid>
                                     </Card.Footer>
                                 </Card>
-                            </Form>
+                            </form>
                         </Grid.Column>
                     </Grid>
                 </Card>
@@ -467,7 +442,8 @@ export async function getServerSideProps(ctx) {
                 permanent: false,
                 destination: '/admin/login',
             },
-            props: {},
+            props: {
+            },
         };
     }
 }
