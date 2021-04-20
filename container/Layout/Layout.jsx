@@ -1,11 +1,11 @@
 import React from 'react';
-
+import PropTypes from 'prop-types';
+import { structures } from 'variables/variables';
 import styles from './Layout.module.scss';
-import Column from './Column/Column'
-import {structures} from 'variables/variables';
+import Column from './Column/Column';
 
-export default function Layout({ layout, layoutUpdate, layoutDelete, onElementClick, currentElement, setCurrentElement, device, handleOpenPortal, mode }) {
-        /**
+export default function Layout({layout, layoutUpdate, layoutDelete, onElementClick, currentElement, setCurrentElement, device, handleOpenPortal, mode}) {
+    /**
      * Generates the button of the target structure
      * Button showing the shape of the structure
      * @param structure
@@ -17,10 +17,16 @@ export default function Layout({ layout, layoutUpdate, layoutDelete, onElementCl
             defineStructure(structure);
         };
         return (
-            <button className={`${styles.layout__btn} ${styles.structure}`} onClick={handleClick}>
+            <button
+                className={`${styles.layout__btn} ${styles.structure}`}
+                onClick={handleClick}
+            >
                 {[...Array(n)].map((e, i) => (
-                    <span className={`${styles.structure__element}`} key={new Date().getTime() + i}>
-                        <i className="far fa-plus" />
+                    <span
+                        className={`${styles.structure__element}`}
+                        key={new Date().getTime() + i}
+                    >
+                        <i className='far fa-plus'/>
                     </span>
                 ))}
             </button>
@@ -88,36 +94,50 @@ export default function Layout({ layout, layoutUpdate, layoutDelete, onElementCl
     };
 
     return (
-        <div className={`${mode === "page" ? styles.layout : styles.header__layout} ${device === "tablet" ? styles.tablet__preview : ''} ${device === "mobile" ? styles.mobile__preview : ''}`}>
+        <div
+            className={`${styles.layout} ${mode !== 'page' && styles.header__layout} ${device === 'tablet' && styles.tablet__preview} ${device === 'mobile' && styles.mobile__preview}`}
+        >
             {layout.nbColumns > 0 ? (
                 <div className={`${styles.layout__container}`}>
-                    {layout.columns &&
-                        layout.columns.map((column) => (
-                            <Column
-                                key={'element-' + column.id}
-                                layout={layout}
-                                column={column}
-                                elementDelete={elementDelete}
-                                elementUpdate={elementUpdate}
-                                subElementAdd={subElementAdd}
-                                subElementUpdate={subElementUpdate}
-                                onElementClick={onElementClick}
-                                setCurrentElement={setCurrentElement}
-                                currentElement={currentElement}
-                                device={device}
-                                handleOpenPortal={handleOpenPortal}
-                            />
-                        ))}
+                    {layout.columns
+                    && layout.columns.map((column) => (
+                        <Column
+                            key={`element-${column.id}`}
+                            layout={layout}
+                            column={column}
+                            elementDelete={elementDelete}
+                            elementUpdate={elementUpdate}
+                            subElementAdd={subElementAdd}
+                            subElementUpdate={subElementUpdate}
+                            onElementClick={onElementClick}
+                            setCurrentElement={setCurrentElement}
+                            currentElement={currentElement}
+                            device={device}
+                            handleOpenPortal={handleOpenPortal}
+                        />
+                    ))}
                 </div>
             ) : (
                 <div className={`${styles.layout__no_columns}`}>
                     <p>Choose a structure</p>
-                    <ul>{structures() && structures().map((structure) => <li key={structure.id}>{structurePreviewGenerate(structure)}</li>)}</ul>
+                    <ul>{structures() && structures().map((structure) => <li
+                        key={structure.id}>{structurePreviewGenerate(structure)}</li>)}</ul>
                 </div>
             )}
-            <button className={`${styles.layout__remove_btn}`} onClick={() => layoutDelete(layout)}>
-                <i className="far fa-times" />
+            <button
+                className={`${styles.layout__remove_btn}`}
+                onClick={() => layoutDelete(layout)}
+            >
+                <i className='far fa-times'/>
             </button>
         </div>
     );
 }
+
+Layout.propTypes = {
+    mode: PropTypes.string,
+};
+
+Layout.defaultProps = {
+    mode: 'page',
+};
