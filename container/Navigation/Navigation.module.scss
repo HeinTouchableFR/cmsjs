@@ -52,9 +52,17 @@
 }
 
 .navGrid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-gap: 5px;
+  display: flex;
+  flex-wrap: wrap;
+
+
+  .droppable {
+    display: grid;
+    grid-gap: 5px;
+    width: 48%;
+    height: 100%;
+    margin: 0 auto;
+  }
 }
 
 .navigation__bottom_menu{

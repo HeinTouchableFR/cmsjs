@@ -1,7 +1,7 @@
 import React, {
     useEffect, useState,
 } from 'react';
-import {useIntl} from 'react-intl';
+import { useIntl } from 'react-intl';
 import slugify from 'react-slugify';
 import {
     Droppable, Draggable,
@@ -15,7 +15,7 @@ import styles from './Navigation.module.scss';
 import Tab from '../../components/Tab/Tab';
 import DarkModeButton from '../../components/Button/DarkModeButton/DarkModeButton';
 
-export default function Navigation({components, currentItem, onElementValueChange, setCurrentElement, page, onSubmit, pages = [], loading, hide, device, setDevice, hideMenu, images, setImages, mode}) {
+export default function Navigation({ components, currentItem, onElementValueChange, setCurrentElement, page, onSubmit, pages = [], loading, hide, device, setDevice, hideMenu, images, setImages, mode }) {
     const intl = useIntl();
 
     const [form, setForm] = useState({
@@ -26,18 +26,19 @@ export default function Navigation({components, currentItem, onElementValueChang
 
     const [activeIndex, setActiveIndex] = useState(0);
     const handleTabChange = (index) => {
-        setCurrentElement({});
+        setCurrentElement({
+        });
         setActiveIndex(index);
     };
 
     useEffect(() => {
-            if (currentItem.id === 'empty') {
-                setActiveIndex(1);
-            } else if (currentItem.type) {
-                setActiveIndex(2);
-            }
-        },
-        [currentItem]);
+        if (currentItem.id === 'empty') {
+            setActiveIndex(1);
+        } else if (currentItem.type) {
+            setActiveIndex(2);
+        }
+    },
+    [currentItem]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -75,11 +76,11 @@ export default function Navigation({components, currentItem, onElementValueChang
         return (
             <>
                 <div
-                    className='componentBackground'
                     ref={provided.innerRef}
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
                     style={provided.draggableProps.style}
+                    className={styles.draggable}
                 >
                     <Component
                         tag={item.tag}
@@ -127,7 +128,10 @@ export default function Navigation({components, currentItem, onElementValueChang
     };
 
     const getStyle = (style, snapshot) => {
-        if (!snapshot.isDragging) return {};
+        if (!snapshot.isDragging) {
+            return {
+            };
+        }
         if (!snapshot.isDropAnimating) {
             return style;
         }
@@ -135,9 +139,12 @@ export default function Navigation({components, currentItem, onElementValueChang
         return {
             ...style,
             // cannot be 0, but make it super tiny
-            transitionDuration: `0.001s`
+            transitionDuration: '0.001s',
         };
-    }
+    };
+
+    const rightComponents = components.filter((item, index) => index % 2 && item);
+    const leftComponents = components.filter((item, index) => !(index % 2) && item);
 
     const panes = [
         {
@@ -147,44 +154,44 @@ export default function Navigation({components, currentItem, onElementValueChang
             render: () => (
                 <Tab.Pane>
                     {mode === 'page' ? (
-                            <>
-                                <Input
-                                    label={intl.formatMessage({
+                        <>
+                            <Input
+                                label={intl.formatMessage({
                                         id: 'title', defaultMessage: 'Title',
                                     })}
-                                    placeholder={intl.formatMessage({
+                                placeholder={intl.formatMessage({
                                         id: 'title', defaultMessage: 'Title',
                                     })}
-                                    required
-                                    name='title'
-                                    defaultValue={form.title}
-                                    onChange={handleChange}
-                                />
-                                <Input
-                                    label={intl.formatMessage({
+                                required
+                                name='title'
+                                defaultValue={form.title}
+                                onChange={handleChange}
+                            />
+                            <Input
+                                label={intl.formatMessage({
                                         id: 'slug', defaultMessage: 'Slug',
                                     })}
-                                    placeholder={intl.formatMessage({
+                                placeholder={intl.formatMessage({
                                         id: 'slug', defaultMessage: 'Slug',
                                     })}
-                                    required
-                                    name='slug'
-                                    value={form.slug}
-                                    onChange={handleChange}
-                                />
-                                <Dropdown
-                                    placeholder={intl.formatMessage({
+                                required
+                                name='slug'
+                                value={form.slug}
+                                onChange={handleChange}
+                            />
+                            <Dropdown
+                                placeholder={intl.formatMessage({
                                         id: 'parentPage', defaultMessage: 'Parent page',
                                     })}
-                                    label={intl.formatMessage({
+                                label={intl.formatMessage({
                                         id: 'parentPage', defaultMessage: 'Parent page',
                                     })}
-                                    options={pagesOptions}
-                                    defaultValue={form.parentPage}
-                                    onChange={handleChange}
-                                    name='parentPage'
-                                />
-                            </>
+                                options={pagesOptions}
+                                defaultValue={form.parentPage}
+                                onChange={handleChange}
+                                name='parentPage'
+                            />
+                        </>
                         )
                         : <>{mode}</>}
 
@@ -197,58 +204,124 @@ export default function Navigation({components, currentItem, onElementValueChang
             }),
             render: () => (
                 <Tab.Pane>
-                    <Droppable
-                        droppableId='components'
-                        renderClone={getRenderItem(components)}
-                        isDropDisabled
-                    >
-                        {(provided, _snapshot) => (
-                            <div
-                                className={`dropable ${styles.navGrid}`}
-                                ref={provided.innerRef}
-                            >
-                                {components.map((item, index) => {
-                                    const shouldRenderClone = item.type === _snapshot.draggingFromThisWith;
-                                    return (
-                                        shouldRenderClone
-                                            ? (
-                                                <Component
-                                                    tag={item.tag}
-                                                    label={item.label}
-                                                    color={item.color}
-                                                    tooltip={item.tooltip}
-                                                    key={item.type}
-                                                />
-                                            )
-                                            : (
-                                                <Draggable
-                                                    key={item.type}
-                                                    draggableId={item.type}
-                                                    index={index}
-                                                >
-                                                    {(provided, snapshot) => (
-                                                        <div
-                                                            ref={provided.innerRef}
-                                                            {...provided.draggableProps}
-                                                            {...provided.dragHandleProps}
-                                                            style={getStyle(provided.draggableProps.style, snapshot)}
-                                                        >
-                                                            <Component
-                                                                tag={item.tag}
-                                                                label={item.label}
-                                                                color={item.color}
-                                                                tooltip={item.tooltip}
-                                                            />
-                                                        </div>
-                                                    )}
-                                                </Draggable>
-                                            )
-                                    );
-                                })}
-                                {provided.placeholder}
-                            </div>
-                        )}
-                    </Droppable>
+                    <div className={`${styles.navGrid}`}>
+                        <Droppable
+                            droppableId='componentsLeft'
+                            renderClone={getRenderItem(leftComponents)}
+                            isDropDisabled
+                        >
+                            {(provided, _snapshot) => (
+                                <div
+                                    className={styles.droppable}
+                                    ref={provided.innerRef}
+                                >
+                                    {leftComponents.map((item, index) => {
+                                        const shouldRenderClone = item.type === _snapshot.draggingFromThisWith;
+                                        return (
+                                            shouldRenderClone
+                                                ? (
+                                                    <div
+                                                        className={styles.draggable}
+                                                        key={item.type}
+                                                    >
+                                                        <Component
+                                                            tag={item.tag}
+                                                            label={item.label}
+                                                            color={item.color}
+                                                            tooltip={item.tooltip}
+                                                            key={item.type}
+                                                        />
+                                                    </div>
+                                                )
+                                                : (
+                                                    <Draggable
+                                                        key={item.type}
+                                                        draggableId={item.type}
+                                                        index={index}
+                                                    >
+                                                        {(provided, snapshot) => (
+                                                            <div
+                                                                ref={provided.innerRef}
+                                                                {...provided.draggableProps}
+                                                                {...provided.dragHandleProps}
+                                                                style={getStyle(provided.draggableProps.style, snapshot)}
+                                                                className={styles.draggable}
+                                                            >
+                                                                <Component
+                                                                    tag={item.tag}
+                                                                    label={item.label}
+                                                                    color={item.color}
+                                                                    tooltip={item.tooltip}
+                                                                />
+                                                            </div>
+                                                        )}
+                                                    </Draggable>
+                                                )
+                                        );
+                                    })}
+                                    {provided.placeholder}
+                                </div>
+                            )}
+                        </Droppable>
+                        <Droppable
+                            droppableId='componentsRight'
+                            renderClone={getRenderItem(rightComponents)}
+                            isDropDisabled
+                        >
+                            {(provided, _snapshot) => (
+                                <div
+                                    className={styles.droppable}
+                                    ref={provided.innerRef}
+                                >
+                                    {rightComponents.map((item, index) => {
+                                        const shouldRenderClone = item.type === _snapshot.draggingFromThisWith;
+                                        return (
+                                            shouldRenderClone
+                                                ? (
+                                                    <div
+                                                        className={styles.draggable}
+                                                        key={item.type}
+                                                    >
+                                                        <Component
+                                                            tag={item.tag}
+                                                            label={item.label}
+                                                            color={item.color}
+                                                            tooltip={item.tooltip}
+                                                            key={item.type}
+                                                        />
+                                                    </div>
+                                                )
+                                                : (
+                                                    <Draggable
+                                                        key={item.type}
+                                                        draggableId={item.type}
+                                                        index={index}
+                                                    >
+                                                        {(provided, snapshot) => (
+                                                            <div
+                                                                ref={provided.innerRef}
+                                                                {...provided.draggableProps}
+                                                                {...provided.dragHandleProps}
+                                                                style={getStyle(provided.draggableProps.style, snapshot)}
+                                                                className={styles.draggable}
+                                                            >
+                                                                <Component
+                                                                    tag={item.tag}
+                                                                    label={item.label}
+                                                                    color={item.color}
+                                                                    tooltip={item.tooltip}
+                                                                />
+                                                            </div>
+                                                        )}
+                                                    </Draggable>
+                                                )
+                                        );
+                                    })}
+                                    {provided.placeholder}
+                                </div>
+                            )}
+                        </Droppable>
+                    </div>
                 </Tab.Pane>
             ),
         },

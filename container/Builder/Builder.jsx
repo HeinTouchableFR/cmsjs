@@ -88,7 +88,7 @@ export default function Builder({ page = {
         if (!destination) {
             return;
         }
-        if (destination.droppableId === 'components') {
+        if (destination.droppableId === 'componentsLeft' || destination.droppableId === 'componentsRight') {
             return;
         }
         if (source.droppableId === destination.droppableId) {
