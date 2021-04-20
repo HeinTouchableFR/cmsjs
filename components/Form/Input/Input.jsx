@@ -1,4 +1,7 @@
-import React, { useState } from 'react';
+import React, {
+    useEffect,
+    useState,
+} from 'react';
 import styles from 'components/Form/Input/Input.module.scss';
 import PropTypes from 'prop-types';
 import Tooltip from 'components/Form/Tooltip/Tooltip';
@@ -13,6 +16,7 @@ export default function Input({ label,
     step,
     min,
     max,
+    error,
     iconTip,
     tip,
     disabled }) {
@@ -27,6 +31,10 @@ export default function Input({ label,
             onChange(e, data);
         }
     };
+
+    useEffect(() => {
+        setValue(defaultValue);
+    }, [defaultValue]);
 
     return (
         <>
@@ -43,6 +51,7 @@ export default function Input({ label,
                 </label>
                 <div className={`${styles.ui}`}>
                     <input
+                        className={`${error !== '' && styles.error}`}
                         type={type}
                         placeholder={placeholder}
                         name={name}
@@ -54,6 +63,7 @@ export default function Input({ label,
                         max={max}
                         disabled={disabled}
                     />
+                    {error && <span className={styles.error}>{error}</span>}
                 </div>
             </div>
         </>
@@ -66,9 +76,13 @@ Input.propTypes = {
     label: PropTypes.string,
     placeholder: PropTypes.string,
     type: PropTypes.string,
-    defaultValue: PropTypes.string,
+    defaultValue: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number,
+    ]),
     required: PropTypes.bool,
     disabled: PropTypes.bool,
+    error: PropTypes.string,
     min: PropTypes.string,
     max: PropTypes.string,
     step: PropTypes.string,
@@ -83,6 +97,7 @@ Input.defaultProps = {
     required: false,
     disabled: false,
     defaultValue: '',
+    error: '',
     min: '',
     max: '',
     step: '',

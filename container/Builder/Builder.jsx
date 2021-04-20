@@ -11,7 +11,7 @@ import Portal from 'components/Portal/Portal';
 import styles from './Builder.module.scss';
 
 export default function Builder({ page = {
-}, onSubmit, pages, loading, images, setImages, modules, mode = 'page' }) {
+}, onSubmit, pages, loading, images, setImages, modules, mode = 'page', errors }) {
     // Use translation
     const intl = useIntl();
 
@@ -326,6 +326,8 @@ export default function Builder({ page = {
                         images={images}
                         setImages={setImages}
                         mode={mode}
+                        content={layouts}
+                        errors={errors}
                     />
                     <Content
                         layouts={layouts}

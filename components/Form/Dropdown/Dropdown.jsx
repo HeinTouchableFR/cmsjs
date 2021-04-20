@@ -34,6 +34,10 @@ export default function Dropdown({ name,
         onChange(wrapperRef, data);
     };
 
+    useEffect(() => {
+        setValue(defaultValue);
+    }, [defaultValue]);
+
     const handleItemClick = (item) => {
         let tmp;
         if (multiple) {
@@ -166,7 +170,14 @@ Dropdown.propTypes = {
     position: PropTypes.oneOf(['up', 'down']),
     multiple: PropTypes.bool,
     searchable: PropTypes.bool,
-    defaultValue: PropTypes.string,
+    defaultValue: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.arrayOf(PropTypes.shape({
+        })),
+        PropTypes.arrayOf(PropTypes.string),
+        PropTypes.shape({
+        }),
+    ]),
     tip: PropTypes.string,
     iconTip: PropTypes.string,
 };

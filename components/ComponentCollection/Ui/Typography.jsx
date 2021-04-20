@@ -85,7 +85,7 @@ export default function Typography({ item, device, setItem, onChange }) {
                         min='1'
                         max={item.content[device].typo.size.unit === 'px' ? '200' : '10'}
                         step={item.content[device].typo.size.unit === 'px' ? '1' : '0.1'}
-                        value={item.content[device].typo.size.value}
+                        defaultValue={item.content[device].typo.size.value}
                         onChange={(e, data) => handleChangeTypoWithKey(e, data, 'size')}
                     />
                     <div className='field-group'>
@@ -130,7 +130,7 @@ export default function Typography({ item, device, setItem, onChange }) {
                 <div className='form__inline_item'>
                     <Dropdown
                         name='family'
-                        value={item.content[device].typo.family}
+                        defaultValue={item.content[device].typo.family}
                         options={fontsOptions}
                         onChange={handleChangeTypo}
                         label={intl.formatMessage({
@@ -141,7 +141,7 @@ export default function Typography({ item, device, setItem, onChange }) {
                     />
                     <Dropdown
                         name='weight'
-                        value={item.content[device].typo.weight}
+                        defaultValue={item.content[device].typo.weight}
                         options={weightsOptions}
                         onChange={handleChangeTypo}
                         label={intl.formatMessage({
@@ -154,7 +154,7 @@ export default function Typography({ item, device, setItem, onChange }) {
                 <div className='form__inline_item'>
                     <Dropdown
                         name='transform'
-                        value={item.content[device].typo.transform}
+                        defaultValue={item.content[device].typo.transform}
                         options={transformsOptions}
                         onChange={handleChangeTypo}
                         label={intl.formatMessage({
@@ -165,7 +165,7 @@ export default function Typography({ item, device, setItem, onChange }) {
                     />
                     <Dropdown
                         name='style'
-                        value={item.content[device].typo.style}
+                        defaultValue={item.content[device].typo.style}
                         options={stylesOptions}
                         onChange={handleChangeTypo}
                         label={intl.formatMessage({
@@ -176,7 +176,7 @@ export default function Typography({ item, device, setItem, onChange }) {
                     />
                     <Dropdown
                         name='decoration'
-                        value={Array.from(item.content[device].typo.decoration)}
+                        defaultValue={Array.from(item.content[device].typo.decoration)}
                         options={decorationsOptions}
                         onChange={handleChangeTypo}
                         multiple
@@ -199,7 +199,7 @@ export default function Typography({ item, device, setItem, onChange }) {
                         min='1'
                         max={item.content[device].typo.lineHeight.unit === 'px' ? '100' : '10'}
                         step={item.content[device].typo.lineHeight.unit === 'px' ? '1' : '0.1'}
-                        value={item.content[device].typo.lineHeight.value}
+                        defaultValue={item.content[device].typo.lineHeight.value}
                         onChange={(e, data) => handleChangeTypoWithKey(e, data, 'lineHeight')}
                     />
                     <div className='field-group'>
@@ -231,7 +231,7 @@ export default function Typography({ item, device, setItem, onChange }) {
                     placeholder='0'
                     name='letterSpacing'
                     type='number'
-                    value={item.content[device].typo.letterSpacing}
+                    defaultValue={item.content[device].typo.letterSpacing}
                     onChange={handleChangeTypo}
                 />
             </Accordion>

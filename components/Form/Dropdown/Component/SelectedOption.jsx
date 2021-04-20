@@ -23,9 +23,23 @@ export default function SelectedOption({ option, value, setValue }) {
 }
 
 SelectedOption.propTypes = {
-    option: PropTypes.arrayOf(PropTypes.shape({
-        key: PropTypes.string.isRequired,
-    }).isRequired).isRequired,
+    option: PropTypes.oneOfType([
+        PropTypes.arrayOf(PropTypes.shape({
+            key: PropTypes.string.isRequired,
+        }).isRequired),
+        PropTypes.shape({
+            key: PropTypes.string.isRequired,
+        }),
+    ]).isRequired,
     setValue: PropTypes.func.isRequired,
-    value: PropTypes.string.isRequired,
+    value: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.arrayOf(PropTypes.shape({
+        })),
+        PropTypes.arrayOf({
+        }),
+        PropTypes.shape({
+        }),
+        PropTypes.array,
+    ]).isRequired,
 };

@@ -15,7 +15,7 @@ import styles from './Navigation.module.scss';
 import Tab from '../../components/Tab/Tab';
 import DarkModeButton from '../../components/Button/DarkModeButton/DarkModeButton';
 
-export default function Navigation({ components, currentItem, onElementValueChange, setCurrentElement, page, onSubmit, pages = [], loading, hide, device, setDevice, hideMenu, images, setImages, mode }) {
+export default function Navigation({ components, currentItem, onElementValueChange, setCurrentElement, page, onSubmit, pages = [], loading, hide, device, setDevice, hideMenu, images, setImages, mode, content, errors }) {
     const intl = useIntl();
 
     const [form, setForm] = useState({
@@ -65,9 +65,16 @@ export default function Navigation({ components, currentItem, onElementValueChan
     const handleChange = (_e, data) => {
         setForm({
             ...form,
-            [data.name]: data.value && data.name !== 'slug' ? data.value : data.checked,
-            slug: data.name === 'title' || data.name === 'slug' ? slugify(data.value) : form.slug,
+            [data.name]: (data.value && data.name !== 'slug') && data.value,
+            slug: data.name === 'title' ? slugify(data.value) : form.slug,
         });
+
+        if (data.name === 'slug') {
+            setForm({
+                ...form,
+                [data.name]: slugify(data.value),
+            });
+        }
     };
 
     // This method is needed for rendering clones of draggables
@@ -143,6 +150,18 @@ export default function Navigation({ components, currentItem, onElementValueChan
         };
     };
 
+    const checkButtonDisabled = () => {
+        if (loading) {
+            return true;
+        }
+
+        if (page.content === JSON.stringify(content)) {
+            return true;
+        }
+
+        return form.title === '' || form.slug === '';
+    };
+
     const rightComponents = components.filter((item, index) => index % 2 && item);
     const leftComponents = components.filter((item, index) => !(index % 2) && item);
 
@@ -166,6 +185,7 @@ export default function Navigation({ components, currentItem, onElementValueChan
                                 name='title'
                                 defaultValue={form.title}
                                 onChange={handleChange}
+                                error={errors.title}
                             />
                             <Input
                                 label={intl.formatMessage({
@@ -176,8 +196,9 @@ export default function Navigation({ components, currentItem, onElementValueChan
                                     })}
                                 required
                                 name='slug'
-                                value={form.slug}
+                                defaultValue={form.slug}
                                 onChange={handleChange}
+                                error={errors.slug}
                             />
                             <Dropdown
                                 placeholder={intl.formatMessage({
@@ -372,6 +393,7 @@ export default function Navigation({ components, currentItem, onElementValueChan
                                             id: 'publish', defaultMessage: 'Publish',
                                         })}
                                     loading={loading}
+                                    disabled={checkButtonDisabled()}
                                     color='green'
                                     type='submit'
                                 />

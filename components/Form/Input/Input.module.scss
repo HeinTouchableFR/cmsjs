@@ -34,5 +34,16 @@
     padding: .70em 1em;
     border-radius: .3rem;
     width: 100%;
+
+    &.error {
+      border-color: #9f3a38;
+    }
+  }
+
+  span {
+    &.error {
+      color: #9f3a38;
+      font-weight: 600;
+    }
   }
 }

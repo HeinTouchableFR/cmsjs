@@ -11,7 +11,7 @@ export default function Background({ item, device, setItem, onChange }) {
 
     const handleColorChange = (color, key, mode, location) => {
         colorChange(item, device, setItem, onChange, color, key, mode, location);
-    }
+    };
 
     const backgroundPanes = [
         {

@@ -37,7 +37,7 @@ export default function Menu({ element, device, onElementValueChange }) {
             >
                 <Dropdown
                     name='alignment'
-                    value={item.content.alignment}
+                    defaultValue={item.content.alignment}
                     options={flexAlignmentsOptions}
                     onChange={handleChange}
                     label={intl.formatMessage({

@@ -35,5 +35,10 @@ Option.propTypes = {
         PropTypes.string,
         PropTypes.arrayOf(PropTypes.shape({
         })),
+        PropTypes.arrayOf({
+        }),
+        PropTypes.shape({
+        }),
+        PropTypes.array,
     ]).isRequired,
 };

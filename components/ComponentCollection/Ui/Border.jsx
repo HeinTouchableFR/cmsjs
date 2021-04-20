@@ -1,8 +1,8 @@
 import React from 'react';
 import ColorPicker from 'components/ColorPicker/ColorPicker';
 import Accordion from 'components/Accordion/Accordion';
-import {borderOptions} from 'variables/options';
-import {useIntl} from 'react-intl';
+import { borderOptions } from 'variables/options';
+import { useIntl } from 'react-intl';
 import Input from 'components/Form/Input/Input';
 import Dropdown from 'components/Form/Dropdown/Dropdown';
 import PropTypes from 'prop-types';
@@ -14,24 +14,27 @@ import {
 } from 'variables/functions';
 import Tab from 'components/Tab/Tab';
 
-export default function Border({item, device, setItem, onChange}) {
+export default function Border({ item,
+    device,
+    setItem,
+    onChange }) {
     const intl = useIntl();
 
     const handleChangeBorder = (_e, data, key, mode) => {
         changeBorder(_e, data, key, mode, item, device, setItem, onChange);
-    }
+    };
 
     const handleChangeBorderType = (_e, data, mode) => {
         changeBorderType(_e, data, mode, item, device, setItem, onChange);
-    }
+    };
 
     const handleChangeBorderColor = (color, mode) => {
         changeBorderColor(color, mode, item, device, setItem, onChange);
-    }
+    };
 
     const handleChangeBorderRadiusUnit = (unit, mode) => {
         changeBorderRadiusUnit(unit, mode, item, device, setItem, onChange);
-    }
+    };
 
     const borderPanes = [
         {
@@ -43,7 +46,9 @@ export default function Border({item, device, setItem, onChange}) {
                 <Tab.Pane>
                     <Dropdown
                         name='type'
-                        value={item.content[device].styles.border.normal.type}
+                        defaultValue={
+                            item.content[device].styles.border.normal.type
+                        }
                         options={borderOptions}
                         onChange={(e, data) => handleChangeBorderType(e, data, 'normal')}
                         label={intl.formatMessage({
@@ -83,7 +88,9 @@ export default function Border({item, device, setItem, onChange}) {
                                 })}
                                 name='top'
                                 type='number'
-                                value={item.content[device].styles.border.normal.width.top}
+                                defaultValue={
+                                    item.content[device].styles.border.normal.width.top
+                                }
                                 onChange={(e, data) => handleChangeBorder(e, data, 'width', 'normal')}
                             />
                             <Input
@@ -97,7 +104,9 @@ export default function Border({item, device, setItem, onChange}) {
                                 })}
                                 name='right'
                                 type='number'
-                                value={item.content[device].styles.border.normal.width.right}
+                                defaultValue={
+                                    item.content[device].styles.border.normal.width.right
+                                }
                                 onChange={(e, data) => handleChangeBorder(e, data, 'width', 'normal')}
                             />
                             <Input
@@ -111,7 +120,9 @@ export default function Border({item, device, setItem, onChange}) {
                                 })}
                                 name='bottom'
                                 type='number'
-                                value={item.content[device].styles.border.normal.width.bottom}
+                                defaultValue={
+                                    item.content[device].styles.border.normal.width.bottom
+                                }
                                 onChange={(e, data) => handleChangeBorder(e, data, 'width', 'normal')}
                             />
                             <Input
@@ -125,7 +136,9 @@ export default function Border({item, device, setItem, onChange}) {
                                 })}
                                 name='left'
                                 type='number'
-                                value={item.content[device].styles.border.normal.width.left}
+                                defaultValue={
+                                    item.content[device].styles.border.normal.width.left
+                                }
                                 onChange={(e, data) => handleChangeBorder(e, data, 'width', 'normal')}
                             />
                         </div>
@@ -171,7 +184,9 @@ export default function Border({item, device, setItem, onChange}) {
                                 })}
                                 name='top'
                                 type='number'
-                                value={item.content[device].styles.border.normal.radius.top}
+                                defaultValue={
+                                    item.content[device].styles.border.normal.radius.top
+                                }
                                 onChange={(e, data) => handleChangeBorder(e, data, 'radius', 'normal')}
                             />
                             <Input
@@ -185,7 +200,9 @@ export default function Border({item, device, setItem, onChange}) {
                                 })}
                                 name='right'
                                 type='number'
-                                value={item.content[device].styles.border.normal.radius.right}
+                                defaultValue={
+                                    item.content[device].styles.border.normal.radius.right
+                                }
                                 onChange={(e, data) => handleChangeBorder(e, data, 'radius', 'normal')}
                             />
                             <Input
@@ -199,7 +216,9 @@ export default function Border({item, device, setItem, onChange}) {
                                 })}
                                 name='bottom'
                                 type='number'
-                                value={item.content[device].styles.border.normal.radius.bottom}
+                                defaultValue={
+                                    item.content[device].styles.border.normal.radius.bottom
+                                }
                                 onChange={(e, data) => handleChangeBorder(e, data, 'radius', 'normal')}
                             />
                             <Input
@@ -213,7 +232,9 @@ export default function Border({item, device, setItem, onChange}) {
                                 })}
                                 name='left'
                                 type='number'
-                                value={item.content[device].styles.border.normal.radius.left}
+                                defaultValue={
+                                    item.content[device].styles.border.normal.radius.left
+                                }
                                 onChange={(e, data) => handleChangeBorder(e, data, 'radius', 'normal')}
                             />
                         </div>
@@ -230,7 +251,9 @@ export default function Border({item, device, setItem, onChange}) {
                 <Tab.Pane>
                     <Dropdown
                         name='type'
-                        value={item.content[device].styles.border.hover.type}
+                        defaultValue={
+                            item.content[device].styles.border.hover.type
+                        }
                         options={borderOptions}
                         onChange={(e, data) => handleChangeBorderType(e, data, 'hover')}
                         label={intl.formatMessage({
@@ -270,7 +293,9 @@ export default function Border({item, device, setItem, onChange}) {
                                 })}
                                 name='top'
                                 type='number'
-                                value={item.content[device].styles.border.hover.width.top}
+                                defaultValue={
+                                    item.content[device].styles.border.hover.width.top
+                                }
                                 onChange={(e, data) => handleChangeBorder(e, data, 'width', 'hover')}
                             />
                             <Input
@@ -284,7 +309,9 @@ export default function Border({item, device, setItem, onChange}) {
                                 })}
                                 name='right'
                                 type='number'
-                                value={item.content[device].styles.border.hover.width.right}
+                                defaultValue={
+                                    item.content[device].styles.border.hover.width.right
+                                }
                                 onChange={(e, data) => handleChangeBorder(e, data, 'width', 'hover')}
                             />
                             <Input
@@ -298,7 +325,9 @@ export default function Border({item, device, setItem, onChange}) {
                                 })}
                                 name='bottom'
                                 type='number'
-                                value={item.content[device].styles.border.hover.width.bottom}
+                                defaultValue={
+                                    item.content[device].styles.border.hover.width.bottom
+                                }
                                 onChange={(e, data) => handleChangeBorder(e, data, 'width', 'hover')}
                             />
                             <Input
@@ -312,7 +341,9 @@ export default function Border({item, device, setItem, onChange}) {
                                 })}
                                 name='left'
                                 type='number'
-                                value={item.content[device].styles.border.hover.width.left}
+                                defaultValue={
+                                    item.content[device].styles.border.hover.width.left
+                                }
                                 onChange={(e, data) => handleChangeBorder(e, data, 'width', 'hover')}
                             />
                         </div>
@@ -358,7 +389,9 @@ export default function Border({item, device, setItem, onChange}) {
                                 })}
                                 name='top'
                                 type='number'
-                                value={item.content[device].styles.border.hover.radius.top}
+                                defaultValue={
+                                    item.content[device].styles.border.hover.radius.top
+                                }
                                 onChange={(e, data) => handleChangeBorder(e, data, 'radius', 'hover')}
                             />
                             <Input
@@ -372,7 +405,9 @@ export default function Border({item, device, setItem, onChange}) {
                                 })}
                                 name='right'
                                 type='number'
-                                value={item.content[device].styles.border.hover.radius.right}
+                                defaultValue={
+                                    item.content[device].styles.border.hover.radius.right
+                                }
                                 onChange={(e, data) => handleChangeBorder(e, data, 'radius', 'hover')}
                             />
                             <Input
@@ -386,7 +421,9 @@ export default function Border({item, device, setItem, onChange}) {
                                 })}
                                 name='bottom'
                                 type='number'
-                                value={item.content[device].styles.border.hover.radius.bottom}
+                                defaultValue={
+                                    item.content[device].styles.border.hover.radius.bottom
+                                }
                                 onChange={(e, data) => handleChangeBorder(e, data, 'radius', 'hover')}
                             />
                             <Input
@@ -400,7 +437,9 @@ export default function Border({item, device, setItem, onChange}) {
                                 })}
                                 name='left'
                                 type='number'
-                                value={item.content[device].styles.border.hover.radius.left}
+                                defaultValue={
+                                    item.content[device].styles.border.hover.radius.left
+                                }
                                 onChange={(e, data) => handleChangeBorder(e, data, 'radius', 'hover')}
                             />
                         </div>
@@ -429,7 +468,8 @@ export default function Border({item, device, setItem, onChange}) {
 
 Border.propTypes = {
     item: PropTypes.shape({
-        content: PropTypes.shape({}).isRequired,
+        content: PropTypes.shape({
+        }).isRequired,
     }).isRequired,
     device: PropTypes.string.isRequired,
     setItem: PropTypes.func.isRequired,

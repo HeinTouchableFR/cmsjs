@@ -29,32 +29,64 @@ export const alignmentsOptions = [
         text: <FormattedMessage
             id='builder.left'
             defaultMessage='Left'
+            key='builder.left'
         />,
         value: 'left',
+        content: <span>
+            <FormattedMessage
+                id='builder.left'
+                defaultMessage='Left'
+                key='builder.left'
+            />
+        </span>,
     },
     {
         key: 'center',
         text: <FormattedMessage
             id='builder.center'
             defaultMessage='Center'
+            key='builder.center'
         />,
         value: 'center',
+        content: <span>
+            <FormattedMessage
+                id='builder.center'
+                defaultMessage='Center'
+                key='builder.center'
+            />
+        </span>,
     },
     {
         key: 'right',
         text: <FormattedMessage
             id='builder.right'
             defaultMessage='Right'
+            key='builder.right'
         />,
         value: 'right',
+        content: <span>
+            <FormattedMessage
+                id='builder.right'
+                defaultMessage='Right'
+                key='builder.right'
+            />
+        </span>,
     },
     {
         key: 'justify',
         text: <FormattedMessage
             id='builder.justify'
             defaultMessage='Justify'
+            key='builder.justify'
         />,
         value: 'justify',
+        content: <span>
+            <FormattedMessage
+                id='builder.justify'
+                defaultMessage='Justify'
+                key='builder.justify'
+            />
+        </span>,
     },
 ];
 
@@ -63,25 +95,49 @@ export const flexAlignmentsOptions = [
         key: 'left',
         text: <FormattedMessage
             id='builder.left'
+            key='builder.left'
             defaultMessage='Left'
         />,
         value: 'flex-start',
+        content: <span>
+            <FormattedMessage
+                id='builder.left'
+                key='builder.left'
+                defaultMessage='Left'
+            />
+        </span>,
     },
     {
         key: 'center',
         text: <FormattedMessage
             id='builder.center'
+            key='builder.center'
             defaultMessage='Center'
         />,
         value: 'center',
+        content: <span>
+            <FormattedMessage
+                id='builder.center'
+                key='builder.center'
+                defaultMessage='Center'
+            />
+        </span>,
     },
     {
         key: 'right',
         text: <FormattedMessage
             id='builder.right'
+            key='builder.right'
             defaultMessage='Right'
         />,
         value: 'flex-end',
+        content: <span>
+            <FormattedMessage
+                id='builder.right'
+                key='builder.right'
+                defaultMessage='Right'
+            />
+        </span>,
     },
 ];
 
@@ -468,12 +524,14 @@ export const transformsOptions = [
         key: 'default',
         text: <FormattedMessage
             id='builder.transform.default'
+            key='builder.transform.default'
             defaultMessage='Default'
         />,
         value: 'initial',
         content: (<span>
             <FormattedMessage
                 id='builder.transform.default'
+                key='builder.transform.default'
                 defaultMessage='Default'
             />
         </span>),
@@ -482,12 +540,14 @@ export const transformsOptions = [
         key: 'uppercase',
         text: <FormattedMessage
             id='builder.transform.uppercase'
+            key='builder.transform.uppercase'
             defaultMessage='Uppercase'
         />,
         value: 'uppercase',
         content: (<span css={css`text-transform: uppercase;`}>
             <FormattedMessage
                 id='builder.transform.uppercase'
+                key='builder.transform.uppercase'
                 defaultMessage='Uppercase'
             />
         </span>),
@@ -496,12 +556,14 @@ export const transformsOptions = [
         key: 'lowercase',
         text: <FormattedMessage
             id='builder.transform.lowercase'
+            key='builder.transform.lowercase'
             defaultMessage='Lowercase'
         />,
         value: 'lowercase',
         content: (<span css={css`text-transform: lowercase;`}>
             <FormattedMessage
                 id='builder.transform.lowercase'
+                key='builder.transform.lowercase'
                 defaultMessage='Lowercase'
             />
         </span>),
@@ -510,12 +572,14 @@ export const transformsOptions = [
         key: 'capitalize',
         text: <FormattedMessage
             id='builder.transform.capitalize'
+            key='builder.transform.capitalize'
             defaultMessage='Capitalize'
         />,
         value: 'capitalize',
         content: (<span css={css`text-transform: capitalize;`}>
             <FormattedMessage
                 id='builder.transform.capitalize'
+                key='builder.transform.capitalize'
                 defaultMessage='Capitalize'
             />
         </span>),
@@ -524,12 +588,14 @@ export const transformsOptions = [
         key: 'normal',
         text: <FormattedMessage
             id='builder.transform.normal'
+            key='builder.transform.normal'
             defaultMessage='Normal'
         />,
         value: 'normal',
         content: (<span css={css`text-transform: normal;`}>
             <FormattedMessage
                 id='builder.transform.normal'
+                key='builder.transform.normal'
                 defaultMessage='Normal'
             />
         </span>),
@@ -541,12 +607,14 @@ export const stylesOptions = [
         key: 'Normal',
         text: <FormattedMessage
             id='builder.style.normal'
+            key='builder.style.normal'
             defaultMessage='Normal'
         />,
         value: 'normal',
         content: (<span css={css`font-style: normal;`}>
             <FormattedMessage
                 id='builder.style.normal'
+                key='builder.style.normal'
                 defaultMessage='Normal'
             />
         </span>),
@@ -555,12 +623,14 @@ export const stylesOptions = [
         key: 'Italic',
         text: <FormattedMessage
             id='builder.style.italic'
+            key='builder.style.italic'
             defaultMessage='Italic'
         />,
         value: 'italic',
         content: (<span css={css`font-style: italic;`}>
             <FormattedMessage
                 id='builder.style.italic'
+                key='builder.style.italic'
                 defaultMessage='Italic'
             />
         </span>),
@@ -569,12 +639,14 @@ export const stylesOptions = [
         key: 'Oblique',
         text: <FormattedMessage
             id='builder.style.oblique'
+            key='builder.style.oblique'
             defaultMessage='Oblique'
         />,
         value: 'oblique',
         content: (<span css={css`font-style: oblique;`}>
             <FormattedMessage
                 id='builder.style.oblique'
+                key='builder.style.oblique'
                 defaultMessage='Oblique'
             />
         </span>),
@@ -586,12 +658,14 @@ export const decorationsOptions = [
         key: 'Underline',
         text: <FormattedMessage
             id='builder.decoration.underline'
+            key='builder.decoration.underline'
             defaultMessage='Underline'
         />,
         value: 'underline',
         content: (<span css={css`text-decoration: underline;`}>
             <FormattedMessage
                 id='builder.decoration.underline'
+                key='builder.decoration.underline'
                 defaultMessage='Underline'
             />
         </span>),
@@ -600,12 +674,14 @@ export const decorationsOptions = [
         key: 'Overline',
         text: <FormattedMessage
             id='builder.decoration.overline'
+            key='builder.decoration.overline'
             defaultMessage='Overline'
         />,
         value: 'overline',
         content: (<span css={css`text-decoration: overline;`}>
             <FormattedMessage
                 id='builder.decoration.overline'
+                key='builder.decoration.overline'
                 defaultMessage='Overline'
             />
         </span>),
@@ -614,12 +690,14 @@ export const decorationsOptions = [
         key: 'Line Through',
         text: <FormattedMessage
             id='builder.decoration.lineThrough'
+            key='builder.decoration.lineThrough'
             defaultMessage='Line Through'
         />,
         value: 'line-through',
         content: (<span css={css`text-decoration: line-through;`}>
             <FormattedMessage
                 id='builder.decoration.lineThrough'
+                key='builder.decoration.lineThrough'
                 defaultMessage='Line Through'
             />
         </span>),
@@ -667,49 +745,97 @@ export const borderOptions = [
         key: 'None',
         text: <FormattedMessage
             id='builder.border.none'
+            key='builder.border.none'
             defaultMessage='None'
         />,
         value: 'none',
+        content: <span>
+            <FormattedMessage
+                id='builder.border.none'
+                key='builder.border.none'
+                defaultMessage='None'
+            />
+        </span>,
     },
     {
         key: 'Solid',
         text: <FormattedMessage
             id='builder.border.solid'
+            key='builder.border.solid'
             defaultMessage='Solid'
         />,
         value: 'solid',
+        content: <span>
+            <FormattedMessage
+                id='builder.border.solid'
+                key='builder.border.solid'
+                defaultMessage='Solid'
+            />
+        </span>,
     },
     {
         key: 'Double',
         text: <FormattedMessage
             id='builder.border.double'
+            key='builder.border.double'
             defaultMessage='Double'
         />,
         value: 'double',
+        content: <span>
+            <FormattedMessage
+                id='builder.border.double'
+                key='builder.border.double'
+                defaultMessage='Double'
+            />
+        </span>,
     },
     {
         key: 'Dotted',
         text: <FormattedMessage
             id='builder.border.dotted'
+            key='builder.border.dotted'
             defaultMessage='Dotted'
         />,
         value: 'dotted',
+        content: <span>
+            <FormattedMessage
+                id='builder.border.dotted'
+                key='builder.border.dotted'
+                defaultMessage='Dotted'
+            />
+        </span>,
     },
     {
         key: 'Dashed',
         text: <FormattedMessage
             id='builder.border.dashed'
+            key='builder.border.dashed'
             defaultMessage='Dashed'
         />,
         value: 'dashed',
+        content: <span>
+            <FormattedMessage
+                id='builder.border.dashed'
+                key='builder.border.dashed'
+                defaultMessage='Dashed'
+            />
+        </span>,
     },
     {
         key: 'Groove',
         text: <FormattedMessage
             id='builder.border.groove'
+            key='builder.border.groove'
             defaultMessage='Groove'
         />,
         value: 'groove',
+        content: <span>
+            <FormattedMessage
+                id='builder.border.groove'
+                key='builder.border.groove'
+                defaultMessage='Groove'
+            />
+        </span>,
     },
 ];
 
@@ -832,24 +958,48 @@ export const durationsOptions = [
         key: 'Slow',
         text: <FormattedMessage
             id='builder.duration.slow'
+            key='builder.duration.slow'
             defaultMessage='Slow'
         />,
         value: '2s',
+        content: <span>
+            <FormattedMessage
+                id='builder.duration.slow'
+                key='builder.duration.slow'
+                defaultMessage='Slow'
+            />
+        </span>,
     },
     {
         key: 'Normal',
         text: <FormattedMessage
             id='builder.duration.normal'
+            key='builder.duration.normal'
             defaultMessage='Normal'
         />,
         value: '1s',
+        content: <span>
+            <FormattedMessage
+                id='builder.duration.normal'
+                key='builder.duration.normal'
+                defaultMessage='Normal'
+            />
+        </span>,
     },
     {
         key: 'Fast',
         text: <FormattedMessage
             id='builder.duration.fast'
+            key='builder.duration.fast'
             defaultMessage='Fast'
         />,
         value: '0.75s',
+        content: <span>
+            <FormattedMessage
+                id='builder.duration.fast'
+                key='builder.duration.fast'
+                defaultMessage='Fast'
+            />
+        </span>,
     },
 ];

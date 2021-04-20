@@ -28,7 +28,7 @@ export default function Animations({ item, device, setItem, onChange }) {
             >
                 <Dropdown
                     name='name'
-                    value={item.content[device].animation.name}
+                    defaultValue={item.content[device].animation.name}
                     options={animationsOptions}
                     onChange={handleChangeAnimation}
                     label={intl.formatMessage({
@@ -39,7 +39,7 @@ export default function Animations({ item, device, setItem, onChange }) {
                 />
                 <Dropdown
                     name='duration'
-                    value={item.content[device].animation.duration}
+                    defaultValue={item.content[device].animation.duration}
                     options={durationsOptions}
                     onChange={handleChangeAnimation}
                     label={intl.formatMessage({
@@ -58,7 +58,7 @@ export default function Animations({ item, device, setItem, onChange }) {
                     placeholder='0'
                     name='delay'
                     type='number'
-                    value={item.content[device].animation.delay}
+                    defaultValue={item.content[device].animation.delay}
                     onChange={handleChangeAnimation}
                 />
             </Accordion>

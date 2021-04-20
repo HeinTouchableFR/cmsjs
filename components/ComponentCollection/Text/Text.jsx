@@ -66,7 +66,7 @@ export default function Text({ element, onElementValueChange, device }) {
                 />
                 <Dropdown
                     name='alignment'
-                    value={item.content.alignment}
+                    defaultValue={item.content.alignment}
                     options={alignmentsOptions}
                     onChange={handleChange}
                     label={intl.formatMessage({

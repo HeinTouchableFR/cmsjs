@@ -154,6 +154,7 @@
     "settings": "Settings",
     "sitename": "Site name",
     "slug": "Slug",
+    "slug.error": "The slug {slug} is already defined",
     "status": "Status",
     "table.tooltip": "The tables give you many possibilities, such as comparisons or qualifiers.",
     "table": "Table",

@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { useIntl } from 'react-intl';
 import Head from 'next/head';
 import axios from 'axios';
 import nookies from 'nookies';
-import {auth} from 'utils/dbConnect';
+import { auth } from 'utils/dbConnect';
 import Builder from 'container/Builder/Builder';
-import defaultComponents from 'variables/components'
+import defaultComponents from 'variables/components';
 
 export default function Edit({ item, pages, images }) {
     const url = 'pages';
@@ -13,40 +13,97 @@ export default function Edit({ item, pages, images }) {
     const intl = useIntl();
 
     const [post, setPost] = useState(item);
-    const [imagesList, setImagesList] = useState(JSON.parse(images))
+    const [imagesList, setImagesList] = useState(JSON.parse(images));
     const [loading, setLoading] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [errors, setErrors] = useState({
+    });
+    const [content, setContent] = useState('');
 
-    const onSubmit = async function (e, content) {
-        setLoading(true);
-        const res = await fetch(`/api/pages/${item._id}`, {
-            body: JSON.stringify({
-                title: e.title,
-                slug: e.slug,
-                updated: new Date(),
-                content: JSON.stringify(content),
-                parentPage: e.parentPage,
-            }),
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            method: 'PUT',
+    const validate = async (slug) => {
+        const res = await fetch(`/api/pages/slug/${slug}`);
+        const { data } = await res.json();
+        const errs = {
+        };
+        if (data && data.slug && post.slug !== slug) {
+            errs.slug = intl.formatMessage({
+                id: 'slug.error', defaultMessage: 'The slug {slug} is already defined',
+            }, {
+                slug,
+            });
+        }
+        return errs;
+    };
+
+    const onSubmit = async (e, data) => {
+        setContent({
+            title: e.title,
+            slug: e.slug,
+            parentPage: e.parentPage,
+            data,
         });
+        validate(e.slug).then((errs) => setErrors(errs));
+        setIsSubmitting(true);
+    };
 
-        const result = await res.json();
-        setPost(result.data);
+    const update = async () => {
+        setLoading(true);
+        try {
+            const res = await fetch(`/api/pages/${item._id}`, {
+                body: JSON.stringify({
+                    title: content.title,
+                    slug: content.slug,
+                    updated: new Date(),
+                    content: JSON.stringify(content.data),
+                    parentPage: content.parentPage,
+                }),
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                method: 'PUT',
+            });
+
+            const result = await res.json();
+            setPost(result.data);
+        } catch (error) {
+            console.log(error);
+        }
         setLoading(false);
     };
+
+    useEffect(() => {
+        if (isSubmitting) {
+            if (Object.keys(errors).length === 0) {
+                update();
+                console.log('updated')
+            } else {
+                setIsSubmitting(false);
+            }
+        }
+    }, [errors]);
 
     return (
         <>
             <Head>
                 <title>
-                    {intl.formatMessage({ id: 'page.edit', defaultMessage: 'Edit' })}
+                    {intl.formatMessage({
+                        id: 'page.edit', defaultMessage: 'Edit',
+                    })}
                     {': '}
                     {item.title}
                 </title>
             </Head>
-            <Builder url={url} pages={pages} page={post} loading={loading} onSubmit={onSubmit} setImages={setImagesList} images={imagesList} modules={defaultComponents.pageComponents(intl)} />
+            <Builder
+                url={url}
+                pages={pages}
+                page={post}
+                loading={loading}
+                onSubmit={onSubmit}
+                setImages={setImagesList}
+                images={imagesList}
+                modules={defaultComponents.pageComponents(intl)}
+                errors={errors}
+            />
         </>
     );
 }
@@ -62,11 +119,12 @@ export async function getServerSideProps(ctx) {
 
         const { id } = ctx.params;
 
-        let item = {};
+        let item = {
+        };
         let errors = [];
 
         await axios
-            .get(process.env.URL + '/api/pages/' + id)
+            .get(`${process.env.URL}/api/pages/${id}`)
             .then((res) => {
                 item = res.data.data;
             })
@@ -77,7 +135,7 @@ export async function getServerSideProps(ctx) {
         let pages = [];
 
         await axios
-            .get(process.env.URL + '/api/pages/')
+            .get(`${process.env.URL}/api/pages/`)
             .then((res) => {
                 pages = res.data.data;
             })
@@ -85,16 +143,19 @@ export async function getServerSideProps(ctx) {
                 console.log(error);
             });
 
-        let images = []
+        let images = [];
         await axios
-            .get(process.env.URL + '/api/images')
+            .get(`${process.env.URL}/api/images`)
             .then((res) => {
                 images = res.data.data;
             })
-            .catch(() => {});
+            .catch(() => {
+            });
 
         return {
-            props: { item, errors, pages, images: JSON.stringify(images) },
+            props: {
+                item, errors, pages, images: JSON.stringify(images),
+            },
         };
     } catch (err) {
         return {
@@ -102,7 +163,8 @@ export async function getServerSideProps(ctx) {
                 permanent: false,
                 destination: '/admin/login',
             },
-            props: {},
+            props: {
+            },
         };
     }
 }

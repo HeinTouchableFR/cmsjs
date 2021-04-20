@@ -46,7 +46,7 @@ export default function Link({ element, onElementValueChange, device }) {
                     })}
                     name='text'
                     type='text'
-                    value={item.content.text}
+                    defaultValue={item.content.text}
                     onChange={handleChange}
                 />
                 <Input
@@ -58,12 +58,12 @@ export default function Link({ element, onElementValueChange, device }) {
                     })}
                     name='url'
                     type='url'
-                    value={item.content.url}
+                    defaultValue={item.content.url}
                     onChange={handleChange}
                 />
                 <Dropdown
                     name='alignment'
-                    value={item.content.alignment}
+                    defaultValue={item.content.alignment}
                     options={alignmentsOptions}
                     onChange={handleChange}
                     label={intl.formatMessage({

@@ -1,4 +1,7 @@
-import React, { useState } from 'react';
+import React, {
+    useEffect,
+    useState,
+} from 'react';
 import styles from 'components/Form/TextArea/TextArea.module.scss';
 import PropTypes from 'prop-types';
 import Tooltip from 'components/Form/Tooltip/Tooltip';
@@ -26,6 +29,10 @@ export default function TextArea({ label,
             onChange(e, data);
         }
     };
+
+    useEffect(() => {
+        setValue(defaultValue);
+    }, [defaultValue]);
 
     return (
         <>

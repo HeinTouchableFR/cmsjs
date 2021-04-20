@@ -72,7 +72,7 @@ export default function Image({ element, device, onElementValueChange, images, s
                         max='1'
                         step='0.01'
                         onChange={(e, data) => handleChangeOpacity(e, data, 'opacity', 'normal')}
-                        value={item.content[device].image.opacity.normal}
+                        defaultValue={item.content[device].image.opacity.normal}
                     />
                 </Tab.Pane>
             ),
@@ -93,7 +93,7 @@ export default function Image({ element, device, onElementValueChange, images, s
                         max='1'
                         step='0.01'
                         onChange={(e, data) => handleChangeOpacity(e, data, 'opacity', 'hover')}
-                        value={item.content[device].image.opacity.hover}
+                        defaultValue={item.content[device].image.opacity.hover}
                     />
                 </Tab.Pane>
             ),
@@ -124,7 +124,7 @@ export default function Image({ element, device, onElementValueChange, images, s
                         min='1'
                         max={item.content[device].image.size.width.unit === 'px' ? '1000' : '100'}
                         step='1'
-                        value={item.content[device].image.size.width.value}
+                        defaultValue={item.content[device].image.size.width.value}
                         onChange={(e, data) => handleChangeImageValue(e, data, 'size', 'width')}
                     />
                     <div className='field-group'>
@@ -168,7 +168,7 @@ export default function Image({ element, device, onElementValueChange, images, s
                         min='1'
                         max={item.content[device].image.size.maxWidth.unit === 'px' ? '1000' : '100'}
                         step='1'
-                        value={item.content[device].image.size.maxWidth.value}
+                        defaultValue={item.content[device].image.size.maxWidth.value}
                         onChange={(e, data) => handleChangeImageValue(e, data, 'size', 'maxWidth')}
                     />
                     <div className='field-group'>
@@ -212,7 +212,7 @@ export default function Image({ element, device, onElementValueChange, images, s
                         min='1'
                         max={item.content[device].image.size.height.unit === 'px' ? '500' : '100'}
                         step='1'
-                        value={item.content[device].image.size.height.value !== 'auto' ? item.content[device].image.size.height.value : ''}
+                        defaultValue={item.content[device].image.size.height.value !== 'auto' ? item.content[device].image.size.height.value : ''}
                         onChange={(e, data) => handleChangeImageValue(e, data, 'size', 'height')}
                     />
                     <div className='field-group'>
@@ -241,7 +241,7 @@ export default function Image({ element, device, onElementValueChange, images, s
                 />
                 <Dropdown
                     name='alignment'
-                    value={item.content.alignment}
+                    defaultValue={item.content.alignment}
                     options={alignmentsOptions}
                     onChange={handleChange}
                     label={intl.formatMessage({

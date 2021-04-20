@@ -50,12 +50,12 @@ export default function Title({ element, onElementValueChange, device }) {
                     })}
                     name='text'
                     type='text'
-                    value={item.content.text}
+                    defaultValue={item.content.text}
                     onChange={handleChange}
                 />
                 <Dropdown
                     name='tag'
-                    value={item.content.tag}
+                    defaultValue={item.content.tag}
                     options={tagsOptions}
                     onChange={handleChange}
                     label={intl.formatMessage({
@@ -65,7 +65,7 @@ export default function Title({ element, onElementValueChange, device }) {
                 />
                 <Dropdown
                     name='alignment'
-                    value={item.content.alignment}
+                    defaultValue={item.content.alignment}
                     options={alignmentsOptions}
                     onChange={handleChange}
                     label={intl.formatMessage({

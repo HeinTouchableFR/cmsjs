@@ -154,6 +154,7 @@
     "settings": "Réglages",
     "sitename": "Nom du site",
     "slug": "Slug",
+    "slug.error": "Le slug {slug} est déjà défini",
     "status": "Etat",
     "table.tooltip": "Les tableaux vous permettent de nombreuses possibilités, tels que des comparaisons ou des qualificatifs.",
     "table": "Tableau",

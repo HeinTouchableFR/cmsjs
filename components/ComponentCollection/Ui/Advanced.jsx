@@ -5,7 +5,7 @@ import Input from 'components/Form/Input/Input';
 import PropTypes from 'prop-types';
 import {
     changeStyle,
-    changeStyleUnit
+    changeStyleUnit,
 } from 'variables/functions';
 
 export default function Advanced({ item, device, setItem, onChange }) {
@@ -84,7 +84,7 @@ export default function Advanced({ item, device, setItem, onChange }) {
                             })}
                             name='top'
                             type='number'
-                            value={item.styles[device].margin.top}
+                            defaultValue={item.styles[device].margin.top}
                             onChange={(e, data) => handleChangeStyle(e, data, 'margin')}
                         />
                         <Input
@@ -98,7 +98,7 @@ export default function Advanced({ item, device, setItem, onChange }) {
                             })}
                             name='right'
                             type='number'
-                            value={item.styles[device].margin.right}
+                            defaultValue={item.styles[device].margin.right}
                             onChange={(e, data) => handleChangeStyle(e, data, 'margin')}
                         />
                         <Input
@@ -112,7 +112,7 @@ export default function Advanced({ item, device, setItem, onChange }) {
                             })}
                             name='bottom'
                             type='number'
-                            value={item.styles[device].margin.bottom}
+                            defaultValue={item.styles[device].margin.bottom}
                             onChange={(e, data) => handleChangeStyle(e, data, 'margin')}
                         />
                         <Input
@@ -126,7 +126,7 @@ export default function Advanced({ item, device, setItem, onChange }) {
                             })}
                             name='left'
                             type='number'
-                            value={item.styles[device].margin.left}
+                            defaultValue={item.styles[device].margin.left}
                             onChange={(e, data) => handleChangeStyle(e, data, 'margin')}
                         />
                     </div>
@@ -190,7 +190,7 @@ export default function Advanced({ item, device, setItem, onChange }) {
                             })}
                             name='top'
                             type='number'
-                            value={item.styles[device].padding.top}
+                            defaultValue={item.styles[device].padding.top}
                             onChange={(e, data) => handleChangeStyle(e, data, 'padding')}
                         />
                         <Input
@@ -204,7 +204,7 @@ export default function Advanced({ item, device, setItem, onChange }) {
                             })}
                             name='right'
                             type='number'
-                            value={item.styles[device].padding.right}
+                            defaultValue={item.styles[device].padding.right}
                             onChange={(e, data) => handleChangeStyle(e, data, 'padding')}
                         />
                         <Input
@@ -218,7 +218,7 @@ export default function Advanced({ item, device, setItem, onChange }) {
                             })}
                             name='bottom'
                             type='number'
-                            value={item.styles[device].padding.bottom}
+                            defaultValue={item.styles[device].padding.bottom}
                             onChange={(e, data) => handleChangeStyle(e, data, 'padding')}
                         />
                         <Input
@@ -232,7 +232,7 @@ export default function Advanced({ item, device, setItem, onChange }) {
                             })}
                             name='left'
                             type='number'
-                            value={item.styles[device].padding.left}
+                            defaultValue={item.styles[device].padding.left}
                             onChange={(e, data) => handleChangeStyle(e, data, 'padding')}
                         />
                     </div>
