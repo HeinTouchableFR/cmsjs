@@ -1,9 +1,11 @@
-import styles from '../Layout.module.scss';
-import {Draggable, Droppable} from 'react-beautiful-dnd';
+import {
+    Draggable, Droppable,
+} from 'react-beautiful-dnd';
 import React from 'react';
 import ComponentDispatcher from 'components/ComponentCollection/ComponentDispatcher';
+import styles from '../Layout.module.scss';
 
-export default function Column({ column, onElementClick, elementDelete, currentElement, setCurrentElement, device, handleOpenPortal }) {
+export default function Column({column, onElementClick, elementDelete, currentElement, setCurrentElement, device, handleOpenPortal}) {
     /**
      * Allows you to delete a sub item
      * @param e
@@ -11,7 +13,9 @@ export default function Column({ column, onElementClick, elementDelete, currentE
     const handleElementDelete = function (e) {
         elementDelete(column, e);
         if (currentElement.id === e.id) {
-            setCurrentElement({ id: 'empty' });
+            setCurrentElement({
+                id: 'empty',
+            });
         }
     };
 
@@ -45,18 +49,44 @@ export default function Column({ column, onElementClick, elementDelete, currentE
             <div className={`${styles.column}`}>
                 <Droppable droppableId={`${column.id}`}>
                     {(provided, snapshot) => (
-                        <div {...provided.droppableProps} ref={provided.innerRef} className={`${styles.element__wrap}`} style={getListStyle(snapshot.isDraggingOver)}>
+                        <div
+                            {...provided.droppableProps}
+                            ref={provided.innerRef}
+                            className={`${styles.element__wrap}`}
+                            style={getListStyle(snapshot.isDraggingOver)}
+                        >
                             {column.elements.length > 0 ? (
                                 <div className={styles.column__populated}>
                                     {column.elements.map((item, index) => (
-                                        <Draggable key={item.id} draggableId={item.id.toString()} index={index}>
+                                        <Draggable
+                                            key={item.id}
+                                            draggableId={item.id.toString()}
+                                            index={index}
+                                        >
                                             {(provided, snapshot) => (
-                                                <div className={styles.element__widget} ref={provided.innerRef}{...provided.draggableProps}{...provided.dragHandleProps} style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}>
-                                                    <div className={'content'} onClick={() => handleElementClick(item)}>
-                                                        <ComponentDispatcher element={item} device={device} mode="preview" />
+                                                <div
+                                                    className={styles.element__widget}
+                                                    ref={provided.innerRef}
+                                                    {...provided.draggableProps}
+                                                    {...provided.dragHandleProps}
+                                                    style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}
+                                                >
+                                                    <div
+                                                        className='content'
+                                                        onClick={() => handleElementClick(item)}
+                                                    >
+                                                        <ComponentDispatcher
+                                                            element={item}
+                                                            device={device}
+                                                            mode='preview'
+                                                        />
                                                     </div>
-                                                    <button key={'btn-empty' + item.id} onClick={() => handleElementDelete(item)} className={styles.element__widget__remove}>
-                                                        <i className="far fa-times" />
+                                                    <button
+                                                        key={`btn-empty${item.id}`}
+                                                        onClick={() => handleElementDelete(item)}
+                                                        className={styles.element__widget__remove}
+                                                    >
+                                                        <i className='far fa-times'/>
                                                     </button>
                                                 </div>
                                             )}
@@ -64,10 +94,18 @@ export default function Column({ column, onElementClick, elementDelete, currentE
                                     ))}
                                 </div>
                             ) : (
-                                <div className={styles.column__empty} onClick={() => handleElementClick({ id: 'empty', column: column.id })}>
-                                    <div className={styles.element__first__add} onClick={(e) => handleOpenPortal(e)}>
+                                <div
+                                    className={styles.column__empty}
+                                    onClick={() => handleElementClick({
+                                        id: 'empty', column: column.id,
+                                    })}
+                                >
+                                    <div
+                                        className={styles.element__first__add}
+                                        onClick={(e) => handleOpenPortal(e)}
+                                    >
                                         <div className={styles.element__first__icon}>
-                                            <i className="fal fa-plus" />
+                                            <i className='fal fa-plus'/>
                                         </div>
                                     </div>
                                 </div>

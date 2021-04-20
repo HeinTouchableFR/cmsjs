@@ -98,7 +98,7 @@ export default function Builder({ page = {
         } else {
             let result = [];
             const columnDestination = getcolumnListeById(destination.droppableId);
-            if (source.droppableId === 'components') {
+            if (source.droppableId === 'componentsLeft' || source.droppableId === 'componentsRight') {
                 result = move(components, columnDestination.elements, source, destination);
             } else {
                 const columnSource = getcolumnListeById(source.droppableId);
@@ -159,7 +159,7 @@ export default function Builder({ page = {
     const move = (source, destination, droppableSource, droppableDestination) => {
         const result = {
         };
-        if (droppableSource.droppableId !== 'components') {
+        if (droppableSource.droppableId !== 'componentsLeft' && droppableSource.droppableId !== 'componentsRight') {
             const sourceClone = Array.from(source);
             const destClone = Array.from(destination);
             const [removed] = sourceClone.splice(droppableSource.index, 1);
