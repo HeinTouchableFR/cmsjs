@@ -44,3 +44,11 @@
   padding: 1em 1em;
   min-height: 100%;
 }
+
+.pane {
+  display: none;
+
+  &.active {
+    display: block;
+  }
+}

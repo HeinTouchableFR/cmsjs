@@ -1,7 +1,7 @@
 import React, {
     useEffect, useState,
 } from 'react';
-import { useIntl } from 'react-intl';
+import {useIntl} from 'react-intl';
 import slugify from 'react-slugify';
 import {
     Droppable, Draggable,
@@ -15,7 +15,7 @@ import styles from './Navigation.module.scss';
 import Tab from '../../components/Tab/Tab';
 import DarkModeButton from '../../components/Button/DarkModeButton/DarkModeButton';
 
-export default function Navigation({ components, currentItem, onElementValueChange, setCurrentElement, page, onSubmit, pages = [], loading, hide, device, setDevice, hideMenu, images, setImages, mode, content, errors }) {
+export default function Navigation({components, currentItem, onElementValueChange, setCurrentElement, page, onSubmit, pages = [], loading, hide, device, setDevice, hideMenu, images, setImages, mode, content, errors}) {
     const intl = useIntl();
 
     const [form, setForm] = useState({
@@ -26,19 +26,18 @@ export default function Navigation({ components, currentItem, onElementValueChan
 
     const [activeIndex, setActiveIndex] = useState(0);
     const handleTabChange = (index) => {
-        setCurrentElement({
-        });
+        setCurrentElement({});
         setActiveIndex(index);
     };
 
     useEffect(() => {
-        if (currentItem.id === 'empty') {
-            setActiveIndex(1);
-        } else if (currentItem.type) {
-            setActiveIndex(2);
-        }
-    },
-    [currentItem]);
+            if (currentItem.id === 'empty') {
+                setActiveIndex(1);
+            } else if (currentItem.type) {
+                setActiveIndex(2);
+            }
+        },
+        [currentItem]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -136,8 +135,7 @@ export default function Navigation({ components, currentItem, onElementValueChan
 
     const getStyle = (style, snapshot) => {
         if (!snapshot.isDragging) {
-            return {
-            };
+            return {};
         }
         if (!snapshot.isDropAnimating) {
             return style;
@@ -173,47 +171,53 @@ export default function Navigation({ components, currentItem, onElementValueChan
             render: () => (
                 <Tab.Pane>
                     {mode === 'page' ? (
-                        <>
-                            <Input
-                                label={intl.formatMessage({
-                                        id: 'title', defaultMessage: 'Title',
-                                    })}
-                                placeholder={intl.formatMessage({
-                                        id: 'title', defaultMessage: 'Title',
-                                    })}
-                                required
-                                name='title'
-                                defaultValue={form.title}
-                                onChange={handleChange}
-                                error={errors.title}
-                            />
-                            <Input
-                                label={intl.formatMessage({
-                                        id: 'slug', defaultMessage: 'Slug',
-                                    })}
-                                placeholder={intl.formatMessage({
-                                        id: 'slug', defaultMessage: 'Slug',
-                                    })}
-                                required
-                                name='slug'
-                                defaultValue={form.slug}
-                                onChange={handleChange}
-                                error={errors.slug}
-                            />
-                            <Dropdown
-                                placeholder={intl.formatMessage({
-                                        id: 'parentPage', defaultMessage: 'Parent page',
-                                    })}
-                                label={intl.formatMessage({
-                                        id: 'parentPage', defaultMessage: 'Parent page',
-                                    })}
-                                options={pagesOptions}
-                                defaultValue={form.parentPage}
-                                onChange={handleChange}
-                                name='parentPage'
-                                searchable
-                            />
-                        </>
+                            <>
+                                <form
+                                    onSubmit={handleSubmit}
+                                    id='pageForm'
+                                    name='pageForm'
+                                >
+                                    <Input
+                                        label={intl.formatMessage({
+                                            id: 'title', defaultMessage: 'Title',
+                                        })}
+                                        placeholder={intl.formatMessage({
+                                            id: 'title', defaultMessage: 'Title',
+                                        })}
+                                        required
+                                        name='title'
+                                        defaultValue={form.title}
+                                        onChange={handleChange}
+                                        error={errors.title}
+                                    />
+                                    <Input
+                                        label={intl.formatMessage({
+                                            id: 'slug', defaultMessage: 'Slug',
+                                        })}
+                                        placeholder={intl.formatMessage({
+                                            id: 'slug', defaultMessage: 'Slug',
+                                        })}
+                                        required
+                                        name='slug'
+                                        defaultValue={form.slug}
+                                        onChange={handleChange}
+                                        error={errors.slug}
+                                    />
+                                    <Dropdown
+                                        placeholder={intl.formatMessage({
+                                            id: 'parentPage', defaultMessage: 'Parent page',
+                                        })}
+                                        label={intl.formatMessage({
+                                            id: 'parentPage', defaultMessage: 'Parent page',
+                                        })}
+                                        options={pagesOptions}
+                                        defaultValue={form.parentPage}
+                                        onChange={handleChange}
+                                        name='parentPage'
+                                        searchable
+                                    />
+                                </form>
+                            </>
                         )
                         : <>{mode}</>}
 
@@ -371,43 +375,44 @@ export default function Navigation({ components, currentItem, onElementValueChan
 
     return (
         <>
-            <form onSubmit={handleSubmit}>
-                <div className={`${styles.navigation} ${hide ? styles.hide : ''}`}>
-                    <div className={styles.inner}>
-                        <main>
-                            <Tab
-                                panes={panes}
-                                activeIndex={activeIndex}
-                                onTabChange={handleTabChange}
+            <div className={`${styles.navigation} ${hide ? styles.hide : ''}`}>
+                <div className={styles.inner}>
+                    <main>
+                        <Tab
+                            panes={panes}
+                            activeIndex={activeIndex}
+                            onTabChange={handleTabChange}
+                        />
+                    </main>
+                    <footer>
+                        <div className={styles.navigation__bottom_menu}>
+                            <DarkModeButton/>
+                            <Button
+                                label={page.content
+                                    ? intl.formatMessage({
+                                        id: 'update', defaultMessage: 'Update',
+                                    })
+                                    : intl.formatMessage({
+                                        id: 'publish', defaultMessage: 'Publish',
+                                    })}
+                                loading={loading}
+                                disabled={checkButtonDisabled()}
+                                color='green'
+                                type='submit'
+                                form='pageForm'
+                                name='pageButton'
+                                id='pageButton'
                             />
-                        </main>
-                        <footer>
-                            <div className={styles.navigation__bottom_menu}>
-                                <DarkModeButton />
-                                <Button
-                                    label={page.content
-                                        ? intl.formatMessage({
-                                            id: 'update', defaultMessage: 'Update',
-                                        })
-                                        : intl.formatMessage({
-                                            id: 'publish', defaultMessage: 'Publish',
-                                        })}
-                                    loading={loading}
-                                    disabled={checkButtonDisabled()}
-                                    color='green'
-                                    type='submit'
-                                />
-                                <Dropdown
-                                    defaultValue={device}
-                                    options={deviceOptions}
-                                    onChange={handleDeviceChange}
-                                    position='up'
-                                />
-                            </div>
-                        </footer>
-                    </div>
+                            <Dropdown
+                                defaultValue={device}
+                                options={deviceOptions}
+                                onChange={handleDeviceChange}
+                                position='up'
+                            />
+                        </div>
+                    </footer>
                 </div>
-            </form>
+            </div>
             <div
                 className={`${styles.hideMenuBtn} ${hide ? styles.hide : ''}`}
                 onClick={() => hideMenu()}

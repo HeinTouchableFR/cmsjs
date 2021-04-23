@@ -38,7 +38,8 @@ export default function Tab({panes, activeIndex, onTabChange}) {
                         )
                     ))}
                 </div>
-                {panes[tabIndex] && panes[tabIndex].render()}
+                {/* eslint-disable-next-line react/no-array-index-key */}
+                {panes && panes.map((pane, index) => <div key={`pane-${index}`} className={`${styles.pane} ${index === tabIndex && styles.active}`}>{pane && pane.render()}</div>)}
             </div>
         </>
 

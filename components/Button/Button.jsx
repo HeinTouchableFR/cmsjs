@@ -4,7 +4,7 @@ import React from 'react';
 import styles from './Button.module.scss';
 import Loader from '../Loader/Loader';
 
-export default function Button({ label, onClick, icon, type, loading, disabled }) {
+export default function Button({ label, onClick, icon, type, loading, disabled, form, name, id }) {
     return (
         <>
             <button
@@ -13,6 +13,9 @@ export default function Button({ label, onClick, icon, type, loading, disabled }
                 /* eslint-disable-next-line react/button-has-type */
                 type={type}
                 disabled={disabled || loading}
+                form={form}
+                name={name}
+                id={id}
             >
                 {loading
                     ? <Loader size='small' />
@@ -30,6 +33,9 @@ export default function Button({ label, onClick, icon, type, loading, disabled }
 Button.propTypes = {
     onClick: PropTypes.func,
     icon: PropTypes.string,
+    form: PropTypes.string,
+    name: PropTypes.string,
+    id: PropTypes.string,
     loading: PropTypes.bool,
     disabled: PropTypes.bool,
     label: PropTypes.string.isRequired,
@@ -39,6 +45,9 @@ Button.propTypes = {
 Button.defaultProps = {
     onClick: null,
     icon: '',
+    form: null,
+    name: null,
+    id: null,
     loading: false,
     disabled: false,
     type: 'button',

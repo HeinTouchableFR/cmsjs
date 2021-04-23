@@ -181,6 +181,8 @@ export default function FileManager({ multiple = false,
                             <form
                                 className={styles.filemanager__upload__container}
                                 onSubmit={handleSubmit}
+                                id='fileForm'
+                                name='fileForm'
                             >
                                 {multiple ? (
                                     <input
@@ -221,6 +223,9 @@ export default function FileManager({ multiple = false,
                                     label={intl.formatMessage({
                                         id: 'send', defaultMessage: 'Send',
                                     })}
+                                    form='fileForm'
+                                    name='fileButton'
+                                    id='fileButton'
                                 />
                             </form>
                         </Modal.Content>
