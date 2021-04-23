@@ -8,7 +8,7 @@ import {
     transformsOptions,
     weightsOptions,
 } from 'variables/options';
-import { useIntl } from 'react-intl';
+import {useIntl} from 'react-intl';
 import Input from 'components/Form/Input/Input';
 import Dropdown from 'components/Form/Dropdown/Dropdown';
 import PropTypes from 'prop-types';
@@ -19,7 +19,7 @@ import {
     changeTypoWithKey,
 } from 'variables/functions';
 
-export default function Typography({ item, device, setItem, onChange }) {
+export default function Typography({item, device, setItem, onChange}) {
     const intl = useIntl();
 
     const handleColorChange = (color, mode) => {
@@ -127,66 +127,62 @@ export default function Typography({ item, device, setItem, onChange }) {
                         </span>
                     </div>
                 </div>
-                <div className='form__inline_item'>
-                    <Dropdown
-                        name='family'
-                        defaultValue={item.content[device].typo.family}
-                        options={fontsOptions}
-                        onChange={handleChangeTypo}
-                        label={intl.formatMessage({
-                            id: 'builder.font.family',
-                            defaultMessage: 'Font family',
-                        })}
-                        searchable
-                    />
-                    <Dropdown
-                        name='weight'
-                        defaultValue={item.content[device].typo.weight}
-                        options={weightsOptions}
-                        onChange={handleChangeTypo}
-                        label={intl.formatMessage({
-                            id: 'builder.font.weight',
-                            defaultMessage: 'Font weight',
-                        })}
-                        searchable
-                    />
-                </div>
-                <div className='form__inline_item'>
-                    <Dropdown
-                        name='transform'
-                        defaultValue={item.content[device].typo.transform}
-                        options={transformsOptions}
-                        onChange={handleChangeTypo}
-                        label={intl.formatMessage({
-                            id: 'builder.transform',
-                            defaultMessage: 'Transform',
-                        })}
-                        searchable
-                    />
-                    <Dropdown
-                        name='style'
-                        defaultValue={item.content[device].typo.style}
-                        options={stylesOptions}
-                        onChange={handleChangeTypo}
-                        label={intl.formatMessage({
-                            id: 'builder.style',
-                            defaultMessage: 'Style',
-                        })}
-                        searchable
-                    />
-                    <Dropdown
-                        name='decoration'
-                        defaultValue={Array.from(item.content[device].typo.decoration)}
-                        options={decorationsOptions}
-                        onChange={handleChangeTypo}
-                        multiple
-                        label={intl.formatMessage({
-                            id: 'builder.decoration',
-                            defaultMessage: 'Decoration',
-                        })}
-                        searchable
-                    />
-                </div>
+                <Dropdown
+                    name='family'
+                    defaultValue={item.content[device].typo.family}
+                    options={fontsOptions}
+                    onChange={handleChangeTypo}
+                    label={intl.formatMessage({
+                        id: 'builder.font.family',
+                        defaultMessage: 'Font family',
+                    })}
+                    searchable
+                />
+                <Dropdown
+                    name='weight'
+                    defaultValue={item.content[device].typo.weight}
+                    options={weightsOptions}
+                    onChange={handleChangeTypo}
+                    label={intl.formatMessage({
+                        id: 'builder.font.weight',
+                        defaultMessage: 'Font weight',
+                    })}
+                    searchable
+                />
+                <Dropdown
+                    name='transform'
+                    defaultValue={item.content[device].typo.transform}
+                    options={transformsOptions}
+                    onChange={handleChangeTypo}
+                    label={intl.formatMessage({
+                        id: 'builder.transform',
+                        defaultMessage: 'Transform',
+                    })}
+                    searchable
+                />
+                <Dropdown
+                    name='style'
+                    defaultValue={item.content[device].typo.style}
+                    options={stylesOptions}
+                    onChange={handleChangeTypo}
+                    label={intl.formatMessage({
+                        id: 'builder.style',
+                        defaultMessage: 'Style',
+                    })}
+                    searchable
+                />
+                <Dropdown
+                    name='decoration'
+                    defaultValue={Array.from(item.content[device].typo.decoration)}
+                    options={decorationsOptions}
+                    onChange={handleChangeTypo}
+                    multiple
+                    label={intl.formatMessage({
+                        id: 'builder.decoration',
+                        defaultMessage: 'Decoration',
+                    })}
+                    searchable
+                />
                 <div className='form__inline_item'>
                     <Input
                         label={intl.formatMessage({
@@ -241,8 +237,7 @@ export default function Typography({ item, device, setItem, onChange }) {
 
 Typography.propTypes = {
     item: PropTypes.shape({
-        content: PropTypes.shape({
-        }).isRequired,
+        content: PropTypes.shape({}).isRequired,
         type: PropTypes.string.isRequired,
     }).isRequired,
     device: PropTypes.string.isRequired,

@@ -1,35 +1,43 @@
-import React, {useEffect, useState} from 'react'
-import reactCSS from 'reactcss'
-import {SketchPicker} from 'react-color'
+import React, {
+    useEffect, useState,
+} from 'react';
+import reactCSS from 'reactcss';
+import { SketchPicker } from 'react-color';
 
 export default function ColorPicker({defaultColor = '#FF0000', onColorChange}) {
     const [state, setState] = useState({
         displayColorPicker: false,
         color: defaultColor,
-    })
+    });
 
-    useEffect(function () {
-        /*setState({
-            displayColorPicker: false,
+    useEffect(() => {
+        setState({
+            ...state,
             color: defaultColor,
-        })*/
-    }, [defaultColor])
+        });
+    }, [defaultColor]);
 
     const handleClick = () => {
-        setState({...state, displayColorPicker: !state.displayColorPicker})
+        setState({
+            ...state, displayColorPicker: !state.displayColorPicker,
+        });
     };
 
     const handleClose = () => {
-        setState({...state, displayColorPicker: false})
+        setState({
+            ...state, displayColorPicker: false,
+        });
     };
 
     const handleChange = (color) => {
-        onColorChange(color.hex)
-        setState({...state, color: color.hex})
+        onColorChange(color.hex);
+        setState({
+            ...state, color: color.hex,
+        });
     };
 
     const styles = reactCSS({
-        'default': {
+        default: {
             color: {
                 width: '36px',
                 height: '14px',
@@ -60,15 +68,24 @@ export default function ColorPicker({defaultColor = '#FF0000', onColorChange}) {
 
     return (
         <div>
-            <div style={styles.swatch} onClick={handleClick}>
-                <div style={styles.color}/>
+            <div
+                style={styles.swatch}
+                onClick={handleClick}
+            >
+                <div style={styles.color} />
             </div>
-            {state.displayColorPicker ? <div style={styles.popover}>
-                <div style={styles.cover} onClick={handleClose}/>
-                <SketchPicker color={state.color} onChange={handleChange}/>
-            </div> : null}
-
+            {state.displayColorPicker ? (
+                <div style={styles.popover}>
+                    <div
+                        style={styles.cover}
+                        onClick={handleClose}
+                    />
+                    <SketchPicker
+                        color={state.color}
+                        onChange={handleChange}
+                    />
+                </div>
+            ) : null}
         </div>
-    )
-
+    );
 }
