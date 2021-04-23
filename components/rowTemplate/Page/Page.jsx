@@ -32,7 +32,7 @@ export default function Page({item, url, handleDelete}) {
                         icon='las la-edit'
                     />
                     <IconButton
-                        action={() => handleDelete(item, item.childPages.length === 0)}
+                        action={() => handleDelete(item)}
                         icon='las la-trash-alt'
                     />
                 </td>

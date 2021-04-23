@@ -1,12 +1,12 @@
 import React, {
     useEffect, useState,
 } from 'react';
-import {useIntl} from 'react-intl';
+import { useIntl } from 'react-intl';
 import Head from 'next/head';
-import {useRouter} from 'next/router';
+import { useRouter } from 'next/router';
 import axios from 'axios';
 import nookies from 'nookies';
-import {auth} from 'utils/dbConnect';
+import { auth } from 'utils/dbConnect';
 import Table from 'components/Table/Table';
 import Page from 'components/rowTemplate/Page/Page';
 import Admin from 'container/Admin/Admin';
@@ -35,20 +35,15 @@ export default function Index({items}) {
 
     const [isDeleting, setIsDeleting] = useState(false);
     const [confirm, setConfirm] = useState(false);
-    const [confirmCannotDelete, setConfirmCannotDelete] = useState(false);
-    const [itemToDelete, setItemToDelete] = useState({});
+    const [itemToDelete, setItemToDelete] = useState({
+    });
 
-    const open = function (item, canDelete = false) {
-        if (canDelete) {
-            setConfirm(true);
-            setItemToDelete(item);
-        } else {
-            setConfirmCannotDelete(true);
-        }
+    const open = (item) => {
+        setConfirm(true);
+        setItemToDelete(item);
     };
 
     const close = () => setConfirm(false);
-    const closeCannotDelete = () => setConfirmCannotDelete(false);
 
     const handleDelete = async () => {
         setIsDeleting(true);
@@ -57,7 +52,8 @@ export default function Index({items}) {
 
     const deleteElement = async () => {
         try {
-            setItemToDelete({});
+            setItemToDelete({
+            });
             await fetch(`${process.env.URL}/api/${url}/${itemToDelete.id}`, {
                 method: 'DELETE',
             });
@@ -121,17 +117,6 @@ export default function Index({items}) {
                             })}
                             confirmButton={intl.formatMessage({
                                 id: 'yes', defaultMessage: 'Yes',
-                            })}
-                        />
-                        <Confirm
-                            name='CantDeletePage'
-                            open={confirmCannotDelete}
-                            onConfirm={closeCannotDelete}
-                            onCancel={closeCannotDelete}
-                            content={intl.formatMessage({
-                                id: 'page.cantDeleteChildren',
-                                defaultMessage:
-                                    'You cannot delete a page that has children. Please delete child pages or edit the parent page for each child.',
                             })}
                         />
                     </Card.Body>
