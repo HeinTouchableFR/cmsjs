@@ -10,7 +10,7 @@ import Builder from 'container/Builder/Builder';
 import { auth } from 'utils/dbConnect';
 import defaultComponents from 'variables/components';
 
-export default function Ajouter({ pages, images }) {
+export default function Ajouter({ images }) {
     const url = 'pages';
 
     const intl = useIntl();
@@ -44,7 +44,6 @@ export default function Ajouter({ pages, images }) {
         setContent({
             title: e.title,
             slug: e.slug,
-            parentPage: e.parentPage,
             data,
         });
         validate(e.slug).then((errs) => setErrors(errs));
@@ -61,7 +60,6 @@ export default function Ajouter({ pages, images }) {
                     author: 'A faire',
                     published: new Date(),
                     content: JSON.stringify(content.data),
-                    parentPage: content.parentPage,
                 }),
                 headers: {
                     'Content-Type': 'application/json',
@@ -71,7 +69,7 @@ export default function Ajouter({ pages, images }) {
 
             const result = await res.json();
             setPost(result);
-            router.push(`/admin/${url}/edit/${result.data._id}`);
+            router.push(`/admin/${url}/edit/${result.data.id}`);
         } catch (error) {
             console.log(error);
         }
@@ -100,7 +98,6 @@ export default function Ajouter({ pages, images }) {
             <Builder
                 url={url}
                 onSubmit={onSubmit}
-                pages={pages}
                 page={post}
                 loading={loading}
                 images={imagesList}
@@ -121,15 +118,6 @@ export async function getServerSideProps(ctx) {
             throw new Error('unauthorized');
         }
 
-        let pages = [];
-        await axios
-            .get(`${process.env.URL}/api/pages`)
-            .then((res) => {
-                pages = res.data.data;
-            })
-            .catch((error) => {
-            });
-
         let images = [];
         await axios
             .get(`${process.env.URL}/api/images`)
@@ -141,7 +129,7 @@ export async function getServerSideProps(ctx) {
 
         return {
             props: {
-                pages, images: JSON.stringify(images),
+                images: JSON.stringify(images),
             },
         };
     } catch (err) {

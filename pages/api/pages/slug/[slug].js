@@ -9,7 +9,7 @@ export default async (req, res) => {
         try {
             const snapshot = await db.collection('pages').where('slug', '==', slug).get();
             const item = {
-                _id: snapshot.docs[0].id,
+                id: snapshot.docs[0].id,
                 ...snapshot.docs[0].data(),
             };
 
@@ -19,19 +19,17 @@ export default async (req, res) => {
                 });
             }
 
-            res.status(200).json({
+            return res.status(200).json({
                 success: true, data: item,
             });
         } catch (e) {
-            res.status(400).json({
+            return res.status(400).json({
                 success: false, errors: e,
             });
         }
-        break;
     default:
-        res.status(400).json({
+        return res.status(400).json({
             success: false,
         });
-        break;
     }
 };

@@ -7,7 +7,7 @@ import { auth } from 'utils/dbConnect';
 import Builder from 'container/Builder/Builder';
 import defaultComponents from 'variables/components';
 
-export default function Edit({ item, pages, images }) {
+export default function Edit({ item, images }) {
     const url = 'pages';
 
     const intl = useIntl();
@@ -39,7 +39,6 @@ export default function Edit({ item, pages, images }) {
         setContent({
             title: e.title,
             slug: e.slug,
-            parentPage: e.parentPage,
             data,
         });
         validate(e.slug).then((errs) => setErrors(errs));
@@ -49,13 +48,12 @@ export default function Edit({ item, pages, images }) {
     const update = async () => {
         setLoading(true);
         try {
-            const res = await fetch(`/api/pages/${item._id}`, {
+            const res = await fetch(`/api/pages/${item.id}`, {
                 body: JSON.stringify({
                     title: content.title,
                     slug: content.slug,
                     updated: new Date(),
                     content: JSON.stringify(content.data),
-                    parentPage: content.parentPage,
                 }),
                 headers: {
                     'Content-Type': 'application/json',
@@ -75,7 +73,6 @@ export default function Edit({ item, pages, images }) {
         if (isSubmitting) {
             if (Object.keys(errors).length === 0) {
                 update();
-                console.log('updated')
             } else {
                 setIsSubmitting(false);
             }
@@ -95,7 +92,6 @@ export default function Edit({ item, pages, images }) {
             </Head>
             <Builder
                 url={url}
-                pages={pages}
                 page={post}
                 loading={loading}
                 onSubmit={onSubmit}
@@ -132,17 +128,6 @@ export async function getServerSideProps(ctx) {
                 errors = JSON.stringify(error);
             });
 
-        let pages = [];
-
-        await axios
-            .get(`${process.env.URL}/api/pages/`)
-            .then((res) => {
-                pages = res.data.data;
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-
         let images = [];
         await axios
             .get(`${process.env.URL}/api/images`)
@@ -154,7 +139,7 @@ export async function getServerSideProps(ctx) {
 
         return {
             props: {
-                item, errors, pages, images: JSON.stringify(images),
+                item, errors, images: JSON.stringify(images),
             },
         };
     } catch (err) {

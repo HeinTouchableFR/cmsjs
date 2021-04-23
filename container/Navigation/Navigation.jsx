@@ -15,13 +15,12 @@ import styles from './Navigation.module.scss';
 import Tab from '../../components/Tab/Tab';
 import DarkModeButton from '../../components/Button/DarkModeButton/DarkModeButton';
 
-export default function Navigation({components, currentItem, onElementValueChange, setCurrentElement, page, onSubmit, pages = [], loading, hide, device, setDevice, hideMenu, images, setImages, mode, content, errors}) {
+export default function Navigation({components, currentItem, onElementValueChange, setCurrentElement, page, onSubmit, loading, hide, device, setDevice, hideMenu, images, setImages, mode, content, errors}) {
     const intl = useIntl();
 
     const [form, setForm] = useState({
         title: page.title || '',
         slug: page.slug || '',
-        parentPage: page.parentPage || '',
     });
 
     const [activeIndex, setActiveIndex] = useState(0);
@@ -43,23 +42,6 @@ export default function Navigation({components, currentItem, onElementValueChang
         e.preventDefault();
         onSubmit(form);
     };
-
-    const pagesOptions = [];
-
-    const recursivePagesOptions = (page, tiret = '', parent) => {
-        if (parent) {
-            tiret += ' — ';
-        }
-        pagesOptions.push({
-            key: page._id, value: page._id, text: (parent ? tiret : '') + page.title,
-        });
-
-        if (page.childPagesData) {
-            page.childPagesData.map((child) => recursivePagesOptions(child, tiret, page));
-        }
-    };
-
-    pages.length > 0 && pages.map((page) => recursivePagesOptions(page));
 
     const handleChange = (_e, data) => {
         setForm({
@@ -202,19 +184,6 @@ export default function Navigation({components, currentItem, onElementValueChang
                                         defaultValue={form.slug}
                                         onChange={handleChange}
                                         error={errors.slug}
-                                    />
-                                    <Dropdown
-                                        placeholder={intl.formatMessage({
-                                            id: 'parentPage', defaultMessage: 'Parent page',
-                                        })}
-                                        label={intl.formatMessage({
-                                            id: 'parentPage', defaultMessage: 'Parent page',
-                                        })}
-                                        options={pagesOptions}
-                                        defaultValue={form.parentPage}
-                                        onChange={handleChange}
-                                        name='parentPage'
-                                        searchable
                                     />
                                 </form>
                             </>

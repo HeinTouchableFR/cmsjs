@@ -1,77 +1,51 @@
-import {db} from 'utils/dbConnect';
+import { db } from 'utils/dbConnect';
 
 export default async (req, res) => {
-    const {method} = req;
-
-    const recursive = async function (doc) {
-        const fetchPromises = [];
-        const item = doc.data();
-        item._id = doc.id;
-        item.childPagesData = [];
-        if (item.childPages) {
-            item.childPages.map((page) => {
-                const nextPromise = db.doc(`pages/${page}`).get();
-                fetchPromises.push(nextPromise);
+    const { method } = req;
+    switch (method) {
+    case 'GET':
+        try {
+            const snapshots = await db.collection('pages').orderBy('title').get();
+            const items = snapshots.docs.map(async (doc) => ({
+                id: doc.id,
+                ...doc.data(),
+            }));
+            const data = await Promise.all(items);
+            res.status(200).json({
+                success: true, data,
+            });
+        } catch (e) {
+            res.status(400).json({
+                success: false, errors: e,
             });
         }
-        const snapshots = await Promise.all(fetchPromises);
-        const fetchPromisesChild = [];
-        snapshots.map(async (snapshot) => {
-            const nextChildPromise = recursive(snapshot);
-            fetchPromisesChild.push(nextChildPromise);
+        break;
+    case 'POST':
+        try {
+            const item = {
+                title: req.body.title,
+                slug: req.body.slug,
+                content: req.body.content,
+                published: req.body.published,
+                author: req.body.author,
+            };
+            const data = await db.collection('pages').add(item);
+            res.status(200).json({
+                success: true,
+                data: {
+                    id: data.id,
+                },
+            });
+        } catch (e) {
+            res.status(400).json({
+                success: false, errors: e,
+            });
+        }
+        break;
+    default:
+        res.status(400).json({
+            success: false, errors: "Cette méthode n'est pas disponible",
         });
-        const childSnapshots = await Promise.all(fetchPromisesChild);
-        item.childPagesData = childSnapshots.map((item) => {
-            return item;
-        });
-        return item;
-    };
-
-    switch (method) {
-        case 'GET':
-            try {
-                const snapshots = await db.collection('pages').orderBy('title').where('parentPage', '==', "").get()
-                const items = snapshots.docs.map(async (doc) => {
-                    return await recursive(doc);
-                });
-                const data = await Promise.all(items)
-                res.status(200).json({success: true, data: data})
-            } catch (e) {
-                res.status(400).json({success: false, errors: e});
-            }
-            break;
-        case 'POST':
-            try {
-                let item = {
-                    title: req.body.title,
-                    slug: req.body.slug,
-                    content: req.body.content,
-                    published: req.body.published,
-                    author: req.body.author,
-                    parentPage: req.body.parentPage ? req.body.parentPage : "",
-                    childPages: []
-                };
-                const data = await db.collection('pages').add(item);
-                if (data.id && item.parentPage) {
-                    const snapshot = await db.doc(`pages/${item.parentPage}`).get();
-                    const page = {
-                        id: snapshot.id,
-                        ...snapshot.data(),
-                    };
-                    page.childPages.push(data.id);
-                    await db.doc(`pages/${page.id}`).set(page, {merge: true});
-                }
-                res.status(200).json({
-                    success: true, data: {
-                        _id: data.id
-                    }
-                });
-            } catch (e) {
-                res.status(400).json({success: false, errors: e});
-            }
-            break;
-        default:
-            res.status(400).json({success: false, errors: "Cette méthode n'est pas disponible"});
-            break;
+        break;
     }
 };

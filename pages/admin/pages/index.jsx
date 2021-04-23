@@ -58,7 +58,7 @@ export default function Index({items}) {
     const deleteElement = async () => {
         try {
             setItemToDelete({});
-            await fetch(`${process.env.URL}/api/${url}/${itemToDelete._id}`, {
+            await fetch(`${process.env.URL}/api/${url}/${itemToDelete.id}`, {
                 method: 'DELETE',
             });
             setIsDeleting(false);
@@ -103,7 +103,7 @@ export default function Index({items}) {
                                 <Page
                                     item={item}
                                     url={url}
-                                    key={item._id}
+                                    key={item.id}
                                     handleDelete={open}
                                 />
                             ))}
