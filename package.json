@@ -34,7 +34,8 @@
     "react-intl": "^5.13.1",
     "react-slugify": "^2.0.3",
     "sass": "^1.32.8",
-    "sharp": "^0.27.1"
+    "sharp": "^0.27.1",
+    "swr": "^0.5.5"
   },
   "devDependencies": {
     "eslint": "^7.24.0",

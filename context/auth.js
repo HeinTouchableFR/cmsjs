@@ -22,6 +22,7 @@ export function AuthProvider({ children }) {
             }
 
             const token = await user.getIdToken();
+            user.token = token;
             setUser(user);
             nookies.destroy(null, 'token');
             nookies.set(null, 'token', token, { path: '/' });

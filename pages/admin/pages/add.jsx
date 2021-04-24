@@ -9,11 +9,13 @@ import nookies from 'nookies';
 import Builder from 'container/Builder/Builder';
 import { auth } from 'utils/dbConnect';
 import defaultComponents from 'variables/components';
+import { useAuth } from 'context/auth';
 
 export default function Ajouter({ images }) {
     const url = 'pages';
 
     const intl = useIntl();
+    const { user } = useAuth();
 
     const [post, setPost] = useState({
     });
@@ -63,11 +65,14 @@ export default function Ajouter({ images }) {
                 }),
                 headers: {
                     'Content-Type': 'application/json',
+                    Authorization: `Bearer ${user.token}`,
                 },
+                credentials: 'same-origin',
                 method: 'POST',
             });
 
             const result = await res.json();
+            console.log(result)
             setPost(result);
             router.push(`/admin/${url}/edit/${result.data.id}`);
         } catch (error) {

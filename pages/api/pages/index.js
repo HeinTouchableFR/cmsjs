@@ -1,4 +1,6 @@
-import { db } from 'utils/dbConnect';
+import { firebase } from 'utils/firebaseClient';
+
+const db = firebase.firestore();
 
 export default async (req, res) => {
     const { method } = req;

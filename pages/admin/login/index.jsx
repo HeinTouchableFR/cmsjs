@@ -37,7 +37,18 @@ export default function Index() {
 
     const login = async () => {
         try {
-            const data = await firebase.auth().signInWithEmailAndPassword(form.email, form.password);
+            firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+                .then(async () => {
+                    const data = await firebase.auth().signInWithEmailAndPassword(form.email, form.password);
+                    res.status(200).json({
+                        success: true, data,
+                    });
+                })
+                .catch((error) => {
+                    // Handle Errors here.
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                });
             setIsSubmitting(false);
             router.push('/admin/');
         } catch (error) {
