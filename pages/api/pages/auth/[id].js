@@ -1,7 +1,7 @@
-import { firebase } from 'utils/firebaseClient';
+import { db } from 'utils/dbConnect';
+import { withAuthAdmin } from 'lib/middlewares';
 
-const db = firebase.firestore();
-export default async (req, res) => {
+const handler = async (req, res) => {
     const { query: { id },
         method } = req;
 
@@ -15,20 +15,27 @@ export default async (req, res) => {
             };
 
             if (!item) {
-                return res.status(400).json({
+                res.status(400).json({
                     success: false,
+                    errors: {
+                        status: 404,
+                        code: 1,
+                        message: 'Item not found',
+                    },
                 });
             }
 
-            return res.status(200).json({
-                success: true, data: item,
+            res.status(200).json({
+                success: true,
+                data: item,
             });
         } catch (e) {
-            return res.status(400).json({
+            res.status(400).json({
                 success: false,
                 errors: e,
             });
         }
+        break;
     case 'PUT':
         try {
             const snapshot = await db.doc(`pages/${id}`).get();
@@ -37,8 +44,13 @@ export default async (req, res) => {
                 ...snapshot.data(),
             };
             if (!item) {
-                return res.status(400).json({
-                    success: false, errors: "L'élément n'existe pas.",
+                res.status(400).json({
+                    success: false,
+                    errors: {
+                        status: 404,
+                        code: 1,
+                        message: 'Item not found',
+                    },
                 });
             }
             item.title = req.body.title;
@@ -50,31 +62,43 @@ export default async (req, res) => {
                 merge: true,
             });
 
-            return res.status(200).json({
+            res.status(200).json({
                 success: true,
                 data: {
                     id: item.id, ...item,
                 },
             });
         } catch (e) {
-            return res.status(400).json({
-                success: false, errors: e,
+            res.status(400).json({
+                success: false,
+                errors: e,
             });
         }
+        break;
     case 'DELETE':
         try {
             await db.doc(`pages/${id}`).delete();
-            return res.status(200).json({
+            res.status(200).json({
                 success: true,
             });
         } catch (e) {
-            return res.status(400).json({
+            res.status(400).json({
                 success: false,
+                errors: e,
             });
         }
+        break;
     default:
-        return res.status(400).json({
+        res.status(400).json({
             success: false,
+            errors: {
+                status: 404,
+                code: 1,
+                message: 'This method is not available',
+            },
         });
+        break;
     }
 };
+
+export default withAuthAdmin(handler);

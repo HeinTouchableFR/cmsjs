@@ -1,0 +1,88 @@
+.flash {
+  display: block;
+  width: 100%;
+  background: var(--admin-header);
+  box-shadow: 1px 3px 3px 0 var(--admin-shadow), 1px 3px 15px 2px var(--admin-shadow);
+  margin-bottom: 1rem;
+  padding: 1rem;
+  color: var(--admin-color);
+  font-family: Poppins, sans-serif;
+  border-left-width: 2px;
+  border-left-style: solid;
+  transition-timing-function: cubic-bezier(.215,.61,.355,1);
+  animation-duration: .6s;
+
+  &.in {
+    animation-name: flyInDown;
+  }
+
+  &.out {
+    animation-name: flyOutDown;
+  }
+
+  .status {
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+
+  .message {
+    color: var(--admin-text-grey);
+    font-size: 1rem;
+  }
+
+  .request {
+    color: var(--admin-text-grey);
+    font-size: .7rem;
+  }
+
+  &.error {
+    border-left-color: red;
+  }
+
+  &.warning {
+    border-left-color: orange;
+  }
+
+  &.info {
+    border-left-color: deepskyblue;
+  }
+}
+
+
+@keyframes flyInDown {
+  0%
+  {
+    opacity: 0;
+    transform: translate3d(0,-1500px,0);
+  }
+  60% {
+    opacity: 1;
+    transform: translate3d(0,25px,0);
+  }
+  75% {
+    transform: translate3d(0,-10px,0);
+  }
+  90% {
+    transform: translate3d(0,5px,0);
+  }
+  100% {
+    transform: none;
+  }
+}
+
+@keyframes flyOutDown {
+  20% {
+    -webkit-transform: translate3d(0, -10px, 0);
+    transform: translate3d(0, -10px, 0)
+  }
+  40%, 45% {
+    opacity: 1;
+    -webkit-transform: translate3d(0, 20px, 0);
+    transform: translate3d(0, 20px, 0)
+  }
+  100% {
+    opacity: 0;
+    -webkit-transform: translate3d(0, -2000px, 0);
+    transform: translate3d(0, -2000px, 0)
+  }
+}

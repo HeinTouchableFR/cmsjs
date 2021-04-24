@@ -1,23 +1,28 @@
-import React, {useEffect, useState} from 'react';
+import React, {
+    useEffect, useState,
+} from 'react';
 import { useIntl } from 'react-intl';
 import Head from 'next/head';
-import axios from 'axios';
 import nookies from 'nookies';
 import { auth } from 'utils/dbConnect';
 import Builder from 'container/Builder/Builder';
 import defaultComponents from 'variables/components';
+import { useAuth } from 'context/auth';
+import PropTypes from 'prop-types';
 
-export default function Edit({ item, images }) {
+export default function Edit({ item, errors, images }) {
     const url = 'pages';
 
     const intl = useIntl();
 
+    const { user } = useAuth();
     const [post, setPost] = useState(item);
     const [imagesList, setImagesList] = useState(JSON.parse(images));
     const [loading, setLoading] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [errors, setErrors] = useState({
+    const [formErrors, setformErrors] = useState({
     });
+    const [builderErrors, setBuilderErrors] = useState(errors);
     const [content, setContent] = useState('');
 
     const validate = async (slug) => {
@@ -41,14 +46,14 @@ export default function Edit({ item, images }) {
             slug: e.slug,
             data,
         });
-        validate(e.slug).then((errs) => setErrors(errs));
+        validate(e.slug).then((errs) => setformErrors(errs));
         setIsSubmitting(true);
     };
 
     const update = async () => {
         setLoading(true);
         try {
-            const res = await fetch(`/api/pages/${item.id}`, {
+            const res = await fetch(`/api/pages/auth/${item.id}`, {
                 body: JSON.stringify({
                     title: content.title,
                     slug: content.slug,
@@ -57,27 +62,33 @@ export default function Edit({ item, images }) {
                 }),
                 headers: {
                     'Content-Type': 'application/json',
+                    Authorization: `Bearer ${user.token}`,
                 },
+                credentials: 'same-origin',
                 method: 'PUT',
             });
 
             const result = await res.json();
-            setPost(result.data);
-        } catch (error) {
-            console.log(error);
+            if (result.success) {
+                setPost(result.data);
+            } else {
+                setBuilderErrors([result.errors]);
+            }
+        } catch (err) {
+            setBuilderErrors([err]);
         }
         setLoading(false);
     };
 
     useEffect(() => {
         if (isSubmitting) {
-            if (Object.keys(errors).length === 0) {
+            if (Object.keys(formErrors).length === 0) {
                 update();
             } else {
                 setIsSubmitting(false);
             }
         }
-    }, [errors]);
+    }, [formErrors]);
 
     return (
         <>
@@ -98,11 +109,26 @@ export default function Edit({ item, images }) {
                 setImages={setImagesList}
                 images={imagesList}
                 modules={defaultComponents.pageComponents(intl)}
-                errors={errors}
+                formErrors={formErrors}
+                errors={builderErrors}
             />
         </>
     );
 }
+
+Edit.propTypes = {
+    item: PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        title: PropTypes.string,
+    }).isRequired,
+    images: PropTypes.string.isRequired,
+    errors: PropTypes.oneOfType([
+        PropTypes.shape({
+        }),
+        PropTypes.arrayOf(PropTypes.shape({
+        })),
+    ]).isRequired,
+};
 
 export async function getServerSideProps(ctx) {
     try {
@@ -117,25 +143,40 @@ export async function getServerSideProps(ctx) {
 
         let item = {
         };
-        let errors = [];
-
-        await axios
-            .get(`${process.env.URL}/api/pages/${id}`)
-            .then((res) => {
-                item = res.data.data;
-            })
-            .catch((error) => {
-                errors = JSON.stringify(error);
-            });
-
         let images = [];
-        await axios
-            .get(`${process.env.URL}/api/images`)
-            .then((res) => {
-                images = res.data.data;
-            })
-            .catch(() => {
+        const errors = [];
+
+        const resItem = await fetch(`${process.env.URL}/api/images`, {
+            headers: {
+                Authorization: `Bearer ${cookies.token}`,
+            },
+            credentials: 'same-origin',
+        });
+        const dataItem = await resItem.json();
+        if (dataItem.success) {
+            item = dataItem.data;
+        } else {
+            errors.push({
+                ...dataItem.errors,
+                request: `${process.env.URL}/api/pages/${id}`,
             });
+        }
+
+        const resImages = await fetch(`${process.env.URL}/api/images`, {
+            headers: {
+                Authorization: `Bearer ${cookies.token}`,
+            },
+            credentials: 'same-origin',
+        });
+        const dataImages = await resImages.json();
+        if (dataImages.success) {
+            images = dataImages.data;
+        } else {
+            errors.push({
+                ...dataImages.errors,
+                request: `${process.env.URL}/api/images`,
+            });
+        }
 
         return {
             props: {

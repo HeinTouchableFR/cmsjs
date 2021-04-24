@@ -49,6 +49,15 @@
       right: 0;
       height: 50px;
     }
+
+    .errors {
+      position: absolute;
+      bottom: 50px;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      padding: 10px;
+    }
   }
 }
 

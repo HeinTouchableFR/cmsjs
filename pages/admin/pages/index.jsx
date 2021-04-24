@@ -4,7 +4,6 @@ import React, {
 import { useIntl } from 'react-intl';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import axios from 'axios';
 import nookies from 'nookies';
 import { auth } from 'utils/dbConnect';
 import Table from 'components/Table/Table';
@@ -12,9 +11,13 @@ import Page from 'components/rowTemplate/Page/Page';
 import Admin from 'container/Admin/Admin';
 import Card from 'components/Cards/Card/Card';
 import Confirm from 'components/Confirm/Confirm';
+import PropTypes from 'prop-types';
+import Flash from 'components/Flash/Flash';
+import { useAuth } from 'context/auth';
 
-export default function Index({items}) {
+export default function Index({ items, errors }) {
     const intl = useIntl();
+    const { user } = useAuth();
     const url = 'pages';
     const router = useRouter();
 
@@ -37,6 +40,7 @@ export default function Index({items}) {
     const [confirm, setConfirm] = useState(false);
     const [itemToDelete, setItemToDelete] = useState({
     });
+    const [indexErrors, setIndexErrors] = useState(errors);
 
     const open = (item) => {
         setConfirm(true);
@@ -54,13 +58,22 @@ export default function Index({items}) {
         try {
             setItemToDelete({
             });
-            await fetch(`${process.env.URL}/api/${url}/${itemToDelete.id}`, {
+            const res = await fetch(`${process.env.URL}/api/${url}/auth/${itemToDelete.id}`, {
                 method: 'DELETE',
+                headers: {
+                    Authorization: `Bearer ${user.token}`,
+                },
+                credentials: 'same-origin',
             });
             setIsDeleting(false);
-            router.push(`/admin/${url}`);
-        } catch (error) {
-            console.log(error);
+            const result = await res.json();
+            if (result.success) {
+                router.push(`/admin/${url}`);
+            } else {
+                setIndexErrors([result.errors]);
+            }
+        } catch (err) {
+            setIndexErrors([err]);
         }
     };
 
@@ -80,6 +93,13 @@ export default function Index({items}) {
                 </title>
             </Head>
             <Admin>
+                {indexErrors
+                && indexErrors.map((error, index) => (
+                    <Flash
+                        key={index}
+                        error={error}
+                    />
+                ))}
                 <Card
                     color='grey'
                 >
@@ -126,6 +146,21 @@ export default function Index({items}) {
     );
 }
 
+Index.propTypes = {
+    items: PropTypes.oneOfType([
+        PropTypes.shape({
+        }),
+        PropTypes.arrayOf(PropTypes.shape({
+        })),
+    ]).isRequired,
+    errors: PropTypes.oneOfType([
+        PropTypes.shape({
+        }),
+        PropTypes.arrayOf(PropTypes.shape({
+        })),
+    ]).isRequired,
+};
+
 export async function getServerSideProps(ctx) {
     try {
         const cookies = nookies.get(ctx);
@@ -135,19 +170,26 @@ export async function getServerSideProps(ctx) {
             throw new Error('unauthorized');
         }
 
+        const errors = [];
         let items = [];
 
-        await axios
-            .get(`${process.env.URL}/api/pages`)
-            .then((res) => {
-                items = res.data.data;
-            })
-            .catch((error) => {
-            });
+        const res = await fetch(`${process.env.URL}/api/pages`, {
+            headers: {
+                Authorization: `Bearer ${cookies.token}`,
+            },
+            credentials: 'same-origin',
+        });
+        const data = await res.json();
+        if (data.success) {
+            items = data.data;
+        } else {
+            errors.push(data.errors);
+        }
 
         return {
             props: {
                 items,
+                errors,
             },
         };
     } catch (err) {
@@ -156,7 +198,8 @@ export async function getServerSideProps(ctx) {
                 permanent: false,
                 destination: '/admin/login',
             },
-            props: {},
+            props: {
+            },
         };
     }
 }

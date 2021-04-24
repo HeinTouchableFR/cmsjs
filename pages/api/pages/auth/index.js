@@ -1,18 +1,24 @@
 import { db } from 'utils/dbConnect';
+import { withAuthAdmin } from 'lib/middlewares';
 
 const handler = async (req, res) => {
     const { method } = req;
     switch (method) {
-    case 'GET':
+    case 'POST':
         try {
-            const snapshots = await db.collection('pages').orderBy('title').get();
-            const items = snapshots.docs.map(async (doc) => ({
-                id: doc.id,
-                ...doc.data(),
-            }));
-            const data = await Promise.all(items);
+            const item = {
+                title: req.body.title,
+                slug: req.body.slug,
+                content: req.body.content,
+                published: req.body.published,
+                author: req.body.author,
+            };
+            const data = await db.collection('pages').add(item);
             res.status(200).json({
-                success: true, data,
+                success: true,
+                data: {
+                    id: data.id,
+                },
             });
         } catch (e) {
             res.status(400).json({
@@ -34,4 +40,4 @@ const handler = async (req, res) => {
     }
 };
 
-export default handler;
+export default withAuthAdmin(handler);

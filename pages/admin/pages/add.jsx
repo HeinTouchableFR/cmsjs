@@ -4,14 +4,14 @@ import React, {
 import { useIntl } from 'react-intl';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import axios from 'axios';
 import nookies from 'nookies';
 import Builder from 'container/Builder/Builder';
 import { auth } from 'utils/dbConnect';
 import defaultComponents from 'variables/components';
 import { useAuth } from 'context/auth';
+import PropTypes from 'prop-types';
 
-export default function Ajouter({ images }) {
+export default function Add({ images, errors }) {
     const url = 'pages';
 
     const intl = useIntl();
@@ -23,7 +23,8 @@ export default function Ajouter({ images }) {
     const [loading, setLoading] = useState(false);
     const router = useRouter();
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [errors, setErrors] = useState({
+    const [builderErrors, setBuilderErrors] = useState(errors);
+    const [formErrors, setFormErrors] = useState({
     });
     const [content, setContent] = useState('');
 
@@ -48,7 +49,7 @@ export default function Ajouter({ images }) {
             slug: e.slug,
             data,
         });
-        validate(e.slug).then((errs) => setErrors(errs));
+        validate(e.slug).then((errs) => setFormErrors(errs));
         setIsSubmitting(true);
     };
 
@@ -72,24 +73,27 @@ export default function Ajouter({ images }) {
             });
 
             const result = await res.json();
-            console.log(result)
-            setPost(result);
+            if (result.success) {
+                setPost(result.data);
+            } else {
+                setBuilderErrors([result.errors]);
+            }
             router.push(`/admin/${url}/edit/${result.data.id}`);
-        } catch (error) {
-            console.log(error);
+        } catch (err) {
+            setBuilderErrors([err]);
         }
         setLoading(false);
     };
 
     useEffect(() => {
         if (isSubmitting) {
-            if (Object.keys(errors).length === 0) {
+            if (Object.keys(formErrors).length === 0) {
                 create();
             } else {
                 setIsSubmitting(false);
             }
         }
-    }, [errors]);
+    }, [formErrors]);
 
     return (
         <>
@@ -108,11 +112,22 @@ export default function Ajouter({ images }) {
                 images={imagesList}
                 setImages={setImagesList}
                 modules={defaultComponents.pageComponents(intl)}
-                errors={errors}
+                formErrors={formErrors}
+                errors={builderErrors}
             />
         </>
     );
 }
+
+Add.propTypes = {
+    images: PropTypes.string.isRequired,
+    errors: PropTypes.oneOfType([
+        PropTypes.shape({
+        }),
+        PropTypes.arrayOf(PropTypes.shape({
+        })),
+    ]).isRequired,
+};
 
 export async function getServerSideProps(ctx) {
     try {
@@ -123,18 +138,29 @@ export async function getServerSideProps(ctx) {
             throw new Error('unauthorized');
         }
 
+        const errors = [];
         let images = [];
-        await axios
-            .get(`${process.env.URL}/api/images`)
-            .then((res) => {
-                images = res.data.data;
-            })
-            .catch(() => {
+
+        const resImages = await fetch(`${process.env.URL}/api/images`, {
+            headers: {
+                Authorization: `Bearer ${cookies.token}`,
+            },
+            credentials: 'same-origin',
+        });
+        const dataImages = await resImages.json();
+        if (dataImages.success) {
+            images = dataImages.data;
+        } else {
+            errors.push({
+                ...dataImages.errors,
+                request: `${process.env.URL}/api/images`,
             });
+        }
 
         return {
             props: {
                 images: JSON.stringify(images),
+                errors,
             },
         };
     } catch (err) {

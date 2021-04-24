@@ -1,6 +1,6 @@
 import { db } from 'utils/dbConnect';
 
-export default async (req, res) => {
+const handler = async (req, res) => {
     const { query: { slug },
         method } = req;
 
@@ -33,3 +33,5 @@ export default async (req, res) => {
         });
     }
 };
+
+export default handler;

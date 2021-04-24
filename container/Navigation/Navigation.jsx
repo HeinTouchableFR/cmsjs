@@ -14,8 +14,9 @@ import Button from 'components/Button/Button';
 import styles from './Navigation.module.scss';
 import Tab from '../../components/Tab/Tab';
 import DarkModeButton from '../../components/Button/DarkModeButton/DarkModeButton';
+import Flash from '../../components/Flash/Flash';
 
-export default function Navigation({components, currentItem, onElementValueChange, setCurrentElement, page, onSubmit, loading, hide, device, setDevice, hideMenu, images, setImages, mode, content, errors}) {
+export default function Navigation({components, currentItem, onElementValueChange, setCurrentElement, page, onSubmit, loading, hide, device, setDevice, hideMenu, images, setImages, mode, content, formErrors, errors}) {
     const intl = useIntl();
 
     const [form, setForm] = useState({
@@ -170,7 +171,7 @@ export default function Navigation({components, currentItem, onElementValueChang
                                         name='title'
                                         defaultValue={form.title}
                                         onChange={handleChange}
-                                        error={errors.title}
+                                        error={formErrors.title}
                                     />
                                     <Input
                                         label={intl.formatMessage({
@@ -183,7 +184,7 @@ export default function Navigation({components, currentItem, onElementValueChang
                                         name='slug'
                                         defaultValue={form.slug}
                                         onChange={handleChange}
-                                        error={errors.slug}
+                                        error={formErrors.slug}
                                     />
                                 </form>
                             </>
@@ -353,6 +354,17 @@ export default function Navigation({components, currentItem, onElementValueChang
                             onTabChange={handleTabChange}
                         />
                     </main>
+                    {errors
+                    && (
+                        <div className={styles.errors}>
+                            {errors.map((error, index) => (
+                                <Flash
+                                    key={index}
+                                    error={error}
+                                />
+                            ))}
+                        </div>
+                    )}
                     <footer>
                         <div className={styles.navigation__bottom_menu}>
                             <DarkModeButton/>
