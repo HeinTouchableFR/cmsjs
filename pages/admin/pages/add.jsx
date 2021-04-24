@@ -56,7 +56,7 @@ export default function Add({ images, errors }) {
     const create = async () => {
         setLoading(true);
         try {
-            const res = await fetch('/api/pages', {
+            const res = await fetch('/api/pages/auth', {
                 body: JSON.stringify({
                     title: content.title,
                     slug: content.slug,
