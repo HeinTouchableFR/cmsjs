@@ -8,7 +8,7 @@ import styles from '../Layout.module.scss';
 
 export default function Column({ column,
     onElementClick,
-    deleteElement,
+    updateColumn,
     currentElement,
     setCurrentElement,
     device,
@@ -17,17 +17,15 @@ export default function Column({ column,
      * Allows you to delete a sub item
      * @param e
      */
-    const handleDeleteElement = (e) => {
-        deleteElement(column, e);
+    const handleupdateColumn = (e) => {
+        const update = column;
+        update.elements = column.elements.filter((c) => c.id !== e.id);
+        updateColumn(update);
         if (currentElement.id === e.id) {
             setCurrentElement({
                 id: 'empty',
             });
         }
-    };
-
-    const handleElementClick = (e) => {
-        onElementClick(e);
     };
 
     /**
@@ -81,8 +79,8 @@ export default function Column({ column,
                                                 >
                                                     <div
                                                         className='content'
-                                                        onClick={() => handleElementClick(item)}
-                                                        onKeyDown={() => handleElementClick(item)}
+                                                        onClick={() => onElementClick(item)}
+                                                        onKeyDown={() => onElementClick(item)}
                                                         role='button'
                                                         tabIndex={0}
                                                     >
@@ -94,8 +92,8 @@ export default function Column({ column,
                                                     </div>
                                                     <button
                                                         key={`btn-empty${item.id}`}
-                                                        onClick={() => handleDeleteElement(item)}
-                                                        onKeyDown={() => handleDeleteElement(item)}
+                                                        onClick={() => handleupdateColumn(item)}
+                                                        onKeyDown={() => handleupdateColumn(item)}
                                                         type='button'
                                                         className={styles.element__widget__remove}
                                                     >
@@ -109,10 +107,10 @@ export default function Column({ column,
                             ) : (
                                 <div
                                     className={styles.column__empty}
-                                    onClick={() => handleElementClick({
+                                    onClick={() => onElementClick({
                                         id: 'empty', column: column.id,
                                     })}
-                                    onKeyDown={() => handleElementClick({
+                                    onKeyDown={() => onElementClick({
                                         id: 'empty', column: column.id,
                                     })}
                                     role='button'
@@ -152,7 +150,7 @@ Column.propTypes = {
     onElementClick: PropTypes.func.isRequired,
     setCurrentElement: PropTypes.func.isRequired,
     handleOpenPortal: PropTypes.func.isRequired,
-    deleteElement: PropTypes.func.isRequired,
+    updateColumn: PropTypes.func.isRequired,
     device: PropTypes.string,
     currentElement: PropTypes.shape({
         id: PropTypes.oneOfType([

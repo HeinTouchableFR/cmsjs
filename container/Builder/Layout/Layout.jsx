@@ -67,10 +67,10 @@ export default function Layout({ layout,
     /**
      * Allows you to delete a sub item
      * @param column
-     * @param element
      */
-    const deleteElement = (column, element) => {
-        //updateLayout(layout);
+    const updateColumn = (column) => {
+        layout.columns.map((c) => (c.id === column.id ? column : c));
+        updateLayout(layout);
     };
 
     return (
@@ -84,7 +84,7 @@ export default function Layout({ layout,
                         <Column
                             key={`element-${column.id}`}
                             column={column}
-                            deleteElement={deleteElement}
+                            updateColumn={updateColumn}
                             onElementClick={onElementClick}
                             setCurrentElement={setCurrentElement}
                             currentElement={currentElement}
