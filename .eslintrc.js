@@ -46,5 +46,6 @@ module.exports = {
         // rules to ignore
         'import/no-unresolved': 'off',
         'react/no-array-index-key': 'off',
+        'react/jsx-props-no-spreading': 'off',
     },
 };

@@ -1,17 +1,17 @@
 import React, {
     useEffect, useState,
 } from 'react';
-import styles from 'container/Layout/Layout.module.scss';
+import styles from 'container/Builder/Layout/Layout.module.scss';
 import ComponentDispatcher from 'components/ComponentCollection/ComponentDispatcher';
 import Loader from 'components/Loader/Loader';
 
 export default function RenderPage({ page, showRender = false }) {
-    const [content, setContent] = useState(page.content ? JSON.parse(page.content) : {
-    });
+    const [content, setContent] = useState(page.content ? JSON.parse(page.content) : [
+    ]);
 
     useEffect(() => {
-        setContent(page.content ? JSON.parse(page.content) : {
-        });
+        setContent(page.content ? JSON.parse(page.content) : [
+        ]);
     }, [page]);
 
     return (

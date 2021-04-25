@@ -40,11 +40,12 @@ export default function Edit({ item, errors, images }) {
         return errs;
     };
 
-    const onSubmit = async (e, data) => {
+    const onSubmit = async (e, data, params) => {
         setContent({
             title: e.title,
             slug: e.slug,
             data,
+            params,
         });
         validate(e.slug).then((errs) => setformErrors(errs));
         setIsSubmitting(true);
@@ -59,6 +60,7 @@ export default function Edit({ item, errors, images }) {
                     slug: content.slug,
                     updated: new Date(),
                     content: JSON.stringify(content.data),
+                    params: JSON.stringify(content.params),
                 }),
                 headers: {
                     'Content-Type': 'application/json',

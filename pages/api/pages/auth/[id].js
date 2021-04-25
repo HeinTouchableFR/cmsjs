@@ -57,6 +57,7 @@ const handler = async (req, res) => {
             item.slug = req.body.slug;
             item.updated = req.body.updated;
             item.content = req.body.content;
+            item.params = req.body.params;
 
             await db.doc(`pages/${id}`).set(item, {
                 merge: true,

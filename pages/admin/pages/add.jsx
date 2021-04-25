@@ -17,8 +17,6 @@ export default function Add({ images, errors }) {
     const intl = useIntl();
     const { user } = useAuth();
 
-    const [post, setPost] = useState({
-    });
     const [imagesList, setImagesList] = useState(JSON.parse(images));
     const [loading, setLoading] = useState(false);
     const router = useRouter();
@@ -43,11 +41,12 @@ export default function Add({ images, errors }) {
         return errs;
     };
 
-    const onSubmit = async (e, data) => {
+    const onSubmit = async (e, data, params) => {
         setContent({
             title: e.title,
             slug: e.slug,
             data,
+            params,
         });
         validate(e.slug).then((errs) => setFormErrors(errs));
         setIsSubmitting(true);
@@ -63,6 +62,7 @@ export default function Add({ images, errors }) {
                     author: 'A faire',
                     published: new Date(),
                     content: JSON.stringify(content.data),
+                    params: JSON.stringify(content.params),
                 }),
                 headers: {
                     'Content-Type': 'application/json',
@@ -73,9 +73,7 @@ export default function Add({ images, errors }) {
             });
 
             const result = await res.json();
-            if (result.success) {
-                setPost(result.data);
-            } else {
+            if (!result.success) {
                 setBuilderErrors([result.errors]);
             }
             router.push(`/admin/${url}/edit/${result.data.id}`);
@@ -107,7 +105,6 @@ export default function Add({ images, errors }) {
             <Builder
                 url={url}
                 onSubmit={onSubmit}
-                page={post}
                 loading={loading}
                 images={imagesList}
                 setImages={setImagesList}

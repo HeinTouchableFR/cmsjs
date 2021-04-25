@@ -3,15 +3,22 @@ import {
 } from 'react-beautiful-dnd';
 import React from 'react';
 import ComponentDispatcher from 'components/ComponentCollection/ComponentDispatcher';
+import PropTypes from 'prop-types';
 import styles from '../Layout.module.scss';
 
-export default function Column({column, onElementClick, elementDelete, currentElement, setCurrentElement, device, handleOpenPortal}) {
+export default function Column({ column,
+    onElementClick,
+    deleteElement,
+    currentElement,
+    setCurrentElement,
+    device,
+    handleOpenPortal }) {
     /**
      * Allows you to delete a sub item
      * @param e
      */
-    const handleElementDelete = function (e) {
-        elementDelete(column, e);
+    const handleDeleteElement = (e) => {
+        deleteElement(column, e);
         if (currentElement.id === e.id) {
             setCurrentElement({
                 id: 'empty',
@@ -19,7 +26,7 @@ export default function Column({column, onElementClick, elementDelete, currentEl
         }
     };
 
-    const handleElementClick = function (e) {
+    const handleElementClick = (e) => {
         onElementClick(e);
     };
 
@@ -63,17 +70,21 @@ export default function Column({column, onElementClick, elementDelete, currentEl
                                             draggableId={item.id.toString()}
                                             index={index}
                                         >
-                                            {(provided, snapshot) => (
+                                            {(supplied, _snapshot) => (
                                                 <div
                                                     className={styles.element__widget}
-                                                    ref={provided.innerRef}
-                                                    {...provided.draggableProps}
-                                                    {...provided.dragHandleProps}
-                                                    style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}
+                                                    ref={supplied.innerRef}
+                                                    {...supplied.draggableProps}
+                                                    {...supplied.dragHandleProps}
+                                                    style={getItemStyle(_snapshot.isDragging,
+                                                        supplied.draggableProps.style)}
                                                 >
                                                     <div
                                                         className='content'
                                                         onClick={() => handleElementClick(item)}
+                                                        onKeyDown={() => handleElementClick(item)}
+                                                        role='button'
+                                                        tabIndex={0}
                                                     >
                                                         <ComponentDispatcher
                                                             element={item}
@@ -83,10 +94,12 @@ export default function Column({column, onElementClick, elementDelete, currentEl
                                                     </div>
                                                     <button
                                                         key={`btn-empty${item.id}`}
-                                                        onClick={() => handleElementDelete(item)}
+                                                        onClick={() => handleDeleteElement(item)}
+                                                        onKeyDown={() => handleDeleteElement(item)}
+                                                        type='button'
                                                         className={styles.element__widget__remove}
                                                     >
-                                                        <i className='far fa-times'/>
+                                                        <i className='far fa-times' />
                                                     </button>
                                                 </div>
                                             )}
@@ -99,13 +112,21 @@ export default function Column({column, onElementClick, elementDelete, currentEl
                                     onClick={() => handleElementClick({
                                         id: 'empty', column: column.id,
                                     })}
+                                    onKeyDown={() => handleElementClick({
+                                        id: 'empty', column: column.id,
+                                    })}
+                                    role='button'
+                                    tabIndex={0}
                                 >
                                     <div
                                         className={styles.element__first__add}
                                         onClick={(e) => handleOpenPortal(e)}
+                                        onKeyDown={(e) => handleOpenPortal(e)}
+                                        role='button'
+                                        tabIndex={0}
                                     >
                                         <div className={styles.element__first__icon}>
-                                            <i className='fal fa-plus'/>
+                                            <i className='fal fa-plus' />
                                         </div>
                                     </div>
                                 </div>
@@ -118,3 +139,29 @@ export default function Column({column, onElementClick, elementDelete, currentEl
         </>
     );
 }
+
+Column.propTypes = {
+    column: PropTypes.shape({
+        id: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.number,
+        ]),
+        elements: PropTypes.arrayOf(PropTypes.shape({
+        })).isRequired,
+    }).isRequired,
+    onElementClick: PropTypes.func.isRequired,
+    setCurrentElement: PropTypes.func.isRequired,
+    handleOpenPortal: PropTypes.func.isRequired,
+    deleteElement: PropTypes.func.isRequired,
+    device: PropTypes.string,
+    currentElement: PropTypes.shape({
+        id: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.number,
+        ]),
+    }).isRequired,
+};
+
+Column.defaultProps = {
+    device: 'desktop',
+};

@@ -1,7 +1,7 @@
 import React, {
     useEffect, useState,
 } from 'react';
-import styles from 'container/Layout/Layout.module.scss';
+import styles from 'container/Builder/Layout/Layout.module.scss';
 import ComponentDispatcher from 'components/ComponentCollection/ComponentDispatcher';
 
 export default function RenderHeader({ nav, template, showRender = false }) {
