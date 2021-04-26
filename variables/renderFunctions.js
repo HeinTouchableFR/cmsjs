@@ -44,6 +44,16 @@ export const marginPaddingStyle = (device, element) => ({
     element.styles[device].padding.unit),
 });
 
+export const paddingMarginStyle = (element) => ({
+    padding: generateRuleFromValues([
+        element.content.button.padding.top,
+        element.content.button.padding.right,
+        element.content.button.padding.bottom,
+        element.content.button.padding.left,
+    ],
+    element.content.button.padding.unit),
+});
+
 export const colorStyle = (device, mode, element) => ({
     color: element.content[device].typo.color[mode],
 });
@@ -52,8 +62,8 @@ export const backgroundStyle = (device, mode, element) => ({
     background: element.content[device].styles.background[mode],
 });
 
-export const buttonBackgroundStyle = (device, mode, element) => ({
-    background: element.content[device].styles.buttonBackground[mode],
+export const buttonBackgroundStyle = (mode, element) => ({
+    background: element.content.button.background[mode],
 });
 
 export const borderStyle = (device, mode, element) => ({
@@ -74,6 +84,26 @@ export const borderStyle = (device, mode, element) => ({
         element.content[device].styles.border[mode].radius.left,
     ],
     element.content[device].styles.border[mode].radius.unit),
+});
+
+export const borderButtonStyle = (mode, element) => ({
+    borderStyle: element.content.button.border[mode].type !== 'none' && element.content.button.border[mode].type,
+    borderWidth:
+        element.content.button.border[mode].type !== 'none'
+        && generateRuleFromValues([
+            element.content.button.border[mode].width.top,
+            element.content.button.border[mode].width.right,
+            element.content.button.border[mode].width.bottom,
+            element.content.button.border[mode].width.left,
+        ]),
+    borderColor: element.content.button.border[mode].type !== 'none' && element.content.button.border[mode].color,
+    borderRadius: generateRuleFromValues([
+        element.content.button.border[mode].radius.top,
+        element.content.button.border[mode].radius.right,
+        element.content.button.border[mode].radius.bottom,
+        element.content.button.border[mode].radius.left,
+    ],
+    element.content.button.border[mode].radius.unit),
 });
 
 export const animationStyle = (device, element, inView) => ({

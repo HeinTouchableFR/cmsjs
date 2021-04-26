@@ -11,16 +11,65 @@ export default class defaultComponents {
                 text: `${intl.formatMessage({
                     id: 'button.default', defaultMessage: 'My button',
                 })}`,
-                url: '',
+                url: '#',
                 alignment: 'left',
+                button: {
+                    background: {
+                        normal: '#5a2fdd',
+                        hover: '#422291',
+                    },
+                    border: {
+                        normal: {
+                            type: 'solid',
+                            width: {
+                                top: '1',
+                                right: '1',
+                                bottom: '1',
+                                left: '1',
+                            },
+                            radius: {
+                                unit: 'px',
+                                top: '5',
+                                right: '5',
+                                bottom: '5',
+                                left: '5',
+                            },
+                            color: '#5a2fdd',
+                        },
+                        hover: {
+                            type: 'solid',
+                            width: {
+                                top: '1',
+                                right: '1',
+                                bottom: '1',
+                                left: '1',
+                            },
+                            radius: {
+                                unit: 'px',
+                                top: '5',
+                                right: '5',
+                                bottom: '5',
+                                left: '5',
+                            },
+                            color: '#422291',
+                        },
+                    },
+                    padding: {
+                        unit: 'px',
+                        top: '10',
+                        left: '20',
+                        right: '20',
+                        bottom: '10',
+                    },
+                },
                 desktop: {
                     typo: {
                         family: 'Roboto',
                         size: {
-                            unit: 'px',
-                            value: '30',
+                            unit: 'rem',
+                            value: '1',
                         },
-                        weight: '600',
+                        weight: '300',
                         transform: 'initial',
                         style: 'normal',
                         decoration: '',
@@ -30,16 +79,12 @@ export default class defaultComponents {
                         },
                         letterSpacing: '0',
                         color: {
-                            normal: '#000000',
-                            hover: '#000000',
+                            normal: '#FFFFFF',
+                            hover: '#FFFFFF',
                         },
                     },
                     styles: {
                         background: {
-                            normal: '',
-                            hover: '',
-                        },
-                        buttonBackground: {
                             normal: '',
                             hover: '',
                         },
@@ -112,10 +157,6 @@ export default class defaultComponents {
                             normal: '',
                             hover: '',
                         },
-                        buttonBackground: {
-                            normal: '',
-                            hover: '',
-                        },
                         border: {
                             normal: {
                                 type: '',
@@ -182,10 +223,6 @@ export default class defaultComponents {
                     },
                     styles: {
                         background: {
-                            normal: '',
-                            hover: '',
-                        },
-                        buttonBackground: {
                             normal: '',
                             hover: '',
                         },
@@ -937,7 +974,7 @@ export default class defaultComponents {
                 text: `${intl.formatMessage({
                     id: 'link.default', defaultMessage: 'My great link',
                 })}`,
-                url: '',
+                url: '#',
                 alignment: 'left',
                 desktop: {
                     typo: {

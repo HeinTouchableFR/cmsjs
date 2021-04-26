@@ -9,21 +9,25 @@ import {
     colorStyle,
     buttonBackgroundStyle,
     styleDiv,
+    borderButtonStyle,
+    paddingMarginStyle,
 } from 'variables/renderFunctions';
 
 export default function ButtonRender({ element }) {
     const { ref, inView } = useInView();
 
-    const Button = styled.button({
+    const Button = styled.a({
         ...colorStyle('desktop', 'normal', element),
-        ...buttonBackgroundStyle('desktop', 'normal', element),
+        ...buttonBackgroundStyle('normal', element),
+        ...borderButtonStyle('normal', element),
+        ...paddingMarginStyle(element),
         ...typoStyle('desktop', element),
-        textAlign: element.content.alignment,
         transition: 'color .2s',
         cursor: 'pointer',
         '&:hover': {
             ...colorStyle('desktop', 'hover', element),
-            ...buttonBackgroundStyle('desktop', 'hover', element),
+            ...buttonBackgroundStyle('hover', element),
+            ...borderButtonStyle('hover', element),
         },
         '@media (max-width: 1024px)': css({
             ...typoStyle('tablet', element),
@@ -41,15 +45,19 @@ export default function ButtonRender({ element }) {
         }),
     });
 
+    const align = css({
+        textAlign: element.content.alignment,
+    });
+
     return (
         <>
             <div
                 ref={ref}
-                css={styleDiv(element, inView)}
+                css={{
+                    ...styleDiv(element, inView), ...align,
+                }}
             >
-                <div>
-                    <Button>{parse(element.content.text)}</Button>
-                </div>
+                <Button>{parse(element.content.text)}</Button>
             </div>
         </>
     );
