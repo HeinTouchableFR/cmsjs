@@ -17,6 +17,7 @@ export default function ButtonRender({ element }) {
     const { ref, inView } = useInView();
 
     const Button = styled.a({
+        display: 'inline-block',
         ...colorStyle('desktop', 'normal', element),
         ...buttonBackgroundStyle('normal', element),
         ...borderButtonStyle('normal', element),

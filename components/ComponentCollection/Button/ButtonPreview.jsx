@@ -16,6 +16,7 @@ import { css } from '@emotion/react';
 
 export default function ButtonPreview({ element, device }) {
     const Button = styled.a`
+        display: inline-block;
         transition: 'color .2s';
         ${typoColorStyle('desktop', element)}
         ${(device === 'tablet' || device === 'mobile') && typoColorStyle('tablet', element)}
