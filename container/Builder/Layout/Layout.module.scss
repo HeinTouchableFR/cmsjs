@@ -124,8 +124,8 @@
     box-shadow: 0 0 0 1px deepskyblue;
 }
 
-.element__widget:not(:last-child) {
-    margin-bottom: 20px;
+.element__widget {
+    padding: 5px;
 }
 
 .element__widget__remove {
