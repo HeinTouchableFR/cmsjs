@@ -6,13 +6,13 @@ export default function Template({ item, url }) {
         <>
             <tr>
                 <td>
-                    {item._id}
+                    {item.id}
                 </td>
                 <td>
                     {item.name}
                 </td>
                 <td>
-                    <IconButton action={`/admin/${url}/edit/${item._id}`} icon={'las la-edit'} />
+                    <IconButton action={`/admin/${url}/edit/${item.id}`} icon={'las la-edit'} />
                 </td>
             </tr>
         </>

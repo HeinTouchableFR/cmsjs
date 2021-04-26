@@ -9,8 +9,8 @@ import {
 import PropTypes from 'prop-types';
 
 export default function LinkPreview({ element, device }) {
-
-    const LinkComp = styled.div`
+    const LinkComp = styled.a`
+        display: block;
         text-align: ${element.content.alignment};
         transition: 'color .2s';
         ${typoColorStyle('desktop', element)}

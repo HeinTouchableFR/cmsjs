@@ -40,7 +40,6 @@ export default function Header({ children, title, settings, setShowRender, showR
             }
         }
     }, [settings]);
-    console.log(params)
 
     const Sticky = styled.div({
         position: 'sticky',

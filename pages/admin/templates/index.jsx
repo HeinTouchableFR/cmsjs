@@ -49,7 +49,7 @@ export default function Index({items}) {
                                 <Template
                                     item={item}
                                     url={url}
-                                    key={item._id}
+                                    key={item.id}
                                 />
                             ))}
                         </Table>

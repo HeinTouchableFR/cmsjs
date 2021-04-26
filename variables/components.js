@@ -944,20 +944,20 @@ export default class defaultComponents {
                         family: 'Roboto',
                         size: {
                             unit: 'px',
-                            value: '30',
+                            value: '16',
                         },
-                        weight: '600',
+                        weight: '300',
                         transform: 'initial',
                         style: 'normal',
-                        decoration: '',
+                        decoration: ['underline'],
                         lineHeight: {
                             unit: 'em',
                             value: '1',
                         },
                         letterSpacing: '0',
                         color: {
-                            normal: '#000000',
-                            hover: '#000000',
+                            normal: '#5a2fdd',
+                            hover: '#222222',
                         },
                     },
                     styles: {

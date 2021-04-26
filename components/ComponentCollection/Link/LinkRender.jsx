@@ -14,7 +14,8 @@ import PropTypes from 'prop-types';
 export default function LinkRender({ element }) {
     const { ref, inView } = useInView();
 
-    const LinkComp = styled.div({
+    const LinkComp = styled.a({
+        display: 'block',
         ...colorStyle('desktop', 'normal', element),
         textAlign: element.content.alignment,
         ...typoStyle('desktop', element),
@@ -41,12 +42,16 @@ export default function LinkRender({ element }) {
 
     return (
         <>
-            <div ref={ref} css={styleDiv(element, inView)}>
-                <div>
-                    <Link href={element.content.url}>
-                        <LinkComp>{parse(element.content.text)}</LinkComp>
-                    </Link>
-                </div>
+            <div
+                ref={ref}
+                css={styleDiv(element, inView)}
+            >
+                <Link
+                    href={element.content.url}
+                    passHref
+                >
+                    <LinkComp>{parse(element.content.text)}</LinkComp>
+                </Link>
             </div>
         </>
     );
