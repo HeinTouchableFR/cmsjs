@@ -29,6 +29,7 @@ export default function Page({ post }) {
                 settings={settings}
                 setShowRender={setShowRender}
                 showRender={showRender}
+                mode={mode}
             />
             <Global
                 styles={{

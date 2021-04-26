@@ -3,11 +3,14 @@ import React, {
 } from 'react';
 import Head from 'next/head';
 import { useTemplates } from 'context/template';
-import RenderHeader from '../../RenderHeader/RenderHeader';
+import styled from '@emotion/styled';
+import styles from '../../Builder/Layout/Layout.module.scss';
+import ComponentDispatcher from '../../../components/ComponentCollection/ComponentDispatcher';
 
-export default function Header({ children, title, settings, setShowRender, showRender }) {
+export default function Header({ children, title, settings, setShowRender, showRender, mode }) {
     const { templates } = useTemplates();
-    const [header, setHeader] = useState([]);
+    const [content, setContent] = useState([]);
+    const [params, setParams] = useState({});
     const [nav, setNav] = useState([]);
     const [siteName, setSiteName] = useState('');
 
@@ -21,7 +24,10 @@ export default function Header({ children, title, settings, setShowRender, showR
 
     useEffect(() => {
         if (templates.header) {
-            setHeader(templates.header);
+            if (templates.header.template) {
+                setContent(JSON.parse(templates.header.template.content));
+                setParams(JSON.parse(templates.header.template.params));
+            }
             setNav(templates.header.nav);
         }
     }, [templates]);
@@ -34,6 +40,25 @@ export default function Header({ children, title, settings, setShowRender, showR
             }
         }
     }, [settings]);
+    console.log(params)
+
+    const Sticky = styled.div({
+        position: 'sticky',
+        margin: 'auto',
+        width: '100%',
+        zIndex: '1000',
+        backgroundColor: params.background && params.background[mode],
+        top: '0',
+    });
+
+    const Header = styled.header({
+        maxWidth: '1370px',
+        paddingLeft: '20px',
+        paddingRight: '20px',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        alignItems: 'center',
+    });
 
     return (
         <>
@@ -57,11 +82,38 @@ export default function Header({ children, title, settings, setShowRender, showR
                 </title>
                 {children}
             </Head>
-            <RenderHeader
-                showRender={showRender}
-                nav={nav}
-                template={header.template ? JSON.parse(header.template.content) : []}
-            />
+            {showRender
+            && (
+                <Sticky>
+                    <Header>
+                        {content.map((layout) => (
+                            <div
+                                className={`${styles.render} ${styles.layout} ${styles.header__layout}`}
+                                key={layout.id}
+                            >
+                                <div className={`${styles.layout__container}`}>
+                                    {layout.columns && layout.columns.map((column) => (
+                                        <div
+                                            className={`${styles.column}`}
+                                            key={column.id}
+                                        >
+                                            <div className={`${styles.element__wrap}`}>
+                                                {column.elements.map((item) => (
+                                                    <ComponentDispatcher
+                                                        key={item.id}
+                                                        element={item}
+                                                        nav={nav}
+                                                    />
+                                                ))}
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        ))}
+                    </Header>
+                </Sticky>
+            )}
         </>
     );
 }

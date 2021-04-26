@@ -315,6 +315,9 @@
 }
 
 .header__layout {
+    .layout__container {
+        align-items: center;
+    }
     @for $i from 1 through 6 {
         .column:first-child:nth-last-child(#{$i}),
         .column:first-child:nth-last-child(#{$i}) ~ .column {
