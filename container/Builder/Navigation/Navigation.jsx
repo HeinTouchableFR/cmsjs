@@ -163,7 +163,11 @@ export default function Navigation({ components,
             return true;
         }
 
-        return form.title === '' || form.slug === '';
+        if (mode === 'page') {
+            return form.title === '' || form.slug === '';
+        }
+
+        return false;
     };
 
     const rightComponents = components.filter((item, index) => index % 2 && item);
@@ -256,20 +260,20 @@ export default function Navigation({ components,
             }),
             render: () => (
                 <Tab.Pane>
-                    {mode === 'page' ? (
-                        <>
-                            <form
-                                onSubmit={handleSubmit}
-                                id='pageForm'
-                                name='pageForm'
-                            >
+                    <form
+                        onSubmit={handleSubmit}
+                        id='pageForm'
+                        name='pageForm'
+                    >
+                        {mode === 'page' && (
+                            <>
                                 <Input
                                     label={intl.formatMessage({
-                                            id: 'title', defaultMessage: 'Title',
-                                        })}
+                                        id: 'title', defaultMessage: 'Title',
+                                    })}
                                     placeholder={intl.formatMessage({
-                                            id: 'title', defaultMessage: 'Title',
-                                        })}
+                                        id: 'title', defaultMessage: 'Title',
+                                    })}
                                     required
                                     name='title'
                                     defaultValue={form.title}
@@ -278,38 +282,36 @@ export default function Navigation({ components,
                                 />
                                 <Input
                                     label={intl.formatMessage({
-                                            id: 'slug', defaultMessage: 'Slug',
-                                        })}
+                                        id: 'slug', defaultMessage: 'Slug',
+                                    })}
                                     placeholder={intl.formatMessage({
-                                            id: 'slug', defaultMessage: 'Slug',
-                                        })}
+                                        id: 'slug', defaultMessage: 'Slug',
+                                    })}
                                     required
                                     name='slug'
                                     defaultValue={form.slug}
                                     onChange={handleChange}
                                     error={formErrors.slug}
                                 />
-                                <Checkbox
-                                    name='enableDarkMode'
-                                    label='Enable Dark Mode'
-                                    defaultChecked={params.background.enableDarkMode}
-                                    onChange={(e, data) => handleParamsChange(e, data, 'background')}
-                                />
-                                <ColorPicker
-                                    defaultColor={params.background.light}
-                                    onColorChange={(color) => handleColorChange(color, 'light')}
-                                />
-                                {params.background.enableDarkMode && (
-                                <ColorPicker
-                                    defaultColor={params.background.dark}
-                                    onColorChange={(color) => handleColorChange(color, 'dark')}
-                                />
-                                    )}
-                            </form>
-                        </>
-                        )
-                        : <>{mode}</>}
-
+                            </>
+                        )}
+                        <Checkbox
+                            name='enableDarkMode'
+                            label='Enable Dark Mode'
+                            defaultChecked={params.background.enableDarkMode}
+                            onChange={(e, data) => handleParamsChange(e, data, 'background')}
+                        />
+                        <ColorPicker
+                            defaultColor={params.background.light}
+                            onColorChange={(color) => handleColorChange(color, 'light')}
+                        />
+                        {params.background.enableDarkMode && (
+                            <ColorPicker
+                                defaultColor={params.background.dark}
+                                onColorChange={(color) => handleColorChange(color, 'dark')}
+                            />
+                        )}
+                    </form>
                 </Tab.Pane>
             ),
         },

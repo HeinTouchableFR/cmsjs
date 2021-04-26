@@ -1,49 +1,106 @@
-import React, { useState } from 'react';
-import { useIntl } from 'react-intl';
+import React, {useEffect, useState} from 'react';
+import {useIntl} from 'react-intl';
 import Head from 'next/head';
 import axios from 'axios';
 import nookies from 'nookies';
 import {auth} from 'utils/dbConnect';
 import Builder from 'container/Builder/Builder';
-import defaultComponents from 'variables/components'
+import defaultComponents from 'variables/components';
+import {useAuth} from '../../../../context/auth';
 
-export default function Edit({ item, images }) {
+export default function Edit({item, images, errors}) {
     const url = 'templates';
 
     const intl = useIntl();
 
+    const { user } = useAuth();
     const [post, setPost] = useState(item);
-    const [imagesList, setImagesList] = useState(JSON.parse(images))
+    const [imagesList, setImagesList] = useState(JSON.parse(images));
     const [loading, setLoading] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [formErrors, setformErrors] = useState({
+    });
+    const [builderErrors, setBuilderErrors] = useState(errors);
+    const [content, setContent] = useState('');
 
-    const onSubmit = async function (e, content) {
-        setLoading(true);
-        console.log(item._id)
-        const res = await fetch(`/api/templates/${item._id}`, {
-            body: JSON.stringify({
-                content: JSON.stringify(content),
-            }),
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            method: 'PUT',
+    const validate = async () => {
+        const errs = {
+        };
+        return errs;
+    };
+
+    const onSubmit = async (e, data, params) => {
+        console.log('submit')
+        setContent({
+            data,
+            params,
         });
+        validate(e.slug).then((errs) => setformErrors(errs));
+        setIsSubmitting(true);
+    };
 
-        const result = await res.json();
-        setPost(result.data);
+    const update = async () => {
+        setLoading(true);
+        try {
+            const res = await fetch(`/api/templates/auth/${item.id}`, {
+                body: JSON.stringify({
+                    updated: new Date(),
+                    content: JSON.stringify(content.data),
+                    params: JSON.stringify(content.params),
+                }),
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${user.token}`,
+                },
+                credentials: 'same-origin',
+                method: 'PUT',
+            });
+
+            const result = await res.json();
+            if (result.success) {
+                setPost(result.data);
+            } else {
+                setBuilderErrors([result.errors]);
+            }
+        } catch (err) {
+            setBuilderErrors([err]);
+        }
         setLoading(false);
     };
+
+    useEffect(() => {
+        if (isSubmitting) {
+            if (Object.keys(formErrors).length === 0) {
+                update();
+            } else {
+                setIsSubmitting(false);
+            }
+        }
+    }, [formErrors]);
 
     return (
         <>
             <Head>
                 <title>
-                    {intl.formatMessage({ id: 'page.edit', defaultMessage: 'Edit' })}
+                    {intl.formatMessage({
+                        id: 'page.edit', defaultMessage: 'Edit',
+                    })}
                     {': '}
                     {item.name}
                 </title>
             </Head>
-            <Builder url={url} mode={"template"} page={post} loading={loading} onSubmit={onSubmit} setImages={setImagesList} images={imagesList} modules={defaultComponents.templateComponents(intl)} />
+            <Builder
+                url={url}
+                mode='template'
+                page={post}
+                loading={loading}
+                onSubmit={onSubmit}
+                setImages={setImagesList}
+                images={imagesList}
+                modules={defaultComponents.pageComponents(intl)}
+                formErrors={formErrors}
+                errors={builderErrors}
+            />
         </>
     );
 }
@@ -59,28 +116,47 @@ export async function getServerSideProps(ctx) {
 
         const { id } = ctx.params;
 
-        let item = {};
-        let errors = [];
+        let item = {
+        };
+        let images = [];
+        const errors = [];
 
-        await axios
-            .get(process.env.URL + '/api/templates/' + id)
-            .then((res) => {
-                item = res.data.data;
-            })
-            .catch((error) => {
-                errors = JSON.stringify(error);
+        const resItem = await fetch(`${process.env.URL}/api/templates/${id}`, {
+            headers: {
+                Authorization: `Bearer ${cookies.token}`,
+            },
+            credentials: 'same-origin',
+        });
+        const dataItem = await resItem.json();
+        if (dataItem.success) {
+            item = dataItem.data;
+        } else {
+            errors.push({
+                ...dataItem.errors,
+                request: `${process.env.URL}/api/pages/${id}`,
             });
+        }
 
-        let images = []
-        await axios
-            .get(process.env.URL + '/api/images')
-            .then((res) => {
-                images = res.data.data;
-            })
-            .catch(() => {});
+        const resImages = await fetch(`${process.env.URL}/api/images`, {
+            headers: {
+                Authorization: `Bearer ${cookies.token}`,
+            },
+            credentials: 'same-origin',
+        });
+        const dataImages = await resImages.json();
+        if (dataImages.success) {
+            images = dataImages.data;
+        } else {
+            errors.push({
+                ...dataImages.errors,
+                request: `${process.env.URL}/api/images`,
+            });
+        }
 
         return {
-            props: { item, errors, images: JSON.stringify(images) },
+            props: {
+                item, errors, images: JSON.stringify(images),
+            },
         };
     } catch (err) {
         return {
@@ -88,7 +164,8 @@ export async function getServerSideProps(ctx) {
                 permanent: false,
                 destination: '/admin/login',
             },
-            props: {},
+            props: {
+            },
         };
     }
 }

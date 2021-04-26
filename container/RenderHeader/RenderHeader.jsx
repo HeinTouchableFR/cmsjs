@@ -48,14 +48,14 @@ export default function RenderHeader({ nav, template, showRender = false }) {
                                         key={column.id}
                                     >
                                         <div className={`${styles.element__wrap}`}>
-                                {column.elements.map((item) => (
+                                            {column.elements.map((item) => (
                                                 <ComponentDispatcher
                                                     key={item.id}
                                                     element={item}
                                                     nav={content}
                                                 />
                                             ))}
-                            </div>
+                                        </div>
                                     </div>
                                   ))}
                             </div>

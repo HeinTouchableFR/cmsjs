@@ -105,6 +105,7 @@ export default function Builder({ page,
                         device={device}
                         handleOpenPortal={handleOpenPortal}
                         mode={mode}
+                        type={page.type ? page.type : 'page'}
                         params={params}
                     />
                 </DragDropContext>
@@ -138,6 +139,7 @@ Builder.propTypes = {
     page: PropTypes.shape({
         content: PropTypes.string.isRequired,
         params: PropTypes.string.isRequired,
+        type: PropTypes.string,
     }),
     onSubmit: PropTypes.func.isRequired,
     loading: PropTypes.bool.isRequired,

@@ -17,6 +17,7 @@ export default function Content({ layouts,
     device,
     handleOpenPortal,
     mode,
+    type,
     params }) {
     const theme = useDarkMode(params);
 
@@ -42,22 +43,47 @@ export default function Content({ layouts,
                         handleOpenPortal={handleOpenPortal}
                     />
                 )) : (
-                    <header className='nav'>
-                        {layouts.map((item) => (
-                            <Layout
-                                key={item.id}
-                                layout={item}
-                                updateLayout={updateLayout}
-                                deleteLayout={deleteLayout}
-                                onElementClick={onElementClick}
-                                currentElement={currentElement}
-                                setCurrentElement={setCurrentElement}
-                                device={device}
-                                handleOpenPortal={handleOpenPortal}
-                                mode={mode}
-                            />
-                        ))}
-                    </header>
+                    <>
+                        {type === 'header'
+                        && (
+                        <header>
+                            {layouts.map((item) => (
+                                <Layout
+                                    key={item.id}
+                                    layout={item}
+                                    updateLayout={updateLayout}
+                                    deleteLayout={deleteLayout}
+                                    onElementClick={onElementClick}
+                                    currentElement={currentElement}
+                                    setCurrentElement={setCurrentElement}
+                                    device={device}
+                                    handleOpenPortal={handleOpenPortal}
+                                    type={type}
+                                />
+                            ))}
+                        </header>
+                        )}
+                        {type === 'footer'
+                        && (
+                            <footer>
+                                {layouts.map((item) => (
+                                    <Layout
+                                        key={item.id}
+                                        layout={item}
+                                        updateLayout={updateLayout}
+                                        deleteLayout={deleteLayout}
+                                        onElementClick={onElementClick}
+                                        currentElement={currentElement}
+                                        setCurrentElement={setCurrentElement}
+                                        device={device}
+                                        handleOpenPortal={handleOpenPortal}
+                                        type={type}
+                                    />
+                                ))}
+                            </footer>
+                        )}
+                    </>
+
                 )}
                 <AddLayout handleAddLayout={addLayout} />
             </Div>
@@ -73,6 +99,7 @@ Content.propTypes = {
     device: PropTypes.string.isRequired,
     hide: PropTypes.bool.isRequired,
     mode: PropTypes.string,
+    type: PropTypes.string,
     params: PropTypes.shape({
         background: PropTypes.shape({
         }).isRequired,
@@ -87,4 +114,5 @@ Content.propTypes = {
 
 Content.defaultProps = {
     mode: 'page',
+    type: 'page',
 };

@@ -31,7 +31,27 @@ export function TemplatesProvider({ children }) {
                 });
             });
         });
-        templates['footer'] = {};
+        templates.footer = {};
+        templates.footer.nav = [];
+        await axios
+            .get(process.env.URL + '/api/templates/footer')
+            .then((res) => {
+                templates.footer.template = res.data.data;
+            })
+            .catch(() => {});
+
+        JSON.parse(templates['footer']['template'].content).forEach((layout) => {
+            layout.columns.forEach((column) => {
+                column.elements.forEach(async (element) => {
+                    if (element.type === 'menu') {
+                        axios.get(`${process.env.URL}/api/menus/${element.content.menu.value}`).then((data) => {
+                            templates.footer.nav[`${element.id}`] = data.data.data;
+                            setTemplates(templates);
+                        });
+                    }
+                });
+            });
+        });
 
         setTemplates({ ...templates });
     }, []);

@@ -12,7 +12,7 @@ export default function Layout({ layout,
     setCurrentElement,
     device,
     handleOpenPortal,
-    mode }) {
+    type }) {
     /**
      * Allows you to define the structure of the layout
      * @param structure
@@ -75,7 +75,7 @@ export default function Layout({ layout,
 
     return (
         <div
-            className={`${styles.layout} ${mode !== 'page' && styles.header__layout} ${device === 'tablet' && styles.tablet__preview} ${device === 'mobile' && styles.mobile__preview}`}
+            className={`${styles.layout} ${type === 'header' && styles.header__layout} ${device === 'tablet' && styles.tablet__preview} ${device === 'mobile' && styles.mobile__preview}`}
         >
             {layout.nbColumns > 0 ? (
                 <div className={`${styles.layout__container}`}>
@@ -130,13 +130,13 @@ Layout.propTypes = {
     onElementClick: PropTypes.func.isRequired,
     setCurrentElement: PropTypes.func.isRequired,
     handleOpenPortal: PropTypes.func.isRequired,
-    mode: PropTypes.string,
+    type: PropTypes.string,
     device: PropTypes.string,
     currentElement: PropTypes.shape({
     }).isRequired,
 };
 
 Layout.defaultProps = {
-    mode: 'page',
+    type: 'page',
     device: 'desktop',
 };
