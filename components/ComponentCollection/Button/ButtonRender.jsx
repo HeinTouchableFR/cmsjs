@@ -12,6 +12,7 @@ import {
     borderButtonStyle,
     paddingMarginStyle,
 } from 'variables/renderFunctions';
+import Link from 'next/link';
 
 export default function ButtonRender({ element }) {
     const { ref, inView } = useInView();
@@ -58,7 +59,12 @@ export default function ButtonRender({ element }) {
                     ...styleDiv(element, inView), ...align,
                 }}
             >
-                <Button>{parse(element.content.text)}</Button>
+                <Link
+                    href={element.content.url}
+                    passHref
+                >
+                    <Button>{parse(element.content.text)}</Button>
+                </Link>
             </div>
         </>
     );
