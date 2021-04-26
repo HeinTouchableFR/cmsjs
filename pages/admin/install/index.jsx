@@ -1,18 +1,16 @@
 import React, {
     useEffect, useState,
 } from 'react';
-import {useIntl} from 'react-intl';
-import {useRouter} from 'next/router';
-import {useSettings} from 'context/settings';
+import { useIntl } from 'react-intl';
 import Card from 'components/Cards/Card/Card';
 import Input from 'components/Form/Input/Input';
 import DarkModeButton from 'components/Button/DarkModeButton/DarkModeButton';
 import Button from 'components/Button/Button';
+import { useInstall } from 'context/install';
 
 export default function Index() {
-    const {settings} = useSettings();
+    const { value: install } = useInstall();
     const intl = useIntl();
-    const router = useRouter();
 
     const [form, setForm] = useState({
         installToken: '',
@@ -25,15 +23,15 @@ export default function Index() {
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        if (settings.installToken) {
+        if (install) {
             setForm({
-                ...form, installToken: settings.installToken,
+                ...form, installToken: install.installToken,
             });
         }
-    }, [settings]);
+    }, [install]);
 
     const handleSubmit = async (e) => {
-        e.preventDefault()
+        e.preventDefault();
         setLoading(true);
         const resInstall = await fetch('/api/install', {
             method: 'POST',
@@ -41,7 +39,7 @@ export default function Index() {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                installToken: settings.installToken,
+                installToken: form.installToken,
                 sitename: form.sitename,
                 email: form.email,
                 password: form.password,
@@ -49,7 +47,7 @@ export default function Index() {
                 firstname: form.firstname,
             }),
         });
-        const {success} = await resInstall.json();
+        const { success } = await resInstall.json();
         if (success) {
             window.location.assign('/admin');
         }

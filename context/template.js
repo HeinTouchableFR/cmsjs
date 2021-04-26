@@ -1,64 +1,87 @@
-import React, { useState, useEffect, useContext, createContext } from 'react';
-import axios from 'axios';
+import React, {
+    useState, useEffect, useContext, createContext,
+} from 'react';
+import { useSettings } from './settings';
 
 const Templates = createContext({
     value: '[]',
 });
 
 export function TemplatesProvider({ children }) {
+    const { value: settings } = useSettings();
     const [templates, setTemplates] = useState([]);
 
     useEffect(async () => {
-        const templates = [];
-        templates.header = {};
-        templates.header.nav = [];
-        await axios
-            .get(process.env.URL + '/api/templates/header')
-            .then((res) => {
-                templates.header.template = res.data.data;
-            })
-            .catch(() => {});
+        if (settings.settings) {
+            const generalSettings = settings.settings.find((x) => x.id === 'general');
+            const header = {
+            };
+            const footer = {
+            };
 
-        JSON.parse(templates['header']['template'].content).forEach((layout) => {
-            layout.columns.forEach((column) => {
-                column.elements.forEach(async (element) => {
-                    if (element.type === 'menu') {
-                        axios.get(`${process.env.URL}/api/menus/${element.content.menu.value}`).then((data) => {
-                            templates.header.nav[`${element.id}`] = data.data.data;
-                            setTemplates(templates);
+            if (generalSettings && generalSettings.header) {
+                const resHeader = await fetch(`${process.env.URL}/api/templates/${generalSettings.header}`);
+                const dataHeader = await resHeader.json();
+                if (dataHeader.success) {
+                    header.template = dataHeader.data;
+                    header.nav = {
+                    };
+                    JSON.parse(header.template.content).forEach((layout) => {
+                        layout.columns.forEach((column) => {
+                            column.elements.forEach(async (element) => {
+                                if (element.type === 'menu') {
+                                    const res = await fetch(`${process.env.URL}/api/menus/${element.content.menu.value}`);
+                                    const data = await res.json();
+                                    header.nav = {
+                                        ...header.nav,
+                                        [element.id]: data.data,
+                                    };
+                                }
+                            });
                         });
-                    }
-                });
-            });
-        });
-        templates.footer = {};
-        templates.footer.nav = [];
-        await axios
-            .get(process.env.URL + '/api/templates/footer')
-            .then((res) => {
-                templates.footer.template = res.data.data;
-            })
-            .catch(() => {});
+                    });
+                }
+            }
 
-        JSON.parse(templates['footer']['template'].content).forEach((layout) => {
-            layout.columns.forEach((column) => {
-                column.elements.forEach(async (element) => {
-                    if (element.type === 'menu') {
-                        axios.get(`${process.env.URL}/api/menus/${element.content.menu.value}`).then((data) => {
-                            templates.footer.nav[`${element.id}`] = data.data.data;
-                            setTemplates(templates);
+            if (generalSettings && generalSettings.footer) {
+                const resFooter = await fetch(`${process.env.URL}/api/templates/${generalSettings.footer}`);
+                const dataFooter = await resFooter.json();
+                if (dataFooter.success) {
+                    footer.template = dataFooter.data;
+                    footer.nav = {
+                    };
+                    JSON.parse(footer.template.content).forEach((layout) => {
+                        layout.columns.forEach((column) => {
+                            column.elements.forEach(async (element) => {
+                                if (element.type === 'menu') {
+                                    const res = await fetch(`${process.env.URL}/api/menus/${element.content.menu.value}`);
+                                    const data = await res.json();
+                                    footer.nav = {
+                                        ...footer.nav,
+                                        [element.id]: data.data,
+                                    };
+                                }
+                            });
                         });
-                    }
-                });
+                    });
+                }
+            }
+
+            setTemplates({
+                header, footer,
             });
-        });
+        }
+    }, [settings]);
 
-        setTemplates({ ...templates });
-    }, []);
-
-    return <Templates.Provider value={{ templates }}>{children}</Templates.Provider>;
+    return (
+        <Templates.Provider
+            value={{
+                templates,
+            }}
+        >
+            {children}
+        </Templates.Provider>
+    );
 }
 
-export const useTemplates = () => {
-    return useContext(Templates);
-};
+export const useTemplates = () => useContext(Templates);

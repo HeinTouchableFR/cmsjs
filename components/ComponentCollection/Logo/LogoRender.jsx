@@ -17,13 +17,16 @@ import {
 import PropTypes from 'prop-types';
 
 export default function LogoRender({ element }) {
-    const { settings } = useSettings();
+    const { value: settings } = useSettings();
     const { ref, inView } = useInView();
     const [logo, setLogo] = useState([]);
 
     useEffect(() => {
-        if (settings.logo) {
-            setLogo(settings.logo);
+        if (settings.settings) {
+            const generalSettings = settings.settings.find((x) => x.id === 'general');
+            if (generalSettings) {
+                setLogo(generalSettings.logo);
+            }
         }
     }, [settings]);
 

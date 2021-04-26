@@ -164,6 +164,13 @@
             margin: auto;
         }
     }
+    @for $i from 4 through 4 {
+        .column:first-child:nth-last-child(#{$i}),
+        .column:first-child:nth-last-child(#{$i}) ~ .column {
+            width: 100% / ($i / 2);
+            margin: auto;
+        }
+    }
 }
 
 @media only screen and (max-width: 500px) {

@@ -6,11 +6,6 @@ import ComponentDispatcher from 'components/ComponentCollection/ComponentDispatc
 import styled from '@emotion/styled';
 
 export default function RenderHeader({ nav, template, showRender = false }) {
-    const [content, setContent] = useState(nav);
-
-    useEffect(() => {
-        setContent(nav);
-    }, [nav]);
 
     const Sticky = styled.div({
         position: 'sticky',
@@ -52,7 +47,7 @@ export default function RenderHeader({ nav, template, showRender = false }) {
                                                 <ComponentDispatcher
                                                     key={item.id}
                                                     element={item}
-                                                    nav={content}
+                                                    nav={nav}
                                                 />
                                             ))}
                                         </div>

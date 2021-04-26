@@ -1,5 +1,5 @@
-import { IntlProvider } from 'react-intl';
-import Router, { useRouter } from 'next/router';
+import {IntlProvider} from 'react-intl';
+import Router, {useRouter} from 'next/router';
 import NProgress from 'nprogress'; // nprogress module
 import 'nprogress/nprogress.css'; // styles of nprogress
 import 'style/globals.scss';
@@ -8,13 +8,14 @@ import 'style/tools/reset.scss';
 
 import en from 'intl/lang/en.json';
 import fr from 'intl/lang/fr.json';
-import { AuthProvider } from 'context/auth';
+import {AuthProvider} from 'context/auth';
 import {
     useEffect,
     useState,
 } from 'react';
-import { TemplatesProvider } from 'context/template';
-import { SettingsProvider } from 'context/settings';
+import {TemplatesProvider} from 'context/template';
+import {SettingsProvider} from 'context/settings';
+import {InstallProvider} from 'context/install';
 
 const messages = {
     en,
@@ -29,7 +30,7 @@ Router.events.on('routeChangeStart', () => NProgress.start());
 Router.events.on('routeChangeComplete', () => NProgress.done());
 Router.events.on('routeChangeError', () => NProgress.done());
 
-function MyApp({ Component, pageProps }) {
+function MyApp({Component, pageProps}) {
     const [language, setLanguage] = useState('en');
     const router = useRouter();
 
@@ -47,13 +48,15 @@ function MyApp({ Component, pageProps }) {
             locale={language}
             messages={messages[language] ? messages[language] : en}
         >
-            <AuthProvider>
-                <SettingsProvider>
-                    <TemplatesProvider>
-                        <Component {...pageProps} />
-                    </TemplatesProvider>
-                </SettingsProvider>
-            </AuthProvider>
+            <SettingsProvider>
+                <InstallProvider>
+                    <AuthProvider>
+                        <TemplatesProvider>
+                            <Component {...pageProps} />
+                        </TemplatesProvider>
+                    </AuthProvider>
+                </InstallProvider>
+            </SettingsProvider>
         </IntlProvider>
     );
 }

@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import Footer from '../container/Sites/Footer/Footer';
 
 export default function Home({ post }) {
-    const { settings } = useSettings();
+    const { value: settings } = useSettings();
     const [showRender, setShowRender] = useState(false);
     const [params, setParams] = useState(post.params ? JSON.parse(post.params) : {
     });
@@ -62,15 +62,15 @@ Home.propTypes = {
 
 export async function getServerSideProps() {
     const settingRef = db.collection('settings');
-    const homepageSnapshot = await settingRef.doc('homepage').get();
-    const homepage = {
-        ...homepageSnapshot.data(),
+    const generalSnapshot = await settingRef.doc('general').get();
+    const generalSettings = {
+        ...generalSnapshot.data(),
     };
 
-    const pageRef = db.doc(`pages/${homepage.value}`);
+    const pageRef = db.doc(`pages/${generalSettings.homePage}`);
     const pageSnapshot = await pageRef.get();
     const post = {
-        _id: pageSnapshot.id,
+        id: pageSnapshot.id,
         ...pageSnapshot.data(),
     };
 

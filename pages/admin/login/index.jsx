@@ -13,14 +13,18 @@ import styles from './login.module.scss';
 import Button from '../../../components/Button/Button';
 
 export default function Index() {
-    const { settings } = useSettings();
+    const { value: settings } = useSettings();
     const [logo, setLogo] = useState([]);
 
     useEffect(() => {
-        if (settings.logo) {
-            setLogo(settings.logo);
+        if (settings.settings) {
+            const generalSettings = settings.settings.find((x) => x.id === 'general');
+            if (generalSettings) {
+                setLogo(generalSettings.logo);
+            }
         }
-    }, [settings]);
+    },
+    [settings]);
     const intl = useIntl();
 
     const [form, setForm] = useState({

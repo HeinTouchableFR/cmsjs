@@ -12,13 +12,16 @@ import styles from './Admin.module.scss';
 
 export default function Admin({ children }) {
     const router = useRouter();
-    const { settings } = useSettings();
+    const { value: settings } = useSettings();
     const [siteName, setSiteName] = useState('');
     const { user } = useAuth();
 
     useEffect(() => {
-        if (settings.sitename) {
-            setSiteName(settings.sitename.value);
+        if (settings.settings) {
+            const generalSettings = settings.settings.find((x) => x.id === 'general');
+            if (generalSettings) {
+                setSiteName(generalSettings.sitename);
+            }
         }
     },
     [settings]);

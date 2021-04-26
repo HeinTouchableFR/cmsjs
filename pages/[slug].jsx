@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import Footer from 'container/Sites/Footer/Footer';
 
 export default function Page({ post }) {
-    const { settings } = useSettings();
+    const { value: settings } = useSettings();
     const [showRender, setShowRender] = useState(false);
     const [params, setParams] = useState(post.params ? JSON.parse(post.params) : {
     });
