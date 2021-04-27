@@ -8,7 +8,7 @@ import {
     transformsOptions,
     weightsOptions,
 } from 'variables/options';
-import {useIntl} from 'react-intl';
+import { useIntl } from 'react-intl';
 import Input from 'components/Form/Input/Input';
 import Dropdown from 'components/Form/Dropdown/Dropdown';
 import PropTypes from 'prop-types';
@@ -19,7 +19,7 @@ import {
     changeTypoWithKey,
 } from 'variables/functions';
 
-export default function Typography({item, device, setItem, onChange}) {
+export default function Typography({ item, device, setItem, onChange }) {
     const intl = useIntl();
 
     const handleColorChange = (color, mode) => {
@@ -48,30 +48,24 @@ export default function Typography({item, device, setItem, onChange}) {
                 })}
             >
                 <div className='form__inline_item'>
-                    <div className='field'>
-                        <div>
-                            {intl.formatMessage({
-                                id: 'builder.color',
-                                defaultMessage: 'Color',
-                            })}
-                        </div>
-                        <ColorPicker
-                            defaultColor={item.content[device].typo.color.normal}
-                            onColorChange={(color) => handleColorChange(color, 'normal')}
-                        />
-                    </div>
-                    <div className='field'>
-                        <div>
-                            {intl.formatMessage({
-                                id: 'builder.color.hover',
-                                defaultMessage: 'Color on hover',
-                            })}
-                        </div>
-                        <ColorPicker
-                            defaultColor={item.content[device].typo.color.hover}
-                            onColorChange={(color) => handleColorChange(color, 'hover')}
-                        />
-                    </div>
+                    <ColorPicker
+                        defaultColor={item.content[device].typo.color.normal}
+                        onColorChange={(color) => handleColorChange(color, 'normal')}
+                        label={intl.formatMessage({
+                            id: 'builder.color',
+                            defaultMessage: 'Color',
+                        })}
+                        name='normalColor'
+                    />
+                    <ColorPicker
+                        defaultColor={item.content[device].typo.color.hover}
+                        onColorChange={(color) => handleColorChange(color, 'hover')}
+                        label={intl.formatMessage({
+                            id: 'builder.color.hover',
+                            defaultMessage: 'Color on hover',
+                        })}
+                        name='hoverColor'
+                    />
                 </div>
                 <div className='form__inline_item'>
                     <Input
@@ -237,7 +231,8 @@ export default function Typography({item, device, setItem, onChange}) {
 
 Typography.propTypes = {
     item: PropTypes.shape({
-        content: PropTypes.shape({}).isRequired,
+        content: PropTypes.shape({
+        }).isRequired,
         type: PropTypes.string.isRequired,
     }).isRequired,
     device: PropTypes.string.isRequired,

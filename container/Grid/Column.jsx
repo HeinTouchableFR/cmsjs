@@ -39,6 +39,7 @@ Column.propTypes = {
         PropTypes.arrayOf(PropTypes.shape({
         })),
         PropTypes.string,
+        PropTypes.bool,
     ]).isRequired,
 };
 

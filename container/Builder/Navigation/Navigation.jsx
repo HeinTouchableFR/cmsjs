@@ -17,6 +17,7 @@ import Flash from 'components/Flash/Flash';
 import ColorPicker from 'components/ColorPicker/ColorPicker';
 import Checkbox from 'components/Form/Checkbox/Checkbox';
 import PropTypes from 'prop-types';
+import Grid from 'container/Grid/Grid';
 import styles from './Navigation.module.scss';
 
 export default function Navigation({ components,
@@ -297,20 +298,37 @@ export default function Navigation({ components,
                         )}
                         <Checkbox
                             name='enableDarkMode'
-                            label='Enable Dark Mode'
+                            label={intl.formatMessage({
+                                id: 'builder.enable.darkMode',
+                                defaultMessage: 'Enable dark mode',
+                            })}
                             defaultChecked={params.background.enableDarkMode}
                             onChange={(e, data) => handleParamsChange(e, data, 'background')}
                         />
-                        <ColorPicker
-                            defaultColor={params.background.light}
-                            onColorChange={(color) => handleColorChange(color, 'light')}
-                        />
-                        {params.background.enableDarkMode && (
-                            <ColorPicker
-                                defaultColor={params.background.dark}
-                                onColorChange={(color) => handleColorChange(color, 'dark')}
-                            />
-                        )}
+                        <Grid columns={2}>
+                            <Grid.Column>
+                                <ColorPicker
+                                    defaultColor={params.background.light}
+                                    onColorChange={(color) => handleColorChange(color, 'light')}
+                                    label={intl.formatMessage({
+                                        id: 'builder.color.light',
+                                        defaultMessage: 'Light background',
+                                    })}
+                                />
+                            </Grid.Column>
+                            <Grid.Column>
+                                {params.background.enableDarkMode && (
+                                    <ColorPicker
+                                        defaultColor={params.background.dark}
+                                        onColorChange={(color) => handleColorChange(color, 'dark')}
+                                        label={intl.formatMessage({
+                                            id: 'builder.color.dark',
+                                            defaultMessage: 'Dark background',
+                                        })}
+                                    />
+                                )}
+                            </Grid.Column>
+                        </Grid>
                     </form>
                 </Tab.Pane>
             ),

@@ -189,18 +189,15 @@ export default function Button({ element, onElementValueChange, device }) {
             }),
             render: () => (
                 <Tab.Pane>
-                    <div className='field'>
-                        <div>
-                            {intl.formatMessage({
-                                id: 'builder.buttonColor',
-                                defaultMessage: 'Button color',
-                            })}
-                        </div>
-                        <ColorPicker
-                            defaultColor={item.content.button.background.normal}
-                            onColorChange={(color) => handleColorChange(color, 'normal')}
-                        />
-                    </div>
+                    <ColorPicker
+                        defaultColor={item.content.button.background.normal}
+                        onColorChange={(color) => handleColorChange(color, 'normal')}
+                        label={intl.formatMessage({
+                            id: 'builder.button.color',
+                            defaultMessage: 'Background color',
+                        })}
+                        name='normalColorButton'
+                    />
                     <Dropdown
                         name='type'
                         defaultValue={
@@ -214,18 +211,15 @@ export default function Button({ element, onElementValueChange, device }) {
                         })}
                         searchable
                     />
-                    <div className='field'>
-                        <div>
-                            {intl.formatMessage({
-                                id: 'builder.color',
-                                defaultMessage: 'Color',
-                            })}
-                        </div>
-                        <ColorPicker
-                            defaultColor={item.content.button.border.normal.color}
-                            onColorChange={(color) => handleChangeBorderColor(color, 'normal')}
-                        />
-                    </div>
+                    <ColorPicker
+                        defaultColor={item.content.button.border.normal.color}
+                        onColorChange={(color) => handleChangeBorderColor(color, 'normal')}
+                        label={intl.formatMessage({
+                            id: 'builder.color',
+                            defaultMessage: 'Color',
+                        })}
+                        name='normalBorderColor'
+                    />
                     <div className='field'>
                         <div>
                             {intl.formatMessage({
@@ -406,18 +400,15 @@ export default function Button({ element, onElementValueChange, device }) {
             }),
             render: () => (
                 <Tab.Pane>
-                    <div className='field'>
-                        <div>
-                            {intl.formatMessage({
-                                id: 'builder.buttonColor.hover',
-                                defaultMessage: 'button Color on hover',
-                            })}
-                        </div>
-                        <ColorPicker
-                            defaultColor={item.content.button.background.hover}
-                            onColorChange={(color) => handleColorChange(color, 'hover')}
-                        />
-                    </div>
+                    <ColorPicker
+                        defaultColor={item.content.button.background.hover}
+                        onColorChange={(color) => handleColorChange(color, 'hover')}
+                        label={intl.formatMessage({
+                            id: 'builder.button.color',
+                            defaultMessage: 'Background color',
+                        })}
+                        name='hoverColorButton'
+                    />
                     <Dropdown
                         name='type'
                         defaultValue={
@@ -431,18 +422,15 @@ export default function Button({ element, onElementValueChange, device }) {
                         })}
                         searchable
                     />
-                    <div className='field'>
-                        <div>
-                            {intl.formatMessage({
-                                id: 'builder.color',
-                                defaultMessage: 'Color',
-                            })}
-                        </div>
-                        <ColorPicker
-                            defaultColor={item.content.button.border.hover.color}
-                            onColorChange={(color) => handleChangeBorderColor(color, 'hover')}
-                        />
-                    </div>
+                    <ColorPicker
+                        defaultColor={item.content.button.border.hover.color}
+                        onColorChange={(color) => handleChangeBorderColor(color, 'hover')}
+                        label={intl.formatMessage({
+                            id: 'builder.color',
+                            defaultMessage: 'Color',
+                        })}
+                        name='hoverBorderColor'
+                    />
                     <div className='field'>
                         <div>
                             {intl.formatMessage({
