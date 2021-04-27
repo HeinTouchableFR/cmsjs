@@ -90,8 +90,11 @@ export default function FileManager({ multiple = false,
 
     const insertMediaTrigger = (
         <Button
-            label='Insérez un média'
-            loading={selectedFiles.length === 0}
+            label={intl.formatMessage({
+                id: 'fileManager.insertMedia',
+                defaultMessage: 'Insert media',
+            })}
+            disabled={selectedFiles.length === 0}
             color='green'
             onClick={() => handleInsertClick()}
             icon='las la-check'
@@ -198,6 +201,7 @@ export default function FileManager({ multiple = false,
                                         })}
                                         is='drop-files'
                                         multiple
+                                        required
                                     />
                                 ) : (
                                     <input
@@ -212,6 +216,7 @@ export default function FileManager({ multiple = false,
                                             defaultMessage: "Upload files here and they won't be sent immediately",
                                         })}
                                         is='drop-files'
+                                        required
                                     />
                                 )}
                                 <Button

@@ -288,7 +288,7 @@ Image.propTypes = {
         type: PropTypes.string.isRequired,
     }).isRequired,
     onElementValueChange: PropTypes.func.isRequired,
-    images: PropTypes.shape({
-    }).isRequired,
+    images: PropTypes.arrayOf(PropTypes.shape({
+    })).isRequired,
     setImages: PropTypes.func.isRequired,
 };
