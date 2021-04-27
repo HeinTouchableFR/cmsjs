@@ -1,0 +1,35 @@
+.field {
+  clear: both;
+  margin: 0 0 1rem;
+
+  .label {
+    display: block;
+    margin: 0 0 0.3rem 0;
+    font-size: 1rem;
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+    color: var(--admin-color);
+    text-decoration: underline;
+
+    .subLabel {
+      float: right;
+
+      span{
+        font-weight: normal;
+        margin-right: 5px;
+        cursor: pointer;
+
+        &[data-selected=true]{
+          font-weight: bold;
+          color: var(--admin-text-grey)
+        }
+      }
+    }
+  }
+}
+
+
+
+.ui {
+  padding-top: 1rem;
+}

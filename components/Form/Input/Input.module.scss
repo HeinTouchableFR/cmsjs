@@ -9,6 +9,21 @@
     font-weight: 600;
     font-family: 'Poppins', sans-serif;
     color: var(--admin-color);
+
+    .subLabel {
+      float: right;
+
+      span{
+        font-weight: normal;
+        margin-right: 5px;
+        cursor: pointer;
+
+        &[data-selected=true]{
+          font-weight: bold;
+          color: var(--admin-text-grey)
+        }
+      }
+    }
   }
 }
 

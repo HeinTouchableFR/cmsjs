@@ -7,6 +7,8 @@ import {
     changeStyle,
     changeStyleUnit,
 } from 'variables/functions';
+import Grid from 'container/Grid/Grid';
+import Field from 'components/Form/Field/Field';
 
 export default function Advanced({ item, device, setItem, onChange }) {
     const intl = useIntl();
@@ -28,17 +30,16 @@ export default function Advanced({ item, device, setItem, onChange }) {
                     defaultMessage: 'Advanced',
                 })}
             >
-                <div className='field'>
-                    <div className='form__inline_item'>
-                        <div>
-                            {intl.formatMessage({
-                                id: 'builder.margin',
-                                defaultMessage: 'Margin',
-                            })}
-                        </div>
-                        <div className='field-group'>
+                <Field
+                    label={intl.formatMessage({
+                        id: 'builder.margin',
+                        defaultMessage: 'Margin',
+                    })}
+                    name='margin'
+                    subLabel={(
+                        <>
                             <span
-                                className={`${item.styles[device].margin.unit === 'px' && 'selected'}`}
+                                data-selected={`${item.styles[device].margin.unit === 'px'}`}
                                 onClick={() => handleChangeStyleUnit('px', 'margin')}
                                 onKeyDown={() => handleChangeStyleUnit('px', 'margin')}
                                 role='button'
@@ -47,7 +48,7 @@ export default function Advanced({ item, device, setItem, onChange }) {
                                 PX
                             </span>
                             <span
-                                className={`${item.styles[device].margin.unit === 'em' && 'selected'}`}
+                                data-selected={`${item.styles[device].margin.unit === 'em'}`}
                                 onKeyDown={() => handleChangeStyleUnit('em', 'margin')}
                                 role='button'
                                 tabIndex='0'
@@ -55,7 +56,7 @@ export default function Advanced({ item, device, setItem, onChange }) {
                                 EM
                             </span>
                             <span
-                                className={`${item.styles[device].margin.unit === '%' && 'selected'}`}
+                                data-selected={`${item.styles[device].margin.unit === '%'}`}
                                 onKeyDown={() => handleChangeStyleUnit('%', 'margin')}
                                 role='button'
                                 tabIndex='0'
@@ -63,85 +64,93 @@ export default function Advanced({ item, device, setItem, onChange }) {
                                 %
                             </span>
                             <span
-                                className={`${item.styles[device].margin.unit === 'rem' && 'selected'}`}
+                                data-selected={`${item.styles[device].margin.unit === 'rem'}`}
                                 onKeyDown={() => handleChangeStyleUnit('rem', 'margin')}
                                 role='button'
                                 tabIndex='0'
                             >
                                 REM
                             </span>
-                        </div>
-                    </div>
-                    <div className='form__inline_item bottom'>
-                        <Input
-                            label={intl.formatMessage({
-                                id: 'builder.top',
-                                defaultMessage: 'Top',
-                            })}
-                            placeholder={intl.formatMessage({
-                                id: 'builder.top',
-                                defaultMessage: 'Top',
-                            })}
-                            name='top'
-                            type='number'
-                            defaultValue={item.styles[device].margin.top}
-                            onChange={(e, data) => handleChangeStyle(e, data, 'margin')}
-                        />
-                        <Input
-                            label={intl.formatMessage({
-                                id: 'builder.right',
-                                defaultMessage: 'Right',
-                            })}
-                            placeholder={intl.formatMessage({
-                                id: 'builder.right',
-                                defaultMessage: 'Right',
-                            })}
-                            name='right'
-                            type='number'
-                            defaultValue={item.styles[device].margin.right}
-                            onChange={(e, data) => handleChangeStyle(e, data, 'margin')}
-                        />
-                        <Input
-                            label={intl.formatMessage({
-                                id: 'builder.bottom',
-                                defaultMessage: 'Bottom',
-                            })}
-                            placeholder={intl.formatMessage({
-                                id: 'builder.bottom',
-                                defaultMessage: 'Bottom',
-                            })}
-                            name='bottom'
-                            type='number'
-                            defaultValue={item.styles[device].margin.bottom}
-                            onChange={(e, data) => handleChangeStyle(e, data, 'margin')}
-                        />
-                        <Input
-                            label={intl.formatMessage({
-                                id: 'builder.left',
-                                defaultMessage: 'Left',
-                            })}
-                            placeholder={intl.formatMessage({
-                                id: 'builder.left',
-                                defaultMessage: 'Left',
-                            })}
-                            name='left'
-                            type='number'
-                            defaultValue={item.styles[device].margin.left}
-                            onChange={(e, data) => handleChangeStyle(e, data, 'margin')}
-                        />
-                    </div>
-                </div>
-                <div className='field'>
-                    <div className='form__inline_item'>
-                        <div>
-                            {intl.formatMessage({
-                                id: 'builder.padding',
-                                defaultMessage: 'Padding',
-                            })}
-                        </div>
-                        <div className='field-group'>
+                        </>
+                    )}
+                >
+                    <Grid columns={2}>
+                        <Grid.Column>
+                            <Input
+                                label={intl.formatMessage({
+                                    id: 'builder.top',
+                                    defaultMessage: 'Top',
+                                })}
+                                placeholder={intl.formatMessage({
+                                    id: 'builder.top',
+                                    defaultMessage: 'Top',
+                                })}
+                                name='top'
+                                type='number'
+                                defaultValue={item.styles[device].margin.top}
+                                onChange={(e, data) => handleChangeStyle(e, data, 'margin')}
+                            />
+                        </Grid.Column>
+                        <Grid.Column>
+                            <Input
+                                label={intl.formatMessage({
+                                    id: 'builder.right',
+                                    defaultMessage: 'Right',
+                                })}
+                                placeholder={intl.formatMessage({
+                                    id: 'builder.right',
+                                    defaultMessage: 'Right',
+                                })}
+                                name='right'
+                                type='number'
+                                defaultValue={item.styles[device].margin.right}
+                                onChange={(e, data) => handleChangeStyle(e, data, 'margin')}
+                            />
+                        </Grid.Column>
+                        <Grid.Column>
+                            <Input
+                                label={intl.formatMessage({
+                                    id: 'builder.bottom',
+                                    defaultMessage: 'Bottom',
+                                })}
+                                placeholder={intl.formatMessage({
+                                    id: 'builder.bottom',
+                                    defaultMessage: 'Bottom',
+                                })}
+                                name='bottom'
+                                type='number'
+                                defaultValue={item.styles[device].margin.bottom}
+                                onChange={(e, data) => handleChangeStyle(e, data, 'margin')}
+                            />
+                        </Grid.Column>
+                        <Grid.Column>
+                            <Input
+                                label={intl.formatMessage({
+                                    id: 'builder.left',
+                                    defaultMessage: 'Left',
+                                })}
+                                placeholder={intl.formatMessage({
+                                    id: 'builder.left',
+                                    defaultMessage: 'Left',
+                                })}
+                                name='left'
+                                type='number'
+                                defaultValue={item.styles[device].margin.left}
+                                onChange={(e, data) => handleChangeStyle(e, data, 'margin')}
+                            />
+                        </Grid.Column>
+                    </Grid>
+                </Field>
+                <Field
+                    label={intl.formatMessage({
+                        id: 'builder.padding',
+                        defaultMessage: 'Padding',
+                    })}
+                    name='padding'
+                    subLabel={(
+                        <>
                             <span
-                                className={`${item.styles[device].padding.unit === 'px' && 'selected'}`}
+                                data-selected={`${item.styles[device].padding.unit === 'px'}`}
                                 onClick={() => handleChangeStyleUnit('px', 'padding')}
                                 onKeyDown={() => handleChangeStyleUnit('px', 'padding')}
                                 role='button'
@@ -150,7 +159,7 @@ export default function Advanced({ item, device, setItem, onChange }) {
                                 PX
                             </span>
                             <span
-                                className={`${item.styles[device].padding.unit === 'em' && 'selected'}`}
+                                data-selected={`${item.styles[device].padding.unit === 'em'}`}
                                 onClick={() => handleChangeStyleUnit('em', 'padding')}
                                 onKeyDown={() => handleChangeStyleUnit('em', 'padding')}
                                 role='button'
@@ -159,7 +168,7 @@ export default function Advanced({ item, device, setItem, onChange }) {
                                 EM
                             </span>
                             <span
-                                className={`${item.styles[device].padding.unit === '%' && 'selected'}`}
+                                data-selected={`${item.styles[device].padding.unit === '%'}`}
                                 onClick={() => handleChangeStyleUnit('%', 'padding')}
                                 onKeyDown={() => handleChangeStyleUnit('%', 'padding')}
                                 role='button'
@@ -168,7 +177,7 @@ export default function Advanced({ item, device, setItem, onChange }) {
                                 %
                             </span>
                             <span
-                                className={`${item.styles[device].padding.unit === 'rem' && 'selected'}`}
+                                data-selected={`${item.styles[device].padding.unit === 'rem'}`}
                                 onClick={() => handleChangeStyleUnit('rem', 'padding')}
                                 onKeyDown={() => handleChangeStyleUnit('rem', 'padding')}
                                 role='button'
@@ -176,67 +185,76 @@ export default function Advanced({ item, device, setItem, onChange }) {
                             >
                                 REM
                             </span>
-                        </div>
-                    </div>
-                    <div className='form__inline_item bottom'>
-                        <Input
-                            label={intl.formatMessage({
-                                id: 'builder.top',
-                                defaultMessage: 'Top',
-                            })}
-                            placeholder={intl.formatMessage({
-                                id: 'builder.top',
-                                defaultMessage: 'Top',
-                            })}
-                            name='top'
-                            type='number'
-                            defaultValue={item.styles[device].padding.top}
-                            onChange={(e, data) => handleChangeStyle(e, data, 'padding')}
-                        />
-                        <Input
-                            label={intl.formatMessage({
-                                id: 'builder.right',
-                                defaultMessage: 'Right',
-                            })}
-                            placeholder={intl.formatMessage({
-                                id: 'builder.right',
-                                defaultMessage: 'Right',
-                            })}
-                            name='right'
-                            type='number'
-                            defaultValue={item.styles[device].padding.right}
-                            onChange={(e, data) => handleChangeStyle(e, data, 'padding')}
-                        />
-                        <Input
-                            label={intl.formatMessage({
-                                id: 'builder.bottom',
-                                defaultMessage: 'Bottom',
-                            })}
-                            placeholder={intl.formatMessage({
-                                id: 'builder.bottom',
-                                defaultMessage: 'Bottom',
-                            })}
-                            name='bottom'
-                            type='number'
-                            defaultValue={item.styles[device].padding.bottom}
-                            onChange={(e, data) => handleChangeStyle(e, data, 'padding')}
-                        />
-                        <Input
-                            label={intl.formatMessage({
-                                id: 'builder.left',
-                                defaultMessage: 'Left',
-                            })}
-                            placeholder={intl.formatMessage({
-                                id: 'builder.left',
-                                defaultMessage: 'Left',
-                            })}
-                            name='left'
-                            type='number'
-                            defaultValue={item.styles[device].padding.left}
-                            onChange={(e, data) => handleChangeStyle(e, data, 'padding')}
-                        />
-                    </div>
-                </div>
+                        </>
+                      )}
+                >
+                    <Grid columns={2}>
+                        <Grid.Column>
+                            <Input
+                                label={intl.formatMessage({
+                                    id: 'builder.top',
+                                    defaultMessage: 'Top',
+                                })}
+                                placeholder={intl.formatMessage({
+                                    id: 'builder.top',
+                                    defaultMessage: 'Top',
+                                })}
+                                name='top'
+                                type='number'
+                                defaultValue={item.styles[device].padding.top}
+                                onChange={(e, data) => handleChangeStyle(e, data, 'padding')}
+                            />
+                        </Grid.Column>
+                        <Grid.Column>
+                            <Input
+                                label={intl.formatMessage({
+                                    id: 'builder.right',
+                                    defaultMessage: 'Right',
+                                })}
+                                placeholder={intl.formatMessage({
+                                    id: 'builder.right',
+                                    defaultMessage: 'Right',
+                                })}
+                                name='right'
+                                type='number'
+                                defaultValue={item.styles[device].padding.right}
+                                onChange={(e, data) => handleChangeStyle(e, data, 'padding')}
+                            />
+                        </Grid.Column>
+                        <Grid.Column>
+                            <Input
+                                label={intl.formatMessage({
+                                    id: 'builder.bottom',
+                                    defaultMessage: 'Bottom',
+                                })}
+                                placeholder={intl.formatMessage({
+                                    id: 'builder.bottom',
+                                    defaultMessage: 'Bottom',
+                                })}
+                                name='bottom'
+                                type='number'
+                                defaultValue={item.styles[device].padding.bottom}
+                                onChange={(e, data) => handleChangeStyle(e, data, 'padding')}
+                            />
+                        </Grid.Column>
+                        <Grid.Column>
+                            <Input
+                                label={intl.formatMessage({
+                                    id: 'builder.left',
+                                    defaultMessage: 'Left',
+                                })}
+                                placeholder={intl.formatMessage({
+                                    id: 'builder.left',
+                                    defaultMessage: 'Left',
+                                })}
+                                name='left'
+                                type='number'
+                                defaultValue={item.styles[device].padding.left}
+                                onChange={(e, data) => handleChangeStyle(e, data, 'padding')}
+                            />
+                        </Grid.Column>
+                    </Grid>
+                </Field>
             </Accordion>
         </>
     );

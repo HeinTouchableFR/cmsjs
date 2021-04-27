@@ -18,6 +18,7 @@ import {
     changeTypoUnit,
     changeTypoWithKey,
 } from 'variables/functions';
+import Grid from 'container/Grid/Grid';
 
 export default function Typography({ item, device, setItem, onChange }) {
     const intl = useIntl();
@@ -47,80 +48,84 @@ export default function Typography({ item, device, setItem, onChange }) {
                     defaultMessage: 'Typography',
                 })}
             >
-                <div className='form__inline_item'>
-                    <ColorPicker
-                        defaultColor={item.content[device].typo.color.normal}
-                        onColorChange={(color) => handleColorChange(color, 'normal')}
-                        label={intl.formatMessage({
-                            id: 'builder.color',
-                            defaultMessage: 'Color',
-                        })}
-                        name='normalColor'
-                    />
-                    <ColorPicker
-                        defaultColor={item.content[device].typo.color.hover}
-                        onColorChange={(color) => handleColorChange(color, 'hover')}
-                        label={intl.formatMessage({
-                            id: 'builder.color.hover',
-                            defaultMessage: 'Color on hover',
-                        })}
-                        name='hoverColor'
-                    />
-                </div>
-                <div className='form__inline_item'>
-                    <Input
-                        label={intl.formatMessage({
-                            id: 'builder.font.size',
-                            defaultMessage: 'Font size',
-                        })}
-                        placeholder='16'
-                        name='value'
-                        type='number'
-                        min='1'
-                        max={item.content[device].typo.size.unit === 'px' ? '200' : '10'}
-                        step={item.content[device].typo.size.unit === 'px' ? '1' : '0.1'}
-                        defaultValue={item.content[device].typo.size.value}
-                        onChange={(e, data) => handleChangeTypoWithKey(e, data, 'size')}
-                    />
-                    <div className='field-group'>
-                        <span
-                            className={`${item.content[device].typo.size.unit === 'px' && 'selected'}`}
-                            onClick={() => handleChangeTypoUnit('px', 'size')}
-                            onKeyDown={() => handleChangeTypoUnit('px', 'size')}
-                            role='button'
-                            tabIndex='0'
-                        >
-                            PX
-                        </span>
-                        <span
-                            className={`${item.content[device].typo.size.unit === 'em' && 'selected'}`}
-                            onClick={() => handleChangeTypoUnit('em', 'size')}
-                            onKeyDown={() => handleChangeTypoUnit('em', 'size')}
-                            role='button'
-                            tabIndex='0'
-                        >
-                            EM
-                        </span>
-                        <span
-                            className={`${item.content[device].typo.size.unit === 'rem' && 'selected'}`}
-                            onClick={() => handleChangeTypoUnit('rem', 'size')}
-                            onKeyDown={() => handleChangeTypoUnit('rem', 'size')}
-                            role='button'
-                            tabIndex='0'
-                        >
-                            REM
-                        </span>
-                        <span
-                            className={`${item.content[device].typo.size.unit === 'vw' && 'selected'}`}
-                            onClick={() => handleChangeTypoUnit('vw', 'size')}
-                            onKeyDown={() => handleChangeTypoUnit('vw', 'size')}
-                            role='button'
-                            tabIndex='0'
-                        >
-                            VW
-                        </span>
-                    </div>
-                </div>
+                <Grid columns={2}>
+                    <Grid.Column>
+                        <ColorPicker
+                            defaultColor={item.content[device].typo.color.normal}
+                            onColorChange={(color) => handleColorChange(color, 'normal')}
+                            label={intl.formatMessage({
+                                id: 'builder.color',
+                                defaultMessage: 'Color',
+                            })}
+                            name='normalColor'
+                        />
+                    </Grid.Column>
+                    <Grid.Column>
+                        <ColorPicker
+                            defaultColor={item.content[device].typo.color.hover}
+                            onColorChange={(color) => handleColorChange(color, 'hover')}
+                            label={intl.formatMessage({
+                                id: 'builder.color.hover',
+                                defaultMessage: 'Color on hover',
+                            })}
+                            name='hoverColor'
+                        />
+                    </Grid.Column>
+                </Grid>
+                <Input
+                    label={intl.formatMessage({
+                        id: 'builder.font.size',
+                        defaultMessage: 'Font size',
+                    })}
+                    placeholder='16'
+                    name='value'
+                    type='number'
+                    min='1'
+                    max={item.content[device].typo.size.unit === 'px' ? '200' : '10'}
+                    step={item.content[device].typo.size.unit === 'px' ? '1' : '0.1'}
+                    defaultValue={item.content[device].typo.size.value}
+                    onChange={(e, data) => handleChangeTypoWithKey(e, data, 'size')}
+                    subLabel={(
+                        <>
+                            <span
+                                data-selected={`${item.content[device].typo.size.unit === 'px'}`}
+                                onClick={() => handleChangeTypoUnit('px', 'size')}
+                                onKeyDown={() => handleChangeTypoUnit('px', 'size')}
+                                role='button'
+                                tabIndex='0'
+                            >
+                                PX
+                            </span>
+                            <span
+                                data-selected={`${item.content[device].typo.size.unit === 'em'}`}
+                                onClick={() => handleChangeTypoUnit('em', 'size')}
+                                onKeyDown={() => handleChangeTypoUnit('em', 'size')}
+                                role='button'
+                                tabIndex='0'
+                            >
+                                EM
+                            </span>
+                            <span
+                                data-selected={`${item.content[device].typo.size.unit === 'rem'}`}
+                                onClick={() => handleChangeTypoUnit('rem', 'size')}
+                                onKeyDown={() => handleChangeTypoUnit('rem', 'size')}
+                                role='button'
+                                tabIndex='0'
+                            >
+                                REM
+                            </span>
+                            <span
+                                data-selected={`${item.content[device].typo.size.unit === 'vw'}`}
+                                onClick={() => handleChangeTypoUnit('vw', 'size')}
+                                onKeyDown={() => handleChangeTypoUnit('vw', 'size')}
+                                role='button'
+                                tabIndex='0'
+                            >
+                                VW
+                            </span>
+                        </>
+                    )}
+                />
                 <Dropdown
                     name='family'
                     defaultValue={item.content[device].typo.family}
@@ -177,42 +182,42 @@ export default function Typography({ item, device, setItem, onChange }) {
                     })}
                     searchable
                 />
-                <div className='form__inline_item'>
-                    <Input
-                        label={intl.formatMessage({
+                <Input
+                    label={intl.formatMessage({
                             id: 'builder.lineHeight',
                             defaultMessage: 'Line height',
                         })}
-                        placeholder='1'
-                        name='value'
-                        type='number'
-                        min='1'
-                        max={item.content[device].typo.lineHeight.unit === 'px' ? '100' : '10'}
-                        step={item.content[device].typo.lineHeight.unit === 'px' ? '1' : '0.1'}
-                        defaultValue={item.content[device].typo.lineHeight.value}
-                        onChange={(e, data) => handleChangeTypoWithKey(e, data, 'lineHeight')}
-                    />
-                    <div className='field-group'>
-                        <span
-                            className={`${item.content[device].typo.lineHeight.unit === 'px' && 'selected'}`}
-                            onClick={() => handleChangeTypoUnit('px', 'lineHeight')}
-                            onKeyDown={() => handleChangeTypoUnit('px', 'lineHeight')}
-                            role='button'
-                            tabIndex='0'
-                        >
-                            PX
-                        </span>
-                        <span
-                            className={`${item.content[device].typo.lineHeight.unit === 'em' && 'selected'}`}
-                            onClick={() => handleChangeTypoUnit('em', 'lineHeight')}
-                            onKeyDown={() => handleChangeTypoUnit('em', 'lineHeight')}
-                            role='button'
-                            tabIndex='0'
-                        >
-                            EM
-                        </span>
-                    </div>
-                </div>
+                    placeholder='1'
+                    name='value'
+                    type='number'
+                    min='1'
+                    max={item.content[device].typo.lineHeight.unit === 'px' ? '100' : '10'}
+                    step={item.content[device].typo.lineHeight.unit === 'px' ? '1' : '0.1'}
+                    defaultValue={item.content[device].typo.lineHeight.value}
+                    onChange={(e, data) => handleChangeTypoWithKey(e, data, 'lineHeight')}
+                    subLabel={(
+                        <>
+                            <span
+                                data-selected={`${item.content[device].typo.lineHeight.unit === 'px'}`}
+                                onClick={() => handleChangeTypoUnit('px', 'lineHeight')}
+                                onKeyDown={() => handleChangeTypoUnit('px', 'lineHeight')}
+                                role='button'
+                                tabIndex='0'
+                            >
+                                PX
+                            </span>
+                            <span
+                                data-selected={`${item.content[device].typo.lineHeight.unit === 'em'}`}
+                                onClick={() => handleChangeTypoUnit('em', 'lineHeight')}
+                                onKeyDown={() => handleChangeTypoUnit('em', 'lineHeight')}
+                                role='button'
+                                tabIndex='0'
+                            >
+                                EM
+                            </span>
+                        </>
+                        )}
+                />
                 <Input
                     label={intl.formatMessage({
                         id: 'builder.letterSpacing',

@@ -3,38 +3,6 @@
 @import 'style/modules/animations';
 @import 'style/modules/menu';
 
-
-// Header Bar
-.header-bar {
-    background-color: #a73500;
-    width: 100%;
-}
-
-.ui.disabled.input,
-.ui.input:not(.disabled) input[disabled],
-.ui.disabled.search {
-    opacity: 0.7 !important;
-}
-
-.ui.form .disabled.field,
-.ui.form .disabled.fields .field,
-.ui.form .field :disabled,
-.ui.form .field.disabled > label,
-.ui.form .fields.disabled > label {
-    pointer-events: none;
-    opacity: 1 !important;
-}
-
-.ui.form .field:last-child, .ui.form .fields:last-child .field {
-    margin-bottom: auto;
-}
-
-.ui.tabular.menu .item {
-    padding: 0!important;
-    width: calc(350px/3);
-    justify-content: center;
-}
-
 #nprogress .bar {
     background: var(--admin-icon) !important;
 }
@@ -57,77 +25,6 @@
     margin-left: auto;
     margin-right: auto;
 }
-
-// Menu Component/
-
-.ui.attached.segment.active.tab {
-    min-height: calc(100% - 45px);
-    background: #e6e9ec;
-}
-.ui.labeled.button {
-    margin: auto;
-}
-
-.form__inline_item {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(40px, 1fr));
-    grid-gap: 10px;
-}
-
-.bottom label {
-    text-align: center;
-    font-weight: 300;
-    font-size: 12px;
-    margin-top: 5px;
-}
-
-.bottom .field {
-    display: flex;
-    flex-direction: column-reverse;
-}
-
-.form__style_container {
-    margin-top: 20px;
-    & .title {
-        text-align: center;
-    }
-}
-
-.form__style_item {
-    margin-bottom: 10px;
-}
-
-.ui.attached.segment.active.tab {
-    overflow-y: scroll;
-    max-height: 100px;
-}
-
-.accordion__pane {
-    position: relative;
-    background: #fff;
-    margin: 1rem 0;
-    padding: 1em 1em;
-    display: grid;
-    grid-gap: 15px;
-}
-
-
-.field-group{
-    display: flex;
-}
-
-.field-group span{
-    font-weight: normal!important;
-    margin-right: 5px;
-    cursor: pointer;
-}
-.field-group span.selected{
-    font-weight: bold!important;
-}
-.field-group span:hover{
-    text-decoration: underline;
-}
-
 
 p {
     line-height: inherit!important;

@@ -98,129 +98,129 @@ export default function Logo({ element, device, onElementValueChange }) {
                 active
                 title='Image'
             >
-                <div className='form__inline_item'>
-                    <Input
-                        label={intl.formatMessage({
-                            id: 'builder.width', defaultMessage: 'Width',
-                        })}
-                        placeholder='100'
-                        name='value'
-                        type='number'
-                        min='1'
-                        max={item.content[device].image.size.width.unit === 'px' ? '1000' : '100'}
-                        step='1'
-                        defaultValue={item.content[device].image.size.width.value}
-                        onChange={(e, data) => handleChangeImageValue(e, data, 'size', 'width')}
-                    />
-                    <div className='field-group'>
-                        <span
-                            className={`${item.content[device].image.size.width.unit === '%' && 'selected'}`}
-                            onClick={() => handleChangeImageValueUnit('%', 'size', 'width')}
-                            onKeyDown={() => handleChangeImageValueUnit('%', 'size', 'width')}
-                            role='button'
-                            tabIndex='0'
-                        >
-                            %
-                        </span>
-                        <span
-                            className={`${item.content[device].image.size.width.unit === 'px' && 'selected'}`}
-                            onClick={() => handleChangeImageValueUnit('px', 'size', 'width')}
-                            onKeyDown={() => handleChangeImageValueUnit('px', 'size', 'width')}
-                            role='button'
-                            tabIndex='0'
-                        >
-                            PX
-                        </span>
-                        <span
-                            className={`${item.content[device].image.size.width.unit === 'vw' && 'selected'}`}
-                            onClick={() => handleChangeImageValueUnit('vw', 'size', 'width')}
-                            onKeyDown={() => handleChangeImageValueUnit('vw', 'size', 'width')}
-                            role='button'
-                            tabIndex='0'
-                        >
-                            VW
-                        </span>
-                    </div>
-                </div>
-                <div className='form__inline_item'>
-                    <Input
-                        label={intl.formatMessage({
-                            id: 'builder.width.max', defaultMessage: 'Max width',
-                        })}
-                        placeholder='100'
-                        name='value'
-                        type='number'
-                        min='1'
-                        max={item.content[device].image.size.maxWidth.unit === 'px' ? '1000' : '100'}
-                        step='1'
-                        defaultValue={item.content[device].image.size.maxWidth.value}
-                        onChange={(e, data) => handleChangeImageValue(e, data, 'size', 'maxWidth')}
-                    />
-                    <div className='field-group'>
-                        <span
-                            className={`${item.content[device].image.size.maxWidth.unit === '%' && 'selected'}`}
-                            onClick={() => handleChangeImageValueUnit('%', 'size', 'maxWidth')}
-                            onKeyDown={() => handleChangeImageValueUnit('%', 'size', 'maxWidth')}
-                            role='button'
-                            tabIndex='0'
-                        >
-                            %
-                        </span>
-                        <span
-                            className={`${item.content[device].image.size.maxWidth.unit === 'px' && 'selected'}`}
-                            onClick={() => handleChangeImageValueUnit('px', 'size', 'maxWidth')}
-                            onKeyDown={() => handleChangeImageValueUnit('px', 'size', 'maxWidth')}
-                            role='button'
-                            tabIndex='0'
-                        >
-                            PX
-                        </span>
-                        <span
-                            className={`${item.content[device].image.size.maxWidth.unit === 'vw' && 'selected'}`}
-                            onClick={() => handleChangeImageValueUnit('vw', 'size', 'maxWidth')}
-                            onKeyDown={() => handleChangeImageValueUnit('vw', 'size', 'maxWidth')}
-                            role='button'
-                            tabIndex='0'
-                        >
-                            VW
-                        </span>
-                    </div>
-                </div>
-                <div className='form__inline_item'>
-                    <Input
-                        label={intl.formatMessage({
+                <Input
+                    label={intl.formatMessage({
+                        id: 'builder.width', defaultMessage: 'Width',
+                    })}
+                    placeholder='100'
+                    name='value'
+                    type='number'
+                    min='1'
+                    max={item.content[device].image.size.width.unit === 'px' ? '1000' : '100'}
+                    step='1'
+                    defaultValue={item.content[device].image.size.width.value}
+                    onChange={(e, data) => handleChangeImageValue(e, data, 'size', 'width')}
+                    subLabel={(
+                        <>
+                            <span
+                                data-selected={`${item.content[device].image.size.width.unit === '%'}`}
+                                onClick={() => handleChangeImageValueUnit('%', 'size', 'width')}
+                                onKeyDown={() => handleChangeImageValueUnit('%', 'size', 'width')}
+                                role='button'
+                                tabIndex='0'
+                            >
+                                %
+                            </span>
+                            <span
+                                data-selected={`${item.content[device].image.size.width.unit === 'px'}`}
+                                onClick={() => handleChangeImageValueUnit('px', 'size', 'width')}
+                                onKeyDown={() => handleChangeImageValueUnit('px', 'size', 'width')}
+                                role='button'
+                                tabIndex='0'
+                            >
+                                PX
+                            </span>
+                            <span
+                                data-selected={`${item.content[device].image.size.width.unit === 'vw'}`}
+                                onClick={() => handleChangeImageValueUnit('vw', 'size', 'width')}
+                                onKeyDown={() => handleChangeImageValueUnit('vw', 'size', 'width')}
+                                role='button'
+                                tabIndex='0'
+                            >
+                                VW
+                            </span>
+                        </>
+                    )}
+                />
+                <Input
+                    label={intl.formatMessage({
+                        id: 'builder.width.max', defaultMessage: 'Max width',
+                    })}
+                    placeholder='100'
+                    name='value'
+                    type='number'
+                    min='1'
+                    max={item.content[device].image.size.maxWidth.unit === 'px' ? '1000' : '100'}
+                    step='1'
+                    defaultValue={item.content[device].image.size.maxWidth.value}
+                    onChange={(e, data) => handleChangeImageValue(e, data, 'size', 'maxWidth')}
+                    subLabel={(
+                        <>
+                            <span
+                                data-selected={`${item.content[device].image.size.maxWidth.unit === '%'}`}
+                                onClick={() => handleChangeImageValueUnit('%', 'size', 'maxWidth')}
+                                onKeyDown={() => handleChangeImageValueUnit('%', 'size', 'maxWidth')}
+                                role='button'
+                                tabIndex='0'
+                            >
+                                %
+                            </span>
+                            <span
+                                data-selected={`${item.content[device].image.size.maxWidth.unit === 'px'}`}
+                                onClick={() => handleChangeImageValueUnit('px', 'size', 'maxWidth')}
+                                onKeyDown={() => handleChangeImageValueUnit('px', 'size', 'maxWidth')}
+                                role='button'
+                                tabIndex='0'
+                            >
+                                PX
+                            </span>
+                            <span
+                                data-selected={`${item.content[device].image.size.maxWidth.unit === 'vw'}`}
+                                onClick={() => handleChangeImageValueUnit('vw', 'size', 'maxWidth')}
+                                onKeyDown={() => handleChangeImageValueUnit('vw', 'size', 'maxWidth')}
+                                role='button'
+                                tabIndex='0'
+                            >
+                                VW
+                            </span>
+                        </>
+                    )}
+                />
+                <Input
+                    label={intl.formatMessage({
                             id: 'builder.height', defaultMessage: 'Height',
                         })}
-                        placeholder='Value (blank for auto)'
-                        name='value'
-                        type='number'
-                        min='1'
-                        max={item.content[device].image.size.height.unit === 'px' ? '500' : '100'}
-                        step='1'
-                        defaultValue={item.content[device].image.size.height.value !== 'auto' ? item.content[device].image.size.height.value : ''}
-                        onChange={(e, data) => handleChangeImageValue(e, data, 'size', 'height')}
-                    />
-                    <div className='field-group'>
-                        <span
-                            className={`${item.content[device].image.size.height.unit === 'px' && 'selected'}`}
-                            onClick={() => handleChangeImageValueUnit('px', 'size', 'height')}
-                            onKeyDown={() => handleChangeImageValueUnit('px', 'size', 'height')}
-                            role='button'
-                            tabIndex='0'
-                        >
-                            PX
-                        </span>
-                        <span
-                            className={`${item.content[device].image.size.height.unit === 'vh' && 'selected'}`}
-                            onClick={() => handleChangeImageValueUnit('vh', 'size', 'height')}
-                            onKeyDown={() => handleChangeImageValueUnit('vh', 'size', 'height')}
-                            role='button'
-                            tabIndex='0'
-                        >
-                            VH
-                        </span>
-                    </div>
-                </div>
+                    placeholder='Value (blank for auto)'
+                    name='value'
+                    type='number'
+                    min='1'
+                    max={item.content[device].image.size.height.unit === 'px' ? '500' : '100'}
+                    step='1'
+                    defaultValue={item.content[device].image.size.height.value !== 'auto' ? item.content[device].image.size.height.value : ''}
+                    onChange={(e, data) => handleChangeImageValue(e, data, 'size', 'height')}
+                    subLabel={(
+                        <>
+                            <span
+                                data-selected={`${item.content[device].image.size.height.unit === 'px'}`}
+                                onClick={() => handleChangeImageValueUnit('px', 'size', 'height')}
+                                onKeyDown={() => handleChangeImageValueUnit('px', 'size', 'height')}
+                                role='button'
+                                tabIndex='0'
+                            >
+                                PX
+                            </span>
+                            <span
+                                data-selected={`${item.content[device].image.size.height.unit === 'vh'}`}
+                                onClick={() => handleChangeImageValueUnit('vh', 'size', 'height')}
+                                onKeyDown={() => handleChangeImageValueUnit('vh', 'size', 'height')}
+                                role='button'
+                                tabIndex='0'
+                            >
+                                VH
+                            </span>
+                        </>
+                        )}
+                />
                 <Tab
                     panes={opacityPanes}
                 />

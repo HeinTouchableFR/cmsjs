@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import Tooltip from 'components/Form/Tooltip/Tooltip';
 
 export default function Input({ label,
+    subLabel,
     defaultValue,
     name,
     placeholder,
@@ -42,6 +43,7 @@ export default function Input({ label,
                 <label htmlFor={name}>
                     {label}
                     {' '}
+                    {subLabel && <div className={styles.subLabel}>{subLabel}</div>}
                     {tip && (
                     <Tooltip
                         tip={tip}
@@ -74,6 +76,7 @@ Input.propTypes = {
     onChange: PropTypes.func.isRequired,
     name: PropTypes.string.isRequired,
     label: PropTypes.string,
+    subLabel: PropTypes.string,
     placeholder: PropTypes.string,
     type: PropTypes.string,
     defaultValue: PropTypes.oneOfType([
@@ -92,6 +95,7 @@ Input.propTypes = {
 
 Input.defaultProps = {
     label: '',
+    subLabel: '',
     placeholder: '',
     type: 'text',
     required: false,
