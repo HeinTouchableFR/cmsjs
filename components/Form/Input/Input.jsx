@@ -76,7 +76,13 @@ Input.propTypes = {
     onChange: PropTypes.func.isRequired,
     name: PropTypes.string.isRequired,
     label: PropTypes.string,
-    subLabel: PropTypes.string,
+    subLabel: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.shape({
+        }),
+        PropTypes.arrayOf({
+        }),
+    ]),
     placeholder: PropTypes.string,
     type: PropTypes.string,
     defaultValue: PropTypes.oneOfType([

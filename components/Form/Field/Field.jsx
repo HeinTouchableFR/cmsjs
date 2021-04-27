@@ -37,7 +37,13 @@ export default function Field({ label,
 Field.propTypes = {
     name: PropTypes.string.isRequired,
     label: PropTypes.string,
-    subLabel: PropTypes.string,
+    subLabel: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.shape({
+        }),
+        PropTypes.arrayOf({
+        }),
+    ]),
     tip: PropTypes.string,
     iconTip: PropTypes.string,
     children: PropTypes.oneOfType([

@@ -337,12 +337,8 @@ export default function Button({ element, onElementValueChange, device }) {
                             <Grid.Column>
                                 <Input
                                     label={intl.formatMessage({
-                                        id: 'builder.top',
-                                        defaultMessage: 'Top',
-                                    })}
-                                    placeholder={intl.formatMessage({
-                                        id: 'builder.top',
-                                        defaultMessage: 'Top',
+                                        id: 'builder.top.left',
+                                        defaultMessage: 'Top left',
                                     })}
                                     name='top'
                                     type='number'
@@ -355,12 +351,8 @@ export default function Button({ element, onElementValueChange, device }) {
                             <Grid.Column>
                                 <Input
                                     label={intl.formatMessage({
-                                        id: 'builder.right',
-                                        defaultMessage: 'Right',
-                                    })}
-                                    placeholder={intl.formatMessage({
-                                        id: 'builder.right',
-                                        defaultMessage: 'Right',
+                                        id: 'builder.top.right',
+                                        defaultMessage: 'Top right',
                                     })}
                                     name='right'
                                     type='number'
@@ -373,17 +365,13 @@ export default function Button({ element, onElementValueChange, device }) {
                             <Grid.Column>
                                 <Input
                                     label={intl.formatMessage({
-                                        id: 'builder.bottom',
-                                        defaultMessage: 'Bottom',
+                                        id: 'builder.bottom.left',
+                                        defaultMessage: 'Bottom left',
                                     })}
-                                    placeholder={intl.formatMessage({
-                                        id: 'builder.bottom',
-                                        defaultMessage: 'Bottom',
-                                    })}
-                                    name='bottom'
+                                    name='left'
                                     type='number'
                                     defaultValue={
-                                        item.content.button.border.normal.radius.bottom
+                                        item.content.button.border.normal.radius.left
                                     }
                                     onChange={(e, data) => handleChangeBorder(e, data, 'radius', 'normal')}
                                 />
@@ -391,17 +379,13 @@ export default function Button({ element, onElementValueChange, device }) {
                             <Grid.Column>
                                 <Input
                                     label={intl.formatMessage({
-                                        id: 'builder.left',
-                                        defaultMessage: 'Left',
+                                        id: 'builder.bottom.right',
+                                        defaultMessage: 'Bottom right',
                                     })}
-                                    placeholder={intl.formatMessage({
-                                        id: 'builder.left',
-                                        defaultMessage: 'Left',
-                                    })}
-                                    name='left'
+                                    name='bottom'
                                     type='number'
                                     defaultValue={
-                                        item.content.button.border.normal.radius.left
+                                        item.content.button.border.normal.radius.bottom
                                     }
                                     onChange={(e, data) => handleChangeBorder(e, data, 'radius', 'normal')}
                                 />
@@ -564,12 +548,8 @@ export default function Button({ element, onElementValueChange, device }) {
                             <Grid.Column>
                                 <Input
                                     label={intl.formatMessage({
-                                        id: 'builder.top',
-                                        defaultMessage: 'Top',
-                                    })}
-                                    placeholder={intl.formatMessage({
-                                        id: 'builder.top',
-                                        defaultMessage: 'Top',
+                                        id: 'builder.top.left',
+                                        defaultMessage: 'Top left',
                                     })}
                                     name='top'
                                     type='number'
@@ -582,12 +562,8 @@ export default function Button({ element, onElementValueChange, device }) {
                             <Grid.Column>
                                 <Input
                                     label={intl.formatMessage({
-                                        id: 'builder.right',
-                                        defaultMessage: 'Right',
-                                    })}
-                                    placeholder={intl.formatMessage({
-                                        id: 'builder.right',
-                                        defaultMessage: 'Right',
+                                        id: 'builder.top.right',
+                                        defaultMessage: 'Top right',
                                     })}
                                     name='right'
                                     type='number'
@@ -600,17 +576,13 @@ export default function Button({ element, onElementValueChange, device }) {
                             <Grid.Column>
                                 <Input
                                     label={intl.formatMessage({
-                                        id: 'builder.bottom',
-                                        defaultMessage: 'Bottom',
+                                        id: 'builder.bottom.left',
+                                        defaultMessage: 'Bottom left',
                                     })}
-                                    placeholder={intl.formatMessage({
-                                        id: 'builder.bottom',
-                                        defaultMessage: 'Bottom',
-                                    })}
-                                    name='bottom'
+                                    name='left'
                                     type='number'
                                     defaultValue={
-                                        item.content.button.border.hover.radius.bottom
+                                        item.content.button.border.hover.radius.left
                                     }
                                     onChange={(e, data) => handleChangeBorder(e, data, 'radius', 'hover')}
                                 />
@@ -618,17 +590,13 @@ export default function Button({ element, onElementValueChange, device }) {
                             <Grid.Column>
                                 <Input
                                     label={intl.formatMessage({
-                                        id: 'builder.left',
-                                        defaultMessage: 'Left',
+                                        id: 'builder.bottom.right',
+                                        defaultMessage: 'Bottom right',
                                     })}
-                                    placeholder={intl.formatMessage({
-                                        id: 'builder.left',
-                                        defaultMessage: 'Left',
-                                    })}
-                                    name='left'
+                                    name='bottom'
                                     type='number'
                                     defaultValue={
-                                        item.content.button.border.hover.radius.left
+                                        item.content.button.border.hover.radius.bottom
                                     }
                                     onChange={(e, data) => handleChangeBorder(e, data, 'radius', 'hover')}
                                 />

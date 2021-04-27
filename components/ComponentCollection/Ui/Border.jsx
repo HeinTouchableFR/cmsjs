@@ -82,10 +82,6 @@ export default function Border({ item,
                                         id: 'builder.top',
                                         defaultMessage: 'Top',
                                     })}
-                                    placeholder={intl.formatMessage({
-                                        id: 'builder.top',
-                                        defaultMessage: 'Top',
-                                    })}
                                     name='top'
                                     type='number'
                                     defaultValue={
@@ -97,10 +93,6 @@ export default function Border({ item,
                             <Grid.Column>
                                 <Input
                                     label={intl.formatMessage({
-                                        id: 'builder.right',
-                                        defaultMessage: 'Right',
-                                    })}
-                                    placeholder={intl.formatMessage({
                                         id: 'builder.right',
                                         defaultMessage: 'Right',
                                     })}
@@ -118,10 +110,6 @@ export default function Border({ item,
                                         id: 'builder.bottom',
                                         defaultMessage: 'Bottom',
                                     })}
-                                    placeholder={intl.formatMessage({
-                                        id: 'builder.bottom',
-                                        defaultMessage: 'Bottom',
-                                    })}
                                     name='bottom'
                                     type='number'
                                     defaultValue={
@@ -133,10 +121,6 @@ export default function Border({ item,
                             <Grid.Column>
                                 <Input
                                     label={intl.formatMessage({
-                                        id: 'builder.left',
-                                        defaultMessage: 'Left',
-                                    })}
-                                    placeholder={intl.formatMessage({
                                         id: 'builder.left',
                                         defaultMessage: 'Left',
                                     })}
@@ -183,12 +167,8 @@ export default function Border({ item,
                             <Grid.Column>
                                 <Input
                                     label={intl.formatMessage({
-                                        id: 'builder.top',
-                                        defaultMessage: 'Top',
-                                    })}
-                                    placeholder={intl.formatMessage({
-                                        id: 'builder.top',
-                                        defaultMessage: 'Top',
+                                        id: 'builder.top.left',
+                                        defaultMessage: 'Top left',
                                     })}
                                     name='top'
                                     type='number'
@@ -201,12 +181,8 @@ export default function Border({ item,
                             <Grid.Column>
                                 <Input
                                     label={intl.formatMessage({
-                                        id: 'builder.right',
-                                        defaultMessage: 'Right',
-                                    })}
-                                    placeholder={intl.formatMessage({
-                                        id: 'builder.right',
-                                        defaultMessage: 'Right',
+                                        id: 'builder.top.right',
+                                        defaultMessage: 'Top right',
                                     })}
                                     name='right'
                                     type='number'
@@ -219,17 +195,13 @@ export default function Border({ item,
                             <Grid.Column>
                                 <Input
                                     label={intl.formatMessage({
-                                        id: 'builder.bottom',
-                                        defaultMessage: 'Bottom',
+                                        id: 'builder.bottom.left',
+                                        defaultMessage: 'Bottom Left',
                                     })}
-                                    placeholder={intl.formatMessage({
-                                        id: 'builder.bottom',
-                                        defaultMessage: 'Bottom',
-                                    })}
-                                    name='bottom'
+                                    name='left'
                                     type='number'
                                     defaultValue={
-                                        item.content[device].styles.border.normal.radius.bottom
+                                        item.content[device].styles.border.normal.radius.left
                                     }
                                     onChange={(e, data) => handleChangeBorder(e, data, 'radius', 'normal')}
                                 />
@@ -237,17 +209,13 @@ export default function Border({ item,
                             <Grid.Column>
                                 <Input
                                     label={intl.formatMessage({
-                                        id: 'builder.left',
-                                        defaultMessage: 'Left',
+                                        id: 'builder.bottom.right',
+                                        defaultMessage: 'Bottom right',
                                     })}
-                                    placeholder={intl.formatMessage({
-                                        id: 'builder.left',
-                                        defaultMessage: 'Left',
-                                    })}
-                                    name='left'
+                                    name='bottom'
                                     type='number'
                                     defaultValue={
-                                        item.content[device].styles.border.normal.radius.left
+                                        item.content[device].styles.border.normal.radius.bottom
                                     }
                                     onChange={(e, data) => handleChangeBorder(e, data, 'radius', 'normal')}
                                 />
@@ -300,10 +268,6 @@ export default function Border({ item,
                                         id: 'builder.top',
                                         defaultMessage: 'Top',
                                     })}
-                                    placeholder={intl.formatMessage({
-                                        id: 'builder.top',
-                                        defaultMessage: 'Top',
-                                    })}
                                     name='top'
                                     type='number'
                                     defaultValue={
@@ -315,10 +279,6 @@ export default function Border({ item,
                             <Grid.Column>
                                 <Input
                                     label={intl.formatMessage({
-                                        id: 'builder.right',
-                                        defaultMessage: 'Right',
-                                    })}
-                                    placeholder={intl.formatMessage({
                                         id: 'builder.right',
                                         defaultMessage: 'Right',
                                     })}
@@ -336,10 +296,6 @@ export default function Border({ item,
                                         id: 'builder.bottom',
                                         defaultMessage: 'Bottom',
                                     })}
-                                    placeholder={intl.formatMessage({
-                                        id: 'builder.bottom',
-                                        defaultMessage: 'Bottom',
-                                    })}
                                     name='bottom'
                                     type='number'
                                     defaultValue={
@@ -351,10 +307,6 @@ export default function Border({ item,
                             <Grid.Column>
                                 <Input
                                     label={intl.formatMessage({
-                                        id: 'builder.left',
-                                        defaultMessage: 'Left',
-                                    })}
-                                    placeholder={intl.formatMessage({
                                         id: 'builder.left',
                                         defaultMessage: 'Left',
                                     })}
@@ -401,12 +353,8 @@ export default function Border({ item,
                             <Grid.Column>
                                 <Input
                                     label={intl.formatMessage({
-                                        id: 'builder.top',
-                                        defaultMessage: 'Top',
-                                    })}
-                                    placeholder={intl.formatMessage({
-                                        id: 'builder.top',
-                                        defaultMessage: 'Top',
+                                        id: 'builder.top.left',
+                                        defaultMessage: 'Top left',
                                     })}
                                     name='top'
                                     type='number'
@@ -419,12 +367,8 @@ export default function Border({ item,
                             <Grid.Column>
                                 <Input
                                     label={intl.formatMessage({
-                                        id: 'builder.right',
-                                        defaultMessage: 'Right',
-                                    })}
-                                    placeholder={intl.formatMessage({
-                                        id: 'builder.right',
-                                        defaultMessage: 'Right',
+                                        id: 'builder.top.right',
+                                        defaultMessage: 'Top right',
                                     })}
                                     name='right'
                                     type='number'
@@ -437,17 +381,13 @@ export default function Border({ item,
                             <Grid.Column>
                                 <Input
                                     label={intl.formatMessage({
-                                        id: 'builder.bottom',
-                                        defaultMessage: 'Bottom',
+                                        id: 'builder.bottom.left',
+                                        defaultMessage: 'Bottom left',
                                     })}
-                                    placeholder={intl.formatMessage({
-                                        id: 'builder.bottom',
-                                        defaultMessage: 'Bottom',
-                                    })}
-                                    name='bottom'
+                                    name='left'
                                     type='number'
                                     defaultValue={
-                                        item.content[device].styles.border.hover.radius.bottom
+                                        item.content[device].styles.border.hover.radius.left
                                     }
                                     onChange={(e, data) => handleChangeBorder(e, data, 'radius', 'hover')}
                                 />
@@ -455,17 +395,13 @@ export default function Border({ item,
                             <Grid.Column>
                                 <Input
                                     label={intl.formatMessage({
-                                        id: 'builder.left',
-                                        defaultMessage: 'Left',
+                                        id: 'builder.bottom.right',
+                                        defaultMessage: 'Bottom right',
                                     })}
-                                    placeholder={intl.formatMessage({
-                                        id: 'builder.left',
-                                        defaultMessage: 'Left',
-                                    })}
-                                    name='left'
+                                    name='bottom'
                                     type='number'
                                     defaultValue={
-                                        item.content[device].styles.border.hover.radius.left
+                                        item.content[device].styles.border.hover.radius.bottom
                                     }
                                     onChange={(e, data) => handleChangeBorder(e, data, 'radius', 'hover')}
                                 />
