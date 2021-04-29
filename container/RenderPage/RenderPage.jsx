@@ -5,7 +5,7 @@ import styles from 'container/Builder/Layout/Layout.module.scss';
 import ComponentDispatcher from 'components/ComponentCollection/ComponentDispatcher';
 import Loader from 'components/Loader/Loader';
 
-export default function RenderPage({ page, showRender = false }) {
+export default function RenderPage({ page, showRender = false, params }) {
     const [content, setContent] = useState(page.content ? JSON.parse(page.content) : [
     ]);
 
@@ -34,6 +34,7 @@ export default function RenderPage({ page, showRender = false }) {
                                                 <ComponentDispatcher
                                                     key={item.id}
                                                     element={item}
+                                                    params={params}
                                                 />
                                             </div>
                                         ))}

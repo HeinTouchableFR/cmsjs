@@ -8,7 +8,7 @@ import {
 } from 'variables/previewFunctions';
 import PropTypes from 'prop-types';
 
-export default function LinkPreview({ element, device }) {
+export default function LinkPreview({ element, device, theme }) {
     const LinkComp = styled.a`
         display: block;
         text-align: ${element.content.alignment};
@@ -25,7 +25,7 @@ export default function LinkPreview({ element, device }) {
 
     return (
         <>
-            <div css={styleDivPreview(device, element)}>
+            <div css={styleDivPreview(device, element, theme)}>
                 <LinkComp>{parse(element.content.text)}</LinkComp>
             </div>
         </>
@@ -34,6 +34,7 @@ export default function LinkPreview({ element, device }) {
 
 LinkPreview.propTypes = {
     device: PropTypes.string.isRequired,
+    theme: PropTypes.string.isRequired,
     element: PropTypes.shape({
         content: PropTypes.shape({
             alignment: PropTypes.string.isRequired,

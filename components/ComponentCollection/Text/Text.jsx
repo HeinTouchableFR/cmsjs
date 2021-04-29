@@ -14,7 +14,7 @@ import Background from '../Ui/Background';
 import Border from '../Ui/Border';
 import Animations from '../Ui/Animations';
 
-export default function Text({ element, onElementValueChange, device }) {
+export default function Text({ element, onElementValueChange, device, isDarkModeEnable }) {
     const intl = useIntl();
     const [item, setItem] = useState(element);
 
@@ -92,6 +92,7 @@ export default function Text({ element, onElementValueChange, device }) {
                 setItem={setItem}
                 device={device}
                 onChange={onElementValueChange}
+                isDarkModeEnable={isDarkModeEnable}
             />
             <Border
                 item={item}
@@ -118,4 +119,5 @@ Text.propTypes = {
         type: PropTypes.string.isRequired,
     }).isRequired,
     onElementValueChange: PropTypes.func.isRequired,
+    isDarkModeEnable: PropTypes.bool.isRequired,
 };

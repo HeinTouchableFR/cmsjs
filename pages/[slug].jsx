@@ -9,6 +9,7 @@ import { Global } from '@emotion/react';
 import useDarkMode from 'variables/darkMode';
 import PropTypes from 'prop-types';
 import Footer from 'container/Sites/Footer/Footer';
+import DarkModeButton from '../components/Button/DarkModeButton/DarkModeButton';
 
 export default function Page({ post }) {
     const { value: settings } = useSettings();
@@ -24,13 +25,13 @@ export default function Page({ post }) {
 
     return (
         <>
-            <Header
+            {/*<Header
                 title={`${post.title}`}
                 settings={settings}
                 setShowRender={setShowRender}
                 showRender={showRender}
                 mode={mode}
-            />
+            />*/}
             <Global
                 styles={{
                     body: {
@@ -41,14 +42,16 @@ export default function Page({ post }) {
             <div className='container'>
                 <RenderPage
                     page={post}
-                    showRender={showRender}
+                    showRender={true}
+                    params={params}
                 />
             </div>
-            <Footer
+            <DarkModeButton />
+            {/*<Footer
                 showRender={showRender}
                 setShowRender={setShowRender}
                 mode={mode}
-            />
+            />*/}
         </>
     );
 }

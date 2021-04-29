@@ -16,7 +16,7 @@ import {
 } from 'variables/renderFunctions';
 import PropTypes from 'prop-types';
 
-export default function MenuRender({ element, nav }) {
+export default function MenuRender({ element, nav, theme }) {
     const { inView } = useInView();
     const [isNavActive, setIsNavActive] = useState(false);
 
@@ -317,4 +317,5 @@ MenuRender.propTypes = {
     }).isRequired,
     nav: PropTypes.arrayOf(PropTypes.shape({
     })).isRequired,
+    theme: PropTypes.string.isRequired,
 };

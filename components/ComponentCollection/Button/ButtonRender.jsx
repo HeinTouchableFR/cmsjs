@@ -14,7 +14,7 @@ import {
 } from 'variables/renderFunctions';
 import Link from 'next/link';
 
-export default function ButtonRender({ element }) {
+export default function ButtonRender({ element, theme }) {
     const { ref, inView } = useInView();
 
     const Button = styled.a({
@@ -47,17 +47,16 @@ export default function ButtonRender({ element }) {
         }),
     });
 
-    const align = css({
-        textAlign: element.content.alignment,
-    });
+    const style = css`
+        ${styleDiv(element, inView, theme)};
+        text-align: ${element.content.alignment};
+    `
 
     return (
         <>
             <div
                 ref={ref}
-                css={{
-                    ...styleDiv(element, inView), ...align,
-                }}
+                css={style}
             >
                 <Link
                     href={element.content.url}
@@ -81,4 +80,5 @@ ButtonRender.propTypes = {
         styles: PropTypes.shape({
         }).isRequired,
     }).isRequired,
+    theme: PropTypes.string.isRequired,
 };

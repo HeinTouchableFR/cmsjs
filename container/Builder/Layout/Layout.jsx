@@ -12,6 +12,7 @@ export default function Layout({ layout,
     setCurrentElement,
     device,
     handleOpenPortal,
+    params,
     type }) {
     /**
      * Allows you to define the structure of the layout
@@ -90,6 +91,7 @@ export default function Layout({ layout,
                             currentElement={currentElement}
                             device={device}
                             handleOpenPortal={handleOpenPortal}
+                            params={params}
                         />
                     ))}
                 </div>

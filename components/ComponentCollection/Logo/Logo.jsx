@@ -20,7 +20,7 @@ import Border from '../Ui/Border';
 import Animations from '../Ui/Animations';
 import Tab from '../../Tab/Tab';
 
-export default function Logo({ element, device, onElementValueChange }) {
+export default function Logo({ element, device, onElementValueChange, isDarkModeEnable }) {
     const intl = useIntl();
     const [item, setItem] = useState(element);
 
@@ -247,6 +247,7 @@ export default function Logo({ element, device, onElementValueChange }) {
                 setItem={setItem}
                 device={device}
                 onChange={onElementValueChange}
+                isDarkModeEnable={isDarkModeEnable}
             />
             <Border
                 item={item}
@@ -272,4 +273,5 @@ Logo.propTypes = {
         type: PropTypes.string.isRequired,
     }).isRequired,
     onElementValueChange: PropTypes.func.isRequired,
+    isDarkModeEnable: PropTypes.bool.isRequired,
 };

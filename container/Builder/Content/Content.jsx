@@ -41,6 +41,7 @@ export default function Content({ layouts,
                         setCurrentElement={setCurrentElement}
                         device={device}
                         handleOpenPortal={handleOpenPortal}
+                        params={params}
                     />
                 )) : (
                     <>
@@ -59,6 +60,7 @@ export default function Content({ layouts,
                                     device={device}
                                     handleOpenPortal={handleOpenPortal}
                                     type={type}
+                                    params={params}
                                 />
                             ))}
                         </header>
@@ -78,6 +80,7 @@ export default function Content({ layouts,
                                         device={device}
                                         handleOpenPortal={handleOpenPortal}
                                         type={type}
+                                        params={params}
                                     />
                                 ))}
                             </footer>

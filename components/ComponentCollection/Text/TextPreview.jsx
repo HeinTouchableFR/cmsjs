@@ -8,7 +8,7 @@ import {
 } from 'variables/previewFunctions';
 import PropTypes from 'prop-types';
 
-export default function TextPreview({ element, device }) {
+export default function TextPreview({ element, device, theme }) {
     const Text = styled.div`
             text-align: ${element.content.alignment};
             transition: 'color .2s';
@@ -24,7 +24,7 @@ export default function TextPreview({ element, device }) {
 
     return (
         <>
-            <div css={styleDivPreview(device, element)}>
+            <div css={styleDivPreview(device, element, theme)}>
                 <Text>
                     {parse(element.content.text)}
                 </Text>
@@ -35,6 +35,7 @@ export default function TextPreview({ element, device }) {
 
 TextPreview.propTypes = {
     device: PropTypes.string.isRequired,
+    theme: PropTypes.string.isRequired,
     element: PropTypes.shape({
         content: PropTypes.shape({
             alignment: PropTypes.string.isRequired,

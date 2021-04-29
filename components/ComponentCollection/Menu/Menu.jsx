@@ -14,7 +14,7 @@ import Background from '../Ui/Background';
 import Border from '../Ui/Border';
 import Animations from '../Ui/Animations';
 
-export default function Menu({ element, device, onElementValueChange }) {
+export default function Menu({ element, device, onElementValueChange, isDarkModeEnable }) {
     const intl = useIntl();
     const [item, setItem] = useState(element);
 
@@ -63,6 +63,7 @@ export default function Menu({ element, device, onElementValueChange }) {
                 setItem={setItem}
                 device={device}
                 onChange={onElementValueChange}
+                isDarkModeEnable={isDarkModeEnable}
             />
             <Border
                 item={item}
@@ -90,4 +91,5 @@ Menu.propTypes = {
         type: PropTypes.string.isRequired,
     }).isRequired,
     onElementValueChange: PropTypes.func.isRequired,
+    isDarkModeEnable: PropTypes.bool.isRequired,
 };

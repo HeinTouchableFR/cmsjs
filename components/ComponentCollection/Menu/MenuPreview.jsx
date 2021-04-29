@@ -15,7 +15,7 @@ import {
 } from 'variables/renderFunctions';
 import PropTypes from 'prop-types';
 
-export default function MenuPreview({element, device}) {
+export default function MenuPreview({element, device, theme}) {
     const [menu, setMenu] = useState([]);
     const [isNavActive, setIsNavActive] = useState(false);
 
@@ -267,6 +267,7 @@ export default function MenuPreview({element, device}) {
 
 MenuPreview.propTypes = {
     device: PropTypes.string.isRequired,
+    theme: PropTypes.string.isRequired,
     element: PropTypes.shape({
         content: PropTypes.shape({
             menu: PropTypes.shape({

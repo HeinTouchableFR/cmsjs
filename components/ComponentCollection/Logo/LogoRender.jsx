@@ -16,7 +16,7 @@ import {
 } from 'variables/renderFunctions';
 import PropTypes from 'prop-types';
 
-export default function LogoRender({ element }) {
+export default function LogoRender({ element, theme }) {
     const { value: settings } = useSettings();
     const { ref, inView } = useInView();
     const [logo, setLogo] = useState([]);
@@ -50,30 +50,30 @@ export default function LogoRender({ element }) {
     const styleDiv = {
         textAlign: element.content.alignment,
         ...marginPaddingStyle('desktop', element),
-        ...backgroundStyle('desktop', 'normal', element),
+        ...backgroundStyle('desktop', 'normal', element, theme),
         ...borderStyle('desktop', 'normal', element),
         ...animationStyle('desktop', element, inView),
         '&:hover': {
-            ...backgroundStyle('desktop', 'hover', element),
+            ...backgroundStyle('desktop', 'hover', element, theme),
             ...borderStyle('desktop', 'hover', element),
         },
         '@media (max-width: 1024px)': css({
             ...marginPaddingStyle('tablet', element),
-            ...backgroundStyle('tablet', 'normal', element),
+            ...backgroundStyle('tablet', 'normal', element, theme),
             ...borderStyle('tablet', 'normal', element),
             ...animationStyle('tablet', element, inView),
             '&:hover': {
-                ...backgroundStyle('tablet', 'hover', element),
+                ...backgroundStyle('tablet', 'hover', element, theme),
                 ...borderStyle('tablet', 'hover', element),
             },
         }),
         '@media (max-width: 768px)': css({
             ...marginPaddingStyle('mobile', element),
-            ...backgroundStyle('mobile', 'normal', element),
+            ...backgroundStyle('mobile', 'normal', element, theme),
             ...borderStyle('mobile', 'normal', element),
             ...animationStyle('mobile', element, inView),
             '&:hover': {
-                ...backgroundStyle('mobile', 'hover', element),
+                ...backgroundStyle('mobile', 'hover', element, theme),
                 ...borderStyle('mobile', 'hover', element),
             },
         }),
@@ -112,4 +112,5 @@ LogoRender.propTypes = {
         styles: PropTypes.shape({
         }).isRequired,
     }).isRequired,
+    theme: PropTypes.string.isRequired,
 };

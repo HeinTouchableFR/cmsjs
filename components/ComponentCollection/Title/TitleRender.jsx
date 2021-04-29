@@ -10,7 +10,7 @@ import {
 } from 'variables/renderFunctions';
 import PropTypes from 'prop-types';
 
-export default function TitleRender({ element }) {
+export default function TitleRender({ element, theme }) {
     const { ref, inView } = useInView();
 
     const Title = styled[element.content.tag]({
@@ -41,7 +41,7 @@ export default function TitleRender({ element }) {
         <>
             <div
                 ref={ref}
-                css={styleDiv(element, inView)}
+                css={styleDiv(element, inView, theme)}
             >
                 <Title>{parse(element.content.text)}</Title>
             </div>
@@ -59,4 +59,5 @@ TitleRender.propTypes = {
         styles: PropTypes.shape({
         }).isRequired,
     }).isRequired,
+    theme: PropTypes.string.isRequired,
 };

@@ -18,7 +18,7 @@ import Background from '../Ui/Background';
 import Border from '../Ui/Border';
 import Animations from '../Ui/Animations';
 
-export default function Title({ element, onElementValueChange, device }) {
+export default function Title({ element, onElementValueChange, device, isDarkModeEnable }) {
     const intl = useIntl();
     const [item, setItem] = useState(element);
 
@@ -91,6 +91,7 @@ export default function Title({ element, onElementValueChange, device }) {
                 setItem={setItem}
                 device={device}
                 onChange={onElementValueChange}
+                isDarkModeEnable={isDarkModeEnable}
             />
             <Border
                 item={item}
@@ -117,4 +118,5 @@ Title.propTypes = {
         type: PropTypes.string.isRequired,
     }).isRequired,
     onElementValueChange: PropTypes.func.isRequired,
+    isDarkModeEnable: PropTypes.bool.isRequired,
 };

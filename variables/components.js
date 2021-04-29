@@ -85,8 +85,14 @@ export default class defaultComponents {
                     },
                     styles: {
                         background: {
-                            normal: '',
-                            hover: '',
+                            light: {
+                                normal: '',
+                                hover: '',
+                            },
+                            dark: {
+                                normal: '',
+                                hover: '',
+                            },
                         },
                         border: {
                             normal: {
@@ -154,8 +160,14 @@ export default class defaultComponents {
                     },
                     styles: {
                         background: {
-                            normal: '',
-                            hover: '',
+                            light: {
+                                normal: '',
+                                hover: '',
+                            },
+                            dark: {
+                                normal: '',
+                                hover: '',
+                            },
                         },
                         border: {
                             normal: {
@@ -223,8 +235,14 @@ export default class defaultComponents {
                     },
                     styles: {
                         background: {
-                            normal: '',
-                            hover: '',
+                            light: {
+                                normal: '',
+                                hover: '',
+                            },
+                            dark: {
+                                normal: '',
+                                hover: '',
+                            },
                         },
                         border: {
                             normal: {
@@ -318,8 +336,14 @@ export default class defaultComponents {
                     },
                     styles: {
                         background: {
-                            normal: '',
-                            hover: '',
+                            light: {
+                                normal: '',
+                                hover: '',
+                            },
+                            dark: {
+                                normal: '',
+                                hover: '',
+                            },
                         },
                         border: {
                             normal: {
@@ -387,8 +411,14 @@ export default class defaultComponents {
                     },
                     styles: {
                         background: {
-                            normal: '',
-                            hover: '',
+                            light: {
+                                normal: '',
+                                hover: '',
+                            },
+                            dark: {
+                                normal: '',
+                                hover: '',
+                            },
                         },
                         border: {
                             normal: {
@@ -456,8 +486,14 @@ export default class defaultComponents {
                     },
                     styles: {
                         background: {
-                            normal: '',
-                            hover: '',
+                            light: {
+                                normal: '',
+                                hover: '',
+                            },
+                            dark: {
+                                normal: '',
+                                hover: '',
+                            },
                         },
                         border: {
                             normal: {
@@ -548,8 +584,14 @@ export default class defaultComponents {
                     },
                     styles: {
                         background: {
-                            normal: '',
-                            hover: '',
+                            light: {
+                                normal: '',
+                                hover: '',
+                            },
+                            dark: {
+                                normal: '',
+                                hover: '',
+                            },
                         },
                         border: {
                             normal: {
@@ -617,8 +659,14 @@ export default class defaultComponents {
                     },
                     styles: {
                         background: {
-                            normal: '',
-                            hover: '',
+                            light: {
+                                normal: '',
+                                hover: '',
+                            },
+                            dark: {
+                                normal: '',
+                                hover: '',
+                            },
                         },
                         border: {
                             normal: {
@@ -686,8 +734,14 @@ export default class defaultComponents {
                     },
                     styles: {
                         background: {
-                            normal: '',
-                            hover: '',
+                            light: {
+                                normal: '',
+                                hover: '',
+                            },
+                            dark: {
+                                normal: '',
+                                hover: '',
+                            },
                         },
                         border: {
                             normal: {
@@ -774,8 +828,14 @@ export default class defaultComponents {
                     },
                     styles: {
                         background: {
-                            normal: '',
-                            hover: '',
+                            light: {
+                                normal: '',
+                                hover: '',
+                            },
+                            dark: {
+                                normal: '',
+                                hover: '',
+                            },
                         },
                         border: {
                             normal: {
@@ -843,8 +903,14 @@ export default class defaultComponents {
                     },
                     styles: {
                         background: {
-                            normal: '',
-                            hover: '',
+                            light: {
+                                normal: '',
+                                hover: '',
+                            },
+                            dark: {
+                                normal: '',
+                                hover: '',
+                            },
                         },
                         border: {
                             normal: {
@@ -912,8 +978,14 @@ export default class defaultComponents {
                     },
                     styles: {
                         background: {
-                            normal: '',
-                            hover: '',
+                            light: {
+                                normal: '',
+                                hover: '',
+                            },
+                            dark: {
+                                normal: '',
+                                hover: '',
+                            },
                         },
                         border: {
                             normal: {
@@ -999,8 +1071,14 @@ export default class defaultComponents {
                     },
                     styles: {
                         background: {
-                            normal: '',
-                            hover: '',
+                            light: {
+                                normal: '',
+                                hover: '',
+                            },
+                            dark: {
+                                normal: '',
+                                hover: '',
+                            },
                         },
                         border: {
                             normal: {
@@ -1068,8 +1146,14 @@ export default class defaultComponents {
                     },
                     styles: {
                         background: {
-                            normal: '',
-                            hover: '',
+                            light: {
+                                normal: '',
+                                hover: '',
+                            },
+                            dark: {
+                                normal: '',
+                                hover: '',
+                            },
                         },
                         border: {
                             normal: {
@@ -1137,8 +1221,14 @@ export default class defaultComponents {
                     },
                     styles: {
                         background: {
-                            normal: '',
-                            hover: '',
+                            light: {
+                                normal: '',
+                                hover: '',
+                            },
+                            dark: {
+                                normal: '',
+                                hover: '',
+                            },
                         },
                         border: {
                             normal: {
@@ -1228,8 +1318,14 @@ export default class defaultComponents {
                     },
                     styles: {
                         background: {
-                            normal: '',
-                            hover: '',
+                            light: {
+                                normal: '',
+                                hover: '',
+                            },
+                            dark: {
+                                normal: '',
+                                hover: '',
+                            },
                         },
                         border: {
                             normal: {
@@ -1297,8 +1393,14 @@ export default class defaultComponents {
                     },
                     styles: {
                         background: {
-                            normal: '',
-                            hover: '',
+                            light: {
+                                normal: '',
+                                hover: '',
+                            },
+                            dark: {
+                                normal: '',
+                                hover: '',
+                            },
                         },
                         border: {
                             normal: {
@@ -1366,8 +1468,14 @@ export default class defaultComponents {
                     },
                     styles: {
                         background: {
-                            normal: '',
-                            hover: '',
+                            light: {
+                                normal: '',
+                                hover: '',
+                            },
+                            dark: {
+                                normal: '',
+                                hover: '',
+                            },
                         },
                         border: {
                             normal: {
@@ -1452,8 +1560,14 @@ export default class defaultComponents {
                     },
                     styles: {
                         background: {
-                            normal: '',
-                            hover: '',
+                            light: {
+                                normal: '',
+                                hover: '',
+                            },
+                            dark: {
+                                normal: '',
+                                hover: '',
+                            },
                         },
                         border: {
                             normal: {
@@ -1521,8 +1635,14 @@ export default class defaultComponents {
                     },
                     styles: {
                         background: {
-                            normal: '',
-                            hover: '',
+                            light: {
+                                normal: '',
+                                hover: '',
+                            },
+                            dark: {
+                                normal: '',
+                                hover: '',
+                            },
                         },
                         border: {
                             normal: {
@@ -1590,8 +1710,14 @@ export default class defaultComponents {
                     },
                     styles: {
                         background: {
-                            normal: '',
-                            hover: '',
+                            light: {
+                                normal: '',
+                                hover: '',
+                            },
+                            dark: {
+                                normal: '',
+                                hover: '',
+                            },
                         },
                         border: {
                             normal: {

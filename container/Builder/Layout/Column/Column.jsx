@@ -12,6 +12,7 @@ export default function Column({ column,
     currentElement,
     setCurrentElement,
     device,
+    params,
     handleOpenPortal }) {
     /**
      * Allows you to delete a sub item
@@ -88,6 +89,7 @@ export default function Column({ column,
                                                             element={item}
                                                             device={device}
                                                             mode='preview'
+                                                            params={params}
                                                         />
                                                     </div>
                                                     <button

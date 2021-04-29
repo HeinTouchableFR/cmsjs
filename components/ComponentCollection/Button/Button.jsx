@@ -21,7 +21,7 @@ import Background from '../Ui/Background';
 import Field from '../../Form/Field/Field';
 import Grid from '../../../container/Grid/Grid';
 
-export default function Button({ element, onElementValueChange, device }) {
+export default function Button({ element, onElementValueChange, device, isDarkModeEnable }) {
     const intl = useIntl();
     const [item, setItem] = useState(element);
 
@@ -795,6 +795,7 @@ export default function Button({ element, onElementValueChange, device }) {
                 setItem={setItem}
                 device={device}
                 onChange={onElementValueChange}
+                isDarkModeEnable={isDarkModeEnable}
             />
             <Border
                 item={item}
@@ -821,4 +822,5 @@ Button.propTypes = {
         type: PropTypes.string.isRequired,
     }).isRequired,
     onElementValueChange: PropTypes.func.isRequired,
+    isDarkModeEnable: PropTypes.bool.isRequired,
 };

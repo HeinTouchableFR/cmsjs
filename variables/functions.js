@@ -1,4 +1,4 @@
-export const colorChange = (item, device, setItem, onChange, color, key, mode, location) => {
+export const colorChange = (item, device, setItem, onChange, color, key, mode, location, theme) => {
     const updated = {
         ...item,
         content: {
@@ -9,7 +9,10 @@ export const colorChange = (item, device, setItem, onChange, color, key, mode, l
                     ...item.content[device][location],
                     [key]: {
                         ...item.content[device][location][key],
-                        [mode]: color,
+                        [theme]: {
+                            ...item.content[device][location][key][theme],
+                            [mode]: color,
+                        },
                     },
                 },
             },

@@ -58,8 +58,8 @@ export const colorStyle = (device, mode, element) => ({
     color: element.content[device].typo.color[mode],
 });
 
-export const backgroundStyle = (device, mode, element) => ({
-    background: element.content[device].styles.background[mode],
+export const backgroundStyle = (device, mode, element, theme) => ({
+    background: element.content[device].styles.background[theme][mode],
 });
 
 export const buttonBackgroundStyle = (mode, element) => ({
@@ -125,32 +125,32 @@ export const imageStyleHover = (device, element) => ({
     opacity: `${element.content[device].image.opacity.hover}`,
 });
 
-export const styleDiv = (element, inView) => ({
+export const styleDiv = (element, inView, theme) => ({
     ...marginPaddingStyle('desktop', element),
-    ...backgroundStyle('desktop', 'normal', element),
+    ...backgroundStyle('desktop', 'normal', element, theme),
     ...borderStyle('desktop', 'normal', element),
     ...animationStyle('desktop', element, inView),
     '&:hover': {
-        ...backgroundStyle('desktop', 'hover', element),
+        ...backgroundStyle('desktop', 'hover', element, theme),
         ...borderStyle('desktop', 'hover', element),
     },
     '@media (max-width: 1024px)': css({
         ...marginPaddingStyle('tablet', element),
-        ...backgroundStyle('tablet', 'normal', element),
+        ...backgroundStyle('tablet', 'normal', element, theme),
         ...borderStyle('tablet', 'normal', element),
         ...animationStyle('tablet', element, inView),
         '&:hover': {
-            ...backgroundStyle('tablet', 'hover', element),
+            ...backgroundStyle('tablet', 'hover', element, theme),
             ...borderStyle('tablet', 'hover', element),
         },
     }),
     '@media (max-width: 768px)': css({
         ...marginPaddingStyle('mobile', element),
-        ...backgroundStyle('mobile', 'normal', element),
+        ...backgroundStyle('mobile', 'normal', element, theme),
         ...borderStyle('mobile', 'normal', element),
         ...animationStyle('mobile', element, inView),
         '&:hover': {
-            ...backgroundStyle('mobile', 'hover', element),
+            ...backgroundStyle('mobile', 'hover', element, theme),
             ...borderStyle('mobile', 'hover', element),
         },
     }),

@@ -8,7 +8,7 @@ import {
 } from 'variables/previewFunctions';
 import PropTypes from 'prop-types';
 
-export default function LogoPreview({ element, device }) {
+export default function LogoPreview({ element, device, theme }) {
     const { value: settings } = useSettings();
     const [logo, setLogo] = useState([]);
 
@@ -25,7 +25,7 @@ export default function LogoPreview({ element, device }) {
 
     return (
         <>
-            <div css={styleDivImagePreview(device, element)}>
+            <div css={styleDivImagePreview(device, element, theme)}>
                 <Image
                     src={logo.image && logo.image.url}
                     alt='Logo'
@@ -37,6 +37,7 @@ export default function LogoPreview({ element, device }) {
 
 LogoPreview.propTypes = {
     device: PropTypes.string.isRequired,
+    theme: PropTypes.string.isRequired,
     element: PropTypes.shape({
         content: PropTypes.shape({
             alignment: PropTypes.string.isRequired,

@@ -7,15 +7,15 @@ import {
     marginPaddingStyle, typoStyle,
 } from './renderFunctions';
 
-export const containerStyle = (screen, element) => ({
+export const containerStyle = (screen, element, theme) => ({
     ...marginPaddingStyle(screen, element),
-    ...backgroundStyle(screen, 'normal', element),
+    ...backgroundStyle(screen, 'normal', element, theme),
     ...borderStyle(screen, 'normal', element),
     ...animationStyle(screen, element, true),
 });
 
-export const containerStyleHover = (screen, element) => ({
-    ...backgroundStyle(screen, 'hover', element),
+export const containerStyleHover = (screen, element, theme) => ({
+    ...backgroundStyle(screen, 'hover', element, theme),
     ...borderStyle(screen, 'hover', element),
 });
 
@@ -39,26 +39,26 @@ export const imageStyleHover = (device, element) => ({
     opacity: `${element.content[device].image.opacity.hover}`,
 });
 
-export const styleDivPreview = (device, element) => css`
-        ${containerStyle('desktop', element)}
-        ${(device === 'tablet' || device === 'mobile') && containerStyle('tablet', element)}
-        ${device === 'mobile' && containerStyle('mobile', element)}
+export const styleDivPreview = (device, element, theme) => css`
+        ${containerStyle('desktop', element, theme)}
+        ${(device === 'tablet' || device === 'mobile') && containerStyle('tablet', element, theme)}
+        ${device === 'mobile' && containerStyle('mobile', element, theme)}
         &:hover {
-            ${containerStyleHover('desktop', element)}
-            ${(device === 'tablet' || device === 'mobile') && containerStyleHover('tablet', element)}
-            ${device === 'mobile' && containerStyleHover('mobile', element)}
+            ${containerStyleHover('desktop', element, theme)}
+            ${(device === 'tablet' || device === 'mobile') && containerStyleHover('tablet', element, theme)}
+            ${device === 'mobile' && containerStyleHover('mobile', element, theme)}
         };
     `;
 
-export const styleDivImagePreview = (device, element) => css`
+export const styleDivImagePreview = (device, element, theme) => css`
             text-align: ${element.content.alignment};
-            ${containerStyle('desktop', element)}
-            ${(device === 'tablet' || device === 'mobile') && containerStyle('tablet', element)}
-            ${device === 'mobile' && containerStyle('mobile', element)}
+            ${containerStyle('desktop', element, theme)}
+            ${(device === 'tablet' || device === 'mobile') && containerStyle('tablet', element, theme)}
+            ${device === 'mobile' && containerStyle('mobile', element, theme)}
             &:hover {
-                ${containerStyleHover('desktop', element)}
-                ${(device === 'tablet' || device === 'mobile') && containerStyleHover('tablet', element)}
-                ${device === 'mobile' && containerStyleHover('mobile', element)}
+                ${containerStyleHover('desktop', element, theme)}
+                ${(device === 'tablet' || device === 'mobile') && containerStyleHover('tablet', element, theme)}
+                ${device === 'mobile' && containerStyleHover('mobile', element, theme)}
             };
         `;
 

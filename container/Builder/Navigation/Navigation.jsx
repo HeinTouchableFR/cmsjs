@@ -362,6 +362,8 @@ export default function Navigation({ components,
                         onElementValueChange={onElementValueChange}
                         images={images}
                         setImages={setImages}
+                        isDarkModeEnable={params.background.enableDarkMode}
+                        params={params}
                     />
                 </Tab.Pane>
             ),

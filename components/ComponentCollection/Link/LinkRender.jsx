@@ -11,7 +11,7 @@ import {
 } from 'variables/renderFunctions';
 import PropTypes from 'prop-types';
 
-export default function LinkRender({ element }) {
+export default function LinkRender({ element, theme }) {
     const { ref, inView } = useInView();
 
     const LinkComp = styled.a({
@@ -44,7 +44,7 @@ export default function LinkRender({ element }) {
         <>
             <div
                 ref={ref}
-                css={styleDiv(element, inView)}
+                css={styleDiv(element, inView, theme)}
             >
                 <Link
                     href={element.content.url}
@@ -67,4 +67,5 @@ LinkRender.propTypes = {
         styles: PropTypes.shape({
         }).isRequired,
     }).isRequired,
+    theme: PropTypes.string.isRequired,
 };

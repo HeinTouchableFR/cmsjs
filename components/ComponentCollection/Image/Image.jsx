@@ -24,7 +24,7 @@ import Background from '../Ui/Background';
 import Border from '../Ui/Border';
 import Animations from '../Ui/Animations';
 
-export default function Image({ element, device, onElementValueChange, images, setImages }) {
+export default function Image({ element, device, onElementValueChange, images, setImages, isDarkModeEnable }) {
     const intl = useIntl();
     const [item, setItem] = useState(element);
 
@@ -261,6 +261,7 @@ export default function Image({ element, device, onElementValueChange, images, s
                 setItem={setItem}
                 device={device}
                 onChange={onElementValueChange}
+                isDarkModeEnable={isDarkModeEnable}
             />
             <Border
                 item={item}
@@ -291,4 +292,5 @@ Image.propTypes = {
     images: PropTypes.arrayOf(PropTypes.shape({
     })).isRequired,
     setImages: PropTypes.func.isRequired,
+    isDarkModeEnable: PropTypes.bool.isRequired,
 };

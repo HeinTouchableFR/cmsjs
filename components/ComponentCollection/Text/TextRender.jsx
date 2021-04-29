@@ -10,7 +10,7 @@ import {
 } from 'variables/renderFunctions';
 import PropTypes from 'prop-types';
 
-export default function TextRender({ element }) {
+export default function TextRender({ element, theme }) {
     const { ref, inView } = useInView();
 
     const Text = styled.div({
@@ -41,7 +41,7 @@ export default function TextRender({ element }) {
         <>
             <div
                 ref={ref}
-                css={styleDiv(element, inView)}
+                css={styleDiv(element, inView, theme)}
             >
                 <Text>
                     {parse(element.content.text)}
@@ -60,4 +60,5 @@ TextRender.propTypes = {
         styles: PropTypes.shape({
         }).isRequired,
     }).isRequired,
+    theme: PropTypes.string.isRequired,
 };
