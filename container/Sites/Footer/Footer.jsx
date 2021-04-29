@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, {
     useEffect, useState,
 } from 'react';
@@ -10,7 +11,8 @@ export default function Footer({ setShowRender, showRender, mode }) {
     const { templates } = useTemplates();
 
     const [content, setContent] = useState([]);
-    const [params, setParams] = useState({});
+    const [params, setParams] = useState({
+    });
     const [nav, setNav] = useState([]);
     useEffect(() => {
         if (templates.footer) {
@@ -31,7 +33,6 @@ export default function Footer({ setShowRender, showRender, mode }) {
     }, [templates]);
 
     const Foot = styled.footer({
-        marginTop: '2rem',
         background: params.background && params.background[mode],
     });
 
@@ -81,3 +82,9 @@ export default function Footer({ setShowRender, showRender, mode }) {
         </>
     );
 }
+
+Footer.propTypes = {
+    mode: PropTypes.string.isRequired,
+    setShowRender: PropTypes.func.isRequired,
+    showRender: PropTypes.bool.isRequired,
+};

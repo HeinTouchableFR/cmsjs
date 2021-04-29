@@ -25,6 +25,20 @@ article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
   display: block;
 }
+
+#__next{
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    overflow: hidden;
+}
+
+
+footer{
+    margin-top: auto;
+}
+
 ol, ul {
   list-style: none;
 }
@@ -100,6 +114,12 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
   Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   height: auto;
+  min-height: 100vh;
+min-height: 100vh;
+display: flex;
+flex-direction: column;
+width: 100%;
+overflow: hidden;
 }
 
 a {

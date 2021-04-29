@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, {
     useEffect, useState,
 } from 'react';
@@ -10,7 +11,8 @@ import ComponentDispatcher from '../../../components/ComponentCollection/Compone
 export default function Header({ children, title, settings, setShowRender, showRender, mode }) {
     const { templates } = useTemplates();
     const [content, setContent] = useState([]);
-    const [params, setParams] = useState({});
+    const [params, setParams] = useState({
+    });
     const [nav, setNav] = useState([]);
     const [siteName, setSiteName] = useState('');
 
@@ -43,14 +45,13 @@ export default function Header({ children, title, settings, setShowRender, showR
 
     const Sticky = styled.div({
         position: 'sticky',
-        margin: 'auto',
         width: '100%',
         zIndex: '1000',
         backgroundColor: params.background && params.background[mode],
         top: '0',
     });
 
-    const Header = styled.header({
+    const HeaderComponent = styled.header({
         maxWidth: '1370px',
         paddingLeft: '20px',
         paddingRight: '20px',
@@ -84,7 +85,7 @@ export default function Header({ children, title, settings, setShowRender, showR
             {showRender
             && (
                 <Sticky>
-                    <Header>
+                    <HeaderComponent>
                         {content.map((layout) => (
                             <div
                                 className={`${styles.render} ${styles.layout} ${styles.header__layout}`}
@@ -110,9 +111,23 @@ export default function Header({ children, title, settings, setShowRender, showR
                                 </div>
                             </div>
                         ))}
-                    </Header>
+                    </HeaderComponent>
                 </Sticky>
             )}
         </>
     );
 }
+
+Header.propTypes = {
+    children: PropTypes.shape({
+    }).isRequired,
+    mode: PropTypes.string.isRequired,
+    setShowRender: PropTypes.func.isRequired,
+    settings: PropTypes.shape({
+        settings: PropTypes.shape({
+            find: PropTypes.func.isRequired,
+        }).isRequired,
+    }).isRequired,
+    showRender: PropTypes.bool.isRequired,
+    title: PropTypes.string.isRequired,
+};
