@@ -85,7 +85,7 @@ export default function Header({children, title, settings, setShowRender, showRe
                     <HeaderComponent>
                         {content.map((layout) => (
                             <div
-                                className={`${styles.render} ${styles.layout} ${styles.header__layout}`}
+                                className={`${styles.layout} ${styles.header__layout}`}
                                 key={layout.id}
                             >
                                 {layout.columns && layout.columns.map((column) => (

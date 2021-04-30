@@ -35,12 +35,10 @@ export default function Page({ post }) {
                     },
                 }}
             />
-            <div className='container'>
-                <RenderPage
-                    page={post}
-                    showRender={showRender}
-                />
-            </div>
+            <RenderPage
+                page={post}
+                showRender={showRender}
+            />
             <Footer
                 showRender={showRender}
                 setShowRender={setShowRender}

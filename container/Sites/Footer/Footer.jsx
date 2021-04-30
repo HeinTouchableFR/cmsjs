@@ -50,7 +50,7 @@ export default function Footer({setShowRender, showRender}) {
                     <Container>
                         {content.map((layout) => (
                             <div
-                                className={`${styles.render} ${styles.layout}`}
+                                className={`${styles.layout}`}
                                 key={layout.id}
                             >
                                 {layout.columns && layout.columns.map((column) => (
