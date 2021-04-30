@@ -51,89 +51,84 @@ export default function Column({ column,
 
     return (
         <>
-            <div className={`${styles.column}`}>
-                <Droppable droppableId={`${column.id}`}>
-                    {(provided, snapshot) => (
-                        <div
-                            {...provided.droppableProps}
-                            ref={provided.innerRef}
-                            className={`${styles.element__wrap}`}
-                            style={getListStyle(snapshot.isDraggingOver)}
-                        >
-                            {column.elements.length > 0 ? (
-                                <div className={styles.column__populated}>
-                                    {column.elements.map((item, index) => (
-                                        <Draggable
-                                            key={item.id}
-                                            draggableId={item.id.toString()}
-                                            index={index}
-                                        >
-                                            {(supplied, _snapshot) => (
+            <Droppable droppableId={`${column.id}`}>
+                {(provided, snapshot) => (
+                    <div
+                        className={`${styles.column}`}
+                        {...provided.droppableProps}
+                        ref={provided.innerRef}
+                        style={getListStyle(snapshot.isDraggingOver)}
+                    >
+                        {column.elements.length > 0 ? (
+                            <div className={styles.column__populated}>
+                                {column.elements.map((item, index) => (
+                                    <Draggable
+                                        key={item.id}
+                                        draggableId={item.id.toString()}
+                                        index={index}
+                                    >
+                                        {(supplied, _snapshot) => (
+                                            <div
+                                                className={styles.element__widget}
+                                                ref={supplied.innerRef}
+                                                {...supplied.draggableProps}
+                                                {...supplied.dragHandleProps}
+                                                style={getItemStyle(_snapshot.isDragging,
+                                                    supplied.draggableProps.style)}
+                                            >
                                                 <div
-                                                    className={styles.element__widget}
-                                                    ref={supplied.innerRef}
-                                                    {...supplied.draggableProps}
-                                                    {...supplied.dragHandleProps}
-                                                    style={getItemStyle(_snapshot.isDragging,
-                                                        supplied.draggableProps.style)}
+                                                    onClick={() => onElementClick(item)}
+                                                    onKeyDown={() => onElementClick(item)}
+                                                    role='button'
+                                                    tabIndex={0}
                                                 >
-                                                    <div
-                                                        className='content'
-                                                        onClick={() => onElementClick(item)}
-                                                        onKeyDown={() => onElementClick(item)}
-                                                        role='button'
-                                                        tabIndex={0}
-                                                    >
-                                                        <ComponentDispatcher
-                                                            element={item}
-                                                            device={device}
-                                                            mode='preview'
-                                                        />
-                                                    </div>
-                                                    <button
-                                                        key={`btn-empty${item.id}`}
-                                                        onClick={() => handleupdateColumn(item)}
-                                                        onKeyDown={() => handleupdateColumn(item)}
-                                                        type='button'
-                                                        className={styles.element__widget__remove}
-                                                    >
-                                                        <i className='far fa-times' />
-                                                    </button>
+                                                    <ComponentDispatcher
+                                                        element={item}
+                                                        device={device}
+                                                        mode='preview'
+                                                    />
                                                 </div>
-                                            )}
-                                        </Draggable>
-                                    ))}
-                                </div>
-                            ) : (
+                                                <button
+                                                    key={`btn-empty${item.id}`}
+                                                    onClick={() => handleupdateColumn(item)}
+                                                    onKeyDown={() => handleupdateColumn(item)}
+                                                    type='button'
+                                                    className={styles.element__widget__remove}
+                                                >
+                                                    <i className='far fa-times' />
+                                                </button>
+                                            </div>
+                                        )}
+                                    </Draggable>
+                                ))}
+                            </div>
+                        ) : (
+                            <div
+                                className={styles.column__empty}
+                                onClick={() => onElementClick({
+                                    id: 'empty', column: column.id,
+                                })}
+                                onKeyDown={() => onElementClick({
+                                    id: 'empty', column: column.id,
+                                })}
+                                role='button'
+                                tabIndex={0}
+                            >
                                 <div
-                                    className={styles.column__empty}
-                                    onClick={() => onElementClick({
-                                        id: 'empty', column: column.id,
-                                    })}
-                                    onKeyDown={() => onElementClick({
-                                        id: 'empty', column: column.id,
-                                    })}
+                                    className={styles.element__first__add}
+                                    onClick={(e) => handleOpenPortal(e)}
+                                    onKeyDown={(e) => handleOpenPortal(e)}
                                     role='button'
                                     tabIndex={0}
                                 >
-                                    <div
-                                        className={styles.element__first__add}
-                                        onClick={(e) => handleOpenPortal(e)}
-                                        onKeyDown={(e) => handleOpenPortal(e)}
-                                        role='button'
-                                        tabIndex={0}
-                                    >
-                                        <div className={styles.element__first__icon}>
-                                            <i className='fal fa-plus' />
-                                        </div>
-                                    </div>
+                                    <i className='fal fa-plus' />
                                 </div>
-                            )}
-                            {provided.placeholder}
-                        </div>
-                    )}
-                </Droppable>
-            </div>
+                            </div>
+                        )}
+                        {provided.placeholder}
+                    </div>
+                )}
+            </Droppable>
         </>
     );
 }

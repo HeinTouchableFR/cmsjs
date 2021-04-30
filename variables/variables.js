@@ -1,10 +1,11 @@
-export function structures() {
-    const structures = [];
-    for (let i = 1; i < 7; i++) {
-        const structure = {};
-        structure.id = new Date().getTime() + i;
-        structure.nbColumns = i;
-        structures.push(structure);
+export function presets() {
+    const presettings = [];
+    for (let i = 1; i < 7; i += 1) {
+        const preset = {
+        };
+        preset.id = new Date().getTime() + i;
+        preset.nbColumns = i;
+        presettings.push(preset);
     }
-    return structures
+    return presettings;
 }

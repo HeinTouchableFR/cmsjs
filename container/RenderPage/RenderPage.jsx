@@ -6,43 +6,37 @@ import ComponentDispatcher from 'components/ComponentCollection/ComponentDispatc
 import Loader from 'components/Loader/Loader';
 
 export default function RenderPage({ page, showRender = false }) {
-    const [content, setContent] = useState(page.content ? JSON.parse(page.content) : [
-    ]);
+    const [content, setContent] = useState(page.content ? JSON.parse(page.content) : []);
 
     useEffect(() => {
-        setContent(page.content ? JSON.parse(page.content) : [
-        ]);
+        setContent(page.content ? JSON.parse(page.content) : []);
     }, [page]);
 
     return (
         <>
-            { showRender
+            {showRender
                 ? content.map((layout) => (
                     <div
-                        className={`${styles.render} ${styles.layout}`}
+                        className={`${styles.layout}`}
                         key={layout.id}
                     >
-                        <div className={`${styles.layout__container}`}>
-                            {layout.columns && layout.columns.map((column) => (
-                                <div
-                                    className={`${styles.column}`}
-                                    key={column.id}
-                                >
-                                    <div className={`${styles.element__wrap}`}>
-                                        {column.elements.map((item) => (
-                                            <div
-                                                className={styles.element__widget}
-                                                key={item.id}
-                                            >
-                                                <ComponentDispatcher
-                                                    element={item}
-                                                />
-                                            </div>
-                                        ))}
+                        {layout.columns && layout.columns.map((column) => (
+                            <div
+                                className={`${styles.column}`}
+                                key={column.id}
+                            >
+                                {column.elements.map((item) => (
+                                    <div
+                                        className={styles.element__widget}
+                                        key={item.id}
+                                    >
+                                        <ComponentDispatcher
+                                            element={item}
+                                        />
                                     </div>
-                                </div>
-                              ))}
-                        </div>
+                                ))}
+                            </div>
+                        ))}
                     </div>
                 ))
                 : <Loader />}

@@ -2,17 +2,16 @@ import PropTypes from 'prop-types';
 import React, {
     useEffect, useState,
 } from 'react';
-import { useTemplates } from 'context/template';
+import {useTemplates} from 'context/template';
 import styled from '@emotion/styled';
 import ComponentDispatcher from 'components/ComponentCollection/ComponentDispatcher';
 import styles from '../../Builder/Layout/Layout.module.scss';
 
-export default function Footer({ setShowRender, showRender }) {
-    const { value: dataTemplates } = useTemplates();
+export default function Footer({setShowRender, showRender}) {
+    const {value: dataTemplates} = useTemplates();
 
     const [content, setContent] = useState([]);
-    const [params, setParams] = useState({
-    });
+    const [params, setParams] = useState({});
     useEffect(() => {
         if (dataTemplates.templates.footer) {
             setShowRender(true);
@@ -54,23 +53,19 @@ export default function Footer({ setShowRender, showRender }) {
                                 className={`${styles.render} ${styles.layout}`}
                                 key={layout.id}
                             >
-                                <div className={`${styles.layout__container}`}>
-                                    {layout.columns && layout.columns.map((column) => (
-                                        <div
-                                            className={`${styles.column}`}
-                                            key={column.id}
-                                        >
-                                            <div className={`${styles.element__wrap}`}>
-                                                {column.elements.map((item) => (
-                                                    <ComponentDispatcher
-                                                        key={item.id}
-                                                        element={item}
-                                                    />
-                                                ))}
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
+                                {layout.columns && layout.columns.map((column) => (
+                                    <div
+                                        className={`${styles.column}`}
+                                        key={column.id}
+                                    >
+                                        {column.elements.map((item) => (
+                                            <ComponentDispatcher
+                                                key={item.id}
+                                                element={item}
+                                            />
+                                        ))}
+                                    </div>
+                                ))}
                             </div>
                         ))}
                     </Container>

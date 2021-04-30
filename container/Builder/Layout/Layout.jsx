@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { structures } from 'variables/variables';
+import { presets } from 'variables/variables';
 import styles from './Layout.module.scss';
 import Column from './Column/Column';
 
@@ -14,12 +14,12 @@ export default function Layout({ layout,
     handleOpenPortal,
     type }) {
     /**
-     * Allows you to define the structure of the layout
-     * @param structure
+     * Allows you to define the preset of the layout
+     * @param preset
      */
-    const defineStructure = (structure) => {
+    const definePreset = (preset) => {
         const update = layout;
-        update.nbColumns = structure.nbColumns;
+        update.nbColumns = preset.nbColumns;
         /**
          * Allows you to generate elements and a sub-element
          * Depending on the number of columns in the layout
@@ -35,26 +35,26 @@ export default function Layout({ layout,
     };
 
     /**
-     * Generates the button of the target structure
-     * Button showing the shape of the structure
-     * @param structure
+     * Generates the button of the target preset
+     * Button showing the shape of the preset
+     * @param preset
      * @return {button}
      */
-    const structurePreviewGenerate = (structure) => {
-        const n = structure.nbColumns;
+    const presetPreviewGenerate = (preset) => {
+        const n = preset.nbColumns;
         const handleClick = () => {
-            defineStructure(structure);
+            definePreset(preset);
         };
         return (
             <button
-                className={`${styles.layout__btn} ${styles.structure}`}
+                className={`${styles.preset}`}
                 onClick={handleClick}
                 onKeyDown={handleClick}
                 type='button'
             >
                 {[...Array(n)].map((e, i) => (
                     <span
-                        className={`${styles.structure__element}`}
+                        className={`${styles.preset__element}`}
                         key={new Date().getTime() + i}
                     >
                         <i className='far fa-plus' />
@@ -74,47 +74,60 @@ export default function Layout({ layout,
     };
 
     return (
-        <div
-            className={`${styles.layout} ${type === 'header' && styles.header__layout} ${device === 'tablet' && styles.tablet__preview} ${device === 'mobile' && styles.mobile__preview}`}
-        >
-            {layout.nbColumns > 0 ? (
-                <div className={`${styles.layout__container}`}>
-                    {layout.columns
-                    && layout.columns.map((column) => (
-                        <Column
-                            key={`element-${column.id}`}
-                            column={column}
-                            updateColumn={updateColumn}
-                            onElementClick={onElementClick}
-                            setCurrentElement={setCurrentElement}
-                            currentElement={currentElement}
-                            device={device}
-                            handleOpenPortal={handleOpenPortal}
-                        />
-                    ))}
-                </div>
-            ) : (
-                <div className={`${styles.layout__no_columns}`}>
-                    <p>Choose a structure</p>
-                    <ul>
-                        {structures() && structures().map((structure) => (
-                            <li
-                                key={structure.id}
-                            >
-                                {structurePreviewGenerate(structure)}
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-            )}
-            <button
-                className={`${styles.layout__remove_btn}`}
-                onClick={() => deleteLayout(layout)}
-                onKeyDown={() => deleteLayout(layout)}
-                type='button'
+        <div className={`${styles.builder}`}>
+            <div
+                className={`${styles.layout} ${type === 'header' && styles.header__layout} ${device === 'tablet' && styles.tablet__preview} ${device === 'mobile' && styles.mobile__preview}`}
             >
-                <i className='far fa-times' />
-            </button>
+                {layout.nbColumns > 0 ? (
+                    <>
+                        {layout.columns
+                        && layout.columns.map((column) => (
+                            <Column
+                                key={`element-${column.id}`}
+                                column={column}
+                                updateColumn={updateColumn}
+                                onElementClick={onElementClick}
+                                setCurrentElement={setCurrentElement}
+                                currentElement={currentElement}
+                                device={device}
+                                handleOpenPortal={handleOpenPortal}
+                            />
+                        ))}
+                    </>
+                ) : (
+                    <div className={`${styles.layout__add_section}`}>
+                        <p>Choose a structure</p>
+                        <ul>
+                            {presets() && presets().map((preset) => (
+                                <li
+                                    key={preset.id}
+                                >
+                                    {presetPreviewGenerate(preset)}
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                )}
+
+            </div>
+            <div className={`${styles.layout__settings}`}>
+                <button
+                    className={`${styles.layout__settings_element}`}
+                    onClick={() => console.log('TODO')}
+                    onKeyDown={() => console.log('TODO')}
+                    type='button'
+                >
+                    <i className='far fa-pen' />
+                </button>
+                <button
+                    className={`${styles.layout__settings_element}`}
+                    onClick={() => deleteLayout(layout)}
+                    onKeyDown={() => deleteLayout(layout)}
+                    type='button'
+                >
+                    <i className='far fa-times' />
+                </button>
+            </div>
         </div>
     );
 }
