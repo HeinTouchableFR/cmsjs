@@ -7,33 +7,31 @@ import styled from '@emotion/styled';
 import ComponentDispatcher from 'components/ComponentCollection/ComponentDispatcher';
 import styles from '../../Builder/Layout/Layout.module.scss';
 
-export default function Footer({ setShowRender, showRender, mode }) {
-    const { templates } = useTemplates();
+export default function Footer({ setShowRender, showRender }) {
+    const { value: dataTemplates } = useTemplates();
 
     const [content, setContent] = useState([]);
     const [params, setParams] = useState({
     });
-    const [nav, setNav] = useState([]);
     useEffect(() => {
-        if (templates.footer) {
+        if (dataTemplates.templates.footer) {
             setShowRender(true);
         } else {
             setShowRender(false);
         }
-    }, [templates]);
+    }, [dataTemplates]);
 
     useEffect(() => {
-        if (templates.footer) {
-            if (templates.footer.template) {
-                setContent(JSON.parse(templates.footer.template.content));
-                setParams(JSON.parse(templates.footer.template.params));
+        if (dataTemplates.templates.footer) {
+            if (dataTemplates.templates.footer.template) {
+                setContent(JSON.parse(dataTemplates.templates.footer.template.content));
+                setParams(JSON.parse(dataTemplates.templates.footer.template.params));
             }
-            setNav(templates.footer.nav);
         }
-    }, [templates]);
+    }, [dataTemplates]);
 
     const Foot = styled.footer({
-        background: params.background && params.background[mode],
+        background: params.background,
     });
 
     const Container = styled.div({
@@ -67,7 +65,6 @@ export default function Footer({ setShowRender, showRender, mode }) {
                                                     <ComponentDispatcher
                                                         key={item.id}
                                                         element={item}
-                                                        nav={nav}
                                                     />
                                                 ))}
                                             </div>
@@ -84,7 +81,6 @@ export default function Footer({ setShowRender, showRender, mode }) {
 }
 
 Footer.propTypes = {
-    mode: PropTypes.string.isRequired,
     setShowRender: PropTypes.func.isRequired,
     showRender: PropTypes.bool.isRequired,
 };

@@ -6,7 +6,6 @@ import RenderPage from 'container/RenderPage/RenderPage';
 import { db } from 'utils/dbConnect';
 import { useSettings } from 'context/settings';
 import { Global } from '@emotion/react';
-import useDarkMode from 'variables/darkMode';
 import PropTypes from 'prop-types';
 import Footer from 'container/Sites/Footer/Footer';
 
@@ -15,7 +14,6 @@ export default function Page({ post }) {
     const [showRender, setShowRender] = useState(false);
     const [params, setParams] = useState(post.params ? JSON.parse(post.params) : {
     });
-    const mode = useDarkMode(params);
 
     useEffect(() => {
         setParams(post.params ? JSON.parse(post.params) : {
@@ -29,12 +27,11 @@ export default function Page({ post }) {
                 settings={settings}
                 setShowRender={setShowRender}
                 showRender={showRender}
-                mode={mode}
             />
             <Global
                 styles={{
                     body: {
-                        background: params.background && params.background[mode],
+                        background: params.background,
                     },
                 }}
             />
@@ -47,7 +44,6 @@ export default function Page({ post }) {
             <Footer
                 showRender={showRender}
                 setShowRender={setShowRender}
-                mode={mode}
             />
         </>
     );

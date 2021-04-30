@@ -2,7 +2,6 @@ import React from 'react';
 import styled from '@emotion/styled';
 import AddLayout from 'container/Builder/Layout/AddLayout/AddLayout';
 import Layout from 'container/Builder/Layout/Layout';
-import useDarkMode from 'variables/darkMode';
 import PropTypes from 'prop-types';
 import styles from './Content.module.scss';
 
@@ -19,10 +18,9 @@ export default function Content({ layouts,
     mode,
     type,
     params }) {
-    const theme = useDarkMode(params);
 
     const Div = styled.div`
-        background: ${params.background[theme]};
+        background: ${params.background};
     `;
 
     return (
@@ -101,8 +99,7 @@ Content.propTypes = {
     mode: PropTypes.string,
     type: PropTypes.string,
     params: PropTypes.shape({
-        background: PropTypes.shape({
-        }).isRequired,
+        background: PropTypes.string.isRequired,
     }).isRequired,
     addLayout: PropTypes.func.isRequired,
     updateLayout: PropTypes.func.isRequired,

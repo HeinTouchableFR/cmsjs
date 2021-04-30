@@ -30,9 +30,11 @@ export default function RenderPage({ page, showRender = false }) {
                                 >
                                     <div className={`${styles.element__wrap}`}>
                                         {column.elements.map((item) => (
-                                            <div className={styles.element__widget}>
+                                            <div
+                                                className={styles.element__widget}
+                                                key={item.id}
+                                            >
                                                 <ComponentDispatcher
-                                                    key={item.id}
                                                     element={item}
                                                 />
                                             </div>

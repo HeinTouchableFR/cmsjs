@@ -33,8 +33,6 @@
     "builder.typography": "Typographie",
     "builder.color": "Couleur",
     "builder.color.hover": "Couleur au survol",
-    "builder.color.dark": "Arrière plan sombre",
-    "builder.color.light": "Arrière plan clair",
     "builder.font.size": "Taille de police",
     "builder.font.weight": "Graisse",
     "builder.font.family": "Famille de police",

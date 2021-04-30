@@ -97,7 +97,7 @@ export default function Edit({item, images, errors}) {
                 onSubmit={onSubmit}
                 setImages={setImagesList}
                 images={imagesList}
-                modules={defaultComponents.pageComponents(intl)}
+                modules={defaultComponents.templateComponents(intl)}
                 formErrors={formErrors}
                 errors={builderErrors}
             />

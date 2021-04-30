@@ -15,9 +15,7 @@ import Tab from 'components/Tab/Tab';
 import DarkModeButton from 'components/Button/DarkModeButton/DarkModeButton';
 import Flash from 'components/Flash/Flash';
 import ColorPicker from 'components/ColorPicker/ColorPicker';
-import Checkbox from 'components/Form/Checkbox/Checkbox';
 import PropTypes from 'prop-types';
-import Grid from 'container/Grid/Grid';
 import styles from './Navigation.module.scss';
 
 export default function Navigation({ components,
@@ -174,23 +172,10 @@ export default function Navigation({ components,
     const rightComponents = components.filter((item, index) => index % 2 && item);
     const leftComponents = components.filter((item, index) => !(index % 2) && item);
 
-    const handleColorChange = (color, theme) => {
+    const handleColorChange = (color) => {
         setParams({
             ...params,
-            background: {
-                ...params.background,
-                [theme]: color,
-            },
-        });
-    };
-
-    const handleParamsChange = (_e, data, key) => {
-        setParams({
-            ...params,
-            [key]: {
-                ...params[key],
-                [data.name]: data.value,
-            },
+            background: color,
         });
     };
 
@@ -296,39 +281,14 @@ export default function Navigation({ components,
                                 />
                             </>
                         )}
-                        <Checkbox
-                            name='enableDarkMode'
+                        <ColorPicker
+                            defaultColor={params.background}
+                            onColorChange={(color) => handleColorChange(color)}
                             label={intl.formatMessage({
-                                id: 'builder.enable.darkMode',
-                                defaultMessage: 'Enable dark mode',
+                                id: 'builder.background',
+                                defaultMessage: 'background',
                             })}
-                            defaultChecked={params.background.enableDarkMode}
-                            onChange={(e, data) => handleParamsChange(e, data, 'background')}
                         />
-                        <Grid columns={2}>
-                            <Grid.Column>
-                                <ColorPicker
-                                    defaultColor={params.background.light}
-                                    onColorChange={(color) => handleColorChange(color, 'light')}
-                                    label={intl.formatMessage({
-                                        id: 'builder.color.light',
-                                        defaultMessage: 'Light background',
-                                    })}
-                                />
-                            </Grid.Column>
-                            <Grid.Column>
-                                {params.background.enableDarkMode && (
-                                    <ColorPicker
-                                        defaultColor={params.background.dark}
-                                        onColorChange={(color) => handleColorChange(color, 'dark')}
-                                        label={intl.formatMessage({
-                                            id: 'builder.color.dark',
-                                            defaultMessage: 'Dark background',
-                                        })}
-                                    />
-                                )}
-                            </Grid.Column>
-                        </Grid>
                     </form>
                 </Tab.Pane>
             ),
@@ -449,11 +409,7 @@ Navigation.propTypes = {
         content: PropTypes.string,
     }).isRequired,
     params: PropTypes.shape({
-        background: PropTypes.shape({
-            light: PropTypes.string,
-            dark: PropTypes.string,
-            enableDarkMode: PropTypes.bool,
-        }),
+        background: PropTypes.string.isRequired,
     }).isRequired,
     loading: PropTypes.bool,
     hide: PropTypes.bool,

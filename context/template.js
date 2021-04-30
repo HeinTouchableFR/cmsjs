@@ -4,12 +4,18 @@ import React, {
 import { useSettings } from './settings';
 
 const Templates = createContext({
-    value: '[]',
+    value: '{}',
+    nav: '{}',
 });
 
 export function TemplatesProvider({ children }) {
     const { value: settings } = useSettings();
-    const [templates, setTemplates] = useState([]);
+    const [value, setValue] = useState({
+        templates: {
+        },
+    });
+    const [nav, setNav] = useState({
+    });
 
     useEffect(async () => {
         if (settings.settings) {
@@ -18,24 +24,27 @@ export function TemplatesProvider({ children }) {
             };
             const footer = {
             };
+            let dataNav = {
+            };
 
             if (generalSettings && generalSettings.header) {
                 const resHeader = await fetch(`${process.env.URL}/api/templates/${generalSettings.header}`);
                 const dataHeader = await resHeader.json();
                 if (dataHeader.success) {
                     header.template = dataHeader.data;
-                    header.nav = {
-                    };
                     JSON.parse(header.template.content).forEach((layout) => {
                         layout.columns.forEach((column) => {
                             column.elements.forEach(async (element) => {
                                 if (element.type === 'menu') {
-                                    const res = await fetch(`${process.env.URL}/api/menus/${element.content.menu.value}`);
-                                    const data = await res.json();
-                                    header.nav = {
-                                        ...header.nav,
-                                        [element.id]: data.data,
-                                    };
+                                    fetch(`${process.env.URL}/api/menus/${element.content.menu.value}`).then((res) => {
+                                        res.json().then((data) => {
+                                            dataNav = {
+                                                ...dataNav,
+                                                [element.id]: data.data,
+                                            };
+                                            setNav(dataNav);
+                                        });
+                                    });
                                 }
                             });
                         });
@@ -48,35 +57,38 @@ export function TemplatesProvider({ children }) {
                 const dataFooter = await resFooter.json();
                 if (dataFooter.success) {
                     footer.template = dataFooter.data;
-                    footer.nav = {
-                    };
                     JSON.parse(footer.template.content).forEach((layout) => {
                         layout.columns.forEach((column) => {
                             column.elements.forEach(async (element) => {
                                 if (element.type === 'menu') {
-                                    const res = await fetch(`${process.env.URL}/api/menus/${element.content.menu.value}`);
-                                    const data = await res.json();
-                                    footer.nav = {
-                                        ...footer.nav,
-                                        [element.id]: data.data,
-                                    };
+                                    fetch(`${process.env.URL}/api/menus/${element.content.menu.value}`).then((res) => {
+                                        res.json().then((data) => {
+                                            dataNav = {
+                                                ...dataNav,
+                                                [element.id]: data.data,
+                                            };
+                                        });
+                                    });
                                 }
                             });
                         });
                     });
                 }
             }
-
-            setTemplates({
-                header, footer,
+            setValue({
+                templates: {
+                    header, footer,
+                },
             });
+
         }
     }, [settings]);
 
     return (
         <Templates.Provider
             value={{
-                templates,
+                value,
+                nav,
             }}
         >
             {children}

@@ -79,7 +79,7 @@ export default function Index({ menus, pages }) {
         let p = {
         };
         pages.map((page) => {
-            if (page._id === id) {
+            if (page.id === id) {
                 p = page;
             }
         });
@@ -124,7 +124,7 @@ export default function Index({ menus, pages }) {
 
     const pageOptions = [];
     pages.map((page) => pageOptions.push({
-        key: page._id, text: page.title, value: page._id,
+        key: page.id, text: page.title, value: page.id,
     }));
 
     const menuOptions = [];

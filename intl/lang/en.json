@@ -33,8 +33,6 @@
     "builder.typography": "Typography",
     "builder.color": "Color",
     "builder.color.hover": "Color on hover",
-    "builder.color.dark": "Dark background",
-    "builder.color.light": "Light background",
     "builder.font.size": "Font size",
     "builder.font.weight": "Font weight",
     "builder.font.family": "Font family",

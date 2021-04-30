@@ -15,15 +15,21 @@ import {
     concatValueUnit,
 } from 'variables/renderFunctions';
 import PropTypes from 'prop-types';
+import { useTemplates } from 'context/template';
 
-export default function MenuRender({ element, nav }) {
+export default function MenuRender({ element }) {
     const { inView } = useInView();
     const [isNavActive, setIsNavActive] = useState(false);
+    const { nav } = useTemplates();
 
-    const [menu, setMenu] = useState(nav);
+    const [menu, setMenu] = useState([]);
 
     useEffect(() => {
-        setMenu(nav);
+        if (nav) {
+            setMenu(nav[element.id]
+                ? JSON.parse(nav[element.id].items)
+                : []);
+        }
     }, [nav]);
 
     const Nav = styled.nav({
@@ -315,6 +321,4 @@ MenuRender.propTypes = {
         styles: PropTypes.shape({
         }).isRequired,
     }).isRequired,
-    nav: PropTypes.arrayOf(PropTypes.shape({
-    })).isRequired,
 };

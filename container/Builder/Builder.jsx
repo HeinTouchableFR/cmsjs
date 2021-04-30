@@ -158,7 +158,7 @@ Builder.propTypes = {
 Builder.defaultProps = {
     page: {
         content: '[]',
-        params: '{"background":{"enableDarkMode":false,"light":"#f7fafb","dark":"#171933"}}',
+        params: '{"background":"#f7fafb"}',
     },
     mode: 'page',
 };

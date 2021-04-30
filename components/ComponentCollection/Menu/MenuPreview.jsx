@@ -1,7 +1,7 @@
 import React, {
     useEffect, useState,
 } from 'react';
-import {css} from '@emotion/react';
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import axios from 'axios';
 import {
@@ -15,7 +15,7 @@ import {
 } from 'variables/renderFunctions';
 import PropTypes from 'prop-types';
 
-export default function MenuPreview({element, device}) {
+export default function MenuPreview({ element, device }) {
     const [menu, setMenu] = useState([]);
     const [isNavActive, setIsNavActive] = useState(false);
 
@@ -285,6 +285,7 @@ MenuPreview.propTypes = {
             }),
             alignment: PropTypes.string.isRequired,
         }).isRequired,
-        styles: PropTypes.shape({}).isRequired,
+        styles: PropTypes.shape({
+        }).isRequired,
     }).isRequired,
 };

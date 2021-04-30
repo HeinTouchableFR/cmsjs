@@ -5,34 +5,32 @@ import React, {
 import Head from 'next/head';
 import { useTemplates } from 'context/template';
 import styled from '@emotion/styled';
-import styles from '../../Builder/Layout/Layout.module.scss';
-import ComponentDispatcher from '../../../components/ComponentCollection/ComponentDispatcher';
+import styles from 'container/Builder/Layout/Layout.module.scss';
+import ComponentDispatcher from 'components/ComponentCollection/ComponentDispatcher';
 
-export default function Header({ children, title, settings, setShowRender, showRender, mode }) {
-    const { templates } = useTemplates();
+export default function Header({ children, title, settings, setShowRender, showRender }) {
+    const { value: dataTemplates } = useTemplates();
     const [content, setContent] = useState([]);
     const [params, setParams] = useState({
     });
-    const [nav, setNav] = useState([]);
     const [siteName, setSiteName] = useState('');
 
     useEffect(() => {
-        if (templates.header) {
+        if (dataTemplates.templates.header) {
             setShowRender(true);
         } else {
             setShowRender(false);
         }
-    }, [templates]);
+    }, [dataTemplates]);
 
     useEffect(() => {
-        if (templates.header) {
-            if (templates.header.template) {
-                setContent(JSON.parse(templates.header.template.content));
-                setParams(JSON.parse(templates.header.template.params));
+        if (dataTemplates.templates.header) {
+            if (dataTemplates.templates.header.template) {
+                setContent(JSON.parse(dataTemplates.templates.header.template.content));
+                setParams(JSON.parse(dataTemplates.templates.header.template.params));
             }
-            setNav(templates.header.nav);
         }
-    }, [templates]);
+    }, [dataTemplates]);
 
     useEffect(() => {
         if (settings.settings) {
@@ -47,7 +45,7 @@ export default function Header({ children, title, settings, setShowRender, showR
         position: 'sticky',
         width: '100%',
         zIndex: '1000',
-        backgroundColor: params.background && params.background[mode],
+        backgroundColor: params.background,
         top: '0',
     });
 
@@ -102,7 +100,6 @@ export default function Header({ children, title, settings, setShowRender, showR
                                                     <ComponentDispatcher
                                                         key={item.id}
                                                         element={item}
-                                                        nav={nav}
                                                     />
                                                 ))}
                                             </div>
@@ -119,15 +116,21 @@ export default function Header({ children, title, settings, setShowRender, showR
 }
 
 Header.propTypes = {
-    children: PropTypes.shape({
-    }).isRequired,
-    mode: PropTypes.string.isRequired,
+    children: PropTypes.oneOfType([
+        PropTypes.shape({
+        }),
+        PropTypes.arrayOf(PropTypes.shape({
+        })),
+    ]),
     setShowRender: PropTypes.func.isRequired,
     settings: PropTypes.shape({
-        settings: PropTypes.shape({
-            find: PropTypes.func.isRequired,
-        }).isRequired,
+        settings: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.shape({
+        })])),
     }).isRequired,
     showRender: PropTypes.bool.isRequired,
     title: PropTypes.string.isRequired,
+};
+
+Header.defaultProps = {
+    children: [],
 };

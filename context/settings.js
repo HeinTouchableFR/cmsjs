@@ -9,6 +9,7 @@ const Settings = createContext({
 export function SettingsProvider({ children }) {
     const [value, setValue] = useState({
         success: false,
+        settings: [],
     })
 
     useEffect(async () => {

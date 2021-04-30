@@ -1426,17 +1426,17 @@ export default class defaultComponents {
             type: 'menu',
             defaultValue: {
                 menu: {
-                    value: 'jBAOJwV8A1DWnzkP5PEQ',
+                    value: 'Kut7Ht5LrEL54IwEohy5',
                 },
                 alignment: 'flex-end',
                 desktop: {
                     typo: {
                         family: 'Roboto',
                         size: {
-                            unit: 'px',
-                            value: '18',
+                            unit: 'rem',
+                            value: '1.3',
                         },
-                        weight: '500',
+                        weight: '300',
                         transform: 'initial',
                         style: 'normal',
                         decoration: '',

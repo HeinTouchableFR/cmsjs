@@ -23,7 +23,7 @@ import ButtonRender from './Button/ButtonRender';
 import ButtonPreview from './Button/ButtonPreview';
 import Button from './Button/Button';
 
-export default function ComponentDispatcher({element, device = 'desktop', mode = 'render', onElementValueChange, images, setImages, nav}) {
+export default function ComponentDispatcher({element, device = 'desktop', mode = 'render', onElementValueChange, images, setImages}) {
     const [type, setType] = useState(element.type);
 
     useEffect(
@@ -68,7 +68,7 @@ export default function ComponentDispatcher({element, device = 'desktop', mode =
             );
         case 'menu':
             return mode === 'render' ? (
-                <MenuRender element={element} nav={nav[element.id] ? JSON.parse(nav[element.id].items) : []}/>
+                <MenuRender element={element}/>
             ) : mode === 'preview' ? (
                 <MenuPreview element={element} device={device}/>
             ) : (
