@@ -1,18 +1,21 @@
 .content {
-    display: block;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
     position: relative;
-    width: calc(100% - 350px);
     transition: left 0.5s, width 0.5s, min-width 0.5s, max-width 0.5s;
-    left: 175px;
+    left: 177px;
     min-width: 1050px;
-    max-width: 100%;
+    max-width: calc(100% - 355px);
+    width: 100%;
     background-color: #FFF;
     margin: 0 auto;
-}
 
-.hide.content {
-    width: 100%;
-    left: 0;
+    &.hide {
+        left: 0;
+        max-width: 100%;
+    }
 }
 
 .tablet__preview{
