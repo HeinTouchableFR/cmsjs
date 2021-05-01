@@ -87,7 +87,6 @@ export default function LogoRender({ element }) {
             >
                 <Link href='/'>
                     <a
-                        className='nav__logo'
                         title="Page d'accueil"
                     >
                         <Image

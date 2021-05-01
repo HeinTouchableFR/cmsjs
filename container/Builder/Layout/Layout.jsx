@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { presets } from 'variables/variables';
+import { styleDivPreview } from 'variables/previewFunctions';
+import styled from '@emotion/styled';
 import styles from './Layout.module.scss';
 import Column from './Column/Column';
 
@@ -8,6 +10,7 @@ export default function Layout({ layout,
     updateLayout,
     deleteLayout,
     onElementClick,
+    onLayoutClick,
     currentElement,
     setCurrentElement,
     device,
@@ -73,48 +76,67 @@ export default function Layout({ layout,
         updateLayout(layout);
     };
 
+    const LayoutContainer = styled.div`
+        max-width: ${layout.content.params.layout.stretchSection ? '100%' : '1600px'};
+        margin-left: auto!important;
+        margin-right: auto!important;
+    `;
+
+    const Container = styled.div`
+        max-width: ${layout.content.params.layout.contentWidth.type === 'box' ? `${layout.content.params.layout.contentWidth.maxWidth}px` : '100%'};
+        margin-left: auto!important;
+        margin-right: auto!important;
+        width: 100%;
+        position: relative;
+        z-index: 1;
+        display: flex;
+        flex-wrap: wrap;
+    `;
+
     return (
         <div className={`${styles.builder}`}>
-            <div
+            <LayoutContainer
                 className={`${styles.layout} ${type === 'header' && styles.header__layout} ${device === 'tablet' && styles.tablet__preview} ${device === 'mobile' && styles.mobile__preview}`}
+                css={styleDivPreview(device, layout)}
             >
-                {layout.nbColumns > 0 ? (
-                    <>
-                        {layout.columns
-                        && layout.columns.map((column) => (
-                            <Column
-                                key={`element-${column.id}`}
-                                column={column}
-                                updateColumn={updateColumn}
-                                onElementClick={onElementClick}
-                                setCurrentElement={setCurrentElement}
-                                currentElement={currentElement}
-                                device={device}
-                                handleOpenPortal={handleOpenPortal}
-                            />
-                        ))}
-                    </>
-                ) : (
-                    <div className={`${styles.layout__add_section}`}>
-                        <p>Choose a structure</p>
-                        <ul>
-                            {presets() && presets().map((preset) => (
-                                <li
-                                    key={preset.id}
-                                >
-                                    {presetPreviewGenerate(preset)}
-                                </li>
+                <Container>
+                    {layout.nbColumns > 0 ? (
+                        <>
+                            {layout.columns
+                            && layout.columns.map((column) => (
+                                <Column
+                                    key={`element-${column.id}`}
+                                    column={column}
+                                    updateColumn={updateColumn}
+                                    onElementClick={onElementClick}
+                                    setCurrentElement={setCurrentElement}
+                                    currentElement={currentElement}
+                                    device={device}
+                                    handleOpenPortal={handleOpenPortal}
+                                />
                             ))}
-                        </ul>
-                    </div>
-                )}
-
-            </div>
+                        </>
+                    ) : (
+                        <div className={`${styles.layout__add_section}`}>
+                            <p>Choose a structure</p>
+                            <ul>
+                                {presets() && presets().map((preset) => (
+                                    <li
+                                        key={preset.id}
+                                    >
+                                        {presetPreviewGenerate(preset)}
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    )}
+                </Container>
+            </LayoutContainer>
             <div className={`${styles.layout__settings}`}>
                 <button
                     className={`${styles.layout__settings_element}`}
-                    onClick={() => console.log('TODO')}
-                    onKeyDown={() => console.log('TODO')}
+                    onClick={() => onLayoutClick(layout)}
+                    onKeyDown={() => onLayoutClick(layout)}
                     type='button'
                 >
                     <i className='far fa-pen' />
@@ -137,10 +159,22 @@ Layout.propTypes = {
         nbColumns: PropTypes.number.isRequired,
         columns: PropTypes.arrayOf(PropTypes.shape({
         })).isRequired,
+        content: PropTypes.shape({
+            params: PropTypes.shape({
+                layout: PropTypes.shape({
+                    stretchSection: PropTypes.bool,
+                    contentWidth: PropTypes.shape({
+                        type: PropTypes.string,
+                        maxWidth: PropTypes.string,
+                    }).isRequired,
+                }).isRequired,
+            }).isRequired,
+        }).isRequired,
     }).isRequired,
     updateLayout: PropTypes.func.isRequired,
     deleteLayout: PropTypes.func.isRequired,
     onElementClick: PropTypes.func.isRequired,
+    onLayoutClick: PropTypes.func.isRequired,
     setCurrentElement: PropTypes.func.isRequired,
     handleOpenPortal: PropTypes.func.isRequired,
     type: PropTypes.string,

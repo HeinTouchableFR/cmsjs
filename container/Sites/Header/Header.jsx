@@ -3,15 +3,15 @@ import React, {
     useEffect, useState,
 } from 'react';
 import Head from 'next/head';
-import {useTemplates} from 'context/template';
+import { useTemplates } from 'context/template';
 import styled from '@emotion/styled';
-import styles from 'container/Builder/Layout/Layout.module.scss';
-import ComponentDispatcher from 'components/ComponentCollection/ComponentDispatcher';
+import Layout from 'container/RenderPage/Layout';
 
-export default function Header({children, title, settings, setShowRender, showRender}) {
-    const {value: dataTemplates} = useTemplates();
+export default function Header({ children, title, settings, setShowRender, showRender }) {
+    const { value: dataTemplates } = useTemplates();
     const [content, setContent] = useState([]);
-    const [params, setParams] = useState({});
+    const [params, setParams] = useState({
+    });
     const [siteName, setSiteName] = useState('');
 
     useEffect(() => {
@@ -84,24 +84,11 @@ export default function Header({children, title, settings, setShowRender, showRe
                 <Sticky>
                     <HeaderComponent>
                         {content.map((layout) => (
-                            <div
-                                className={`${styles.layout} ${styles.header__layout}`}
+                            <Layout
+                                layout={layout}
+                                alignCenter
                                 key={layout.id}
-                            >
-                                {layout.columns && layout.columns.map((column) => (
-                                    <div
-                                        className={`${styles.column}`}
-                                        key={column.id}
-                                    >
-                                        {column.elements.map((item) => (
-                                            <ComponentDispatcher
-                                                key={item.id}
-                                                element={item}
-                                            />
-                                        ))}
-                                    </div>
-                                ))}
-                            </div>
+                            />
                         ))}
                     </HeaderComponent>
                 </Sticky>
@@ -112,12 +99,15 @@ export default function Header({children, title, settings, setShowRender, showRe
 
 Header.propTypes = {
     children: PropTypes.oneOfType([
-        PropTypes.shape({}),
-        PropTypes.arrayOf(PropTypes.shape({})),
+        PropTypes.shape({
+        }),
+        PropTypes.arrayOf(PropTypes.shape({
+        })),
     ]),
     setShowRender: PropTypes.func.isRequired,
     settings: PropTypes.shape({
-        settings: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.shape({})])),
+        settings: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.shape({
+        })])),
     }).isRequired,
     showRender: PropTypes.bool.isRequired,
     title: PropTypes.string.isRequired,

@@ -12,6 +12,7 @@ export default function Content({ layouts,
     updateLayout,
     deleteLayout,
     onElementClick,
+    onLayoutClick,
     currentElement,
     setCurrentElement,
     hide,
@@ -42,6 +43,7 @@ export default function Content({ layouts,
                                     updateLayout={updateLayout}
                                     deleteLayout={deleteLayout}
                                     onElementClick={onElementClick}
+                                    onLayoutClick={onLayoutClick}
                                     currentElement={currentElement}
                                     setCurrentElement={setCurrentElement}
                                     device={device}
@@ -61,6 +63,7 @@ export default function Content({ layouts,
                                             updateLayout={updateLayout}
                                             deleteLayout={deleteLayout}
                                             onElementClick={onElementClick}
+                                            onLayoutClick={onLayoutClick}
                                             currentElement={currentElement}
                                             setCurrentElement={setCurrentElement}
                                             device={device}
@@ -80,6 +83,7 @@ export default function Content({ layouts,
                                             updateLayout={updateLayout}
                                             deleteLayout={deleteLayout}
                                             onElementClick={onElementClick}
+                                            onLayoutClick={onLayoutClick}
                                             currentElement={currentElement}
                                             setCurrentElement={setCurrentElement}
                                             device={device}
@@ -119,6 +123,7 @@ Content.propTypes = {
     updateLayout: PropTypes.func.isRequired,
     deleteLayout: PropTypes.func.isRequired,
     onElementClick: PropTypes.func.isRequired,
+    onLayoutClick: PropTypes.func.isRequired,
     setCurrentElement: PropTypes.func.isRequired,
     handleOpenPortal: PropTypes.func.isRequired,
 };

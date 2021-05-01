@@ -366,3 +366,42 @@ export const changeImage = (file, item, setItem, onChange) => {
     setItem(updated);
     onChange(updated);
 };
+
+export const changeStretchSection = (_e, data, item, setItem, onChange) => {
+    const updated = {
+        ...item,
+        content: {
+            ...item.content,
+            params: {
+                ...item.content.params,
+                layout: {
+                    ...item.content.params.layout,
+                    stretchSection: data.value,
+                },
+            },
+        },
+    };
+    setItem(updated);
+    onChange(updated);
+};
+
+export const changeContentWidth = (_e, data, key, item, setItem, onChange) => {
+    const updated = {
+        ...item,
+        content: {
+            ...item.content,
+            params: {
+                ...item.content.params,
+                layout: {
+                    ...item.content.params.layout,
+                    contentWidth: {
+                        ...item.content.params.layout.contentWidth,
+                        [key]: data.value,
+                    },
+                },
+            },
+        },
+    };
+    setItem(updated);
+    onChange(updated);
+};

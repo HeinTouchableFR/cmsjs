@@ -9,6 +9,224 @@ export function useLayout(layouts, setLayouts) {
             id: new Date().getTime(),
             nbColumns: 0,
             columns: [],
+            type: 'layout',
+            content: {
+                params: {
+                    layout: {
+                        stretchSection: true,
+                        contentWidth: {
+                            type: 'box',
+                            maxWidth: '1330',
+                        },
+                    },
+                    responsive: {
+                        reverseTabletColumn: false,
+                        reverseMobileColumn: false,
+                        visibility: {
+                            desktop: true,
+                            tablet: true,
+                            mobile: true,
+                        },
+                    },
+                },
+                desktop: {
+                    styles: {
+                        background: {
+                            normal: '',
+                            hover: '',
+                        },
+                        border: {
+                            normal: {
+                                type: 'none',
+                                width: {
+                                    top: 0,
+                                    right: 0,
+                                    bottom: 0,
+                                    left: 0,
+                                },
+                                radius: {
+                                    unit: 'px',
+                                    top: 0,
+                                    right: 0,
+                                    bottom: 0,
+                                    left: 0,
+                                },
+                                color: 'inherit',
+                            },
+                            hover: {
+                                type: 'none',
+                                width: {
+                                    top: 0,
+                                    right: 0,
+                                    bottom: 0,
+                                    left: 0,
+                                },
+                                radius: {
+                                    unit: 'px',
+                                    top: 0,
+                                    right: 0,
+                                    bottom: 0,
+                                    left: 0,
+                                },
+                                color: 'inherit',
+                            },
+                        },
+                    },
+                    animation: {
+                        name: 'none',
+                        duration: '1s',
+                        delay: '0',
+                    },
+                },
+                tablet: {
+                    styles: {
+                        background: {
+                            normal: '',
+                            hover: '',
+                        },
+                        border: {
+                            normal: {
+                                type: '',
+                                width: {
+                                    top: '',
+                                    right: '',
+                                    bottom: '',
+                                    left: '',
+                                },
+                                radius: {
+                                    unit: '',
+                                    top: '',
+                                    right: '',
+                                    bottom: '',
+                                    left: '',
+                                },
+                                color: '',
+                            },
+                            hover: {
+                                type: '',
+                                width: {
+                                    top: '',
+                                    right: '',
+                                    bottom: '',
+                                    left: '',
+                                },
+                                radius: {
+                                    unit: '',
+                                    top: '',
+                                    right: '',
+                                    bottom: '',
+                                    left: '',
+                                },
+                                color: '',
+                            },
+                        },
+                    },
+                    animation: {
+                        name: '',
+                        duration: '',
+                        delay: '',
+                    },
+                },
+                mobile: {
+                    styles: {
+                        background: {
+                            normal: '',
+                            hover: '',
+                        },
+                        border: {
+                            normal: {
+                                type: '',
+                                width: {
+                                    top: '',
+                                    right: '',
+                                    bottom: '',
+                                    left: '',
+                                },
+                                radius: {
+                                    unit: '',
+                                    top: '',
+                                    right: '',
+                                    bottom: '',
+                                    left: '',
+                                },
+                                color: '',
+                            },
+                            hover: {
+                                type: '',
+                                width: {
+                                    top: '',
+                                    right: '',
+                                    bottom: '',
+                                    left: '',
+                                },
+                                radius: {
+                                    unit: '',
+                                    top: '',
+                                    right: '',
+                                    bottom: '',
+                                    left: '',
+                                },
+                                color: '',
+                            },
+                        },
+                    },
+                    animation: {
+                        name: '',
+                        duration: '',
+                        delay: '',
+                    },
+                },
+            },
+            styles: {
+                desktop: {
+                    margin: {
+                        unit: 'px',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                    },
+                    padding: {
+                        unit: 'px',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                    },
+                },
+                tablet: {
+                    margin: {
+                        unit: 'px',
+                        top: '',
+                        left: '',
+                        right: '',
+                        bottom: '',
+                    },
+                    padding: {
+                        unit: 'px',
+                        top: '',
+                        left: '',
+                        right: '',
+                        bottom: '',
+                    },
+                },
+                mobile: {
+                    margin: {
+                        unit: 'px',
+                        top: '',
+                        left: '',
+                        right: '',
+                        bottom: '',
+                    },
+                    padding: {
+                        unit: 'px',
+                        top: '',
+                        left: '',
+                        right: '',
+                        bottom: '',
+                    },
+                },
+            },
         };
         setLayouts([...layouts, layout]);
     };

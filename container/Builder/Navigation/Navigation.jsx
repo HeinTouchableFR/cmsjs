@@ -19,8 +19,9 @@ import PropTypes from 'prop-types';
 import styles from './Navigation.module.scss';
 
 export default function Navigation({ components,
-    currentItem,
+    currentElement,
     onElementValueChange,
+    onLayoutValueChange,
     setCurrentElement,
     page,
     onSubmit,
@@ -52,13 +53,13 @@ export default function Navigation({ components,
     };
 
     useEffect(() => {
-        if (currentItem.id === 'empty') {
+        if (currentElement.id === 'empty') {
             setActiveIndex(1);
-        } else if (currentItem.type) {
+        } else if (currentElement.type) {
             setActiveIndex(2);
         }
     },
-    [currentItem]);
+    [currentElement]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -306,20 +307,21 @@ export default function Navigation({ components,
                 </Tab.Pane>
             ),
         },
-        currentItem.type && {
+        currentElement.type && {
             label: `${intl.formatMessage({
                 id: 'edit',
                 defaultMessage: 'Edit',
             })} ${intl.formatMessage({
-                id: currentItem.type,
+                id: currentElement.type,
             })}`,
             render: () => (
                 <Tab.Pane>
                     <ComponentDispatcher
-                        element={currentItem}
+                        element={currentElement}
                         mode='editor'
                         device={device}
                         onElementValueChange={onElementValueChange}
+                        onLayoutValueChange={onLayoutValueChange}
                         images={images}
                         setImages={setImages}
                     />
@@ -396,7 +398,7 @@ export default function Navigation({ components,
 Navigation.propTypes = {
     components: PropTypes.arrayOf(PropTypes.shape({
     })).isRequired,
-    currentItem: PropTypes.shape({
+    currentElement: PropTypes.shape({
         id: PropTypes.oneOfType([
             PropTypes.string,
             PropTypes.number,
@@ -426,6 +428,7 @@ Navigation.propTypes = {
     images: PropTypes.arrayOf(PropTypes.shape({
     })).isRequired,
     onElementValueChange: PropTypes.func.isRequired,
+    onLayoutValueChange: PropTypes.func.isRequired,
     setCurrentElement: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     setDevice: PropTypes.func.isRequired,

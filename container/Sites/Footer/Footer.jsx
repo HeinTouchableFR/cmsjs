@@ -2,16 +2,16 @@ import PropTypes from 'prop-types';
 import React, {
     useEffect, useState,
 } from 'react';
-import {useTemplates} from 'context/template';
+import { useTemplates } from 'context/template';
 import styled from '@emotion/styled';
-import ComponentDispatcher from 'components/ComponentCollection/ComponentDispatcher';
-import styles from '../../Builder/Layout/Layout.module.scss';
+import Layout from 'container/RenderPage/Layout';
 
-export default function Footer({setShowRender, showRender}) {
-    const {value: dataTemplates} = useTemplates();
+export default function Footer({ setShowRender, showRender }) {
+    const { value: dataTemplates } = useTemplates();
 
     const [content, setContent] = useState([]);
-    const [params, setParams] = useState({});
+    const [params, setParams] = useState({
+    });
     useEffect(() => {
         if (dataTemplates.templates.footer) {
             setShowRender(true);
@@ -49,24 +49,10 @@ export default function Footer({setShowRender, showRender}) {
                 <Foot>
                     <Container>
                         {content.map((layout) => (
-                            <div
-                                className={`${styles.layout}`}
+                            <Layout
+                                layout={layout}
                                 key={layout.id}
-                            >
-                                {layout.columns && layout.columns.map((column) => (
-                                    <div
-                                        className={`${styles.column}`}
-                                        key={column.id}
-                                    >
-                                        {column.elements.map((item) => (
-                                            <ComponentDispatcher
-                                                key={item.id}
-                                                element={item}
-                                            />
-                                        ))}
-                                    </div>
-                                ))}
-                            </div>
+                            />
                         ))}
                     </Container>
                 </Foot>

@@ -1,5 +1,4 @@
 .builder {
-  border: solid 1px transparent;
 
   .layout__settings {
     display: none;
@@ -181,7 +180,7 @@
   &:hover {
     width: 100%;
     position: relative;
-    border-color: deepskyblue;
+    box-shadow: 0 0 0 2px deepskyblue;
 
     .layout__settings {
       display: grid;
@@ -190,11 +189,6 @@
 }
 
 .layout {
-  width: 100%;
-  position: relative;
-  z-index: 1;
-  display: flex;
-  flex-wrap: wrap;
 
   .column {
     position: relative;

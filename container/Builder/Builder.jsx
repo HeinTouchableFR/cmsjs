@@ -73,8 +73,9 @@ export default function Builder({ page,
                 <DragDropContext onDragEnd={onDragEnd}>
                     <Navigation
                         components={components}
-                        currentItem={currentElement}
+                        currentElement={currentElement}
                         onElementValueChange={updateElement}
+                        onLayoutValueChange={updateLayout}
                         setCurrentElement={setCurrentElement}
                         hideMenu={handleHideMenu}
                         onSubmit={handleSubmit}
@@ -99,6 +100,7 @@ export default function Builder({ page,
                         updateLayout={updateLayout}
                         deleteLayout={deleteLayout}
                         onElementClick={setCurrentElement}
+                        onLayoutClick={setCurrentElement}
                         currentElement={currentElement}
                         setCurrentElement={setCurrentElement}
                         hide={hideMenu}

@@ -90,6 +90,41 @@ export const alignmentsOptions = [
     },
 ];
 
+export const contentWidthOptions = [
+    {
+        key: 'box',
+        text: <FormattedMessage
+            id='builder.layout.box'
+            defaultMessage='Box'
+            key='builder.layout.box'
+        />,
+        value: 'box',
+        content: <span>
+             <FormattedMessage
+                 id='builder.layout.box'
+                 defaultMessage='Box'
+                 key='builder.layout.box'
+             />
+        </span>,
+    },
+    {
+        key: 'fullWidth',
+        text: <FormattedMessage
+            id='builder.layout.fullWidth'
+            defaultMessage='Full width'
+            key='builder.layout.fullWidth'
+        />,
+        value: 'fullWidth',
+        content: <span>
+            <FormattedMessage
+                id='builder.layout.fullWidth'
+                defaultMessage='Full width'
+                key='builder.layout.fullWidth'
+            />
+        </span>,
+    },
+];
+
 export const flexAlignmentsOptions = [
     {
         key: 'left',

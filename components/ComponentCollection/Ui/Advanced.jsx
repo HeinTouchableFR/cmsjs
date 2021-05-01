@@ -10,7 +10,7 @@ import {
 import Grid from 'container/Grid/Grid';
 import Field from 'components/Form/Field/Field';
 
-export default function Advanced({ item, device, setItem, onChange }) {
+export default function Advanced({ item, device, setItem, onChange, disableMarginLeftRight }) {
     const intl = useIntl();
 
     const handleChangeStyle = (_e, data, key) => {
@@ -81,10 +81,6 @@ export default function Advanced({ item, device, setItem, onChange }) {
                                     id: 'builder.top',
                                     defaultMessage: 'Top',
                                 })}
-                                placeholder={intl.formatMessage({
-                                    id: 'builder.top',
-                                    defaultMessage: 'Top',
-                                })}
                                 name='top'
                                 type='number'
                                 defaultValue={item.styles[device].margin.top}
@@ -97,10 +93,8 @@ export default function Advanced({ item, device, setItem, onChange }) {
                                     id: 'builder.right',
                                     defaultMessage: 'Right',
                                 })}
-                                placeholder={intl.formatMessage({
-                                    id: 'builder.right',
-                                    defaultMessage: 'Right',
-                                })}
+                                placeholder={disableMarginLeftRight ? 'auto' : undefined}
+                                disabled={disableMarginLeftRight}
                                 name='right'
                                 type='number'
                                 defaultValue={item.styles[device].margin.right}
@@ -110,10 +104,6 @@ export default function Advanced({ item, device, setItem, onChange }) {
                         <Grid.Column>
                             <Input
                                 label={intl.formatMessage({
-                                    id: 'builder.bottom',
-                                    defaultMessage: 'Bottom',
-                                })}
-                                placeholder={intl.formatMessage({
                                     id: 'builder.bottom',
                                     defaultMessage: 'Bottom',
                                 })}
@@ -129,10 +119,8 @@ export default function Advanced({ item, device, setItem, onChange }) {
                                     id: 'builder.left',
                                     defaultMessage: 'Left',
                                 })}
-                                placeholder={intl.formatMessage({
-                                    id: 'builder.left',
-                                    defaultMessage: 'Left',
-                                })}
+                                placeholder={disableMarginLeftRight ? 'auto' : undefined}
+                                disabled={disableMarginLeftRight}
                                 name='left'
                                 type='number'
                                 defaultValue={item.styles[device].margin.left}
@@ -195,10 +183,6 @@ export default function Advanced({ item, device, setItem, onChange }) {
                                     id: 'builder.top',
                                     defaultMessage: 'Top',
                                 })}
-                                placeholder={intl.formatMessage({
-                                    id: 'builder.top',
-                                    defaultMessage: 'Top',
-                                })}
                                 name='top'
                                 type='number'
                                 defaultValue={item.styles[device].padding.top}
@@ -208,10 +192,6 @@ export default function Advanced({ item, device, setItem, onChange }) {
                         <Grid.Column>
                             <Input
                                 label={intl.formatMessage({
-                                    id: 'builder.right',
-                                    defaultMessage: 'Right',
-                                })}
-                                placeholder={intl.formatMessage({
                                     id: 'builder.right',
                                     defaultMessage: 'Right',
                                 })}
@@ -227,10 +207,6 @@ export default function Advanced({ item, device, setItem, onChange }) {
                                     id: 'builder.bottom',
                                     defaultMessage: 'Bottom',
                                 })}
-                                placeholder={intl.formatMessage({
-                                    id: 'builder.bottom',
-                                    defaultMessage: 'Bottom',
-                                })}
                                 name='bottom'
                                 type='number'
                                 defaultValue={item.styles[device].padding.bottom}
@@ -240,10 +216,6 @@ export default function Advanced({ item, device, setItem, onChange }) {
                         <Grid.Column>
                             <Input
                                 label={intl.formatMessage({
-                                    id: 'builder.left',
-                                    defaultMessage: 'Left',
-                                })}
-                                placeholder={intl.formatMessage({
                                     id: 'builder.left',
                                     defaultMessage: 'Left',
                                 })}
@@ -268,4 +240,9 @@ Advanced.propTypes = {
     device: PropTypes.string.isRequired,
     setItem: PropTypes.func.isRequired,
     onChange: PropTypes.func.isRequired,
+    disableMarginLeftRight: PropTypes.bool,
+};
+
+Advanced.defaultProps = {
+    disableMarginLeftRight: false,
 };

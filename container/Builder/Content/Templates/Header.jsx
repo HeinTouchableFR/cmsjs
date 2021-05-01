@@ -3,9 +3,8 @@ import React, {
 } from 'react';
 import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
-import styles from 'container/Builder/Layout/Layout.module.scss';
 import { useTemplates } from 'context/template';
-import ComponentDispatcher from 'components/ComponentCollection/ComponentDispatcher';
+import Layout from './Layout';
 
 export default function Header({ device }) {
     const { value: dataTemplates } = useTemplates();
@@ -44,36 +43,11 @@ export default function Header({ device }) {
             <Sticky>
                 <HeaderComponent>
                     {content.map((layout) => (
-                        <div
-                            className={`${styles.layout} ${styles.header__layout} ${device === 'tablet' && styles.tablet__preview} ${device === 'mobile' && styles.mobile__preview}`}
-                        >
-                            {layout.nbColumns > 0 && (
-                                <>
-                                    {layout.columns
-                                    && layout.columns.map((column) => (
-                                        <div
-                                            className={`${styles.column}`}
-                                        >
-                                            {column.elements.length > 0 && (
-                                                <div className={styles.column__populated}>
-                                                    {column.elements.map((item) => (
-                                                        <div
-                                                            className={styles.element__widget}
-                                                        >
-                                                            <ComponentDispatcher
-                                                                element={item}
-                                                                device={device}
-                                                                mode='preview'
-                                                            />
-                                                        </div>
-                                                    ))}
-                                                </div>
-                                            )}
-                                        </div>
-                                    ))}
-                                </>
-                            )}
-                        </div>
+                        <Layout
+                            layout={layout}
+                            device={device}
+                            key={layout.id}
+                        />
                     ))}
                 </HeaderComponent>
             </Sticky>
