@@ -77,7 +77,7 @@ export default function Layout({ layout,
     };
 
     const LayoutContainer = styled.div`
-        max-width: ${layout.content.params.layout.stretchSection ? '100%' : '1600px'};
+        max-width: ${layout.content.params.layout.stretchSection ? '100%' : '1330px'};
         margin-left: auto!important;
         margin-right: auto!important;
     `;
