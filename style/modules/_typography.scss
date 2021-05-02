@@ -1,36 +1,39 @@
 // Variables
 // ==================
-$f-sf: 'SF Pro Text', sans-serif;
-$f-gotham: 'Gotham', sans-serif;
+$f-sf: 'SF Pro Text',
+sans-serif;
+$f-gotham: 'Gotham',
+sans-serif;
 
-:root{
-  --admin-main-color: #5a2fdd;
-  --admin-sidebar-color: var(--admin-main-color);
-  --admin-icon: var(--admin-main-color);
-  --admin-text-grey: #8390A2;
-  --admin-border: #d5e3ec;
-  --admin-background: #F1F5F9;
-  --admin-header: #FFF;
-  --admin-color: #222;
-  --admin-shadow: rgb(0 0 0 / 20%);
-  --admin-card: #FFF;
-  ---admin-table-hover: #E4E4E4;
-  --contrast: #e6eff4;
+
+:root {
+    --admin-main-color: $greyThirdColor;
+    --admin-sidebar-color: var(--admin-main-color);
+    --admin-icon: var(--admin-main-color);
+    --admin-text-grey: #8390A2;
+    --admin-border: #d5e3ec;
+    --admin-background: #F1F5F9;
+    --admin-header: #FFF;
+    --admin-color: #222;
+    --admin-shadow: rgb(0 0 0 / 20%);
+    --admin-card: #FFF;
+    --admin-table-hover: #E4E4E4;
+    --contrast: #e6eff4;
 }
 
 @include dark {
-  --admin-main-color: #141429;
-  --admin-sidebar-color: var(--admin-main-color);
-  --admin-icon: var(--contrast);
-  --admin-text-grey: #a4b1c3;
-  --admin-border: #2a2e5e;
-  --admin-background: #1b1e3d;
-  --admin-header: #171933;
-  --admin-color: #FFF;
-  --admin-shadow: rgb(255 255 255 / 20%);
-  --admin-card: #1d204d;
-  ---admin-table-hover: var(--admin-main-color);
-  --contrast: #e6eff4;
+    --admin-main-color: #141429;
+    --admin-sidebar-color: var(--admin-main-color);
+    --admin-icon: var(--contrast);
+    --admin-text-grey: #a4b1c3;
+    --admin-border: #2a2e5e;
+    --admin-background: #1b1e3d;
+    --admin-header: #171933;
+    --admin-color: #FFF;
+    --admin-shadow: rgb(255 255 255 / 20%);
+    --admin-card: #1d204d;
+    --admin-table-hover: var(--admin-main-color);
+    --contrast: #e6eff4;
 }
 
 // Font face
@@ -67,112 +70,134 @@ $f-gotham: 'Gotham', sans-serif;
 // ==================
 
 %big-title {
-  font-family: $f-gotham;
-  font-weight: bold;
-  font-size: 64px;
-  line-height: 1.15;
+    font-family: $f-gotham;
+    font-weight: bold;
+    font-size: 64px;
+    line-height: 1.15;
 
-  @media only screen and (max-width: 500px) {
-    font-size: 40px;
-  }
+    @media only screen and (max-width: 500px) {
+        font-size: 40px;
+    }
 }
 
 %title-secondary,
-.title-secondary{
-  font-family: $f-gotham;
-  font-weight: bold;
-  font-size: 30px;
-  line-height: 1.15;
-
-  @include up(500) {
-    font-size: 42px;
-  }
-}
-
-%h3 {
-  font-family: $f-gotham;
-  font-weight: bold;
-  font-size: 20px;
-  line-height: 1.15;
-
-  @include up(500) {
-    font-size: 32px;
-  }
-}
-
-.formatted {
-  p, blockquote, ul, ol {
-    margin-bottom: 1.5em;
-  }
-  h1, h2, h3, h4, h5, h6 {
-    margin-bottom: 1rem;
-  }
-  h2 {
-    @extend %title-secondary;
-  }
-  h3 {
+.title-secondary {
     font-family: $f-gotham;
-    font-size: 25px;
+    font-weight: bold;
+    font-size: 30px;
     line-height: 1.15;
 
     @include up(500) {
-      font-size: 35px;
+        font-size: 42px;
     }
-  }
-  h4 {
-    font-weight: bold;
-    font-family: $f-gotham;
-  }
-  ul,
-  ol {
-    display: grid;
-    grid-template-columns: 1fr;
-    justify-items: flex-start;
-    grid-gap: .5em;
-    margin-left: 1.5em;
-  }
-  li {
-    padding-left: space(3);
-    position: relative;
-  }
-  ul li::before {
-    content: '';
-    display: block;
-    width: 8px;
-    height: 8px;
-    border-radius: 8px;
-    background: currentColor;
-    position: absolute;
-    top: 12px;
-    left: 0;
-  }
-  ol {
-    counter-reset: ol;
-  }
-  ol li {
-    counter-increment: ol;
-  }
-  ol li::before {
-    content: counter(ol) ".";
-    position: absolute;
-    top: 0;
-    left: -10px;
-  }
-  *:last-child {
-    margin-bottom: 0 !important;
-  }
-  blockquote {
-    font-size: 1.2em;
-    border-left: 4px solid currentColor;
-    padding-left: 1em;
-  }
-  blockquote p {
-    margin-bottom: 1rem;
-  }
-  blockquote cite {
-    font-weight: 300;
-    font-size: .9rem;
-    font-style: italic;
-  }
 }
 
+%h3 {
+    font-family: $f-gotham;
+    font-weight: bold;
+    font-size: 20px;
+    line-height: 1.15;
+
+    @include up(500) {
+        font-size: 32px;
+    }
+}
+
+.formatted {
+
+    p,
+    blockquote,
+    ul,
+    ol {
+        margin-bottom: 1.5em;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        margin-bottom: 1rem;
+    }
+
+    h2 {
+        @extend %title-secondary;
+    }
+
+    h3 {
+        font-family: $f-gotham;
+        font-size: 25px;
+        line-height: 1.15;
+
+        @include up(500) {
+            font-size: 35px;
+        }
+    }
+
+    h4 {
+        font-weight: bold;
+        font-family: $f-gotham;
+    }
+
+    ul,
+    ol {
+        display: grid;
+        grid-template-columns: 1fr;
+        justify-items: flex-start;
+        grid-gap: .5em;
+        margin-left: 1.5em;
+    }
+
+    li {
+        padding-left: space(3);
+        position: relative;
+    }
+
+    ul li::before {
+        content: '';
+        display: block;
+        width: 8px;
+        height: 8px;
+        border-radius: 8px;
+        background: currentColor;
+        position: absolute;
+        top: 12px;
+        left: 0;
+    }
+
+    ol {
+        counter-reset: ol;
+    }
+
+    ol li {
+        counter-increment: ol;
+    }
+
+    ol li::before {
+        content: counter(ol) ".";
+        position: absolute;
+        top: 0;
+        left: -10px;
+    }
+
+    *:last-child {
+        margin-bottom: 0 !important;
+    }
+
+    blockquote {
+        font-size: 1.2em;
+        border-left: 4px solid currentColor;
+        padding-left: 1em;
+    }
+
+    blockquote p {
+        margin-bottom: 1rem;
+    }
+
+    blockquote cite {
+        font-weight: 300;
+        font-size: .9rem;
+        font-style: italic;
+    }
+}

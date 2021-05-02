@@ -3709,11 +3709,6 @@
   "resolved" "https://registry.npmjs.org/imurmurhash/-/imurmurhash-0.1.4.tgz"
   "version" "0.1.4"
 
-"indexes-of@^1.0.1":
-  "integrity" "sha1-8w9xbI4r00bHtn0985FVZqfAVgc="
-  "resolved" "https://registry.npmjs.org/indexes-of/-/indexes-of-1.0.1.tgz"
-  "version" "1.0.1"
-
 "infer-owner@^1.0.3":
   "integrity" "sha512-IClj+Xz94+d7irH5qRyfJonOdfTzuDaifE6ZPWfx0N0+/ATZCbuTPq2prFl526urkQd90WyUKIh1DfBQ2hMz9A=="
   "resolved" "https://registry.npmjs.org/infer-owner/-/infer-owner-1.0.4.tgz"
@@ -5165,9 +5160,9 @@
     "sha.js" "^2.4.8"
 
 "picomatch@^2.0.4", "picomatch@^2.2.1":
-  "integrity" "sha512-q0M/9eZHzmr0AulXyPwNfZjtwZ/RBZlbN3K3CErVrk50T2ASYI7Bye0EvekFY3IP1Nt2DHu0re+V2ZHIpMkuWg=="
-  "resolved" "https://registry.npmjs.org/picomatch/-/picomatch-2.2.2.tgz"
-  "version" "2.2.2"
+  "integrity" "sha512-KpELjfwcCDUb9PeigTs2mBJzXUPzAuP2oPcA989He8Rte0+YUAjw1JVedDhuTKPkHjSYzMN3npC9luThGYEKdg=="
+  "resolved" "https://registry.npmjs.org/picomatch/-/picomatch-2.2.3.tgz"
+  "version" "2.2.3"
 
 "pify@^2.0.0":
   "integrity" "sha1-7RQaasBDqEnqWISY59yosVMw6Qw="
@@ -5258,13 +5253,11 @@
     "postcss" "^7.0.26"
 
 "postcss-selector-parser@^6.0.0", "postcss-selector-parser@^6.0.2":
-  "integrity" "sha512-gjMeXBempyInaBqpp8gODmwZ52WaYsVOsfr4L4lDQ7n3ncD6mEyySiDtgzCT+NYC0mmeOLvtsF8iaEf0YT6dBw=="
-  "resolved" "https://registry.npmjs.org/postcss-selector-parser/-/postcss-selector-parser-6.0.4.tgz"
-  "version" "6.0.4"
+  "integrity" "sha512-aFYPoYmXbZ1V6HZaSvat08M97A8HqO6Pjz+PiNpw/DhuRrC72XWAdp3hL6wusDCN31sSmcZyMGa2hZEuX+Xfhg=="
+  "resolved" "https://registry.npmjs.org/postcss-selector-parser/-/postcss-selector-parser-6.0.5.tgz"
+  "version" "6.0.5"
   dependencies:
     "cssesc" "^3.0.0"
-    "indexes-of" "^1.0.1"
-    "uniq" "^1.0.1"
     "util-deprecate" "^1.0.2"
 
 "postcss-value-parser@^4.1.0":
@@ -6668,19 +6661,17 @@
   "version" "1.2.0"
 
 "table@^6.0.4":
-  "integrity" "sha512-F3cLs9a3hL1Z7N4+EkSscsel3z55XT950AvB05bwayrNg5T1/gykXtigioTAjbltvbMSJvvhFCbnf6mX+ntnJQ=="
-  "resolved" "https://registry.npmjs.org/table/-/table-6.0.9.tgz"
-  "version" "6.0.9"
+  "integrity" "sha512-iZMtp5tUvcnAdtHpZTWLPF0M7AgiQsURR2DwmxnJwSy8I3+cY+ozzVvYha3BOLG2TB+L0CqjIz+91htuj6yCXg=="
+  "resolved" "https://registry.npmjs.org/table/-/table-6.6.0.tgz"
+  "version" "6.6.0"
   dependencies:
     "ajv" "^8.0.1"
-    "is-boolean-object" "^1.1.0"
-    "is-number-object" "^1.0.4"
-    "is-string" "^1.0.5"
     "lodash.clonedeep" "^4.5.0"
     "lodash.flatten" "^4.4.0"
     "lodash.truncate" "^4.4.2"
     "slice-ansi" "^4.0.0"
     "string-width" "^4.2.0"
+    "strip-ansi" "^6.0.0"
 
 "tapable@^1.0.0", "tapable@^1.1.3":
   "integrity" "sha512-4WK/bYZmj8xLr+HUCODHGF1ZFzsYffasLUgEiMBY4fgtltdO6B4WJtlSbPaDTLpYTcGVwM2qLnFTICEcNxs3kA=="
@@ -6966,11 +6957,6 @@
     "get-value" "^2.0.6"
     "is-extendable" "^0.1.1"
     "set-value" "^2.0.1"
-
-"uniq@^1.0.1":
-  "integrity" "sha1-sxxa6CVIRKOoKBVBzisEuGWnNP8="
-  "resolved" "https://registry.npmjs.org/uniq/-/uniq-1.0.1.tgz"
-  "version" "1.0.1"
 
 "unique-filename@^1.1.1":
   "integrity" "sha512-Vmp0jIp2ln35UTXuryvjzkjGdRyf9b2lTXuSYUiPmzRcl3FDtYqAwOnTJkAngD9SWhnoJzDbTKwaOrZ+STtxNQ=="

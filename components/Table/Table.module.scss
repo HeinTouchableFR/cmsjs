@@ -25,7 +25,7 @@
 
   tr {
     &:hover, &:focus{
-      background: var(---admin-table-hover);
+      background: var(--admin-table-hover);
     }
     td {
       vertical-align: middle;
