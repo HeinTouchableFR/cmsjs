@@ -2,9 +2,14 @@
     font-family: 'Coiny', cursive;
     height: 75px;
     box-sizing: border-box;
-    border-radius: 10px 0;
+    border-radius: 30px 0;
     position: relative;
     cursor: pointer;
+
+    border-width: 5px;
+    border-style: double;
+    width: 100px;
+    height: 100px;
 }
 
 .tag {
@@ -21,72 +26,180 @@
 
 .blue {
     color: #56c7fa;
-    background: linear-gradient(154deg, #56c7fa 50%, #f2f2f2 50%);
-    border: 1px solid #56c7fa;
+    background: linear-gradient(154deg, #56c7fa 50%, #FFFFFF 50%);
+    border-color: #56c7fa;
     .tag {
-        color: #f2f2f2;
+        color: #FFFFFF;
     }
 }
 
 .purple {
-    color: #f2f2f2;
-    background: linear-gradient(154deg, #f2f2f2 50%, purple 50%);
-    border: 1px solid purple;
+    color: purple;
+    background: linear-gradient(154deg, purple 50%, #FFFFFF 50%);
+    border-color: purple;
     .tag {
-        color: purple;
+        color: #FFFFFF;
     }
 }
 
 .violet {
-    color: #f2f2f2;
-    background: linear-gradient(154deg, #f2f2f2 50%, violet 50%);
-    border: 1px solid violet;
+    color: violet;
+    background: linear-gradient(154deg, violet 50%, #FFFFFF 50%);
+    border-color: violet;
     .tag {
-        color: violet;
+        color: #FFFFFF;
     }
 }
 
 .orange {
     color: #f76540;
-    background: linear-gradient(154deg, #f76540 50%, #f2f2f2 50%);
-    border: 1px solid #f76540;
+    background: linear-gradient(154deg, #f76540 50%, #FFFFFF 50%);
+    border-color: #f76540;
     .tag {
-        color: #f2f2f2;
+        color: #FFFFFF;
     }
 }
 
 .brown {
-    color: #f2f2f2;
-    background: linear-gradient(154deg, #f2f2f2 50%, #540 50%);
-    border: 1px solid #540;
+    color: #540;
+    background: linear-gradient(154deg, #540 50%, #FFFFFF 50%);
+    border-color: #540;
     .tag {
-        color: #540;
+        color: #FFFFFF;
     }
 }
 
 .yellow {
     color: #ffcb05;
-    background: linear-gradient(154deg, #ffcb05 50%, #f2f2f2 50%);
-    border: 1px solid #ffcb05;
+    background: linear-gradient(154deg, #ffcb05 50%, #FFFFFF 50%);
+    border-color: #ffcb05;
     .tag {
-        color: #f2f2f2;
+        color: #FFFFFF;
     }
 }
 
 .teal {
-    color: #f2f2f2;
-    background: linear-gradient(154deg, #f2f2f2 50%, #62cd9f 50%);
-    border: 1px solid #62cd9f;
+    color: #62cd9f;
+    background: linear-gradient(154deg, #62cd9f 50%, #FFFFFF 50%);
+    border-color: #62cd9f;
     .tag {
-        color: #62cd9f;
+        color: #FFFFFF;
     }
 }
 
 .pink {
     color: #b67baa;
-    background: linear-gradient(154deg, #b67baa 50%, #f2f2f2 50%);
-    border: 1px solid #b67baa;
+    background: linear-gradient(154deg, #b67baa 50%, #FFFFFF 50%);
+    border-color: #b67baa;
     .tag {
-        color: #f2f2f2;
+        color: #FFFFFF;
+    }
+}
+
+.red {
+    color: red;
+    background: linear-gradient(154deg, red 50%, #FFFFFF 50%);
+    border-color: red;
+    .tag {
+        color: #FFFFFF;
+    }
+}
+
+.green {
+    color: green;
+    background: linear-gradient(154deg, green 50%, #FFFFFF 50%);
+    border-color: green;
+    .tag {
+        color: #FFFFFF;
+    }
+}
+
+.blue-reversed{
+    color: #FFFFFF;
+    background: linear-gradient(154deg, #FFFFFF 50%, #56c7fa 50%);
+    border-color: #56c7fa;
+    .tag {
+        color: #56c7fa;
+    }
+}
+
+.purple-reversed {
+    color: #FFFFFF;
+    background: linear-gradient(154deg, #FFFFFF 50%, purple 50%);
+    border-color: purple;
+    .tag {
+        color: purple;
+    }
+}
+
+.violet-reversed {
+    color: #FFFFFF;
+    background: linear-gradient(154deg, #FFFFFF 50%, violet 50%);
+    border-color: violet;
+    .tag {
+        color: violet;
+    }
+}
+
+.orange-reversed {
+    color: #FFFFFF;
+    background: linear-gradient(154deg, #FFFFFF 50%, #f76540 50%);
+    border-color: #f76540;
+    .tag {
+        color: #f76540;
+    }
+}
+
+.brown-reversed {
+    color: #FFFFFF;
+    background: linear-gradient(154deg, #FFFFFF 50%, #540 50%);
+    border-color: #540;
+    .tag {
+        color: #540;
+    }
+}
+
+.yellow-reversed {
+    color: #FFFFFF;
+    background: linear-gradient(154deg, #FFFFFF 50%, #ffcb05 50%);
+    border-color: #ffcb05;
+    .tag {
+        color: #ffcb05;
+    }
+}
+
+.teal-reversed {
+    color: #FFFFFF;
+    background: linear-gradient(154deg, #FFFFFF 50%, #62cd9f 50%);
+    border-color: #62cd9f;
+    .tag {
+        color: #62cd9f;
+    }
+}
+
+.pink-reversed {
+    color: #FFFFFF;
+    background: linear-gradient(154deg, #FFFFFF 50%, #b67baa 50%);
+    border-color: #b67baa;
+    .tag {
+        color: #b67baa;
+    }
+}
+
+.red-reversed {
+    color: #FFFFFF;
+    background: linear-gradient(154deg, #FFFFFF 50%, red 50%);
+    border-color: red;
+    .tag {
+        color: red;
+    }
+}
+
+.green-reversed {
+    color: #FFFFFF;
+    background: linear-gradient(154deg, #FFFFFF 50%, green 50%);
+    border-color: green;
+    .tag {
+        color: green;
     }
 }

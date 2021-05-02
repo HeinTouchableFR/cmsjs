@@ -82,7 +82,7 @@ export default function Navigation({ components,
     };
 
     // This method is needed for rendering clones of draggables
-    const getRenderItem = (items) => (provided, snapshot, rubric) => {
+    const getRenderItem = (items, name) => (provided, snapshot, rubric) => {
         const item = items[rubric.source.index];
         const { innerRef, draggableProps, dragHandleProps } = provided;
         return (
@@ -96,7 +96,7 @@ export default function Navigation({ components,
                     <Component
                         tag={item.tag}
                         label={item.label}
-                        color={item.color}
+                        color={name === 'componentsLeft' ? item.color : `${item.color}-reversed`}
                         tooltip={item.tooltip}
                     />
                 </div>
@@ -183,7 +183,7 @@ export default function Navigation({ components,
     const DroppablePanel = (items, name) => (
         <Droppable
             droppableId={name}
-            renderClone={getRenderItem(items)}
+            renderClone={getRenderItem(items, name)}
             isDropDisabled
         >
             {(provided, _snapshot) => (
@@ -202,7 +202,7 @@ export default function Navigation({ components,
                                         <Component
                                             tag={item.tag}
                                             label={item.label}
-                                            color={item.color}
+                                            color={name === 'componentsLeft' ? item.color : `${item.color}-reversed`}
                                             tooltip={item.tooltip}
                                             key={item.type}
                                         />
@@ -225,7 +225,7 @@ export default function Navigation({ components,
                                                 <Component
                                                     tag={item.tag}
                                                     label={item.label}
-                                                    color={item.color}
+                                                    color={name === 'componentsLeft' ? item.color : `${item.color}-reversed`}
                                                     tooltip={item.tooltip}
                                                 />
                                             </div>

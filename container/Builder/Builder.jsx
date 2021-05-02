@@ -59,6 +59,16 @@ export default function Builder({ page,
         onSubmit(e, layouts, params);
     };
 
+    let isReversed = true;
+
+    const switchColor = (color) => {
+        isReversed = !isReversed;
+
+        return isReversed
+            ? `${color}-reversed`
+            : color;
+    };
+
     return (
         <>
             <Head>
@@ -125,11 +135,11 @@ export default function Builder({ page,
                             <Component
                                 tag={item.tag}
                                 label={item.label}
-                                color={item.color}
+                                color={switchColor(item.color)}
                                 key={item.type}
                                 onClick={() => addComponentFromPortal(item)}
                             />
-                        ))}
+))}
                     </Portal.Pallet>
                 </Portal>
             </div>

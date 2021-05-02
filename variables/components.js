@@ -5,7 +5,7 @@ export default class defaultComponents {
             label: intl.formatMessage({
                 id: 'button', defaultMessage: 'button',
             }),
-            color: 'teal',
+            color: 'green',
             type: 'button',
             defaultValue: {
                 text: `${intl.formatMessage({
@@ -742,7 +742,7 @@ export default class defaultComponents {
             label: intl.formatMessage({
                 id: 'image', defaultMessage: 'Image',
             }),
-            color: 'orange',
+            color: 'red',
             type: 'image',
             defaultValue: {
                 image: {
