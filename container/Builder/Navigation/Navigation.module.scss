@@ -1,7 +1,7 @@
 .navigation {
   width: 355px;
-  background-color: var(--admin-background);
-  border-right: solid 1px var(--admin-border);
+  background-color: var(--color-background);
+  border-right: solid 1px var(--color-gray);
   position: fixed;
   transition: transform 0.5s;
   z-index: 1001;
@@ -71,10 +71,10 @@
   left: 332px;
   width: 40px;
   height: 40px;
-  border: solid 1px var(--admin-border);
-  background-color: var(--admin-background);
+  border: solid 1px var(--color-gray);
+  background-color: var(--color-background);
   border-radius: 50%;
-  color: var(--admin-color);
+  color: var(--color-dark);
   font-weight: 700;
   font-size: 20px;
   cursor: pointer;

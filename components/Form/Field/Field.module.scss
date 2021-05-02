@@ -8,7 +8,7 @@
     font-size: 1rem;
     font-weight: 600;
     font-family: 'Poppins', sans-serif;
-    color: var(--admin-color);
+    color: var(--color-dark);
     text-decoration: underline;
 
     .subLabel {
@@ -21,7 +21,7 @@
 
         &[data-selected=true]{
           font-weight: bold;
-          color: var(--admin-text-grey)
+          color: var(--color-gray)
         }
       }
     }

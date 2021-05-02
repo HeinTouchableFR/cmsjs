@@ -1,11 +1,11 @@
 .flash {
   display: block;
   width: 100%;
-  background: var(--admin-header);
-  box-shadow: 1px 3px 3px 0 var(--admin-shadow), 1px 3px 15px 2px var(--admin-shadow);
+  background: var(--color-background);
+  box-shadow: 1px 3px 3px 0 var(--color-shadow), 1px 3px 15px 2px var(--color-shadow);
   margin-bottom: 1rem;
   padding: 1rem;
-  color: var(--admin-color);
+  color: var(--color-dark);
   font-family: Poppins, sans-serif;
   border-left-width: 2px;
   border-left-style: solid;
@@ -26,25 +26,29 @@
   }
 
   .message {
-    color: var(--admin-text-grey);
+    color: var(--color-gray);
     font-size: 1rem;
   }
 
   .request {
-    color: var(--admin-text-grey);
+    color: var(--color-gray);
     font-size: .7rem;
   }
 
   &.error {
-    border-left-color: red;
+    border-left-color: var(--color-error);
   }
 
   &.warning {
-    border-left-color: orange;
+    border-left-color: var(--color-warning);
   }
 
   &.info {
-    border-left-color: deepskyblue;
+    border-left-color: var(--color-info);
+  }
+
+  &.success {
+    border-left-color: var(--color-success);
   }
 }
 

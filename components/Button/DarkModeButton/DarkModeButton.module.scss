@@ -9,7 +9,7 @@
     top: 5px;
     width: 16px;
     height: 16px;
-    color: var(--main-color);
+    color: var(--color-contrast);
     opacity: 1;
     transition: .3s;
   }
@@ -31,7 +31,7 @@
   }
 
   input:checked+label .switch {
-    background: #0f1224!important;
+    background: var(--color-dark)!important;
   }
 }
 
@@ -64,8 +64,8 @@
   width: 55px;
   height: 26px;
   display: inline-block;
-  background: #f7fafb;
-  border: 1px solid var(--admin-border);
+  background: var(--color-background);
+  border: 1px solid var(--color-dark);
   box-shadow: 0 1px 4px rgb(213 222 233 / 20%);
   border-radius: 100px;
   margin-right: 8px;
@@ -73,11 +73,13 @@
 
   &.switch::before {
     content: "";
+    position: relative;
+    top: -1px;
     display: block;
     height: 24px;
     width: 24px;
-    background: var(--contrast);
-    border: 1px solid var(--admin-border);
+    background: var(--color-light);
+    border: 1px solid var(--color-gray);
     box-shadow: 0 1px 4px rgb(213 222 233 / 20%);
     border-radius: 100px;
     transition: transform .3s;

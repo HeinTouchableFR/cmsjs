@@ -8,7 +8,7 @@
     font-size: 1rem;
     font-weight: 600;
     font-family: 'Poppins', sans-serif;
-    color: var(--admin-color);
+    color: var(--color-dark);
   }
 }
 
@@ -17,7 +17,7 @@
   label {
     &:after{
       content: '*';
-      color: #FF0000;
+      color: var(--color-required);
       margin: -0.2em 0 0 0.2em;
     }
   }
@@ -26,9 +26,9 @@
 
 .ui {
   textarea {
-    border: 1px solid var(--admin-border);
-    background: var(--admin-header);
-    color: var(--admin-color);
+    border: 1px solid var(--color-gray);
+    background: var(--color-background);
+    color: var(--color-dark);
     font-size: 1rem;
     margin: 0;
     padding: .70em 1em;

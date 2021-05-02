@@ -3,12 +3,13 @@
   display: inline-block;
   float: right;
   font-size: 1.5rem;
+  color: var(--color-contrast);
 
   span {
     visibility: hidden;
     width: 240px;
-    background-color: var(--admin-header);
-    color: var(--admin-color);
+    background-color: var(--color-background);
+    color: var(--color-dark);
     text-align: center;
     padding: 10px;
     border-radius: 6px;
@@ -19,7 +20,7 @@
     margin-left: -120px;
     opacity: 0;
     transition: opacity 0.3s;
-    border: solid 1px var(--admin-border);
+    border: solid 1px var(--color-gray);
     font-size: 1rem;
 
     &:after {
@@ -30,7 +31,7 @@
       margin-left: -5px;
       border-width: 5px;
       border-style: solid;
-      border-color: transparent transparent var(--admin-border) transparent;
+      border-color: transparent transparent var(--color-gray) transparent;
     }
   }
 

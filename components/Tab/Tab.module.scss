@@ -4,7 +4,7 @@
     font-size: 0.9rem;
     font-family: 'Poppins' ,sans-serif;
     font-weight: 400;
-    border-bottom: 2px solid var(--admin-border);
+    border-bottom: 2px solid var(--color-gray);
     height: 3em;
   }
 
@@ -20,17 +20,17 @@
     background: 0 0;
     padding: 1em 1.15em;
     text-transform: none;
-    color: var(--admin-color);
+    color: var(--color-dark);
     font-weight: 400;
     transition: background .1s ease,box-shadow .1s ease,color .1s ease;
     cursor: pointer;
     outline: none;
-    border-bottom: solid 2px var(--admin-border);
+    border-bottom: solid 2px var(--color-gray);
     margin: 0 0 -2px;
 
     &.active {
       font-weight: 700;
-      border-bottom-color: var(--admin-color);
+      border-bottom-color: var(--color-dark);
     }
 
 
@@ -40,7 +40,7 @@
 .tab {
   display: block;
   position: relative;
-  color: var(--admin-color);
+  color: var(--color-dark);
   padding: 1em 1em;
   min-height: 100%;
 }

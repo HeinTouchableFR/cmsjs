@@ -21,7 +21,7 @@
     font-size: 1rem;
     font-weight: 600;
     font-family: 'Poppins', sans-serif;
-    color: var(--admin-color);
+    color: var(--color-dark);
   }
 
   input:checked+label .switch::before {
@@ -38,8 +38,8 @@
   width: 55px;
   height: 26px;
   display: inline-block;
-  background: #f7fafb;
-  border: 1px solid var(--admin-border);
+  background: var(--color-background);
+  border: 1px solid var(--color-gray);
   box-shadow: 0 1px 4px rgb(213 222 233 / 20%);
   border-radius: 100px;
   margin-right: 8px;
@@ -50,8 +50,8 @@
     display: block;
     height: 24px;
     width: 24px;
-    background: var(--contrast);
-    border: 1px solid var(--admin-border);
+    background: var(--color-light);
+    border: 1px solid var(--color-gray);
     box-shadow: 0 1px 4px rgb(213 222 233 / 20%);
     border-radius: 100px;
     transition: transform .3s;
@@ -62,7 +62,7 @@
   label {
     &:after{
       content: '*';
-      color: #FF0000;
+      color: var(--color-required);
       margin: -0.2em 0 0 0.2em;
     }
   }

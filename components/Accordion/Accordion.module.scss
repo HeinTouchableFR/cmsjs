@@ -1,5 +1,5 @@
 .accordion {
-  background-color: var(--admin-header);
+  background-color: var(--color-background);
   cursor: pointer;
   width: 100%;
   text-align: left;
@@ -12,7 +12,7 @@
 .accordion__title{
   width: 100%;
   text-align: left;
-  color: var(--admin-color);
+  color: var(--color-dark);
   font-weight: bold;
   padding: 10px 10px;
   display: grid;
@@ -35,12 +35,12 @@
 }
 
 .accordion__title.active{
-  border-bottom: 1px solid var(--admin-border);
+  border-bottom: 1px solid var(--color-gray);
 }
 
 .accordion__content {
   padding: 20px 15px;
-  background-color: var(--admin-header);
+  background-color: var(--color-background);
   display: none;
 }
 
@@ -59,10 +59,10 @@
 }
 
 .border {
-  border: solid 1px var(--admin-border);
+  border: solid 1px var(--color-gray);
   border-radius: 5px;
   & .accordion__title{
-    background-color: var(--admin-header);
+    background-color: var(--color-background);
     border-radius: 5px;
   }
 }

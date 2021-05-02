@@ -25,7 +25,7 @@
   font-family: "Poppins", sans-serif;
   font-weight: 500;
   font-size: 1.5rem;
-  color: var(--admin-color);
+  color: var(--color-dark);
   letter-spacing: 0.15rem;
   position: absolute;
   left: 50%;
@@ -35,7 +35,7 @@
 
 .login_wrapper {
   width: 960px;
-  background: var(--admin-card);
+  background: var(--color-background);
   border-radius: 10px;
   overflow: hidden;
   display: grid;
@@ -55,17 +55,17 @@
 
     button {
       display: block;
-      background: var(--admin-main-color);
+      background: var(--color-gray);
       border-radius: 10px;
       color: #FFF;
       font-size: 1.3rem;
       font-family: "Poppins", sans-serif;
       padding: 0.5rem 1rem;
-      border: 1px solid var(--admin-main-color);
+      border: 1px solid var(--color-gray);
       margin: auto;
 
       &:hover {
-        background: darkenFromVar(var(--admin-main-color), 0.2);
+        background: darkenFromVar(var(--color-gray), 0.2);
       }
 
       i {
@@ -79,7 +79,7 @@
   font-family: 'Poppins', sans-serif;
   font-weight: 600;
   font-size: 2rem;
-  color: var(--admin-color);
+  color: var(--color-dark);
   line-height: 1.2;
   text-align: center;
   width: 100%;

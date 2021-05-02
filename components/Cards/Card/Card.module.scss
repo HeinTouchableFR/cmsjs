@@ -1,64 +1,16 @@
 .card {
-  background: var(--admin-card);
+  background: var(--color-card);
   border-radius: 0.3em;
-  border: solid 1px var(--admin-border);
-
-  &.red {
-    border-bottom: solid 1px red;
-  }
-
-  &.orange {
-    border-bottom: solid 1px orange;
-  }
-
-  &.yellow {
-    border-bottom: solid 1px yellow;
-  }
-
-  &.olive {
-    border-bottom: solid 1px olive;
-  }
-
-  &.green {
-    border-bottom: solid 1px green;
-  }
-
-  &.teal {
-    border-bottom: solid 1px teal;
-  }
-
-  &.blue {
-    border-bottom: solid 1px blue;
-  }
-
-  &.violet {
-    border-bottom: solid 1px violet;
-  }
-
-  &.purple {
-    border-bottom: solid 1px purple;
-  }
-
-  &.pink {
-    border-bottom: solid 1px pink;
-  }
-
-  &.brown {
-    border-bottom: solid 1px brown;
-  }
-
-  &.grey {
-    border-bottom: solid 1px grey;
-  }
+  border: solid 1px var(--color-gray);
 }
 
 .card_header, .card_body, .card_footer {
   padding: 1rem;
-  color: var(--admin-color);
+  color: var(--color-dark);
   box-shadow: none;
 }
 .card_header {
-  border-bottom: 1px solid var(--admin-border);
+  border-bottom: 1px solid var(--color-gray);
   .content {
     display: flex;
     justify-content: space-between;
@@ -67,18 +19,18 @@
     .title {
       font-weight: 600;
       font-size: 1.5rem;
-      color: var(--admin-color);
+      color: var(--color-dark);
     }
   }
 
   .meta {
     font-size: 1em;
-    color: var(--admin-text-grey);
+    color: var(--color-dark);
   }
 }
 
 
 .card_footer {
-  border-top: 1px solid var(--admin-border);
-  color: var(--admin-text-grey);
+  border-top: 1px solid var(--color-gray);
+  color: var(--color-dark);
 }

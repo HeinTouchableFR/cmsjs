@@ -29,9 +29,9 @@
     width: 900px;
     min-height: 250px;
     text-align: left;
-    background: var(--admin-header);
+    background: var(--color-background);
     border: none;
-    box-shadow: 1px 3px 3px 0 var(--admin-shadow), 1px 3px 15px 2px var(--admin-shadow);
+    box-shadow: 1px 3px 3px 0 var(--color-shadow-dark), 1px 3px 15px 2px var(--color-shadow-dark);
     transform-origin: 50% 25%;
     flex: 0 0 auto;
     border-radius: .3rem;
@@ -47,7 +47,7 @@
       z-index: 1;
       opacity: .8;
       font-size: 1.25em;
-      color: #fff;
+      color: var(--color-light);
       width: 2.25rem;
       height: 2.25rem;
       padding: .625rem 0 0 0;
@@ -61,12 +61,12 @@
     .header {
       display: block;
       font-family: 'Poppins',sans-serif;
-      background: var(--admin-header);
+      background: var(--color-gray);
       margin: 0;
       padding: 1.25rem 1.5rem;
       box-shadow: none;
-      color: var(--admin-color);
-      border-bottom: 1px solid var(--admin-border);
+      color: var(--color-dark);
+      border-bottom: 1px solid var(--color-gray);
       border-top-right-radius: 0.3rem;
       border-top-left-radius: 0.3rem;
 
@@ -91,8 +91,7 @@
       font-size: 1rem;
       line-height: 1.4;
       padding: 1rem;
-      background: var(--admin-header);
-      color: var(--admin-color);
+      color: var(--color-dark);
       overflow-y: scroll;
 
       &::-webkit-scrollbar-track
@@ -115,11 +114,11 @@
     }
 
     .footer {
-      background: var(--admin-header);
-      color: var(--admin-color);
+      background: var(--color-background);
+      color: var(--color-dark);
       padding: 1rem;
       font-size: 1rem;
-      border-top: 1px solid var(--admin-border);
+      border-top: 1px solid var(--color-gray);
       text-align: right;
     }
   }

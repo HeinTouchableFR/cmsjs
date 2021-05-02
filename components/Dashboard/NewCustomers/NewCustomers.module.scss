@@ -21,12 +21,12 @@
   h4{
     font-size: .9rem;
     font-weight: 600;
-    color: var(--admin-color);
+    color: var(--color-dark);
   }
 
   small{
     font-weight: 500;
-    color: var(--admin-text-grey);
+    color: var(--color-dark);
     font-size: .8rem;
   }
 }
@@ -36,11 +36,11 @@
     font-size: 1.2rem;
     display: inline-block;
     margin-left: .5rem;
-    color: var(--admin-icon);
+    color: var(--color-contrast);
     cursor: pointer;
   }
 
   span:hover {
-    color: darkenFromVar(var(--admin-icon), 0.2);
+    color: var(--color-contrast);
   }
 }

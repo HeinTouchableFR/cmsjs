@@ -4,16 +4,16 @@
 @import 'style/modules/menu';
 
 #nprogress .bar {
-    background: var(--admin-icon) !important;
+    background: var(--color-contrast) !important;
 }
 
 #nprogress .peg {
-    box-shadow: 0 0 10px var(--admin-icon), 0 0 5px var(--admin-icon);
+    box-shadow: 0 0 10px var(--color-contrast), 0 0 5px var(--color-contrast);
 }
 
 #nprogress .spinner-icon {
-    border-top-color: var(--admin-icon);
-    border-left-color: var(--admin-icon);
+    border-top-color: var(--color-contrast);
+    border-left-color: var(--color-contrast);
 }
 
 p {
