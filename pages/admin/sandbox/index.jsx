@@ -1,47 +1,30 @@
 import React from 'react';
 import DarkModeButton from 'components/Button/DarkModeButton/DarkModeButton';
-import Input from '../../../components/Form/Input/Input';
-import TextArea from '../../../components/Form/TextArea/TextArea';
-import Dropdown from '../../../components/Form/Dropdown/Dropdown';
-import {contentWidthOptions} from '../../../variables/options';
-import Checkbox from '../../../components/Form/Checkbox/Checkbox';
-import Button from '../../../components/Button/Button';
-import ActionButton from '../../../components/Button/ActionButton/ActionButton';
-import Flash from '../../../components/Flash/Flash';
+import Component from '../../../components/ComponentCollection/Component';
+import Head from 'next/head';
 
 export default function Index() {
     return (
         <>
+            <Head>
+                <link
+                    rel='stylesheet'
+                    href='https://pro.fontawesome.com/releases/v5.10.0/css/all.css'
+                    integrity='sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p'
+                    crossOrigin='anonymous'
+                />
+                <link
+                    rel='stylesheet'
+                    href='https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css'
+                />
+            </Head>
             <DarkModeButton />
             <div className='sandbox-container'>
-                <Input
-                    label='test'
-                    required
-                    tip={'test'}
-                />
-                <TextArea
-                    label='test'
-                    required
-                />
-                <Dropdown
-                    label='test'
-                    required
-                    options={contentWidthOptions}
-                />
-                <Checkbox
-                    label='test'
-                    required
-                />
-                <ActionButton
-                    label='label'
-                    type='submit'
-                />
-                <Button
-                    label='label'
-                    type='submit'
-                />
-                <Flash
-                    error={{status:'500', code:'test', message: 'test test'}}
+                <Component
+                    onClick={() => console.log('test')}
+                    label='Text'
+                    color='purple'
+                    icon='fa-align-left'
                 />
             </div>
         </>

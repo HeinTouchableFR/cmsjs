@@ -1,7 +1,7 @@
 export default class defaultComponents {
     static defaultButton(intl) {
         return {
-            tag: '<button>',
+            icon: 'fa-closed-captioning',
             label: intl.formatMessage({
                 id: 'button', defaultMessage: 'button',
             }),
@@ -283,11 +283,11 @@ export default class defaultComponents {
 
     static defaultTitle(intl) {
         return {
-            tag: '<h1>',
+            icon: 'fa-text',
             label: intl.formatMessage({
                 id: 'title', defaultMessage: 'Title',
             }),
-            color: 'blue',
+            color: 'teal',
             type: 'title',
             defaultValue: {
                 text: `${intl.formatMessage({
@@ -516,7 +516,7 @@ export default class defaultComponents {
 
     static defaultText(intl) {
         return {
-            tag: '<p>',
+            icon: 'fa-align-left',
             label: intl.formatMessage({
                 id: 'textEditor', defaultMessage: 'Text',
             }),
@@ -738,7 +738,7 @@ export default class defaultComponents {
 
     static defaultImage(intl) {
         return {
-            tag: '<img/>',
+            icon: 'fa-image',
             label: intl.formatMessage({
                 id: 'image', defaultMessage: 'Image',
             }),
@@ -964,7 +964,7 @@ export default class defaultComponents {
 
     static defaultLink(intl) {
         return {
-            tag: '<Link>',
+            icon: 'fa-link',
             label: intl.formatMessage({
                 id: 'link', defaultMessage: 'link',
             }),
@@ -1197,7 +1197,7 @@ export default class defaultComponents {
 
     static defaultLogo(intl) {
         return {
-            tag: '<img/>',
+            icon: 'fa-eye',
             label: intl.formatMessage({
                 id: 'logo', defaultMessage: 'Logo',
             }),
@@ -1418,7 +1418,7 @@ export default class defaultComponents {
 
     static defaultMenu(intl) {
         return {
-            tag: '<nav/>',
+            icon: 'fa-bars',
             label: intl.formatMessage({
                 id: 'menu', defaultMessage: 'Menu',
             }),

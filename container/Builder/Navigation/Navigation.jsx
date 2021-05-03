@@ -94,9 +94,9 @@ export default function Navigation({ components,
                     style={draggableProps.style}
                 >
                     <Component
-                        tag={item.tag}
+                        icon={item.icon}
                         label={item.label}
-                        color={name === 'componentsLeft' ? item.color : `${item.color}-reversed`}
+                        color={item.color}
                         tooltip={item.tooltip}
                     />
                 </div>
@@ -200,9 +200,9 @@ export default function Navigation({ components,
                                         key={item.type}
                                     >
                                         <Component
-                                            tag={item.tag}
+                                            icon={item.icon}
                                             label={item.label}
-                                            color={name === 'componentsLeft' ? item.color : `${item.color}-reversed`}
+                                            color={item.color}
                                             tooltip={item.tooltip}
                                             key={item.type}
                                         />
@@ -223,9 +223,9 @@ export default function Navigation({ components,
                                                     snapshot)}
                                             >
                                                 <Component
-                                                    tag={item.tag}
+                                                    icon={item.icon}
                                                     label={item.label}
-                                                    color={name === 'componentsLeft' ? item.color : `${item.color}-reversed`}
+                                                    color={item.color}
                                                     tooltip={item.tooltip}
                                                 />
                                             </div>
