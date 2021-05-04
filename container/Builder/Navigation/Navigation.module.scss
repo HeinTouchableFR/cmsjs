@@ -37,6 +37,7 @@
 }
 
 .tab {
+  display: none;
   position: absolute;
   width: 195px;
   height: 30px;
@@ -49,6 +50,18 @@
   cursor: pointer;
   transition: background-color .2s, width .5s, top .5s, height .5s;
   z-index: 200;
+
+  &.visible {
+    display: block;
+  }
+
+  .moveCursor {
+    display: none;
+    cursor: grab;font-size: 1rem;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+  }
 
   &.left {
     left: 10px;
@@ -82,6 +95,10 @@
     height: calc(100% - 50px);
     width: 355px;
     border: solid 1px var(--color-contrast);
+
+    .moveCursor {
+      display: block;
+    }
 
     &.small {
       top: calc(100% - 470px);

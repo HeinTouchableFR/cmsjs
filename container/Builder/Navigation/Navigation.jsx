@@ -1,5 +1,5 @@
 import React, {
-    useEffect, useState,
+    useEffect, useRef, useState,
 } from 'react';
 import { useIntl } from 'react-intl';
 import slugify from 'react-slugify';
@@ -41,7 +41,7 @@ export default function Navigation({ components,
         slug: page.slug || '',
     });
 
-    const [activeIndex, setActiveIndex] = useState(0);
+    const [activeIndex, setActiveIndex] = useState(1);
     const handleTabChange = (index) => {
         if (index !== activeIndex) {
             setActiveIndex(index);
@@ -89,6 +89,69 @@ export default function Navigation({ components,
             });
         }
     };
+
+    /**
+     * Variables used to move the component tab
+     */
+    const componentTabRef = useRef(null);
+    let mousePosition;
+    let width;
+    let offset = [0, 0];
+    let minMaxOffsetX = [220, 1500];
+    let isDown = false;
+
+    /**
+     * Handle moving tab
+     */
+    useEffect(() => {
+        width = (window.innerWidth > 0) ? (window.innerWidth) : 1500;
+        document.addEventListener('mouseup', () => {
+            isDown = false;
+        }, true);
+
+        const handleMoveTab = (e) => {
+            if (isDown) {
+                mousePosition = {
+                    x: e.clientX,
+                };
+                minMaxOffsetX = [
+                    20,
+                    (width - 195 - 40 + offset[0]),
+                ];
+                const right = width - mousePosition.x - 25;
+                if (right > minMaxOffsetX[0] && right < minMaxOffsetX[1]) {
+                    componentTabRef.current.style.right = `${right}px`;
+                }
+            }
+        };
+
+        document.addEventListener('mousemove', handleMoveTab, true);
+
+        return function cleanup() {
+            document.removeEventListener('mousemove', handleMoveTab, false);
+        };
+    }, []);
+
+    /**
+     * Detection of the width of the tab + activation of movement
+     */
+    useEffect(() => {
+        const mousePointer = componentTabRef.current.querySelector('i');
+        const getOffset = (e) => {
+            isDown = true;
+            offset = [
+                componentTabRef.current.offsetLeft - e.clientX,
+            ];
+        };
+
+        if (componentTabRef && componentTabRef.current) {
+            mousePointer.addEventListener('mousedown', getOffset, true);
+        }
+
+        return function cleanup() {
+            mousePointer.removeEventListener('mousedown', getOffset, false);
+        };
+    }, [componentTabRef]);
 
     // This method is needed for rendering clones of draggables
     const getRenderItem = (items) => (provided, snapshot, rubric) => {
@@ -189,7 +252,7 @@ export default function Navigation({ components,
     return (
         <>
             <div
-                className={`${styles.tab} ${styles.left} ${styles.small} ${activeIndex === 0 && styles.active}`}
+                className={`${styles.tab} ${styles.visible} ${styles.left} ${styles.small} ${activeIndex === 0 && styles.active}`}
                 onClick={() => handleTabChange(0)}
                 onKeyDown={() => handleTabChange(0)}
                 role='button'
@@ -350,43 +413,47 @@ export default function Navigation({ components,
                     )}
                 </Droppable>
             </div>
-            {
-                currentElement.type && (
-                    <div
-                        className={`${styles.tab} ${styles.right} ${activeIndex === 1 && styles.active}`}
-                        onClick={() => handleTabChange(1)}
-                        onKeyDown={() => handleTabChange(1)}
-                        role='button'
-                        tabIndex={0}
-                    >
-                        <div
-                            className={`${styles.header}`}
-                            onClick={() => handleTabClose(1)}
-                            onKeyDown={() => handleTabClose(1)}
-                            role='button'
-                            tabIndex={0}
-                        >
-                            {`${intl.formatMessage({
-                                id: 'edit',
-                                defaultMessage: 'Edit',
-                            })} ${intl.formatMessage({
-                                id: currentElement.type,
-                            })}`}
-                        </div>
-                        <div className={`${styles.content}`}>
-                            <ComponentDispatcher
-                                element={currentElement}
-                                mode='editor'
-                                device={device}
-                                onElementValueChange={onElementValueChange}
-                                onLayoutValueChange={onLayoutValueChange}
-                                images={images}
-                                setImages={setImages}
-                            />
-                        </div>
-                    </div>
-                )
-            }
+            <div
+                className={`${styles.tab} ${currentElement.type && styles.visible} ${styles.right} ${activeIndex === 1 && styles.active}`}
+                onClick={() => handleTabChange(1)}
+                onKeyDown={() => handleTabChange(1)}
+                role='button'
+                tabIndex={0}
+                ref={componentTabRef}
+            >
+                <i className={`fas fa-arrows-alt ${styles.moveCursor}`} />
+                {
+                    currentElement.type && (
+                        <>
+                            <div
+                                className={`${styles.header}`}
+                                onClick={() => handleTabClose(1)}
+                                onKeyDown={() => handleTabClose(1)}
+                                role='button'
+                                tabIndex={0}
+                            >
+                                {`${intl.formatMessage({
+                                    id: 'edit',
+                                    defaultMessage: 'Edit',
+                                })} ${intl.formatMessage({
+                                    id: currentElement.type,
+                                })}`}
+                            </div>
+                            <div className={`${styles.content}`}>
+                                <ComponentDispatcher
+                                    element={currentElement}
+                                    mode='editor'
+                                    device={device}
+                                    onElementValueChange={onElementValueChange}
+                                    onLayoutValueChange={onLayoutValueChange}
+                                    images={images}
+                                    setImages={setImages}
+                                />
+                            </div>
+                        </>
+                    )
+                }
+            </div>
         </>
     );
 }
