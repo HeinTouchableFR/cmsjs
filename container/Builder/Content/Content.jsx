@@ -15,7 +15,6 @@ export default function Content({ layouts,
     onLayoutClick,
     currentElement,
     setCurrentElement,
-    hide,
     device,
     handleOpenPortal,
     mode,
@@ -28,7 +27,7 @@ export default function Content({ layouts,
     return (
         <>
             <Div
-                className={`${styles.content} ${hide ? styles.hide : ''} ${device === 'tablet' ? styles.tablet__preview : ''} ${device === 'mobile' ? styles.mobile__preview : ''}`}
+                className={`${styles.content} ${device === 'tablet' ? styles.tablet__preview : ''} ${device === 'mobile' ? styles.mobile__preview : ''}`}
             >
                 {mode === 'page'
                     ? (
@@ -113,7 +112,6 @@ Content.propTypes = {
     currentElement: PropTypes.shape({
     }).isRequired,
     device: PropTypes.string.isRequired,
-    hide: PropTypes.bool.isRequired,
     mode: PropTypes.string,
     type: PropTypes.string,
     params: PropTypes.shape({

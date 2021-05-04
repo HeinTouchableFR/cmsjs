@@ -26,8 +26,6 @@ export default function Builder({ page,
     const [currentElement, setCurrentElement] = useState({
     });
 
-    const [hideMenu, setHideMenu] = useState(false);
-
     const [device, setDevice] = useState('desktop');
 
     const components = modules;
@@ -43,13 +41,6 @@ export default function Builder({ page,
         currentElement,
         updateLayout,
         setCurrentElement);
-
-    /**
-     * Allows you to open or close the menu
-     */
-    const handleHideMenu = () => {
-        setHideMenu(!hideMenu);
-    };
 
     /**
      * Allows you to submit the page
@@ -71,28 +62,6 @@ export default function Builder({ page,
             </Head>
             <div className={styles.builder}>
                 <DragDropContext onDragEnd={onDragEnd}>
-                    <Navigation
-                        components={components}
-                        currentElement={currentElement}
-                        onElementValueChange={updateElement}
-                        onLayoutValueChange={updateLayout}
-                        setCurrentElement={setCurrentElement}
-                        hideMenu={handleHideMenu}
-                        onSubmit={handleSubmit}
-                        page={page}
-                        loading={loading}
-                        hide={hideMenu}
-                        device={device}
-                        setDevice={setDevice}
-                        images={images}
-                        setImages={setImages}
-                        mode={mode}
-                        content={layouts}
-                        formErrors={formErrors}
-                        errors={errors}
-                        params={params}
-                        setParams={setParams}
-                    />
                     <Content
                         layouts={layouts}
                         setLayouts={setLayouts}
@@ -103,12 +72,30 @@ export default function Builder({ page,
                         onLayoutClick={setCurrentElement}
                         currentElement={currentElement}
                         setCurrentElement={setCurrentElement}
-                        hide={hideMenu}
                         device={device}
                         handleOpenPortal={handleOpenPortal}
                         mode={mode}
                         type={page.type ? page.type : 'page'}
                         params={params}
+                    />
+                    <Navigation
+                        components={components}
+                        currentElement={currentElement}
+                        onElementValueChange={updateElement}
+                        onLayoutValueChange={updateLayout}
+                        onSubmit={handleSubmit}
+                        page={page}
+                        loading={loading}
+                        device={device}
+                        setDevice={setDevice}
+                        images={images}
+                        setImages={setImages}
+                        mode={mode}
+                        content={layouts}
+                        formErrors={formErrors}
+                        errors={errors}
+                        params={params}
+                        setParams={setParams}
                     />
                 </DragDropContext>
                 <Portal

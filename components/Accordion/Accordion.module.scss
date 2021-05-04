@@ -3,10 +3,10 @@
   cursor: pointer;
   width: 100%;
   text-align: left;
-  border: none;
   outline: none;
   transition: 0.4s;
   margin-bottom: 10px;
+  border: solid 1px var(--color-gray);
 }
 
 .accordion__title{
@@ -17,6 +17,11 @@
   padding: 10px 10px;
   display: grid;
   grid-template-columns: 20px auto;
+
+   i {
+     position: relative;
+     top: 3px;
+   }
 }
 
 .accordion__title i:before {

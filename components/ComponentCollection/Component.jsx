@@ -22,6 +22,10 @@ export default function Component({ icon, label, color, onClick }) {
 Component.propTypes = {
     color: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
-    onClick: PropTypes.string.isRequired,
+    onClick: PropTypes.func,
     icon: PropTypes.string.isRequired,
+};
+
+Component.defaultProps = {
+    onClick: () => {},
 };

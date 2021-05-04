@@ -17,8 +17,8 @@ export default function Accordion({ title,
                     type='button'
                 >
                     <i
-                        aria-hidden='true'
-                        className='dropdown icon'
+                        aria-hidden
+                        className='fas fa-caret-down'
                     />
                     {title}
                 </button>

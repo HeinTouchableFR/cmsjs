@@ -1,13 +1,12 @@
 .content {
-    min-height: 100vh;
+    max-height: calc(100vh - 140px);
     display: flex;
     flex-direction: column;
-    overflow: hidden;
+    overflow-y: scroll;
     position: relative;
     transition: left 0.5s, width 0.5s, min-width 0.5s, max-width 0.5s;
-    left: 177px;
     min-width: 1050px;
-    max-width: calc(100% - 355px);
+    max-width: 100%;
     width: 100%;
     background-color: #FFF;
     margin: 0 auto;

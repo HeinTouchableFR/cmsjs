@@ -258,8 +258,6 @@ export function useDnd(components, layouts, currentElement, updateLayout, setCur
     const [portal, setPortal] = useState({
         open: false,
     });
-    const rightComponents = components.filter((item, index) => index % 2 && item);
-    const leftComponents = components.filter((item, index) => !(index % 2) && item);
 
     /**
      * Allow you opens the tool pallet
@@ -450,7 +448,7 @@ export function useDnd(components, layouts, currentElement, updateLayout, setCur
     const move = (source, destination, droppableSource, droppableDestination) => {
         const result = {
         };
-        if (droppableSource.droppableId !== 'componentsLeft' && droppableSource.droppableId !== 'componentsRight') {
+        if (droppableSource.droppableId !== 'components') {
             const sourceClone = Array.from(source);
             const destClone = Array.from(destination);
             const [removed] = sourceClone.splice(droppableSource.index, 1);
@@ -481,7 +479,7 @@ export function useDnd(components, layouts, currentElement, updateLayout, setCur
             return;
         }
         // dropped inside components list
-        if (destination.droppableId === 'componentsLeft' || destination.droppableId === 'componentsRight') {
+        if (destination.droppableId === 'components') {
             return;
         }
         if (source.droppableId === destination.droppableId) {
@@ -491,8 +489,8 @@ export function useDnd(components, layouts, currentElement, updateLayout, setCur
         } else {
             let data = [];
             const columnDestination = getColumn(destination.droppableId);
-            if (source.droppableId === 'componentsLeft' || source.droppableId === 'componentsRight') {
-                data = move(source.droppableId === 'componentsLeft' ? leftComponents : rightComponents, columnDestination.elements, source, destination);
+            if (source.droppableId === 'components') {
+                data = move(components, columnDestination.elements, source, destination);
             } else {
                 const columnSource = getColumn(source.droppableId);
                 data = move(columnSource.elements,
@@ -514,7 +512,5 @@ export function useDnd(components, layouts, currentElement, updateLayout, setCur
         handleClosePortal,
         addComponentFromPortal,
         updateElement,
-        rightComponents,
-        leftComponents,
     };
 }

@@ -11,7 +11,6 @@ import ComponentDispatcher from 'components/ComponentCollection/ComponentDispatc
 import Input from 'components/Form/Input/Input';
 import Dropdown from 'components/Form/Dropdown/Dropdown';
 import Button from 'components/Button/Button';
-import Tab from 'components/Tab/Tab';
 import DarkModeButton from 'components/Button/DarkModeButton/DarkModeButton';
 import Flash from 'components/Flash/Flash';
 import ColorPicker from 'components/ColorPicker/ColorPicker';
@@ -22,14 +21,11 @@ export default function Navigation({ components,
     currentElement,
     onElementValueChange,
     onLayoutValueChange,
-    setCurrentElement,
     page,
     onSubmit,
     loading,
-    hide,
     device,
     setDevice,
-    hideMenu,
     images,
     setImages,
     mode,
@@ -47,19 +43,32 @@ export default function Navigation({ components,
 
     const [activeIndex, setActiveIndex] = useState(0);
     const handleTabChange = (index) => {
-        setCurrentElement({
-        });
-        setActiveIndex(index);
+        if (index !== activeIndex) {
+            setActiveIndex(index);
+        }
+    };
+
+    const handleTabClose = (index) => {
+        if (index === activeIndex) {
+            setActiveIndex(null);
+        }
     };
 
     useEffect(() => {
         if (currentElement.id === 'empty') {
-            setActiveIndex(1);
+            setActiveIndex(null);
         } else if (currentElement.type) {
-            setActiveIndex(2);
+            setActiveIndex(1);
         }
     },
     [currentElement]);
+
+    useEffect(() => {
+        if (errors.length > 0 || formErrors.slug) {
+            setActiveIndex(0);
+        }
+    },
+    [errors, formErrors]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -82,7 +91,7 @@ export default function Navigation({ components,
     };
 
     // This method is needed for rendering clones of draggables
-    const getRenderItem = (items, name) => (provided, snapshot, rubric) => {
+    const getRenderItem = (items) => (provided, snapshot, rubric) => {
         const item = items[rubric.source.index];
         const { innerRef, draggableProps, dragHandleProps } = provided;
         return (
@@ -170,9 +179,6 @@ export default function Navigation({ components,
         return false;
     };
 
-    const rightComponents = components.filter((item, index) => index % 2 && item);
-    const leftComponents = components.filter((item, index) => !(index % 2) && item);
-
     const handleColorChange = (color) => {
         setParams({
             ...params,
@@ -180,73 +186,27 @@ export default function Navigation({ components,
         });
     };
 
-    const DroppablePanel = (items, name) => (
-        <Droppable
-            droppableId={name}
-            renderClone={getRenderItem(items, name)}
-            isDropDisabled
-        >
-            {(provided, _snapshot) => (
+    return (
+        <>
+            <div
+                className={`${styles.tab} ${styles.left} ${styles.small} ${activeIndex === 0 && styles.active}`}
+                onClick={() => handleTabChange(0)}
+                onKeyDown={() => handleTabChange(0)}
+                role='button'
+                tabIndex={0}
+            >
                 <div
-                    className={styles.droppable}
-                    ref={provided.innerRef}
+                    className={`${styles.header}`}
+                    onClick={() => handleTabClose(0)}
+                    onKeyDown={() => handleTabClose(0)}
+                    role='button'
+                    tabIndex={0}
                 >
-                    {items.map((item, index) => {
-                        const shouldRenderClone = item.type === _snapshot.draggingFromThisWith;
-                        return (
-                            shouldRenderClone
-                                ? (
-                                    <div
-                                        key={item.type}
-                                    >
-                                        <Component
-                                            icon={item.icon}
-                                            label={item.label}
-                                            color={item.color}
-                                            tooltip={item.tooltip}
-                                            key={item.type}
-                                        />
-                                    </div>
-                                )
-                                : (
-                                    <Draggable
-                                        key={item.type}
-                                        draggableId={item.type}
-                                        index={index}
-                                    >
-                                        {(supplied, snapshot) => (
-                                            <div
-                                                ref={supplied.innerRef}
-                                                {...supplied.draggableProps}
-                                                {...supplied.dragHandleProps}
-                                                style={getStyle(supplied.draggableProps.style,
-                                                    snapshot)}
-                                            >
-                                                <Component
-                                                    icon={item.icon}
-                                                    label={item.label}
-                                                    color={item.color}
-                                                    tooltip={item.tooltip}
-                                                />
-                                            </div>
-                                        )}
-                                    </Draggable>
-                                )
-                        );
+                    {intl.formatMessage({
+                        id: 'settings', defaultMessage: 'Settings',
                     })}
-                    {provided.placeholder}
                 </div>
-            )}
-        </Droppable>
-    );
-
-    const panes = [
-        {
-            label: intl.formatMessage({
-                id: 'settings', defaultMessage: 'Settings',
-            }),
-            render: () => (
-                <Tab.Pane>
+                <div className={`${styles.content}`}>
                     <form
                         onSubmit={handleSubmit}
                         id='pageForm'
@@ -291,56 +251,6 @@ export default function Navigation({ components,
                             })}
                         />
                     </form>
-                </Tab.Pane>
-            ),
-        },
-        {
-            label: intl.formatMessage({
-                id: 'component', defaultMessage: 'Component',
-            }),
-            render: () => (
-                <Tab.Pane>
-                    <div className={`${styles.navGrid}`}>
-                        {DroppablePanel(leftComponents, 'componentsLeft')}
-                        {DroppablePanel(rightComponents, 'componentsRight')}
-                    </div>
-                </Tab.Pane>
-            ),
-        },
-        currentElement.type && {
-            label: `${intl.formatMessage({
-                id: 'edit',
-                defaultMessage: 'Edit',
-            })} ${intl.formatMessage({
-                id: currentElement.type,
-            })}`,
-            render: () => (
-                <Tab.Pane>
-                    <ComponentDispatcher
-                        element={currentElement}
-                        mode='editor'
-                        device={device}
-                        onElementValueChange={onElementValueChange}
-                        onLayoutValueChange={onLayoutValueChange}
-                        images={images}
-                        setImages={setImages}
-                    />
-                </Tab.Pane>
-            ),
-        },
-    ];
-
-    return (
-        <>
-            <div className={`${styles.navigation} ${hide ? styles.hide : ''}`}>
-                <div className={styles.inner}>
-                    <main>
-                        <Tab
-                            panes={panes}
-                            activeIndex={activeIndex}
-                            onTabChange={handleTabChange}
-                        />
-                    </main>
                     {errors
                     && (
                         <div className={styles.errors}>
@@ -352,45 +262,131 @@ export default function Navigation({ components,
                             ))}
                         </div>
                     )}
-                    <footer>
-                        <div className={styles.navigation__bottom_menu}>
-                            <DarkModeButton />
-                            <Button
-                                label={page.content
-                                    ? intl.formatMessage({
-                                        id: 'update', defaultMessage: 'Update',
-                                    })
-                                    : intl.formatMessage({
-                                        id: 'publish', defaultMessage: 'Publish',
-                                    })}
-                                loading={loading}
-                                disabled={checkButtonDisabled()}
-                                color='green'
-                                type='submit'
-                                form='pageForm'
-                                name='pageButton'
-                                id='pageButton'
-                            />
-                            <Dropdown
-                                defaultValue={device}
-                                options={deviceOptions}
-                                onChange={handleDeviceChange}
-                                position='up'
-                            />
-                        </div>
-                    </footer>
                 </div>
             </div>
-            <div
-                className={`${styles.hideMenuBtn} ${hide ? styles.hide : ''}`}
-                onClick={() => hideMenu()}
-                onKeyDown={() => hideMenu()}
-                role='button'
-                tabIndex={0}
-                id='hideButton'
-            >
-                <span />
+            <div className={`${styles.navigation}`}>
+                <div className={`${styles.actions}`}>
+                    <DarkModeButton />
+                    <Button
+                        label={page.content
+                            ? intl.formatMessage({
+                                id: 'update', defaultMessage: 'Update',
+                            })
+                            : intl.formatMessage({
+                                id: 'publish', defaultMessage: 'Publish',
+                            })}
+                        loading={loading}
+                        disabled={checkButtonDisabled()}
+                        color='green'
+                        type='submit'
+                        form='pageForm'
+                        name='pageButton'
+                        id='pageButton'
+                    />
+                    <Dropdown
+                        defaultValue={device}
+                        options={deviceOptions}
+                        onChange={handleDeviceChange}
+                        position='up'
+                    />
+                </div>
+                <Droppable
+                    droppableId='components'
+                    renderClone={getRenderItem(components, 'components')}
+                    isDropDisabled
+                >
+                    {(provided, _snapshot) => (
+                        <main
+                            ref={provided.innerRef}
+                        >
+                            {components.map((item, index) => {
+                                const shouldRenderClone = item.type
+                                    === _snapshot.draggingFromThisWith;
+                                return (
+                                    shouldRenderClone
+                                        ? (
+                                            <div
+                                                key={item.type}
+                                            >
+                                                <Component
+                                                    icon={item.icon}
+                                                    label={item.label}
+                                                    color={item.color}
+                                                    tooltip={item.tooltip}
+                                                    key={item.type}
+                                                />
+                                            </div>
+                                        )
+                                        : (
+                                            <Draggable
+                                                key={item.type}
+                                                draggableId={item.type}
+                                                index={index}
+                                            >
+                                                {(supplied, snapshot) => (
+                                                    <div
+                                                        ref={supplied.innerRef}
+                                                        {...supplied.draggableProps}
+                                                        {...supplied.dragHandleProps}
+                                                        style={
+                                                            getStyle(supplied.draggableProps.style,
+                                                                snapshot)
+                                                        }
+                                                    >
+                                                        <Component
+                                                            icon={item.icon}
+                                                            label={item.label}
+                                                            color={item.color}
+                                                            tooltip={item.tooltip}
+                                                        />
+                                                    </div>
+                                                )}
+                                            </Draggable>
+                                        )
+                                );
+                            })}
+                            {provided.placeholder}
+                        </main>
+                    )}
+                </Droppable>
             </div>
+            {
+                currentElement.type && (
+                    <div
+                        className={`${styles.tab} ${styles.right} ${activeIndex === 1 && styles.active}`}
+                        onClick={() => handleTabChange(1)}
+                        onKeyDown={() => handleTabChange(1)}
+                        role='button'
+                        tabIndex={0}
+                    >
+                        <div
+                            className={`${styles.header}`}
+                            onClick={() => handleTabClose(1)}
+                            onKeyDown={() => handleTabClose(1)}
+                            role='button'
+                            tabIndex={0}
+                        >
+                            {`${intl.formatMessage({
+                                id: 'edit',
+                                defaultMessage: 'Edit',
+                            })} ${intl.formatMessage({
+                                id: currentElement.type,
+                            })}`}
+                        </div>
+                        <div className={`${styles.content}`}>
+                            <ComponentDispatcher
+                                element={currentElement}
+                                mode='editor'
+                                device={device}
+                                onElementValueChange={onElementValueChange}
+                                onLayoutValueChange={onLayoutValueChange}
+                                images={images}
+                                setImages={setImages}
+                            />
+                        </div>
+                    </div>
+                )
+            }
         </>
     );
 }
@@ -429,12 +425,10 @@ Navigation.propTypes = {
     })).isRequired,
     onElementValueChange: PropTypes.func.isRequired,
     onLayoutValueChange: PropTypes.func.isRequired,
-    setCurrentElement: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     setDevice: PropTypes.func.isRequired,
     setImages: PropTypes.func.isRequired,
     setParams: PropTypes.func.isRequired,
-    hideMenu: PropTypes.func.isRequired,
 };
 
 Navigation.defaultProps = {

@@ -1,7 +1,7 @@
 export default class defaultComponents {
     static defaultButton(intl) {
         return {
-            icon: 'fa-closed-captioning',
+            icon: 'fa-plus-square',
             label: intl.formatMessage({
                 id: 'button', defaultMessage: 'button',
             }),
@@ -1647,7 +1647,6 @@ export default class defaultComponents {
             this.defaultLink(intl),
             this.defaultText(intl),
             this.defaultTitle(intl),
-
         ];
     }
 
