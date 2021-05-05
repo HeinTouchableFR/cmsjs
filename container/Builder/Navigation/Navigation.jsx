@@ -97,7 +97,7 @@ export default function Navigation({ components,
     let mousePosition;
     let width;
     let offset = [0, 0];
-    let minMaxOffsetX = [220, 1500];
+    const minMaxOffsetX = [215, 20];
     let isDown = false;
 
     /**
@@ -114,13 +114,20 @@ export default function Navigation({ components,
                 mousePosition = {
                     x: e.clientX,
                 };
-                minMaxOffsetX = [
-                    20,
-                    (width - 195 - 40 + offset[0]),
-                ];
+                const left = mousePosition.x + offset[0];
                 const right = width - mousePosition.x - 25;
-                if (right > minMaxOffsetX[0] && right < minMaxOffsetX[1]) {
+                if (left > minMaxOffsetX[0] && left < (width / 2)) {
+                    componentTabRef.current.style.left = `${left}px`;
+                    componentTabRef.current.style.removeProperty('right');
+                } else if (right > minMaxOffsetX[1] && right < (width / 2)) {
                     componentTabRef.current.style.right = `${right}px`;
+                    componentTabRef.current.style.removeProperty('left');
+                } else if (left < minMaxOffsetX[0]) {
+                    componentTabRef.current.style.left = `${minMaxOffsetX[0]}px`;
+                    componentTabRef.current.style.removeProperty('right');
+                } else if (right < minMaxOffsetX[1]) {
+                    componentTabRef.current.style.right = `${minMaxOffsetX[1]}px`;
+                    componentTabRef.current.style.removeProperty('left');
                 }
             }
         };
