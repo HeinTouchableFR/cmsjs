@@ -238,15 +238,14 @@ export default function Navigation({ components,
             return true;
         }
 
-        if (page.content === JSON.stringify(content)) {
-            return true;
-        }
-
         if (mode === 'page') {
-            return form.title === '' || form.slug === '';
+            return !(form.title !== page.title)
+                && !(form.slug !== page.slug)
+                && !(params.background !== JSON.parse(page.params).background)
+                && page.content === JSON.stringify(content);
         }
-
-        return false;
+        return page.content === JSON.stringify(content)
+                && !(params.background !== JSON.parse(page.params).background);
     };
 
     const handleColorChange = (color) => {
@@ -479,6 +478,7 @@ Navigation.propTypes = {
         title: PropTypes.string,
         slug: PropTypes.string,
         content: PropTypes.string,
+        params: PropTypes.string,
     }).isRequired,
     params: PropTypes.shape({
         background: PropTypes.string.isRequired,

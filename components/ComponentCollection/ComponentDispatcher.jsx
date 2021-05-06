@@ -26,14 +26,8 @@ import ButtonPreview from './Button/ButtonPreview';
 import Button from './Button/Button';
 import Layout from './Layout/Layout';
 
-export default function ComponentDispatcher({ element, device = 'desktop', mode = 'render', onElementValueChange, onLayoutValueChange, images, setImages }) {
-    const [type, setType] = useState(element.type);
-
-    useEffect(() => {
-        setType(element.type);
-    },
-    [element]);
-    switch (type) {
+function ComponentDispatcher({ element, device = 'desktop', mode = 'render', onElementValueChange, onLayoutValueChange, images, setImages }) {
+    switch (element.type) {
     case 'button':
         return mode === 'render' ? (
             <ButtonRender element={element} />
@@ -153,3 +147,5 @@ export default function ComponentDispatcher({ element, device = 'desktop', mode 
         return <></>;
     }
 }
+
+export default React.memo(ComponentDispatcher);

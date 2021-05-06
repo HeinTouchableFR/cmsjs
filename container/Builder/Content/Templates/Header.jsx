@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { useTemplates } from 'context/template';
 import Layout from './Layout';
 
-export default function Header({ device }) {
+function Header({ device }) {
     const { value: dataTemplates } = useTemplates();
 
     const [content, setContent] = useState([]);
@@ -54,6 +54,8 @@ export default function Header({ device }) {
         </>
     );
 }
+
+export default React.memo(Header);
 
 Header.propTypes = {
     device: PropTypes.string.isRequired,

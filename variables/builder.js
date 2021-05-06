@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
-export function useLayout(layouts, setLayouts) {
+export function useLayout(content) {
+    const [layouts, setLayouts] = useState(JSON.parse(content));
     /**
      * Allows you to add a layout
      */
@@ -248,6 +249,8 @@ export function useLayout(layouts, setLayouts) {
     };
 
     return {
+        layouts,
+        setLayouts,
         addLayout,
         updateLayout,
         deleteLayout,
@@ -256,6 +259,8 @@ export function useLayout(layouts, setLayouts) {
 
 export function useDnd(components, layouts, currentElement, updateLayout, setCurrentElement) {
     const [portal, setPortal] = useState({
+        x: '',
+        y: '',
         open: false,
     });
 
@@ -264,8 +269,12 @@ export function useDnd(components, layouts, currentElement, updateLayout, setCur
      * @param e
      */
     const handleOpenPortal = (e) => {
+        const portalWidth = 350;
+        const width = window.innerWidth;
         setPortal({
-            x: e.clientX, y: e.clientY, open: true,
+            x: e.clientX < (width - portalWidth) ? e.clientX : (width - portalWidth),
+            y: e.clientY,
+            open: true,
         });
     };
 

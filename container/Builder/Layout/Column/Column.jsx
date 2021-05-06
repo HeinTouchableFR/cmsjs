@@ -6,13 +6,13 @@ import ComponentDispatcher from 'components/ComponentCollection/ComponentDispatc
 import PropTypes from 'prop-types';
 import styles from '../Layout.module.scss';
 
-export default function Column({ column,
+const Column = ({ column,
     onElementClick,
     updateColumn,
     currentElement,
     setCurrentElement,
     device,
-    handleOpenPortal }) {
+    handleOpenPortal }) => {
     /**
      * Allows you to delete a sub item
      * @param e
@@ -131,7 +131,9 @@ export default function Column({ column,
             </Droppable>
         </>
     );
-}
+};
+
+export default React.memo(Column);
 
 Column.propTypes = {
     column: PropTypes.shape({

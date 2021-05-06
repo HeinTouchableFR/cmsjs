@@ -6,7 +6,7 @@ import styled from '@emotion/styled';
 import styles from './Layout.module.scss';
 import Column from './Column/Column';
 
-export default function Layout({ layout,
+const Layout = ({ layout,
     updateLayout,
     deleteLayout,
     onElementClick,
@@ -15,7 +15,7 @@ export default function Layout({ layout,
     setCurrentElement,
     device,
     handleOpenPortal,
-    type }) {
+    type }) => {
     /**
      * Allows you to define the preset of the layout
      * @param preset
@@ -152,7 +152,9 @@ export default function Layout({ layout,
             </div>
         </div>
     );
-}
+};
+
+export default React.memo(Layout);
 
 Layout.propTypes = {
     layout: PropTypes.shape({

@@ -7,7 +7,7 @@ import styles from './Content.module.scss';
 import Footer from './Templates/Footer';
 import Header from './Templates/Header';
 
-export default function Content({ layouts,
+function Content({ layouts,
     addLayout,
     updateLayout,
     deleteLayout,
@@ -34,6 +34,7 @@ export default function Content({ layouts,
                         <>
                             <Header
                                 device={device}
+                                key='headerPreview'
                             />
                             {layouts.map((item) => (
                                 <Layout
@@ -105,6 +106,8 @@ export default function Content({ layouts,
         </>
     );
 }
+
+export default React.memo(Content);
 
 Content.propTypes = {
     layouts: PropTypes.arrayOf(PropTypes.shape({

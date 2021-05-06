@@ -15,7 +15,7 @@ import {
 } from 'variables/renderFunctions';
 import PropTypes from 'prop-types';
 
-export default function MenuPreview({ element, device }) {
+function MenuPreview({ element, device }) {
     const [menu, setMenu] = useState([]);
     const [isNavActive, setIsNavActive] = useState(false);
 
@@ -264,6 +264,8 @@ export default function MenuPreview({ element, device }) {
         </>
     );
 }
+
+export default React.memo(MenuPreview);
 
 MenuPreview.propTypes = {
     device: PropTypes.string.isRequired,

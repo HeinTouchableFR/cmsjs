@@ -4,7 +4,7 @@ import styles from 'container/Builder/Layout/Layout.module.scss';
 import ComponentDispatcher from 'components/ComponentCollection/ComponentDispatcher';
 import styled from '@emotion/styled';
 
-export default function Layout({ layout, device }) {
+function Layout({ layout, device }) {
     const LayoutContainer = styled.div`
         max-width: ${layout.content.params.layout.stretchSection ? '100%' : '1330px'};
         margin-left: auto!important;
@@ -63,6 +63,8 @@ export default function Layout({ layout, device }) {
         </>
     );
 }
+
+export default React.memo(Layout);
 
 Layout.propTypes = {
     layout: PropTypes.shape({

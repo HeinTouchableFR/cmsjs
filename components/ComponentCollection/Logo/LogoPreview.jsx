@@ -8,7 +8,7 @@ import {
 } from 'variables/previewFunctions';
 import PropTypes from 'prop-types';
 
-export default function LogoPreview({ element, device }) {
+function LogoPreview({ element, device }) {
     const { value: settings } = useSettings();
     const [logo, setLogo] = useState([]);
 
@@ -21,7 +21,7 @@ export default function LogoPreview({ element, device }) {
         }
     }, [settings]);
 
-    const Image = styleImagePreview(device, element)
+    const Image = styleImagePreview(device, element);
 
     return (
         <>
@@ -34,6 +34,8 @@ export default function LogoPreview({ element, device }) {
         </>
     );
 }
+
+export default React.memo(LogoPreview);
 
 LogoPreview.propTypes = {
     device: PropTypes.string.isRequired,

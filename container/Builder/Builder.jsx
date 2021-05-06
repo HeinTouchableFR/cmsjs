@@ -11,7 +11,7 @@ import {
 } from 'variables/builder';
 import styles from './Builder.module.scss';
 
-export default function Builder({ page,
+const Builder = ({ page,
     onSubmit,
     loading,
     images,
@@ -19,8 +19,7 @@ export default function Builder({ page,
     modules,
     mode,
     formErrors,
-    errors }) {
-    const [layouts, setLayouts] = useState(JSON.parse(page.content));
+    errors }) => {
     const [params, setParams] = useState(JSON.parse(page.params));
 
     const [currentElement, setCurrentElement] = useState({
@@ -30,7 +29,7 @@ export default function Builder({ page,
 
     const components = modules;
 
-    const { addLayout, updateLayout, deleteLayout } = useLayout(layouts, setLayouts);
+    const { layouts, addLayout, updateLayout, deleteLayout } = useLayout(page.content);
     const { onDragEnd,
         portal,
         handleOpenPortal,
@@ -59,12 +58,12 @@ export default function Builder({ page,
                     integrity='sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p'
                     crossOrigin='anonymous'
                 />
+                <title>Builder</title>
             </Head>
             <div className={styles.builder}>
                 <DragDropContext onDragEnd={onDragEnd}>
                     <Content
                         layouts={layouts}
-                        setLayouts={setLayouts}
                         addLayout={addLayout}
                         updateLayout={updateLayout}
                         deleteLayout={deleteLayout}
@@ -116,13 +115,15 @@ export default function Builder({ page,
                                 key={item.type}
                                 onClick={() => addComponentFromPortal(item)}
                             />
-))}
+                        ))}
                     </Portal.Pallet>
                 </Portal>
             </div>
         </>
     );
-}
+};
+
+export default React.memo(Builder);
 
 Builder.propTypes = {
     page: PropTypes.shape({
@@ -146,6 +147,8 @@ Builder.propTypes = {
 
 Builder.defaultProps = {
     page: {
+        title: '',
+        slug: '',
         content: '[]',
         params: '{"background":"#f7fafb"}',
     },
