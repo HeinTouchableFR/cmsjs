@@ -4,7 +4,7 @@ import React, {
 import Loader from 'components/Loader/Loader';
 import Layout from './Layout';
 
-export default function RenderPage({ page, showRender = false }) {
+export default function RenderPage({page, showRender = false}) {
     const [content, setContent] = useState(page.content ? JSON.parse(page.content) : []);
 
     useEffect(() => {
@@ -13,16 +13,18 @@ export default function RenderPage({ page, showRender = false }) {
 
     return (
         <>
-            <div>
-                {showRender
-                    ? content.map((layout) => (
-                        <Layout
-                            layout={layout}
-                            key={layout.id}
-                        />
-                    ))
-                    : <Loader />}
-            </div>
+            {showRender
+                ? (
+                    <div>
+                        {content.map((layout) => (
+                            <Layout
+                                layout={layout}
+                                key={layout.id}
+                            />
+                        ))}
+                    </div>
+                )
+                : <Loader />}
         </>
     );
 }
