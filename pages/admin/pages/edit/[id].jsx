@@ -9,10 +9,9 @@ import Builder from 'container/Builder/Builder';
 import defaultComponents from 'variables/components';
 import { useAuth } from 'context/auth';
 import PropTypes from 'prop-types';
+import { BuilderProvider } from 'context/builder';
 
 export default function Edit({ item, errors, images }) {
-    const url = 'pages';
-
     const intl = useIntl();
 
     const { user } = useAuth();
@@ -82,10 +81,10 @@ export default function Edit({ item, errors, images }) {
         setLoading(false);
     };
 
-    useEffect(() => {
+    useEffect(async () => {
         if (isSubmitting) {
             if (Object.keys(formErrors).length === 0) {
-                update();
+                await update();
             } else {
                 setIsSubmitting(false);
             }
@@ -94,26 +93,28 @@ export default function Edit({ item, errors, images }) {
 
     return (
         <>
-            <Head>
-                <title>
-                    {intl.formatMessage({
-                        id: 'page.edit', defaultMessage: 'Edit',
-                    })}
-                    {': '}
-                    {item.title}
-                </title>
-            </Head>
-            <Builder
-                url={url}
+            <BuilderProvider
                 page={post}
-                loading={loading}
-                onSubmit={onSubmit}
-                setImages={setImagesList}
-                images={imagesList}
-                modules={defaultComponents.pageComponents(intl)}
-                formErrors={formErrors}
-                errors={builderErrors}
-            />
+                components={defaultComponents.pageComponents(intl)}
+            >
+                <Head>
+                    <title>
+                        {intl.formatMessage({
+                            id: 'page.edit', defaultMessage: 'Edit',
+                        })}
+                        {': '}
+                        {item.title}
+                    </title>
+                </Head>
+                <Builder
+                    loading={loading}
+                    onSubmit={onSubmit}
+                    setImages={setImagesList}
+                    images={imagesList}
+                    formErrors={formErrors}
+                    errors={builderErrors}
+                />
+            </BuilderProvider>
         </>
     );
 }

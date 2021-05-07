@@ -16,25 +16,24 @@ import Flash from 'components/Flash/Flash';
 import ColorPicker from 'components/ColorPicker/ColorPicker';
 import PropTypes from 'prop-types';
 import styles from './Navigation.module.scss';
+import { useBuilder } from '../../../context/builder';
 
-export default function Navigation({ components,
-    currentElement,
-    onElementValueChange,
-    onLayoutValueChange,
-    page,
-    onSubmit,
+export default function Navigation({ onSubmit,
     loading,
-    device,
-    setDevice,
     images,
     setImages,
-    mode,
-    content,
     formErrors,
-    errors,
-    params,
-    setParams }) {
+    errors }) {
     const intl = useIntl();
+    const { page,
+        layouts,
+        params,
+        currentElement,
+        components,
+        device,
+        mode,
+        setParams,
+        setDevice } = useBuilder();
 
     const [form, setForm] = useState({
         title: page.title || '',
@@ -242,9 +241,9 @@ export default function Navigation({ components,
             return !(form.title !== page.title)
                 && !(form.slug !== page.slug)
                 && !(params.background !== JSON.parse(page.params).background)
-                && page.content === JSON.stringify(content);
+                && page.content === JSON.stringify(layouts);
         }
-        return page.content === JSON.stringify(content)
+        return page.content === JSON.stringify(layouts)
                 && !(params.background !== JSON.parse(page.params).background);
     };
 
@@ -449,9 +448,6 @@ export default function Navigation({ components,
                                 <ComponentDispatcher
                                     element={currentElement}
                                     mode='editor'
-                                    device={device}
-                                    onElementValueChange={onElementValueChange}
-                                    onLayoutValueChange={onLayoutValueChange}
                                     images={images}
                                     setImages={setImages}
                                 />
@@ -465,30 +461,7 @@ export default function Navigation({ components,
 }
 
 Navigation.propTypes = {
-    components: PropTypes.arrayOf(PropTypes.shape({
-    })).isRequired,
-    currentElement: PropTypes.shape({
-        id: PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.number,
-        ]),
-        type: PropTypes.string,
-    }).isRequired,
-    page: PropTypes.shape({
-        title: PropTypes.string,
-        slug: PropTypes.string,
-        content: PropTypes.string,
-        params: PropTypes.string,
-    }).isRequired,
-    params: PropTypes.shape({
-        background: PropTypes.string.isRequired,
-    }).isRequired,
     loading: PropTypes.bool,
-    hide: PropTypes.bool,
-    device: PropTypes.string,
-    mode: PropTypes.string,
-    content: PropTypes.arrayOf(PropTypes.shape({
-    })).isRequired,
     errors: PropTypes.arrayOf(PropTypes.shape({
     })).isRequired,
     formErrors: PropTypes.shape({
@@ -497,17 +470,10 @@ Navigation.propTypes = {
     }).isRequired,
     images: PropTypes.arrayOf(PropTypes.shape({
     })).isRequired,
-    onElementValueChange: PropTypes.func.isRequired,
-    onLayoutValueChange: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
-    setDevice: PropTypes.func.isRequired,
     setImages: PropTypes.func.isRequired,
-    setParams: PropTypes.func.isRequired,
 };
 
 Navigation.defaultProps = {
     loading: false,
-    hide: false,
-    device: 'desktop',
-    mode: 'page',
 };

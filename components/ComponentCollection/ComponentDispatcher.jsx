@@ -25,8 +25,13 @@ import ButtonRender from './Button/ButtonRender';
 import ButtonPreview from './Button/ButtonPreview';
 import Button from './Button/Button';
 import Layout from './Layout/Layout';
+import { useBuilder } from '../../context/builder';
 
-function ComponentDispatcher({ element, device = 'desktop', mode = 'render', onElementValueChange, onLayoutValueChange, images, setImages }) {
+function ComponentDispatcher({ element, mode = 'render', images, setImages }) {
+    const { device,
+        updateElement,
+        updateLayout } = useBuilder();
+
     switch (element.type) {
     case 'button':
         return mode === 'render' ? (
@@ -40,7 +45,7 @@ function ComponentDispatcher({ element, device = 'desktop', mode = 'render', onE
             <Button
                 element={element}
                 device={device}
-                onElementValueChange={onElementValueChange}
+                onElementValueChange={updateElement}
             />
         );
     case 'image':
@@ -55,7 +60,7 @@ function ComponentDispatcher({ element, device = 'desktop', mode = 'render', onE
             <Image
                 element={element}
                 device={device}
-                onElementValueChange={onElementValueChange}
+                onElementValueChange={updateElement}
                 images={images}
                 setImages={setImages}
             />
@@ -65,7 +70,7 @@ function ComponentDispatcher({ element, device = 'desktop', mode = 'render', onE
             <Layout
                 element={element}
                 device={device}
-                onElementValueChange={onLayoutValueChange}
+                onElementValueChange={updateLayout}
             />
         );
     case 'link':
@@ -80,7 +85,7 @@ function ComponentDispatcher({ element, device = 'desktop', mode = 'render', onE
             <Link
                 element={element}
                 device={device}
-                onElementValueChange={onElementValueChange}
+                onElementValueChange={updateElement}
             />
         );
     case 'logo':
@@ -95,7 +100,7 @@ function ComponentDispatcher({ element, device = 'desktop', mode = 'render', onE
             <Logo
                 element={element}
                 device={device}
-                onElementValueChange={onElementValueChange}
+                onElementValueChange={updateElement}
             />
         );
     case 'menu':
@@ -110,7 +115,7 @@ function ComponentDispatcher({ element, device = 'desktop', mode = 'render', onE
             <Menu
                 element={element}
                 device={device}
-                onElementValueChange={onElementValueChange}
+                onElementValueChange={updateElement}
             />
         );
     case 'text':
@@ -125,7 +130,7 @@ function ComponentDispatcher({ element, device = 'desktop', mode = 'render', onE
             <Text
                 element={element}
                 device={device}
-                onElementValueChange={onElementValueChange}
+                onElementValueChange={updateElement}
             />
         );
     case 'title':
@@ -140,7 +145,7 @@ function ComponentDispatcher({ element, device = 'desktop', mode = 'render', onE
             <Title
                 element={element}
                 device={device}
-                onElementValueChange={onElementValueChange}
+                onElementValueChange={updateElement}
             />
         );
     default:

@@ -4,20 +4,20 @@ import {
 import React from 'react';
 import ComponentDispatcher from 'components/ComponentCollection/ComponentDispatcher';
 import PropTypes from 'prop-types';
+import { useBuilder } from 'context/builder';
 import styles from '../Layout.module.scss';
 
 const Column = ({ column,
-    onElementClick,
-    updateColumn,
-    currentElement,
-    setCurrentElement,
-    device,
-    handleOpenPortal }) => {
+    updateColumn }) => {
+    const { currentElement,
+        setCurrentElement,
+        handleOpenPortal,
+        device } = useBuilder();
     /**
      * Allows you to delete a sub item
      * @param e
      */
-    const handleupdateColumn = (e) => {
+    const handleUpdateColumn = (e) => {
         const update = column;
         update.elements = column.elements.filter((c) => c.id !== e.id);
         updateColumn(update);
@@ -77,8 +77,8 @@ const Column = ({ column,
                                                     supplied.draggableProps.style)}
                                             >
                                                 <div
-                                                    onClick={() => onElementClick(item)}
-                                                    onKeyDown={() => onElementClick(item)}
+                                                    onClick={() => setCurrentElement(item)}
+                                                    onKeyDown={() => setCurrentElement(item)}
                                                     role='button'
                                                     tabIndex={0}
                                                 >
@@ -90,8 +90,8 @@ const Column = ({ column,
                                                 </div>
                                                 <button
                                                     key={`btn-empty${item.id}`}
-                                                    onClick={() => handleupdateColumn(item)}
-                                                    onKeyDown={() => handleupdateColumn(item)}
+                                                    onClick={() => handleUpdateColumn(item)}
+                                                    onKeyDown={() => handleUpdateColumn(item)}
                                                     type='button'
                                                     className={styles.element__widget__remove}
                                                 >
@@ -105,10 +105,10 @@ const Column = ({ column,
                         ) : (
                             <div
                                 className={styles.column__empty}
-                                onClick={() => onElementClick({
+                                onClick={() => setCurrentElement({
                                     id: 'empty', column: column.id,
                                 })}
-                                onKeyDown={() => onElementClick({
+                                onKeyDown={() => setCurrentElement({
                                     id: 'empty', column: column.id,
                                 })}
                                 role='button'
@@ -144,19 +144,8 @@ Column.propTypes = {
         elements: PropTypes.arrayOf(PropTypes.shape({
         })).isRequired,
     }).isRequired,
-    onElementClick: PropTypes.func.isRequired,
-    setCurrentElement: PropTypes.func.isRequired,
-    handleOpenPortal: PropTypes.func.isRequired,
     updateColumn: PropTypes.func.isRequired,
-    device: PropTypes.string,
-    currentElement: PropTypes.shape({
-        id: PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.number,
-        ]),
-    }).isRequired,
 };
 
 Column.defaultProps = {
-    device: 'desktop',
 };

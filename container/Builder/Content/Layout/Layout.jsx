@@ -3,19 +3,16 @@ import PropTypes from 'prop-types';
 import { presets } from 'variables/variables';
 import { styleDivPreview } from 'variables/previewFunctions';
 import styled from '@emotion/styled';
+import { useBuilder } from 'context/builder';
 import styles from './Layout.module.scss';
 import Column from './Column/Column';
 
-const Layout = ({ layout,
-    updateLayout,
-    deleteLayout,
-    onElementClick,
-    onLayoutClick,
-    currentElement,
-    setCurrentElement,
-    device,
-    handleOpenPortal,
-    type }) => {
+const Layout = ({ layout }) => {
+    const { setCurrentElement,
+        device,
+        type,
+        updateLayout,
+        deleteLayout } = useBuilder();
     /**
      * Allows you to define the preset of the layout
      * @param preset
@@ -108,11 +105,6 @@ const Layout = ({ layout,
                                     key={`element-${column.id}`}
                                     column={column}
                                     updateColumn={updateColumn}
-                                    onElementClick={onElementClick}
-                                    setCurrentElement={setCurrentElement}
-                                    currentElement={currentElement}
-                                    device={device}
-                                    handleOpenPortal={handleOpenPortal}
                                 />
                             ))}
                         </>
@@ -135,8 +127,8 @@ const Layout = ({ layout,
             <div className={`${styles.layout__settings}`}>
                 <button
                     className={`${styles.layout__settings_element}`}
-                    onClick={() => onLayoutClick(layout)}
-                    onKeyDown={() => onLayoutClick(layout)}
+                    onClick={() => setCurrentElement(layout)}
+                    onKeyDown={() => setCurrentElement(layout)}
                     type='button'
                 >
                     <i className='far fa-pen' />
@@ -173,19 +165,7 @@ Layout.propTypes = {
             }).isRequired,
         }).isRequired,
     }).isRequired,
-    updateLayout: PropTypes.func.isRequired,
-    deleteLayout: PropTypes.func.isRequired,
-    onElementClick: PropTypes.func.isRequired,
-    onLayoutClick: PropTypes.func.isRequired,
-    setCurrentElement: PropTypes.func.isRequired,
-    handleOpenPortal: PropTypes.func.isRequired,
-    type: PropTypes.string,
-    device: PropTypes.string,
-    currentElement: PropTypes.shape({
-    }).isRequired,
 };
 
 Layout.defaultProps = {
-    type: 'page',
-    device: 'desktop',
 };

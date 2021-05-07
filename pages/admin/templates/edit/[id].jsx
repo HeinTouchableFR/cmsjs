@@ -1,16 +1,17 @@
-import React, {useEffect, useState} from 'react';
-import {useIntl} from 'react-intl';
+import React, {
+    useEffect, useState,
+} from 'react';
+import { useIntl } from 'react-intl';
 import Head from 'next/head';
-import axios from 'axios';
 import nookies from 'nookies';
-import {auth} from 'utils/dbConnect';
+import { auth } from 'utils/dbConnect';
 import Builder from 'container/Builder/Builder';
 import defaultComponents from 'variables/components';
-import {useAuth} from '../../../../context/auth';
+import { BuilderProvider } from 'context/builder';
+import { useAuth } from 'context/auth';
+import PropTypes from 'prop-types';
 
-export default function Edit({item, images, errors}) {
-    const url = 'templates';
-
+export default function Edit({ item, images, errors }) {
     const intl = useIntl();
 
     const { user } = useAuth();
@@ -30,7 +31,6 @@ export default function Edit({item, images, errors}) {
     };
 
     const onSubmit = async (e, data, params) => {
-        console.log('submit')
         setContent({
             data,
             params,
@@ -68,10 +68,10 @@ export default function Edit({item, images, errors}) {
         setLoading(false);
     };
 
-    useEffect(() => {
+    useEffect(async () => {
         if (isSubmitting) {
             if (Object.keys(formErrors).length === 0) {
-                update();
+                await update();
             } else {
                 setIsSubmitting(false);
             }
@@ -80,30 +80,46 @@ export default function Edit({item, images, errors}) {
 
     return (
         <>
-            <Head>
-                <title>
-                    {intl.formatMessage({
-                        id: 'page.edit', defaultMessage: 'Edit',
-                    })}
-                    {': '}
-                    {item.name}
-                </title>
-            </Head>
-            <Builder
-                url={url}
-                mode='template'
+            <BuilderProvider
                 page={post}
-                loading={loading}
-                onSubmit={onSubmit}
-                setImages={setImagesList}
-                images={imagesList}
-                modules={defaultComponents.templateComponents(intl)}
-                formErrors={formErrors}
-                errors={builderErrors}
-            />
+                components={defaultComponents.pageComponents(intl)}
+                builderMode='template'
+            >
+                <Head>
+                    <title>
+                        {intl.formatMessage({
+                            id: 'page.edit', defaultMessage: 'Edit',
+                        })}
+                        {': '}
+                        {item.title}
+                    </title>
+                </Head>
+                <Builder
+                    loading={loading}
+                    onSubmit={onSubmit}
+                    setImages={setImagesList}
+                    images={imagesList}
+                    formErrors={formErrors}
+                    errors={builderErrors}
+                />
+            </BuilderProvider>
         </>
     );
 }
+
+Edit.propTypes = {
+    item: PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        title: PropTypes.string,
+    }).isRequired,
+    images: PropTypes.string.isRequired,
+    errors: PropTypes.oneOfType([
+        PropTypes.shape({
+        }),
+        PropTypes.arrayOf(PropTypes.shape({
+        })),
+    ]).isRequired,
+};
 
 export async function getServerSideProps(ctx) {
     try {

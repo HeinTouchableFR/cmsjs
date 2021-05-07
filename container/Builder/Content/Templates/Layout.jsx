@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styles from 'container/Builder/Layout/Layout.module.scss';
+import styles from 'container/Builder/Content/Layout/Layout.module.scss';
 import ComponentDispatcher from 'components/ComponentCollection/ComponentDispatcher';
 import styled from '@emotion/styled';
 

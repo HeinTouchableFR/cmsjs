@@ -10,6 +10,7 @@ import { auth } from 'utils/dbConnect';
 import defaultComponents from 'variables/components';
 import { useAuth } from 'context/auth';
 import PropTypes from 'prop-types';
+import { BuilderProvider } from '../../../context/builder';
 
 export default function Add({ images, errors }) {
     const url = 'pages';
@@ -76,17 +77,17 @@ export default function Add({ images, errors }) {
             if (!result.success) {
                 setBuilderErrors([result.errors]);
             }
-            router.push(`/admin/${url}/edit/${result.data.id}`);
+            await router.push(`/admin/${url}/edit/${result.data.id}`);
         } catch (err) {
             setBuilderErrors([err]);
         }
         setLoading(false);
     };
 
-    useEffect(() => {
+    useEffect(async () => {
         if (isSubmitting) {
             if (Object.keys(formErrors).length === 0) {
-                create();
+                await create();
             } else {
                 setIsSubmitting(false);
             }
@@ -95,23 +96,25 @@ export default function Add({ images, errors }) {
 
     return (
         <>
-            <Head>
-                <title>
-                    {intl.formatMessage({
-                        id: 'page.addNew', defaultMessage: 'Add a new page',
-                    })}
-                </title>
-            </Head>
-            <Builder
-                url={url}
-                onSubmit={onSubmit}
-                loading={loading}
-                images={imagesList}
-                setImages={setImagesList}
-                modules={defaultComponents.pageComponents(intl)}
-                formErrors={formErrors}
-                errors={builderErrors}
-            />
+            <BuilderProvider
+                components={defaultComponents.pageComponents(intl)}
+            >
+                <Head>
+                    <title>
+                        {intl.formatMessage({
+                            id: 'page.addNew', defaultMessage: 'Add a new page',
+                        })}
+                    </title>
+                </Head>
+                <Builder
+                    onSubmit={onSubmit}
+                    loading={loading}
+                    images={imagesList}
+                    setImages={setImagesList}
+                    formErrors={formErrors}
+                    errors={builderErrors}
+                />
+            </BuilderProvider>
         </>
     );
 }

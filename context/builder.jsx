@@ -1,9 +1,40 @@
-import {
-    useCallback,
-    useReducer, useState,
+import React, {
+    useState, useContext, createContext, useReducer, useCallback, useMemo,
 } from 'react';
+import PropTypes from 'prop-types';
 
-export function useLayout(content) {
+const Builder = createContext({
+    page: {
+    },
+    type: 'page',
+    mode: 'page',
+    layouts: [],
+    components: [],
+    params: {
+    },
+    currentElement: {
+    },
+    device: 'desktop',
+    portal: {
+        x: '',
+        y: '',
+        open: false,
+    },
+    addLayout: () => {},
+    updateLayout: () => {},
+    deleteLayout: () => {},
+    setCurrentElement: () => {},
+    setDevice: () => {},
+    setParams: () => {},
+    setMode: () => {},
+    addComponentFromPortal: () => {},
+    handleOpenPortal: () => {},
+    handleClosePortal: () => {},
+    updateElement: () => {},
+    onDragEnd: () => {},
+});
+
+export function BuilderProvider({ page, components, builderMode, children }) {
     function reducer(state, action) {
         switch (action.type) {
         case 'ADD':
@@ -25,7 +56,22 @@ export function useLayout(content) {
     }
 
     const [layouts, dispatch] = useReducer(reducer, {
-        items: JSON.parse(content),
+        items: JSON.parse(page.content),
+    });
+
+    const [params, setParams] = useState(JSON.parse(page.params));
+
+    const [currentElement, setCurrentElement] = useState({
+    });
+
+    const [device, setDevice] = useState('desktop');
+    const [mode, setMode] = useState(builderMode || 'page');
+    const type = page.type ? page.type : 'page';
+
+    const [portal, setPortal] = useState({
+        x: '',
+        y: '',
+        open: false,
     });
 
     /**
@@ -258,7 +304,7 @@ export function useLayout(content) {
         dispatch({
             type: 'ADD', payload: layout,
         });
-    });
+    }, []);
 
     /**
      * Allows you to update a layout
@@ -268,8 +314,7 @@ export function useLayout(content) {
         dispatch({
             type: 'UPDATE', payload: layout,
         });
-        // setLayouts(layouts.map((d) => (d.id === layout.id ? layout : d)));
-    });
+    }, []);
 
     /**
      * Allows you to delete a layout
@@ -279,23 +324,7 @@ export function useLayout(content) {
         dispatch({
             type: 'DELETE', payload: layout,
         });
-        // setLayouts(layouts.filter((item) => item !== layout));
-    });
-
-    return {
-        layouts: layouts.items,
-        addLayout,
-        updateLayout,
-        deleteLayout,
-    };
-}
-
-export function useDnd(components, layouts, currentElement, updateLayout, setCurrentElement) {
-    const [portal, setPortal] = useState({
-        x: '',
-        y: '',
-        open: false,
-    });
+    }, []);
 
     /**
      * Allow you opens the tool pallet
@@ -309,14 +338,14 @@ export function useDnd(components, layouts, currentElement, updateLayout, setCur
             y: e.clientY,
             open: true,
         });
-    });
+    }, []);
 
     /**
      * Allow you close the tool pallet
      */
     const handleClosePortal = useCallback(() => setPortal(() => ({
         open: false,
-    })));
+    })), []);
 
     /**
      * Allows you to retrieve a column
@@ -325,7 +354,7 @@ export function useDnd(components, layouts, currentElement, updateLayout, setCur
      */
     const getColumn = useCallback((id) => {
         let column = [];
-        layouts.forEach((layout) => {
+        layouts.items.forEach((layout) => {
             layout.columns.forEach((item) => {
                 if (item.id.toString() === id.toString()) {
                     column = item;
@@ -343,7 +372,7 @@ export function useDnd(components, layouts, currentElement, updateLayout, setCur
     const getLayout = useCallback((id) => {
         let layout = {
         };
-        layouts.forEach((item) => {
+        layouts.items.forEach((item) => {
             item.columns.forEach((column) => {
                 if (column.id === id) {
                     layout = item;
@@ -374,7 +403,7 @@ export function useDnd(components, layouts, currentElement, updateLayout, setCur
         };
         let elements = [];
         if (element.id === currentElement.id) {
-            layouts.forEach((layout) => {
+            layouts.items.forEach((layout) => {
                 layout.columns.forEach((c) => {
                     c.elements.forEach((e) => {
                         if (e.id === element.id) {
@@ -547,12 +576,64 @@ export function useDnd(components, layouts, currentElement, updateLayout, setCur
         }
     });
 
-    return {
-        onDragEnd,
+    const value = useMemo(() => ({
+        page,
+        type,
+        layouts: layouts.items,
+        components,
+        params,
+        setParams,
+        currentElement,
+        setCurrentElement,
+        device,
+        setDevice,
+        mode,
+        setMode,
         portal,
         handleOpenPortal,
         handleClosePortal,
         addComponentFromPortal,
+        addLayout,
+        updateLayout,
+        deleteLayout,
         updateElement,
-    };
+        onDragEnd,
+    }), [layouts, params, currentElement, device, portal]);
+
+    return (
+        <Builder.Provider
+            value={value}
+        >
+            {children}
+        </Builder.Provider>
+    );
 }
+
+export const useBuilder = () => useContext(Builder);
+
+BuilderProvider.propTypes = {
+    page: PropTypes.shape({
+        content: PropTypes.string,
+        params: PropTypes.string,
+        type: PropTypes.string,
+    }),
+    components: PropTypes.arrayOf(PropTypes.shape({
+    })).isRequired,
+    builderMode: PropTypes.string,
+    children: PropTypes.oneOfType([
+        PropTypes.shape({
+        }),
+        PropTypes.arrayOf(PropTypes.shape({
+        })),
+    ]).isRequired,
+};
+
+BuilderProvider.defaultProps = {
+    page: {
+        title: '',
+        slug: '',
+        content: '[]',
+        params: '{"background":"#f7fafb"}',
+    },
+    builderMode: 'page',
+};

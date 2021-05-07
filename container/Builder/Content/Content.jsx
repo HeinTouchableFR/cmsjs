@@ -1,25 +1,20 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import AddLayout from 'container/Builder/Layout/AddLayout/AddLayout';
-import Layout from 'container/Builder/Layout/Layout';
-import PropTypes from 'prop-types';
+import AddLayout from 'container/Builder/Content/Layout/AddLayout/AddLayout';
+import Layout from 'container/Builder/Content/Layout/Layout';
+import { useBuilder } from 'context/builder';
 import styles from './Content.module.scss';
 import Footer from './Templates/Footer';
 import Header from './Templates/Header';
 
-function Content({ layouts,
-    addLayout,
-    updateLayout,
-    deleteLayout,
-    onElementClick,
-    onLayoutClick,
-    currentElement,
-    setCurrentElement,
-    device,
-    handleOpenPortal,
-    mode,
-    type,
-    params }) {
+function Content() {
+    const { layouts,
+        params,
+        device,
+        mode,
+        type,
+        addLayout } = useBuilder();
+
     const Div = styled.div`
         background: ${params.background};
     `;
@@ -40,14 +35,6 @@ function Content({ layouts,
                                 <Layout
                                     key={item.id}
                                     layout={item}
-                                    updateLayout={updateLayout}
-                                    deleteLayout={deleteLayout}
-                                    onElementClick={onElementClick}
-                                    onLayoutClick={onLayoutClick}
-                                    currentElement={currentElement}
-                                    setCurrentElement={setCurrentElement}
-                                    device={device}
-                                    handleOpenPortal={handleOpenPortal}
                                 />
                             ))}
                         </>
@@ -60,15 +47,6 @@ function Content({ layouts,
                                         <Layout
                                             key={item.id}
                                             layout={item}
-                                            updateLayout={updateLayout}
-                                            deleteLayout={deleteLayout}
-                                            onElementClick={onElementClick}
-                                            onLayoutClick={onLayoutClick}
-                                            currentElement={currentElement}
-                                            setCurrentElement={setCurrentElement}
-                                            device={device}
-                                            handleOpenPortal={handleOpenPortal}
-                                            type={type}
                                         />
                                     ))}
                                 </header>
@@ -80,15 +58,6 @@ function Content({ layouts,
                                         <Layout
                                             key={item.id}
                                             layout={item}
-                                            updateLayout={updateLayout}
-                                            deleteLayout={deleteLayout}
-                                            onElementClick={onElementClick}
-                                            onLayoutClick={onLayoutClick}
-                                            currentElement={currentElement}
-                                            setCurrentElement={setCurrentElement}
-                                            device={device}
-                                            handleOpenPortal={handleOpenPortal}
-                                            type={type}
                                         />
                                     ))}
                                 </footer>
@@ -110,26 +79,7 @@ function Content({ layouts,
 export default React.memo(Content);
 
 Content.propTypes = {
-    layouts: PropTypes.arrayOf(PropTypes.shape({
-    })).isRequired,
-    currentElement: PropTypes.shape({
-    }).isRequired,
-    device: PropTypes.string.isRequired,
-    mode: PropTypes.string,
-    type: PropTypes.string,
-    params: PropTypes.shape({
-        background: PropTypes.string.isRequired,
-    }).isRequired,
-    addLayout: PropTypes.func.isRequired,
-    updateLayout: PropTypes.func.isRequired,
-    deleteLayout: PropTypes.func.isRequired,
-    onElementClick: PropTypes.func.isRequired,
-    onLayoutClick: PropTypes.func.isRequired,
-    setCurrentElement: PropTypes.func.isRequired,
-    handleOpenPortal: PropTypes.func.isRequired,
 };
 
 Content.defaultProps = {
-    mode: 'page',
-    type: 'page',
 };
