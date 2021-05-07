@@ -97,7 +97,7 @@ export default function Navigation({ components,
     let mousePosition;
     let width;
     let offset = [0, 0];
-    const minMaxOffsetX = [215, 20];
+    const minMaxOffsetX = [215, 55];
     let isDown = false;
 
     /**

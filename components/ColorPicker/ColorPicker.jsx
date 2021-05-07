@@ -81,6 +81,7 @@ export default function ColorPicker({ defaultColor = '#FF0000', onColorChange, n
                         <SketchPicker
                             color={state.color}
                             onChange={handleChange}
+                            className={styles.sketch_picker}
                         />
                     </div>
                 ) : null}
