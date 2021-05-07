@@ -67,11 +67,13 @@ export default function FileManager({ multiple = false,
         e.preventDefault();
         setLoading(true);
         const f = new FormData(e.target);
-        const items = await create(f);
-        setImages([...items, ...images]);
-        multiple ? handleSelectFiles(items) : handleSelectFiles([items[0]]);
+        if (f.get('files').name !== '') {
+            const items = await create(f);
+            setImages([...items, ...images]);
+            multiple ? handleSelectFiles(items) : handleSelectFiles([items[0]]);
+            setSecondOpen(false);
+        }
         setLoading(false);
-        setSecondOpen(false);
     };
 
     const trigger = multiple
@@ -187,38 +189,20 @@ export default function FileManager({ multiple = false,
                                 id='fileForm'
                                 name='fileForm'
                             >
-                                {multiple ? (
-                                    <input
-                                        type='file'
-                                        name='files'
-                                        label={intl.formatMessage({
-                                            id: 'fileManager.uploadLabel',
-                                            defaultMessage: 'Drop files here or click to upload.',
-                                        })}
-                                        help={intl.formatMessage({
-                                            id: 'fileManager.uploadHelp',
-                                            defaultMessage: "Upload files here and they won't be sent immediately",
-                                        })}
-                                        is='drop-files'
-                                        multiple
-                                        required
-                                    />
-                                ) : (
-                                    <input
-                                        type='file'
-                                        name='files'
-                                        label={intl.formatMessage({
-                                            id: 'fileManager.uploadLabel',
-                                            defaultMessage: 'Drop files here or click to upload.',
-                                        })}
-                                        help={intl.formatMessage({
-                                            id: 'fileManager.uploadHelp',
-                                            defaultMessage: "Upload files here and they won't be sent immediately",
-                                        })}
-                                        is='drop-files'
-                                        required
-                                    />
-                                )}
+                                <input
+                                    type='file'
+                                    name='files'
+                                    label={intl.formatMessage({
+                                        id: 'fileManager.uploadLabel',
+                                        defaultMessage: 'Drop files here or click to upload.',
+                                    })}
+                                    help={intl.formatMessage({
+                                        id: 'fileManager.uploadHelp',
+                                        defaultMessage: "Upload files here and they won't be sent immediately",
+                                    })}
+                                    is='drop-files'
+                                    multiple
+                                />
                                 <Button
                                     icon='check'
                                     color='green'
