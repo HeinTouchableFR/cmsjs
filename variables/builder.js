@@ -1,11 +1,37 @@
-import { useState } from 'react';
+import {
+    useCallback,
+    useReducer, useState,
+} from 'react';
 
 export function useLayout(content) {
-    const [layouts, setLayouts] = useState(JSON.parse(content));
+    function reducer(state, action) {
+        switch (action.type) {
+        case 'ADD':
+            return {
+                ...state, items: [...state.items, action.payload],
+            };
+        case 'UPDATE':
+            return {
+                ...state,
+                items: state.items.map((r) => (r.id === action.payload.id ? action.payload : r)),
+            };
+        case 'DELETE':
+            return {
+                ...state, items: state.items.filter((r) => r !== action.payload),
+            };
+        default:
+            throw new Error(`Action inconnue ${action.type}`);
+        }
+    }
+
+    const [layouts, dispatch] = useReducer(reducer, {
+        items: JSON.parse(content),
+    });
+
     /**
      * Allows you to add a layout
      */
-    const addLayout = () => {
+    const addLayout = useCallback(() => {
         const layout = {
             id: new Date().getTime(),
             nbColumns: 0,
@@ -229,28 +255,35 @@ export function useLayout(content) {
                 },
             },
         };
-        setLayouts([...layouts, layout]);
-    };
+        dispatch({
+            type: 'ADD', payload: layout,
+        });
+    });
 
     /**
      * Allows you to update a layout
      * @param layout
      */
-    const updateLayout = (layout) => {
-        setLayouts(layouts.map((d) => (d.id === layout.id ? layout : d)));
-    };
+    const updateLayout = useCallback((layout) => {
+        dispatch({
+            type: 'UPDATE', payload: layout,
+        });
+        // setLayouts(layouts.map((d) => (d.id === layout.id ? layout : d)));
+    });
 
     /**
      * Allows you to delete a layout
      * @param layout
      */
-    const deleteLayout = (layout) => {
-        setLayouts(layouts.filter((item) => item !== layout));
-    };
+    const deleteLayout = useCallback((layout) => {
+        dispatch({
+            type: 'DELETE', payload: layout,
+        });
+        // setLayouts(layouts.filter((item) => item !== layout));
+    });
 
     return {
-        layouts,
-        setLayouts,
+        layouts: layouts.items,
         addLayout,
         updateLayout,
         deleteLayout,
@@ -268,7 +301,7 @@ export function useDnd(components, layouts, currentElement, updateLayout, setCur
      * Allow you opens the tool pallet
      * @param e
      */
-    const handleOpenPortal = (e) => {
+    const handleOpenPortal = useCallback((e) => {
         const portalWidth = 350;
         const width = window.innerWidth;
         setPortal({
@@ -276,21 +309,21 @@ export function useDnd(components, layouts, currentElement, updateLayout, setCur
             y: e.clientY,
             open: true,
         });
-    };
+    });
 
     /**
      * Allow you close the tool pallet
      */
-    const handleClosePortal = () => setPortal(() => ({
+    const handleClosePortal = useCallback(() => setPortal(() => ({
         open: false,
-    }));
+    })));
 
     /**
      * Allows you to retrieve a column
      * @param id
      * @return {[]}
      */
-    const getColumn = (id) => {
+    const getColumn = useCallback((id) => {
         let column = [];
         layouts.forEach((layout) => {
             layout.columns.forEach((item) => {
@@ -300,14 +333,14 @@ export function useDnd(components, layouts, currentElement, updateLayout, setCur
             });
         });
         return column;
-    };
+    });
 
     /**
      * Allows you to retrieve a layout
      * @param id
      * @return {{}}
      */
-    const getLayout = (id) => {
+    const getLayout = useCallback((id) => {
         let layout = {
         };
         layouts.forEach((item) => {
@@ -318,25 +351,25 @@ export function useDnd(components, layouts, currentElement, updateLayout, setCur
             });
         });
         return layout;
-    };
+    });
 
     /**
      * Allows you to update a column
      * @param column
      */
-    const updateColumn = (column) => {
+    const updateColumn = useCallback((column) => {
         const layout = getLayout(column.id);
         if (layout.id) {
             layout.columns.map((c) => (c.id === column.id ? column : c));
         }
         updateLayout(layout);
-    };
+    });
 
     /**
      *
      * @param element
      */
-    const updateElement = (element) => {
+    const updateElement = useCallback((element) => {
         let column = {
         };
         let elements = [];
@@ -355,14 +388,14 @@ export function useDnd(components, layouts, currentElement, updateLayout, setCur
         elements = elements.map((e) => (e.id === element.id ? element : e));
         column.elements = elements;
         updateColumn(column);
-    };
+    });
 
     /**
      *
      * @param component
      * @return {{}}
      */
-    const generateElement = (component) => ({
+    const generateElement = useCallback((component) => ({
         id: new Date().getTime(),
         content: component.defaultValue,
         type: component.type,
@@ -416,20 +449,20 @@ export function useDnd(components, layouts, currentElement, updateLayout, setCur
                 },
             },
         },
-    });
+    }));
 
     /**
      * Allows you to add a component from the tool pallet
      * @param component
      */
-    const addComponentFromPortal = (component) => {
+    const addComponentFromPortal = useCallback((component) => {
         const column = getColumn(currentElement.column);
         const element = generateElement(component);
         setCurrentElement(element);
         column.elements = [element];
         updateColumn(column);
         handleClosePortal();
-    };
+    });
 
     /**
      *
@@ -438,13 +471,13 @@ export function useDnd(components, layouts, currentElement, updateLayout, setCur
      * @param endIndex
      * @return {unknown[]}
      */
-    const reorder = (list, startIndex, endIndex) => {
+    const reorder = useCallback((list, startIndex, endIndex) => {
         const result = Array.from(list);
         const [removed] = result.splice(startIndex, 1);
         result.splice(endIndex, 0, removed);
 
         return result;
-    };
+    });
 
     /**
      * Allows you to move/add an item in a list.
@@ -454,7 +487,7 @@ export function useDnd(components, layouts, currentElement, updateLayout, setCur
      * @param droppableDestination
      * @return {{}}
      */
-    const move = (source, destination, droppableSource, droppableDestination) => {
+    const move = useCallback((source, destination, droppableSource, droppableDestination) => {
         const result = {
         };
         if (droppableSource.droppableId !== 'components') {
@@ -475,13 +508,13 @@ export function useDnd(components, layouts, currentElement, updateLayout, setCur
             handleClosePortal();
         }
         return result;
-    };
+    });
 
     /**
      *
      * @param result
      */
-    const onDragEnd = (result) => {
+    const onDragEnd = useCallback((result) => {
         const { source, destination } = result;
         // dropped outside the list
         if (!destination) {
@@ -496,7 +529,7 @@ export function useDnd(components, layouts, currentElement, updateLayout, setCur
             column.elements = reorder(column.elements, source.index, destination.index);
             updateColumn(column);
         } else {
-            let data = [];
+            let data;
             const columnDestination = getColumn(destination.droppableId);
             if (source.droppableId === 'components') {
                 data = move(components, columnDestination.elements, source, destination);
@@ -512,7 +545,7 @@ export function useDnd(components, layouts, currentElement, updateLayout, setCur
             columnDestination.elements = data[destination.droppableId];
             updateColumn(columnDestination);
         }
-    };
+    });
 
     return {
         onDragEnd,

@@ -313,7 +313,7 @@ export default class defaultComponents {
                         letterSpacing: '0',
                         color: {
                             normal: '#CC3E33',
-                            hover: '#CC7E5A',
+                            hover: '',
                         },
                     },
                     styles: {
@@ -543,7 +543,7 @@ export default class defaultComponents {
                         letterSpacing: '0',
                         color: {
                             normal: '#000',
-                            hover: '#000',
+                            hover: '',
                         },
                     },
                     styles: {

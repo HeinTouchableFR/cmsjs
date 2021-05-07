@@ -337,7 +337,7 @@ export default function Navigation({ components,
                 <div className={`${styles.actions}`}>
                     <DarkModeButton />
                     <Button
-                        label={page.content
+                        label={page.content !== ''
                             ? intl.formatMessage({
                                 id: 'update', defaultMessage: 'Update',
                             })
