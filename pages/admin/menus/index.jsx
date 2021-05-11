@@ -285,7 +285,7 @@ export default function Index({ menus, pages }) {
                                                 defaultMessage: 'Add to menu',
                                             })}
                                             type='submit'
-                                            loading={formPage.page === ''}
+                                            disabled={formPage.page === ''}
                                         />
                                     </form>
                                 </Accordion>
@@ -340,7 +340,7 @@ export default function Index({ menus, pages }) {
                                                 defaultMessage: 'Add to menu',
                                             })}
                                             type='submit'
-                                            loading={(formLink.label === '' && formLink.url === '')}
+                                            disabled={(formLink.label === '' && formLink.url === '')}
                                         />
                                     </form>
                                 </Accordion>
