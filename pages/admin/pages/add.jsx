@@ -60,7 +60,10 @@ export default function Add({ images, errors }) {
                 body: JSON.stringify({
                     title: content.title,
                     slug: content.slug,
-                    author: 'A faire',
+                    author: {
+                        uid: user.uid,
+                        displayName: user.displayName,
+                    },
                     published: new Date(),
                     content: JSON.stringify(content.data),
                     params: JSON.stringify(content.params),

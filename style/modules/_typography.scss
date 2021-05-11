@@ -20,7 +20,14 @@ $f-gotham: 'Gotham', sans-serif;
 }
 
 @include dark {
-
+    --color-contrast: #D854FF;
+    --color-dark: #ebeefb;
+    --color-gray: #2a2e5e;
+    --color-light: #26272E;
+    --color-background: #171933;
+    --color-card: #171933;
+    --color-shadow: rgba(0, 0, 0, 0.2);
+    --color-shadow-dark: #d8e1e8;
 }
 
 // Font face

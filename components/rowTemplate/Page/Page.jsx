@@ -11,7 +11,7 @@ export default function Page({item, url, handleDelete}) {
                 <td>
                     {item.title}
                 </td>
-                <td>{item.author}</td>
+                <td>{item.author && item.author.displayName}</td>
                 <td>
                     {item.updated
                         ? `${intl.formatMessage({

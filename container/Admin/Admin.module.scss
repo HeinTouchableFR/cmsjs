@@ -161,13 +161,13 @@
       display: none;
     }
 
-    .sidebar_brand, li {
-      padding-left: 1rem;
+    li {
+      padding-left: 0;
       text-align: center;
     }
 
-    li a {
-      padding-left: 0;
+    .sidebar_brand {
+      padding-left: 1.3rem;
     }
   }
 
