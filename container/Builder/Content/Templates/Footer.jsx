@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { useTemplates } from 'context/template';
 import Layout from './Layout';
 
-export default function Footer({ device }) {
+export default function Footer() {
     const { value: dataTemplates } = useTemplates();
 
     const [content, setContent] = useState([]);
@@ -42,7 +42,6 @@ export default function Footer({ device }) {
                     {content.map((layout) => (
                         <Layout
                             layout={layout}
-                            device={device}
                             key={layout.id}
                         />
                     ))}
@@ -53,7 +52,6 @@ export default function Footer({ device }) {
 }
 
 Footer.propTypes = {
-    device: PropTypes.string.isRequired,
 };
 
 Footer.defaultProps = {

@@ -1425,9 +1425,7 @@ export default class defaultComponents {
             color: 'yellow',
             type: 'menu',
             defaultValue: {
-                menu: {
-                    value: 'Kut7Ht5LrEL54IwEohy5',
-                },
+                menu: '',
                 alignment: 'flex-end',
                 desktop: {
                     typo: {

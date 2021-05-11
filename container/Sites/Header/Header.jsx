@@ -72,9 +72,7 @@ export default function Header({ children, title, settings, setShowRender, showR
                 />
                 <title>
                     {title}
-                    {' '}
-                    |
-                    {' '}
+                    {' | '}
                     {siteName}
                 </title>
                 {children}

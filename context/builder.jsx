@@ -1,5 +1,5 @@
 import React, {
-    useState, useContext, createContext, useReducer, useCallback, useMemo,
+    useState, useContext, createContext, useReducer, useCallback, useMemo, useEffect,
 } from 'react';
 import PropTypes from 'prop-types';
 
@@ -10,6 +10,7 @@ const Builder = createContext({
     mode: 'page',
     layouts: [],
     components: [],
+    menus: [],
     params: {
     },
     currentElement: {
@@ -64,6 +65,9 @@ export function BuilderProvider({ page, components, builderMode, children }) {
     const [currentElement, setCurrentElement] = useState({
     });
 
+    const [menus, setMenus] = useState([
+    ]);
+
     const [device, setDevice] = useState('desktop');
     const [mode, setMode] = useState(builderMode || 'page');
     const type = page.type ? page.type : 'page';
@@ -73,6 +77,12 @@ export function BuilderProvider({ page, components, builderMode, children }) {
         y: '',
         open: false,
     });
+
+    useEffect(async () => {
+        const res = await fetch('/api/menus');
+        const data = await res.json();
+        setMenus(data.data);
+    }, []);
 
     /**
      * Allows you to add a layout
@@ -589,6 +599,7 @@ export function BuilderProvider({ page, components, builderMode, children }) {
         setDevice,
         mode,
         setMode,
+        menus,
         portal,
         handleOpenPortal,
         handleClosePortal,
@@ -598,7 +609,7 @@ export function BuilderProvider({ page, components, builderMode, children }) {
         deleteLayout,
         updateElement,
         onDragEnd,
-    }), [layouts, params, currentElement, device, portal]);
+    }), [layouts, params, currentElement, device, portal, menus]);
 
     return (
         <Builder.Provider

@@ -3,7 +3,6 @@ import React, {
 } from 'react';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import axios from 'axios';
 import {
     containerStyle,
     containerStyleHover,
@@ -14,22 +13,19 @@ import {
     typoStyle,
 } from 'variables/renderFunctions';
 import PropTypes from 'prop-types';
+import { useBuilder } from 'context/builder';
 
 function MenuPreview({ element, device }) {
+    const { menus } = useBuilder();
     const [menu, setMenu] = useState([]);
     const [isNavActive, setIsNavActive] = useState(false);
 
-    useEffect(async () => {
-        if (menu.id !== element.content.menu.value) {
-            await axios
-                .get(`${process.env.URL}/api/menus/${element.content.menu.value}`)
-                .then((res) => {
-                    setMenu(res.data.data);
-                })
-                .catch(() => {
-                });
+    useEffect(() => {
+        const menuFromMenus = menus.find((x) => x.id === element.content.menu);
+        if (menuFromMenus) {
+            setMenu(menuFromMenus);
         }
-    }, [element]);
+    }, [element, menus]);
 
     const spanSize = (screen) => ({
         fontSize: `${concatValueUnit(element.content[screen].typo.size.value, element.content[screen].typo.size.unit)}`,
@@ -271,9 +267,7 @@ MenuPreview.propTypes = {
     device: PropTypes.string.isRequired,
     element: PropTypes.shape({
         content: PropTypes.shape({
-            menu: PropTypes.shape({
-                value: PropTypes.string.isRequired,
-            }).isRequired,
+            menu: PropTypes.string.isRequired,
             desktop: PropTypes.shape({
                 typo: PropTypes.shape({
                     size: PropTypes.shape({

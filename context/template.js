@@ -36,7 +36,7 @@ export function TemplatesProvider({ children }) {
                         layout.columns.forEach((column) => {
                             column.elements.forEach(async (element) => {
                                 if (element.type === 'menu') {
-                                    fetch(`${process.env.URL}/api/menus/${element.content.menu.value}`).then((res) => {
+                                    fetch(`${process.env.URL}/api/menus/${element.content.menu}`).then((res) => {
                                         res.json().then((data) => {
                                             dataNav = {
                                                 ...dataNav,
@@ -61,12 +61,13 @@ export function TemplatesProvider({ children }) {
                         layout.columns.forEach((column) => {
                             column.elements.forEach(async (element) => {
                                 if (element.type === 'menu') {
-                                    fetch(`${process.env.URL}/api/menus/${element.content.menu.value}`).then((res) => {
+                                    fetch(`${process.env.URL}/api/menus/${element.content.menu}`).then((res) => {
                                         res.json().then((data) => {
                                             dataNav = {
                                                 ...dataNav,
                                                 [element.id]: data.data,
                                             };
+                                            setNav(dataNav);
                                         });
                                     });
                                 }
@@ -80,7 +81,6 @@ export function TemplatesProvider({ children }) {
                     header, footer,
                 },
             });
-
         }
     }, [settings]);
 

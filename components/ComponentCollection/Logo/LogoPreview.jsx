@@ -1,6 +1,4 @@
-import React, {
-    useEffect, useState,
-} from 'react';
+import React from 'react';
 import { useSettings } from 'context/settings';
 import {
     styleDivImagePreview,
@@ -10,16 +8,6 @@ import PropTypes from 'prop-types';
 
 function LogoPreview({ element, device }) {
     const { value: settings } = useSettings();
-    const [logo, setLogo] = useState([]);
-
-    useEffect(() => {
-        if (settings.settings) {
-            const generalSettings = settings.settings.find((x) => x.id === 'general');
-            if (generalSettings) {
-                setLogo(generalSettings.logo);
-            }
-        }
-    }, [settings]);
 
     const Image = styleImagePreview(device, element);
 
@@ -27,7 +15,7 @@ function LogoPreview({ element, device }) {
         <>
             <div css={styleDivImagePreview(device, element)}>
                 <Image
-                    src={logo.image && logo.image.url}
+                    src={settings.logo.image && settings.logo.image.url}
                     alt='Logo'
                 />
             </div>

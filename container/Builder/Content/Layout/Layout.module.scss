@@ -181,6 +181,7 @@
     width: 100%;
     position: relative;
     box-shadow: 0 0 0 2px deepskyblue;
+    z-index: 20;
 
     .layout__settings {
       display: grid;

@@ -3,8 +3,11 @@ import PropTypes from 'prop-types';
 import styles from 'container/Builder/Content/Layout/Layout.module.scss';
 import ComponentDispatcher from 'components/ComponentCollection/ComponentDispatcher';
 import styled from '@emotion/styled';
+import { useBuilder } from 'context/builder';
 
-function Layout({ layout, device }) {
+function Layout({ layout }) {
+    const { device } = useBuilder();
+
     const LayoutContainer = styled.div`
         max-width: ${layout.content.params.layout.stretchSection ? '100%' : '1330px'};
         margin-left: auto!important;
@@ -84,7 +87,6 @@ Layout.propTypes = {
             }).isRequired,
         }).isRequired,
     }).isRequired,
-    device: PropTypes.string.isRequired,
 };
 
 Layout.defaultProps = {

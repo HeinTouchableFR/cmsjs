@@ -13,10 +13,12 @@ import Advanced from '../Ui/Advanced';
 import Background from '../Ui/Background';
 import Border from '../Ui/Border';
 import Animations from '../Ui/Animations';
+import { useBuilder } from 'context/builder';
 
 export default function Menu({ element, device, onElementValueChange }) {
     const intl = useIntl();
     const [item, setItem] = useState(element);
+    const { menus } = useBuilder();
 
     useEffect(() => {
         if (element.content.menu && element.type === 'menu') {
@@ -29,12 +31,30 @@ export default function Menu({ element, device, onElementValueChange }) {
         change(_e, data, item, setItem, onElementValueChange);
     };
 
+    const menusOptions = [
+    ];
+    menus.map((menu) => menusOptions.push({
+        key: menu.id,
+        text: menu.name,
+        value: menu.id,
+    }))
+
     return (
         <>
             <Accordion
                 active
                 title='Menu'
             >
+                <Dropdown
+                    name='menu'
+                    defaultValue={item.content.menu}
+                    options={menusOptions}
+                    onChange={handleChange}
+                    label={intl.formatMessage({
+                        id: 'builder.menu', defaultMessage: 'Menu',
+                    })}
+                    searchable
+                />
                 <Dropdown
                     name='alignment'
                     defaultValue={item.content.alignment}

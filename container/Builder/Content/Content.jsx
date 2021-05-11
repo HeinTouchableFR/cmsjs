@@ -28,7 +28,6 @@ function Content() {
                     ? (
                         <>
                             <Header
-                                device={device}
                                 key='headerPreview'
                             />
                             {layouts.map((item) => (
@@ -68,7 +67,7 @@ function Content() {
                 <AddLayout handleAddLayout={addLayout} />
                 {mode === 'page' && (
                     <Footer
-                        device={device}
+                        key='footerPreview'
                     />
                 )}
             </Div>

@@ -82,7 +82,7 @@ export default function Edit({ item, images, errors }) {
         <>
             <BuilderProvider
                 page={post}
-                components={defaultComponents.pageComponents(intl)}
+                components={defaultComponents.templateComponents(intl)}
                 builderMode='template'
             >
                 <Head>

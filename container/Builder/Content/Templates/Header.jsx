@@ -2,11 +2,10 @@ import React, {
     useEffect, useState,
 } from 'react';
 import styled from '@emotion/styled';
-import PropTypes from 'prop-types';
 import { useTemplates } from 'context/template';
 import Layout from './Layout';
 
-function Header({ device }) {
+function Header() {
     const { value: dataTemplates } = useTemplates();
 
     const [content, setContent] = useState([]);
@@ -27,6 +26,7 @@ function Header({ device }) {
         width: '100%',
         backgroundColor: params.background,
         top: '0',
+        zIndex: '10',
     });
 
     const HeaderComponent = styled.header({
@@ -45,7 +45,6 @@ function Header({ device }) {
                     {content.map((layout) => (
                         <Layout
                             layout={layout}
-                            device={device}
                             key={layout.id}
                         />
                     ))}
@@ -58,7 +57,6 @@ function Header({ device }) {
 export default React.memo(Header);
 
 Header.propTypes = {
-    device: PropTypes.string.isRequired,
 };
 
 Header.defaultProps = {
