@@ -17,3 +17,17 @@
     grid-template-columns: 100%;
   }
 }
+
+.comingsoon {
+  color: var(--color-dark);
+  font-size: 8rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 69vh;
+
+  span {
+    transform: rotate(-25deg);
+  }
+}

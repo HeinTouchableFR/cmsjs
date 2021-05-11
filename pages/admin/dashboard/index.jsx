@@ -3,10 +3,6 @@ import Head from 'next/head';
 import nookies from 'nookies';
 import { auth } from 'utils/dbConnect';
 import Admin from 'container/Admin/Admin';
-import RecentOrders from 'components/Dashboard/RecentOrders/RecentOrders';
-import NewCustomers from 'components/Dashboard/NewCustomers/NewCustomers';
-import Cards from 'components/Cards/Cards';
-import Single from 'components/Cards/Single/Single';
 import styles from './dashboard.module.scss';
 
 export default function Index() {
@@ -16,31 +12,8 @@ export default function Index() {
                 <title>Dashboard</title>
             </Head>
             <Admin>
-                <Cards>
-                    <Single
-                        number={54}
-                        label='Customers'
-                        icon='las la-users'
-                    />
-                    <Single
-                        number={79}
-                        label='Projects'
-                        icon='las la-clipboard'
-                    />
-                    <Single
-                        number={124}
-                        label='Orders'
-                        icon='las la-shopping-bag'
-                    />
-                    <Single
-                        number='6000 €'
-                        label='Income'
-                        icon='lab la-google-wallet'
-                    />
-                </Cards>
-                <div className={styles.recent_grid}>
-                    <RecentOrders />
-                    <NewCustomers />
+                <div className={styles.comingsoon}>
+                    <span>Coming Soon</span>
                 </div>
             </Admin>
         </>
