@@ -34,9 +34,9 @@
     margin: .15rem .3rem .15rem 0;
     box-shadow: inset 0 0 0 1px rgb(34 36 38 / 15%);
     cursor: pointer;
-    background-color: var(--color-background);
+    background-color: var(--color-gray);
     border-color: var(--color-gray);
-    color: rgba(0,0,0,.8);
+    color: var(--color-dark);
     border-radius: .3em;
 
     i {
