@@ -9,24 +9,24 @@ export default function Accordion({ title,
     const [isActive, setIsActive] = useState(active);
 
     return (
-        <>
-            <div className={`${styles.accordion} ${border ? styles.border : ''}`}>
-                <button
-                    className={`${styles.accordion__title} ${isActive && styles.active}`}
-                    onClick={() => setIsActive(!isActive)}
-                    type='button'
-                >
-                    <i
-                        aria-hidden
-                        className='fas fa-caret-down'
-                    />
-                    {title}
-                </button>
-                <div className={`${styles.accordion__content} ${isActive && styles.active}`}>
-                    {children}
-                </div>
+        <div className={`${styles.accordion} ${border ? styles.border : ''}`}>
+            <div
+                className={`${styles.accordion__title} ${isActive && styles.active}`}
+                onClick={() => setIsActive(!isActive)}
+                onKeyDown={() => setIsActive(!isActive)}
+                role='button'
+                tabIndex={0}
+            >
+                <i
+                    aria-hidden
+                    className='fas fa-caret-down'
+                />
+                {title}
             </div>
-        </>
+            <div className={`${styles.accordion__content} ${isActive && styles.active}`}>
+                {children}
+            </div>
+        </div>
     );
 }
 

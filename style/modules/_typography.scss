@@ -9,6 +9,7 @@ $f-gotham: 'Gotham', sans-serif;
   --color-gray: #a8a9b3;
   --color-light: #dfe0e6;
   --color-background: #f7fafb;
+  --color-background-hover: #f1f1f1;
   --color-card: #f7fafb;
   --color-error: #bd3d3b;
   --color-warning: #FFA500;
@@ -17,6 +18,7 @@ $f-gotham: 'Gotham', sans-serif;
   --color-required: #f25353;
   --color-shadow: #d8e1e8;
   --color-shadow-dark: rgba(0, 0, 0, 0.2);
+  --color-white: #c6dada;
 }
 
 @include dark {
@@ -25,6 +27,7 @@ $f-gotham: 'Gotham', sans-serif;
     --color-gray: #2a2e5e;
     --color-light: #26272E;
     --color-background: #171933;
+    --color-background-hover: #14172e;
     --color-card: #171933;
     --color-shadow: rgba(0, 0, 0, 0.2);
     --color-shadow-dark: #d8e1e8;

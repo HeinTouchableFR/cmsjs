@@ -1,5 +1,116 @@
-.menu__form__container{
+.manage_menu {
   display: grid;
-  grid-template-columns: 20% auto;
-  grid-gap: 20px;
+  grid-template-columns: 250px auto;
+  grid-gap: 15px;
+  margin-top: 23px;
+  padding: 1rem 1rem 0;
+  background: var(--color-background);
+  border: solid 1px var(--color-gray);
+
+  .add_menu {
+    display: flex;
+    align-items: center;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--color-dark);
+    padding-top: 10px;
+
+    a {
+      color: var(--color-contrast);
+      text-decoration: underline;
+      margin-left: 0.5rem;
+
+      &:hover {
+        color: var(--color-dark);
+      }
+    }
+  }
+}
+
+.nav_menu {
+  display: grid;
+  grid-template-columns: 25% auto;
+  grid-gap: 2rem;
+  margin-top: 3rem;
+
+  &.single {
+    grid-template-columns: 100%;
+  }
+
+  .menu_settings {
+    h2 {
+      color: var(--color-dark);
+      font-weight: bold;
+      font-size: 1.5rem;
+      margin-bottom: .8rem;
+    }
+  }
+
+  .menu_edit {
+    h2 {
+      color: var(--color-dark);
+      font-weight: bold;
+      font-size: 1.5rem;
+      margin-bottom: .8rem;
+    }
+
+    form {
+      border: solid 1px var(--color-gray);
+      border-radius: 5px;
+
+      .header {
+        display: grid;
+        grid-template-columns: 250px 160px;
+        grid-gap: calc(100% - (250px + 160px));
+        padding: 5px 10px;
+        border-bottom: solid 1px var(--color-gray);
+        align-items: center;
+        background: var(--color-background-hover);
+
+        &:last-child {
+          text-align: right;
+        }
+      }
+
+      .body {
+        padding: 10px;
+        color: var(--color-dark);
+      }
+
+      .footer {
+        display: grid;
+        grid-template-columns: 48px 160px;
+        grid-gap: calc(100% - (48px + 160px));
+        padding: 10px;
+        border-top: solid 1px var(--color-gray);
+        align-items: center;
+        background: var(--color-background-hover);
+
+        &:last-child {
+          text-align: right;
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 1040px) {
+  .nav_menu {
+    grid-template-columns: 100%;
+  }
+}
+
+@media only screen and (max-width: 580px) {
+  .manage_menu {
+    grid-template-columns: 100%;
+    padding: 1rem;
+
+    .add_menu {
+      margin-top: -2rem;
+    }
+  }
+
+  .header {
+    grid-template-columns: 100%!important;
+  }
 }

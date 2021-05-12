@@ -190,9 +190,13 @@
       display: none;
     }
 
-    .sidebar_brand, li {
-      padding-left: 1rem;
+    li {
+      padding-left: 0;
       text-align: center;
+    }
+
+    .sidebar_brand {
+      padding-left: 1.3rem;
     }
 
     li a {
@@ -253,11 +257,11 @@
         height: 40px;
         width: 40px;
         background: var(--color-contrast);
-        color: var(--color-light);
         border-radius: 50%;
 
         span {
           padding-right: 0;
+          color: var(--color-white);
         }
       }
     }
@@ -299,3 +303,8 @@
   }
 }
 
+@media only screen and (max-width: 550px) {
+  .user_wrapper {
+    display: none;
+  }
+}

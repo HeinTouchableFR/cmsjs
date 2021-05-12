@@ -6,22 +6,24 @@ import { useIntl } from 'react-intl';
 import axios from 'axios';
 import nookies from 'nookies';
 import Admin from 'container/Admin/Admin';
-import Card from 'components/Cards/Card/Card';
 import Button from 'components/Button/Button';
 import Input from 'components/Form/Input/Input';
 import Dropdown from 'components/Form/Dropdown/Dropdown';
-import Grid from 'container/Grid/Grid';
 import Accordion from 'components/Accordion/Accordion';
 import IconButton from 'components/Button/IconButton/IconButton';
+import Link from 'next/link';
+import styles from './menus.module.scss';
 
-export default function Index({ menus, pages }) {
+export default function Index({ menus, pages, defaultMenu }) {
     const intl = useIntl();
 
     const [loading, setLoading] = useState(false);
 
     const [menusList, setMenusList] = useState(menus);
 
-    const [form, setForm] = useState(menusList[0]);
+    const [form, setForm] = useState(defaultMenu
+        ? menusList.find((x) => x.id === defaultMenu)
+        : menusList[0]);
 
     const onMenuChange = (items) => {
         setForm({
@@ -132,44 +134,6 @@ export default function Index({ menus, pages }) {
         key: menu.id, text: menu.name, value: menu.id,
     }));
 
-    const [formCreateMenu, setFormCreateMenu] = useState({
-        name: '',
-    });
-
-    const handleChangeFormCreateMenu = (_e, data) => {
-        setFormCreateMenu({
-            ...formCreateMenu,
-            [data.name]: data.value ? data.value : null,
-        });
-    };
-
-    const handleCreateMenu = async (e) => {
-        e.preventDefault();
-        setLoading(true);
-        const menu = {
-            name: formCreateMenu.name,
-            items: '[]',
-        };
-        const res = await fetch('/api/menus', {
-            body: JSON.stringify(menu),
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            method: 'POST',
-        });
-
-        const result = await res.json();
-        menu.id = result.data.id;
-        const list = [...menusList, menu];
-        setMenusList(list);
-        setForm(list[list.length - 1]);
-        setLoading(false);
-        e.target.reset();
-        setFormCreateMenu({
-            name: '',
-        });
-    };
-
     const handleDeleteMenu = async () => {
         setLoading(true);
         const res = await fetch(`${process.env.URL}/api/menus/${form.id}`, {
@@ -202,205 +166,145 @@ export default function Index({ menus, pages }) {
                 </title>
             </Head>
             <Admin>
-                <Card
-                    title={intl.formatMessage({
-                        id: 'menus', defaultMessage: 'Menus',
-                    })}
-                >
-                    <Card
-                        color='pink'
-                    >
-                        <Grid
-                            columns={2}
+                <div className={`${styles.manage_menu}`}>
+                    <Dropdown
+                        label={intl.formatMessage({
+                            id: 'menu.edit', defaultMessage: 'Menu to edit',
+                        })}
+                        options={menuOptions}
+                        defaultValue={form.id}
+                        onChange={handleMenuChange}
+                        searchable
+                    />
+                    <span className={`${styles.add_menu}`}>
+                        {intl.formatMessage({
+                            id: 'or', defaultMessage: 'or',
+                        })}
+                        <Link href='/admin/menus/add'>
+                            <a>
+                                {intl.formatMessage({
+                                    id: 'menu.create', defaultMessage: 'create a new menu.',
+                                })}
+                            </a>
+                        </Link>
+                    </span>
+                </div>
+                <div className={`${styles.nav_menu}`}>
+                    <div className={`${styles.menu_settings}`}>
+                        <h2>
+                            {intl.formatMessage({
+                                id: 'menu.addItem', defaultMessage: 'Add menu items',
+                            })}
+                        </h2>
+                        <Accordion
+                            title={intl.formatMessage({
+                                id: 'pages', defaultMessage: 'Pages',
+                            })}
+                            active
                         >
-                            <Grid.Column>
-                                <span>
-                                    {intl.formatMessage({
-                                        id: 'menu.edit', defaultMessage: 'Menu to edit',
+                            <form onSubmit={handleAddPage}>
+                                <Dropdown
+                                    name='page'
+                                    options={pageOptions}
+                                    onChange={handleChangeFormPage}
+                                    defaultValue={formPage.page}
+                                    searchable
+                                />
+                                <Button
+                                    label={intl.formatMessage({
+                                        id: 'menu.add',
+                                        defaultMessage: 'Add to menu',
                                     })}
-                                    {' '}
-                                    <Dropdown
-                                        options={menuOptions}
-                                        defaultValue={form.id}
-                                        onChange={handleMenuChange}
-                                        searchable
-                                    />
-                                </span>
-                            </Grid.Column>
-                            <Grid.Column>
-                                <form onSubmit={handleCreateMenu}>
-                                    <Grid columns={2}>
-                                        <Grid.Column>
-                                            <Input
-                                                name='name'
-                                                label={intl.formatMessage({
-                                                    id: 'name',
-                                                    defaultMessage: 'Name',
-                                                })}
-                                                placeholder={intl.formatMessage({
-                                                    id: 'name',
-                                                    defaultMessage: 'Names',
-                                                })}
-                                                required
-                                                onChange={handleChangeFormCreateMenu}
-                                            />
-                                        </Grid.Column>
-                                        <Grid.Column align='right'>
-                                            <Button
-                                                label={intl.formatMessage({
-                                                    id: 'menu.create',
-                                                    defaultMessage: 'Create menu',
-                                                })}
-                                                loading={loading}
-                                                type='submit'
-                                            />
-                                        </Grid.Column>
-                                    </Grid>
-                                </form>
-                            </Grid.Column>
-                        </Grid>
-                    </Card>
-                    <Grid columns={2}>
-                        <Grid.Column width='three'>
-                            <Card
-                                color='olive'
-                            >
-                                <Accordion
-                                    title={intl.formatMessage({
-                                        id: 'pages', defaultMessage: 'Pages',
-                                    })}
-                                    active
-                                >
-                                    <form onSubmit={handleAddPage}>
-                                        <Dropdown
-                                            name='page'
-                                            options={pageOptions}
-                                            onChange={handleChangeFormPage}
-                                            defaultValue={formPage.page}
-                                            searchable
-                                        />
-                                        <Button
-                                            label={intl.formatMessage({
-                                                id: 'menu.add',
-                                                defaultMessage: 'Add to menu',
-                                            })}
-                                            type='submit'
-                                            disabled={formPage.page === ''}
-                                        />
-                                    </form>
-                                </Accordion>
-                                <Accordion
-                                    title={intl.formatMessage({
-                                        id: 'articles', defaultMessage: 'Articles',
-                                    })}
-                                >
-                                    TODO
-                                </Accordion>
-                                <Accordion
-                                    title={intl.formatMessage({
-                                        id: 'categories', defaultMessage: 'Categories',
-                                    })}
-                                >
-                                    TODO
-                                </Accordion>
-                                <Accordion
-                                    title={intl.formatMessage({
-                                        id: 'products', defaultMessage: 'Products',
-                                    })}
-                                >
-                                    TODO
-                                </Accordion>
-                                <Accordion
-                                    title={intl.formatMessage({
-                                        id: 'menu.custom.link', defaultMessage: 'Custom link',
-                                    })}
-                                >
-                                    <form onSubmit={handleAddLink}>
-                                        <Input
-                                            label={intl.formatMessage({
-                                                id: 'url', defaultMessage: 'URL',
-                                            })}
-                                            placeholder='https://'
-                                            name='url'
-                                            required
-                                            onChange={handleChangeFormLink}
-                                        />
-                                        <Input
-                                            label={intl.formatMessage({
-                                                id: 'navigation.label',
-                                                defaultMessage: 'Navigation label',
-                                            })}
-                                            name='label'
-                                            required
-                                            onChange={handleChangeFormLink}
-                                        />
-                                        <Button
-                                            label={intl.formatMessage({
-                                                id: 'menu.add',
-                                                defaultMessage: 'Add to menu',
-                                            })}
-                                            type='submit'
-                                            disabled={(formLink.label === '' && formLink.url === '')}
-                                        />
-                                    </form>
-                                </Accordion>
-                            </Card>
-                        </Grid.Column>
-                        <Grid.Column width='thirteen'>
-                            <form onSubmit={save}>
-                                <Card>
-                                    <Card.Body>
-                                        <Grid columns={2}>
-                                            <Grid.Column>
-                                                <Input
-                                                    label={intl.formatMessage({
-                                                        id: 'name',
-                                                        defaultMessage: 'Name',
-                                                    })}
-                                                    name='name'
-                                                    value={`${form.name}`}
-                                                    onChange={handleChangeMenuName}
-                                                />
-                                            </Grid.Column>
-                                            <Grid.Column align='right'>
-                                                <Button
-                                                    label={intl.formatMessage({
-                                                        id: 'menu.save', defaultMessage: 'Save menu',
-                                                    })}
-                                                    loading={loading}
-                                                    type='submit'
-                                                />
-                                            </Grid.Column>
-                                        </Grid>
-                                        <MenuEditor
-                                            content={form.items}
-                                            onChange={onMenuChange}
-                                        />
-                                    </Card.Body>
-                                    <Card.Footer>
-                                        <Grid columns={2}>
-                                            <Grid.Column>
-                                                <IconButton
-                                                    action={() => handleDeleteMenu()}
-                                                    icon='las la-trash-alt'
-                                                />
-                                            </Grid.Column>
-                                            <Grid.Column align='right'>
-                                                <Button
-                                                    label={intl.formatMessage({
-                                                        id: 'menu.save', defaultMessage: 'Save menu',
-                                                    })}
-                                                    loading={loading}
-                                                    type='submit'
-                                                />
-                                            </Grid.Column>
-                                        </Grid>
-                                    </Card.Footer>
-                                </Card>
+                                    type='submit'
+                                    disabled={formPage.page === ''}
+                                />
                             </form>
-                        </Grid.Column>
-                    </Grid>
-                </Card>
+                        </Accordion>
+                        <Accordion
+                            title={intl.formatMessage({
+                                id: 'menu.custom.link', defaultMessage: 'Custom link',
+                            })}
+                        >
+                            <form onSubmit={handleAddLink}>
+                                <Input
+                                    label={intl.formatMessage({
+                                        id: 'url', defaultMessage: 'URL',
+                                    })}
+                                    placeholder='https://'
+                                    name='url'
+                                    required
+                                    onChange={handleChangeFormLink}
+                                />
+                                <Input
+                                    label={intl.formatMessage({
+                                        id: 'navigation.label',
+                                        defaultMessage: 'Navigation label',
+                                    })}
+                                    name='label'
+                                    required
+                                    onChange={handleChangeFormLink}
+                                />
+                                <Button
+                                    label={intl.formatMessage({
+                                        id: 'menu.add',
+                                        defaultMessage: 'Add to menu',
+                                    })}
+                                    type='submit'
+                                    disabled={(formLink.label === '' && formLink.url === '')}
+                                />
+                            </form>
+                        </Accordion>
+                    </div>
+                    <div className={`${styles.menu_edit}`}>
+                        <h2>
+                            {intl.formatMessage({
+                                id: 'menu.structure', defaultMessage: '{name} menu structure',
+                            }, {
+                                name: form.name,
+                            })}
+                        </h2>
+                        <form onSubmit={save}>
+                            <div className={`${styles.header}`}>
+                                <Input
+                                    label={intl.formatMessage({
+                                        id: 'name',
+                                        defaultMessage: 'Name',
+                                    })}
+                                    name='name'
+                                    defaultValue={`${form.name}`}
+                                    onChange={handleChangeMenuName}
+                                    required
+                                />
+                                <Button
+                                    label={intl.formatMessage({
+                                        id: 'menu.save', defaultMessage: 'Save menu',
+                                    })}
+                                    loading={loading}
+                                    type='submit'
+                                />
+                            </div>
+                            <div className={`${styles.body}`}>
+                                <MenuEditor
+                                    content={form.items}
+                                    onChange={onMenuChange}
+                                />
+                            </div>
+                            <div className={`${styles.footer}`}>
+                                <IconButton
+                                    action={() => handleDeleteMenu()}
+                                    icon='las la-trash-alt'
+                                />
+                                <Button
+                                    label={intl.formatMessage({
+                                        id: 'menu.save', defaultMessage: 'Save menu',
+                                    })}
+                                    loading={loading}
+                                    type='submit'
+                                />
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </Admin>
         </>
     );
@@ -414,6 +318,8 @@ export async function getServerSideProps(ctx) {
         if (!token.roles.some((r) => ['admin', 'editor', 'moderator'].includes(r))) {
             throw new Error('unauthorized');
         }
+
+        const id = ctx.query.id || '';
 
         let menus = [];
         await axios
@@ -435,7 +341,7 @@ export async function getServerSideProps(ctx) {
 
         return {
             props: {
-                menus, pages,
+                menus, pages, defaultMenu: id,
             },
         };
     } catch (err) {
