@@ -73,12 +73,6 @@ export default function Dropdown({ name,
         setIsExpend(false);
     };
 
-    const handleFocus = () => {
-        if (searchable) {
-            inputRef.current.focus();
-        }
-    };
-
     return (
         <>
             <div className={styles.field}>
@@ -103,8 +97,6 @@ export default function Dropdown({ name,
                         isExpend && styles.active
                     } ${isExpend && styles.visible} ${multiple ? styles.multiple : ''}`}
                     onFocus={handleExpend}
-                    onClick={() => handleFocus()}
-                    onKeyDown={() => handleFocus()}
                 >
                     {multiple
                     && options.map((option) => value.includes(option.value) && (
