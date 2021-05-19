@@ -1,0 +1,94 @@
+.cms_core {
+  background-color: var(--color-background);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+
+  .logo {
+    position: absolute;
+    top: 3%;
+    width: 160px;
+    height: 160px;
+    overflow: hidden;
+    background-image: url(/logo.png);
+    background-size: 160px;
+    background-position: center top;
+    background-repeat: no-repeat;
+    text-decoration: none;
+    text-align: center;
+    text-indent: -9999px;
+    outline: 0;
+  }
+
+  .body {
+    background: var(--color-card);
+    border: 1px solid var(--color-gray);
+    border-radius: 5px;
+    color: var(--color-dark);
+    font-family: Poppins, sans-serif;
+    padding: 20px 20px 10px 20px;
+    width: 700px;
+    box-shadow: 0 1px 1px rgb(0 0 0 / 4%);
+    position: relative;
+    margin-top: 6.5rem;
+    height: fit-content;
+
+    .title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--color-dark);
+      padding: 0 0 7px;
+
+      h2 {
+        color: var(--color-dark);
+        font-size: 1.5rem;
+        font-weight: 400;
+      }
+
+    }
+
+    p {
+      font-size: 1rem;
+      line-height: 1.5;
+      text-align: justify;
+      margin-block-start: 1em;
+      margin-block-end: 1em;
+      margin-inline-start: 0;
+      margin-inline-end: 0;
+    }
+
+    .install_success {
+      border-collapse: collapse;
+      margin-top: 1em;
+      width: 100%;
+      font-size: 1rem;
+
+      th {
+        width: 140px;
+      }
+
+      th, td {
+        vertical-align: middle;
+        padding: 16px 20px 16px 0;
+        font-size: 1rem;
+        text-align: left;
+        font-weight: 600;
+      }
+
+      td {
+        margin-bottom: 9px;
+        padding: 10px 20px 10px 0;
+        font-size: 0.8rem;
+        vertical-align: top;
+        font-weight: 400;
+      }
+    }
+  }
+}
+
+
+@media only screen and (max-width: 700px) {
+
+}

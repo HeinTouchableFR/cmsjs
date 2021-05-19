@@ -115,6 +115,11 @@
     "height": "Height (cm)",
     "id": "Id",
     "install": "Install",
+    "install.info": "Welcome to the installation of your website. You just have to fill in the information below and you will be ready to create your website like a boss!",
+    "install.reassurance": "Please fill in the following information. Don't worry, you can change them later.",
+    "install.success": "Your site is now installed. Have fun :)",
+    "install.chosenPassword": "The password you have chosen.",
+    "install.informations": "Required information",
     "image.addNew": "Add a new image",
     "image.choose": "Choose an image",
     "image.selected": "Selected image",
@@ -195,6 +200,7 @@
     "width": "Width (cm)",
     "weight": "Weight (lb)",
     "welcome": "Welcome",
+    "wow": "Wow !",
     "yes": "Yes",
     "LastLineDoNotRemove": "LastLineDoNotRemove"
 }

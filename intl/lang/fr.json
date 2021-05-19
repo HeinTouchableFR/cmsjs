@@ -115,6 +115,11 @@
     "height": "Hauteur (cm)",
     "id": "Id",
     "install": "Installer",
+    "install.info": "Bienvenue dans l'installation de votre site internet. Vous n’avez qu’à remplir les informations demandées ci-dessous et vous serez prêt à créer votre site comme un pro !",
+    "install.reassurance": "Veuillez renseigner les informations suivantes. Ne vous inquiétez pas, vous pourrez les modifier plus tard.",
+    "install.success": "Votre site est désormais installé. Amusez vous bien :)",
+    "install.chosenPassword": "Le mot de passe que vous avez choisi.",
+    "install.informations": "Informations nécessaires",
     "image.addNew": "Ajouter une nouvelle image",
     "image.choose": "Choisir une image",
     "image.selected": "Image sélectionnée",
@@ -195,6 +200,7 @@
     "width": "Largeur (cm)",
     "weight": "Poids (kg)",
     "welcome": "Bienvenue",
+    "wow": "Wow !",
     "yes": "Oui",
     "LastLineDoNotRemove": "LastLineDoNotRemove"
 }

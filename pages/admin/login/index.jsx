@@ -10,7 +10,7 @@ import Tilt from 'components/Tilt/Tilt';
 import { useSettings } from 'context/settings';
 import Input from 'components/Form/Input/Input';
 import styles from './login.module.scss';
-import Button from '../../../components/Button/Button';
+import Button from 'components/Button/Button';
 
 export default function Index() {
     const { value: settings } = useSettings();
