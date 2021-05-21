@@ -6,8 +6,14 @@ import Head from 'next/head';
 import { useTemplates } from 'context/template';
 import styled from '@emotion/styled';
 import Layout from 'container/RenderPage/Layout';
+import { firebase } from 'utils/firebaseClient';
 
-export default function Header({ children, settings, setShowRender, showRender, post, isHomePage }) {
+export default function Header({ children,
+    settings,
+    setShowRender,
+    showRender,
+    post,
+    isHomePage }) {
     const { value: dataTemplates } = useTemplates();
     const [content, setContent] = useState([]);
     const [params, setParams] = useState({
@@ -47,6 +53,10 @@ export default function Header({ children, settings, setShowRender, showRender, 
     useEffect(() => {
         document.documentElement.lang = locale;
     }, [locale]);
+
+    useEffect(() => {
+        firebase.analytics();
+    }, [])
 
     const Sticky = styled.div({
         position: 'sticky',

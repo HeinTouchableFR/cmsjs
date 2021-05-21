@@ -6,7 +6,6 @@ import 'firebase/analytics';
 const firebaseConfig = eval(`(${process.env.FIREBASE_CONFIG})`);
 if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
-    const analytics = firebase.analytics();
 }
 
 export { firebase };
