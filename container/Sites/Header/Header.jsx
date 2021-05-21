@@ -126,7 +126,7 @@ export default function Header({ children, settings, setShowRender, showRender, 
                 />
                 <meta
                     name='twitter:image'
-                    content={logo.image.url}
+                    content={logo?.image?.url}
                 />
                 <title>
                     {post.title}
