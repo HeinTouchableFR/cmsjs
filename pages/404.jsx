@@ -77,6 +77,7 @@ export default function Error() {
                                 })}
                             </p>
                             <Link href='/'>
+                                {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                                 <a>
                                     {intl.formatMessage({
                                         id: 'error.404.iDare', defaultMessage: 'I dare !',
@@ -91,9 +92,3 @@ export default function Error() {
         </>
     );
 }
-Error.getInitialProps = ({ res, err }) => {
-    const statusCode = res ? res.statusCode : err ? err.statusCode : 404;
-    return {
-        statusCode,
-    };
-};
