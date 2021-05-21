@@ -2,6 +2,7 @@ module.exports = {
     siteUrl: process.env.server,
     generateRobotsTxt: true,
     exclude: ['/server-sitemap.xml',
+        '/admin',
         '/admin/attributes',
         '/admin/attributes/add',
         '/admin/categories',

@@ -102,7 +102,7 @@ export default function Header({ children, settings, setShowRender, showRender, 
                 />
                 <meta
                     property='og:url'
-                    content={process.env.URL}
+                    content={`${process.env.URL}/${post.slug}`}
                 />
                 <meta
                     property='og:site_name'
@@ -178,6 +178,7 @@ Header.propTypes = {
         id: PropTypes.string.isRequired,
         title: PropTypes.string,
         description: PropTypes.string,
+        slug: PropTypes.string,
         params: PropTypes.string.isRequired,
     }).isRequired,
 };

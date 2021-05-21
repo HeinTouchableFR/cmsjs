@@ -15,7 +15,9 @@ export const getServerSideProps = async (ctx) => {
 
     items.map((item) => fields.push({
         loc: `${process.env.URL}/${item.slug}`, // Absolute url
-        lastmod: item.updated ? item.updated : item.published,
+        lastmod: item.updated
+            ? new Date(item.updated).toISOString()
+            : new Date(item.published).toISOString(),
         // changefreq
         // priority
     }));
