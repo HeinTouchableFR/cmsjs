@@ -22,10 +22,10 @@ export default function Page({ post }) {
     return (
         <>
             <Header
-                title={`${post.title}`}
                 settings={settings}
                 setShowRender={setShowRender}
                 showRender={showRender}
+                post={post}
             />
             <Global
                 styles={{

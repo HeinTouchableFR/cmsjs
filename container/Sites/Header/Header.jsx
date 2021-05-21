@@ -7,12 +7,13 @@ import { useTemplates } from 'context/template';
 import styled from '@emotion/styled';
 import Layout from 'container/RenderPage/Layout';
 
-export default function Header({ children, title, settings, setShowRender, showRender }) {
+export default function Header({ children, settings, setShowRender, showRender, post }) {
     const { value: dataTemplates } = useTemplates();
     const [content, setContent] = useState([]);
     const [params, setParams] = useState({
     });
     const [siteName, setSiteName] = useState('');
+    const [logo, setLogo] = useState('');
 
     useEffect(() => {
         if (dataTemplates.templates.header) {
@@ -36,6 +37,7 @@ export default function Header({ children, title, settings, setShowRender, showR
             const generalSettings = settings.settings.find((x) => x.id === 'general');
             if (generalSettings) {
                 setSiteName(generalSettings.sitename);
+                setLogo(generalSettings.logo);
             }
         }
     }, [settings]);
@@ -70,11 +72,71 @@ export default function Header({ children, title, settings, setShowRender, showR
                     name='viewport'
                     content='width=device-width, initial-scale=1.0,  user-scalable=no'
                 />
+                <meta
+                    httpEquiv='X-UA-Compatible'
+                    content='ie=edge'
+                />
+                <meta
+                    name='robots'
+                    content='index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'
+                />
+                <meta
+                    property='og:locale'
+                    content='fr_FR'
+                />
+                <meta
+                    property='og:type'
+                    content='website'
+                />
+                <meta
+                    property='og:title'
+                    content={`${post.title} | ${siteName}`}
+                />
+                <meta
+                    property='og:description'
+                    content={post.description}
+                />
+                <meta
+                    property='og:url'
+                    content={process.env.URL}
+                />
+                <meta
+                    property='og:site_name'
+                    content={siteName}
+                />
+                <meta
+                    property='og:image'
+                    content={logo?.image?.url}
+                />
+                <meta
+                    name='twitter:card'
+                    content='summary'
+                />
+                <meta
+                    name='twitter:site'
+                    content={siteName}
+                />
+                <meta
+                    name='twitter:title'
+                    content={`${post.title} | ${siteName}`}
+                />
+                <meta
+                    name='twitter:description'
+                    content={post.description}
+                />
+                <meta
+                    name='twitter:image'
+                    content={logo.image.url}
+                />
                 <title>
-                    {title}
+                    {post.title}
                     {' | '}
                     {siteName}
                 </title>
+                <link
+                    rel='canonical'
+                    href={process.env.URL}
+                />
                 {children}
             </Head>
             {showRender
@@ -108,7 +170,12 @@ Header.propTypes = {
         })])),
     }).isRequired,
     showRender: PropTypes.bool.isRequired,
-    title: PropTypes.string.isRequired,
+    post: PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        title: PropTypes.string,
+        description: PropTypes.string,
+        params: PropTypes.string.isRequired,
+    }).isRequired,
 };
 
 Header.defaultProps = {

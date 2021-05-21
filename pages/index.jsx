@@ -23,10 +23,10 @@ export default function Home({ post }) {
     return (
         <>
             <Header
-                title='HomePage'
                 settings={settings}
                 setShowRender={setShowRender}
                 showRender={showRender}
+                post={post}
             />
             <Global
                 styles={{
