@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Head from 'next/head';
 import { useIntl } from 'react-intl';
 
-export default function Error404() {
+export default function Error() {
     const intl = useIntl();
 
     return (
@@ -91,3 +91,9 @@ export default function Error404() {
         </>
     );
 }
+Error.getInitialProps = ({ res, err }) => {
+    const statusCode = res ? res.statusCode : err ? err.statusCode : 404;
+    return {
+        statusCode,
+    };
+};
