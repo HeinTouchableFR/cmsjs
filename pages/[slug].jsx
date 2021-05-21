@@ -65,6 +65,10 @@ export async function getServerSideProps({ params }) {
     const dataItem = await resItem.json();
     if (dataItem.success) {
         post = dataItem.data;
+    } else {
+        return {
+            notFound: true,
+        };
     }
 
     return {
