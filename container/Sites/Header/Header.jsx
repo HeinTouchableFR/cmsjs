@@ -40,7 +40,7 @@ export default function Header({ children,
     }, [dataTemplates]);
 
     useEffect(() => {
-        if (settings && settings.settings) {
+        if (settings.settings) {
             const generalSettings = settings.settings.find((x) => x.id === 'general');
             if (generalSettings) {
                 setSiteName(generalSettings.sitename);
