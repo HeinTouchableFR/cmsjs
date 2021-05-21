@@ -44,6 +44,10 @@ export default function Header({ children, settings, setShowRender, showRender, 
         }
     }, [settings]);
 
+    useEffect(() => {
+        document.documentElement.lang = locale;
+    }, [locale]);
+
     const Sticky = styled.div({
         position: 'sticky',
         width: '100%',
@@ -151,10 +155,10 @@ export default function Header({ children, settings, setShowRender, showRender, 
                                     name: `${siteName}`,
                                     url: `${process.env.URL}/`,
                                     sameAs: [
-                                        settings?.settings?.socials?.facebook,
-                                        settings?.settings?.socials?.twitter,
-                                        settings?.settings?.socials?.instagram,
-                                        settings?.settings?.socials?.linkedin,
+                                        settings?.settings?.find((x) => x.id === 'socials')?.facebook,
+                                        settings?.settings?.find((x) => x.id === 'socials')?.twitter,
+                                        settings?.settings?.find((x) => x.id === 'socials')?.instagram,
+                                        settings?.settings?.find((x) => x.id === 'socials')?.linkedin,
                                     ],
                                     logo: {
                                         '@type': 'ImageObject',

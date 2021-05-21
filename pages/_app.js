@@ -43,10 +43,6 @@ function MyApp({ Component, pageProps }) {
         }
     }, []);
 
-    useEffect(() => {
-        document.documentElement.lang = language;
-    }, [language]);
-
     return (
         <IntlProvider
             locale={language}
