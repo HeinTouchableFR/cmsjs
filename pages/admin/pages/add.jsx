@@ -46,6 +46,7 @@ export default function Add({ images, errors }) {
         setContent({
             title: e.title,
             slug: e.slug,
+            description: e.description,
             data,
             params,
         });
@@ -60,6 +61,7 @@ export default function Add({ images, errors }) {
                 body: JSON.stringify({
                     title: content.title,
                     slug: content.slug,
+                    description: content.description,
                     author: {
                         uid: user.uid,
                         displayName: user.displayName,

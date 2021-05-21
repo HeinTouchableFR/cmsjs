@@ -81,6 +81,10 @@ export default function Header({ children, settings, setShowRender, showRender, 
                     content='index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'
                 />
                 <meta
+                    name='description'
+                    content={post.description}
+                />
+                <meta
                     property='og:locale'
                     content='fr_FR'
                 />

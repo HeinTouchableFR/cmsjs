@@ -55,6 +55,7 @@ const handler = async (req, res) => {
             }
             item.title = req.body.title;
             item.slug = req.body.slug;
+            item.description = req.body.description;
             item.updated = req.body.updated;
             item.content = req.body.content;
             item.params = req.body.params;

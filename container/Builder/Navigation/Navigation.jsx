@@ -15,8 +15,9 @@ import DarkModeButton from 'components/Button/DarkModeButton/DarkModeButton';
 import Flash from 'components/Flash/Flash';
 import ColorPicker from 'components/ColorPicker/ColorPicker';
 import PropTypes from 'prop-types';
+import TextArea from 'components/Form/TextArea/TextArea';
+import { useBuilder } from 'context/builder';
 import styles from './Navigation.module.scss';
-import { useBuilder } from '../../../context/builder';
 
 export default function Navigation({ onSubmit,
     loading,
@@ -38,6 +39,7 @@ export default function Navigation({ onSubmit,
     const [form, setForm] = useState({
         title: page.title || '',
         slug: page.slug || '',
+        description: page.description || '',
     });
 
     const [activeIndex, setActiveIndex] = useState(1);
@@ -240,6 +242,7 @@ export default function Navigation({ onSubmit,
         if (mode === 'page') {
             return !(form.title !== page.title)
                 && !(form.slug !== page.slug)
+                && !(form.description !== page.description)
                 && !(params.background !== JSON.parse(page.params).background)
                 && page.content === JSON.stringify(layouts);
         }
@@ -307,6 +310,14 @@ export default function Navigation({ onSubmit,
                                     defaultValue={form.slug}
                                     onChange={handleChange}
                                     error={formErrors.slug}
+                                />
+                                <TextArea
+                                    label={intl.formatMessage({
+                                        id: 'description', defaultMessage: 'Description',
+                                    })}
+                                    name='description'
+                                    defaultValue={form.description}
+                                    onChange={handleChange}
                                 />
                             </>
                         )}

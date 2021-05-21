@@ -43,6 +43,7 @@ export default function Edit({ item, errors, images }) {
         setContent({
             title: e.title,
             slug: e.slug,
+            description: e.description,
             data,
             params,
         });
@@ -57,6 +58,7 @@ export default function Edit({ item, errors, images }) {
                 body: JSON.stringify({
                     title: content.title,
                     slug: content.slug,
+                    description: content.description,
                     updated: new Date(),
                     content: JSON.stringify(content.data),
                     params: JSON.stringify(content.params),
