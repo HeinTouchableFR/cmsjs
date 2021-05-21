@@ -153,8 +153,8 @@ export default function Header({children, settings, setShowRender, showRender, p
                         "@type": "ImageObject",
                         "@id": "${process.env.URL}/#logo",
                         "inLanguage": "fr-FR",
-                        "url": "${logo.image.url}",
-                        "contentUrl": "${logo.image.url}",
+                        "url": "${logo?.image?.url}",
+                        "contentUrl": "${logo?.image?.url}",
                         "caption": "${siteName}"
                     },
                         "image": {
@@ -183,8 +183,8 @@ export default function Header({children, settings, setShowRender, showRender, p
                         "@type": "ImageObject",
                         "@id": "${process.env.URL}/#primaryimage",
                         "inLanguage": "fr-FR",
-                        "url": "${logo.image.url}",
-                        "contentUrl": "${logo.image.url}",
+                        "url": "${logo?.image?.url}",
+                        "contentUrl": "${logo?.image?.url}",
                     },
                     {
                         "@type": "WebPage",
