@@ -3,15 +3,14 @@ import React, {
     useEffect, useState,
 } from 'react';
 import Head from 'next/head';
-import { useTemplates } from 'context/template';
+import {useTemplates} from 'context/template';
 import styled from '@emotion/styled';
 import Layout from 'container/RenderPage/Layout';
 
-export default function Header({ children, settings, setShowRender, showRender, post }) {
-    const { value: dataTemplates } = useTemplates();
+export default function Header({children, settings, setShowRender, showRender, post}) {
+    const {value: dataTemplates} = useTemplates();
     const [content, setContent] = useState([]);
-    const [params, setParams] = useState({
-    });
+    const [params, setParams] = useState({});
     const [siteName, setSiteName] = useState('');
     const [logo, setLogo] = useState('');
 
@@ -132,6 +131,108 @@ export default function Header({ children, settings, setShowRender, showRender, 
                     name='twitter:image'
                     content={logo?.image?.url}
                 />
+                <script
+                    type='application/ld+json'
+                >
+                    {
+                        `
+                        {
+                        '@context': 'https://schema.org',
+                        "@graph": [
+                    {
+                        "@type": "Organization",
+                        "@id": "${process.env.URL}/#organization",
+                        "name": "${siteName}",
+                        "url": "${process.env.URL}/",
+                        "sameAs": [
+                        "https://www.facebook.com/SosDepanordiBoulogne/",
+                        "https://www.instagram.com/sos_depanordi/",
+                        "https://www.youtube.com/channel/UC97u-ojgOB1fPkDAlw3YVNg"
+                        ],
+                        "logo": {
+                        "@type": "ImageObject",
+                        "@id": "${process.env.URL}/#logo",
+                        "inLanguage": "fr-FR",
+                        "url": "${logo.image.url}",
+                        "contentUrl": "${logo.image.url}",
+                        "caption": "${siteName}"
+                    },
+                        "image": {
+                        "@id": "${process.env.URL}/#logo"
+                    }
+                    },
+                    {
+                        "@type": "WebSite",
+                        "@id": "${process.env.URL}/#website",
+                        "url": "${process.env.URL}/",
+                        "name": "${siteName}",
+                        "description": "Informatique - High Tech",
+                        "publisher": {
+                        "@id": "${process.env.URL}/#organization"
+                    },
+                        "potentialAction": [
+                    {
+                        "@type": "SearchAction",
+                        "target": "${process.env.URL}/?s={search_term_string}",
+                        "query-input": "required name=search_term_string"
+                    }
+                        ],
+                        "inLanguage": "fr-FR"
+                    },
+                    {
+                        "@type": "ImageObject",
+                        "@id": "${process.env.URL}/#primaryimage",
+                        "inLanguage": "fr-FR",
+                        "url": "${logo.image.url}",
+                        "contentUrl": "${logo.image.url}",
+                    },
+                    {
+                        "@type": "WebPage",
+                        "@id": "${process.env.URL}/#webpage",
+                        "url": "${process.env.URL}/",
+                        "name": "${post.title} | ${siteName}",
+                        "isPartOf": {
+                        "@id": "${process.env.URL}/#website"
+                    },
+                        "about": {
+                        "@id": "${process.env.URL}/#organization"
+                    },
+                        "primaryImageOfPage": {
+                        "@id": "${process.env.URL}/#primaryimage"
+                    },
+                        "datePublished": "2021-05-18T09:17:36+00:00",
+                        "dateModified": "2021-05-20T17:16:49+00:00",
+                        "breadcrumb": {
+                        "@id": "${process.env.URL}/#breadcrumb"
+                    },
+                        "inLanguage": "fr-FR",
+                        "potentialAction": [
+                    {
+                        "@type": "ReadAction",
+                        "target": [
+                        "${process.env.URL}/"
+                        ]
+                    }
+                        ]
+                    },
+                    {
+                        "@type": "BreadcrumbList",
+                        "@id": "${process.env.URL}/#breadcrumb",
+                        "itemListElement": [
+                    {
+                        "@type": "ListItem",
+                        "position": 1,
+                        "item": {
+                        "@id": "${process.env.URL}/#webpage"
+                    }
+                    }
+                        ]
+                    }
+                        ]
+                    }
+                        `
+                    }
+                </script>
                 <title>
                     {post.title}
                     {' | '}
@@ -163,15 +264,12 @@ export default function Header({ children, settings, setShowRender, showRender, 
 
 Header.propTypes = {
     children: PropTypes.oneOfType([
-        PropTypes.shape({
-        }),
-        PropTypes.arrayOf(PropTypes.shape({
-        })),
+        PropTypes.shape({}),
+        PropTypes.arrayOf(PropTypes.shape({})),
     ]),
     setShowRender: PropTypes.func.isRequired,
     settings: PropTypes.shape({
-        settings: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.shape({
-        })])),
+        settings: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.shape({})])),
     }).isRequired,
     showRender: PropTypes.bool.isRequired,
     post: PropTypes.shape({
