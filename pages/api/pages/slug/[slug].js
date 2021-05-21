@@ -8,16 +8,15 @@ const handler = async (req, res) => {
     case 'GET':
         try {
             const snapshot = await db.collection('pages').where('slug', '==', slug).get();
-            const item = {
-                id: snapshot.docs[0].id,
-                ...snapshot.docs[0].data(),
-            };
-
-            if (!item) {
+            if (snapshot.docs.length < 1) {
                 return res.status(404).json({
                     success: false,
                 });
             }
+            const item = {
+                id: snapshot.docs[0].id,
+                ...snapshot.docs[0].data(),
+            };
 
             return res.status(200).json({
                 success: true, data: item,
