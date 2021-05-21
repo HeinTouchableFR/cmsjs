@@ -1,20 +1,16 @@
-import Header from 'container/Sites/Header/Header';
-import React, { useState } from 'react';
-import { useSettings } from 'context/settings';
+import React from 'react';
 import Link from 'next/link';
-import Footer from '../container/Sites/Footer/Footer';
+import Head from 'next/head';
+import { useIntl } from 'react-intl';
 
 export default function Error404() {
-    const { settings } = useSettings();
-    const [showRender, setShowRender] = useState(false);
-
-    const [post, setPost] = useState({
-        title: 'Error 404',
-        published: new Date(),
-    });
+    const intl = useIntl();
 
     return (
         <>
+            <Head>
+                <title>404: This page could not be found</title>
+            </Head>
             <section className='wrapper'>
                 <div className='container'>
                     <div
@@ -72,12 +68,20 @@ export default function Error404() {
                     <div className='text'>
                         <article>
                             <p>
-                                Uh oh! Looks like you got lost.
+                                {intl.formatMessage({
+                                    id: 'error.404.lost', defaultMessage: 'Uh oh! Looks like you got lost.',
+                                })}
                                 <br />
-                                Go back to the homepage if you dare!
+                                {intl.formatMessage({
+                                    id: 'error.404.goBack', defaultMessage: 'Go back to the homepage if you dare!',
+                                })}
                             </p>
                             <Link href='/'>
-                                <a>i dare !</a>
+                                <a>
+                                    {intl.formatMessage({
+                                        id: 'error.404.iDare', defaultMessage: 'I dare !',
+                                    })}
+                                </a>
                             </Link>
                         </article>
                     </div>
