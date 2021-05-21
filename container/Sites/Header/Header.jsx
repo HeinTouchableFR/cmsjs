@@ -6,7 +6,6 @@ import Head from 'next/head';
 import { useTemplates } from 'context/template';
 import styled from '@emotion/styled';
 import Layout from 'container/RenderPage/Layout';
-import parse from 'html-react-parser';
 
 export default function Header({ children, settings, setShowRender, showRender, post }) {
     const { value: dataTemplates } = useTemplates();
@@ -15,6 +14,7 @@ export default function Header({ children, settings, setShowRender, showRender, 
     });
     const [siteName, setSiteName] = useState('');
     const [logo, setLogo] = useState('');
+    const [locale, setLocale] = useState('en-US');
 
     useEffect(() => {
         if (dataTemplates.templates.header) {
@@ -39,6 +39,7 @@ export default function Header({ children, settings, setShowRender, showRender, 
             if (generalSettings) {
                 setSiteName(generalSettings.sitename);
                 setLogo(generalSettings.logo);
+                setLocale(generalSettings.locale);
             }
         }
     }, [settings]);
@@ -82,12 +83,16 @@ export default function Header({ children, settings, setShowRender, showRender, 
                     content='index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'
                 />
                 <meta
+                    name='language'
+                    content={locale}
+                />
+                <meta
                     name='description'
                     content={post.description}
                 />
                 <meta
                     property='og:locale'
-                    content='fr_FR'
+                    content={locale}
                 />
                 <meta
                     property='og:type'
@@ -146,14 +151,15 @@ export default function Header({ children, settings, setShowRender, showRender, 
                                     name: `${siteName}`,
                                     url: `${process.env.URL}/`,
                                     sameAs: [
-                                        'https://www.facebook.com/SosDepanordiBoulogne/',
-                                        'https://www.instagram.com/sos_depanordi/',
-                                        'https://www.youtube.com/channel/UC97u-ojgOB1fPkDAlw3YVNg',
+                                        settings?.settings?.socials?.facebook,
+                                        settings?.settings?.socials?.twitter,
+                                        settings?.settings?.socials?.instagram,
+                                        settings?.settings?.socials?.linkedin,
                                     ],
                                     logo: {
                                         '@type': 'ImageObject',
                                         '@id': `${process.env.URL}/#logo`,
-                                        inLanguage: 'fr-FR',
+                                        inLanguage: `${locale}`,
                                         url: `${logo?.image?.url}`,
                                         contentUrl: `${logo?.image?.url}`,
                                         caption: `${siteName}`,
@@ -178,19 +184,19 @@ export default function Header({ children, settings, setShowRender, showRender, 
                                             'query-input': 'required name=search_term_string',
                                         },
                                     ],
-                                    inLanguage: 'fr-FR',
+                                    inLanguage: `${locale}`,
                                 },
                                 {
                                     '@type': 'ImageObject',
                                     '@id': `${process.env.URL}/#primaryimage`,
-                                    inLanguage: 'fr-FR',
+                                    inLanguage: `${locale}`,
                                     url: `${logo?.image?.url}`,
                                     contentUrl: `${logo?.image?.url}`,
                                 },
                                 {
                                     '@type': 'WebPage',
                                     '@id': `${process.env.URL}/#webpage`,
-                                    url: `${process.env.URL}/`,
+                                    url: `${process.env.URL}`,
                                     name: `${post.title} | ${siteName}`,
                                     isPartOf: {
                                         '@id': `${process.env.URL}/#website`,
@@ -201,12 +207,14 @@ export default function Header({ children, settings, setShowRender, showRender, 
                                     primaryImageOfPage: {
                                         '@id': `${process.env.URL}/#primaryimage`,
                                     },
-                                    datePublished: '2021-05-18T09:17:36+00:00',
-                                    dateModified: '2021-05-20T17:16:49+00:00',
+                                    datePublished: new Date(post.published).toISOString(),
+                                    dateModified: post.updated
+                                        ? new Date(post.updated).toISOString()
+                                        : new Date(post.published).toISOString(),
                                     breadcrumb: {
                                         '@id': `${process.env.URL}/#breadcrumb`,
                                     },
-                                    inLanguage: 'fr-FR',
+                                    inLanguage: `${locale}`,
                                     potentialAction: [
                                         {
                                             '@type': 'ReadAction',
@@ -280,6 +288,8 @@ Header.propTypes = {
         title: PropTypes.string,
         description: PropTypes.string,
         slug: PropTypes.string,
+        published: PropTypes.string,
+        updated: PropTypes.string,
         params: PropTypes.string.isRequired,
     }).isRequired,
 };
