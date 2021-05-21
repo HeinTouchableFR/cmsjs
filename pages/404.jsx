@@ -1,14 +1,23 @@
 import Header from 'container/Sites/Header/Header';
-import React, {useState} from 'react';
-import {useSettings} from 'context/settings';
+import React, { useState } from 'react';
+import { useSettings } from 'context/settings';
 
 export default function Error404() {
-    const {settings} = useSettings()
-    const [showRender, setShowRender] = useState(false)
+    const { settings } = useSettings();
+    const [showRender, setShowRender] = useState(false);
+
+    const [post, setPost] = useState({
+        title: 'Error 404',
+    });
 
     return (
         <>
-            <Header title={`Error 404`} settings={settings} setShowRender={setShowRender} showRender={showRender}/>
+            <Header
+                settings={settings}
+                setShowRender={setShowRender}
+                showRender={showRender}
+                post={post}
+            />
             <div className='container'>:(</div>
         </>
     );
