@@ -7,7 +7,7 @@ import { useTemplates } from 'context/template';
 import styled from '@emotion/styled';
 import Layout from 'container/RenderPage/Layout';
 
-export default function Header({ children, settings, setShowRender, showRender, post }) {
+export default function Header({ children, settings, setShowRender, showRender, post, isHomePage }) {
     const { value: dataTemplates } = useTemplates();
     const [content, setContent] = useState([]);
     const [params, setParams] = useState({
@@ -252,7 +252,7 @@ export default function Header({ children, settings, setShowRender, showRender, 
                 </title>
                 <link
                     rel='canonical'
-                    href={process.env.URL}
+                    href={`${isHomePage ? process.env.URL : `${process.env.URL}/${post.slug}`}`}
                 />
                 {children}
             </Head>
@@ -296,8 +296,10 @@ Header.propTypes = {
         updated: PropTypes.string,
         params: PropTypes.string.isRequired,
     }).isRequired,
+    isHomePage: PropTypes.bool,
 };
 
 Header.defaultProps = {
     children: [],
+    isHomePage: false,
 };

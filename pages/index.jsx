@@ -27,6 +27,7 @@ export default function Home({ post }) {
                 setShowRender={setShowRender}
                 showRender={showRender}
                 post={post}
+                isHomePage
             />
             <Global
                 styles={{

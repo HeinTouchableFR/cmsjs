@@ -1,10 +1,12 @@
-import firebase from "firebase/app";
-import "firebase/auth";
-import "firebase/firestore"
+import firebase from 'firebase/app';
+import 'firebase/auth';
+import 'firebase/firestore';
+import 'firebase/analytics';
 
-var firebaseConfig = eval("("+process.env.FIREBASE_CONFIG+")");
+const firebaseConfig = eval(`(${process.env.FIREBASE_CONFIG})`);
 if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
+    const analytics = firebase.analytics();
 }
 
-export {firebase};
+export { firebase };
