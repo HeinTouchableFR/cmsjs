@@ -34,7 +34,7 @@ export default function Header({ children, settings, setShowRender, showRender, 
     }, [dataTemplates]);
 
     useEffect(() => {
-        if (settings.settings) {
+        if (settings && settings.settings) {
             const generalSettings = settings.settings.find((x) => x.id === 'general');
             if (generalSettings) {
                 setSiteName(generalSettings.sitename);

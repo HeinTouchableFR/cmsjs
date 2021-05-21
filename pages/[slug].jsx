@@ -54,7 +54,7 @@ Page.propTypes = {
     }).isRequired,
 };
 
-export async function getServerSideProps({ params }) {
+export async function getServerSideProps({ params, res }) {
     const { slug } = params;
     let post = [];
     const errors = [];
@@ -66,10 +66,9 @@ export async function getServerSideProps({ params }) {
     if (dataItem.success) {
         post = dataItem.data;
     } else {
-        errors.push({
-            ...dataItem.errors,
-            request: `${process.env.URL}/api/pages/slug/${slug}`,
-        });
+        return {
+            notFound: true,
+        };
     }
 
     return {

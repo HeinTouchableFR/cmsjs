@@ -15,7 +15,7 @@ const handler = async (req, res) => {
             };
 
             if (!item) {
-                return res.status(400).json({
+                return res.status(404).json({
                     success: false,
                 });
             }
