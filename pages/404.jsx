@@ -8,6 +8,7 @@ export default function Error404() {
 
     const [post, setPost] = useState({
         title: 'Error 404',
+        published: new Date(),
     });
 
     return (
