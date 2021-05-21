@@ -54,7 +54,7 @@ Page.propTypes = {
     }).isRequired,
 };
 
-export async function getServerSideProps({ params, res }) {
+export async function getServerSideProps({ params }) {
     const { slug } = params;
     let post = [];
     const errors = [];
