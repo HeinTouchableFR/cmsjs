@@ -81,6 +81,7 @@ export default function ColorPicker({ defaultColor,
                          text-align: center;
                          font-size: 12px;
                          font-weight: bold;
+                         color: black;
                     `}
                 >
                     x
