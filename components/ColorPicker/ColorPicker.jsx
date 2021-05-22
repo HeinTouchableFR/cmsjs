@@ -1,48 +1,37 @@
 import React, {
-    useEffect, useState,
+    useState, useEffect,
 } from 'react';
-import { SketchPicker } from 'react-color';
 import Tooltip from 'components/Form/Tooltip/Tooltip';
+import Popover from '@xkit/popover';
+import { parseColor } from 'utils/color';
 import { css } from '@emotion/react';
+import PropTypes from 'prop-types';
 import styles from './ColorPicker.module.scss';
+import Picker from './Picker';
 
-export default function ColorPicker({ defaultColor = '#FF0000', onColorChange, name, label,
+export default function ColorPicker({ defaultColor,
+    onColorChange,
+    name,
+    label,
     iconTip,
-    tip }) {
-    const [state, setState] = useState({
-        displayColorPicker: false,
-        color: defaultColor,
-    });
+    tip,
+    placement }) {
+    const [color, setColor] = useState(parseColor(defaultColor));
+
+    const changeColor = (c) => {
+        if (onColorChange) {
+            setColor(c);
+            onColorChange(c.hex);
+        }
+    };
+
+    const handleRemove = () => {
+        changeColor('');
+    };
 
     useEffect(() => {
-        setState({
-            ...state,
-            color: defaultColor,
-        });
+        changeColor(parseColor(defaultColor));
     }, [defaultColor]);
-
-    const handleClick = () => {
-        setState({
-            ...state, displayColorPicker: !state.displayColorPicker,
-        });
-    };
-
-    const handleClose = () => {
-        setState({
-            ...state, displayColorPicker: false,
-        });
-    };
-
-    const handleChange = (color) => {
-        onColorChange(color.hex);
-        setState({
-            ...state, color: color.hex,
-        });
-    };
-
-    const color = css({
-        background: `${state.color}`,
-    });
 
     return (
         <div className={`${styles.field}`}>
@@ -57,35 +46,65 @@ export default function ColorPicker({ defaultColor = '#FF0000', onColorChange, n
                 )}
             </label>
             <div className={`${styles.ui}`}>
-                <div
-                    className={styles.swatch}
-                    onClick={handleClick}
-                    onKeyDown={handleClick}
+                <Popover
+                    placement={placement}
+                    body={(
+                        <Picker
+                            color={color}
+                            onChange={changeColor}
+                        />
+                    )}
+                >
+                    <span
+                        css={css`
+                            display: grid;
+                            user-select: none;
+                        `}
+                    >
+                        <span
+                            css={css`
+                                cursor: pointer;
+                             `}
+                            style={{
+                                backgroundColor: color.rgba,
+                            }}
+                        />
+                    </span>
+                </Popover>
+                <span
+                    onClick={handleRemove}
+                    onKeyDown={handleRemove}
                     role='button'
                     tabIndex={0}
+                    css={css`
+                         cursor: pointer;
+                         text-align: center;
+                         font-size: 12px;
+                         font-weight: bold;
+                    `}
                 >
-                    <div
-                        className={styles.color}
-                        css={color}
-                    />
-                </div>
-                {state.displayColorPicker ? (
-                    <div className={styles.popover}>
-                        <div
-                            className={styles.cover}
-                            onClick={handleClose}
-                            onKeyDown={handleClose}
-                            role='button'
-                            tabIndex={0}
-                        />
-                        <SketchPicker
-                            color={state.color}
-                            onChange={handleChange}
-                            className={styles.sketch_picker}
-                        />
-                    </div>
-                ) : null}
+                    x
+                </span>
             </div>
         </div>
     );
 }
+
+ColorPicker.propTypes = {
+    defaultColor: PropTypes.string,
+    onColorChange: PropTypes.func.isRequired,
+    name: PropTypes.string,
+    label: PropTypes.string,
+    iconTip: PropTypes.string,
+    tip: PropTypes.string,
+    placement: PropTypes.string,
+};
+
+ColorPicker.defaultProps = {
+    defaultColor: '',
+    name: '',
+    label: '',
+    iconTip: '',
+    tip: '',
+    placement: 'right',
+};

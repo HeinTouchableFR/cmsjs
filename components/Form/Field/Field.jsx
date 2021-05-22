@@ -8,6 +8,7 @@ export default function Field({ label,
     name,
     iconTip,
     tip,
+    tipWidth,
     children }) {
     return (
         <>
@@ -23,6 +24,7 @@ export default function Field({ label,
                     <Tooltip
                         tip={tip}
                         iconTip={iconTip}
+                        tipWidth={tipWidth}
                     />
                     )}
                 </label>
@@ -45,6 +47,7 @@ Field.propTypes = {
         }),
     ]),
     tip: PropTypes.string,
+    tipWidth: PropTypes.number,
     iconTip: PropTypes.string,
     children: PropTypes.oneOfType([
         PropTypes.shape({
@@ -59,5 +62,6 @@ Field.defaultProps = {
     label: '',
     subLabel: '',
     tip: '',
+    tipWidth: null,
     iconTip: 'la-question-circle',
 };

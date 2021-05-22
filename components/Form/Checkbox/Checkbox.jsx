@@ -10,6 +10,7 @@ export default function Checkbox({ label,
     onChange,
     iconTip,
     tip,
+    tipWidth,
     disabled }) {
     const [checked, setChecked] = useState(defaultChecked);
 
@@ -44,6 +45,7 @@ export default function Checkbox({ label,
                         <Tooltip
                             tip={tip}
                             iconTip={iconTip}
+                            tipWidth={tipWidth}
                         />
                     )}
                 </label>
@@ -60,6 +62,7 @@ Checkbox.propTypes = {
     required: PropTypes.bool,
     disabled: PropTypes.bool,
     tip: PropTypes.string,
+    tipWidth: PropTypes.number,
     iconTip: PropTypes.string,
 };
 
@@ -69,5 +72,6 @@ Checkbox.defaultProps = {
     disabled: false,
     defaultChecked: false,
     tip: '',
+    tipWidth: null,
     iconTip: 'la-question-circle',
 };

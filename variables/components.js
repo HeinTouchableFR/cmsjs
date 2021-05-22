@@ -312,7 +312,7 @@ export default class defaultComponents {
                         },
                         letterSpacing: '0',
                         color: {
-                            normal: '#CC3E33',
+                            normal: '#4f1271',
                             hover: '',
                         },
                     },

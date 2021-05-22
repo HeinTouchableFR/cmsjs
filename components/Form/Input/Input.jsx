@@ -20,6 +20,7 @@ export default function Input({ label,
     error,
     iconTip,
     tip,
+    tipWidth,
     disabled }) {
     const [value, setValue] = useState(defaultValue);
 
@@ -48,6 +49,7 @@ export default function Input({ label,
                     <Tooltip
                         tip={tip}
                         iconTip={iconTip}
+                        tipWidth={tipWidth}
                     />
                     )}
                 </label>
@@ -96,6 +98,7 @@ Input.propTypes = {
     max: PropTypes.string,
     step: PropTypes.string,
     tip: PropTypes.string,
+    tipWidth: PropTypes.number,
     iconTip: PropTypes.string,
 };
 
@@ -112,5 +115,6 @@ Input.defaultProps = {
     max: '',
     step: '',
     tip: '',
+    tipWidth: null,
     iconTip: 'la-question-circle',
 };

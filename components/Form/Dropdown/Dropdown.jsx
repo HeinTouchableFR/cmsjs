@@ -15,6 +15,7 @@ export default function Dropdown({ name,
     defaultValue,
     iconTip,
     tip,
+    tipWidth,
     onChange,
     searchable }) {
     const wrapperRef = useRef(null);
@@ -84,6 +85,7 @@ export default function Dropdown({ name,
                             <Tooltip
                                 tip={tip}
                                 iconTip={iconTip}
+                                tipWidth={tipWidth}
                             />
                         )}
                     </label>
@@ -171,6 +173,7 @@ Dropdown.propTypes = {
         }),
     ]),
     tip: PropTypes.string,
+    tipWidth: PropTypes.number,
     iconTip: PropTypes.string,
 };
 
@@ -182,5 +185,6 @@ Dropdown.defaultProps = {
     searchable: false,
     defaultValue: '',
     tip: '',
+    tipWidth: null,
     iconTip: 'la-question-circle',
 };

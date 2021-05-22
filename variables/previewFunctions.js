@@ -65,8 +65,6 @@ export const styleDivImagePreview = (device, element) => css`
 export const styleImagePreview = (device, element) => {
     const Image = styled.img`
             transition: width .2s;
-            vertical-align: middle;
-            display: block;
             ${imageStyle('desktop', element)}
             ${(device === 'tablet' || device === 'mobile') && imageStyle('tablet', element)}
             ${device === 'mobile' && imageStyle('mobile', element)}

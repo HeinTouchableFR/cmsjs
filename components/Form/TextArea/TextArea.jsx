@@ -17,6 +17,7 @@ export default function TextArea({ label,
     onChange,
     iconTip,
     tip,
+    tipWidth,
     disabled }) {
     const [value, setValue] = useState(defaultValue);
 
@@ -44,6 +45,7 @@ export default function TextArea({ label,
                     <Tooltip
                         tip={tip}
                         iconTip={iconTip}
+                        tipWidth={tipWidth}
                     />
                     )}
                 </label>
@@ -78,6 +80,7 @@ TextArea.propTypes = {
     maxLength: PropTypes.string,
     tip: PropTypes.string,
     iconTip: PropTypes.string,
+    tipWidth: PropTypes.number,
 };
 
 TextArea.defaultProps = {
@@ -90,5 +93,6 @@ TextArea.defaultProps = {
     minLength: '0',
     maxLength: '240',
     tip: '',
+    tipWidth: null,
     iconTip: 'la-question-circle',
 };

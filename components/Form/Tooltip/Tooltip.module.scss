@@ -10,7 +10,7 @@
     width: 240px;
     background-color: var(--color-background);
     color: var(--color-dark);
-    text-align: center;
+    text-align: justify;
     padding: 10px;
     border-radius: 6px;
     position: absolute;
@@ -21,7 +21,9 @@
     opacity: 0;
     transition: opacity 0.3s;
     border: solid 1px var(--color-gray);
-    font-size: 1rem;
+    font-size: 0.8rem;
+    font-weight: 400;
+    font-family: Poppins, sans-serif;
 
     &:after {
       content: "";
@@ -39,6 +41,22 @@
     span {
       visibility: visible;
       opacity: 1;
+    }
+  }
+}
+
+@media only screen and (max-width: 860px) {
+  .tooltip {
+    span {
+      width: 240px!important;
+      height: 350px!important;
+      overflow-y: scroll;
+      left: 0!important;
+      margin-left: -215px!important;
+
+      &:after {
+        left: 95%;
+      }
     }
   }
 }
