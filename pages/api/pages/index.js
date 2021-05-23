@@ -1,16 +1,17 @@
-import { db } from 'utils/dbConnect';
+import prisma from 'utils/prisma';
 
 const handler = async (req, res) => {
     const { method } = req;
     switch (method) {
     case 'GET':
         try {
-            const snapshots = await db.collection('pages').orderBy('title').get();
-            const items = snapshots.docs.map(async (doc) => ({
-                id: doc.id,
-                ...doc.data(),
-            }));
-            const data = await Promise.all(items);
+            const data = await prisma.pages.findMany({
+                orderBy: [
+                    {
+                        title: 'asc',
+                    },
+                ],
+            });
             res.status(200).json({
                 success: true, data,
             });

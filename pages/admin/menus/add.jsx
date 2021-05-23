@@ -8,11 +8,13 @@ import Button from 'components/Button/Button';
 import Input from 'components/Form/Input/Input';
 import IconButton from 'components/Button/IconButton/IconButton';
 import { useRouter } from 'next/router';
+import { useAuth } from 'context/auth';
 import styles from './menus.module.scss';
 
 export default function Add() {
     const intl = useIntl();
     const router = useRouter();
+    const { user } = useAuth();
 
     const [loading, setLoading] = useState(false);
 
@@ -27,11 +29,13 @@ export default function Add() {
             name: form.name,
             items: '[]',
         };
-        const res = await fetch('/api/menus', {
+        const res = await fetch('/api/menus/auth', {
             body: JSON.stringify(menu),
             headers: {
                 'Content-Type': 'application/json',
+                Authorization: `Bearer ${user.token}`,
             },
+            credentials: 'same-origin',
             method: 'POST',
         });
         const { success, data } = await res.json();

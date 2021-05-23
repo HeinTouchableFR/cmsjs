@@ -1,19 +1,20 @@
 import prisma from 'utils/prisma';
+import { withAuthAdmin } from 'lib/middlewares';
 
-export default async (req, res) => {
+const handler = async (req, res) => {
     const { query: { id },
         method } = req;
 
     switch (method) {
     case 'PUT':
         try {
-            const data = await prisma.templates.update({
+            const data = await prisma.menus.update({
                 where: {
                     id: parseInt(id, 10),
                 },
                 data: {
-                    content: req.body.content,
-                    params: req.body.params,
+                    name: req.body.name,
+                    items: req.body.items,
                 },
             });
 
@@ -23,18 +24,17 @@ export default async (req, res) => {
             });
         } catch (e) {
             res.status(400).json({
-                success: false,
-                errors: e,
+                success: false, errors: e,
             });
         }
         break;
     case 'DELETE':
         try {
-            await prisma.pages.delete({
+            await prisma.menus.delete({
                 where: {
                     id: parseInt(id, 10),
                 },
-            });
+            })
             res.status(200).json({
                 success: true,
             });
@@ -48,12 +48,8 @@ export default async (req, res) => {
     default:
         res.status(400).json({
             success: false,
-            errors: {
-                status: 404,
-                code: 1,
-                message: 'This method is not available',
-            },
         });
-        break;
     }
 };
+
+export default withAuthAdmin(handler);

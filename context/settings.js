@@ -16,15 +16,9 @@ export function SettingsProvider({ children }) {
         const res = await fetch('/api/settings');
         const { data } = await res.json();
         if (data) {
-            const generalSettings = data.find((x) => x.id === 'general');
-            let logo = [];
-            if (generalSettings) {
-                logo = generalSettings.logo;
-            }
             setValue({
                 success: true,
                 settings: data,
-                logo,
             });
         }
     }, []);

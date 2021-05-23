@@ -5,7 +5,6 @@ import Header from 'container/Sites/Header/Header';
 import { useSettings } from 'context/settings';
 import { Global } from '@emotion/react';
 import RenderPage from 'container/RenderPage/RenderPage';
-import { db } from 'utils/dbConnect';
 import PropTypes from 'prop-types';
 import Footer from 'container/Sites/Footer/Footer';
 
@@ -50,25 +49,40 @@ export default function Home({ post }) {
 
 Home.propTypes = {
     post: PropTypes.shape({
-        id: PropTypes.string.isRequired,
+        id: PropTypes.number.isRequired,
         title: PropTypes.string,
         params: PropTypes.string.isRequired,
     }).isRequired,
 };
 
 export async function getServerSideProps() {
-    const settingRef = db.collection('settings');
-    const generalSnapshot = await settingRef.doc('general').get();
-    const generalSettings = {
-        ...generalSnapshot.data(),
-    };
+    let post = [];
+    const resSettings = await fetch(`${process.env.URL}/api/settings/homepage`, {
+        credentials: 'same-origin',
+    });
+    const dataHomepage = await resSettings.json();
+    let homePageId = '';
+    if (dataHomepage.success && dataHomepage.data) {
+        homePageId = dataHomepage.data.pagesId;
 
-    const pageRef = db.doc(`pages/${generalSettings.homePage}`);
-    const pageSnapshot = await pageRef.get();
-    const post = {
-        id: pageSnapshot.id,
-        ...pageSnapshot.data(),
-    };
+        const resItem = await fetch(`${process.env.URL}/api/pages/${homePageId}`, {
+            credentials: 'same-origin',
+        });
+
+        const dataItem = await resItem.json();
+
+        if (dataItem.success && dataItem.data) {
+            post = dataItem.data;
+        } else {
+            return {
+                notFound: true,
+            };
+        }
+    } else {
+        return {
+            notFound: true,
+        };
+    }
 
     return {
         props: {

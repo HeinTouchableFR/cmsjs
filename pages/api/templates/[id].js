@@ -1,4 +1,4 @@
-import { db } from 'utils/dbConnect';
+import prisma from 'utils/prisma';
 
 export default async (req, res) => {
     const { query: { id },
@@ -7,20 +7,26 @@ export default async (req, res) => {
     switch (method) {
     case 'GET':
         try {
-            const snapshot = await db.doc(`templates/${id}`).get();
-            const item = {
-                id: snapshot.id,
-                ...snapshot.data(),
-            };
+            const data = await prisma.templates.findUnique({
+                where: {
+                    id: parseInt(id, 10),
+                },
+            });
 
-            if (!item) {
-                return res.status(400).json({
+            if (!data) {
+                res.status(400).json({
                     success: false,
+                    errors: {
+                        status: 404,
+                        code: 1,
+                        message: 'Item not found',
+                    },
                 });
             }
 
             res.status(200).json({
-                success: true, data: item,
+                success: true,
+                data,
             });
         } catch (e) {
             res.status(400).json({

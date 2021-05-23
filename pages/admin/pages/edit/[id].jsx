@@ -151,7 +151,7 @@ export async function getServerSideProps(ctx) {
         let images = [];
         const errors = [];
 
-        const resItem = await fetch(`${process.env.URL}/api/pages/auth/${id}`, {
+        const resItem = await fetch(`${process.env.URL}/api/pages/${id}`, {
             headers: {
                 Authorization: `Bearer ${cookies.token}`,
             },

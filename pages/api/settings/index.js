@@ -1,35 +1,37 @@
-import { db } from 'utils/dbConnect';
+import prisma from 'utils/prisma';
 
-export default async (req, res) => {
+const handler = async (req, res) => {
     const { method } = req;
-
     switch (method) {
     case 'GET':
         try {
-            db.collection('settings')
-                .get()
-                .then((snapshots) => {
-                    const items = snapshots.docs.map(async (item) => {
-                        const element = {
-                            id: item.id,
-                            ...item.data(),
-                        };
-                        return element;
-                    });
-                    Promise.all(items).then((data) => res.status(200).json({
-                        success: true, data,
-                    }));
-                });
+            const data = await prisma.settings.findMany({
+                include: {
+                    image: true,
+                    template: true,
+                },
+            });
+            res.status(200).json({
+                success: true, data,
+            });
         } catch (e) {
             res.status(400).json({
-                success: false, errors: e,
+                success: false,
+                errors: e,
             });
         }
         break;
     default:
         res.status(400).json({
-            success: false, errors: "Cette méthode n'est pas disponible",
+            success: false,
+            errors: {
+                status: 404,
+                code: 1,
+                message: 'This method is not available',
+            },
         });
         break;
     }
 };
+
+export default handler;

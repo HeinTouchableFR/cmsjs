@@ -1,4 +1,4 @@
-import { db } from 'utils/dbConnect';
+import prisma from 'utils/prisma';
 
 const handler = async (req, res) => {
     const { query: { slug },
@@ -7,29 +7,31 @@ const handler = async (req, res) => {
     switch (method) {
     case 'GET':
         try {
-            const snapshot = await db.collection('pages').where('slug', '==', slug).get();
-            if (snapshot.docs.length < 1) {
-                return res.status(404).json({
-                    success: false,
-                });
-            }
-            const item = {
-                id: snapshot.docs[0].id,
-                ...snapshot.docs[0].data(),
-            };
+            const data = await prisma.pages.findUnique({
+                where: {
+                    slug,
+                },
+            });
 
-            return res.status(200).json({
-                success: true, data: item,
+            res.status(200).json({
+                success: true, data,
             });
         } catch (e) {
-            return res.status(400).json({
+            res.status(400).json({
                 success: false, errors: e,
             });
         }
+        break;
     default:
-        return res.status(400).json({
+        res.status(400).json({
             success: false,
+            errors: {
+                status: 404,
+                code: 1,
+                message: 'This method is not available',
+            },
         });
+        break;
     }
 };
 

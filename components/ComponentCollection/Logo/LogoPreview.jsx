@@ -15,7 +15,7 @@ function LogoPreview({ element, device }) {
         <>
             <div css={styleDivImagePreview(device, element)}>
                 <Image
-                    src={(settings.logo && settings.logo.image) && settings.logo.image.url}
+                    src={(settings.settings.find((x) => x.data === 'logo')?.image) && settings.settings.find((x) => x.data === 'logo')?.image.url}
                     alt='Logo'
                 />
             </div>

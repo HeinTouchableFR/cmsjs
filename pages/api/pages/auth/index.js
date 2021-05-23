@@ -1,26 +1,23 @@
-import { db } from 'utils/dbConnect';
 import { withAuthAdmin } from 'lib/middlewares';
+import prisma from 'utils/prisma';
 
 const handler = async (req, res) => {
     const { method } = req;
     switch (method) {
     case 'POST':
         try {
-            const item = {
-                title: req.body.title,
-                slug: req.body.slug,
-                description: req.body.description,
-                content: req.body.content,
-                params: req.body.params,
-                published: req.body.published,
-                author: req.body.author,
-            };
-            const data = await db.collection('pages').add(item);
+            const data = await prisma.pages.create({
+                data: {
+                    title: req.body.title,
+                    slug: req.body.slug,
+                    description: req.body.description,
+                    content: req.body.content,
+                    params: req.body.params,
+                },
+            });
             res.status(200).json({
                 success: true,
-                data: {
-                    id: data.id,
-                },
+                data,
             });
         } catch (e) {
             res.status(400).json({

@@ -48,7 +48,7 @@ export default function Page({ post }) {
 
 Page.propTypes = {
     post: PropTypes.shape({
-        id: PropTypes.string.isRequired,
+        id: PropTypes.number.isRequired,
         title: PropTypes.string,
         params: PropTypes.string.isRequired,
     }).isRequired,
@@ -63,7 +63,7 @@ export async function getServerSideProps({ params }) {
         credentials: 'same-origin',
     });
     const dataItem = await resItem.json();
-    if (dataItem.success) {
+    if (dataItem.success && dataItem.data) {
         post = dataItem.data;
     } else {
         return {

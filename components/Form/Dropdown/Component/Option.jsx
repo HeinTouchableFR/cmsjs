@@ -6,7 +6,7 @@ export default function Option({ option, onClick, value }) {
     const handleClick = () => {
         onClick(option);
     };
-    const isSelected = value.includes(option.value);
+    const isSelected = value.includes(option.value.toString());
 
     return (
         <>
@@ -15,7 +15,7 @@ export default function Option({ option, onClick, value }) {
                 onClick={handleClick}
                 onKeyDown={handleClick}
                 role='option'
-                aria-selected={value.includes(option.value)}
+                aria-selected={value.includes(option.value.toString())}
                 tabIndex='0'
             >
                 <span className='text'>
@@ -28,10 +28,14 @@ export default function Option({ option, onClick, value }) {
 
 Option.propTypes = {
     option: PropTypes.shape({
-        key: PropTypes.string.isRequired,
+        key: PropTypes.oneOfType([
+            PropTypes.number,
+            PropTypes.string,
+        ]),
     }.isRequired).isRequired,
     onClick: PropTypes.func.isRequired,
     value: PropTypes.oneOfType([
+        PropTypes.number,
         PropTypes.string,
         PropTypes.arrayOf(PropTypes.shape({
         })),

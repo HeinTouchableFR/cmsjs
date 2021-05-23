@@ -12,10 +12,12 @@ import Dropdown from 'components/Form/Dropdown/Dropdown';
 import Accordion from 'components/Accordion/Accordion';
 import IconButton from 'components/Button/IconButton/IconButton';
 import Link from 'next/link';
+import { useAuth } from 'context/auth';
 import styles from './menus.module.scss';
 
 export default function Index({ menus, pages, defaultMenu }) {
     const intl = useIntl();
+    const { user } = useAuth();
 
     const [loading, setLoading] = useState(false);
 
@@ -35,12 +37,13 @@ export default function Index({ menus, pages, defaultMenu }) {
     const save = async (e) => {
         e.preventDefault();
         setLoading(true);
-        const res = await fetch(`${process.env.URL}/api/menus/${form.id}`, {
+        const res = await fetch(`${process.env.URL}/api/menus/auth/${form.id}`, {
             method: 'PUT',
             headers: {
-                Accept: 'application/json',
                 'Content-Type': 'application/json',
+                Authorization: `Bearer ${user.token}`,
             },
+            credentials: 'same-origin',
             body: JSON.stringify(form),
         });
         await res.json();
@@ -81,7 +84,7 @@ export default function Index({ menus, pages, defaultMenu }) {
         let p = {
         };
         pages.map((page) => {
-            if (page.id === id) {
+            if (page.id.toString() === id) {
                 p = page;
             }
         });
@@ -121,23 +124,28 @@ export default function Index({ menus, pages, defaultMenu }) {
     };
 
     const handleMenuChange = (e, data) => {
-        setForm(menusList.find((x) => x.id === data.value));
+        setForm(menusList.find((x) => x.id.toString() === data.value));
     };
 
     const pageOptions = [];
     pages.map((page) => pageOptions.push({
-        key: page.id, text: page.title, value: page.id,
+        key: page.id.toString(), text: page.title, value: page.id.toString(),
     }));
 
     const menuOptions = [];
     menusList.map((menu) => menuOptions.push({
-        key: menu.id, text: menu.name, value: menu.id,
+        key: menu.id.toString(), text: menu.name, value: menu.id.toString(),
     }));
 
     const handleDeleteMenu = async () => {
         setLoading(true);
-        const res = await fetch(`${process.env.URL}/api/menus/${form.id}`, {
+        const res = await fetch(`${process.env.URL}/api/menus/auth/${form.id}`, {
             method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${user.token}`,
+            },
+            credentials: 'same-origin',
         });
         const result = await res.json();
         if (result.success) {
@@ -172,7 +180,7 @@ export default function Index({ menus, pages, defaultMenu }) {
                             id: 'menu.edit', defaultMessage: 'Menu to edit',
                         })}
                         options={menuOptions}
-                        defaultValue={form.id}
+                        defaultValue={form.id.toString()}
                         onChange={handleMenuChange}
                         searchable
                     />
@@ -207,7 +215,7 @@ export default function Index({ menus, pages, defaultMenu }) {
                                     name='page'
                                     options={pageOptions}
                                     onChange={handleChangeFormPage}
-                                    defaultValue={formPage.page}
+                                    defaultValue={formPage.page.toString()}
                                     searchable
                                 />
                                 <Button

@@ -41,12 +41,9 @@ export default function Header({ children,
 
     useEffect(() => {
         if (settings.settings) {
-            const generalSettings = settings.settings.find((x) => x.id === 'general');
-            if (generalSettings) {
-                setSiteName(generalSettings.sitename);
-                setLogo(generalSettings.logo);
-                setLocale(generalSettings.locale);
-            }
+            setSiteName(settings.settings.find((x) => x.data === 'sitename')?.value);
+            setLogo(settings.settings.find((x) => x.data === 'logo')?.image);
+            setLocale(settings.settings.find((x) => x.data === 'locale')?.value);
         }
     }, [settings]);
 
@@ -56,7 +53,7 @@ export default function Header({ children,
 
     useEffect(() => {
         firebase.analytics();
-    }, [])
+    }, []);
 
     const Sticky = styled.div({
         position: 'sticky',
@@ -165,10 +162,10 @@ export default function Header({ children,
                                     name: `${siteName}`,
                                     url: `${process.env.URL}/`,
                                     sameAs: [
-                                        settings?.settings?.find((x) => x.id === 'socials')?.facebook,
-                                        settings?.settings?.find((x) => x.id === 'socials')?.twitter,
-                                        settings?.settings?.find((x) => x.id === 'socials')?.instagram,
-                                        settings?.settings?.find((x) => x.id === 'socials')?.linkedin,
+                                        settings?.settings?.find((x) => x.data === 'facebook')?.value,
+                                        settings?.settings?.find((x) => x.data === 'twitter')?.value,
+                                        settings?.settings?.find((x) => x.data === 'instagram')?.value,
+                                        settings?.settings?.find((x) => x.data === 'linkedin')?.value,
                                     ],
                                     logo: {
                                         '@type': 'ImageObject',
@@ -221,10 +218,10 @@ export default function Header({ children,
                                     primaryImageOfPage: {
                                         '@id': `${process.env.URL}/#primaryimage`,
                                     },
-                                    datePublished: new Date(post.published).toISOString(),
+                                    datePublished: new Date(post.published),
                                     dateModified: post.updated
-                                        ? new Date(post.updated).toISOString()
-                                        : new Date(post.published).toISOString(),
+                                        ? new Date(post.updated)
+                                        : new Date(post.published),
                                     breadcrumb: {
                                         '@id': `${process.env.URL}/#breadcrumb`,
                                     },
@@ -298,7 +295,7 @@ Header.propTypes = {
     }).isRequired,
     showRender: PropTypes.bool.isRequired,
     post: PropTypes.shape({
-        id: PropTypes.string.isRequired,
+        id: PropTypes.number.isRequired,
         title: PropTypes.string,
         description: PropTypes.string,
         slug: PropTypes.string,

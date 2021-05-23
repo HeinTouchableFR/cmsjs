@@ -19,7 +19,6 @@ export function TemplatesProvider({ children }) {
 
     useEffect(async () => {
         if (settings.settings) {
-            const generalSettings = settings.settings.find((x) => x.id === 'general');
             const header = {
             };
             const footer = {
@@ -27,11 +26,9 @@ export function TemplatesProvider({ children }) {
             let dataNav = {
             };
 
-            if (generalSettings && generalSettings.header) {
-                const resHeader = await fetch(`${process.env.URL}/api/templates/${generalSettings.header}`);
-                const dataHeader = await resHeader.json();
-                if (dataHeader.success) {
-                    header.template = dataHeader.data;
+            if (settings && settings.settings.find((x) => x.data === 'header')) {
+                if (settings.settings.find((x) => x.data === 'header').template) {
+                    header.template = settings.settings.find((x) => x.data === 'header').template;
                     JSON.parse(header.template.content).forEach((layout) => {
                         layout.columns.forEach((column) => {
                             column.elements.forEach(async (element) => {
@@ -52,11 +49,9 @@ export function TemplatesProvider({ children }) {
                 }
             }
 
-            if (generalSettings && generalSettings.footer) {
-                const resFooter = await fetch(`${process.env.URL}/api/templates/${generalSettings.footer}`);
-                const dataFooter = await resFooter.json();
-                if (dataFooter.success) {
-                    footer.template = dataFooter.data;
+            if (settings && settings.settings.find((x) => x.data === 'footer')) {
+                if (settings.settings.find((x) => x.data === 'footer').template) {
+                    footer.template = settings.settings.find((x) => x.data === 'footer').template;
                     JSON.parse(footer.template.content).forEach((layout) => {
                         layout.columns.forEach((column) => {
                             column.elements.forEach(async (element) => {

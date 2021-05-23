@@ -1,0 +1,60 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "mysql"
+  url      = "mysql://web:web@localhost:3306/cmsjs?schema=public"
+}
+
+model Pages {
+  id          Int        @id @default(autoincrement())
+  content     String?    @db.LongText
+  description String?
+  params      String?
+  title       String     @db.VarChar(255)
+  slug        String     @unique @db.VarChar(191)
+  published   DateTime   @default(now())
+  updated     DateTime?
+  Settings    Settings[]
+}
+
+model Menus {
+  id    Int     @id @default(autoincrement())
+  items String? @db.LongText
+  name  String  @db.VarChar(255)
+}
+
+model Templates {
+  id       Int        @id @default(autoincrement())
+  content  String?    @db.LongText
+  params   String?
+  name     String     @db.VarChar(255)
+  type     String     @db.VarChar(255)
+  Settings Settings[]
+}
+
+model Images {
+  id           Int        @id @default(autoincrement())
+  url          String     @db.LongText
+  originalName String     @db.VarChar(255)
+  name         String     @db.VarChar(255)
+  size         String     @db.VarChar(255)
+  created_at   DateTime   @default(now())
+  Settings     Settings[]
+}
+
+model Settings {
+  id          Int        @id @default(autoincrement())
+  data        String     @unique @db.VarChar(191)
+  value       String?    @db.VarChar(255)
+  page        Pages?     @relation(references: [id], fields: [pagesId])
+  template    Templates? @relation(references: [id], fields: [templatesId])
+  image       Images?    @relation(references: [id], fields: [imagesId])
+  pagesId     Int?
+  templatesId Int?
+  imagesId    Int?
+}
+
+generator client {
+  provider = "prisma-client-js"
+}

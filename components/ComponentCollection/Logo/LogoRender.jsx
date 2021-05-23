@@ -19,16 +19,6 @@ import PropTypes from 'prop-types';
 export default function LogoRender({ element }) {
     const { value: settings } = useSettings();
     const { ref, inView } = useInView();
-    const [logo, setLogo] = useState([]);
-
-    useEffect(() => {
-        if (settings.settings) {
-            const generalSettings = settings.settings.find((x) => x.id === 'general');
-            if (generalSettings) {
-                setLogo(generalSettings.logo);
-            }
-        }
-    }, [settings]);
 
     const Image = styled.img({
         ...imageStyle('desktop', element),
@@ -90,7 +80,7 @@ export default function LogoRender({ element }) {
                         title="Page d'accueil"
                     >
                         <Image
-                            src={logo.image && logo.image.url}
+                            src={(settings.settings.find((x) => x.data === 'logo')?.image) && settings.settings.find((x) => x.data === 'logo')?.image.url}
                             alt='Logo'
                         />
                     </a>
