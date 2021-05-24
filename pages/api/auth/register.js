@@ -1,20 +1,21 @@
-import { withAuthAdmin } from 'lib/middlewares';
 import prisma from 'utils/prisma';
+
+const bcrypt = require('bcrypt');
 
 const handler = async (req, res) => {
     const { method } = req;
     switch (method) {
     case 'POST':
         try {
-            const data = await prisma.pages.create({
+            const hash = bcrypt.hashSync(req.body.password, 12);
+            const data = await prisma.users.create({
                 data: {
-                    title: req.body.title,
-                    slug: req.body.slug,
-                    description: req.body.description,
-                    content: req.body.content,
-                    params: req.body.params,
+                    name: req.body.name,
+                    email: req.body.email,
+                    password: hash,
                 },
             });
+
             res.status(200).json({
                 success: true,
                 data,
@@ -39,4 +40,4 @@ const handler = async (req, res) => {
     }
 };
 
-export default withAuthAdmin(handler);
+export default handler;

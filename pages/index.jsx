@@ -7,13 +7,16 @@ import { Global } from '@emotion/react';
 import RenderPage from 'container/RenderPage/RenderPage';
 import PropTypes from 'prop-types';
 import Footer from 'container/Sites/Footer/Footer';
+import {
+    signIn, signOut, useSession,
+} from 'next-auth/client';
 
 export default function Home({ post }) {
     const { value: settings } = useSettings();
     const [showRender, setShowRender] = useState(false);
     const [params, setParams] = useState(post.params ? JSON.parse(post.params) : {
     });
-
+    const [session, loading] = useSession();
     useEffect(() => {
         setParams(post.params ? JSON.parse(post.params) : {
         });
@@ -39,6 +42,18 @@ export default function Home({ post }) {
                 page={post}
                 showRender={showRender}
             />
+            {!session ? (
+                <>
+                    Not signed in
+                    {' '}
+                    <br />
+                    <button onClick={() => signIn()}>Sign in</button>
+                </>
+            ) : (
+                <>
+                    <button onClick={() => signOut()}>Sign Out</button>
+                </>
+            )}
             <Footer
                 showRender={showRender}
                 setShowRender={setShowRender}

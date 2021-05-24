@@ -4,8 +4,9 @@ import React, {
 import { useIntl } from 'react-intl';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import nookies from 'nookies';
-import { auth } from 'utils/dbConnect';
+import {
+    getSession, signIn, useSession,
+} from 'next-auth/client';
 import Table from 'components/Table/Table';
 import Page from 'components/rowTemplate/Page/Page';
 import Admin from 'container/Admin/Admin';
@@ -14,12 +15,20 @@ import Confirm from 'components/Confirm/Confirm';
 import PropTypes from 'prop-types';
 import Flash from 'components/Flash/Flash';
 import { useAuth } from 'context/auth';
+import nookies from 'nookies';
 
 export default function Index({ items, errors }) {
     const intl = useIntl();
     const { user } = useAuth();
     const url = 'pages';
     const router = useRouter();
+    const [session] = useSession();
+
+    useEffect(() => {
+        if (!session) {
+            signIn();
+        }
+    }, [session]);
 
     const labels = [
         {
@@ -85,63 +94,68 @@ export default function Index({ items, errors }) {
 
     return (
         <>
-            <Head>
-                <title>
-                    {intl.formatMessage({
-                        id: 'pages', defaultMessage: 'Pages',
-                    })}
-                </title>
-            </Head>
-            <Admin>
-                {indexErrors
-                && indexErrors.map((error, index) => (
-                    <Flash
-                        key={index}
-                        error={error}
-                    />
-                ))}
-                <Card
-                    color='grey'
-                >
-                    <Card.Header
-                        title={intl.formatMessage({
-                            id: 'pages', defaultMessage: 'Pages',
-                        })}
-                        buttonLabel={intl.formatMessage({
-                            id: 'add', defaultMessage: 'Add',
-                        })}
-                        buttonAction='/admin/pages/add'
-                        buttonIcon='las la-plus'
-                    />
-                    <Card.Body>
-                        <Table labels={labels}>
-                            {items && items.map((item) => (
-                                <Page
-                                    item={item}
-                                    url={url}
-                                    key={item.id}
-                                    handleDelete={open}
+            {session && (
+                <>
+                    <Head>
+                        <title>
+                            {intl.formatMessage({
+                                id: 'pages', defaultMessage: 'Pages',
+                            })}
+                        </title>
+                    </Head>
+                    <Admin>
+                        {indexErrors
+                        && indexErrors.map((error, index) => (
+                            <Flash
+                                key={index}
+                                error={error}
+                            />
+                        ))}
+                        <Card
+                            color='grey'
+                        >
+                            <Card.Header
+                                title={intl.formatMessage({
+                                    id: 'pages', defaultMessage: 'Pages',
+                                })}
+                                buttonLabel={intl.formatMessage({
+                                    id: 'add', defaultMessage: 'Add',
+                                })}
+                                buttonAction='/admin/pages/add'
+                                buttonIcon='las la-plus'
+                            />
+                            <Card.Body>
+                                <Table labels={labels}>
+                                    {items && items.map((item) => (
+                                        <Page
+                                            item={item}
+                                            url={url}
+                                            key={item.id}
+                                            handleDelete={open}
+                                        />
+                                    ))}
+                                </Table>
+                                <Confirm
+                                    name='pagesConfirm'
+                                    open={confirm}
+                                    onCancel={close}
+                                    onConfirm={handleDelete}
+                                    content={intl.formatMessage({
+                                        id: 'item.deleteSentence',
+                                        defaultMessage: 'Are you sure you want to delete this item?',
+                                    })}
+                                    cancelButton={intl.formatMessage({
+                                        id: 'no', defaultMessage: 'No',
+                                    })}
+                                    confirmButton={intl.formatMessage({
+                                        id: 'yes', defaultMessage: 'Yes',
+                                    })}
                                 />
-                            ))}
-                        </Table>
-                        <Confirm
-                            name='pagesConfirm'
-                            open={confirm}
-                            onCancel={close}
-                            onConfirm={handleDelete}
-                            content={intl.formatMessage({
-                                id: 'item.deleteSentence', defaultMessage: 'Are you sure you want to delete this item?',
-                            })}
-                            cancelButton={intl.formatMessage({
-                                id: 'no', defaultMessage: 'No',
-                            })}
-                            confirmButton={intl.formatMessage({
-                                id: 'yes', defaultMessage: 'Yes',
-                            })}
-                        />
-                    </Card.Body>
-                </Card>
-            </Admin>
+                            </Card.Body>
+                        </Card>
+                    </Admin>
+                </>
+            )}
         </>
     );
 }
@@ -162,44 +176,44 @@ Index.propTypes = {
 };
 
 export async function getServerSideProps(ctx) {
-    try {
-        const cookies = nookies.get(ctx);
-        const token = await auth.verifyIdToken(cookies.token);
+    const authorized = ['ADMIN', 'EDITOR', 'MODERATOR'];
+    const session = await getSession(ctx);
+    if (session && !authorized.includes(session.user.role)) {
+        return {
+            props: {
+            },
+            redirect: {
+                destination: '/',
+                permanent: false,
+            },
+        };
+    }
+    const cookies = nookies.get(ctx);
+    const token = cookies['next-auth.session-token'];
 
-        if (!token.roles.some((r) => ['admin', 'editor', 'moderator'].includes(r))) {
-            throw new Error('unauthorized');
-        }
+    const errors = [];
+    let items = [];
 
-        const errors = [];
-        let items = [];
-
-        const res = await fetch(`${process.env.URL}/api/pages`, {
+    if (token) {
+        const resPages = await fetch(`${process.env.URL}/api/pages`, {
             headers: {
-                Authorization: `Bearer ${cookies.token}`,
+                Authorization: `Bearer ${token}`,
             },
             credentials: 'same-origin',
         });
-        const data = await res.json();
+        const data = await resPages.json();
         if (data.success) {
             items = data.data;
         } else {
             errors.push(data.errors);
         }
-
-        return {
-            props: {
-                items,
-                errors,
-            },
-        };
-    } catch (err) {
-        return {
-            redirect: {
-                permanent: false,
-                destination: '/admin/login',
-            },
-            props: {
-            },
-        };
     }
+
+    return {
+        props: {
+            items,
+            errors,
+            session,
+        },
+    };
 }

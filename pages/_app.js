@@ -16,6 +16,7 @@ import {
 import { TemplatesProvider } from 'context/template';
 import { SettingsProvider } from 'context/settings';
 import { InstallProvider } from 'context/install';
+import { Provider } from 'next-auth/client';
 
 const messages = {
     en,
@@ -44,20 +45,28 @@ function MyApp({ Component, pageProps }) {
     }, []);
 
     return (
-        <IntlProvider
-            locale={language}
-            messages={messages[language] ? messages[language] : en}
+        <Provider
+            options={{
+                clientMaxAge: 0,
+                keepAlive: 0,
+            }}
+            session={pageProps.session}
         >
-            <SettingsProvider>
-                <InstallProvider>
-                    <AuthProvider>
-                        <TemplatesProvider>
-                            <Component {...pageProps} />
-                        </TemplatesProvider>
-                    </AuthProvider>
-                </InstallProvider>
-            </SettingsProvider>
-        </IntlProvider>
+            <IntlProvider
+                locale={language}
+                messages={messages[language] ? messages[language] : en}
+            >
+                <SettingsProvider>
+                    <InstallProvider>
+                        <AuthProvider>
+                            <TemplatesProvider>
+                                <Component {...pageProps} />
+                            </TemplatesProvider>
+                        </AuthProvider>
+                    </InstallProvider>
+                </SettingsProvider>
+            </IntlProvider>
+        </Provider>
     );
 }
 

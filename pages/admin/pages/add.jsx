@@ -6,11 +6,13 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import nookies from 'nookies';
 import Builder from 'container/Builder/Builder';
-import { auth } from 'utils/dbConnect';
 import defaultComponents from 'variables/components';
 import { useAuth } from 'context/auth';
 import PropTypes from 'prop-types';
-import { BuilderProvider } from '../../../context/builder';
+import {
+    getSession, signIn, useSession,
+} from 'next-auth/client';
+import { BuilderProvider } from 'context/builder';
 
 export default function Add({ images, errors }) {
     const url = 'pages';
@@ -21,11 +23,18 @@ export default function Add({ images, errors }) {
     const [imagesList, setImagesList] = useState(JSON.parse(images));
     const [loading, setLoading] = useState(false);
     const router = useRouter();
+    const [session] = useSession();
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [builderErrors, setBuilderErrors] = useState(errors);
     const [formErrors, setFormErrors] = useState({
     });
     const [content, setContent] = useState('');
+
+    useEffect(() => {
+        if (!session) {
+            signIn();
+        }
+    }, [session]);
 
     const validate = async (slug) => {
         const res = await fetch(`/api/pages/slug/${slug}`);
@@ -57,24 +66,18 @@ export default function Add({ images, errors }) {
     const create = async () => {
         setLoading(true);
         try {
-            const res = await fetch('/api/pages/auth', {
+            const res = await fetch('/api/pages', {
                 body: JSON.stringify({
                     title: content.title,
                     slug: content.slug,
                     description: content.description,
-                    author: {
-                        uid: user.uid,
-                        displayName: user.displayName,
-                    },
                     published: new Date(),
                     content: JSON.stringify(content.data),
                     params: JSON.stringify(content.params),
                 }),
                 headers: {
                     'Content-Type': 'application/json',
-                    Authorization: `Bearer ${user.token}`,
                 },
-                credentials: 'same-origin',
                 method: 'POST',
             });
 
@@ -101,6 +104,7 @@ export default function Add({ images, errors }) {
 
     return (
         <>
+            {session && (
             <BuilderProvider
                 components={defaultComponents.pageComponents(intl)}
             >
@@ -120,6 +124,7 @@ export default function Add({ images, errors }) {
                     errors={builderErrors}
                 />
             </BuilderProvider>
+            )}
         </>
     );
 }
@@ -135,17 +140,25 @@ Add.propTypes = {
 };
 
 export async function getServerSideProps(ctx) {
-    try {
-        const cookies = nookies.get(ctx);
-        const token = await auth.verifyIdToken(cookies.token);
+    const authorized = ['ADMIN', 'EDITOR', 'MODERATOR'];
+    const session = await getSession(ctx);
+    if (session && !authorized.includes(session.user.role)) {
+        return {
+            props: {
+            },
+            redirect: {
+                destination: '/',
+                permanent: false,
+            },
+        };
+    }
+    const cookies = nookies.get(ctx);
+    const token = cookies['next-auth.session-token'];
 
-        if (!token.roles.some((r) => ['admin', 'editor', 'moderator'].includes(r))) {
-            throw new Error('unauthorized');
-        }
+    const errors = [];
+    let images = [];
 
-        const errors = [];
-        let images = [];
-
+    if (token) {
         const resImages = await fetch(`${process.env.URL}/api/images`, {
             headers: {
                 Authorization: `Bearer ${cookies.token}`,
@@ -161,21 +174,13 @@ export async function getServerSideProps(ctx) {
                 request: `${process.env.URL}/api/images`,
             });
         }
-
-        return {
-            props: {
-                images: JSON.stringify(images),
-                errors,
-            },
-        };
-    } catch (err) {
-        return {
-            redirect: {
-                permanent: false,
-                destination: '/admin/login',
-            },
-            props: {
-            },
-        };
     }
+
+    return {
+        props: {
+            images: JSON.stringify(images),
+            errors,
+            session,
+        },
+    };
 }
