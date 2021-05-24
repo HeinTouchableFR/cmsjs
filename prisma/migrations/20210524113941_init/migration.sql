@@ -48,12 +48,13 @@ CREATE TABLE `Images` (
 -- CreateTable
 CREATE TABLE `Settings` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `data` VARCHAR(255) NOT NULL,
+    `data` VARCHAR(191) NOT NULL,
     `value` VARCHAR(255),
     `pagesId` INTEGER,
     `templatesId` INTEGER,
     `imagesId` INTEGER,
 
+    UNIQUE INDEX `Settings.data_unique`(`data`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 

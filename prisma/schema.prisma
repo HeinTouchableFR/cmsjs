@@ -3,7 +3,7 @@
 
 datasource db {
   provider = "mysql"
-  url      = "mysql://web:web@localhost:3306/cmsjs?schema=public"
+  url      = "mysql://web:Stienforce62!!@nas.aymericlhomme.fr:3306/cmsjs?schema=public"
 }
 
 model Pages {
