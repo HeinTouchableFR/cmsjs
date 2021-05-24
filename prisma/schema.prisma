@@ -6,7 +6,7 @@ datasource db {
   url      = "mysql://web:Stienforce62!!@nas.aymericlhomme.fr:3306/cmsjs?schema=public"
 }
 
-model Pages {
+model pages {
   id          Int        @id @default(autoincrement())
   content     String?    @db.LongText
   description String?
@@ -15,41 +15,41 @@ model Pages {
   slug        String     @unique @db.VarChar(191)
   published   DateTime   @default(now())
   updated     DateTime?
-  Settings    Settings[]
+  settings    settings[]
 }
 
-model Menus {
+model menus {
   id    Int     @id @default(autoincrement())
   items String? @db.LongText
   name  String  @db.VarChar(255)
 }
 
-model Templates {
+model templates {
   id       Int        @id @default(autoincrement())
   content  String?    @db.LongText
   params   String?
   name     String     @db.VarChar(255)
   type     String     @db.VarChar(255)
-  Settings Settings[]
+  Settings settings[]
 }
 
-model Images {
+model images {
   id           Int        @id @default(autoincrement())
   url          String     @db.LongText
   originalName String     @db.VarChar(255)
   name         String     @db.VarChar(255)
   size         String     @db.VarChar(255)
   created_at   DateTime   @default(now())
-  Settings     Settings[]
+  Settings     settings[]
 }
 
-model Settings {
+model settings {
   id          Int        @id @default(autoincrement())
   data        String     @unique @db.VarChar(191)
   value       String?    @db.VarChar(255)
-  page        Pages?     @relation(references: [id], fields: [pagesId])
-  template    Templates? @relation(references: [id], fields: [templatesId])
-  image       Images?    @relation(references: [id], fields: [imagesId])
+  page        pages?     @relation(references: [id], fields: [pagesId])
+  template    templates? @relation(references: [id], fields: [templatesId])
+  image       images?    @relation(references: [id], fields: [imagesId])
   pagesId     Int?
   templatesId Int?
   imagesId    Int?

@@ -1,5 +1,5 @@
 -- CreateTable
-CREATE TABLE `Pages` (
+CREATE TABLE `pages` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `content` LONGTEXT,
     `description` VARCHAR(191),
@@ -9,12 +9,12 @@ CREATE TABLE `Pages` (
     `published` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updated` DATETIME(3),
 
-    UNIQUE INDEX `Pages.slug_unique`(`slug`),
+    UNIQUE INDEX `pages.slug_unique`(`slug`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `Menus` (
+CREATE TABLE `menus` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `items` LONGTEXT,
     `name` VARCHAR(255) NOT NULL,
@@ -23,7 +23,7 @@ CREATE TABLE `Menus` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `Templates` (
+CREATE TABLE `templates` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `content` LONGTEXT,
     `params` VARCHAR(191),
@@ -34,7 +34,7 @@ CREATE TABLE `Templates` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `Images` (
+CREATE TABLE `images` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `url` LONGTEXT NOT NULL,
     `originalName` VARCHAR(255) NOT NULL,
@@ -46,7 +46,7 @@ CREATE TABLE `Images` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `Settings` (
+CREATE TABLE `settings` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `data` VARCHAR(191) NOT NULL,
     `value` VARCHAR(255),
@@ -54,15 +54,15 @@ CREATE TABLE `Settings` (
     `templatesId` INTEGER,
     `imagesId` INTEGER,
 
-    UNIQUE INDEX `Settings.data_unique`(`data`),
+    UNIQUE INDEX `settings.data_unique`(`data`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- AddForeignKey
-ALTER TABLE `Settings` ADD FOREIGN KEY (`pagesId`) REFERENCES `Pages`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE `settings` ADD FOREIGN KEY (`pagesId`) REFERENCES `pages`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Settings` ADD FOREIGN KEY (`templatesId`) REFERENCES `Templates`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE `settings` ADD FOREIGN KEY (`templatesId`) REFERENCES `templates`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Settings` ADD FOREIGN KEY (`imagesId`) REFERENCES `Images`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE `settings` ADD FOREIGN KEY (`imagesId`) REFERENCES `images`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
