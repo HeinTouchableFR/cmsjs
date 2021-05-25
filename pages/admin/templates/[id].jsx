@@ -4,17 +4,17 @@ import React, {
 import { useIntl } from 'react-intl';
 import Head from 'next/head';
 import nookies from 'nookies';
-import { auth } from 'utils/dbConnect';
 import Builder from 'container/Builder/Builder';
 import defaultComponents from 'variables/components';
-import { useAuth } from 'context/auth';
-import PropTypes from 'prop-types';
 import { BuilderProvider } from 'context/builder';
+import PropTypes from 'prop-types';
+import {
+    getSession, signIn, useSession,
+} from 'next-auth/client';
 
-export default function Edit({ item, errors, images }) {
+export default function Edit({ item, images, errors }) {
     const intl = useIntl();
 
-    const { user } = useAuth();
     const [post, setPost] = useState(item);
     const [imagesList, setImagesList] = useState(JSON.parse(images));
     const [loading, setLoading] = useState(false);
@@ -23,27 +23,22 @@ export default function Edit({ item, errors, images }) {
     });
     const [builderErrors, setBuilderErrors] = useState(errors);
     const [content, setContent] = useState('');
+    const [session] = useSession();
 
-    const validate = async (slug) => {
-        const res = await fetch(`/api/pages/slug/${slug}`);
-        const { data } = await res.json();
+    useEffect(() => {
+        if (!session) {
+            signIn();
+        }
+    }, [session]);
+
+    const validate = async () => {
         const errs = {
         };
-        if (data && data.slug && post.slug !== slug) {
-            errs.slug = intl.formatMessage({
-                id: 'slug.error', defaultMessage: 'The slug {slug} is already defined',
-            }, {
-                slug,
-            });
-        }
         return errs;
     };
 
     const onSubmit = async (e, data, params) => {
         setContent({
-            title: e.title,
-            slug: e.slug,
-            description: e.description,
             data,
             params,
         });
@@ -54,18 +49,14 @@ export default function Edit({ item, errors, images }) {
     const update = async () => {
         setLoading(true);
         try {
-            const res = await fetch(`/api/pages/auth/${item.id}`, {
+            const res = await fetch(`/api/templates/${item.id}`, {
                 body: JSON.stringify({
-                    title: content.title,
-                    slug: content.slug,
-                    description: content.description,
                     updated: new Date(),
                     content: JSON.stringify(content.data),
                     params: JSON.stringify(content.params),
                 }),
                 headers: {
                     'Content-Type': 'application/json',
-                    Authorization: `Bearer ${user.token}`,
                 },
                 credentials: 'same-origin',
                 method: 'PUT',
@@ -97,7 +88,8 @@ export default function Edit({ item, errors, images }) {
         <>
             <BuilderProvider
                 page={post}
-                components={defaultComponents.pageComponents(intl)}
+                components={defaultComponents.templateComponents(intl)}
+                builderMode='template'
             >
                 <Head>
                     <title>
@@ -105,7 +97,7 @@ export default function Edit({ item, errors, images }) {
                             id: 'page.edit', defaultMessage: 'Edit',
                         })}
                         {': '}
-                        {item.title}
+                        {item.name}
                     </title>
                 </Head>
                 <Builder
@@ -123,8 +115,8 @@ export default function Edit({ item, errors, images }) {
 
 Edit.propTypes = {
     item: PropTypes.shape({
-        id: PropTypes.string.isRequired,
-        title: PropTypes.string,
+        id: PropTypes.number.isRequired,
+        name: PropTypes.string,
     }).isRequired,
     images: PropTypes.string.isRequired,
     errors: PropTypes.oneOfType([
@@ -136,24 +128,31 @@ Edit.propTypes = {
 };
 
 export async function getServerSideProps(ctx) {
-    try {
-        const cookies = nookies.get(ctx);
-        const token = await auth.verifyIdToken(cookies.token);
-
-        if (!token.roles.some((r) => ['admin', 'editor', 'moderator'].includes(r))) {
-            throw new Error('unauthorized');
-        }
-
-        const { id } = ctx.params;
-
-        let item = {
+    const authorized = ['ADMIN', 'EDITOR', 'MODERATOR'];
+    const session = await getSession(ctx);
+    if (session && !authorized.includes(session.user.role)) {
+        return {
+            props: {
+            },
+            redirect: {
+                destination: '/',
+                permanent: false,
+            },
         };
-        let images = [];
-        const errors = [];
+    }
+    const cookies = nookies.get(ctx);
+    const token = cookies['next-auth.session-token'];
 
-        const resItem = await fetch(`${process.env.URL}/api/pages/${id}`, {
+    const { id } = ctx.params;
+    let item = {
+    };
+    let images = [];
+    const errors = [];
+
+    if (token) {
+        const resItem = await fetch(`${process.env.SERVER}/api/templates/${id}`, {
             headers: {
-                Authorization: `Bearer ${cookies.token}`,
+                Authorization: `Bearer ${token}`,
             },
             credentials: 'same-origin',
         });
@@ -163,13 +162,13 @@ export async function getServerSideProps(ctx) {
         } else {
             errors.push({
                 ...dataItem.errors,
-                request: `${process.env.URL}/api/pages/${id}`,
+                request: `${process.env.SERVER}/api/templates/${id}`,
             });
         }
 
-        const resImages = await fetch(`${process.env.URL}/api/images`, {
+        const resImages = await fetch(`${process.env.SERVER}/api/images`, {
             headers: {
-                Authorization: `Bearer ${cookies.token}`,
+                Authorization: `Bearer ${token}`,
             },
             credentials: 'same-origin',
         });
@@ -179,23 +178,17 @@ export async function getServerSideProps(ctx) {
         } else {
             errors.push({
                 ...dataImages.errors,
-                request: `${process.env.URL}/api/images`,
+                request: `${process.env.SERVER}/api/images`,
             });
         }
-
-        return {
-            props: {
-                item, errors, images: JSON.stringify(images),
-            },
-        };
-    } catch (err) {
-        return {
-            redirect: {
-                permanent: false,
-                destination: '/admin/login',
-            },
-            props: {
-            },
-        };
     }
+
+    return {
+        props: {
+            item,
+            errors,
+            images: JSON.stringify(images),
+            session,
+        },
+    };
 }

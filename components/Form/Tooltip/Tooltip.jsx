@@ -9,7 +9,7 @@ export default function Tooltip({ iconTip,
     return (
         <>
             <div className={styles.tooltip}>
-                <i className={`las ${iconTip}`} />
+                <i className={`fas ${iconTip}`} />
                 <span
                     style={{
                         width: `${tipWidth}px`, marginLeft: `-${tipWidth / 2}px`,
@@ -29,6 +29,6 @@ Tooltip.propTypes = {
 };
 
 Tooltip.defaultProps = {
-    iconTip: 'la-question-circle',
+    iconTip: 'fa-question-circle',
     tipWidth: null,
 };

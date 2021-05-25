@@ -1,24 +1,39 @@
 import { db } from 'utils/dbConnect';
-import { withAuthAdmin } from 'lib/middlewares';
+import jwt from 'next-auth/jwt';
+import prisma from '../../../utils/prisma';
 
 const handle = async (req, res) => {
     const { method } = req;
+    const token = await jwt.getToken({
+        req, secret: process.env.SECRET,
+    });
+    const authorized = ['ADMIN', 'EDITOR', 'MODERATOR'];
 
     switch (method) {
     case 'GET':
         try {
-            db.collection('images')
-                .orderBy('created_at', 'desc')
-                .get()
-                .then((snapshot) => {
-                    const items = snapshot.docs.map((doc) => ({
-                        _id: doc.id,
-                        ...doc.data(),
-                    }));
-                    Promise.all(items).then((data) => res.status(200).json({
-                        success: true, data,
-                    }));
+            if (token && authorized.includes(token.role)) {
+                const data = await prisma.images.findMany({
+                    orderBy: [
+                        {
+                            created_at: 'asc',
+                        },
+                    ],
                 });
+
+                res.status(200).json({
+                    success: true, data,
+                });
+            } else {
+                res.status(401).json({
+                    success: false,
+                    errors: {
+                        status: 401,
+                        code: 1,
+                        message: 'Unauthorized',
+                    },
+                });
+            }
         } catch (e) {
             res.status(400).json({
                 success: false,
@@ -39,4 +54,4 @@ const handle = async (req, res) => {
     }
 };
 
-export default withAuthAdmin(handle);
+export default handle;

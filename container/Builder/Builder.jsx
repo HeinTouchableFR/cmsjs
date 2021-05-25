@@ -2,7 +2,6 @@ import React from 'react';
 import { DragDropContext } from 'react-beautiful-dnd';
 import Content from 'container/Builder/Content/Content';
 import Navigation from 'container/Builder/Navigation/Navigation';
-import Head from 'next/head';
 import Component from 'components/ComponentCollection/Component';
 import Portal from 'components/Portal/Portal';
 import PropTypes from 'prop-types';
@@ -33,16 +32,6 @@ const Builder = ({ onSubmit,
 
     return (
         <>
-
-            <Head>
-                <link
-                    rel='stylesheet'
-                    href='https://pro.fontawesome.com/releases/v5.10.0/css/all.css'
-                    integrity='sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p'
-                    crossOrigin='anonymous'
-                />
-                <title>Builder</title>
-            </Head>
             <div className={styles.builder}>
                 <DragDropContext onDragEnd={onDragEnd}>
                     <Content />

@@ -94,5 +94,5 @@ TextArea.defaultProps = {
     maxLength: '240',
     tip: '',
     tipWidth: null,
-    iconTip: 'la-question-circle',
+    iconTip: 'fa-question-circle',
 };

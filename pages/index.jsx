@@ -7,16 +7,13 @@ import { Global } from '@emotion/react';
 import RenderPage from 'container/RenderPage/RenderPage';
 import PropTypes from 'prop-types';
 import Footer from 'container/Sites/Footer/Footer';
-import {
-    signIn, signOut, useSession,
-} from 'next-auth/client';
 
 export default function Home({ post }) {
     const { value: settings } = useSettings();
     const [showRender, setShowRender] = useState(false);
     const [params, setParams] = useState(post.params ? JSON.parse(post.params) : {
     });
-    const [session, loading] = useSession();
+
     useEffect(() => {
         setParams(post.params ? JSON.parse(post.params) : {
         });
@@ -42,18 +39,6 @@ export default function Home({ post }) {
                 page={post}
                 showRender={showRender}
             />
-            {!session ? (
-                <>
-                    Not signed in
-                    {' '}
-                    <br />
-                    <button onClick={() => signIn()}>Sign in</button>
-                </>
-            ) : (
-                <>
-                    <button onClick={() => signOut()}>Sign Out</button>
-                </>
-            )}
             <Footer
                 showRender={showRender}
                 setShowRender={setShowRender}
@@ -72,27 +57,12 @@ Home.propTypes = {
 
 export async function getServerSideProps() {
     let post = [];
-    const resSettings = await fetch(`${process.env.URL}/api/settings/homepage`, {
+    const resSettings = await fetch(`${process.env.SERVER}/api/settings/homepage`, {
         credentials: 'same-origin',
     });
     const dataHomepage = await resSettings.json();
-    let homePageId = '';
     if (dataHomepage.success && dataHomepage.data) {
-        homePageId = dataHomepage.data.pagesId;
-
-        const resItem = await fetch(`${process.env.URL}/api/pages/${homePageId}`, {
-            credentials: 'same-origin',
-        });
-
-        const dataItem = await resItem.json();
-
-        if (dataItem.success && dataItem.data) {
-            post = dataItem.data;
-        } else {
-            return {
-                notFound: true,
-            };
-        }
+        post = dataHomepage.data.page;
     } else {
         return {
             notFound: true,

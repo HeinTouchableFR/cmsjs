@@ -1,20 +1,30 @@
-import React, { useState } from 'react';
+import React, {
+    useEffect, useState,
+} from 'react';
 import Head from 'next/head';
-import { auth } from 'utils/dbConnect';
 import { useIntl } from 'react-intl';
-import nookies from 'nookies';
 import Admin from 'container/Admin/Admin';
 import Button from 'components/Button/Button';
 import Input from 'components/Form/Input/Input';
 import IconButton from 'components/Button/IconButton/IconButton';
 import { useRouter } from 'next/router';
-import { useAuth } from 'context/auth';
+import {
+    getSession, signIn, useSession,
+} from 'next-auth/client';
+import Flash from 'components/Flash/Flash';
 import styles from './menus.module.scss';
 
 export default function Add() {
     const intl = useIntl();
     const router = useRouter();
-    const { user } = useAuth();
+    const [session] = useSession();
+
+    useEffect(async () => {
+        if (!session) {
+            await signIn();
+        }
+    }, [session]);
+    const [indexErrors, setIndexErrors] = useState([]);
 
     const [loading, setLoading] = useState(false);
 
@@ -29,23 +39,24 @@ export default function Add() {
             name: form.name,
             items: '[]',
         };
-        const res = await fetch('/api/menus/auth', {
+        const res = await fetch('/api/menus', {
             body: JSON.stringify(menu),
             headers: {
                 'Content-Type': 'application/json',
-                Authorization: `Bearer ${user.token}`,
             },
             credentials: 'same-origin',
             method: 'POST',
         });
-        const { success, data } = await res.json();
-        if (success) {
-            router.push({
+        const result = await res.json();
+        if (result) {
+            await router.push({
                 pathname: '/admin/menus',
                 query: {
-                    id: data.id,
+                    id: result.data.id,
                 },
             });
+        } else {
+            setIndexErrors([result.errors]);
         }
         setLoading(false);
     };
@@ -59,83 +70,91 @@ export default function Add() {
 
     return (
         <>
-            <Head>
-                <title>
-                    {intl.formatMessage({
-                        id: 'menus', defaultMessage: 'Menus',
-                    })}
-                </title>
-            </Head>
-            <Admin>
-                <div className={`${styles.nav_menu} ${styles.single}`}>
-                    <div className={`${styles.menu_edit}`}>
-                        <form onSubmit={handleCreateMenu}>
-                            <div className={`${styles.header}`}>
-                                <Input
-                                    label={intl.formatMessage({
-                                        id: 'name',
-                                        defaultMessage: 'Name',
-                                    })}
-                                    name='name'
-                                    defaultValue={`${form.name}`}
-                                    onChange={handleChangeFormCreateMenu}
-                                    required
-                                />
-                                <Button
-                                    label={intl.formatMessage({
-                                        id: 'menu.create.menu', defaultMessage: 'Create menu',
-                                    })}
-                                    loading={loading}
-                                    type='submit'
-                                />
+            {session && (
+                <>
+                    <Head>
+                        <title>
+                            {intl.formatMessage({
+                                id: 'menus', defaultMessage: 'Menus',
+                            })}
+                        </title>
+                    </Head>
+                    <Admin>
+                        {indexErrors
+                        && indexErrors.map((error, index) => (
+                            <Flash
+                                key={index}
+                                error={error}
+                            />
+                        ))}
+                        <div className={`${styles.nav_menu} ${styles.single}`}>
+                            <div className={`${styles.menu_edit}`}>
+                                <form onSubmit={handleCreateMenu}>
+                                    <div className={`${styles.header}`}>
+                                        <Input
+                                            label={intl.formatMessage({
+                                                id: 'name',
+                                                defaultMessage: 'Name',
+                                            })}
+                                            name='name'
+                                            defaultValue={`${form.name}`}
+                                            onChange={handleChangeFormCreateMenu}
+                                            required
+                                        />
+                                        <Button
+                                            label={intl.formatMessage({
+                                                id: 'menu.create.menu', defaultMessage: 'Create menu',
+                                            })}
+                                            loading={loading}
+                                            type='submit'
+                                        />
+                                    </div>
+                                    <div className={`${styles.body}`}>
+                                        {intl.formatMessage({
+                                            id: 'menu.create.info',
+                                            defaultMessage: 'Give your menu a name, then click on "Create Menu".',
+                                        })}
+                                    </div>
+                                    <div className={`${styles.footer}`}>
+                                        <IconButton
+                                            action='/admin/menus'
+                                            icon='fas fa-arrow-left'
+                                        />
+                                        <Button
+                                            label={intl.formatMessage({
+                                                id: 'menu.create.menu', defaultMessage: 'Create menu',
+                                            })}
+                                            loading={loading}
+                                            type='submit'
+                                        />
+                                    </div>
+                                </form>
                             </div>
-                            <div className={`${styles.body}`}>
-                                {intl.formatMessage({
-                                    id: 'menu.create.info', defaultMessage: 'Give your menu a name, then click on "Create Menu".',
-                                })}
-                            </div>
-                            <div className={`${styles.footer}`}>
-                                <IconButton
-                                    action='/admin/menus'
-                                    icon='las fa-arrow-left'
-                                />
-                                <Button
-                                    label={intl.formatMessage({
-                                        id: 'menu.create.menu', defaultMessage: 'Create menu',
-                                    })}
-                                    loading={loading}
-                                    type='submit'
-                                />
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </Admin>
+                        </div>
+                    </Admin>
+                </>
+            )}
         </>
     );
 }
 
 export async function getServerSideProps(ctx) {
-    try {
-        const cookies = nookies.get(ctx);
-        const token = await auth.verifyIdToken(cookies.token);
-
-        if (!token.roles.some((r) => ['admin', 'editor', 'moderator'].includes(r))) {
-            throw new Error('unauthorized');
-        }
-
+    const authorized = ['ADMIN', 'EDITOR', 'MODERATOR'];
+    const session = await getSession(ctx);
+    if (session && !authorized.includes(session.user.role)) {
         return {
             props: {
             },
-        };
-    } catch (err) {
-        return {
             redirect: {
+                destination: '/',
                 permanent: false,
-                destination: '/admin/login',
-            },
-            props: {
             },
         };
     }
+
+    return {
+        props: {
+            session,
+        },
+    };
 }

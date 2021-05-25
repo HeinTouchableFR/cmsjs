@@ -27,6 +27,8 @@
     "firebase-admin": "^9.5.0",
     "html-react-parser": "^1.2.4",
     "multer": "^1.4.2",
+    "multer-ftp": "^1.2.0",
+    "multer-sftp": "^1.1.1",
     "next": "10.0.5",
     "next-auth": "^3.23.3",
     "next-connect": "^0.9.1",
@@ -42,7 +44,8 @@
     "react-intl": "^5.13.1",
     "react-slugify": "^2.0.3",
     "sass": "^1.32.8",
-    "sharp": "^0.27.1"
+    "sharp": "^0.27.1",
+    "ssh2-sftp-client": "^6.0.1"
   },
   "devDependencies": {
     "eslint": "^7.24.0",

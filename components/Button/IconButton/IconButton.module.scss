@@ -8,6 +8,10 @@
   color: var(--color-contrast);
   min-height: 35px;
 
+  span {
+    font-size: 1rem;
+  }
+
   &:hover {
     color: var(--color-contrast);
   }

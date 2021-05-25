@@ -59,7 +59,7 @@ export async function getServerSideProps({ params }) {
     let post = [];
     const errors = [];
 
-    const resItem = await fetch(`${process.env.URL}/api/pages/slug/${slug}`, {
+    const resItem = await fetch(`${process.env.SERVER}/api/pages/slug/${slug}`, {
         credentials: 'same-origin',
     });
     const dataItem = await resItem.json();

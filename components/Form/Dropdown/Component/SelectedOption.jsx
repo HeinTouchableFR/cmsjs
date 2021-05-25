@@ -11,7 +11,7 @@ export default function SelectedOption({ option, value, setValue }) {
             <div className={`${styles.ui} ${styles.label}`}>
                 {option.text}
                 <i
-                    className={`las la-times-circle ${styles.dropdown}`}
+                    className={`fas fa-times-circle ${styles.dropdown}`}
                     onClick={handleDeleteOption}
                     onKeyDown={handleDeleteOption}
                     tabIndex='0'

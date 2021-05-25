@@ -8,6 +8,7 @@ CREATE TABLE `pages` (
     `slug` VARCHAR(191) NOT NULL,
     `published` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updated` DATETIME(3),
+    `authorId` INTEGER,
 
     UNIQUE INDEX `pages.slug_unique`(`slug`),
     PRIMARY KEY (`id`)
@@ -36,10 +37,9 @@ CREATE TABLE `templates` (
 -- CreateTable
 CREATE TABLE `images` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `url` LONGTEXT NOT NULL,
+    `path` LONGTEXT NOT NULL,
     `originalName` VARCHAR(255) NOT NULL,
     `name` VARCHAR(255) NOT NULL,
-    `size` VARCHAR(255) NOT NULL,
     `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
     PRIMARY KEY (`id`)
@@ -131,3 +131,6 @@ ALTER TABLE `settings` ADD FOREIGN KEY (`templatesId`) REFERENCES `templates`(`i
 
 -- AddForeignKey
 ALTER TABLE `settings` ADD FOREIGN KEY (`imagesId`) REFERENCES `images`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `pages` ADD FOREIGN KEY (`authorId`) REFERENCES `users`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;

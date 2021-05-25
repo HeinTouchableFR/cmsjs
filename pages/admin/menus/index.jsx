@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, {
+    useEffect, useState,
+} from 'react';
 import Head from 'next/head';
-import { auth } from 'utils/dbConnect';
 import MenuEditor from 'components/MenuEditor/MenuEditor';
 import { useIntl } from 'react-intl';
-import axios from 'axios';
 import nookies from 'nookies';
 import Admin from 'container/Admin/Admin';
 import Button from 'components/Button/Button';
@@ -12,20 +12,29 @@ import Dropdown from 'components/Form/Dropdown/Dropdown';
 import Accordion from 'components/Accordion/Accordion';
 import IconButton from 'components/Button/IconButton/IconButton';
 import Link from 'next/link';
-import { useAuth } from 'context/auth';
+import {
+    getSession, signIn, useSession,
+} from 'next-auth/client';
+import Flash from 'components/Flash/Flash';
+import PropTypes from 'prop-types';
 import styles from './menus.module.scss';
 
-export default function Index({ menus, pages, defaultMenu }) {
+export default function Index({ menus, pages, defaultMenu, errors }) {
     const intl = useIntl();
-    const { user } = useAuth();
 
+    const [indexErrors, setIndexErrors] = useState(errors);
     const [loading, setLoading] = useState(false);
-
     const [menusList, setMenusList] = useState(menus);
-
     const [form, setForm] = useState(defaultMenu
         ? menusList.find((x) => x.id === defaultMenu)
         : menusList[0]);
+    const [session] = useSession();
+
+    useEffect(async () => {
+        if (!session) {
+            await signIn();
+        }
+    }, [session]);
 
     const onMenuChange = (items) => {
         setForm({
@@ -37,16 +46,18 @@ export default function Index({ menus, pages, defaultMenu }) {
     const save = async (e) => {
         e.preventDefault();
         setLoading(true);
-        const res = await fetch(`${process.env.URL}/api/menus/auth/${form.id}`, {
+        const res = await fetch(`${process.env.SERVER}/api/menus/${form.id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
-                Authorization: `Bearer ${user.token}`,
             },
             credentials: 'same-origin',
             body: JSON.stringify(form),
         });
-        await res.json();
+        const result = await res.json();
+        if (!result.success) {
+            setIndexErrors([result.errors]);
+        }
         setLoading(false);
     };
 
@@ -87,6 +98,7 @@ export default function Index({ menus, pages, defaultMenu }) {
             if (page.id.toString() === id) {
                 p = page;
             }
+            return null;
         });
         return p;
     };
@@ -139,11 +151,10 @@ export default function Index({ menus, pages, defaultMenu }) {
 
     const handleDeleteMenu = async () => {
         setLoading(true);
-        const res = await fetch(`${process.env.URL}/api/menus/auth/${form.id}`, {
+        const res = await fetch(`${process.env.SERVER}/api/menus/${form.id}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
-                Authorization: `Bearer ${user.token}`,
             },
             credentials: 'same-origin',
         });
@@ -152,6 +163,8 @@ export default function Index({ menus, pages, defaultMenu }) {
             const list = menusList.filter((m) => m.id !== form.id);
             setForm(list[0]);
             setMenusList(list);
+        } else {
+            setIndexErrors([result.errors]);
         }
         setLoading(false);
     };
@@ -166,200 +179,251 @@ export default function Index({ menus, pages, defaultMenu }) {
 
     return (
         <>
-            <Head>
-                <title>
-                    {intl.formatMessage({
-                        id: 'menus', defaultMessage: 'Menus',
-                    })}
-                </title>
-            </Head>
-            <Admin>
-                <div className={`${styles.manage_menu}`}>
-                    <Dropdown
-                        label={intl.formatMessage({
-                            id: 'menu.edit', defaultMessage: 'Menu to edit',
-                        })}
-                        options={menuOptions}
-                        defaultValue={form.id.toString()}
-                        onChange={handleMenuChange}
-                        searchable
-                    />
-                    <span className={`${styles.add_menu}`}>
-                        {intl.formatMessage({
-                            id: 'or', defaultMessage: 'or',
-                        })}
-                        <Link href='/admin/menus/add'>
-                            <a>
-                                {intl.formatMessage({
-                                    id: 'menu.create', defaultMessage: 'create a new menu.',
+            {session && (
+                <>
+                    <Head>
+                        <title>
+                            {intl.formatMessage({
+                                id: 'menus', defaultMessage: 'Menus',
+                            })}
+                        </title>
+                    </Head>
+                    <Admin>
+                        {indexErrors
+                        && indexErrors.map((error, index) => (
+                            <Flash
+                                key={index}
+                                error={error}
+                            />
+                        ))}
+                        <div className={`${styles.manage_menu}`}>
+                            <Dropdown
+                                label={intl.formatMessage({
+                                    id: 'menu.edit', defaultMessage: 'Menu to edit',
                                 })}
-                            </a>
-                        </Link>
-                    </span>
-                </div>
-                <div className={`${styles.nav_menu}`}>
-                    <div className={`${styles.menu_settings}`}>
-                        <h2>
-                            {intl.formatMessage({
-                                id: 'menu.addItem', defaultMessage: 'Add menu items',
-                            })}
-                        </h2>
-                        <Accordion
-                            title={intl.formatMessage({
-                                id: 'pages', defaultMessage: 'Pages',
-                            })}
-                            active
-                        >
-                            <form onSubmit={handleAddPage}>
-                                <Dropdown
-                                    name='page'
-                                    options={pageOptions}
-                                    onChange={handleChangeFormPage}
-                                    defaultValue={formPage.page.toString()}
-                                    searchable
-                                />
-                                <Button
-                                    label={intl.formatMessage({
-                                        id: 'menu.add',
-                                        defaultMessage: 'Add to menu',
+                                options={menuOptions}
+                                defaultValue={form?.id.toString()}
+                                onChange={handleMenuChange}
+                                searchable
+                            />
+                            <span className={`${styles.add_menu}`}>
+                                {intl.formatMessage({
+                                    id: 'or', defaultMessage: 'or',
+                                })}
+                                <Link href={`${process.env.SERVER}/admin/menus/add`}>
+                                    {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+                                    <a>
+                                        {intl.formatMessage({
+                                            id: 'menu.create', defaultMessage: 'create a new menu.',
+                                        })}
+                                    </a>
+                                </Link>
+                            </span>
+                        </div>
+                        <div className={`${styles.nav_menu}`}>
+                            <div className={`${styles.menu_settings}`}>
+                                <h2>
+                                    {intl.formatMessage({
+                                        id: 'menu.addItem', defaultMessage: 'Add menu items',
                                     })}
-                                    type='submit'
-                                    disabled={formPage.page === ''}
-                                />
-                            </form>
-                        </Accordion>
-                        <Accordion
-                            title={intl.formatMessage({
-                                id: 'menu.custom.link', defaultMessage: 'Custom link',
-                            })}
-                        >
-                            <form onSubmit={handleAddLink}>
-                                <Input
-                                    label={intl.formatMessage({
-                                        id: 'url', defaultMessage: 'URL',
+                                </h2>
+                                <Accordion
+                                    title={intl.formatMessage({
+                                        id: 'pages', defaultMessage: 'Pages',
                                     })}
-                                    placeholder='https://'
-                                    name='url'
-                                    required
-                                    onChange={handleChangeFormLink}
-                                />
-                                <Input
-                                    label={intl.formatMessage({
-                                        id: 'navigation.label',
-                                        defaultMessage: 'Navigation label',
+                                    active
+                                >
+                                    <form onSubmit={handleAddPage}>
+                                        <Dropdown
+                                            name='page'
+                                            options={pageOptions}
+                                            onChange={handleChangeFormPage}
+                                            defaultValue={formPage.page.toString()}
+                                            searchable
+                                        />
+                                        <Button
+                                            label={intl.formatMessage({
+                                                id: 'menu.add',
+                                                defaultMessage: 'Add to menu',
+                                            })}
+                                            type='submit'
+                                            disabled={formPage.page === ''}
+                                        />
+                                    </form>
+                                </Accordion>
+                                <Accordion
+                                    title={intl.formatMessage({
+                                        id: 'menu.custom.link', defaultMessage: 'Custom link',
                                     })}
-                                    name='label'
-                                    required
-                                    onChange={handleChangeFormLink}
-                                />
-                                <Button
-                                    label={intl.formatMessage({
-                                        id: 'menu.add',
-                                        defaultMessage: 'Add to menu',
-                                    })}
-                                    type='submit'
-                                    disabled={(formLink.label === '' && formLink.url === '')}
-                                />
-                            </form>
-                        </Accordion>
-                    </div>
-                    <div className={`${styles.menu_edit}`}>
-                        <h2>
-                            {intl.formatMessage({
-                                id: 'menu.structure', defaultMessage: '{name} menu structure',
-                            }, {
-                                name: form.name,
-                            })}
-                        </h2>
-                        <form onSubmit={save}>
-                            <div className={`${styles.header}`}>
-                                <Input
-                                    label={intl.formatMessage({
-                                        id: 'name',
-                                        defaultMessage: 'Name',
-                                    })}
-                                    name='name'
-                                    defaultValue={`${form.name}`}
-                                    onChange={handleChangeMenuName}
-                                    required
-                                />
-                                <Button
-                                    label={intl.formatMessage({
-                                        id: 'menu.save', defaultMessage: 'Save menu',
-                                    })}
-                                    loading={loading}
-                                    type='submit'
-                                />
+                                >
+                                    <form onSubmit={handleAddLink}>
+                                        <Input
+                                            label={intl.formatMessage({
+                                                id: 'url', defaultMessage: 'URL',
+                                            })}
+                                            placeholder='https://'
+                                            name='url'
+                                            required
+                                            onChange={handleChangeFormLink}
+                                        />
+                                        <Input
+                                            label={intl.formatMessage({
+                                                id: 'navigation.label',
+                                                defaultMessage: 'Navigation label',
+                                            })}
+                                            name='label'
+                                            required
+                                            onChange={handleChangeFormLink}
+                                        />
+                                        <Button
+                                            label={intl.formatMessage({
+                                                id: 'menu.add',
+                                                defaultMessage: 'Add to menu',
+                                            })}
+                                            type='submit'
+                                            disabled={(formLink.label === '' && formLink.url === '')}
+                                        />
+                                    </form>
+                                </Accordion>
                             </div>
-                            <div className={`${styles.body}`}>
-                                <MenuEditor
-                                    content={form.items}
-                                    onChange={onMenuChange}
-                                />
-                            </div>
-                            <div className={`${styles.footer}`}>
-                                <IconButton
-                                    action={() => handleDeleteMenu()}
-                                    icon='las la-trash-alt'
-                                />
-                                <Button
-                                    label={intl.formatMessage({
-                                        id: 'menu.save', defaultMessage: 'Save menu',
+                            <div className={`${styles.menu_edit}`}>
+                                <h2>
+                                    {intl.formatMessage({
+                                        id: 'menu.structure', defaultMessage: '{name} menu structure',
+                                    }, {
+                                        name: form?.name,
                                     })}
-                                    loading={loading}
-                                    type='submit'
-                                />
+                                </h2>
+                                <form onSubmit={save}>
+                                    <div className={`${styles.header}`}>
+                                        <Input
+                                            label={intl.formatMessage({
+                                                id: 'name',
+                                                defaultMessage: 'Name',
+                                            })}
+                                            name='name'
+                                            defaultValue={`${form?.name}`}
+                                            onChange={handleChangeMenuName}
+                                            required
+                                        />
+                                        <Button
+                                            label={intl.formatMessage({
+                                                id: 'menu.save', defaultMessage: 'Save menu',
+                                            })}
+                                            loading={loading}
+                                            type='submit'
+                                        />
+                                    </div>
+                                    <div className={`${styles.body}`}>
+                                        <MenuEditor
+                                            content={form?.items}
+                                            onChange={onMenuChange}
+                                        />
+                                    </div>
+                                    <div className={`${styles.footer}`}>
+                                        <IconButton
+                                            action={() => handleDeleteMenu()}
+                                            icon='fas fa-trash-alt'
+                                        />
+                                        <Button
+                                            label={intl.formatMessage({
+                                                id: 'menu.save', defaultMessage: 'Save menu',
+                                            })}
+                                            loading={loading}
+                                            type='submit'
+                                        />
+                                    </div>
+                                </form>
                             </div>
-                        </form>
-                    </div>
-                </div>
-            </Admin>
+                        </div>
+                    </Admin>
+                </>
+            )}
         </>
     );
 }
 
+Index.propTypes = {
+    pages: PropTypes.oneOfType([
+        PropTypes.shape({
+        }),
+        PropTypes.arrayOf(PropTypes.shape({
+        })),
+    ]).isRequired,
+    menus: PropTypes.oneOfType([
+        PropTypes.shape({
+        }),
+        PropTypes.arrayOf(PropTypes.shape({
+        })),
+    ]).isRequired,
+    errors: PropTypes.oneOfType([
+        PropTypes.shape({
+        }),
+        PropTypes.arrayOf(PropTypes.shape({
+        })),
+    ]).isRequired,
+    defaultMenu: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number,
+    ]).isRequired,
+};
+
 export async function getServerSideProps(ctx) {
-    try {
-        const cookies = nookies.get(ctx);
-        const token = await auth.verifyIdToken(cookies.token);
-
-        if (!token.roles.some((r) => ['admin', 'editor', 'moderator'].includes(r))) {
-            throw new Error('unauthorized');
-        }
-
-        const id = ctx.query.id || '';
-
-        let menus = [];
-        await axios
-            .get(`${process.env.URL}/api/menus`)
-            .then((res) => {
-                menus = res.data.data;
-            })
-            .catch((error) => {
-            });
-
-        let pages = [];
-        await axios
-            .get(`${process.env.URL}/api/pages`)
-            .then((res) => {
-                pages = res.data.data;
-            })
-            .catch((error) => {
-            });
-
+    const authorized = ['ADMIN', 'EDITOR', 'MODERATOR'];
+    const session = await getSession(ctx);
+    if (session && !authorized.includes(session.user.role)) {
         return {
             props: {
-                menus, pages, defaultMenu: id,
             },
-        };
-    } catch (err) {
-        return {
             redirect: {
+                destination: '/',
                 permanent: false,
-                destination: '/admin/login',
-            },
-            props: {
             },
         };
     }
+    const cookies = nookies.get(ctx);
+    const token = cookies['next-auth.session-token'];
+    const id = ctx.query.id || '';
+
+    const errors = [];
+    let menus = [];
+    let pages = [];
+
+    if (token) {
+        const resPages = await fetch(`${process.env.SERVER}/api/pages`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+            credentials: 'same-origin',
+        });
+        const data = await resPages.json();
+        if (data.success) {
+            pages = data.data;
+        } else {
+            errors.push(data.errors);
+        }
+
+        const resMenus = await fetch(`${process.env.SERVER}/api/menus`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+            credentials: 'same-origin',
+        });
+        const dataMenus = await resMenus.json();
+        if (dataMenus.success) {
+            menus = dataMenus.data;
+        } else {
+            errors.push(dataMenus.errors);
+        }
+    }
+
+    return {
+        props: {
+            menus,
+            pages,
+            defaultMenu: id,
+            errors,
+            session,
+        },
+    };
 }

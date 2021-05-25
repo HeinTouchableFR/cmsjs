@@ -15,7 +15,7 @@ export default function Multiple({files = [], onClick}) {
             {files.length > 0 ? (
                 <div className={`${styles.preview__gallery}`}>
                     {files.map((image) => (
-                        <img src={`${image.url}`} alt={`${image.name}`} key={image._id} />
+                        <img src={`${image.url}`} alt={`${image.name}`} key={image.id} />
                     ))}
                 </div>
             ) : (

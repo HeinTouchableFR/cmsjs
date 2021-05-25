@@ -116,5 +116,5 @@ Input.defaultProps = {
     step: '',
     tip: '',
     tipWidth: null,
-    iconTip: 'la-question-circle',
+    iconTip: 'fa-question-circle',
 };

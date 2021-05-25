@@ -1,7 +1,7 @@
 import React from 'react';
 import IconButton from 'components/Button/IconButton/IconButton';
 
-export default function Template({ item, url }) {
+export default function Template({ item }) {
     return (
         <>
             <tr>
@@ -12,7 +12,7 @@ export default function Template({ item, url }) {
                     {item.name}
                 </td>
                 <td>
-                    <IconButton action={`/admin/${url}/edit/${item.id}`} icon={'las la-edit'} />
+                    <IconButton action={`/admin/templates/${item.id}`} icon={'fas fa-edit'} />
                 </td>
             </tr>
         </>

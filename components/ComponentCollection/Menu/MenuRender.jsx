@@ -236,13 +236,13 @@ export default function MenuRender({ element }) {
             {item.child.length > 0
             && (
                 <>
-                    <span className={`las ${icon}`} />
+                    <span className={`fas ${icon}`} />
                     <SubMenu>
                         {item.child.map((thing) => (
                             <Item
                                 key={thing.slug}
                                 item={thing}
-                                icon='la-angle-double-right'
+                                icon='fa-angle-double-right'
                             />
                         ))}
                     </SubMenu>
@@ -265,7 +265,7 @@ export default function MenuRender({ element }) {
     };
 
     Item.defaultProps = {
-        icon: 'la-angle-double-down',
+        icon: 'fa-angle-double-down',
     };
 
     return (

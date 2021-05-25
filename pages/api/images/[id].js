@@ -11,7 +11,7 @@ export default async (req, res) => {
             try {
                 const snapshot = await db.doc(`images/${id}`).get();
                 const item = {
-                    _id: snapshot.id,
+                    id: snapshot.id,
                     ...snapshot.data(),
                 };
 

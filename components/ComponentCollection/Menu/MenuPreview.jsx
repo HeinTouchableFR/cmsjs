@@ -195,20 +195,20 @@ function MenuPreview({ element, device }) {
         }),
     });
 
-    const Item = ({ item, handleSetIsNavActive, icon = 'la-angle-double-down' }) => (
+    const Item = ({ item, handleSetIsNavActive, icon = 'fa-angle-double-down' }) => (
         <NavMenuItem>
             <label onClick={() => handleSetIsNavActive(false)}>{item.label}</label>
 
             {item.child.length > 0
             && (
                 <>
-                    <span className={`las ${icon}`} />
+                    <span className={`fas ${icon}`} />
                     <SubMenu>
                         {item.child.map((thing) => (
                             <Item
                                 key={thing.slug}
                                 item={thing}
-                                icon='la-angle-double-right'
+                                icon='fa-angle-double-right'
                                 handleSetIsNavActive={setIsNavActive}
                             />
                         ))}
@@ -232,7 +232,7 @@ function MenuPreview({ element, device }) {
     };
 
     Item.defaultProps = {
-        icon: 'la-angle-double-down',
+        icon: 'fa-angle-double-down',
     };
 
     return (

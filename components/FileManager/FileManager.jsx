@@ -34,7 +34,7 @@ export default function FileManager({ multiple = false,
 
     const create = async (data) => {
         try {
-            const res = await fetch(`${process.env.URL}/api/images/uploads`, {
+            const res = await fetch(`${process.env.SERVER}/api/images/uploads`, {
                 method: 'POST',
                 headers: {
                     Accept: 'application/json',
@@ -49,8 +49,8 @@ export default function FileManager({ multiple = false,
     };
 
     const handleSelectFile = (file) => {
-        selectedFiles.some((f) => f._id === file._id)
-            ? setSelectedFiles(selectedFiles.filter((f) => f._id !== file._id))
+        selectedFiles.some((f) => f.id === file.id)
+            ? setSelectedFiles(selectedFiles.filter((f) => f.id !== file.id))
             : setSelectedFiles(multiple ? [...selectedFiles, file] : [file]);
     };
 
@@ -99,7 +99,7 @@ export default function FileManager({ multiple = false,
             disabled={selectedFiles.length === 0}
             color='green'
             onClick={() => handleInsertClick()}
-            icon='las la-check'
+            icon='far fa-check'
         />
     );
 
@@ -117,14 +117,14 @@ export default function FileManager({ multiple = false,
                     title={intl.formatMessage({
                         id: 'insertMedia',
                     })}
-                    icon='la-image'
+                    icon='fa-image'
                 />
                 <Modal.Content>
                     <div className={`${styles.filemanager__container}`}>
                         {images.map((image, index) => (
                             <div
-                                key={image._id}
-                                className={`${styles.element} ${selectedFiles.length > 0 && selectedFiles.some((f) => f._id === image._id) && styles.selected}`}
+                                key={image.id}
+                                className={`${styles.element} ${selectedFiles.length > 0 && selectedFiles.some((f) => f.id === image.id) && styles.selected}`}
                                 onClick={() => handleSelectFile(image)}
                                 onKeyDown={() => handleSelectFile(image)}
                                 tabIndex={index}
@@ -156,7 +156,7 @@ export default function FileManager({ multiple = false,
                         </span>
                         {selectedFiles.length > 0 && selectedFiles.map((image) => (
                             <img
-                                key={`preview-${image._id}`}
+                                key={`preview-${image.id}`}
                                 src={image.url}
                                 alt=''
                             />
@@ -167,7 +167,7 @@ export default function FileManager({ multiple = false,
                             id: 'image.addNew', defaultMessage: 'Add a new image',
                         })}
                         onClick={() => setSecondOpen(true)}
-                        icon='las la-chevron-right'
+                        icon='fas fa-chevron-circle-right'
                     />
                     <Modal
                         closeIcon

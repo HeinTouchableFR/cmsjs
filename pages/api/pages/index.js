@@ -7,31 +7,21 @@ const handler = async (req, res) => {
         req, secret: process.env.SECRET,
     });
     const authorized = ['ADMIN', 'EDITOR', 'MODERATOR'];
+
     switch (method) {
     case 'GET':
         try {
-            if (token && authorized.includes(token.role)) {
-                const data = await prisma.pages.findMany({
-                    orderBy: [
-                        {
-                            title: 'asc',
-                        },
-                    ],
-                });
-
-                res.status(200).json({
-                    success: true, data,
-                });
-            } else {
-                res.status(401).json({
-                    success: false,
-                    errors: {
-                        status: 401,
-                        code: 1,
-                        message: 'Unauthorized',
+            const data = await prisma.pages.findMany({
+                orderBy: [
+                    {
+                        title: 'asc',
                     },
-                });
-            }
+                ],
+            });
+
+            res.status(200).json({
+                success: true, data,
+            });
         } catch (e) {
             res.status(400).json({
                 success: false,

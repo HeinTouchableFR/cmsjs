@@ -33,7 +33,7 @@ export function TemplatesProvider({ children }) {
                         layout.columns.forEach((column) => {
                             column.elements.forEach(async (element) => {
                                 if (element.type === 'menu') {
-                                    fetch(`${process.env.URL}/api/menus/${element.content.menu}`).then((res) => {
+                                    fetch(`${process.env.SERVER}/api/menus/${element.content.menu}`).then((res) => {
                                         res.json().then((data) => {
                                             dataNav = {
                                                 ...dataNav,
@@ -56,7 +56,7 @@ export function TemplatesProvider({ children }) {
                         layout.columns.forEach((column) => {
                             column.elements.forEach(async (element) => {
                                 if (element.type === 'menu') {
-                                    fetch(`${process.env.URL}/api/menus/${element.content.menu}`).then((res) => {
+                                    fetch(`${process.env.SERVER}/api/menus/${element.content.menu}`).then((res) => {
                                         res.json().then((data) => {
                                             dataNav = {
                                                 ...dataNav,

@@ -2,7 +2,7 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import IconButton from 'components/Button/IconButton/IconButton';
 
-export default function Page({item, url, handleDelete}) {
+export default function Page({item, handleDelete}) {
     const intl = useIntl();
 
     return (
@@ -23,17 +23,17 @@ export default function Page({item, url, handleDelete}) {
                 </td>
                 <td>
                     <IconButton
-                        action={`${process.env.URL}/${item.slug}`}
-                        icon='las la-eye'
+                        action={`${process.env.SERVER}/${item.slug}`}
+                        icon='fas fa-eye'
                         target='_blank'
                     />
                     <IconButton
-                        action={`/admin/${url}/edit/${item.id}`}
-                        icon='las la-edit'
+                        action={`/admin/pages/${item.id}`}
+                        icon='fas fa-edit'
                     />
                     <IconButton
                         action={() => handleDelete(item)}
-                        icon='las la-trash-alt'
+                        icon='fas fa-trash-alt'
                     />
                 </td>
             </tr>

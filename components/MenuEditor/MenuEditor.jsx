@@ -9,7 +9,7 @@ import Input from 'components/Form/Input/Input';
 import IconButton from 'components/Button/IconButton/IconButton';
 
 export default function MenuEditor({ content, onChange }) {
-    const items = JSON.parse(content);
+    const items = content ? JSON.parse(content) : [];
 
     /**
      *
@@ -286,7 +286,7 @@ function Item({ item, isChild = false, index, isDisabled, parentIsDragging = fal
                                 />
                                 <IconButton
                                     action={() => handleDeleteItem(item.id)}
-                                    icon='las la-trash-alt'
+                                    icon='fas fa-trash-alt'
                                 />
                             </Accordion>
                             <Droppable

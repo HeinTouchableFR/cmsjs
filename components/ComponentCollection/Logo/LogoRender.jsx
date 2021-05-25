@@ -1,6 +1,4 @@
-import React, {
-    useEffect, useState,
-} from 'react';
+import React from 'react';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { useInView } from 'react-intersection-observer';
@@ -80,7 +78,7 @@ export default function LogoRender({ element }) {
                         title="Page d'accueil"
                     >
                         <Image
-                            src={(settings.settings.find((x) => x.data === 'logo')?.image) && settings.settings.find((x) => x.data === 'logo')?.image.url}
+                            src={(settings.settings.find((x) => x.data === 'logo')?.image) ? `${process.env.MEDIA_SERVER}/${settings.settings.find((x) => x.data === 'logo')?.image.name}` : `${process.env.SERVER}/logo.png`}
                             alt='Logo'
                         />
                     </a>

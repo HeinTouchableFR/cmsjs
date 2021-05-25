@@ -7,7 +7,6 @@ import { useRouter } from 'next/router';
 import nookies from 'nookies';
 import Builder from 'container/Builder/Builder';
 import defaultComponents from 'variables/components';
-import { useAuth } from 'context/auth';
 import PropTypes from 'prop-types';
 import {
     getSession, signIn, useSession,
@@ -15,10 +14,7 @@ import {
 import { BuilderProvider } from 'context/builder';
 
 export default function Add({ images, errors }) {
-    const url = 'pages';
-
     const intl = useIntl();
-    const { user } = useAuth();
 
     const [imagesList, setImagesList] = useState(JSON.parse(images));
     const [loading, setLoading] = useState(false);
@@ -30,9 +26,9 @@ export default function Add({ images, errors }) {
     });
     const [content, setContent] = useState('');
 
-    useEffect(() => {
+    useEffect(async () => {
         if (!session) {
-            signIn();
+            await signIn();
         }
     }, [session]);
 
@@ -85,7 +81,7 @@ export default function Add({ images, errors }) {
             if (!result.success) {
                 setBuilderErrors([result.errors]);
             }
-            await router.push(`/admin/${url}/edit/${result.data.id}`);
+            await router.push(`/admin/pages/${result.data.id}`);
         } catch (err) {
             setBuilderErrors([err]);
         }
@@ -159,9 +155,9 @@ export async function getServerSideProps(ctx) {
     let images = [];
 
     if (token) {
-        const resImages = await fetch(`${process.env.URL}/api/images`, {
+        const resImages = await fetch(`${process.env.SERVER}/api/images`, {
             headers: {
-                Authorization: `Bearer ${cookies.token}`,
+                Authorization: `Bearer ${token}`,
             },
             credentials: 'same-origin',
         });
@@ -171,7 +167,7 @@ export async function getServerSideProps(ctx) {
         } else {
             errors.push({
                 ...dataImages.errors,
-                request: `${process.env.URL}/api/images`,
+                request: `${process.env.SERVER}/api/images`,
             });
         }
     }

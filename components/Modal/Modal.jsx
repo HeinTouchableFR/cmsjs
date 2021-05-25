@@ -43,7 +43,7 @@ export default function Modal({ closeIcon, open, trigger, onClose, onOpen, child
                         onClick={onClose}
                         onKeyDown={onClose}
                         role='button'
-                        className={`${styles.close} las la-times`}
+                        className={`${styles.close} fas fa-times`}
                         tabIndex={-1}
                     />
                     )}

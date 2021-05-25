@@ -14,19 +14,16 @@ import Card from 'components/Cards/Card/Card';
 import Confirm from 'components/Confirm/Confirm';
 import PropTypes from 'prop-types';
 import Flash from 'components/Flash/Flash';
-import { useAuth } from 'context/auth';
 import nookies from 'nookies';
 
 export default function Index({ items, errors }) {
     const intl = useIntl();
-    const { user } = useAuth();
-    const url = 'pages';
     const router = useRouter();
     const [session] = useSession();
 
-    useEffect(() => {
+    useEffect(async () => {
         if (!session) {
-            signIn();
+            await signIn();
         }
     }, [session]);
 
@@ -67,17 +64,14 @@ export default function Index({ items, errors }) {
         try {
             setItemToDelete({
             });
-            const res = await fetch(`${process.env.URL}/api/${url}/auth/${itemToDelete.id}`, {
+            const res = await fetch(`${process.env.SERVER}/api/pages/${itemToDelete.id}`, {
                 method: 'DELETE',
-                headers: {
-                    Authorization: `Bearer ${user.token}`,
-                },
                 credentials: 'same-origin',
             });
             setIsDeleting(false);
             const result = await res.json();
             if (result.success) {
-                router.push(`/admin/${url}`);
+                await router.push('/admin/pages');
             } else {
                 setIndexErrors([result.errors]);
             }
@@ -86,9 +80,9 @@ export default function Index({ items, errors }) {
         }
     };
 
-    useEffect(() => {
+    useEffect(async () => {
         if (isDeleting) {
-            deleteElement();
+            await deleteElement();
         }
     }, [isDeleting]);
 
@@ -122,14 +116,13 @@ export default function Index({ items, errors }) {
                                     id: 'add', defaultMessage: 'Add',
                                 })}
                                 buttonAction='/admin/pages/add'
-                                buttonIcon='las la-plus'
+                                buttonIcon='fas fa-plus'
                             />
                             <Card.Body>
                                 <Table labels={labels}>
                                     {items && items.map((item) => (
                                         <Page
                                             item={item}
-                                            url={url}
                                             key={item.id}
                                             handleDelete={open}
                                         />
@@ -195,7 +188,7 @@ export async function getServerSideProps(ctx) {
     let items = [];
 
     if (token) {
-        const resPages = await fetch(`${process.env.URL}/api/pages`, {
+        const resPages = await fetch(`${process.env.SERVER}/api/pages`, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },

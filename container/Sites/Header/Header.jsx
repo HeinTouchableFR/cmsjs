@@ -6,7 +6,6 @@ import Head from 'next/head';
 import { useTemplates } from 'context/template';
 import styled from '@emotion/styled';
 import Layout from 'container/RenderPage/Layout';
-import { firebase } from 'utils/firebaseClient';
 
 export default function Header({ children,
     settings,
@@ -50,10 +49,6 @@ export default function Header({ children,
     useEffect(() => {
         document.documentElement.lang = locale;
     }, [locale]);
-
-    useEffect(() => {
-        firebase.analytics();
-    }, []);
 
     const Sticky = styled.div({
         position: 'sticky',
@@ -119,7 +114,7 @@ export default function Header({ children,
                 />
                 <meta
                     property='og:url'
-                    content={`${process.env.URL}/${post.slug}`}
+                    content={`${process.env.SERVER}/${post.slug}`}
                 />
                 <meta
                     property='og:site_name'
@@ -158,9 +153,9 @@ export default function Header({ children,
                             '@graph': [
                                 {
                                     '@type': 'Organization',
-                                    '@id': `${process.env.URL}/#organization`,
+                                    '@id': `${process.env.SERVER}/#organization`,
                                     name: `${siteName}`,
-                                    url: `${process.env.URL}/`,
+                                    url: `${process.env.SERVER}/`,
                                     sameAs: [
                                         settings?.settings?.find((x) => x.data === 'facebook')?.value,
                                         settings?.settings?.find((x) => x.data === 'twitter')?.value,
@@ -169,29 +164,29 @@ export default function Header({ children,
                                     ],
                                     logo: {
                                         '@type': 'ImageObject',
-                                        '@id': `${process.env.URL}/#logo`,
+                                        '@id': `${process.env.SERVER}/#logo`,
                                         inLanguage: `${locale}`,
                                         url: `${logo?.image?.url}`,
                                         contentUrl: `${logo?.image?.url}`,
                                         caption: `${siteName}`,
                                     },
                                     image: {
-                                        '@id': `${process.env.URL}/#logo`,
+                                        '@id': `${process.env.SERVER}/#logo`,
                                     },
                                 },
                                 {
                                     '@type': 'WebSite',
-                                    '@id': `${process.env.URL}/#website`,
-                                    url: `${process.env.URL}/`,
+                                    '@id': `${process.env.SERVER}/#website`,
+                                    url: `${process.env.SERVER}/`,
                                     name: `${siteName}`,
                                     description: 'Informatique - High Tech',
                                     publisher: {
-                                        '@id': `${process.env.URL}/#organization`,
+                                        '@id': `${process.env.SERVER}/#organization`,
                                     },
                                     potentialAction: [
                                         {
                                             '@type': 'SearchAction',
-                                            target: `${process.env.URL}/?s={search_term_string}`,
+                                            target: `${process.env.SERVER}/?s={search_term_string}`,
                                             'query-input': 'required name=search_term_string',
                                         },
                                     ],
@@ -199,51 +194,51 @@ export default function Header({ children,
                                 },
                                 {
                                     '@type': 'ImageObject',
-                                    '@id': `${process.env.URL}/#primaryimage`,
+                                    '@id': `${process.env.SERVER}/#primaryimage`,
                                     inLanguage: `${locale}`,
                                     url: `${logo?.image?.url}`,
                                     contentUrl: `${logo?.image?.url}`,
                                 },
                                 {
                                     '@type': 'WebPage',
-                                    '@id': `${process.env.URL}/#webpage`,
-                                    url: `${process.env.URL}`,
+                                    '@id': `${process.env.SERVER}/#webpage`,
+                                    url: `${process.env.SERVER}`,
                                     name: `${post.title} | ${siteName}`,
                                     isPartOf: {
-                                        '@id': `${process.env.URL}/#website`,
+                                        '@id': `${process.env.SERVER}/#website`,
                                     },
                                     about: {
-                                        '@id': `${process.env.URL}/#organization`,
+                                        '@id': `${process.env.SERVER}/#organization`,
                                     },
                                     primaryImageOfPage: {
-                                        '@id': `${process.env.URL}/#primaryimage`,
+                                        '@id': `${process.env.SERVER}/#primaryimage`,
                                     },
                                     datePublished: new Date(post.published),
                                     dateModified: post.updated
                                         ? new Date(post.updated)
                                         : new Date(post.published),
                                     breadcrumb: {
-                                        '@id': `${process.env.URL}/#breadcrumb`,
+                                        '@id': `${process.env.SERVER}/#breadcrumb`,
                                     },
                                     inLanguage: `${locale}`,
                                     potentialAction: [
                                         {
                                             '@type': 'ReadAction',
                                             target: [
-                                                `${process.env.URL}/`,
+                                                `${process.env.SERVER}/`,
                                             ],
                                         },
                                     ],
                                 },
                                 {
                                     '@type': 'BreadcrumbList',
-                                    '@id': `${process.env.URL}/#breadcrumb`,
+                                    '@id': `${process.env.SERVER}/#breadcrumb`,
                                     itemListElement: [
                                         {
                                             '@type': 'ListItem',
                                             position: 1,
                                             item: {
-                                                '@id': `${process.env.URL}/#webpage`,
+                                                '@id': `${process.env.SERVER}/#webpage`,
                                             },
                                         },
                                     ],
@@ -259,7 +254,7 @@ export default function Header({ children,
                 </title>
                 <link
                     rel='canonical'
-                    href={`${isHomePage ? process.env.URL : `${process.env.URL}/${post.slug}`}`}
+                    href={`${isHomePage ? process.env.SERVER : `${process.env.SERVER}/${post.slug}`}`}
                 />
                 {children}
             </Head>

@@ -54,7 +54,7 @@ export default async (req, res) => {
                     homePage: dataHomePage.id,
                     logo: {
                         image: {
-                            url: `${process.env.URL}/logo.png`,
+                            url: `${process.env.SERVER}/logo.png`,
                         },
                     },
                     sitename: req.body.sitename,

@@ -8,7 +8,7 @@ import 'style/tools/reset.scss';
 
 import en from 'intl/lang/en.json';
 import fr from 'intl/lang/fr.json';
-import { AuthProvider } from 'context/auth';
+
 import {
     useEffect,
     useState,
@@ -58,11 +58,9 @@ function MyApp({ Component, pageProps }) {
             >
                 <SettingsProvider>
                     <InstallProvider>
-                        <AuthProvider>
-                            <TemplatesProvider>
-                                <Component {...pageProps} />
-                            </TemplatesProvider>
-                        </AuthProvider>
+                        <TemplatesProvider>
+                            <Component {...pageProps} />
+                        </TemplatesProvider>
                     </InstallProvider>
                 </SettingsProvider>
             </IntlProvider>

@@ -25,9 +25,9 @@ export default function NewCustomers({ Customers }) {
                                 </div>
                             </div>
                             <div className={styles.contact}>
-                                <span className='las la-user-circle'/>
-                                <span className='las la-comment'/>
-                                <span className='las la-phone'/>
+                                <span className='fas fa-user-circle' />
+                                <span className='fas fa-comment' />
+                                <span className='fas fa-phone' />
                             </div>
                         </div>
                         <div className={styles.customer}>
@@ -42,9 +42,9 @@ export default function NewCustomers({ Customers }) {
                                 </div>
                             </div>
                             <div className={styles.contact}>
-                                <span className='las la-user-circle'/>
-                                <span className='las la-comment'/>
-                                <span className='las la-phone'/>
+                                <span className='fas fa-user-circle' />
+                                <span className='fas fa-comment' />
+                                <span className='fas fa-phone' />
                             </div>
                         </div>
                         <div className={styles.customer}>
@@ -59,9 +59,9 @@ export default function NewCustomers({ Customers }) {
                                 </div>
                             </div>
                             <div className={styles.contact}>
-                                <span className='las la-user-circle'/>
-                                <span className='las la-comment'/>
-                                <span className='las la-phone'/>
+                                <span className='fas fa-user-circle' />
+                                <span className='fas fa-comment' />
+                                <span className='fas fa-phone' />
                             </div>
                         </div>
                         <div className={styles.customer}>
@@ -76,9 +76,9 @@ export default function NewCustomers({ Customers }) {
                                 </div>
                             </div>
                             <div className={styles.contact}>
-                                <span className='las la-user-circle'/>
-                                <span className='las la-comment'/>
-                                <span className='las la-phone'/>
+                                <span className='fas fa-user-circle' />
+                                <span className='fas fa-comment' />
+                                <span className='fas fa-phone' />
                             </div>
                         </div>
                         <div className={styles.customer}>
@@ -93,9 +93,9 @@ export default function NewCustomers({ Customers }) {
                                 </div>
                             </div>
                             <div className={styles.contact}>
-                                <span className='las la-user-circle'/>
-                                <span className='las la-comment'/>
-                                <span className='las la-phone'/>
+                                <span className='fas fa-user-circle' />
+                                <span className='fas fa-comment' />
+                                <span className='fas fa-phone' />
                             </div>
                         </div>
                     </Card.Body>

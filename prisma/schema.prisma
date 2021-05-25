@@ -3,7 +3,7 @@
 
 datasource db {
   provider = "mysql"
-  url      = "mysql://web:Stienforce62!!@nas.aymericlhomme.fr:3306/cmsjs?schema=public"
+  url      = env("DB_URL")
 }
 
 model pages {
@@ -37,10 +37,9 @@ model templates {
 
 model images {
   id           Int        @id @default(autoincrement())
-  url          String     @db.LongText
+  path          String     @db.LongText
   originalName String     @db.VarChar(255)
   name         String     @db.VarChar(255)
-  size         String     @db.VarChar(255)
   created_at   DateTime   @default(now())
   Settings     settings[]
 }

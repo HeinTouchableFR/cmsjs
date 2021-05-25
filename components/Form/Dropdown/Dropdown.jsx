@@ -124,12 +124,12 @@ export default function Dropdown({ name,
                     )}
                     {value === '' || value.length === 0 ? (
                         <i
-                            className={`las la-caret-down ${styles.dropdown} ${styles.icon}`}
+                            className={`fas fa-caret-down ${styles.dropdown} ${styles.icon}`}
                         />
                     ) : (
                         // eslint-disable-next-line jsx-a11y/control-has-associated-label
                         <i
-                            className={`las la-times-circle ${styles.dropdown} ${styles.icon}`}
+                            className={`fas fa-times-circle ${styles.dropdown} ${styles.icon}`}
                             onClick={handleResetValue}
                             onKeyDown={handleResetValue}
                             tabIndex={0}
@@ -186,5 +186,5 @@ Dropdown.defaultProps = {
     defaultValue: '',
     tip: '',
     tipWidth: null,
-    iconTip: 'la-question-circle',
+    iconTip: 'fa-question-circle',
 };

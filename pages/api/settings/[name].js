@@ -11,18 +11,12 @@ const handler = async (req, res) => {
                 where: {
                     data: name,
                 },
+                include: {
+                    image: true,
+                    template: true,
+                    page: true,
+                },
             });
-
-            if (!data) {
-                res.status(400).json({
-                    success: false,
-                    errors: {
-                        status: 404,
-                        code: 1,
-                        message: 'Item not found',
-                    },
-                });
-            }
 
             res.status(200).json({
                 success: true,

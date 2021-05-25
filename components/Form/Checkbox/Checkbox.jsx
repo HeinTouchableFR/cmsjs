@@ -73,5 +73,5 @@ Checkbox.defaultProps = {
     defaultChecked: false,
     tip: '',
     tipWidth: null,
-    iconTip: 'la-question-circle',
+    iconTip: 'fa-question-circle',
 };

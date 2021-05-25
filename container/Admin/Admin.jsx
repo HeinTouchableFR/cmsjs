@@ -1,45 +1,31 @@
 import React, {
     useEffect, useState,
 } from 'react';
-import Head from 'next/head';
-import { useAuth } from 'context/auth';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FormattedMessage } from 'react-intl';
 import DarkModeButton from 'components/Button/DarkModeButton/DarkModeButton';
 import { useSettings } from 'context/settings';
+import { useSession } from 'next-auth/client';
+import PropTypes from 'prop-types';
 import styles from './Admin.module.scss';
 
 export default function Admin({ children }) {
     const router = useRouter();
     const { value: settings } = useSettings();
     const [siteName, setSiteName] = useState('');
-    const { user } = useAuth();
+    const [session] = useSession();
 
     useEffect(() => {
         if (settings.settings) {
-            const generalSettings = settings.settings.find((x) => x.id === 'general');
-            if (generalSettings) {
-                setSiteName(generalSettings.sitename);
-            }
+            const sitenameObject = settings.settings.find((x) => x.data === 'sitename');
+            setSiteName(sitenameObject?.value);
         }
     },
     [settings]);
 
     return (
         <>
-            <Head>
-                <link
-                    rel='stylesheet'
-                    href='https://pro.fontawesome.com/releases/v5.10.0/css/all.css'
-                    integrity='sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p'
-                    crossOrigin='anonymous'
-                />
-                <link
-                    rel='stylesheet'
-                    href='https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css'
-                />
-            </Head>
             <div className={styles.admin}>
                 <input
                     type='checkbox'
@@ -49,7 +35,7 @@ export default function Admin({ children }) {
                 <div className={styles.sidebar}>
                     <div className={styles.sidebar_brand}>
                         <h2>
-                            <span className='lab la-accusoft' />
+                            <span className='fab fa-accusoft' />
                             {' '}
                             <span>{siteName}</span>
                         </h2>
@@ -57,9 +43,10 @@ export default function Admin({ children }) {
                     <div className={styles.sidebar_menu}>
                         <ul>
                             <li>
-                                <Link href='/admin/dashboard'>
+                                <Link href={`${process.env.SERVER}/admin/dashboard`}>
+                                    {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                                     <a className={router.pathname.includes('dashboard') ? styles.active : undefined}>
-                                        <span className='las la-igloo' />
+                                        <span className='fas fa-igloo' />
                                         <span>
                                             <FormattedMessage
                                                 id='dashboard'
@@ -70,9 +57,10 @@ export default function Admin({ children }) {
                                 </Link>
                             </li>
                             <li>
-                                <Link href='/admin/pages'>
+                                <Link href={`${process.env.SERVER}/admin/pages`}>
+                                    {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                                     <a className={router.pathname.includes('pages') ? styles.active : undefined}>
-                                        <span className='las la-file-alt' />
+                                        <span className='fas fa-file-alt' />
                                         <span>
                                             <FormattedMessage
                                                 id='pages'
@@ -85,7 +73,7 @@ export default function Admin({ children }) {
                             {/* <li>
                                 <Link href={'/admin/categories'}>
                                     <a className={router.pathname.includes('categories') ? styles.active : undefined}>
-                                        <span className='las la-folder' />
+                                        <span className='fas fa-folder' />
                                         <span>
                                             <FormattedMessage id='categories' defaultMessage='Categories' />
                                         </span>
@@ -95,7 +83,7 @@ export default function Admin({ children }) {
                             <li>
                                 <Link href={'/admin/products'}>
                                     <a className={router.pathname.includes('products') ? styles.active : undefined}>
-                                        <span className='las la-cube' />
+                                        <span className='fas fa-cube' />
                                         <span>
                                             <FormattedMessage id='products' defaultMessage='Products' />
                                         </span>
@@ -105,7 +93,7 @@ export default function Admin({ children }) {
                             <li>
                                 <Link href={'/admin/attributes'}>
                                     <a className={router.pathname.includes('attributes') ? styles.active : undefined}>
-                                        <span className='las la-cubes' />
+                                        <span className='fas fa-cubes' />
                                         <span>
                                             <FormattedMessage id='attributes' defaultMessage='Attributes' />
                                         </span>
@@ -113,9 +101,10 @@ export default function Admin({ children }) {
                                 </Link>
                             </li> */}
                             <li>
-                                <Link href='/admin/menus'>
+                                <Link href={`${process.env.SERVER}/admin/menus`}>
+                                    {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                                     <a className={router.pathname.includes('menus') ? styles.active : undefined}>
-                                        <span className='las la-bars' />
+                                        <span className='fas fa-bars' />
                                         <span>
                                             <FormattedMessage
                                                 id='menus'
@@ -126,9 +115,10 @@ export default function Admin({ children }) {
                                 </Link>
                             </li>
                             <li>
-                                <Link href='/admin/templates'>
+                                <Link href={`${process.env.SERVER}/admin/templates`}>
+                                    {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                                     <a className={router.pathname.includes('templates') ? styles.active : undefined}>
-                                        <span className='las la-project-diagram' />
+                                        <span className='fas fa-project-diagram' />
                                         <span>
                                             <FormattedMessage
                                                 id='templates'
@@ -144,12 +134,13 @@ export default function Admin({ children }) {
                 <div className={styles.main_content}>
                     <header className={styles.header}>
                         <h2>
+                            {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
                             <label htmlFor='nav-toggle'>
-                                <span className='las la-bars' />
+                                <span className='fas fa-bars' />
                             </label>
                         </h2>
                         <div className={styles.search_wrapper}>
-                            <span className='las la-search' />
+                            <span className='fas fa-search' />
                             <input
                                 type='search'
                                 placeholder='Search here'
@@ -158,12 +149,12 @@ export default function Admin({ children }) {
                         <DarkModeButton />
                         <div className={styles.user_wrapper}>
                             <img
-                                src='/placeholder.png'
-                                alt=''
+                                src={session.user.image ? session.user.image : `${process.env.SERVER}/placeholder.png`}
+                                alt='User'
                             />
                             <div>
-                                <h4>{user && user.displayName}</h4>
-                                <small>{user && user.email}</small>
+                                <h4>{session.user.name}</h4>
+                                <small>{session.user.email}</small>
                             </div>
                         </div>
                     </header>
@@ -173,3 +164,12 @@ export default function Admin({ children }) {
         </>
     );
 }
+
+Admin.propTypes = {
+    // eslint-disable-next-line react/forbid-prop-types
+    children: PropTypes.any,
+};
+
+Admin.defaultProps = {
+    children: [],
+};
