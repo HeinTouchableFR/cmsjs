@@ -12,7 +12,8 @@ function LogoPreview({ element, device }) {
 
     useEffect(() => {
         if (settings.settings) {
-            setLogo((settings.settings.find((x) => x.data === 'logo')?.image) ? `${process.env.MEDIA_SERVER}/${settings.settings.find((x) => x.data === 'logo')?.image.name}` : `${process.env.SERVER}/logo.png`);
+            const logoSetting = settings.settings.find((x) => x.data === 'logo')
+            setLogo((logoSetting && logoSetting.image) ? `${process.env.MEDIA_SERVER}/${settings.settings.find((x) => x.data === 'logo')?.image.name}` : `${process.env.SERVER}/logo.png`);
         }
     }, [settings]);
 
