@@ -182,7 +182,7 @@ export async function getServerSideProps(ctx) {
         };
     }
     const cookies = nookies.get(ctx);
-    const token = cookies['next-auth.session-token'];
+    const token = process.env.NODE_ENV === 'production' ? cookies['__Secure-next-auth.session-token'] : cookies['next-auth.session-token']
 
     const errors = [];
     let items = [];
