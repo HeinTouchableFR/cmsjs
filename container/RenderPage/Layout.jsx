@@ -30,7 +30,7 @@ export default function Layout({ layout, alignCenter }) {
     return (
         <>
             <LayoutContainer
-                className={`${styles.layout}`}
+                className={`${styles.layout} ${styles.header__layout}`}
                 css={styleDiv(layout, inView)}
             >
                 <Container>
