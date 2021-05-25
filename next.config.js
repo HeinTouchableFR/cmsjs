@@ -2,7 +2,7 @@ module.exports = {
     env: {
         SERVER: process.env.SERVER,
         MEDIA_SERVER: process.env.MEDIA_SERVER,
-        NEXTAUTH_URL: process.env.NEXTAUTH_URL,
+        NEXTAUTH_URL: process.env.SERVER,
         FTP_HOST: process.env.FTP_HOST,
         FTP_PORT: process.env.FTP_PORT,
         FTP_TLS: process.env.FTP_TLS,
@@ -15,6 +15,8 @@ module.exports = {
         DB_PASS: process.env.DB_PASS,
         DB_URL: `mysql://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_HOST}/${process.env.DB_NAME}?schema=public`,
         SECRET: process.env.SECRET,
+        GOOGLE_ID: process.env.GOOGLE_ID,
+        GOOGLE_SECRET: process.env.GOOGLE_SECRET,
     },
     i18n: {
         locales: ['en-US', 'en', 'fr', 'de'],
