@@ -4,7 +4,7 @@ import styles from 'container/Builder/Content/Layout/Layout.module.scss';
 import ComponentDispatcher from 'components/ComponentCollection/ComponentDispatcher';
 import styled from '@emotion/styled';
 import { useInView } from 'react-intersection-observer';
-import { styleDiv } from '../../variables/renderFunctions';
+import { styleDiv } from 'variables/renderFunctions';
 
 export default function Layout({ layout, alignCenter }) {
     const { inView } = useInView();

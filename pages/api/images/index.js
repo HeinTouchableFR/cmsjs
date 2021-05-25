@@ -1,6 +1,5 @@
-import { db } from 'utils/dbConnect';
 import jwt from 'next-auth/jwt';
-import prisma from '../../../utils/prisma';
+import prisma from 'utils/prisma';
 
 const handle = async (req, res) => {
     const { method } = req;
