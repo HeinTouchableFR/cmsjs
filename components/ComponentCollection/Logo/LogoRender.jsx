@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { useInView } from 'react-intersection-observer';
@@ -17,6 +17,13 @@ import PropTypes from 'prop-types';
 export default function LogoRender({ element }) {
     const { value: settings } = useSettings();
     const { ref, inView } = useInView();
+    const [logo, setLogo] = useState('');
+
+    useEffect(() => {
+        if (settings.settings) {
+            setLogo((settings.settings.find((x) => x.data === 'logo')?.image) ? `${process.env.MEDIA_SERVER}/${settings.settings.find((x) => x.data === 'logo')?.image.name}` : `${process.env.SERVER}/logo.png`);
+        }
+    }, [settings]);
 
     const Image = styled.img({
         ...imageStyle('desktop', element),
@@ -78,7 +85,7 @@ export default function LogoRender({ element }) {
                         title="Page d'accueil"
                     >
                         <Image
-                            src={(settings.settings.find((x) => x.data === 'logo')?.image) ? `${process.env.MEDIA_SERVER}/${settings.settings.find((x) => x.data === 'logo')?.image.name}` : `${process.env.SERVER}/logo.png`}
+                            src={logo}
                             alt='Logo'
                         />
                     </a>
