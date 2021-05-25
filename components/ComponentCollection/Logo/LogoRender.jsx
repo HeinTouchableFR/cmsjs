@@ -21,8 +21,10 @@ export default function LogoRender({ element }) {
 
     useEffect(() => {
         if (settings.settings) {
-            const logoSetting = settings.settings.find((x) => x.data === 'logo')
-            setLogo((logoSetting && logoSetting.image) ? `${process.env.MEDIA_SERVER}/${settings.settings.find((x) => x.data === 'logo')?.image.name}` : `${process.env.SERVER}/logo.png`);
+            const logoSetting = settings.settings.find((x) => x.data === 'logo');
+            if (logoSetting) {
+                setLogo(logoSetting.image ? `${process.env.MEDIA_SERVER}/${settings.settings.find((x) => x.data === 'logo')?.image.name}` : `${process.env.SERVER}/logo.png`);
+            }
         }
     }, [settings]);
 
