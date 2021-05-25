@@ -41,7 +41,7 @@ export default function Header({ children,
     useEffect(() => {
         if (settings.settings) {
             setSiteName(settings.settings.find((x) => x.data === 'sitename')?.value);
-            setLogo(settings.settings.find((x) => x.data === 'logo')?.image);
+            setLogo((settings.settings.find((x) => x.data === 'logo')?.image) ? `${process.env.MEDIA_SERVER}/${settings.settings.find((x) => x.data === 'logo')?.image.name}` : `${process.env.SERVER}/logo.png`);
             setLocale(settings.settings.find((x) => x.data === 'locale')?.value);
         }
     }, [settings]);
@@ -122,7 +122,7 @@ export default function Header({ children,
                 />
                 <meta
                     property='og:image'
-                    content={logo?.image?.url}
+                    content={logo}
                 />
                 <meta
                     name='twitter:card'
@@ -142,7 +142,7 @@ export default function Header({ children,
                 />
                 <meta
                     name='twitter:image'
-                    content={logo?.image?.url}
+                    content={logo}
                 />
                 <script
                     type='application/ld+json'
@@ -166,8 +166,8 @@ export default function Header({ children,
                                         '@type': 'ImageObject',
                                         '@id': `${process.env.SERVER}/#logo`,
                                         inLanguage: `${locale}`,
-                                        url: `${logo?.image?.url}`,
-                                        contentUrl: `${logo?.image?.url}`,
+                                        url: `${logo}`,
+                                        contentUrl: `${logo}`,
                                         caption: `${siteName}`,
                                     },
                                     image: {
@@ -196,8 +196,8 @@ export default function Header({ children,
                                     '@type': 'ImageObject',
                                     '@id': `${process.env.SERVER}/#primaryimage`,
                                     inLanguage: `${locale}`,
-                                    url: `${logo?.image?.url}`,
-                                    contentUrl: `${logo?.image?.url}`,
+                                    url: `${logo}`,
+                                    contentUrl: `${logo}`,
                                 },
                                 {
                                     '@type': 'WebPage',

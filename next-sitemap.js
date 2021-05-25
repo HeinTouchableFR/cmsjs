@@ -1,5 +1,5 @@
 module.exports = {
-    siteUrl: process.env.server,
+    siteUrl: process.env.SERVER,
     generateRobotsTxt: true,
     exclude: ['/server-sitemap.xml',
         '/admin',
@@ -20,7 +20,7 @@ module.exports = {
     ], // <= exclude here
     robotsTxtOptions: {
         additionalSitemaps: [
-            `${process.env.server}/server-sitemap.xml`,
+            `${process.env.SERVER}/server-sitemap.xml`,
         ],
     },
 }
