@@ -85,7 +85,7 @@ export default function FileManager({ multiple = false,
         )
         : (
             <Single
-                url={currentFiles[0] ? currentFiles[0].url : null}
+                file={currentFiles[0] ? currentFiles[0] : null}
                 onClick={setOpen}
             />
         );
@@ -132,7 +132,7 @@ export default function FileManager({ multiple = false,
                             >
                                 <Image
                                     loading='lazy'
-                                    src={image.url}
+                                    src={`${process.env.MEDIA_SERVER}/${image.name}`}
                                     alt=''
                                     width={125}
                                     height={125}
@@ -157,7 +157,7 @@ export default function FileManager({ multiple = false,
                         {selectedFiles.length > 0 && selectedFiles.map((image) => (
                             <img
                                 key={`preview-${image.id}`}
-                                src={image.url}
+                                src={`${process.env.MEDIA_SERVER}/${image.name}`}
                                 alt=''
                             />
                         ))}

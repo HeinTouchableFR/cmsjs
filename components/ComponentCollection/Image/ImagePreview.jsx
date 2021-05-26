@@ -12,7 +12,7 @@ export default function ImagePreview({ element, device }) {
         <>
             <div css={styleDivImagePreview(device, element)}>
                 <Image
-                    src={element.content.image.url}
+                    src={element.content.image.name !== 'placeholder.png' ? `${process.env.MEDIA_SERVER}/${element.content.image.name}` : `${process.env.SERVER}/${element.content.image.name}`}
                     alt={element.content.image.name}
                 />
             </div>
@@ -26,7 +26,6 @@ ImagePreview.propTypes = {
         content: PropTypes.shape({
             alignment: PropTypes.string.isRequired,
             image: PropTypes.shape({
-                url: PropTypes.string.isRequired,
                 name: PropTypes.string.isRequired,
             }).isRequired,
         }).isRequired,

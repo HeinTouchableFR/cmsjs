@@ -71,7 +71,7 @@ export default function ImageRender({ element }) {
                 css={styleDiv}
             >
                 <Image
-                    src={element.content.image.url}
+                    src={element.content.image.name !== 'placeholder.png' ? `${process.env.MEDIA_SERVER}/${element.content.image.name}` : `${process.env.SERVER}/${element.content.image.name}`}
                     alt={element.content.image.name}
                 />
             </div>
@@ -83,7 +83,6 @@ ImageRender.propTypes = {
     element: PropTypes.shape({
         content: PropTypes.shape({
             image: PropTypes.shape({
-                url: PropTypes.string.isRequired,
                 name: PropTypes.string.isRequired,
             }),
             alignment: PropTypes.string.isRequired,
