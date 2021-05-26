@@ -8,9 +8,8 @@ import RenderPage from 'container/RenderPage/RenderPage';
 import PropTypes from 'prop-types';
 import Footer from 'container/Sites/Footer/Footer';
 
-export default function Home({ post }) {
+export default function Home({ post, templates }) {
     const { value: settings } = useSettings();
-    const [showRender, setShowRender] = useState(false);
     const [params, setParams] = useState(post.params ? JSON.parse(post.params) : {
     });
 
@@ -23,9 +22,8 @@ export default function Home({ post }) {
         <>
             <Header
                 settings={settings}
-                setShowRender={setShowRender}
-                showRender={showRender}
                 post={post}
+                template={templates.header}
                 isHomePage
             />
             <Global
@@ -37,11 +35,9 @@ export default function Home({ post }) {
             />
             <RenderPage
                 page={post}
-                showRender={showRender}
             />
             <Footer
-                showRender={showRender}
-                setShowRender={setShowRender}
+                template={templates.footer}
             />
         </>
     );
@@ -53,10 +49,17 @@ Home.propTypes = {
         title: PropTypes.string,
         params: PropTypes.string.isRequired,
     }).isRequired,
+    templates: PropTypes.shape({
+        header: PropTypes.shape({
+        }).isRequired,
+        footer: PropTypes.shape({
+        }).isRequired,
+    }).isRequired,
 };
 
 export async function getServerSideProps() {
     let post = [];
+    let templates = [];
     const resSettings = await fetch(`${process.env.SERVER}/api/settings/homepage`, {
         credentials: 'same-origin',
     });
@@ -69,9 +72,18 @@ export async function getServerSideProps() {
         };
     }
 
+    const resTemplates = await fetch(`${process.env.SERVER}/api/templates/getHeaderFooter`, {
+        credentials: 'same-origin',
+    });
+    const dataTemplates = await resTemplates.json();
+    if (dataTemplates.success && dataTemplates.data) {
+        templates = dataTemplates.data;
+    }
+
     return {
         props: {
             post,
+            templates,
         },
     };
 }

@@ -12,6 +12,7 @@ const Builder = ({ onSubmit,
     loading,
     images,
     setImages,
+    templates,
     formErrors,
     errors }) => {
     const { layouts,
@@ -34,7 +35,9 @@ const Builder = ({ onSubmit,
         <>
             <div className={styles.builder}>
                 <DragDropContext onDragEnd={onDragEnd}>
-                    <Content />
+                    <Content
+                        templates={templates}
+                    />
                     <Navigation
                         onSubmit={handleSubmit}
                         loading={loading}
@@ -82,6 +85,8 @@ Builder.propTypes = {
     }).isRequired,
     errors: PropTypes.arrayOf(PropTypes.shape({
     })).isRequired,
+    templates: PropTypes.shape([
+    ]).isRequired,
 };
 
 Builder.defaultProps = {

@@ -1,25 +1,11 @@
-import React, {
-    useEffect, useState,
-} from 'react';
+import React, { useState } from 'react';
 import styled from '@emotion/styled';
-import { useTemplates } from 'context/template';
+import PropTypes from 'prop-types';
 import Layout from './Layout';
 
-function Header() {
-    const { value: dataTemplates } = useTemplates();
-
-    const [content, setContent] = useState([]);
-    const [params, setParams] = useState({
-    });
-
-    useEffect(() => {
-        if (dataTemplates.templates.header) {
-            if (dataTemplates.templates.header.template) {
-                setContent(JSON.parse(dataTemplates.templates.header.template.content));
-                setParams(JSON.parse(dataTemplates.templates.header.template.params));
-            }
-        }
-    }, [dataTemplates]);
+function Header({ template }) {
+    const [content] = useState(template.content ? JSON.parse(template.content) : []);
+    const [params] = useState(template.params ? JSON.parse(template.params) : []);
 
     const Sticky = styled.div({
         position: 'sticky',
@@ -57,6 +43,10 @@ function Header() {
 export default React.memo(Header);
 
 Header.propTypes = {
+    template: PropTypes.shape({
+        content: PropTypes.string,
+        params: PropTypes.string,
+    }).isRequired,
 };
 
 Header.defaultProps = {

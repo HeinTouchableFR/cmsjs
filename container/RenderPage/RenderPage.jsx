@@ -1,10 +1,10 @@
 import React, {
     useEffect, useState,
 } from 'react';
-import Loader from 'components/Loader/Loader';
+import PropTypes from 'prop-types';
 import Layout from './Layout';
 
-export default function RenderPage({page, showRender = false}) {
+export default function RenderPage({ page }) {
     const [content, setContent] = useState(page.content ? JSON.parse(page.content) : []);
 
     useEffect(() => {
@@ -13,18 +13,20 @@ export default function RenderPage({page, showRender = false}) {
 
     return (
         <>
-            {showRender
-                ? (
-                    <div>
-                        {content.map((layout) => (
-                            <Layout
-                                layout={layout}
-                                key={layout.id}
-                            />
-                        ))}
-                    </div>
-                )
-                : <Loader />}
+            <div>
+                {content.map((layout) => (
+                    <Layout
+                        layout={layout}
+                        key={layout.id}
+                    />
+                ))}
+            </div>
         </>
     );
 }
+
+RenderPage.propTypes = {
+    page: PropTypes.shape({
+        content: PropTypes.string,
+    }).isRequired,
+};

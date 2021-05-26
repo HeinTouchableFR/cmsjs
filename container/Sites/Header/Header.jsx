@@ -3,40 +3,19 @@ import React, {
     useEffect, useState,
 } from 'react';
 import Head from 'next/head';
-import { useTemplates } from 'context/template';
 import styled from '@emotion/styled';
 import Layout from 'container/RenderPage/Layout';
 
 export default function Header({ children,
     settings,
-    setShowRender,
-    showRender,
     post,
+    template,
     isHomePage }) {
-    const { value: dataTemplates } = useTemplates();
-    const [content, setContent] = useState([]);
-    const [params, setParams] = useState({
-    });
+    const [content] = useState(template.content ? JSON.parse(template.content) : []);
+    const [params] = useState(template.params ? JSON.parse(template.params) : []);
     const [siteName, setSiteName] = useState('');
     const [logo, setLogo] = useState('');
     const [locale, setLocale] = useState('en-US');
-
-    useEffect(() => {
-        if (dataTemplates.templates.header) {
-            setShowRender(true);
-        } else {
-            setShowRender(false);
-        }
-    }, [dataTemplates]);
-
-    useEffect(() => {
-        if (dataTemplates.templates.header) {
-            if (dataTemplates.templates.header.template) {
-                setContent(JSON.parse(dataTemplates.templates.header.template.content));
-                setParams(JSON.parse(dataTemplates.templates.header.template.params));
-            }
-        }
-    }, [dataTemplates]);
 
     useEffect(() => {
         if (settings.settings) {
@@ -262,20 +241,17 @@ export default function Header({ children,
                 />
                 {children}
             </Head>
-            {showRender
-            && (
-                <Sticky>
-                    <HeaderComponent>
-                        {content.map((layout) => (
-                            <Layout
-                                layout={layout}
-                                alignCenter
-                                key={layout.id}
-                            />
-                        ))}
-                    </HeaderComponent>
-                </Sticky>
-            )}
+            <Sticky>
+                <HeaderComponent>
+                    {content.map((layout) => (
+                        <Layout
+                            layout={layout}
+                            alignCenter
+                            key={layout.id}
+                        />
+                    ))}
+                </HeaderComponent>
+            </Sticky>
         </>
     );
 }
@@ -287,12 +263,10 @@ Header.propTypes = {
         PropTypes.arrayOf(PropTypes.shape({
         })),
     ]),
-    setShowRender: PropTypes.func.isRequired,
     settings: PropTypes.shape({
         settings: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.shape({
         })])),
     }).isRequired,
-    showRender: PropTypes.bool.isRequired,
     post: PropTypes.shape({
         id: PropTypes.number.isRequired,
         title: PropTypes.string,
@@ -301,6 +275,10 @@ Header.propTypes = {
         published: PropTypes.string,
         updated: PropTypes.string,
         params: PropTypes.string.isRequired,
+    }).isRequired,
+    template: PropTypes.shape({
+        content: PropTypes.string,
+        params: PropTypes.string,
     }).isRequired,
     isHomePage: PropTypes.bool,
 };

@@ -1,6 +1,4 @@
-import React, {
-    useEffect, useState,
-} from 'react';
+import React, { useState } from 'react';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { useInView } from 'react-intersection-observer';
@@ -15,22 +13,12 @@ import {
     concatValueUnit,
 } from 'variables/renderFunctions';
 import PropTypes from 'prop-types';
-import { useTemplates } from 'context/template';
 
 export default function MenuRender({ element }) {
     const { inView } = useInView();
     const [isNavActive, setIsNavActive] = useState(false);
-    const { nav } = useTemplates();
 
-    const [menu, setMenu] = useState([]);
-
-    useEffect(() => {
-        if (nav) {
-            setMenu(nav[element.id]
-                ? JSON.parse(nav[element.id].items)
-                : []);
-        }
-    }, [nav]);
+    const [menu] = useState(JSON.parse(element.content.menu.items));
 
     const Nav = styled.nav({
         transition: 'width .2s',
@@ -229,7 +217,7 @@ export default function MenuRender({ element }) {
 
     const Item = ({ item, handleSetIsNavActive, icon }) => (
         <NavMenuItem>
-            <Link href={`${item.slug}`}>
+            <Link href={`${item.slug !== '/'}` ? `${process.env.SERVER}/${item.slug}` : `${item.slug}`}>
                 <a onClick={() => handleSetIsNavActive(false)}>{item.label}</a>
             </Link>
 
@@ -317,6 +305,9 @@ MenuRender.propTypes = {
                 }).isRequired,
             }),
             alignment: PropTypes.string.isRequired,
+            menu: PropTypes.shape({
+                items: PropTypes.string,
+            }).isRequired,
         }).isRequired,
         styles: PropTypes.shape({
         }).isRequired,

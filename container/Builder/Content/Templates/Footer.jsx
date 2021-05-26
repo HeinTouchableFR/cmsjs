@@ -1,26 +1,11 @@
-import React, {
-    useEffect, useState,
-} from 'react';
+import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
-import { useTemplates } from 'context/template';
 import Layout from './Layout';
 
-export default function Footer() {
-    const { value: dataTemplates } = useTemplates();
-
-    const [content, setContent] = useState([]);
-    const [params, setParams] = useState({
-    });
-
-    useEffect(() => {
-        if (dataTemplates.templates.footer) {
-            if (dataTemplates.templates.footer.template) {
-                setContent(JSON.parse(dataTemplates.templates.footer.template.content));
-                setParams(JSON.parse(dataTemplates.templates.footer.template.params));
-            }
-        }
-    }, [dataTemplates]);
+export default function Footer({ template }) {
+    const [content] = useState(template.content ? JSON.parse(template.content) : []);
+    const [params] = useState(template.params ? JSON.parse(template.params) : []);
 
     const Foot = styled.footer({
         background: params.background,
@@ -52,6 +37,10 @@ export default function Footer() {
 }
 
 Footer.propTypes = {
+    template: PropTypes.shape({
+        content: PropTypes.string,
+        params: PropTypes.string,
+    }).isRequired,
 };
 
 Footer.defaultProps = {

@@ -13,7 +13,7 @@ import {
 } from 'next-auth/client';
 import { BuilderProvider } from 'context/builder';
 
-export default function Add({ images, errors }) {
+export default function Add({ images, errors, templates }) {
     const intl = useIntl();
 
     const [imagesList, setImagesList] = useState(JSON.parse(images));
@@ -118,6 +118,7 @@ export default function Add({ images, errors }) {
                     setImages={setImagesList}
                     formErrors={formErrors}
                     errors={builderErrors}
+                    templates={templates}
                 />
             </BuilderProvider>
             )}
@@ -132,6 +133,8 @@ Add.propTypes = {
         }),
         PropTypes.arrayOf(PropTypes.shape({
         })),
+    ]).isRequired,
+    templates: PropTypes.shape([
     ]).isRequired,
 };
 
@@ -153,6 +156,7 @@ export async function getServerSideProps(ctx) {
 
     const errors = [];
     let images = [];
+    let templates = [];
 
     if (token) {
         const resImages = await fetch(`${process.env.SERVER}/api/images`, {
@@ -170,12 +174,21 @@ export async function getServerSideProps(ctx) {
                 request: `${process.env.SERVER}/api/images`,
             });
         }
+
+        const resTemplates = await fetch(`${process.env.SERVER}/api/templates/getHeaderFooter`, {
+            credentials: 'same-origin',
+        });
+        const dataTemplates = await resTemplates.json();
+        if (dataTemplates.success && dataTemplates.data) {
+            templates = dataTemplates.data;
+        }
     }
 
     return {
         props: {
             images: JSON.stringify(images),
             errors,
+            templates,
             session,
         },
     };
