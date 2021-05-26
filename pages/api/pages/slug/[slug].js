@@ -1,4 +1,5 @@
 import prisma from 'utils/prisma';
+import { populatePost } from 'utils/api';
 
 const handler = async (req, res) => {
     const { query: { slug },
@@ -7,11 +8,12 @@ const handler = async (req, res) => {
     switch (method) {
     case 'GET':
         try {
-            const data = await prisma.pages.findUnique({
+            let data = await prisma.pages.findUnique({
                 where: {
                     slug,
                 },
             });
+            data = await populatePost(data);
 
             res.status(200).json({
                 success: true, data,

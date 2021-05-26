@@ -9,11 +9,11 @@ import Dropdown from 'components/Form/Dropdown/Dropdown';
 import Typography from 'components/ComponentCollection/Ui/Typography';
 import PropTypes from 'prop-types';
 import { change } from 'variables/functions';
+import { useBuilder } from 'context/builder';
 import Advanced from '../Ui/Advanced';
 import Background from '../Ui/Background';
 import Border from '../Ui/Border';
 import Animations from '../Ui/Animations';
-import { useBuilder } from 'context/builder';
 
 export default function Menu({ element, device, onElementValueChange }) {
     const intl = useIntl();
@@ -34,10 +34,10 @@ export default function Menu({ element, device, onElementValueChange }) {
     const menusOptions = [
     ];
     menus.map((menu) => menusOptions.push({
-        key: menu.id,
+        key: menu.id.toString(),
         text: menu.name,
-        value: menu.id,
-    }))
+        value: menu.id.toString(),
+    }));
 
     return (
         <>

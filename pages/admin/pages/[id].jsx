@@ -12,7 +12,7 @@ import {
     getSession, signIn, useSession,
 } from 'next-auth/client';
 
-export default function Edit({ item, errors, images }) {
+export default function Edit({ item, errors, images, templates }) {
     const intl = useIntl();
 
     const [post, setPost] = useState(item);
@@ -121,6 +121,7 @@ export default function Edit({ item, errors, images }) {
                     setImages={setImagesList}
                     images={imagesList}
                     formErrors={formErrors}
+                    templates={templates}
                     errors={builderErrors}
                 />
             </BuilderProvider>
@@ -140,6 +141,8 @@ Edit.propTypes = {
         }),
         PropTypes.arrayOf(PropTypes.shape({
         })),
+    ]).isRequired,
+    templates: PropTypes.shape([
     ]).isRequired,
 };
 
@@ -163,6 +166,7 @@ export async function getServerSideProps(ctx) {
     let item = {
     };
     let images = [];
+    let templates = [];
     const errors = [];
 
     if (token) {
@@ -197,12 +201,21 @@ export async function getServerSideProps(ctx) {
                 request: `${process.env.SERVER}/api/images`,
             });
         }
+
+        const resTemplates = await fetch(`${process.env.SERVER}/api/templates/getHeaderFooter`, {
+            credentials: 'same-origin',
+        });
+        const dataTemplates = await resTemplates.json();
+        if (dataTemplates.success && dataTemplates.data) {
+            templates = dataTemplates.data;
+        }
     }
 
     return {
         props: {
             item,
             errors,
+            templates,
             images: JSON.stringify(images),
             session,
         },

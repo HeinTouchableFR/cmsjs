@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import {
@@ -11,14 +11,24 @@ import {
     typoStyle,
 } from 'variables/renderFunctions';
 import PropTypes from 'prop-types';
+import {useBuilder} from 'context/builder';
 
 function MenuPreview({ element, device }) {
-    const [menu] = useState(JSON.parse(element.content.menu.items));
+    const { menus } = useBuilder();
+    const [menu, setMenu] = useState(typeof element.content.menu === 'string' ? [] : JSON.parse(element.content.menu.items));
     const [isNavActive, setIsNavActive] = useState(false);
-
     const spanSize = (screen) => ({
         fontSize: `${concatValueUnit(element.content[screen].typo.size.value, element.content[screen].typo.size.unit)}`,
     });
+
+    useEffect(() => {
+        if (typeof element.content.menu === 'string') {
+            const menuFromMenus = menus.find((x) => x.id.toString() === element.content.menu);
+            if (menuFromMenus) {
+                setMenu(JSON.parse(menuFromMenus.items));
+            }
+        }
+    }, [element, menus]);
 
     const Nav = styled.nav({
         transition: 'width .2s',
@@ -268,9 +278,12 @@ MenuPreview.propTypes = {
                 }).isRequired,
             }),
             alignment: PropTypes.string.isRequired,
-            menu: PropTypes.shape({
-                items: PropTypes.string,
-            }).isRequired,
+            menu: PropTypes.oneOfType([
+                PropTypes.shape({
+                    items: PropTypes.string,
+                }),
+                PropTypes.string,
+            ]).isRequired,
         }).isRequired,
         styles: PropTypes.shape({
         }).isRequired,

@@ -1,11 +1,8 @@
-import React, {
-    useEffect, useState,
-} from 'react';
+import React, { useState } from 'react';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { useInView } from 'react-intersection-observer';
 import Link from 'next/link';
-import { useSettings } from 'context/settings';
 import {
     animationStyle,
     backgroundStyle,
@@ -17,18 +14,8 @@ import {
 import PropTypes from 'prop-types';
 
 export default function LogoRender({ element }) {
-    const { value: settings } = useSettings();
     const { ref, inView } = useInView();
-    const [logo, setLogo] = useState('');
-
-    useEffect(() => {
-        if (settings.settings) {
-            const logoSetting = settings.settings.find((x) => x.data === 'logo');
-            if (logoSetting) {
-                setLogo(logoSetting.image ? `${process.env.MEDIA_SERVER}/${settings.settings.find((x) => x.data === 'logo')?.image.name}` : `${process.env.SERVER}/logo.png`);
-            }
-        }
-    }, [settings]);
+    const [logo] = useState(element.content.url);
 
     const Image = styled.img({
         ...imageStyle('desktop', element),
@@ -103,9 +90,7 @@ export default function LogoRender({ element }) {
 LogoRender.propTypes = {
     element: PropTypes.shape({
         content: PropTypes.shape({
-            image: PropTypes.shape({
-                url: PropTypes.string.isRequired,
-            }),
+            url: PropTypes.string.isRequired,
             alignment: PropTypes.string.isRequired,
         }).isRequired,
         styles: PropTypes.shape({

@@ -86,8 +86,10 @@ Builder.propTypes = {
     errors: PropTypes.arrayOf(PropTypes.shape({
     })).isRequired,
     templates: PropTypes.shape([
-    ]).isRequired,
+    ]),
 };
 
 Builder.defaultProps = {
+    templates: {
+    },
 };

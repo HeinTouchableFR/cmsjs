@@ -1,5 +1,4 @@
-import React, {useEffect, useState} from 'react';
-import { useSettings } from 'context/settings';
+import React, { useState } from 'react';
 import {
     styleDivImagePreview,
     styleImagePreview,
@@ -7,17 +6,7 @@ import {
 import PropTypes from 'prop-types';
 
 function LogoPreview({ element, device }) {
-    const { value: settings } = useSettings();
-    const [logo, setLogo] = useState('');
-
-    useEffect(() => {
-        if (settings.settings) {
-            const logoSetting = settings.settings.find((x) => x.data === 'logo');
-            if (logoSetting) {
-                setLogo(logoSetting.image ? `${process.env.MEDIA_SERVER}/${settings.settings.find((x) => x.data === 'logo')?.image.name}` : `${process.env.SERVER}/logo.png`);
-            }
-        }
-    }, [settings]);
+    const [logo] = useState(element.content.url);
 
     const Image = styleImagePreview(device, element);
 
@@ -40,6 +29,7 @@ LogoPreview.propTypes = {
     element: PropTypes.shape({
         content: PropTypes.shape({
             alignment: PropTypes.string.isRequired,
+            url: PropTypes.string.isRequired,
         }).isRequired,
         styles: PropTypes.shape({
         }).isRequired,

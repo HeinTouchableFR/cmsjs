@@ -1,28 +1,5 @@
 import prisma from 'utils/prisma';
-
-const populateTemplate = async (template) => {
-    const content = JSON.parse(template.content);
-    await Promise.all(content.map(async (layout) => {
-        await Promise.all(layout.columns.map(async (column) => {
-            await Promise.all(column.elements.map(async (element) => {
-                if (element.type === 'menu' && element.content.menu) {
-                    // eslint-disable-next-line no-param-reassign
-                    element.content.menu = await prisma.menus.findUnique({
-                        where: {
-                            id: parseInt(element.content.menu, 10),
-                        },
-                    });
-                }
-            }));
-        }));
-    }));
-    // eslint-disable-next-line no-param-reassign
-    template.content = JSON.stringify(content);
-    return {
-        content: template.content,
-        params: template.params,
-    };
-};
+import { populatePost } from 'utils/api';
 
 const handler = async (req, res) => {
     const { method } = req;
@@ -38,7 +15,7 @@ const handler = async (req, res) => {
                     template: true,
                 },
             });
-            header.template = await populateTemplate(header.template);
+            header.template = await populatePost(header.template);
 
             const footer = await prisma.settings.findUnique({
                 where: {
@@ -48,7 +25,7 @@ const handler = async (req, res) => {
                     template: true,
                 },
             });
-            footer.template = await populateTemplate(footer.template);
+            footer.template = await populatePost(footer.template);
 
             res.status(200).json({
                 success: true,

@@ -1,5 +1,6 @@
 import prisma from 'utils/prisma';
 import jwt from 'next-auth/jwt';
+import {populatePost} from '../../../utils/api';
 
 const handler = async (req, res) => {
     const { query: { id },
@@ -13,11 +14,12 @@ const handler = async (req, res) => {
     case 'GET':
         try {
             if (token && authorized.includes(token.role)) {
-                const data = await prisma.pages.findUnique({
+                let data = await prisma.pages.findUnique({
                     where: {
                         id: parseInt(id, 10),
                     },
                 });
+                data = await populatePost(data, 'preview');
 
                 res.status(200).json({
                     success: true, data,
