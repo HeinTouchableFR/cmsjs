@@ -12,17 +12,18 @@ export function InstallProvider({ children }) {
     const router = useRouter();
     const { value: settings } = useSettings();
     const [value, setValue] = useState({
+        authorizedToInstall: false,
+        success: true,
     });
 
     useEffect(async () => {
         if (settings.success) {
             if (settings.settings.length === 0) {
-                const resInstallToken = await fetch('/api/install/token');
-                const installToken = await resInstallToken.json();
                 setValue({
-                    installToken: installToken.data,
+                    authorizedToInstall: true,
+                    success: true,
                 });
-                router.push('/admin/install');
+                await router.push('/admin/install');
             }
         }
     }, [settings]);
