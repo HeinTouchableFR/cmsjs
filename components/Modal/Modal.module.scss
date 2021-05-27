@@ -38,6 +38,10 @@
     will-change: top,left,margin,transform,opacity;
     font-size: 1rem;
 
+    button + button {
+      margin-left: 10px;
+    }
+
     .close {
       cursor: pointer;
       position: absolute;
@@ -46,7 +50,7 @@
       z-index: 1;
       opacity: .8;
       font-size: 1.25em;
-      color: var(--color-light);
+      color: #dfe0e6;
       width: 2.25rem;
       height: 2.25rem;
       padding: .625rem 0 0 0;
