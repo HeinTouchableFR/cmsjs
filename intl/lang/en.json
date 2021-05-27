@@ -211,5 +211,12 @@
     "welcome": "Welcome",
     "wow": "Wow !",
     "yes": "Yes",
+    "docs.back": "Back",
+    "docs.nextStep": "Next step: ",
+    "docs.gettingStarted": "Getting Started",
+    "docs.inSection": "In this section:",
+    "docs.pageManagement": "Page management",
+    "docs.createNewPage": "Create a New Page",
+    "docs.buildFirstPage": "Build Your First Page",
     "LastLineDoNotRemove": "LastLineDoNotRemove"
 }

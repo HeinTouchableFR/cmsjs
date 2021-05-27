@@ -38,8 +38,10 @@ function MyApp({ Component, pageProps }) {
     useEffect(() => {
         if (typeof window !== 'undefined') {
             setLanguage(window.navigator.language.substr(0, 2));
+            localStorage.setItem('locale', window.navigator.language.substr(0, 2));
             if (router.locale !== router.defaultLocale) {
                 setLanguage(router.locale.substr(0, 2));
+                localStorage.setItem('locale', router.locale.substr(0, 2));
             }
         }
     }, []);

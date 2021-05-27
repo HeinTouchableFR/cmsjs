@@ -38,9 +38,6 @@ footer{
     margin-top: auto;
 }
 
-ol, ul {
-  list-style: none;
-}
 blockquote, q {
   quotes: none;
 }
@@ -141,4 +138,14 @@ h1, h2, h3, h4, h5, h6{
   border-radius: 10px;
   -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
   background-color: #555;
+}
+
+
+// Reset for md
+p-center {
+  display: block;
+  max-width: 800px;
+  text-align: center;
+  color: var(--color-dark);
+  margin: 1rem auto;
 }
