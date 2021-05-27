@@ -25,6 +25,7 @@ const Builder = createContext({
     updateLayout: () => {},
     deleteLayout: () => {},
     setCurrentElement: () => {},
+    showAnimation: () => {},
     setDevice: () => {},
     setParams: () => {},
     setMode: () => {},
@@ -62,7 +63,10 @@ export function BuilderProvider({ page, components, builderMode, children }) {
 
     const [params, setParams] = useState(JSON.parse(page.params));
 
-    const [currentElement, setCurrentElement] = useState({
+    const [currentElement, setCurrentElementState] = useState({
+    });
+
+    const [currentAnimation, setCurrentAnimation] = useState({
     });
 
     const [menus, setMenus] = useState([
@@ -71,6 +75,14 @@ export function BuilderProvider({ page, components, builderMode, children }) {
     const [device, setDevice] = useState('desktop');
     const [mode, setMode] = useState(builderMode || 'page');
     const type = page.type ? page.type : 'page';
+
+    /**
+     *
+     */
+    const setCurrentElement = (element) => {
+        setCurrentElementState(element);
+        setCurrentAnimation(element.content[device].animation);
+    };
 
     const [portal, setPortal] = useState({
         x: '',
@@ -423,6 +435,7 @@ export function BuilderProvider({ page, components, builderMode, children }) {
                     });
                 });
             });
+            setCurrentElementState(element);
         }
         elements = elements.map((e) => (e.id === element.id ? element : e));
         column.elements = elements;
@@ -542,6 +555,7 @@ export function BuilderProvider({ page, components, builderMode, children }) {
             const [component] = sourceClone.splice(droppableSource.index, 1);
             const element = generateElement(component);
             setCurrentElement(element);
+            setCurrentAnimation(element.content[device].animation);
             destClone.splice(droppableDestination.index, 0, element);
             result[droppableDestination.droppableId] = destClone;
             handleClosePortal();
@@ -586,6 +600,22 @@ export function BuilderProvider({ page, components, builderMode, children }) {
         }
     });
 
+    /**
+     *
+     */
+    const showAnimation = (element) => {
+        if (element.id !== currentElement.id) {
+            return false;
+        }
+        if (currentElement.id) {
+            if (!(currentElement.content[device].animation === currentAnimation)) {
+                setCurrentAnimation(currentElement.content[device].animation);
+                return true;
+            }
+        }
+        return false;
+    };
+
     const value = useMemo(() => ({
         page,
         type,
@@ -609,6 +639,7 @@ export function BuilderProvider({ page, components, builderMode, children }) {
         deleteLayout,
         updateElement,
         onDragEnd,
+        showAnimation,
     }), [layouts, params, currentElement, device, portal, menus]);
 
     return (

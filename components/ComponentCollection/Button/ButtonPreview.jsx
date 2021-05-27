@@ -13,8 +13,10 @@ import {
     paddingMarginStyle,
 } from 'variables/renderFunctions';
 import { css } from '@emotion/react';
+import { useBuilder } from 'context/builder';
 
 export default function ButtonPreview({ element, device }) {
+    const { showAnimation } = useBuilder();
     const Button = styled.a`
         display: inline-block;
         transition: 'color .2s';
@@ -41,7 +43,7 @@ export default function ButtonPreview({ element, device }) {
         <>
             <div
                 css={{
-                    ...styleDivPreview(device, element), ...align,
+                    ...styleDivPreview(device, element, showAnimation(element)), ...align,
                 }}
             >
                 <Button>{parse(element.content.text)}</Button>
@@ -53,6 +55,7 @@ export default function ButtonPreview({ element, device }) {
 ButtonPreview.propTypes = {
     device: PropTypes.string.isRequired,
     element: PropTypes.shape({
+        id: PropTypes.number,
         content: PropTypes.shape({
             alignment: PropTypes.string.isRequired,
             text: PropTypes.string.isRequired,

@@ -7,8 +7,11 @@ import {
     typoColorStyleHover,
 } from 'variables/previewFunctions';
 import PropTypes from 'prop-types';
+import { useBuilder } from 'context/builder';
 
 export default function LinkPreview({ element, device }) {
+    const { showAnimation } = useBuilder();
+
     const LinkComp = styled.a`
         display: block;
         text-align: ${element.content.alignment};
@@ -25,7 +28,7 @@ export default function LinkPreview({ element, device }) {
 
     return (
         <>
-            <div css={styleDivPreview(device, element)}>
+            <div css={styleDivPreview(device, element, showAnimation(element))}>
                 <LinkComp>{parse(element.content.text)}</LinkComp>
             </div>
         </>
@@ -35,6 +38,7 @@ export default function LinkPreview({ element, device }) {
 LinkPreview.propTypes = {
     device: PropTypes.string.isRequired,
     element: PropTypes.shape({
+        id: PropTypes.number,
         content: PropTypes.shape({
             alignment: PropTypes.string.isRequired,
             text: PropTypes.string.isRequired,

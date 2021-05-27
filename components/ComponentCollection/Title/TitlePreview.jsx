@@ -7,8 +7,11 @@ import {
     typoColorStyleHover,
 } from 'variables/previewFunctions';
 import PropTypes from 'prop-types';
+import { useBuilder } from 'context/builder';
 
 export default function TitlePreview({ element, device }) {
+    const { showAnimation } = useBuilder();
+
     const Title = styled[element.content.tag]`
         text-align: ${element.content.alignment};
         transition: 'color .2s';
@@ -24,7 +27,7 @@ export default function TitlePreview({ element, device }) {
 
     return (
         <>
-            <div css={styleDivPreview(device, element)}>
+            <div css={styleDivPreview(device, element, showAnimation(element))}>
                 <Title>{parse(element.content.text)}</Title>
             </div>
         </>
@@ -34,6 +37,7 @@ export default function TitlePreview({ element, device }) {
 TitlePreview.propTypes = {
     device: PropTypes.string.isRequired,
     element: PropTypes.shape({
+        id: PropTypes.number,
         content: PropTypes.shape({
             alignment: PropTypes.string.isRequired,
             text: PropTypes.string.isRequired,
