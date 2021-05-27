@@ -41,8 +41,7 @@ export default function Navigation({ onSubmit,
         slug: page.slug || '',
         description: page.description || '',
     });
-
-    const [activeIndex, setActiveIndex] = useState(1);
+    const [activeIndex, setActiveIndex] = useState(0);
     const handleTabChange = (index) => {
         if (index !== activeIndex) {
             setActiveIndex(index);
@@ -347,7 +346,7 @@ export default function Navigation({ onSubmit,
                 <div className={`${styles.actions}`}>
                     <DarkModeButton />
                     <Button
-                        label={page.content !== ''
+                        label={page.content !== '[]'
                             ? intl.formatMessage({
                                 id: 'update', defaultMessage: 'Update',
                             })
@@ -361,6 +360,7 @@ export default function Navigation({ onSubmit,
                         form='pageForm'
                         name='pageButton'
                         id='pageButton'
+                        onClick={() => handleTabChange(0)}
                     />
                     <Dropdown
                         defaultValue={device}
