@@ -93,6 +93,10 @@
     }
   }
 
+  section {
+    color: var(--color-dark);
+  }
+
   p, li {
     color: var(--color-dark);
     margin: 1rem 0;
@@ -338,10 +342,18 @@
       margin-left: 0;
     }
   }
+
+  .sub {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 @media only screen and (max-width: 550px) {
   .user_wrapper {
     display: none;
+  }
+
+  .sub {
+    grid-template-columns: repeat(1, 1fr);
   }
 }
