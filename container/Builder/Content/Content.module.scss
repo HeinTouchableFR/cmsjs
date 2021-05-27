@@ -1,8 +1,8 @@
 .content {
-    max-height: calc(100vh - 140px);
+    //max-height: calc(100vh - 140px);
     display: flex;
     flex-direction: column;
-    overflow-y: scroll;
+    //overflow-y: scroll;
     position: relative;
     transition: left 0.5s, width 0.5s, min-width 0.5s, max-width 0.5s;
     min-width: 1050px;
@@ -10,6 +10,8 @@
     width: 100%;
     background-color: #FFF;
     margin: 0 auto;
+    margin-bottom: 140px;
+    height: 100%;
 
     &.hide {
         left: 0;

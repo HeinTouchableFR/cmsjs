@@ -81,7 +81,9 @@ export function BuilderProvider({ page, components, builderMode, children }) {
      */
     const setCurrentElement = (element) => {
         setCurrentElementState(element);
-        setCurrentAnimation(element.content[device].animation);
+        if (element.content) {
+            setCurrentAnimation(element.content[device].animation);
+        }
     };
 
     const [portal, setPortal] = useState({
@@ -354,10 +356,11 @@ export function BuilderProvider({ page, components, builderMode, children }) {
      */
     const handleOpenPortal = useCallback((e) => {
         const portalWidth = 350;
+        console.log(e)
         const width = window.innerWidth;
         setPortal({
             x: e.clientX < (width - portalWidth) ? e.clientX : (width - portalWidth),
-            y: e.clientY,
+            y: e.pageY,
             open: true,
         });
     }, []);
