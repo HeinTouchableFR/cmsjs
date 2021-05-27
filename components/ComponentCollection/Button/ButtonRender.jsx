@@ -13,6 +13,7 @@ import {
     paddingMarginStyle,
 } from 'variables/renderFunctions';
 import Link from 'next/link';
+import {styleDivPreview} from '../../../variables/previewFunctions';
 
 export default function ButtonRender({ element }) {
     const { ref, inView } = useInView();
@@ -55,9 +56,10 @@ export default function ButtonRender({ element }) {
         <>
             <div
                 ref={ref}
-                css={{
-                    ...styleDiv(element, inView), ...align,
-                }}
+                css={css`
+                    ${styleDiv(element, inView)};
+                    ${align}
+                 `}
             >
                 <Link
                     href={element.content.url}

@@ -42,9 +42,10 @@ export default function ButtonPreview({ element, device }) {
     return (
         <>
             <div
-                css={{
-                    ...styleDivPreview(device, element, showAnimation(element)), ...align,
-                }}
+                css={css`
+                    ${styleDivPreview(device, element, showAnimation(element))};
+                    ${align}
+                 `}
             >
                 <Button>{parse(element.content.text)}</Button>
             </div>
