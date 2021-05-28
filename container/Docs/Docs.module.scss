@@ -18,7 +18,7 @@
   height: 100%;
   background: var(--color-dark);
   z-index: 100;
-  transition: width 0.3s;
+  transition: left 0.3s;
 }
 
 .sidebar_brand {
@@ -170,7 +170,7 @@
   left: 345px;
   width: calc(100% - 345px);
   top: 0;
-  z-index: 100;
+  //z-index: 100;
   background: var(--color-card);
   transition: left 0.3s, width 0.3s;
   height: 78px;
@@ -243,19 +243,6 @@
   display: none;
   &:checked + .sidebar {
     left: -345px;
-
-    .sidebar_brand h2 span:last-child, li a span:last-child {
-      display: none;
-    }
-
-    li {
-      padding-left: 0;
-      text-align: center;
-    }
-
-    .sidebar_brand {
-      padding-left: 1.3rem;
-    }
   }
 
   &:checked ~ .main_content {

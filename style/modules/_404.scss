@@ -181,15 +181,6 @@ inset 5px 5px 20px rgba($bg-03, 0.25),
 }
 
 
-body {
-  margin: 0;
-  padding: 0;
-  height: auto;
-  font-family: $font-01;
-  background: $bg-01;
-
-}
-
 .logo {
   position: fixed;
   z-index: 5;
@@ -362,6 +353,7 @@ nav {
   align-items: center;
   height: 100vh;
   overflow-x: hidden;
+  background: #695681;
 
   .container {
     margin: 0 auto;
