@@ -1,7 +1,7 @@
 ---
-name: "Commencer"
-date: "2021-05-27"
-url: "docs/getting-started"
+name: "Installation"
+date: "2020-01-01"
+url: "docs/installation"
 ---
 Pour commencer à utiliser votre site, choisissez l'un de nos **tutoriels de prise en main** ou **consultez la page d'accueil**.
 

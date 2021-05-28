@@ -9,6 +9,7 @@ import { useSettings } from 'context/settings';
 import { useSession } from 'next-auth/client';
 import PropTypes from 'prop-types';
 import styles from './Admin.module.scss';
+import Search from './Search';
 
 export default function Admin({ children }) {
     const router = useRouter();
@@ -139,13 +140,9 @@ export default function Admin({ children }) {
                                 <span className='fas fa-bars' />
                             </label>
                         </h2>
-                        <div className={styles.search_wrapper}>
-                            <span className='fas fa-search' />
-                            <input
-                                type='search'
-                                placeholder='Search here'
-                            />
-                        </div>
+                        <Search
+                            endPoint='admin'
+                        />
                         <DarkModeButton />
                         <div className={styles.user_wrapper}>
                             <img

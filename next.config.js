@@ -17,13 +17,14 @@ module.exports = {
         SECRET: process.env.SECRET,
         GOOGLE_ID: process.env.GOOGLE_ID,
         GOOGLE_SECRET: process.env.GOOGLE_SECRET,
+        LOCALE: process.env.LOCALE,
     },
     images: {
         domains: [process.env.MEDIA_SERVER.replace('https://', '').replace('http://', '')],
     },
     i18n: {
-        locales: ['en-US', 'en', 'fr', 'de'],
-        defaultLocale: 'en-US',
-        localeDetection: false,
+        locales: ['en', 'fr'],
+        defaultLocale: process.env.LOCALE,
+        localeDetection: true,
     },
 };

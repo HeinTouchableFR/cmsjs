@@ -1,35 +1,45 @@
-import React, {
-    useEffect, useState,
-} from 'react';
+import React from 'react';
 import Docs from 'container/Docs/Docs';
-import styles from 'container/Docs/Docs.module.scss';
-import Link from 'next/link';
 import parse from 'html-react-parser';
-import { useIntl } from 'react-intl';
+import { getPostData } from 'docs/lib/data';
+import PropTypes from 'prop-types';
+import InSection from 'container/Docs/InSection';
 
-export default function Index() {
-    const intl = useIntl();
+export default function Index({ data }) {
     const menu = [
+        {
+            key: 'installation',
+            label: 'installation',
+            defaultLabel: 'Installation',
+            id: 'installation',
+            url: `${process.env.SERVER}/docs/installation`,
+            elements: [
+                {
+                    key: 'page-management',
+                    label: 'pageManagement',
+                    defaultLabel: 'Page management',
+                    id: 'page-management',
+                    url: `${process.env.SERVER}/docs/getting-started/page-management`,
+                },
+            ],
+        },
         {
             key: 'getting-started',
             label: 'gettingStarted',
             defaultLabel: 'Getting Started',
             id: 'getting-started',
             url: `${process.env.SERVER}/docs/getting-started`,
+            elements: [
+                {
+                    key: 'page-management',
+                    label: 'pageManagement',
+                    defaultLabel: 'Page management',
+                    id: 'page-management',
+                    url: `${process.env.SERVER}/docs/getting-started/page-management`,
+                },
+            ],
         },
     ];
-    const [data, setData] = useState({
-        name: '',
-        contentHtml: '',
-    });
-
-    useEffect(async () => {
-        const res = await fetch(`${process.env.SERVER}/api/docs/${intl.locale}/index`);
-        const dataRes = await res.json();
-        if (dataRes.success) {
-            setData(dataRes.data);
-        }
-    }, [intl.locale]);
 
     return (
         <>
@@ -40,38 +50,27 @@ export default function Index() {
                 <section>
                     {parse(data.contentHtml)}
                 </section>
-                <section>
-                    <h2>
-                        {intl.formatMessage({
-                            id: 'docs.inSection', defaultMessage: 'In this section',
-                        })}
-                    </h2>
-                    <div className={styles.sub}>
-                        <div className={styles.item}>
-                            <div className={styles.item_title}>
-                                <Link href={`${process.env.SERVER}/docs/getting-started`}>
-                                    {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                                    <a>
-                                        {intl.formatMessage({
-                                            id: 'docs.gettingStarted', defaultMessage: 'Getting Started',
-                                        })}
-                                    </a>
-                                </Link>
-                            </div>
-                            <section className={styles.item_sub_item}>
-                                <Link href={`${process.env.SERVER}/docs/getting-started/page-management`}>
-                                    {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                                    <a>
-                                        {intl.formatMessage({
-                                            id: 'docs.pageManagement', defaultMessage: 'Page management',
-                                        })}
-                                    </a>
-                                </Link>
-                            </section>
-                        </div>
-                    </div>
-                </section>
+                <InSection
+                    elements={menu}
+                />
             </Docs>
         </>
     );
+}
+Index.propTypes = {
+    data: PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        contentHtml: PropTypes.string.isRequired,
+    }).isRequired,
+};
+
+export async function getServerSideProps(context) {
+    const lang = context.locales.includes(context.locale.substr(0, 2)) ? context.locale.substr(0, 2) : 'en';
+    const data = await getPostData('index', lang);
+
+    return {
+        props: {
+            data,
+        },
+    };
 }

@@ -3,9 +3,9 @@ import Docs from 'container/Docs/Docs';
 import parse from 'html-react-parser';
 import Link from 'next/link';
 import { useIntl } from 'react-intl';
+import styles from 'container/Docs/Docs.module.scss';
 import PropTypes from 'prop-types';
 import { getPostData } from 'docs/lib/data';
-import InSection from 'container/Docs/InSection';
 
 export default function Index({ data }) {
     const intl = useIntl();
@@ -16,22 +16,6 @@ export default function Index({ data }) {
             defaultLabel: 'Page management',
             id: 'page-management',
             url: `${process.env.SERVER}/docs/getting-started/page-management`,
-            elements: [
-                {
-                    key: 'create-new-page',
-                    label: 'createNewPage',
-                    defaultLabel: 'Create a New Page',
-                    id: 'create-new-page',
-                    url: `${process.env.SERVER}/docs/getting-started/page-management/create-new-page`,
-                },
-                {
-                    key: 'build-your-first-page',
-                    label: 'buildFirstPage',
-                    defaultLabel: 'Build Your First Page',
-                    id: 'build-your-first-page',
-                    url: `${process.env.SERVER}/docs/getting-started/page-management/build-your-first-page`,
-                },
-            ],
         },
     ];
 
@@ -57,9 +41,6 @@ export default function Index({ data }) {
                         </a>
                     </Link>
                 </section>
-                <InSection
-                    elements={menu}
-                />
             </Docs>
         </>
     );
@@ -73,7 +54,7 @@ Index.propTypes = {
 
 export async function getServerSideProps(context) {
     const lang = context.locales.includes(context.locale.substr(0, 2)) ? context.locale.substr(0, 2) : 'en';
-    const data = await getPostData('getting-started', lang);
+    const data = await getPostData('installation', lang);
 
     return {
         props: {

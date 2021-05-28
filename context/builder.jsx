@@ -356,7 +356,6 @@ export function BuilderProvider({ page, components, builderMode, children }) {
      */
     const handleOpenPortal = useCallback((e) => {
         const portalWidth = 350;
-        console.log(e)
         const width = window.innerWidth;
         setPortal({
             x: e.clientX < (width - portalWidth) ? e.clientX : (width - portalWidth),

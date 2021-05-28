@@ -1,12 +1,10 @@
-import React, {
-    useEffect, useState,
-} from 'react';
+import React from 'react';
 import Docs from 'container/Docs/Docs';
 import parse from 'html-react-parser';
-import { useIntl } from 'react-intl';
+import PropTypes from 'prop-types';
+import { getPostData } from 'docs/lib/data';
 
-export default function Index() {
-    const intl = useIntl();
+export default function Index({ data }) {
     const menu = [
         {
             key: 'create-new-page',
@@ -23,18 +21,6 @@ export default function Index() {
             url: `${process.env.SERVER}/docs/getting-started/page-management/build-your-first-page`,
         },
     ];
-    const [data, setData] = useState({
-        name: '',
-        contentHtml: '',
-    });
-
-    useEffect(async () => {
-        const res = await fetch(`${process.env.SERVER}/api/docs/${intl.locale}/build-your-first-page`);
-        const dataRes = await res.json();
-        if (dataRes.success) {
-            setData(dataRes.data);
-        }
-    }, [intl.locale]);
 
     return (
         <>
@@ -49,4 +35,21 @@ export default function Index() {
             </Docs>
         </>
     );
+}
+Index.propTypes = {
+    data: PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        contentHtml: PropTypes.string.isRequired,
+    }).isRequired,
+};
+
+export async function getServerSideProps(context) {
+    const lang = context.locales.includes(context.locale.substr(0, 2)) ? context.locale.substr(0, 2) : 'en';
+    const data = await getPostData('build-your-first-page', lang);
+
+    return {
+        props: {
+            data,
+        },
+    };
 }

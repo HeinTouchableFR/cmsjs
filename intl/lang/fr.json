@@ -218,5 +218,7 @@
     "docs.pageManagement": "Gestion des pages",
     "docs.createNewPage": "Créer une nouvelle page",
     "docs.buildFirstPage": "Construire votre première page",
+    "docs.installation": "Installation",
+    "docs.search": "Rechercher",
     "LastLineDoNotRemove": "LastLineDoNotRemove"
 }

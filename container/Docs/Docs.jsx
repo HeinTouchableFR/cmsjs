@@ -5,6 +5,7 @@ import DarkModeButton from 'components/Button/DarkModeButton/DarkModeButton';
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
 import styles from './Docs.module.scss';
+import Search from '../Admin/Search';
 
 export default function Docs({ menu, backUrl, children }) {
     const router = useRouter();
@@ -71,6 +72,9 @@ export default function Docs({ menu, backUrl, children }) {
                                 <span className='fas fa-bars' />
                             </label>
                         </h2>
+                        <Search
+                            endPoint='docs'
+                        />
                         <DarkModeButton />
                     </header>
                     <main className={styles.main}>{children}</main>
