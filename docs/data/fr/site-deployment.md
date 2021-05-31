@@ -54,4 +54,4 @@ Ensuite, suivez ces étapes:
     <li>Après l'importation, Vercel déploiera votre application site et vous fournira une URL de déploiement. Cliquez sur «Visiter» pour voir votre application en production.</li>
 </ol>  
 
-En cas d'échec de compilation de votre site, veuillez suivre cette documentation: <a href="/docs/build-errors">Erreurs de compilation</a>
+En cas d'échec de compilation de votre site, veuillez suivre cette documentation: <a href="/docs/build-errors">Erreurs de compilation</a>.
