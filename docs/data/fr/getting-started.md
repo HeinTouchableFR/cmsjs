@@ -7,13 +7,21 @@ menu: [
                   id: 'page-management',
                   elements: [
                       {
-                          label: 'Créer une nouvelle page',
-                          id: 'create-new-page',
+                            label: 'Créer une nouvelle page',
+                            id: 'create-new-page',
                       },
                       {
-                          label: 'Construire votre première page',
-                          id: 'build-your-first-page',
+                            label: 'Construire votre première page',
+                            id: 'build-your-first-page',
                       },
+                      {
+                            label: 'Prévisualiser et publier sa page',
+                            id: 'preview-publish-page',
+                      },
+                      {
+                            label: 'Rendre sa page responsive',
+                            id: 'make-page-responsive',
+                      },      
                   ],
               },
           ]

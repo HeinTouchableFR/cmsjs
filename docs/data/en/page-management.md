@@ -13,5 +13,9 @@ menu: [
           ]
 inSection: "single"
 backUrl: "/docs/getting-started"
+nextStep: {
+    label: 'Create a new page',
+    id: 'create-new-page'
+}
 ---
 Hello world

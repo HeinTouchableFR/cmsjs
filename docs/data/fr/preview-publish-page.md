@@ -1,5 +1,5 @@
 ---
-name: "Créer une nouvelle page"
+name: "Construire votre première page"
 date: "2021-05-27"
 menu: [
               {
