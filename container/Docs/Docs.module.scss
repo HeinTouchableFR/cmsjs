@@ -99,12 +99,31 @@
   p, li {
     color: var(--color-dark);
     margin: 1rem 0;
+  }
+
+  p {
     text-align: justify;
   }
 
   ul {
     list-style: square;
     padding: 0 40px;
+  }
+
+  ol {
+    padding: 0 20px;
+  }
+
+  required {
+    color: red;
+  }
+
+  optional {
+    color: darkorange;
+  }
+
+  tip {
+    color: dodgerblue;
   }
 
   .sub {

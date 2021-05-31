@@ -3,18 +3,14 @@ name: "Installation"
 date: "2021-05-27"
 menu: [
               {
-                  label: 'Déployer votre site',
+                  label: 'Deploy your site',
                   id: 'site-deployment',
-              },
-              {
-                  label: 'Configurer son serveur de média',
-                  id: 'configure-your-media-server',
               },
           ]
 inSection: false
 backUrl: "/docs"
 nextStep: {
-    label: 'Déployer votre site',
+    label: 'Deploy your site',
     id: 'site-deployment'
 }
 ---

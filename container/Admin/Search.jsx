@@ -61,13 +61,13 @@ export default function Search({ endPoint }) {
             </div>
             { active && results.length > 0 && (
                 <ul className={styles.results}>
-                    {results.map(({ id, name, url }) => (
+                    {results.map(({ id, name }) => (
                         <li
                             className={styles.result}
                             key={id}
                         >
                             <Link
-                                href={`${process.env.SERVER}/${url}`}
+                                href={`${process.env.SERVER}/${endPoint}/${id}`}
                             >
                                 {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                                 <a>{name}</a>

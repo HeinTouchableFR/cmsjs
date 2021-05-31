@@ -1,10 +1,10 @@
 import React from 'react';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
-import { useIntl } from 'react-intl';
+import {useIntl} from 'react-intl';
 import styles from './Docs.module.scss';
 
-export default function InSection({ elements }) {
+export default function InSection({elements}) {
     const intl = useIntl();
 
     return (
@@ -20,30 +20,28 @@ export default function InSection({ elements }) {
                         elements && elements.map((item) => (
                             <div
                                 className={styles.item}
-                                key={item.key}
+                                key={item.id}
                             >
                                 <div className={styles.item_title}>
-                                    <Link href={item.url}>
+                                    <Link href={`${process.env.SERVER}/docs/${item.id}`}>
                                         {/* eslint-disable-next-line max-len */}
                                         {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                                         <a>
-                                            {intl.formatMessage({
-                                                id: `docs.${item.label}`, defaultMessage: item.defaultLabel,
-                                            })}
+                                            {item.label}
                                         </a>
                                     </Link>
                                 </div>
                                 <section className={styles.item_sub_item}>
                                     {
                                         item.elements && item.elements.map((element) => (
-                                            <Link href={element.url} key={element.key}>
+                                            <Link
+                                                href={`${process.env.SERVER}/docs/${element.id}`}
+                                                key={element.id}
+                                            >
                                                 {/* eslint-disable-next-line max-len */}
                                                 {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                                                 <a>
-                                                    {intl.formatMessage({
-                                                        id: `docs.${element.label}`,
-                                                        defaultMessage: element.defaultLabel,
-                                                    })}
+                                                    {element.label}
                                                 </a>
                                             </Link>
                                         ))
@@ -59,6 +57,5 @@ export default function InSection({ elements }) {
 }
 
 InSection.propTypes = {
-    elements: PropTypes.arrayOf(PropTypes.shape({
-    })).isRequired,
+    elements: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
 };

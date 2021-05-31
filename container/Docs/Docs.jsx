@@ -44,8 +44,8 @@ export default function Docs({ menu, backUrl, children }) {
                             )}
                             {/* eslint-disable-next-line react/prop-types */}
                             {menu && menu.map((item) => (
-                                <li key={item.key}>
-                                    <Link href={`${item.url}`}>
+                                <li key={item.id}>
+                                    <Link href={`${process.env.SERVER}/docs/${item.id}`}>
                                         {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                                         <a
                                             className={router.pathname.includes(item.id)
@@ -53,9 +53,7 @@ export default function Docs({ menu, backUrl, children }) {
                                                 : undefined}
                                         >
                                             <span>
-                                                {intl.formatMessage({
-                                                    id: `docs.${item.label}`, defaultMessage: item.defaultLabel,
-                                                })}
+                                                {item.label}
                                             </span>
                                         </a>
                                     </Link>

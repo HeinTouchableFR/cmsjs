@@ -7,7 +7,7 @@ import { Global } from '@emotion/react';
 import RenderPage from 'container/RenderPage/RenderPage';
 import PropTypes from 'prop-types';
 import Footer from 'container/Sites/Footer/Footer';
-import {populatePost} from '../utils/api';
+import { populatePost } from '../utils/api';
 
 export default function Home({ post, templates }) {
     const { value: settings } = useSettings();

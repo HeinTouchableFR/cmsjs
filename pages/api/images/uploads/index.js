@@ -5,6 +5,8 @@ import prisma from 'utils/prisma';
 const path = require('path');
 const FTPStorage = require('multer-ftp');
 
+const url = new URL(process.env.FTP_URL);
+
 const upload = multer({
     storage: new FTPStorage({
         destination: (req, file, options, callback) => {
@@ -12,11 +14,11 @@ const upload = multer({
             callback(null, newName);
         },
         ftp: {
-            host: process.env.FTP_HOST,
-            port: process.env.FTP_PORT,
-            secure: process.env.FTP_TLS === 'true',
-            user: process.env.FTP_USER,
-            password: process.env.FTP_PASS,
+            host: url.host,
+            port: url.port || 21,
+            secure: false,
+            user: url.username,
+            password: url.password,
         },
     }),
 });

@@ -53,14 +53,18 @@ export default NextAuth({
     secret: process.env.SECRET,
     callbacks: {
         async session(session, user) {
-            session.user.role = user.role;
-            session.user.id = user.id;
-            return session;
+            const newSession = session;
+            newSession.user.role = user.role;
+            newSession.user.id = user.id;
+            return newSession;
         },
-        async jwt(token, user, account, profile, isNewUser) {
+        async jwt(token, user) {
             if (user) {
-                token.role = user.role;
-                token.id = user.id;
+                const newToken = token;
+                newToken.role = user.role;
+                newToken.id = user.id;
+
+                return newToken;
             }
             return token;
         },

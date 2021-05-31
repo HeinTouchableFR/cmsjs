@@ -17,13 +17,11 @@ export default function InSectionSingle({ elements }) {
                 <ul>
                     {
                         elements && elements.map((element) => (
-                            <li key={element.key}>
-                                <Link href={element.url}>
+                            <li key={element.id}>
+                                <Link href={`${process.env.SERVER}/docs/${element.id}`}>
                                     {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                                     <a>
-                                        {intl.formatMessage({
-                                            id: `docs.${element.label}`, defaultMessage: element.defaultLabel,
-                                        })}
+                                        {element.label}
                                     </a>
                                 </Link>
                             </li>

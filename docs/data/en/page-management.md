@@ -1,6 +1,17 @@
 ---
 name: "Page management"
-date: "2020-01-01"
-url: "docs/getting-started/page-management"
+date: "2021-05-27"
+menu: [
+              {
+                  label: 'Create a new page',
+                  id: 'create-new-page',
+              },
+              {
+                  label: 'Build your first page',
+                  id: 'build-your-first-page',
+              },
+          ]
+inSection: "single"
+backUrl: "/docs/getting-started"
 ---
 Hello world

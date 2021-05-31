@@ -1,7 +1,30 @@
 ---
 name: "Documentation"
 date: "2021-05-27"
-url: "docs"
+menu: [
+              {
+                  label: 'Installation',
+                  id: 'installation',
+                  elements: [
+                      {
+                          label: 'Déployer votre site',
+                          id: 'site-deployment',
+                      },
+                  ],
+              },
+              {
+                  label: 'Commencer',
+                  id: 'getting-started',
+                  elements: [
+                      {
+                          label: 'Gestion des pages',
+                          id: 'page-management',
+                      },
+                  ],
+              },
+          ]
+inSection: true
+backUrl: ""
 ---
 <center><img src="/logo.png" /></center>
 
