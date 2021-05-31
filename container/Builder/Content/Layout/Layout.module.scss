@@ -1,3 +1,5 @@
+@use "sass:math";
+
 .builder {
 
   .layout__settings {
@@ -246,7 +248,7 @@
       @for $i from 1 through 6 {
         &:first-child:nth-last-child(#{$i}),
         &:first-child:nth-last-child(#{$i}) ~ .column {
-          width: 100% / $i;
+          width: math.div(100%, $i);
         }
       }
     }
