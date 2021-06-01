@@ -15,12 +15,10 @@ export default function Header({ children,
     const [params] = useState(template.params ? JSON.parse(template.params) : []);
     const [siteName, setSiteName] = useState('');
     const [logo, setLogo] = useState('');
-    const [locale, setLocale] = useState('en-US');
 
     useEffect(() => {
         if (settings.settings) {
             setSiteName(settings.settings.find((x) => x.data === 'sitename')?.value);
-            setLocale(settings.settings.find((x) => x.data === 'locale')?.value);
 
             const logoSetting = settings.settings.find((x) => x.data === 'logo');
             if (logoSetting) {
@@ -30,8 +28,8 @@ export default function Header({ children,
     }, [settings]);
 
     useEffect(() => {
-        document.documentElement.lang = locale;
-    }, [locale]);
+        document.documentElement.lang = process.env.LOCALE;
+    }, [process.env.LOCALE]);
 
     const Sticky = styled.div({
         position: 'sticky',
@@ -73,7 +71,7 @@ export default function Header({ children,
                 />
                 <meta
                     name='language'
-                    content={locale}
+                    content={process.env.LOCALE}
                 />
                 <meta
                     name='description'
@@ -81,7 +79,7 @@ export default function Header({ children,
                 />
                 <meta
                     property='og:locale'
-                    content={locale}
+                    content={process.env.LOCALE}
                 />
                 <meta
                     property='og:type'
@@ -148,7 +146,7 @@ export default function Header({ children,
                                     logo: {
                                         '@type': 'ImageObject',
                                         '@id': `${process.env.SERVER}/#logo`,
-                                        inLanguage: `${locale}`,
+                                        inLanguage: `${process.env.LOCALE}`,
                                         url: `${logo}`,
                                         contentUrl: `${logo}`,
                                         caption: `${siteName}`,
@@ -173,12 +171,12 @@ export default function Header({ children,
                                             'query-input': 'required name=search_term_string',
                                         },
                                     ],
-                                    inLanguage: `${locale}`,
+                                    inLanguage: `${process.env.LOCALE}`,
                                 },
                                 {
                                     '@type': 'ImageObject',
                                     '@id': `${process.env.SERVER}/#primaryimage`,
-                                    inLanguage: `${locale}`,
+                                    inLanguage: `${process.env.LOCALE}`,
                                     url: `${logo}`,
                                     contentUrl: `${logo}`,
                                 },
@@ -203,7 +201,7 @@ export default function Header({ children,
                                     breadcrumb: {
                                         '@id': `${process.env.SERVER}/#breadcrumb`,
                                     },
-                                    inLanguage: `${locale}`,
+                                    inLanguage: `${process.env.LOCALE}`,
                                     potentialAction: [
                                         {
                                             '@type': 'ReadAction',

@@ -183,6 +183,8 @@
     "published": "Published",
     "send": "Send",
     "settings": "Settings",
+    "settings.general": "General",
+    "settings.socials": "Socials",
     "sitename": "Site name",
     "slug": "Slug",
     "slug.error": "The slug {slug} is already defined",

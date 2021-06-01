@@ -30,7 +30,6 @@ export default function Install() {
     });
     const [loading, setLoading] = useState(false);
     const [step, setStep] = useState('installation');
-    const [locale, setLocale] = useState('installation');
 
     useEffect(() => {
         if (install && install.success) {
@@ -39,15 +38,6 @@ export default function Install() {
             }
         }
     }, [install]);
-
-    useEffect(() => {
-        if (typeof window !== 'undefined') {
-            setLocale(window.navigator.language.substr(0, 2));
-            if (router.locale !== router.defaultLocale) {
-                setLocale(router.locale.substr(0, 2));
-            }
-        }
-    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -68,7 +58,6 @@ export default function Install() {
                 instagram: form.instagram,
                 linkedin: form.linkedin,
                 twitter: form.twitter,
-                locale,
                 title: JSON.stringify(intl.formatMessage({
                     id: 'default.title',
                     defaultMessage: 'Welcome to the home page of your site',

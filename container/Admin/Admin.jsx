@@ -129,6 +129,20 @@ export default function Admin({ children }) {
                                     </a>
                                 </Link>
                             </li>
+                            <li>
+                                <Link href={`${process.env.SERVER}/admin/settings`}>
+                                    {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+                                    <a className={router.pathname.includes('settings') ? styles.active : undefined}>
+                                        <span className='fas fa-cogs' />
+                                        <span>
+                                            <FormattedMessage
+                                                id='settings'
+                                                defaultMessage='Settings'
+                                            />
+                                        </span>
+                                    </a>
+                                </Link>
+                            </li>
                         </ul>
                     </div>
                     <div className={styles.sidebar_footer}>
@@ -144,7 +158,7 @@ export default function Admin({ children }) {
                                 </span>
                             </a>
                         </Link>
-                        <span className={styles.sidebar_version}>V1.0.0</span>
+                        <span className={styles.sidebar_version}>v{process.env.npm_package_version}</span>
                     </div>
                 </div>
                 <div className={styles.main_content}>

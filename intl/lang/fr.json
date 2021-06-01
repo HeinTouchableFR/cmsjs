@@ -183,6 +183,8 @@
     "published": "Publiée",
     "send": "Envoyer",
     "settings": "Réglages",
+    "settings.general": "Général",
+    "settings.socials": "Réseaux sociaux",
     "sitename": "Nom du site",
     "slug": "Slug",
     "slug.error": "Le slug {slug} est déjà défini",
