@@ -8,6 +8,7 @@ import DarkModeButton from 'components/Button/DarkModeButton/DarkModeButton';
 import { useSettings } from 'context/settings';
 import { useSession } from 'next-auth/client';
 import PropTypes from 'prop-types';
+import { version } from 'package';
 import styles from './Admin.module.scss';
 import Search from './Search';
 
@@ -158,7 +159,10 @@ export default function Admin({ children }) {
                                 </span>
                             </a>
                         </Link>
-                        <span className={styles.sidebar_version}>v{process.env.npm_package_version}</span>
+                        <span className={styles.sidebar_version}>
+                            v
+                            {version}
+                        </span>
                     </div>
                 </div>
                 <div className={styles.main_content}>
