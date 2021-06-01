@@ -1,6 +1,10 @@
 .fileManager_btn {
   cursor: pointer;
-  position: relative;
+  position: relative;;
+  margin: 0 0 1rem;
+  max-width: 50em;
+  border: solid 1px var(--color-gray);
+  border-radius: 0.3rem;
 }
 
 .preview {

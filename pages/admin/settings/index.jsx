@@ -13,12 +13,13 @@ import Input from 'components/Form/Input/Input';
 import Button from 'components/Button/Button';
 import TextArea from 'components/Form/TextArea/TextArea';
 import FileManager from 'components/FileManager/FileManager';
+import Field from '../../../components/Form/Field/Field';
 
 export default function Index({ settings, pages, images, templates, errors }) {
     const intl = useIntl();
     const [indexErrors, setIndexErrors] = useState(errors);
     const [session] = useSession();
-    const [allImages, setImages] = useState(images)
+    const [allImages, setImages] = useState(images);
     const [generalForm, setGeneralForm] = useState({
         sitename: {
             type: 'value',
@@ -34,7 +35,7 @@ export default function Index({ settings, pages, images, templates, errors }) {
         },
     });
     const [socialForm, setSocialForm] = useState({
-        facebook:{
+        facebook: {
             type: 'value',
             value: settings.find((x) => x.data === 'facebook').value,
         },
@@ -143,7 +144,7 @@ export default function Index({ settings, pages, images, templates, errors }) {
             }),
             render: () => (
                 <Tab.Pane>
-                    <form onSubmit={handleSubmitGeneral}>
+                    <form>
                         <Input
                             name='sitename'
                             defaultValue={generalForm.sitename.value}
@@ -162,18 +163,29 @@ export default function Index({ settings, pages, images, templates, errors }) {
                             required
                             onChange={handleGeneralChange}
                         />
-                        <FileManager
-                            images={allImages}
-                            setImages={setImages}
-                            currentFiles={generalForm.logo.image ? [generalForm.logo.image] : []}
-                            setCurrentFiles={handleLogoChange}
-                            multiple={false}
-                        />
+                        <Field
+                            label={intl.formatMessage({
+                                id: 'logo',
+                                defaultMessage: 'Logo',
+                            })}
+                            name='logo'
+                        >
+                            <FileManager
+                                images={allImages}
+                                setImages={setImages}
+                                currentFiles={generalForm.logo.image
+                                    ? [generalForm.logo.image]
+                                    : []}
+                                setCurrentFiles={handleLogoChange}
+                                multiple={false}
+                            />
+                        </Field>
                         <Button
                             label={intl.formatMessage({
                                 id: 'update', defaultMessage: 'Update',
                             })}
                             loading={loading}
+                            onClick={handleSubmitGeneral}
                             type='submit'
                         />
                     </form>
@@ -187,7 +199,7 @@ export default function Index({ settings, pages, images, templates, errors }) {
             }),
             render: () => (
                 <Tab.Pane>
-                    <form onSubmit={handleSubmitSocials}>
+                    <form>
                         <Input
                             name='facebook'
                             defaultValue={socialForm.facebook.value}
@@ -221,6 +233,7 @@ export default function Index({ settings, pages, images, templates, errors }) {
                                 id: 'update', defaultMessage: 'Update',
                             })}
                             loading={loading}
+                            onClick={handleSubmitSocials}
                             type='submit'
                         />
                     </form>

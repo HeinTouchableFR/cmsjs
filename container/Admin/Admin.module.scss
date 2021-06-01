@@ -221,6 +221,7 @@
   left: 345px;
   width: calc(100% - 345px);
   top: 0;
+  z-index: 100;
   background: var(--color-card);
   transition: left 0.3s, width 0.3s;
 

@@ -1,6 +1,7 @@
 .field {
-  clear: both;
+  clear: both;;
   margin: 0 0 1rem;
+  max-width: 50em;
 
   .label {
     display: block;
@@ -9,7 +10,6 @@
     font-weight: 600;
     font-family: 'Poppins', sans-serif;
     color: var(--color-dark);
-    text-decoration: underline;
 
     .subLabel {
       float: right;
@@ -26,10 +26,4 @@
       }
     }
   }
-}
-
-
-
-.ui {
-  padding-top: 1rem;
 }

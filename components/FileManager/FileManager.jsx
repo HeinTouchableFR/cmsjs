@@ -69,6 +69,7 @@ export default function FileManager({ multiple = false,
         const f = new FormData(e.target);
         if (f.get('files').name !== '') {
             const items = await create(f);
+            console.log([...items, ...images])
             setImages([...items, ...images]);
             multiple ? handleSelectFiles(items) : handleSelectFiles([items[0]]);
             setSecondOpen(false);

@@ -1,12 +1,17 @@
 .fileManager_btn {
   cursor: pointer;
-  position: relative;
+  position: relative;;
+  margin: 0 0 1rem;
+  max-width: 50em;
+  border: solid 1px var(--color-gray);
+  border-radius: 0.3rem;
 }
 
 .preview {
   padding-bottom: 42.8571%;
-  background-size: cover !important;
+  background-size: contain!important;
   background-position: 50% !important;
+  background-repeat: no-repeat!important;
 }
 
 .preview__action {
