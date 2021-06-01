@@ -131,6 +131,21 @@ export default function Admin({ children }) {
                             </li>
                         </ul>
                     </div>
+                    <div className={styles.sidebar_footer}>
+                        <Link href={`${process.env.SERVER}/docs`}>
+                            {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+                            <a>
+                                <span className='far fa-question-circle' />
+                                <span>
+                                    <FormattedMessage
+                                        id='docs'
+                                        defaultMessage='Documentation'
+                                    />
+                                </span>
+                            </a>
+                        </Link>
+                        <span className={styles.sidebar_version}>V1.0.0</span>
+                    </div>
                 </div>
                 <div className={styles.main_content}>
                     <header className={styles.header}>

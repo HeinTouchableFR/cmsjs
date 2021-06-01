@@ -2,7 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
 import {useIntl} from 'react-intl';
-import styles from './Docs.module.scss';
+import styles from 'container/Admin/Admin.module.scss';
 
 export default function InSection({elements}) {
     const intl = useIntl();

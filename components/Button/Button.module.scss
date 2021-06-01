@@ -1,9 +1,9 @@
 @import "style/tools/mixins";
 
 .button {
-    background: var(--color-contrast);
+    background: var(--color-contrast)!important;
     border-radius: 10px;
-    color: var(--color-light);
+    color: var(--color-light)!important;
     font-size: .8rem;
     font-weight: 500;
     padding: .5rem 1rem;
@@ -13,16 +13,16 @@
     transition: color .2s, background-color .2s;
 
     &:hover {
-        color: var(--color-contrast);
-        background: var(--color-light);
+        color: var(--color-contrast)!important;
+        background: var(--color-light)!important;
     }
 
     span {
         margin-left: .5rem;
     }
     &:disabled {
-        background: var(--color-gray);
-        color: var(--color-dark);
+        background: var(--color-gray)!important;
+        color: var(--color-dark)!important;
         border: 1px solid var(--color-gray);
     }
 }

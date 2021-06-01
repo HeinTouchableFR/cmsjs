@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import DarkModeButton from 'components/Button/DarkModeButton/DarkModeButton';
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
-import styles from './Docs.module.scss';
+import styles from 'container/Admin/Admin.module.scss';
 import Search from '../Admin/Search';
 
 export default function Docs({ menu, backUrl, children }) {
@@ -25,7 +25,7 @@ export default function Docs({ menu, backUrl, children }) {
                             Documentation
                         </h2>
                     </div>
-                    <div className={styles.sidebar_menu}>
+                    <div className={`${styles.sidebar_menu} ${styles.sidebar_menu_doc}`}>
                         <ul>
                             {backUrl && (
                                 <li key='back'>
