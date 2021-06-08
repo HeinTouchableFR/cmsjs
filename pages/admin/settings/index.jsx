@@ -13,7 +13,8 @@ import Input from 'components/Form/Input/Input';
 import Button from 'components/Button/Button';
 import TextArea from 'components/Form/TextArea/TextArea';
 import FileManager from 'components/FileManager/FileManager';
-import Field from '../../../components/Form/Field/Field';
+import Field from 'components/Form/Field/Field';
+import Dropdown from '../../../components/Form/Dropdown/Dropdown';
 
 export default function Index({ settings, pages, images, templates, errors }) {
     const intl = useIntl();
@@ -52,6 +53,20 @@ export default function Index({ settings, pages, images, templates, errors }) {
             value: settings.find((x) => x.data === 'instagram').value,
         },
     });
+    const [readingForm, setReadingForm] = useState({
+        homepage: {
+            type: 'page',
+            value: settings.find((x) => x.data === 'homepage').page.id,
+        },
+        header: {
+            type: 'template',
+            value: settings.find((x) => x.data === 'header').template.id,
+        },
+        footer: {
+            type: 'template',
+            value: settings.find((x) => x.data === 'footer').template.id,
+        },
+    });
     const [loading, setLoading] = useState(false);
 
     const handleSocialsChange = (_e, data) => {
@@ -74,6 +89,17 @@ export default function Index({ settings, pages, images, templates, errors }) {
             },
         };
         setGeneralForm(updated);
+    };
+
+    const handleReadingChange = (_e, data) => {
+        const updated = {
+            ...readingForm,
+            [data.name]: {
+                ...readingForm[data.name],
+                value: data.value,
+            },
+        };
+        setReadingForm(updated);
     };
 
     const handleLogoChange = (file) => {
@@ -136,6 +162,55 @@ export default function Index({ settings, pages, images, templates, errors }) {
         setLoading(false);
     };
 
+    const handleSubmitReading = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+        const resSocials = await fetch('/api/settings', {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            credentials: 'same-origin',
+            method: 'PUT',
+            body: JSON.stringify({
+                homepage: readingForm.homepage,
+                header: readingForm.header,
+                footer: readingForm.footer,
+            }),
+        });
+        const data = await resSocials.json();
+        if (!data.success) {
+            setIndexErrors([data.errors]);
+        } else {
+            window.location.assign('/admin/settings');
+        }
+        setLoading(false);
+    };
+
+    const pageOptions = [];
+    pages.map((item) => pageOptions.push({
+        key: item.id.toString(), text: item.title, value: item.id.toString(),
+    }));
+
+    const templateHeaderOptions = [];
+    templates.map((item) => {
+        if (item.type === 'header') {
+            return templateHeaderOptions.push({
+                key: item.id.toString(), text: item.name, value: item.id.toString(),
+            });
+        }
+        return null;
+    });
+
+    const templateFooterOptions = [];
+    templates.map((item) => {
+        if (item.type === 'footer') {
+            return templateFooterOptions.push({
+                key: item.id.toString(), text: item.name, value: item.id.toString(),
+            });
+        }
+        return null;
+    });
+
     const panes = [
         {
             label: intl.formatMessage({
@@ -186,6 +261,59 @@ export default function Index({ settings, pages, images, templates, errors }) {
                             })}
                             loading={loading}
                             onClick={handleSubmitGeneral}
+                            type='submit'
+                        />
+                    </form>
+                </Tab.Pane>
+            ),
+        },
+        {
+            label: intl.formatMessage({
+                id: 'settings.reading',
+                defaultMessage: 'Reading',
+            }),
+            render: () => (
+                <Tab.Pane>
+                    <form>
+                        <Dropdown
+                            label={intl.formatMessage({
+                                id: 'settings.homepage', defaultMessage: 'Home page',
+                            })}
+                            name='homepage'
+                            defaultValue={readingForm.homepage.value.toString()}
+                            required
+                            options={pageOptions}
+                            onChange={handleReadingChange}
+                            notClearable
+                        />
+                        <Dropdown
+                            label={intl.formatMessage({
+                                id: 'settings.header', defaultMessage: 'Header',
+                            })}
+                            name='header'
+                            defaultValue={readingForm.header.value.toString()}
+                            required
+                            options={templateHeaderOptions}
+                            onChange={handleReadingChange}
+                            notClearable
+                        />
+                        <Dropdown
+                            label={intl.formatMessage({
+                                id: 'settings.footer', defaultMessage: 'Footer',
+                            })}
+                            name='footer'
+                            defaultValue={readingForm.footer.value.toString()}
+                            required
+                            options={templateFooterOptions}
+                            onChange={handleReadingChange}
+                            notClearable
+                        />
+                        <Button
+                            label={intl.formatMessage({
+                                id: 'update', defaultMessage: 'Update',
+                            })}
+                            loading={loading}
+                            onClick={handleSubmitReading}
                             type='submit'
                         />
                     </form>

@@ -15,6 +15,7 @@ const handler = async (req, res) => {
                 include: {
                     image: true,
                     template: true,
+                    page: true,
                 },
             });
             res.status(200).json({
@@ -52,27 +53,27 @@ const handler = async (req, res) => {
                         }
                         break;
                     case 'page':
-                        if (value.page) {
+                        if (value.value) {
                             data.page = {
                                 connect: {
-                                    id: value.page.id,
+                                    id: parseInt(value.value, 10),
                                 },
                             };
                         } else {
-                            data.image = {
+                            data.page = {
                                 disconnect: true,
                             };
                         }
                         break;
                     case 'template':
-                        if (value.template) {
+                        if (value.value) {
                             data.template = {
                                 connect: {
-                                    id: value.template.id,
+                                    id: parseInt(value.value, 10),
                                 },
                             };
                         } else {
-                            data.image = {
+                            data.template = {
                                 disconnect: true,
                             };
                         }

@@ -17,6 +17,7 @@ export default function Dropdown({ name,
     tip,
     tipWidth,
     onChange,
+    notClearable,
     searchable }) {
     const wrapperRef = useRef(null);
     const inputRef = useRef(null);
@@ -122,7 +123,7 @@ export default function Dropdown({ name,
                             {options.map((option) => option.value === value && option.text)}
                         </div>
                     )}
-                    {value === '' || value.length === 0 ? (
+                    {value === '' || value.length === 0 || notClearable ? (
                         <i
                             className={`fas fa-caret-down ${styles.dropdown} ${styles.icon}`}
                         />
@@ -175,6 +176,7 @@ Dropdown.propTypes = {
     tip: PropTypes.string,
     tipWidth: PropTypes.number,
     iconTip: PropTypes.string,
+    notClearable: PropTypes.bool,
 };
 
 Dropdown.defaultProps = {
@@ -187,4 +189,5 @@ Dropdown.defaultProps = {
     tip: '',
     tipWidth: null,
     iconTip: 'fa-question-circle',
+    notClearable: false,
 };
