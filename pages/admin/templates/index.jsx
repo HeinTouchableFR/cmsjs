@@ -61,6 +61,11 @@ export default function Index({ items, errors }) {
                                 title={intl.formatMessage({
                                     id: 'templates', defaultMessage: 'Templates',
                                 })}
+                                buttonLabel={intl.formatMessage({
+                                    id: 'add', defaultMessage: 'Add',
+                                })}
+                                buttonAction='/admin/templates/add'
+                                buttonIcon='fas fa-plus'
                             />
                             <Card.Body>
                                 <Table labels={labels}>

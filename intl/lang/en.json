@@ -202,6 +202,7 @@
     "title.default": "My great title",
     "title.tooltip": "To create wonderful title",
     "title": "Title",
+    "template.type": "Template type",
     "used.filter": "Use the attribute as a product search filter",
     "used.variations": "Used for variations",
     "update": "Update",

@@ -103,7 +103,7 @@ export default function Edit({ item, errors, images, templates }) {
         <>
             {session && (
             <BuilderProvider
-                page={post}
+                post={post}
                 components={defaultComponents.pageComponents(intl)}
             >
                 <Head>

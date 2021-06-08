@@ -3,31 +3,32 @@ import React, {
 } from 'react';
 import { useIntl } from 'react-intl';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import nookies from 'nookies';
 import Builder from 'container/Builder/Builder';
 import defaultComponents from 'variables/components';
-import { BuilderProvider } from 'context/builder';
 import PropTypes from 'prop-types';
 import {
     getSession, signIn, useSession,
 } from 'next-auth/client';
+import { BuilderProvider } from 'context/builder';
 
-export default function Edit({ item, images, errors }) {
+export default function Add({ images, errors, templates }) {
     const intl = useIntl();
 
-    const [post, setPost] = useState(item);
     const [imagesList, setImagesList] = useState(JSON.parse(images));
     const [loading, setLoading] = useState(false);
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    const [formErrors, setformErrors] = useState({
-    });
-    const [builderErrors, setBuilderErrors] = useState(errors);
-    const [content, setContent] = useState('');
+    const router = useRouter();
     const [session] = useSession();
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [builderErrors, setBuilderErrors] = useState(errors);
+    const [formErrors, setFormErrors] = useState({
+    });
+    const [content, setContent] = useState('');
 
-    useEffect(() => {
+    useEffect(async () => {
         if (!session) {
-            signIn();
+            await signIn();
         }
     }, [session]);
 
@@ -44,14 +45,14 @@ export default function Edit({ item, images, errors }) {
             data,
             params,
         });
-        validate(e.slug).then((errs) => setformErrors(errs));
+        validate(e.slug).then((errs) => setFormErrors(errs));
         setIsSubmitting(true);
     };
 
-    const update = async () => {
+    const create = async () => {
         setLoading(true);
         try {
-            const res = await fetch(`/api/templates/${item.id}`, {
+            const res = await fetch('/api/templates', {
                 body: JSON.stringify({
                     name: content.name,
                     type: content.type,
@@ -61,16 +62,14 @@ export default function Edit({ item, images, errors }) {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                credentials: 'same-origin',
-                method: 'PUT',
+                method: 'POST',
             });
 
             const result = await res.json();
-            if (result.success) {
-                setPost(result.data);
-            } else {
+            if (!result.success) {
                 setBuilderErrors([result.errors]);
             }
+            await router.push(`/admin/templates/${result.data.id}`);
         } catch (err) {
             setBuilderErrors([err]);
         }
@@ -80,7 +79,7 @@ export default function Edit({ item, images, errors }) {
     useEffect(async () => {
         if (isSubmitting) {
             if (Object.keys(formErrors).length === 0) {
-                await update();
+                await create();
             } else {
                 setIsSubmitting(false);
             }
@@ -89,44 +88,42 @@ export default function Edit({ item, images, errors }) {
 
     return (
         <>
+            {session && (
             <BuilderProvider
-                post={post}
                 components={defaultComponents.templateComponents(intl)}
                 builderMode='template'
             >
                 <Head>
                     <title>
                         {intl.formatMessage({
-                            id: 'page.edit', defaultMessage: 'Edit',
+                            id: 'page.addNew', defaultMessage: 'Add a new page',
                         })}
-                        {': '}
-                        {item.name}
                     </title>
                 </Head>
                 <Builder
-                    loading={loading}
                     onSubmit={onSubmit}
-                    setImages={setImagesList}
+                    loading={loading}
                     images={imagesList}
+                    setImages={setImagesList}
                     formErrors={formErrors}
                     errors={builderErrors}
+                    templates={templates}
                 />
             </BuilderProvider>
+            )}
         </>
     );
 }
 
-Edit.propTypes = {
-    item: PropTypes.shape({
-        id: PropTypes.number.isRequired,
-        name: PropTypes.string,
-    }).isRequired,
+Add.propTypes = {
     images: PropTypes.string.isRequired,
     errors: PropTypes.oneOfType([
         PropTypes.shape({
         }),
         PropTypes.arrayOf(PropTypes.shape({
         })),
+    ]).isRequired,
+    templates: PropTypes.shape([
     ]).isRequired,
 };
 
@@ -144,31 +141,13 @@ export async function getServerSideProps(ctx) {
         };
     }
     const cookies = nookies.get(ctx);
-    const token = process.env.NODE_ENV === 'production' ? cookies['__Secure-next-auth.session-token'] : cookies['next-auth.session-token']
+    const token = process.env.NODE_ENV === 'production' ? cookies['__Secure-next-auth.session-token'] : cookies['next-auth.session-token'];
 
-    const { id } = ctx.params;
-    let item = {
-    };
-    let images = [];
     const errors = [];
+    let images = [];
+    let templates = [];
 
     if (token) {
-        const resItem = await fetch(`${process.env.SERVER}/api/templates/${id}`, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-            credentials: 'same-origin',
-        });
-        const dataItem = await resItem.json();
-        if (dataItem.success) {
-            item = dataItem.data;
-        } else {
-            errors.push({
-                ...dataItem.errors,
-                request: `${process.env.SERVER}/api/templates/${id}`,
-            });
-        }
-
         const resImages = await fetch(`${process.env.SERVER}/api/images`, {
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -184,13 +163,21 @@ export async function getServerSideProps(ctx) {
                 request: `${process.env.SERVER}/api/images`,
             });
         }
+
+        const resTemplates = await fetch(`${process.env.SERVER}/api/templates/getHeaderFooter`, {
+            credentials: 'same-origin',
+        });
+        const dataTemplates = await resTemplates.json();
+        if (dataTemplates.success && dataTemplates.data) {
+            templates = dataTemplates.data;
+        }
     }
 
     return {
         props: {
-            item,
-            errors,
             images: JSON.stringify(images),
+            errors,
+            templates,
             session,
         },
     };

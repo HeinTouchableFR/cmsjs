@@ -36,6 +36,7 @@ export default function Animations({ item, device, setItem, onChange }) {
                         defaultMessage: 'Entrance Animation',
                     })}
                     searchable
+                    notClearable
                 />
                 <Dropdown
                     name='duration'
@@ -47,6 +48,7 @@ export default function Animations({ item, device, setItem, onChange }) {
                         defaultMessage: 'Duration',
                     })}
                     searchable
+                    notClearable
                 />
                 <Input
                     label={

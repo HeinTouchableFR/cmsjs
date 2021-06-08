@@ -202,6 +202,7 @@
     "title.tooltip": "Pour créer des super titres",
     "title": "Titre",
     "title.default": "Mon super titre",
+    "template.type": "Type de template",
     "used.filter": "Utiliser l'attribut comme un filtre de recherche de produits",
     "used.variations": "Utilisé pour les variations",
     "update": "Mettre à jour",

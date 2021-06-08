@@ -26,20 +26,23 @@ export default function Navigation({ onSubmit,
     formErrors,
     errors }) {
     const intl = useIntl();
-    const { page,
+    const { post,
         layouts,
         params,
         currentElement,
         components,
         device,
         mode,
+        type,
+        setType,
         setParams,
         setDevice } = useBuilder();
 
     const [form, setForm] = useState({
-        title: page.title || '',
-        slug: page.slug || '',
-        description: page.description || '',
+        title: post.title || post.name || '',
+        slug: post.slug || '',
+        type,
+        description: post.description || '',
     });
     const [activeIndex, setActiveIndex] = useState(0);
     const handleTabChange = (index) => {
@@ -87,6 +90,10 @@ export default function Navigation({ onSubmit,
                 ...form,
                 [data.name]: slugify(data.value),
             });
+        }
+
+        if (data.name === 'type') {
+            setType(data.value);
         }
     };
 
@@ -239,14 +246,21 @@ export default function Navigation({ onSubmit,
         }
 
         if (mode === 'page') {
-            return !(form.title !== page.title)
-                && !(form.slug !== page.slug)
-                && !(form.description !== page.description)
-                && !(params.background !== JSON.parse(page.params).background)
-                && page.content === JSON.stringify(layouts);
+            return !(form.title !== post.title)
+                && !(form.slug !== post.slug)
+                && !(form.description !== post.description)
+                && !(params.background !== JSON.parse(post.params).background)
+                && post.content === JSON.stringify(layouts);
         }
-        return page.content === JSON.stringify(layouts)
-                && !(params.background !== JSON.parse(page.params).background);
+
+        if (mode === 'template') {
+            return !(form.title !== post.name)
+                && !(params.background !== JSON.parse(post.params).background)
+                && post.content === JSON.stringify(layouts);
+        }
+
+        return post.content === JSON.stringify(layouts)
+            && !(params.background !== JSON.parse(post.params).background);
     };
 
     const handleColorChange = (color) => {
@@ -288,9 +302,6 @@ export default function Navigation({ onSubmit,
                                     label={intl.formatMessage({
                                         id: 'title', defaultMessage: 'Title',
                                     })}
-                                    placeholder={intl.formatMessage({
-                                        id: 'title', defaultMessage: 'Title',
-                                    })}
                                     required
                                     name='title'
                                     defaultValue={form.title}
@@ -299,9 +310,6 @@ export default function Navigation({ onSubmit,
                                 />
                                 <Input
                                     label={intl.formatMessage({
-                                        id: 'slug', defaultMessage: 'Slug',
-                                    })}
-                                    placeholder={intl.formatMessage({
                                         id: 'slug', defaultMessage: 'Slug',
                                     })}
                                     required
@@ -317,6 +325,46 @@ export default function Navigation({ onSubmit,
                                     name='description'
                                     defaultValue={form.description}
                                     onChange={handleChange}
+                                />
+                            </>
+                        )}
+                        {mode === 'template' && (
+                            <>
+                                <Input
+                                    label={intl.formatMessage({
+                                        id: 'title', defaultMessage: 'Title',
+                                    })}
+                                    required
+                                    name='title'
+                                    defaultValue={form.title}
+                                    onChange={handleChange}
+                                    error={formErrors.title}
+                                />
+                                <Dropdown
+                                    label={intl.formatMessage({
+                                        id: 'template.type', defaultMessage: 'Template type',
+                                    })}
+                                    required
+                                    name='type'
+                                    defaultValue={form.type}
+                                    onChange={handleChange}
+                                    notClearable
+                                    options={[
+                                        {
+                                            key: 'header',
+                                            text: intl.formatMessage({
+                                                id: 'settings.header', defaultMessage: 'Header',
+                                            }),
+                                            value: 'header',
+                                        },
+                                        {
+                                            key: 'footer',
+                                            text: intl.formatMessage({
+                                                id: 'settings.footer', defaultMessage: 'Footer',
+                                            }),
+                                            value: 'footer',
+                                        },
+                                    ]}
                                 />
                             </>
                         )}
@@ -346,7 +394,7 @@ export default function Navigation({ onSubmit,
                 <div className={`${styles.actions}`}>
                     <DarkModeButton />
                     <Button
-                        label={page.content !== '[]'
+                        label={post.content !== '[]'
                             ? intl.formatMessage({
                                 id: 'update', defaultMessage: 'Update',
                             })

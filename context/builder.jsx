@@ -4,7 +4,7 @@ import React, {
 import PropTypes from 'prop-types';
 
 const Builder = createContext({
-    page: {
+    post: {
     },
     type: 'page',
     mode: 'page',
@@ -36,7 +36,7 @@ const Builder = createContext({
     onDragEnd: () => {},
 });
 
-export function BuilderProvider({ page, components, builderMode, children }) {
+export function BuilderProvider({ post, components, builderMode, children }) {
     function reducer(state, action) {
         switch (action.type) {
         case 'ADD':
@@ -58,10 +58,10 @@ export function BuilderProvider({ page, components, builderMode, children }) {
     }
 
     const [layouts, dispatch] = useReducer(reducer, {
-        items: JSON.parse(page.content),
+        items: JSON.parse(post.content),
     });
 
-    const [params, setParams] = useState(JSON.parse(page.params));
+    const [params, setParams] = useState(JSON.parse(post.params));
 
     const [currentElement, setCurrentElementState] = useState({
     });
@@ -74,7 +74,7 @@ export function BuilderProvider({ page, components, builderMode, children }) {
 
     const [device, setDevice] = useState('desktop');
     const [mode, setMode] = useState(builderMode || 'page');
-    const type = page.type ? page.type : 'page';
+    const [type, setType] = useState(builderMode === 'template' ? post.type || 'header' : 'page');
 
     /**
      *
@@ -619,8 +619,9 @@ export function BuilderProvider({ page, components, builderMode, children }) {
     };
 
     const value = useMemo(() => ({
-        page,
+        post,
         type,
+        setType,
         layouts: layouts.items,
         components,
         params,
@@ -642,7 +643,7 @@ export function BuilderProvider({ page, components, builderMode, children }) {
         updateElement,
         onDragEnd,
         showAnimation,
-    }), [layouts, params, currentElement, device, portal, menus]);
+    }), [layouts, params, currentElement, device, portal, menus, type]);
 
     return (
         <Builder.Provider
@@ -656,7 +657,7 @@ export function BuilderProvider({ page, components, builderMode, children }) {
 export const useBuilder = () => useContext(Builder);
 
 BuilderProvider.propTypes = {
-    page: PropTypes.shape({
+    post: PropTypes.shape({
         content: PropTypes.string,
         params: PropTypes.string,
         type: PropTypes.string,
@@ -673,7 +674,7 @@ BuilderProvider.propTypes = {
 };
 
 BuilderProvider.defaultProps = {
-    page: {
+    post: {
         title: '',
         slug: '',
         content: '[]',

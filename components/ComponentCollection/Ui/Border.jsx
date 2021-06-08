@@ -58,6 +58,7 @@ export default function Border({ item,
                             defaultMessage: 'Border type',
                         })}
                         searchable
+                        notClearable
                     />
                     <ColorPicker
                         defaultColor={item.content[device].styles.border.normal.color}
@@ -244,6 +245,7 @@ export default function Border({ item,
                             defaultMessage: 'Border type',
                         })}
                         searchable
+                        notClearable
                     />
                     <ColorPicker
                         defaultColor={item.content[device].styles.border.hover.color}

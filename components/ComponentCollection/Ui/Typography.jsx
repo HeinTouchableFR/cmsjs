@@ -136,6 +136,7 @@ export default function Typography({ item, device, setItem, onChange }) {
                         defaultMessage: 'Font family',
                     })}
                     searchable
+                    notClearable
                 />
                 <Dropdown
                     name='weight'
@@ -147,6 +148,7 @@ export default function Typography({ item, device, setItem, onChange }) {
                         defaultMessage: 'Font weight',
                     })}
                     searchable
+                    notClearable
                 />
                 <Dropdown
                     name='transform'
@@ -158,6 +160,7 @@ export default function Typography({ item, device, setItem, onChange }) {
                         defaultMessage: 'Transform',
                     })}
                     searchable
+                    notClearable
                 />
                 <Dropdown
                     name='style'
@@ -169,6 +172,7 @@ export default function Typography({ item, device, setItem, onChange }) {
                         defaultMessage: 'Style',
                     })}
                     searchable
+                    notClearable
                 />
                 <Dropdown
                     name='decoration'

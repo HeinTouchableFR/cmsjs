@@ -1,8 +1,10 @@
 import prisma from 'utils/prisma';
 import jwt from 'next-auth/jwt';
+import { populatePost } from 'utils/api';
 
 const handler = async (req, res) => {
-    const { method } = req;
+    const { query: { id },
+        method } = req;
     const token = await jwt.getToken({
         req, secret: process.env.SECRET,
     });
@@ -12,15 +14,46 @@ const handler = async (req, res) => {
     case 'GET':
         try {
             if (token && authorized.includes(token.role)) {
-                const data = await prisma.templates.findMany({
-                    orderBy: [
-                        {
-                            name: 'asc',
-                        },
-                        {
-                            type: 'asc',
-                        },
-                    ],
+                let data = await prisma.templates.findUnique({
+                    where: {
+                        id: parseInt(id, 10),
+                    },
+                });
+                data = await populatePost(data, 'preview');
+
+                res.status(200).json({
+                    success: true, data,
+                });
+            } else {
+                res.status(401).json({
+                    success: false,
+                    errors: {
+                        status: 401,
+                        code: 1,
+                        message: 'Unauthorized',
+                    },
+                });
+            }
+        } catch (e) {
+            res.status(400).json({
+                success: false,
+                errors: e,
+            });
+        }
+        break;
+    case 'PUT':
+        try {
+            if (token && authorized.includes(token.role)) {
+                const data = await prisma.templates.update({
+                    where: {
+                        id: parseInt(id, 10),
+                    },
+                    data: {
+                        name: req.body.name,
+                        type: req.body.type,
+                        content: req.body.content,
+                        params: req.body.params,
+                    },
                 });
 
                 res.status(200).json({
@@ -43,20 +76,17 @@ const handler = async (req, res) => {
             });
         }
         break;
-    case 'POST':
+    case 'DELETE':
         try {
             if (token && authorized.includes(token.role)) {
-                const data = await prisma.templates.create({
-                    data: {
-                        name: req.body.name,
-                        type: req.body.type,
-                        content: req.body.content,
-                        params: req.body.params,
+                await prisma.pages.delete({
+                    where: {
+                        id: parseInt(id, 10),
                     },
                 });
 
                 res.status(200).json({
-                    success: true, data,
+                    success: true,
                 });
             } else {
                 res.status(401).json({
