@@ -65,97 +65,13 @@ export default async (req, res) => {
                     },
                 });
 
-                // Table settings
-                await prisma.settings.create({
-                    data: {
-                        data: 'sitename',
-                        value: req.body.sitename,
-                    },
-                });
-
-                await prisma.settings.create({
-                    data: {
-                        data: 'description',
-                        value: req.body.description,
-                    },
-                });
-
-                await prisma.settings.create({
-                    data: {
-                        data: 'locale',
-                        value: req.body.locale,
-                    },
-                });
-
-                await prisma.settings.create({
-                    data: {
-                        data: 'logo',
-                    },
-                });
-
-                await prisma.settings.create({
-                    data: {
-                        data: 'homepage',
-                        page: {
-                            connect: {
-                                id: dataHomepage.id,
-                            },
-                        },
-                    },
-                });
-
-                await prisma.settings.create({
-                    data: {
-                        data: 'header',
-                        template: {
-                            connect: {
-                                id: dataHeader.id,
-                            },
-                        },
-                    },
-                });
-
-                await prisma.settings.create({
-                    data: {
-                        data: 'footer',
-                        template: {
-                            connect: {
-                                id: dataFooter.id,
-                            },
-                        },
-                    },
-                });
-
-                await prisma.settings.create({
-                    data: {
-                        data: 'facebook',
-                        value: req.body.facebook,
-                    },
-                });
-
-                await prisma.settings.create({
-                    data: {
-                        data: 'instagram',
-                        value: req.body.instagram,
-                    },
-                });
-
-                await prisma.settings.create({
-                    data: {
-                        data: 'linkedin',
-                        value: req.body.linkedin,
-                    },
-                });
-
-                await prisma.settings.create({
-                    data: {
-                        data: 'twitter',
-                        value: req.body.twitter,
-                    },
-                });
-
                 res.status(200).json({
                     success: true,
+                    data: {
+                        homepage: dataHomepage.id,
+                        header: dataHeader.id,
+                        footer: dataFooter.id,
+                    },
                 });
             } else {
                 res.status(401).json({
