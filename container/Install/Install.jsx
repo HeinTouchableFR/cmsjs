@@ -98,6 +98,7 @@ export default function Install() {
                     homepage: data.homepage,
                     header: data.header,
                     footer: data.footer,
+                    description: form.description,
                 }),
             });
             const { success: settingsSuccess } = await resSettings.json();

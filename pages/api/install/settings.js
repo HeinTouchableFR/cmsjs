@@ -1,7 +1,5 @@
 import prisma from 'utils/prisma';
 
-const bcrypt = require('bcrypt');
-
 export default async (req, res) => {
     const { method } = req;
 
@@ -16,6 +14,13 @@ export default async (req, res) => {
                     data: {
                         data: 'sitename',
                         value: req.body.sitename,
+                    },
+                });
+
+                await prisma.settings.create({
+                    data: {
+                        data: 'description',
+                        value: req.body.description,
                     },
                 });
 
