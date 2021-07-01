@@ -57,7 +57,7 @@ Page.propTypes = {
     }).isRequired,
 };
 
-export async function getServerSideProps({ params }) {
+export async function getStaticProps({ params }) {
     const { slug } = params;
     let post = [];
     let templates = [];
@@ -87,5 +87,27 @@ export async function getServerSideProps({ params }) {
             post,
             templates,
         },
+        revalidate: 10,
+    };
+}
+
+export async function getStaticPaths() {
+    const res = await fetch(`${process.env.SERVER}/api/posts`, {
+        credentials: 'same-origin',
+    });
+    const posts = await res.json();
+
+    // Get the paths we want to pre-render based on posts
+    const paths = posts.data.map((post) => ({
+        params: {
+            slug: post.slug,
+        },
+    }));
+
+    // We'll pre-render only these paths at build time.
+    // { fallback: blocking } will server-render pages
+    // on-demand if the path doesn't exist.
+    return {
+        paths, fallback: 'blocking',
     };
 }
