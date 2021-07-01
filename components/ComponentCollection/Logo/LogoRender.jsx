@@ -24,11 +24,13 @@ export default function LogoRender({ element }) {
             ...imageStyleHover('tablet', element),
         },
         '@media (max-width: 1024px)': css({
+            ...imageStyle('tablet', element),
             '&:hover': {
                 ...imageStyleHover('tablet', element),
             },
         }),
         '@media (max-width: 768px)': css({
+            ...imageStyle('mobile', element),
             '&:hover': {
                 ...imageStyleHover('mobile', element),
             },
