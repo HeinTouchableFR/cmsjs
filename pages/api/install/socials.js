@@ -56,4 +56,6 @@ export default async (req, res) => {
         });
         break;
     }
+
+    await prisma.$disconnect();
 };

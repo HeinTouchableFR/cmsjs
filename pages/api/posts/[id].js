@@ -122,6 +122,8 @@ const handler = async (req, res) => {
         });
         break;
     }
+
+    await prisma.$disconnect();
 };
 
 export default handler;

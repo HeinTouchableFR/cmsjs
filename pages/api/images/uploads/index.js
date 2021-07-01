@@ -65,6 +65,8 @@ apiRoute.post(async (req, res) => {
             });
         });
     }
+
+    await prisma.$disconnect();
 });
 
 export const config = {

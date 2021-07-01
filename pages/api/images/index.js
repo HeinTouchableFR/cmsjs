@@ -51,6 +51,8 @@ const handle = async (req, res) => {
         });
         break;
     }
+
+    await prisma.$disconnect();
 };
 
 export default handle;
