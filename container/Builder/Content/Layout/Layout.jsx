@@ -93,7 +93,7 @@ const Layout = ({ layout }) => {
     return (
         <div className={`${styles.builder}`}>
             <LayoutContainer
-                className={`${styles.layout} ${type === 'header' && styles.header__layout} ${device === 'tablet' && styles.tablet__preview} ${device === 'mobile' && styles.mobile__preview}`}
+                className={`${styles.layout} ${type === 'HEADER' && styles.header__layout} ${device === 'tablet' && styles.tablet__preview} ${device === 'mobile' && styles.mobile__preview}`}
                 css={styleDivPreview(device, layout)}
             >
                 <Container>
