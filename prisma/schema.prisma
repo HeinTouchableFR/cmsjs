@@ -6,8 +6,9 @@ datasource db {
   url      = env("DB_URL")
 }
 
-model pages {
+model posts {
   id          Int        @id @default(autoincrement())
+  postType   PostType     @default(PAGE)
   content     String?    @db.LongText
   description String?
   params      String?
@@ -18,21 +19,20 @@ model pages {
   settings    settings[]
   author    users?    @relation(references: [id], fields: [authorId])
   authorId     Int?
+  categories categories[]
+}
+
+model categories {
+  id    Int    @id @default(autoincrement())
+  title       String     @db.VarChar(255)
+  slug       String      @unique @db.VarChar(191)
+  posts posts[]
 }
 
 model menus {
   id    Int     @id @default(autoincrement())
   items String? @db.LongText
   name  String  @db.VarChar(255)
-}
-
-model templates {
-  id       Int        @id @default(autoincrement())
-  content  String?    @db.LongText
-  params   String?
-  name     String     @db.VarChar(255)
-  type     String     @db.VarChar(255)
-  Settings settings[]
 }
 
 model images {
@@ -48,11 +48,9 @@ model settings {
   id          Int        @id @default(autoincrement())
   data        String     @unique @db.VarChar(191)
   value       String?    @db.VarChar(255)
-  page        pages?     @relation(references: [id], fields: [pagesId])
-  template    templates? @relation(references: [id], fields: [templatesId])
+  post        posts?     @relation(references: [id], fields: [postsId])
   image       images?    @relation(references: [id], fields: [imagesId])
-  pagesId     Int?
-  templatesId Int?
+  postsId     Int?
   imagesId    Int?
 }
 
@@ -94,7 +92,7 @@ model users {
   role   Role     @default(USER)
   createdAt     DateTime  @default(now()) @map(name: "created_at")
   updatedAt     DateTime  @default(now()) @map(name: "updated_at")
-  pages pages[]
+  posts posts[]
 }
 
 enum Role {
@@ -102,6 +100,15 @@ enum Role {
   ADMIN
   MODERATOR
   EDITOR
+}
+
+enum PostType {
+  PAGE
+  ARTICLE
+  PRODUCT
+  FORM
+  HEADER
+  FOOTER
 }
 
 model verification_requests {

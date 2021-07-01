@@ -1,19 +1,18 @@
 import prisma from 'utils/prisma';
 
 const handler = async (req, res) => {
-    const { query: { name },
+    const { query: { slug },
         method } = req;
 
     switch (method) {
     case 'GET':
         try {
-            const data = await prisma.settings.findUnique({
+            const data = await prisma.categories.findUnique({
                 where: {
-                    data: name,
+                    slug,
                 },
                 include: {
-                    image: true,
-                    post: {
+                    posts: {
                         include: {
                             categories: true,
                         },
@@ -22,13 +21,11 @@ const handler = async (req, res) => {
             });
 
             res.status(200).json({
-                success: true,
-                data,
+                success: true, data,
             });
         } catch (e) {
             res.status(400).json({
-                success: false,
-                errors: e,
+                success: false, errors: e,
             });
         }
         break;

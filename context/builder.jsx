@@ -2,12 +2,11 @@ import React, {
     useState, useContext, createContext, useReducer, useCallback, useMemo, useEffect,
 } from 'react';
 import PropTypes from 'prop-types';
+import defaultComponents from '../variables/components';
 
 const Builder = createContext({
     post: {
     },
-    type: 'page',
-    mode: 'page',
     layouts: [],
     components: [],
     menus: [],
@@ -28,7 +27,6 @@ const Builder = createContext({
     showAnimation: () => {},
     setDevice: () => {},
     setParams: () => {},
-    setMode: () => {},
     addComponentFromPortal: () => {},
     handleOpenPortal: () => {},
     handleClosePortal: () => {},
@@ -36,7 +34,7 @@ const Builder = createContext({
     onDragEnd: () => {},
 });
 
-export function BuilderProvider({ post, components, builderMode, children }) {
+export function BuilderProvider({ post, postType, children, intl }) {
     function reducer(state, action) {
         switch (action.type) {
         case 'ADD':
@@ -57,6 +55,29 @@ export function BuilderProvider({ post, components, builderMode, children }) {
         }
     }
 
+    const [components, setComponents] = useState([]);
+    const [type, setType] = useState(post.postType || postType);
+
+    useEffect(() => {
+        switch (postType) {
+        case 'PAGE':
+            setComponents(defaultComponents.pageComponents(intl));
+            break;
+        case 'ARTICLE':
+            setComponents(defaultComponents.pageComponents(intl));
+            break;
+        case 'HEADER':
+            setComponents(defaultComponents.templateComponents(intl));
+            break;
+        case 'FOOTER':
+            setComponents(defaultComponents.templateComponents(intl));
+            break;
+        default:
+            setComponents(defaultComponents.pageComponents(intl));
+            break;
+        }
+    }, [postType]);
+
     const [layouts, dispatch] = useReducer(reducer, {
         items: JSON.parse(post.content),
     });
@@ -73,8 +94,13 @@ export function BuilderProvider({ post, components, builderMode, children }) {
     ]);
 
     const [device, setDevice] = useState('desktop');
-    const [mode, setMode] = useState(builderMode || 'page');
-    const [type, setType] = useState(builderMode === 'template' ? post.type || 'header' : 'page');
+
+    const [form, setForm] = useState({
+        title: post.title || post.name || '',
+        slug: post.slug || '',
+        type,
+        description: post.description || '',
+    });
 
     /**
      *
@@ -630,8 +656,6 @@ export function BuilderProvider({ post, components, builderMode, children }) {
         setCurrentElement,
         device,
         setDevice,
-        mode,
-        setMode,
         menus,
         portal,
         handleOpenPortal,
@@ -643,7 +667,9 @@ export function BuilderProvider({ post, components, builderMode, children }) {
         updateElement,
         onDragEnd,
         showAnimation,
-    }), [layouts, params, currentElement, device, portal, menus, type]);
+        form,
+        setForm,
+    }), [layouts, params, currentElement, device, portal, menus, type, form]);
 
     return (
         <Builder.Provider
@@ -660,11 +686,11 @@ BuilderProvider.propTypes = {
     post: PropTypes.shape({
         content: PropTypes.string,
         params: PropTypes.string,
-        type: PropTypes.string,
+        postType: PropTypes.string,
     }),
-    components: PropTypes.arrayOf(PropTypes.shape({
-    })).isRequired,
-    builderMode: PropTypes.string,
+    // eslint-disable-next-line react/forbid-prop-types
+    intl: PropTypes.any.isRequired,
+    postType: PropTypes.string,
     children: PropTypes.oneOfType([
         PropTypes.shape({
         }),
@@ -680,5 +706,5 @@ BuilderProvider.defaultProps = {
         content: '[]',
         params: '{"background":"#f7fafb"}',
     },
-    builderMode: 'page',
+    postType: 'PAGE',
 };

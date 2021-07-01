@@ -390,7 +390,7 @@ export async function getServerSideProps(ctx) {
     let pages = [];
 
     if (token) {
-        const resPages = await fetch(`${process.env.SERVER}/api/pages`, {
+        const resPages = await fetch(`${process.env.SERVER}/api/posts?type=PAGE`, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },

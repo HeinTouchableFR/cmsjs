@@ -2,18 +2,20 @@ import React, {
     useEffect, useState,
 } from 'react';
 import PropTypes from 'prop-types';
+import Header from 'components/Posts/Articles/Header/Header';
 import Layout from './Layout';
 
-export default function RenderPage({ page }) {
-    const [content, setContent] = useState(page.content ? JSON.parse(page.content) : []);
+export default function RenderPost({ post }) {
+    const [content, setContent] = useState(post.content ? JSON.parse(post.content) : []);
 
     useEffect(() => {
-        setContent(page.content ? JSON.parse(page.content) : []);
-    }, [page]);
+        setContent(post.content ? JSON.parse(post.content) : []);
+    }, [post]);
 
     return (
         <>
             <div>
+                {post.postType === 'ARTICLE' && <Header post={post} />}
                 {content.map((layout) => (
                     <Layout
                         layout={layout}
@@ -25,8 +27,9 @@ export default function RenderPage({ page }) {
     );
 }
 
-RenderPage.propTypes = {
-    page: PropTypes.shape({
+RenderPost.propTypes = {
+    post: PropTypes.shape({
         content: PropTypes.string,
+        postType: PropTypes.string,
     }).isRequired,
 };

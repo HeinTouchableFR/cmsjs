@@ -1,41 +1,31 @@
-import React, {
-    useEffect, useState,
-} from 'react';
+import React from 'react';
 import Header from 'container/Sites/Header/Header';
-import RenderPost from 'container/RenderPost/RenderPost';
 import { useSettings } from 'context/settings';
-import { Global } from '@emotion/react';
 import PropTypes from 'prop-types';
 import Footer from 'container/Sites/Footer/Footer';
+import Article from 'components/Posts/Articles/Article/Article';
+import styles from './Articles.module.scss';
 
-export default function Page({ post, templates }) {
+export default function Index({ posts, templates }) {
     const { value: settings } = useSettings();
-    const [params, setParams] = useState(post.params ? JSON.parse(post.params) : {
-    });
-
-    useEffect(() => {
-        setParams(post.params ? JSON.parse(post.params) : {
-        });
-    }, [post]);
 
     return (
         <>
             <Header
                 settings={settings}
-                post={post}
+                post={
+                    {
+                        title: 'Articles',
+                    }
+                }
                 template={templates.header}
                 isHomePage
             />
-            <Global
-                styles={{
-                    body: {
-                        background: params.background,
-                    },
-                }}
-            />
-            <RenderPost
-                post={post}
-            />
+            <main className={styles.main}>
+                <div className={styles.list}>
+                    {posts.map((post) => <Article post={post} />)}
+                </div>
+            </main>
             <Footer
                 template={templates.footer}
             />
@@ -43,12 +33,9 @@ export default function Page({ post, templates }) {
     );
 }
 
-Page.propTypes = {
-    post: PropTypes.shape({
-        id: PropTypes.number.isRequired,
-        title: PropTypes.string,
-        params: PropTypes.string.isRequired,
-    }).isRequired,
+Index.propTypes = {
+    posts: PropTypes.arrayOf(PropTypes.shape({
+    })).isRequired,
     templates: PropTypes.shape({
         header: PropTypes.shape({
         }).isRequired,
@@ -57,17 +44,16 @@ Page.propTypes = {
     }).isRequired,
 };
 
-export async function getServerSideProps({ params }) {
-    const { slug } = params;
-    let post = [];
+export async function getServerSideProps() {
+    let posts = [];
     let templates = [];
 
-    const resItem = await fetch(`${process.env.SERVER}/api/posts/slug/${slug}`, {
+    const resItem = await fetch(`${process.env.SERVER}/api/posts?type=ARTICLE`, {
         credentials: 'same-origin',
     });
     const dataItem = await resItem.json();
     if (dataItem.success && dataItem.data) {
-        post = dataItem.data;
+        posts = dataItem.data;
     } else {
         return {
             notFound: true,
@@ -84,7 +70,7 @@ export async function getServerSideProps({ params }) {
 
     return {
         props: {
-            post,
+            posts,
             templates,
         },
     };

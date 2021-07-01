@@ -11,31 +11,17 @@ const handler = async (req, res) => {
     switch (method) {
     case 'GET':
         try {
-            if (token && authorized.includes(token.role)) {
-                const data = await prisma.templates.findMany({
-                    orderBy: [
-                        {
-                            name: 'asc',
-                        },
-                        {
-                            type: 'asc',
-                        },
-                    ],
-                });
-
-                res.status(200).json({
-                    success: true, data,
-                });
-            } else {
-                res.status(401).json({
-                    success: false,
-                    errors: {
-                        status: 401,
-                        code: 1,
-                        message: 'Unauthorized',
+            const data = await prisma.categories.findMany({
+                orderBy: [
+                    {
+                        title: 'asc',
                     },
-                });
-            }
+                ],
+            });
+
+            res.status(200).json({
+                success: true, data,
+            });
         } catch (e) {
             res.status(400).json({
                 success: false,
@@ -46,12 +32,19 @@ const handler = async (req, res) => {
     case 'POST':
         try {
             if (token && authorized.includes(token.role)) {
-                const data = await prisma.templates.create({
+                const data = await prisma.posts.create({
                     data: {
-                        name: req.body.name,
-                        type: req.body.type,
+                        title: req.body.title,
+                        postType: req.body.postType,
+                        slug: req.body.slug,
+                        description: req.body.description,
                         content: req.body.content,
                         params: req.body.params,
+                        author: {
+                            connect: {
+                                id: token.id,
+                            },
+                        },
                     },
                 });
 

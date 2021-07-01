@@ -2,7 +2,7 @@ import prisma from 'utils/prisma';
 import jwt from 'next-auth/jwt';
 
 const handler = async (req, res) => {
-    const { method } = req;
+    const { method, query: { type } } = req;
     const token = await jwt.getToken({
         req, secret: process.env.SECRET,
     });
@@ -11,7 +11,20 @@ const handler = async (req, res) => {
     switch (method) {
     case 'GET':
         try {
-            const data = await prisma.pages.findMany({
+            const data = await prisma.posts.findMany({
+                where: {
+                    postType: type,
+                },
+                include: {
+                    categories: true,
+                    author: {
+                        select: {
+                            id: true,
+                            name: true,
+                            email: true,
+                        },
+                    },
+                },
                 orderBy: [
                     {
                         title: 'asc',
@@ -32,9 +45,10 @@ const handler = async (req, res) => {
     case 'POST':
         try {
             if (token && authorized.includes(token.role)) {
-                const data = await prisma.pages.create({
+                const data = await prisma.posts.create({
                     data: {
                         title: req.body.title,
+                        postType: req.body.postType.toUpperCase(),
                         slug: req.body.slug,
                         description: req.body.description,
                         content: req.body.content,

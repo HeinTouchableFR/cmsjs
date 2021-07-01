@@ -12,26 +12,26 @@ const handler = async (req, res) => {
                     data: 'header',
                 },
                 include: {
-                    template: true,
+                    post: true,
                 },
             });
-            header.template = await populatePost(header.template);
+            header.post = await populatePost(header.post);
 
             const footer = await prisma.settings.findUnique({
                 where: {
                     data: 'footer',
                 },
                 include: {
-                    template: true,
+                    post: true,
                 },
             });
-            footer.template = await populatePost(footer.template);
+            footer.post = await populatePost(footer.post);
 
             res.status(200).json({
                 success: true,
                 data: {
-                    header: header.template,
-                    footer: footer.template,
+                    header: header.post,
+                    footer: footer.post,
                 },
             });
         } catch (e) {

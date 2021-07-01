@@ -64,7 +64,7 @@ export default function Index({ items, errors }) {
         try {
             setItemToDelete({
             });
-            const res = await fetch(`${process.env.SERVER}/api/pages/${itemToDelete.id}`, {
+            const res = await fetch(`${process.env.SERVER}/api/posts/${itemToDelete.id}`, {
                 method: 'DELETE',
                 credentials: 'same-origin',
             });
@@ -115,7 +115,7 @@ export default function Index({ items, errors }) {
                                 buttonLabel={intl.formatMessage({
                                     id: 'add', defaultMessage: 'Add',
                                 })}
-                                buttonAction='/admin/pages/add'
+                                buttonAction='/admin/posts/add?postType=PAGE'
                                 buttonIcon='fas fa-plus'
                             />
                             <Card.Body>
@@ -188,7 +188,7 @@ export async function getServerSideProps(ctx) {
     let items = [];
 
     if (token) {
-        const resPages = await fetch(`${process.env.SERVER}/api/pages`, {
+        const resPages = await fetch(`${process.env.SERVER}/api/posts?type=PAGE`, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },

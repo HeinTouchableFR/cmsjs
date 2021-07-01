@@ -4,7 +4,7 @@ export const getServerSideProps = async (ctx) => {
     // Method to source urls from cms
     // const urls = await fetch('https//example.com/api')
     let items = [];
-    const res = await fetch(`${process.env.SERVER}/api/pages`);
+    const res = await fetch(`${process.env.SERVER}/api/posts`);
     const data = await res.json();
     if (data.success) {
         items = data.data;

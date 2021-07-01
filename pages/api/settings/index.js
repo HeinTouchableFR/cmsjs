@@ -14,8 +14,7 @@ const handler = async (req, res) => {
             const data = await prisma.settings.findMany({
                 include: {
                     image: true,
-                    template: true,
-                    page: true,
+                    post: true,
                 },
             });
             res.status(200).json({
@@ -52,28 +51,15 @@ const handler = async (req, res) => {
                             };
                         }
                         break;
-                    case 'page':
+                    case 'post':
                         if (value.value) {
-                            data.page = {
+                            data.post = {
                                 connect: {
                                     id: parseInt(value.value, 10),
                                 },
                             };
                         } else {
-                            data.page = {
-                                disconnect: true,
-                            };
-                        }
-                        break;
-                    case 'template':
-                        if (value.value) {
-                            data.template = {
-                                connect: {
-                                    id: parseInt(value.value, 10),
-                                },
-                            };
-                        } else {
-                            data.template = {
+                            data.post = {
                                 disconnect: true,
                             };
                         }

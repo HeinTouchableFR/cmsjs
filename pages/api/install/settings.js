@@ -33,7 +33,7 @@ export default async (req, res) => {
                 await prisma.settings.create({
                     data: {
                         data: 'homepage',
-                        page: {
+                        post: {
                             connect: {
                                 id: req.body.homepage,
                             },
@@ -44,7 +44,7 @@ export default async (req, res) => {
                 await prisma.settings.create({
                     data: {
                         data: 'header',
-                        template: {
+                        post: {
                             connect: {
                                 id: req.body.header,
                             },
@@ -55,7 +55,7 @@ export default async (req, res) => {
                 await prisma.settings.create({
                     data: {
                         data: 'footer',
-                        template: {
+                        post: {
                             connect: {
                                 id: req.body.footer,
                             },

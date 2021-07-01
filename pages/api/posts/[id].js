@@ -1,6 +1,6 @@
 import prisma from 'utils/prisma';
 import jwt from 'next-auth/jwt';
-import { populatePost } from 'utils/api';
+import {populatePost} from '../../../utils/api';
 
 const handler = async (req, res) => {
     const { query: { id },
@@ -14,9 +14,12 @@ const handler = async (req, res) => {
     case 'GET':
         try {
             if (token && authorized.includes(token.role)) {
-                let data = await prisma.templates.findUnique({
+                let data = await prisma.posts.findUnique({
                     where: {
                         id: parseInt(id, 10),
+                    },
+                    include: {
+                        categories: true,
                     },
                 });
                 data = await populatePost(data, 'preview');
@@ -44,13 +47,16 @@ const handler = async (req, res) => {
     case 'PUT':
         try {
             if (token && authorized.includes(token.role)) {
-                const data = await prisma.templates.update({
+                const data = await prisma.posts.update({
                     where: {
                         id: parseInt(id, 10),
                     },
                     data: {
-                        name: req.body.name,
-                        type: req.body.type,
+                        title: req.body.title,
+                        postType: req.body.postType,
+                        slug: req.body.slug,
+                        description: req.body.description,
+                        updated: req.body.updated,
                         content: req.body.content,
                         params: req.body.params,
                     },
@@ -79,7 +85,7 @@ const handler = async (req, res) => {
     case 'DELETE':
         try {
             if (token && authorized.includes(token.role)) {
-                await prisma.pages.delete({
+                await prisma.posts.delete({
                     where: {
                         id: parseInt(id, 10),
                     },

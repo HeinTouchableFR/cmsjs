@@ -4,7 +4,7 @@ import React, {
 import Header from 'container/Sites/Header/Header';
 import { useSettings } from 'context/settings';
 import { Global } from '@emotion/react';
-import RenderPage from 'container/RenderPage/RenderPage';
+import RenderPost from 'container/RenderPost/RenderPost';
 import PropTypes from 'prop-types';
 import Footer from 'container/Sites/Footer/Footer';
 import { populatePost } from '../utils/api';
@@ -34,8 +34,8 @@ export default function Home({ post, templates }) {
                     },
                 }}
             />
-            <RenderPage
-                page={post}
+            <RenderPost
+                post={post}
             />
             <Footer
                 template={templates.footer}
@@ -58,7 +58,7 @@ Home.propTypes = {
     }).isRequired,
 };
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
     let post = [];
     let templates = [];
     const resSettings = await fetch(`${process.env.SERVER}/api/settings/homepage`, {
@@ -66,14 +66,14 @@ export async function getServerSideProps() {
     });
     const dataHomepage = await resSettings.json();
     if (dataHomepage.success && dataHomepage.data) {
-        post = await populatePost(dataHomepage.data.page);
+        post = await populatePost(dataHomepage.data.post);
     } else {
         return {
             notFound: true,
         };
     }
 
-    const resTemplates = await fetch(`${process.env.SERVER}/api/templates/getHeaderFooter`, {
+    const resTemplates = await fetch(`${process.env.SERVER}/api/posts/getHeaderFooter`, {
         credentials: 'same-origin',
     });
     const dataTemplates = await resTemplates.json();
@@ -86,5 +86,6 @@ export async function getServerSideProps() {
             post,
             templates,
         },
+        revalidate: 1,
     };
 }

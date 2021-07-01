@@ -32,18 +32,13 @@ export default function Navigation({ onSubmit,
         currentElement,
         components,
         device,
-        mode,
         type,
         setType,
+        form,
+        setForm,
         setParams,
         setDevice } = useBuilder();
 
-    const [form, setForm] = useState({
-        title: post.title || post.name || '',
-        slug: post.slug || '',
-        type,
-        description: post.description || '',
-    });
     const [activeIndex, setActiveIndex] = useState(0);
     const handleTabChange = (index) => {
         if (index !== activeIndex) {
@@ -245,7 +240,7 @@ export default function Navigation({ onSubmit,
             return true;
         }
 
-        if (mode === 'page') {
+        if (type === 'PAGE' || type === 'ARTICLE') {
             return !(form.title !== post.title)
                 && !(form.slug !== post.slug)
                 && !(form.description !== post.description)
@@ -253,7 +248,7 @@ export default function Navigation({ onSubmit,
                 && post.content === JSON.stringify(layouts);
         }
 
-        if (mode === 'template') {
+        if (type === 'HEADER' || type === 'FOOTER') {
             return !(form.title !== post.name)
                 && !(params.background !== JSON.parse(post.params).background)
                 && post.content === JSON.stringify(layouts);
@@ -296,7 +291,7 @@ export default function Navigation({ onSubmit,
                         id='pageForm'
                         name='pageForm'
                     >
-                        {mode === 'page' && (
+                        {(type === 'PAGE' || type === 'ARTICLE') && (
                             <>
                                 <Input
                                     label={intl.formatMessage({
@@ -328,7 +323,7 @@ export default function Navigation({ onSubmit,
                                 />
                             </>
                         )}
-                        {mode === 'template' && (
+                        {(type === 'HEADER' || type === 'FOOTER') && (
                             <>
                                 <Input
                                     label={intl.formatMessage({
@@ -355,14 +350,14 @@ export default function Navigation({ onSubmit,
                                             text: intl.formatMessage({
                                                 id: 'settings.header', defaultMessage: 'Header',
                                             }),
-                                            value: 'header',
+                                            value: 'HEADER',
                                         },
                                         {
                                             key: 'footer',
                                             text: intl.formatMessage({
                                                 id: 'settings.footer', defaultMessage: 'Footer',
                                             }),
-                                            value: 'footer',
+                                            value: 'FOOTER',
                                         },
                                     ]}
                                 />
@@ -415,6 +410,7 @@ export default function Navigation({ onSubmit,
                         options={deviceOptions}
                         onChange={handleDeviceChange}
                         position='up'
+                        notClearable
                     />
                 </div>
                 <Droppable

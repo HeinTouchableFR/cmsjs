@@ -6,14 +6,15 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import nookies from 'nookies';
 import Builder from 'container/Builder/Builder';
-import defaultComponents from 'variables/components';
 import PropTypes from 'prop-types';
 import {
     getSession, signIn, useSession,
 } from 'next-auth/client';
-import { BuilderProvider } from 'context/builder';
+import {
+    BuilderProvider,
+} from 'context/builder';
 
-export default function Add({ images, errors, templates }) {
+export default function Add({ images, errors, templates, postType }) {
     const intl = useIntl();
 
     const [imagesList, setImagesList] = useState(JSON.parse(images));
@@ -33,7 +34,7 @@ export default function Add({ images, errors, templates }) {
     }, [session]);
 
     const validate = async (slug) => {
-        const res = await fetch(`/api/pages/slug/${slug}`);
+        const res = await fetch(`/api/posts/slug/${slug}`);
         const { data } = await res.json();
         const errs = {
         };
@@ -54,6 +55,7 @@ export default function Add({ images, errors, templates }) {
             description: e.description,
             data,
             params,
+            postType: e.type,
         });
         validate(e.slug).then((errs) => setFormErrors(errs));
         setIsSubmitting(true);
@@ -62,9 +64,10 @@ export default function Add({ images, errors, templates }) {
     const create = async () => {
         setLoading(true);
         try {
-            const res = await fetch('/api/pages', {
+            const res = await fetch('/api/posts', {
                 body: JSON.stringify({
                     title: content.title,
+                    postType: content.postType,
                     slug: content.slug,
                     description: content.description,
                     published: new Date(),
@@ -81,7 +84,7 @@ export default function Add({ images, errors, templates }) {
             if (!result.success) {
                 setBuilderErrors([result.errors]);
             }
-            await router.push(`/admin/pages/${result.data.id}`);
+            await router.push(`/admin/posts/${result.data.id}`);
         } catch (err) {
             setBuilderErrors([err]);
         }
@@ -102,7 +105,8 @@ export default function Add({ images, errors, templates }) {
         <>
             {session && (
             <BuilderProvider
-                components={defaultComponents.pageComponents(intl)}
+                intl={intl}
+                postType={postType}
             >
                 <Head>
                     <title>
@@ -139,6 +143,7 @@ Add.propTypes = {
 };
 
 export async function getServerSideProps(ctx) {
+    const postType = ctx.query.postType || 'PAGE';
     const authorized = ['ADMIN', 'EDITOR', 'MODERATOR'];
     const session = await getSession(ctx);
     if (session && !authorized.includes(session.user.role)) {
@@ -175,7 +180,7 @@ export async function getServerSideProps(ctx) {
             });
         }
 
-        const resTemplates = await fetch(`${process.env.SERVER}/api/templates/getHeaderFooter`, {
+        const resTemplates = await fetch(`${process.env.SERVER}/api/posts/getHeaderFooter`, {
             credentials: 'same-origin',
         });
         const dataTemplates = await resTemplates.json();
@@ -190,6 +195,7 @@ export async function getServerSideProps(ctx) {
             errors,
             templates,
             session,
+            postType,
         },
     };
 }

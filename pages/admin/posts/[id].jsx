@@ -5,14 +5,13 @@ import { useIntl } from 'react-intl';
 import Head from 'next/head';
 import nookies from 'nookies';
 import Builder from 'container/Builder/Builder';
-import defaultComponents from 'variables/components';
-import { BuilderProvider } from 'context/builder';
 import PropTypes from 'prop-types';
+import { BuilderProvider } from 'context/builder';
 import {
     getSession, signIn, useSession,
 } from 'next-auth/client';
 
-export default function Edit({ item, images, errors }) {
+export default function Edit({ item, errors, images, templates }) {
     const intl = useIntl();
 
     const [post, setPost] = useState(item);
@@ -25,24 +24,35 @@ export default function Edit({ item, images, errors }) {
     const [content, setContent] = useState('');
     const [session] = useSession();
 
-    useEffect(() => {
+    useEffect(async () => {
         if (!session) {
-            signIn();
+            await signIn();
         }
     }, [session]);
 
-    const validate = async () => {
+    const validate = async (slug) => {
+        const res = await fetch(`/api/posts/slug/${slug}`);
+        const { data } = await res.json();
         const errs = {
         };
+        if (data && data.slug && post.slug !== slug) {
+            errs.slug = intl.formatMessage({
+                id: 'slug.error', defaultMessage: 'The slug {slug} is already defined',
+            }, {
+                slug,
+            });
+        }
         return errs;
     };
 
     const onSubmit = async (e, data, params) => {
         setContent({
-            name: e.title,
-            type: e.type,
+            title: e.title,
+            slug: e.slug,
+            description: e.description,
             data,
             params,
+            postType: e.type,
         });
         validate(e.slug).then((errs) => setformErrors(errs));
         setIsSubmitting(true);
@@ -51,10 +61,13 @@ export default function Edit({ item, images, errors }) {
     const update = async () => {
         setLoading(true);
         try {
-            const res = await fetch(`/api/templates/${item.id}`, {
+            const res = await fetch(`/api/posts/${item.id}`, {
                 body: JSON.stringify({
-                    name: content.name,
-                    type: content.type,
+                    title: content.title,
+                    postType: content.postType,
+                    slug: content.slug,
+                    description: content.description,
+                    updated: new Date(),
                     content: JSON.stringify(content.data),
                     params: JSON.stringify(content.params),
                 }),
@@ -89,10 +102,10 @@ export default function Edit({ item, images, errors }) {
 
     return (
         <>
+            {session && (
             <BuilderProvider
                 post={post}
-                components={defaultComponents.templateComponents(intl)}
-                builderMode='template'
+                intl={intl}
             >
                 <Head>
                     <title>
@@ -100,7 +113,7 @@ export default function Edit({ item, images, errors }) {
                             id: 'page.edit', defaultMessage: 'Edit',
                         })}
                         {': '}
-                        {item.name}
+                        {item.title}
                     </title>
                 </Head>
                 <Builder
@@ -109,9 +122,11 @@ export default function Edit({ item, images, errors }) {
                     setImages={setImagesList}
                     images={imagesList}
                     formErrors={formErrors}
+                    templates={templates}
                     errors={builderErrors}
                 />
             </BuilderProvider>
+            )}
         </>
     );
 }
@@ -119,7 +134,7 @@ export default function Edit({ item, images, errors }) {
 Edit.propTypes = {
     item: PropTypes.shape({
         id: PropTypes.number.isRequired,
-        name: PropTypes.string,
+        title: PropTypes.string,
     }).isRequired,
     images: PropTypes.string.isRequired,
     errors: PropTypes.oneOfType([
@@ -127,6 +142,8 @@ Edit.propTypes = {
         }),
         PropTypes.arrayOf(PropTypes.shape({
         })),
+    ]).isRequired,
+    templates: PropTypes.shape([
     ]).isRequired,
 };
 
@@ -150,10 +167,11 @@ export async function getServerSideProps(ctx) {
     let item = {
     };
     let images = [];
+    let templates = [];
     const errors = [];
 
     if (token) {
-        const resItem = await fetch(`${process.env.SERVER}/api/templates/${id}`, {
+        const resItem = await fetch(`${process.env.SERVER}/api/posts/${id}`, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
@@ -165,7 +183,7 @@ export async function getServerSideProps(ctx) {
         } else {
             errors.push({
                 ...dataItem.errors,
-                request: `${process.env.SERVER}/api/templates/${id}`,
+                request: `${process.env.SERVER}/api/posts/${id}`,
             });
         }
 
@@ -184,12 +202,21 @@ export async function getServerSideProps(ctx) {
                 request: `${process.env.SERVER}/api/images`,
             });
         }
+
+        const resTemplates = await fetch(`${process.env.SERVER}/api/posts/getHeaderFooter`, {
+            credentials: 'same-origin',
+        });
+        const dataTemplates = await resTemplates.json();
+        if (dataTemplates.success && dataTemplates.data) {
+            templates = dataTemplates.data;
+        }
     }
 
     return {
         props: {
             item,
             errors,
+            templates,
             images: JSON.stringify(images),
             session,
         },

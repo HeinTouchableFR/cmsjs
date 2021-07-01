@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
-import Layout from 'container/RenderPage/Layout';
+import Layout from 'container/RenderPost/Layout';
 
 export default function Footer({ template }) {
     const [content] = useState(template.content ? JSON.parse(template.content) : []);

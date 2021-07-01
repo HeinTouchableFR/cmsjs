@@ -14,7 +14,7 @@ import Button from 'components/Button/Button';
 import TextArea from 'components/Form/TextArea/TextArea';
 import FileManager from 'components/FileManager/FileManager';
 import Field from 'components/Form/Field/Field';
-import Dropdown from '../../../components/Form/Dropdown/Dropdown';
+import Dropdown from 'components/Form/Dropdown/Dropdown';
 
 export default function Index({ settings, pages, images, templates, errors }) {
     const intl = useIntl();
@@ -55,16 +55,16 @@ export default function Index({ settings, pages, images, templates, errors }) {
     });
     const [readingForm, setReadingForm] = useState({
         homepage: {
-            type: 'page',
-            value: settings.find((x) => x.data === 'homepage').page.id,
+            type: 'post',
+            value: settings.find((x) => x.data === 'homepage').post.id,
         },
         header: {
-            type: 'template',
-            value: settings.find((x) => x.data === 'header').template.id,
+            type: 'post',
+            value: settings.find((x) => x.data === 'header').post.id,
         },
         footer: {
-            type: 'template',
-            value: settings.find((x) => x.data === 'footer').template.id,
+            type: 'post',
+            value: settings.find((x) => x.data === 'footer').post.id,
         },
     });
     const [loading, setLoading] = useState(false);
@@ -193,9 +193,9 @@ export default function Index({ settings, pages, images, templates, errors }) {
 
     const templateHeaderOptions = [];
     templates.map((item) => {
-        if (item.type === 'header') {
+        if (item.postType === 'HEADER') {
             return templateHeaderOptions.push({
-                key: item.id.toString(), text: item.name, value: item.id.toString(),
+                key: item.id.toString(), text: item.title, value: item.id.toString(),
             });
         }
         return null;
@@ -203,9 +203,9 @@ export default function Index({ settings, pages, images, templates, errors }) {
 
     const templateFooterOptions = [];
     templates.map((item) => {
-        if (item.type === 'footer') {
+        if (item.postType === 'FOOTER') {
             return templateFooterOptions.push({
-                key: item.id.toString(), text: item.name, value: item.id.toString(),
+                key: item.id.toString(), text: item.title, value: item.id.toString(),
             });
         }
         return null;
@@ -455,7 +455,7 @@ export async function getServerSideProps(ctx) {
     let templates = [];
 
     if (token) {
-        const resPages = await fetch(`${process.env.SERVER}/api/pages`, {
+        const resPages = await fetch(`${process.env.SERVER}/api/posts?type=PAGE`, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
@@ -494,17 +494,30 @@ export async function getServerSideProps(ctx) {
             errors.push(dataImages.errors);
         }
 
-        const resTemplates = await fetch(`${process.env.SERVER}/api/templates`, {
+        const resHeader = await fetch(`${process.env.SERVER}/api/posts?type=HEADER`, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
             credentials: 'same-origin',
         });
-        const dataTemplates = await resTemplates.json();
-        if (dataTemplates.success) {
-            templates = dataTemplates.data;
+        const dataHeader = await resHeader.json();
+        if (dataHeader.success) {
+            templates = dataHeader.data;
         } else {
-            errors.push(dataTemplates.errors);
+            errors.push(dataHeader.errors);
+        }
+
+        const resFooter = await fetch(`${process.env.SERVER}/api/posts?type=FOOTER`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+            credentials: 'same-origin',
+        });
+        const dataFooter = await resFooter.json();
+        if (dataFooter.success) {
+            templates = [...templates, ...dataFooter.data];
+        } else {
+            errors.push(dataFooter.errors);
         }
     }
 

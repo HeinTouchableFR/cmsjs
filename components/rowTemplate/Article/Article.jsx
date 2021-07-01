@@ -2,7 +2,7 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import IconButton from 'components/Button/IconButton/IconButton';
 
-export default function Page({item, handleDelete}) {
+export default function Article({item, handleDelete}) {
     const intl = useIntl();
 
     return (

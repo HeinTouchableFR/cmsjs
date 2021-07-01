@@ -1,33 +1,35 @@
-import React, {useEffect, useState} from 'react';
+import React, {
+    useEffect, useState,
+} from 'react';
 import { useIntl } from 'react-intl';
 import Head from 'next/head';
-import nookies from 'nookies';
-import Table from 'components/Table/Table';
-import Template from 'components/rowTemplate/Template/Template';
-import Admin from 'container/Admin/Admin';
-import Card from 'components/Cards/Card/Card';
+import { useRouter } from 'next/router';
 import {
     getSession, signIn, useSession,
 } from 'next-auth/client';
-import Flash from 'components/Flash/Flash';
+import Table from 'components/Table/Table';
+import Article from 'components/rowTemplate/Article/Article';
+import Admin from 'container/Admin/Admin';
+import Card from 'components/Cards/Card/Card';
+import Confirm from 'components/Confirm/Confirm';
 import PropTypes from 'prop-types';
+import Flash from 'components/Flash/Flash';
+import nookies from 'nookies';
 
 export default function Index({ items, errors }) {
     const intl = useIntl();
+    const router = useRouter();
     const [session] = useSession();
 
-    useEffect(() => {
+    useEffect(async () => {
         if (!session) {
-            signIn();
+            await signIn();
         }
     }, [session]);
 
     const labels = [
         {
             id: 'title', defaultMessage: 'Title',
-        },
-        {
-            id: 'type', defaultMessage: 'Type',
         },
         {
             id: 'author', defaultMessage: 'Author',
@@ -40,7 +42,49 @@ export default function Index({ items, errors }) {
         },
     ];
 
+    const [isDeleting, setIsDeleting] = useState(false);
+    const [confirm, setConfirm] = useState(false);
+    const [itemToDelete, setItemToDelete] = useState({
+    });
     const [indexErrors, setIndexErrors] = useState(errors);
+
+    const open = (item) => {
+        setConfirm(true);
+        setItemToDelete(item);
+    };
+
+    const close = () => setConfirm(false);
+
+    const handleDelete = async () => {
+        setIsDeleting(true);
+        close();
+    };
+
+    const deleteElement = async () => {
+        try {
+            setItemToDelete({
+            });
+            const res = await fetch(`${process.env.SERVER}/api/posts/${itemToDelete.id}`, {
+                method: 'DELETE',
+                credentials: 'same-origin',
+            });
+            setIsDeleting(false);
+            const result = await res.json();
+            if (result.success) {
+                await router.push('/admin/articles');
+            } else {
+                setIndexErrors([result.errors]);
+            }
+        } catch (err) {
+            setIndexErrors([err]);
+        }
+    };
+
+    useEffect(async () => {
+        if (isDeleting) {
+            await deleteElement();
+        }
+    }, [isDeleting]);
 
     return (
         <>
@@ -49,7 +93,7 @@ export default function Index({ items, errors }) {
                     <Head>
                         <title>
                             {intl.formatMessage({
-                                id: 'templates', defaultMessage: 'Templates',
+                                id: 'articles', defaultMessage: 'Articles',
                             })}
                         </title>
                     </Head>
@@ -62,27 +106,44 @@ export default function Index({ items, errors }) {
                             />
                         ))}
                         <Card
-                            color='red'
+                            color='grey'
                         >
                             <Card.Header
                                 title={intl.formatMessage({
-                                    id: 'templates', defaultMessage: 'Templates',
+                                    id: 'articles', defaultMessage: 'Articles',
                                 })}
                                 buttonLabel={intl.formatMessage({
                                     id: 'add', defaultMessage: 'Add',
                                 })}
-                                buttonAction='/admin/posts/add?postType=HEADER'
+                                buttonAction='/admin/posts/add?postType=ARTICLE'
                                 buttonIcon='fas fa-plus'
                             />
                             <Card.Body>
                                 <Table labels={labels}>
                                     {items && items.map((item) => (
-                                        <Template
+                                        <Article
                                             item={item}
                                             key={item.id}
+                                            handleDelete={open}
                                         />
                                     ))}
                                 </Table>
+                                <Confirm
+                                    name='pagesConfirm'
+                                    open={confirm}
+                                    onCancel={close}
+                                    onConfirm={handleDelete}
+                                    content={intl.formatMessage({
+                                        id: 'item.deleteSentence',
+                                        defaultMessage: 'Are you sure you want to delete this item?',
+                                    })}
+                                    cancelButton={intl.formatMessage({
+                                        id: 'no', defaultMessage: 'No',
+                                    })}
+                                    confirmButton={intl.formatMessage({
+                                        id: 'yes', defaultMessage: 'Yes',
+                                    })}
+                                />
                             </Card.Body>
                         </Card>
                     </Admin>
@@ -127,30 +188,17 @@ export async function getServerSideProps(ctx) {
     let items = [];
 
     if (token) {
-        const resHeader = await fetch(`${process.env.SERVER}/api/posts?type=HEADER`, {
+        const resArticles = await fetch(`${process.env.SERVER}/api/posts?type=ARTICLE`, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
             credentials: 'same-origin',
         });
-        const dataHeader = await resHeader.json();
-        if (dataHeader.success) {
-            items = dataHeader.data;
+        const data = await resArticles.json();
+        if (data.success) {
+            items = data.data;
         } else {
-            errors.push(dataHeader.errors);
-        }
-
-        const resFooter = await fetch(`${process.env.SERVER}/api/posts?type=FOOTER`, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-            credentials: 'same-origin',
-        });
-        const dataFooter = await resFooter.json();
-        if (dataFooter.success) {
-            items = [...items, ...dataFooter.data];
-        } else {
-            errors.push(dataFooter.errors);
+            errors.push(data.errors);
         }
     }
 

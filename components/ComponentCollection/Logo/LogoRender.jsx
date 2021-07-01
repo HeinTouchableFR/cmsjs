@@ -74,7 +74,7 @@ export default function LogoRender({ element }) {
             >
                 <Link href='/'>
                     <a
-                        title="Page d'accueil"
+                        title="Article d'accueil"
                     >
                         <Image
                             src={logo}

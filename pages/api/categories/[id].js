@@ -14,9 +14,12 @@ const handler = async (req, res) => {
     case 'GET':
         try {
             if (token && authorized.includes(token.role)) {
-                let data = await prisma.pages.findUnique({
+                let data = await prisma.posts.findUnique({
                     where: {
                         id: parseInt(id, 10),
+                    },
+                    include: {
+                        categories: true,
                     },
                 });
                 data = await populatePost(data, 'preview');
@@ -44,7 +47,7 @@ const handler = async (req, res) => {
     case 'PUT':
         try {
             if (token && authorized.includes(token.role)) {
-                const data = await prisma.pages.update({
+                const data = await prisma.posts.update({
                     where: {
                         id: parseInt(id, 10),
                     },
@@ -81,7 +84,7 @@ const handler = async (req, res) => {
     case 'DELETE':
         try {
             if (token && authorized.includes(token.role)) {
-                await prisma.pages.delete({
+                await prisma.posts.delete({
                     where: {
                         id: parseInt(id, 10),
                     },

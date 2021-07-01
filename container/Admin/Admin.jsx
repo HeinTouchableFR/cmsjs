@@ -72,6 +72,20 @@ export default function Admin({ children }) {
                                     </a>
                                 </Link>
                             </li>
+                            <li>
+                                <Link href={`${process.env.SERVER}/admin/articles`}>
+                                    {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+                                    <a className={router.pathname.includes('articles') ? styles.active : undefined}>
+                                        <span className='fas fa-newspaper' />
+                                        <span>
+                                            <FormattedMessage
+                                                id='articles'
+                                                defaultMessage='Articles'
+                                            />
+                                        </span>
+                                    </a>
+                                </Link>
+                            </li>
                             {/* <li>
                                 <Link href={'/admin/categories'}>
                                     <a className={router.pathname.includes('categories') ? styles.active : undefined}>

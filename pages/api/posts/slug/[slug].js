@@ -8,9 +8,12 @@ const handler = async (req, res) => {
     switch (method) {
     case 'GET':
         try {
-            let data = await prisma.pages.findUnique({
+            let data = await prisma.posts.findUnique({
                 where: {
                     slug,
+                },
+                include: {
+                    categories: true,
                 },
             });
             data = await populatePost(data);

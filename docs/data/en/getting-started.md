@@ -3,7 +3,7 @@ name: "Getting started"
 date: "2021-05-27"
 menu: [
               {
-                  label: 'Page management',
+                  label: 'Article management',
                   id: 'page-management',
                   elements: [
                       {
@@ -20,7 +20,7 @@ menu: [
 inSection: true
 backUrl: "/docs"
 nextStep: {
-    label: 'Page management',
+    label: 'Article management',
     id: 'page-management'
 }
 ---

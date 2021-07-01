@@ -23,6 +23,7 @@ export function InstallProvider({ children }) {
                     authorizedToInstall: true,
                     success: true,
                 });
+                console.log('test')
                 await router.push('/admin/install');
             }
         }
