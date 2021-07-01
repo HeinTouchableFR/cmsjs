@@ -58,7 +58,7 @@ Home.propTypes = {
     }).isRequired,
 };
 
-export async function getStaticProps({ res }) {
+export async function getServerSideProps({ res }) {
     res.setHeader('Cache-Control',
         'public, s-maxage=10, stale-while-revalidate=59');
     let post = [];
@@ -88,6 +88,5 @@ export async function getStaticProps({ res }) {
             post,
             templates,
         },
-        revalidate: 1,
     };
 }
