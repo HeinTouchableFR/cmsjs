@@ -58,7 +58,9 @@ Home.propTypes = {
     }).isRequired,
 };
 
-export async function getStaticProps() {
+export async function getStaticProps({ res }) {
+    res.setHeader('Cache-Control',
+        'public, s-maxage=10, stale-while-revalidate=59');
     let post = [];
     let templates = [];
     const resSettings = await fetch(`${process.env.SERVER}/api/settings/homepage`, {

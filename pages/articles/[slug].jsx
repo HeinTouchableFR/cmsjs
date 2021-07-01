@@ -42,7 +42,9 @@ Articles.propTypes = {
     }).isRequired,
 };
 
-export async function getServerSideProps({ params }) {
+export async function getServerSideProps({ res, params }) {
+    res.setHeader('Cache-Control',
+        'public, s-maxage=10, stale-while-revalidate=59');
     const { slug } = params;
     let category = [];
     let templates = [];
