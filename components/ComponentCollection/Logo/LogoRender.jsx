@@ -25,6 +25,7 @@ export default function LogoRender({ element }) {
         },
         '@media (max-width: 1024px)': css({
             '&:hover': {
+                ...imageStyleHover('tablet', element),
             },
         }),
         '@media (max-width: 768px)': css({
@@ -79,6 +80,8 @@ export default function LogoRender({ element }) {
                         <Image
                             src={logo}
                             alt='Logo'
+                            width={`${element.content.desktop.image.size.width.value}${element.content.desktop.image.size.width.unit}`}
+                            height={`${element.content.desktop.image.size.height.value}${element.content.desktop.image.size.height.value !== 'auto' ? element.content.desktop.image.size.height.unit : ''}`}
                         />
                     </a>
                 </Link>
