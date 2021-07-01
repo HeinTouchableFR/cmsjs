@@ -89,6 +89,5 @@ export async function getServerSideProps({ res, params }) {
             post,
             templates,
         },
-        revalidate: 10,
     };
 }
