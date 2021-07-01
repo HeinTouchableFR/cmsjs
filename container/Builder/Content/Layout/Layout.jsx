@@ -7,7 +7,7 @@ import { useBuilder } from 'context/builder';
 import styles from './Layout.module.scss';
 import Column from './Column/Column';
 
-const Layout = ({ layout }) => {
+const Layout = ({ layout, alignCenter }) => {
     const { setCurrentElement,
         device,
         type,
@@ -88,6 +88,7 @@ const Layout = ({ layout }) => {
         z-index: 1;
         display: flex;
         flex-wrap: wrap;
+        ${alignCenter && 'align-items: center'}
     `;
 
     return (
@@ -165,7 +166,9 @@ Layout.propTypes = {
             }).isRequired,
         }).isRequired,
     }).isRequired,
+    alignCenter: PropTypes.bool,
 };
 
 Layout.defaultProps = {
+    alignCenter: false,
 };

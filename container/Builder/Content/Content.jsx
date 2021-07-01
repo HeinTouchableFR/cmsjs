@@ -49,6 +49,7 @@ function Content({ templates }) {
                                         <Layout
                                             key={item.id}
                                             layout={item}
+                                            alignCenter
                                         />
                                     ))}
                                 </header>
