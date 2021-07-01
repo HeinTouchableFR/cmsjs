@@ -4,6 +4,7 @@
 datasource db {
   provider = "mysql"
   url      = env("DB_URL")
+  shadowDatabaseUrl = "mysql://236899_dev:Stienforce62!!@mysql-heintouchable.alwaysdata.net/heintouchable_shadow"
 }
 
 model posts {
