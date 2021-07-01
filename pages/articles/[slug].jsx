@@ -44,7 +44,7 @@ Articles.propTypes = {
 
 export async function getServerSideProps({ res, params }) {
     res.setHeader('Cache-Control',
-        'public, s-maxage=604800, stale-while-revalidate=59, must-revalidate');
+        'public, s-maxage=1, stale-while-revalidate');
     const { slug } = params;
     let category = [];
     let templates = [];

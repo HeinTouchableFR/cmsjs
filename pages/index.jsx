@@ -60,7 +60,7 @@ Home.propTypes = {
 
 export async function getServerSideProps({ res }) {
     res.setHeader('Cache-Control',
-        'public, s-maxage=604800, stale-while-revalidate=59, must-revalidate');
+        'public, s-maxage=1, stale-while-revalidate');
     let post = [];
     let templates = [];
     const resSettings = await fetch(`${process.env.SERVER}/api/settings/homepage`, {
