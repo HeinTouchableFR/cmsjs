@@ -80,8 +80,8 @@ export default function LogoRender({ element }) {
                         <Image
                             src={logo}
                             alt='Logo'
-                            width={`${element.content.desktop.image.size.width.value}${element.content.desktop.image.size.width.unit}`}
-                            height={`${element.content.desktop.image.size.height.value}${element.content.desktop.image.size.height.value !== 'auto' ? element.content.desktop.image.size.height.unit : ''}`}
+                            width='500'
+                            height='500'
                         />
                     </a>
                 </Link>
