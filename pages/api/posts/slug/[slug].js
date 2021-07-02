@@ -14,6 +14,16 @@ const handler = async (req, res) => {
                 },
                 include: {
                     categories: true,
+                    comments: {
+                        include: {
+                            author: {
+                                select: {
+                                    id: true,
+                                    name: true,
+                                },
+                            },
+                        },
+                    },
                 },
             });
             data = await populatePost(data);

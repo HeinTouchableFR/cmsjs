@@ -1,5 +1,5 @@
 ---
-name: "Article management"
+name: "Comments management"
 date: "2021-05-27"
 menu: [
               {

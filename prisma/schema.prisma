@@ -21,6 +21,17 @@ model posts {
   author    users?    @relation(references: [id], fields: [authorId])
   authorId     Int?
   categories categories[]
+  comments comments[]
+}
+
+model comments {
+  id    Int    @id @default(autoincrement())
+  content     String?    @db.LongText
+  published   DateTime   @default(now())
+  author    users?    @relation(references: [id], fields: [authorId])
+  authorId     Int?
+  post    posts?    @relation(references: [id], fields: [postId])
+  postId     Int?
 }
 
 model categories {
@@ -94,6 +105,7 @@ model users {
   createdAt     DateTime  @default(now()) @map(name: "created_at")
   updatedAt     DateTime  @default(now()) @map(name: "updated_at")
   posts posts[]
+  comments comments[]
 }
 
 enum Role {

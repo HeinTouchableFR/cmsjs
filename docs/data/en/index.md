@@ -17,7 +17,7 @@ menu: [
                   id: 'getting-started',
                   elements: [
                       {
-                          label: 'Article management',
+                          label: 'Comments management',
                           id: 'page-management',
                       },
                   ],

@@ -8,11 +8,13 @@ import RenderPost from 'container/RenderPost/RenderPost';
 import PropTypes from 'prop-types';
 import Footer from 'container/Sites/Footer/Footer';
 import { populatePost } from '../utils/api';
+import {getSession} from 'next-auth/client';
 
-export default function Home({ post, templates }) {
+export default function Home({ post, templates, session }) {
     const { value: settings } = useSettings();
     const [params, setParams] = useState(post.params ? JSON.parse(post.params) : {
     });
+    console.log(session)
 
     useEffect(() => {
         setParams(post.params ? JSON.parse(post.params) : {
@@ -36,6 +38,7 @@ export default function Home({ post, templates }) {
             />
             <RenderPost
                 post={post}
+                user={session ? session.user : null}
             />
             <Footer
                 template={templates.footer}
@@ -58,9 +61,10 @@ Home.propTypes = {
     }).isRequired,
 };
 
-export async function getServerSideProps({ res }) {
-    res.setHeader('Cache-Control',
+export async function getServerSideProps(ctx) {
+    ctx.res.setHeader('Cache-Control',
         'public, s-maxage=1, stale-while-revalidate');
+    const session = await getSession(ctx);
     let post = [];
     let templates = [];
     const resSettings = await fetch(`${process.env.SERVER}/api/settings/homepage`, {
@@ -87,6 +91,7 @@ export async function getServerSideProps({ res }) {
         props: {
             post,
             templates,
+            session,
         },
     };
 }

@@ -4,8 +4,9 @@ import React, {
 import PropTypes from 'prop-types';
 import Header from 'components/Posts/Articles/Header/Header';
 import Layout from './Layout';
+import Comments from 'components/Posts/Articles/Comments/Comments';
 
-export default function RenderPost({ post }) {
+export default function RenderPost({ post, user }) {
     const [content, setContent] = useState(post.content ? JSON.parse(post.content) : []);
 
     useEffect(() => {
@@ -22,6 +23,7 @@ export default function RenderPost({ post }) {
                         key={layout.id}
                     />
                 ))}
+                <Comments post={post} user={user} />
             </div>
         </>
     );

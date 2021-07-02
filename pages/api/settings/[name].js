@@ -16,6 +16,16 @@ const handler = async (req, res) => {
                     post: {
                         include: {
                             categories: true,
+                            comments: {
+                                include: {
+                                    author: {
+                                        select: {
+                                            id: true,
+                                            name: true,
+                                        },
+                                    },
+                                },
+                            },
                         },
                     },
                 },

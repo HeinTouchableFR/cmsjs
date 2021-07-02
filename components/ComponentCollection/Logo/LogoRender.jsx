@@ -75,10 +75,8 @@ export default function LogoRender({ element }) {
                 ref={ref}
                 css={styleDiv}
             >
-                <Link href='/'>
-                    <a
-                        title="Article d'accueil"
-                    >
+                <Link href={`${process.env.SERVER}`}>
+                    <a>
                         <Image
                             src={logo}
                             alt='Logo'
