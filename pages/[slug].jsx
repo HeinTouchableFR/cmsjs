@@ -57,9 +57,7 @@ Page.propTypes = {
     }).isRequired,
 };
 
-export async function getServerSideProps({ res, params }) {
-    res.setHeader('Cache-Control',
-        'public, s-maxage=1, stale-while-revalidate');
+export async function getServerSideProps({ params }) {
     const { slug } = params;
     let post = [];
     let templates = [];

@@ -62,8 +62,6 @@ Home.propTypes = {
 };
 
 export async function getServerSideProps(ctx) {
-    ctx.res.setHeader('Cache-Control',
-        'public, s-maxage=1, stale-while-revalidate');
     const session = await getSession(ctx);
     let post = [];
     let templates = [];
