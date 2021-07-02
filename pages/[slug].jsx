@@ -14,21 +14,21 @@ export default function Page({ post, templates }) {
     const { data } = useSWR(`${process.env.SERVER}/api/posts/slug/${post.result.data.slug}`, fetcher, {
         initialData: post,
     });
-    const { value: settings } = useSettings();
-    const [params, setParams] = useState(post.params ? JSON.parse(post.params) : {
+    const { data: dataTemplate } = useSWR(`${process.env.SERVER}/api/posts/getHeaderFooter`, fetcher, {
+        initialData: templates,
     });
-
-    useEffect(() => {
-        setParams(post.params ? JSON.parse(post.params) : {
+    const { value: settings } = useSettings();
+    const [params, setParams] = useState(data.result.data.params
+        ? JSON.parse(data.result.data.params)
+        : {
         });
-    }, [post]);
 
     return (
         <>
             <Header
                 settings={settings}
                 post={data.result.data}
-                template={templates.header}
+                template={dataTemplate.result.data.header}
                 isHomePage
             />
             <Global
@@ -42,7 +42,7 @@ export default function Page({ post, templates }) {
                 post={data.result.data}
             />
             <Footer
-                template={templates.footer}
+                template={dataTemplate.result.data.footer}
             />
         </>
     );
@@ -78,12 +78,11 @@ export async function getServerSideProps({ params }) {
         };
     }
 
-    const resTemplates = await fetch(`${process.env.SERVER}/api/posts/getHeaderFooter`, {
+    const resTemplates = await fetcher(`${process.env.SERVER}/api/posts/getHeaderFooter`, {
         credentials: 'same-origin',
     });
-    const dataTemplates = await resTemplates.json();
-    if (dataTemplates.success && dataTemplates.data) {
-        templates = dataTemplates.data;
+    if (resTemplates.success && resTemplates.result.data) {
+        templates = resTemplates;
     }
 
     return {
