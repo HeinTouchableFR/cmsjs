@@ -46,7 +46,7 @@ const handler = async (req, res) => {
                 result.data = data;
                 result.type = 'api';
                 result.latency = Date.now() - start;
-                redis.set(slug, JSON.stringify(result.data), 'EX', 60);
+                redis.set(slug, JSON.stringify(result.data), 'EX', 86400);
                 res.status(200).json({
                     success: true, result,
                 });

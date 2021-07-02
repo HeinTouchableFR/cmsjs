@@ -1,6 +1,4 @@
-import React, {
-    useEffect, useState,
-} from 'react';
+import React, { useState } from 'react';
 import Header from 'container/Sites/Header/Header';
 import RenderPost from 'container/RenderPost/RenderPost';
 import { useSettings } from 'context/settings';
@@ -8,7 +6,7 @@ import { Global } from '@emotion/react';
 import PropTypes from 'prop-types';
 import Footer from 'container/Sites/Footer/Footer';
 import useSWR from 'swr';
-import fetcher from '../utils/fetcher';
+import fetcher from 'utils/fetcher';
 
 export default function Page({ post, templates }) {
     const { data } = useSWR(`${process.env.SERVER}/api/posts/slug/${post.result.data.slug}`, fetcher, {
@@ -29,7 +27,6 @@ export default function Page({ post, templates }) {
                 settings={settings}
                 post={data.result.data}
                 template={dataTemplate.result.data.header}
-                isHomePage
             />
             <Global
                 styles={{

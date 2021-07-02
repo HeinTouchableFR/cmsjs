@@ -1,6 +1,7 @@
 import prisma from 'utils/prisma';
 import jwt from 'next-auth/jwt';
-import {populatePost} from '../../../utils/api';
+import { populatePost } from '../../../utils/api';
+import redis from '../../../utils/redis';
 
 const handler = async (req, res) => {
     const { query: { id },
@@ -61,6 +62,15 @@ const handler = async (req, res) => {
                         params: req.body.params,
                     },
                 });
+                redis.del(data.slug);
+
+                if (data.postType === 'HEADER') {
+                    redis.del('header');
+                }
+
+                if (data.postType === 'FOOTER') {
+                    redis.del('footer');
+                }
 
                 res.status(200).json({
                     success: true, data,

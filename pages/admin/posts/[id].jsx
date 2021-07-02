@@ -207,8 +207,8 @@ export async function getServerSideProps(ctx) {
             credentials: 'same-origin',
         });
         const dataTemplates = await resTemplates.json();
-        if (dataTemplates.success && dataTemplates.data) {
-            templates = dataTemplates.data;
+        if (dataTemplates.success && dataTemplates.result.data) {
+            templates = dataTemplates.result.data;
         }
     }
 

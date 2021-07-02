@@ -6,16 +6,21 @@ const handler = async (req, res) => {
     const { method } = req;
 
     let start = Date.now();
-    let cache = await redis.get('headerfooter');
-    cache = JSON.parse(cache);
+    let cacheHeader = await redis.get('header');
+    let cacheFooter = await redis.get('footer');
+    cacheHeader = JSON.parse(cacheHeader);
+    cacheFooter = JSON.parse(cacheFooter);
     const result = {
     };
 
     switch (method) {
     case 'GET':
         try {
-            if (cache) {
-                result.data = cache;
+            if (cacheHeader && cacheFooter) {
+                result.data = {
+                    header: cacheHeader,
+                    footer: cacheFooter,
+                };
                 result.type = 'redis';
                 result.latency = Date.now() - start;
                 res.status(200).json({
@@ -49,7 +54,8 @@ const handler = async (req, res) => {
                 };
                 result.type = 'api';
                 result.latency = Date.now() - start;
-                redis.set('headerfooter', JSON.stringify(result.data), 'EX', 60);
+                redis.set('header', JSON.stringify(result.data.header), 'EX', 86400);
+                redis.set('footer', JSON.stringify(result.data.footer), 'EX', 86400);
                 res.status(200).json({
                     success: true, result,
                 });

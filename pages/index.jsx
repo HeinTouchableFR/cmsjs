@@ -7,26 +7,30 @@ import { Global } from '@emotion/react';
 import RenderPost from 'container/RenderPost/RenderPost';
 import PropTypes from 'prop-types';
 import Footer from 'container/Sites/Footer/Footer';
-import { populatePost } from '../utils/api';
-import {getSession} from 'next-auth/client';
+import { getSession } from 'next-auth/client';
+import useSWR from 'swr';
+import fetcher from '../utils/fetcher';
 
 export default function Home({ post, templates, session }) {
-    const { value: settings } = useSettings();
-    const [params, setParams] = useState(post.params ? JSON.parse(post.params) : {
-    });
-    console.log(session)
 
-    useEffect(() => {
-        setParams(post.params ? JSON.parse(post.params) : {
+    const { data } = useSWR(`${process.env.SERVER}/api/posts/slug/${post.result.data.post.slug}`, fetcher, {
+        initialData: post,
+    });
+    const { data: dataTemplate } = useSWR(`${process.env.SERVER}/api/posts/getHeaderFooter`, fetcher, {
+        initialData: templates,
+    });
+    const { value: settings } = useSettings();
+    const [params, setParams] = useState(data.result.data.post.params
+        ? JSON.parse(data.result.data.post.params)
+        : {
         });
-    }, [post]);
 
     return (
         <>
             <Header
                 settings={settings}
-                post={post}
-                template={templates.header}
+                post={data.result.data.post}
+                template={dataTemplate.result.data.header}
                 isHomePage
             />
             <Global
@@ -37,11 +41,11 @@ export default function Home({ post, templates, session }) {
                 }}
             />
             <RenderPost
-                post={post}
+                post={data.result.data.post}
                 user={session ? session.user : null}
             />
             <Footer
-                template={templates.footer}
+                template={dataTemplate.result.data.footer}
             />
         </>
     );
@@ -65,24 +69,22 @@ export async function getServerSideProps(ctx) {
     const session = await getSession(ctx);
     let post = [];
     let templates = [];
-    const resSettings = await fetch(`${process.env.SERVER}/api/settings/homepage`, {
+    const resSettings = await fetcher(`${process.env.SERVER}/api/settings/homepage`, {
         credentials: 'same-origin',
     });
-    const dataHomepage = await resSettings.json();
-    if (dataHomepage.success && dataHomepage.data) {
-        post = await populatePost(dataHomepage.data.post);
+    if (resSettings.success && resSettings.result.data) {
+        post = resSettings;
     } else {
         return {
             notFound: true,
         };
     }
 
-    const resTemplates = await fetch(`${process.env.SERVER}/api/posts/getHeaderFooter`, {
+    const resTemplates = await fetcher(`${process.env.SERVER}/api/posts/getHeaderFooter`, {
         credentials: 'same-origin',
     });
-    const dataTemplates = await resTemplates.json();
-    if (dataTemplates.success && dataTemplates.data) {
-        templates = dataTemplates.data;
+    if (resTemplates.success && resTemplates.result.data) {
+        templates = resTemplates;
     }
 
     return {
