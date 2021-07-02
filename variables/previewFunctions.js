@@ -1,17 +1,15 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import {
-    animationStyle,
     backgroundStyle,
     borderStyle, colorStyle,
     marginPaddingStyle, typoStyle,
 } from './renderFunctions';
 
-export const containerStyle = (screen, element, isCurrentItem) => ({
+export const containerStyle = (screen, element) => ({
     ...marginPaddingStyle(screen, element),
     ...backgroundStyle(screen, 'normal', element),
     ...borderStyle(screen, 'normal', element),
-    ...animationStyle(screen, element, isCurrentItem),
 });
 
 export const containerStyleHover = (screen, element) => ({
@@ -39,10 +37,10 @@ export const imageStyleHover = (device, element) => ({
     opacity: `${element.content[device].image.opacity.hover}`,
 });
 
-export const styleDivPreview = (device, element, isCurrentItem = false) => css`
-        ${containerStyle('desktop', element, isCurrentItem)}
-        ${(device === 'tablet' || device === 'mobile') && containerStyle('tablet', element, isCurrentItem)}
-        ${device === 'mobile' && containerStyle('mobile', element, isCurrentItem)}
+export const styleDivPreview = (device, element) => css`
+        ${containerStyle('desktop', element)}
+        ${(device === 'tablet' || device === 'mobile') && containerStyle('tablet', element)}
+        ${device === 'mobile' && containerStyle('mobile', element)}
         &:hover {
             ${containerStyleHover('desktop', element)}
             ${(device === 'tablet' || device === 'mobile') && containerStyleHover('tablet', element)}
@@ -50,11 +48,11 @@ export const styleDivPreview = (device, element, isCurrentItem = false) => css`
         };
     `;
 
-export const styleDivImagePreview = (device, element, isCurrentItem) => css`
+export const styleDivImagePreview = (device, element) => css`
             text-align: ${element.content.alignment};
-            ${containerStyle('desktop', element, isCurrentItem)}
-            ${(device === 'tablet' || device === 'mobile') && containerStyle('tablet', element, isCurrentItem)}
-            ${device === 'mobile' && containerStyle('mobile', element, isCurrentItem)}
+            ${containerStyle('desktop', element)}
+            ${(device === 'tablet' || device === 'mobile') && containerStyle('tablet', element)}
+            ${device === 'mobile' && containerStyle('mobile', element)}
             &:hover {
                 ${containerStyleHover('desktop', element)}
                 ${(device === 'tablet' || device === 'mobile') && containerStyleHover('tablet', element)}

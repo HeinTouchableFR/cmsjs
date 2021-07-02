@@ -1,4 +1,6 @@
-import React, {useEffect, useState} from 'react';
+import React, {
+    useEffect, useState,
+} from 'react';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import {
@@ -11,7 +13,8 @@ import {
     typoStyle,
 } from 'variables/renderFunctions';
 import PropTypes from 'prop-types';
-import {useBuilder} from 'context/builder';
+import { useBuilder } from 'context/builder';
+import { useInView } from 'react-intersection-observer';
 
 function MenuPreview({ element, device }) {
     const { menus } = useBuilder();
@@ -20,6 +23,11 @@ function MenuPreview({ element, device }) {
     const spanSize = (screen) => ({
         fontSize: `${concatValueUnit(element.content[screen].typo.size.value, element.content[screen].typo.size.unit)}`,
     });
+    const { showAnimation } = useBuilder();
+    const { ref, entry } = useInView({
+        triggerOnce: true,
+    });
+    const inView = showAnimation(element);
 
     useEffect(() => {
         if (typeof element.content.menu === 'string') {
@@ -30,7 +38,7 @@ function MenuPreview({ element, device }) {
         }
     }, [element, menus]);
 
-    const Nav = styled.nav({
+    const Nav = css({
         transition: 'width .2s',
         ...containerStyle('desktop', element),
         ...(device === 'tablet' || device === 'mobile') && containerStyle('tablet', element),
@@ -234,9 +242,30 @@ function MenuPreview({ element, device }) {
         icon: 'fa-angle-double-down',
     };
 
+    useEffect(() => {
+        if (entry) {
+            if (inView && element.content.animation.name !== 'none') {
+                const timer = setInterval(() => {
+                    entry.target.classList.add('animated');
+                    entry.target.classList.add(element.content.animation.name);
+                    entry.target.classList.remove('invisible');
+
+                    if (element.content.animation.duration !== 'normal') {
+                        entry.target.classList.add(`animated-${element.content.animation.duration}`);
+                    }
+                }, element.content.animation.delay);
+                return () => clearInterval(timer);
+            }
+        }
+        return null;
+    }, [inView, entry]);
+
     return (
         <>
-            <Nav>
+            <nav
+                ref={ref}
+                css={Nav}
+            >
                 <NavMenu>
                     {menu && menu.map((item) => (
                         <Item
@@ -255,7 +284,7 @@ function MenuPreview({ element, device }) {
                 >
                     <span key='burger-button-span' />
                 </button>
-            </Nav>
+            </nav>
         </>
     );
 }
@@ -284,6 +313,11 @@ MenuPreview.propTypes = {
                 }),
                 PropTypes.string,
             ]).isRequired,
+            animation: PropTypes.shape({
+                name: PropTypes.string,
+                duration: PropTypes.string,
+                delay: PropTypes.string,
+            }),
         }).isRequired,
         styles: PropTypes.shape({
         }).isRequired,

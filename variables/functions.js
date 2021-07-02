@@ -103,17 +103,14 @@ export const changeTypoWithKey = (_e, data, key, item, device, setItem, onChange
     onChange(updated);
 };
 
-export const changeAnimation = (_e, data, item, device, setItem, onChange) => {
+export const changeAnimation = (_e, data, item, setItem, onChange) => {
     const updated = {
         ...item,
         content: {
             ...item.content,
-            [device]: {
-                ...item.content[device],
-                animation: {
-                    ...item.content[device].animation,
-                    [data.name]: data.value,
-                },
+            animation: {
+                ...item.content.animation,
+                [data.name]: data.value,
             },
         },
     };

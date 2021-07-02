@@ -1,3 +1,19 @@
+.invisible {
+  visibility: hidden;
+}
+
+.animated {
+  animation-duration: 1.25s;
+}
+
+.animated-slow {
+  animation-duration: 2s;
+}
+
+.animated-fast {
+  animation-duration: .75s;
+}
+
 @keyframes bounce {
   20%, 53%, 80%, from, to {
     animation-timing-function: cubic-bezier(.215, .61, .355, 1);

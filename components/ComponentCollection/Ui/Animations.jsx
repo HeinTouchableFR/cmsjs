@@ -10,11 +10,11 @@ import Dropdown from 'components/Form/Dropdown/Dropdown';
 import PropTypes from 'prop-types';
 import { changeAnimation } from 'variables/functions';
 
-export default function Animations({ item, device, setItem, onChange }) {
+export default function Animations({ item, setItem, onChange }) {
     const intl = useIntl();
 
     const handleChangeAnimation = (_e, data) => {
-        changeAnimation(_e, data, item, device, setItem, onChange);
+        changeAnimation(_e, data, item, setItem, onChange);
     };
 
     return (
@@ -28,7 +28,7 @@ export default function Animations({ item, device, setItem, onChange }) {
             >
                 <Dropdown
                     name='name'
-                    defaultValue={item.content[device].animation.name}
+                    defaultValue={item.content.animation.name}
                     options={animationsOptions}
                     onChange={handleChangeAnimation}
                     label={intl.formatMessage({
@@ -40,7 +40,7 @@ export default function Animations({ item, device, setItem, onChange }) {
                 />
                 <Dropdown
                     name='duration'
-                    defaultValue={item.content[device].animation.duration}
+                    defaultValue={item.content.animation.duration}
                     options={durationsOptions}
                     onChange={handleChangeAnimation}
                     label={intl.formatMessage({
@@ -60,7 +60,7 @@ export default function Animations({ item, device, setItem, onChange }) {
                     placeholder='0'
                     name='delay'
                     type='number'
-                    defaultValue={item.content[device].animation.delay}
+                    defaultValue={item.content.animation.delay}
                     onChange={handleChangeAnimation}
                 />
             </Accordion>
@@ -73,7 +73,6 @@ Animations.propTypes = {
         content: PropTypes.shape({
         }).isRequired,
     }).isRequired,
-    device: PropTypes.string.isRequired,
     setItem: PropTypes.func.isRequired,
     onChange: PropTypes.func.isRequired,
 };

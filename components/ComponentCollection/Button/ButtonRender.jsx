@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
@@ -13,10 +13,11 @@ import {
     paddingMarginStyle,
 } from 'variables/renderFunctions';
 import Link from 'next/link';
-import {styleDivPreview} from '../../../variables/previewFunctions';
 
 export default function ButtonRender({ element }) {
-    const { ref, inView } = useInView();
+    const { ref, inView, entry } = useInView({
+        triggerOnce: true,
+    });
 
     const Button = styled.a({
         display: 'inline-block',
@@ -52,14 +53,33 @@ export default function ButtonRender({ element }) {
         textAlign: element.content.alignment,
     });
 
+    useEffect(() => {
+        if (entry) {
+            if (inView && element.content.animation.name !== 'none') {
+                const timer = setInterval(() => {
+                    entry.target.classList.add('animated');
+                    entry.target.classList.add(element.content.animation.name);
+                    entry.target.classList.remove('invisible');
+
+                    if (element.content.animation.duration !== 'normal') {
+                        entry.target.classList.add(`animated-${element.content.animation.duration}`);
+                    }
+                }, element.content.animation.delay);
+                return () => clearInterval(timer);
+            }
+        }
+        return null;
+    }, [inView]);
+
     return (
         <>
             <div
                 ref={ref}
                 css={css`
-                    ${styleDiv(element, inView)};
+                    ${styleDiv(element)};
                     ${align}
                  `}
+                className={element.content.animation.name !== 'none' ? 'invisible' : ''}
             >
                 <Link
                     href={element.content.url}
@@ -79,6 +99,11 @@ ButtonRender.propTypes = {
             alignment: PropTypes.string.isRequired,
             text: PropTypes.string.isRequired,
             url: PropTypes.string.isRequired,
+            animation: PropTypes.shape({
+                name: PropTypes.string,
+                duration: PropTypes.string,
+                delay: PropTypes.string,
+            }),
         }).isRequired,
         styles: PropTypes.shape({
         }).isRequired,

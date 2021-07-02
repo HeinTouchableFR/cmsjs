@@ -996,7 +996,7 @@ export const durationsOptions = [
             key='builder.duration.slow'
             defaultMessage='Slow'
         />,
-        value: '2s',
+        value: 'slow',
         content: <span>
             <FormattedMessage
                 id='builder.duration.slow'
@@ -1012,7 +1012,7 @@ export const durationsOptions = [
             key='builder.duration.normal'
             defaultMessage='Normal'
         />,
-        value: '1s',
+        value: 'normal',
         content: <span>
             <FormattedMessage
                 id='builder.duration.normal'
@@ -1028,7 +1028,7 @@ export const durationsOptions = [
             key='builder.duration.fast'
             defaultMessage='Fast'
         />,
-        value: '0.75s',
+        value: 'fast',
         content: <span>
             <FormattedMessage
                 id='builder.duration.fast'

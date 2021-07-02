@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import parse from 'html-react-parser';
@@ -11,7 +11,9 @@ import {
 import PropTypes from 'prop-types';
 
 export default function TextRender({ element }) {
-    const { ref, inView } = useInView();
+    const { ref, inView, entry } = useInView({
+        triggerOnce: true,
+    });
 
     const Text = styled.div({
         ...colorStyle('desktop', 'normal', element),
@@ -37,11 +39,30 @@ export default function TextRender({ element }) {
         }),
     });
 
+    useEffect(() => {
+        if (entry) {
+            if (inView && element.content.animation.name !== 'none') {
+                const timer = setInterval(() => {
+                    entry.target.classList.add('animated');
+                    entry.target.classList.add(element.content.animation.name);
+                    entry.target.classList.remove('invisible');
+
+                    if (element.content.animation.duration !== 'normal') {
+                        entry.target.classList.add(`animated-${element.content.animation.duration}`);
+                    }
+                }, element.content.animation.delay);
+                return () => clearInterval(timer);
+            }
+        }
+        return null;
+    }, [inView]);
+
     return (
         <>
             <div
                 ref={ref}
-                css={styleDiv(element, inView)}
+                css={styleDiv(element)}
+                className={element.content.animation.name !== 'none' ? 'invisible' : ''}
             >
                 <Text>
                     {parse(element.content.text)}
@@ -56,6 +77,11 @@ TextRender.propTypes = {
         content: PropTypes.shape({
             alignment: PropTypes.string.isRequired,
             text: PropTypes.string.isRequired,
+            animation: PropTypes.shape({
+                name: PropTypes.string,
+                duration: PropTypes.string,
+                delay: PropTypes.string,
+            }),
         }).isRequired,
         styles: PropTypes.shape({
         }).isRequired,

@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, {
+    useEffect, useState,
+} from 'react';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { useInView } from 'react-intersection-observer';
 import Link from 'next/link';
 import {
-    animationStyle,
     backgroundStyle,
     borderStyle,
     colorStyle,
@@ -15,17 +16,18 @@ import {
 import PropTypes from 'prop-types';
 
 export default function MenuRender({ element }) {
-    const { inView } = useInView();
+    const { ref, inView, entry } = useInView({
+        triggerOnce: true,
+    });
     const [isNavActive, setIsNavActive] = useState(false);
 
     const [menu] = useState(JSON.parse(element.content.menu.items));
 
-    const Nav = styled.nav({
+    const Nav = css({
         transition: 'width .2s',
         ...marginPaddingStyle('desktop', element),
         ...backgroundStyle('desktop', 'normal', element),
         ...borderStyle('desktop', 'normal', element),
-        ...animationStyle('desktop', element, inView),
         '&:hover': {
             ...backgroundStyle('desktop', 'hover', element),
             ...borderStyle('desktop', 'hover', element),
@@ -34,7 +36,6 @@ export default function MenuRender({ element }) {
             ...marginPaddingStyle('tablet', element),
             ...backgroundStyle('tablet', 'normal', element),
             ...borderStyle('tablet', 'normal', element),
-            ...animationStyle('tablet'),
             '&:hover': {
                 ...backgroundStyle('tablet', 'hover', element),
                 ...borderStyle('tablet', 'hover', element),
@@ -44,7 +45,6 @@ export default function MenuRender({ element }) {
             ...marginPaddingStyle('mobile', element),
             ...backgroundStyle('mobile', 'normal', element),
             ...borderStyle('mobile', 'normal', element),
-            ...animationStyle('mobile', element, inView),
             '&:hover': {
                 ...backgroundStyle('mobile', 'hover', element),
                 ...borderStyle('mobile', 'hover', element),
@@ -218,6 +218,8 @@ export default function MenuRender({ element }) {
     const Item = ({ item, handleSetIsNavActive, icon }) => (
         <NavMenuItem>
             <Link href={`${item.slug !== '/'}` ? `${process.env.SERVER}/${item.slug}` : `${item.slug}`}>
+                {/* eslint-disable-next-line max-len */}
+                {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions,jsx-a11y/anchor-is-valid,jsx-a11y/click-events-have-key-events */}
                 <a onClick={() => handleSetIsNavActive(false)}>{item.label}</a>
             </Link>
 
@@ -256,9 +258,32 @@ export default function MenuRender({ element }) {
         icon: 'fa-angle-double-down',
     };
 
+    useEffect(() => {
+        if (entry) {
+            console.log(entry.target);
+            if (inView && element.content.animation.name !== 'none') {
+                const timer = setInterval(() => {
+                    entry.target.classList.add('animated');
+                    entry.target.classList.add(element.content.animation.name);
+                    entry.target.classList.remove('invisible');
+
+                    if (element.content.animation.duration !== 'normal') {
+                        entry.target.classList.add(`animated-${element.content.animation.duration}`);
+                    }
+                }, element.content.animation.delay);
+                return () => clearInterval(timer);
+            }
+        }
+        return null;
+    }, [inView]);
+
     return (
         <>
-            <Nav>
+            <nav
+                ref={ref}
+                css={Nav}
+                className={element.content.animation.name !== 'none' ? 'invisible' : ''}
+            >
                 <NavMenu>
                     {menu && menu.map((item) => (
                         <Item
@@ -277,7 +302,7 @@ export default function MenuRender({ element }) {
                 >
                     <span key='burger-button-span' />
                 </button>
-            </Nav>
+            </nav>
         </>
     );
 }
@@ -308,6 +333,11 @@ MenuRender.propTypes = {
             menu: PropTypes.shape({
                 items: PropTypes.string,
             }).isRequired,
+            animation: PropTypes.shape({
+                name: PropTypes.string,
+                duration: PropTypes.string,
+                delay: PropTypes.string,
+            }),
         }).isRequired,
         styles: PropTypes.shape({
         }).isRequired,

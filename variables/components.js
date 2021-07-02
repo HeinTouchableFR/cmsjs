@@ -125,11 +125,6 @@ export default class defaultComponents {
                             },
                         },
                     },
-                    animation: {
-                        name: 'none',
-                        duration: '1s',
-                        delay: '0',
-                    },
                 },
                 tablet: {
                     typo: {
@@ -193,11 +188,6 @@ export default class defaultComponents {
                                 color: '',
                             },
                         },
-                    },
-                    animation: {
-                        name: '',
-                        duration: '',
-                        delay: '',
                     },
                 },
                 mobile: {
@@ -263,11 +253,11 @@ export default class defaultComponents {
                             },
                         },
                     },
-                    animation: {
-                        name: '',
-                        duration: '',
-                        delay: '',
-                    },
+                },
+                animation: {
+                    name: 'none',
+                    duration: 'normal',
+                    delay: '0',
                 },
                 styles: {
                     textShadow: {
@@ -358,11 +348,6 @@ export default class defaultComponents {
                             },
                         },
                     },
-                    animation: {
-                        name: 'none',
-                        duration: '1s',
-                        delay: '0',
-                    },
                 },
                 tablet: {
                     typo: {
@@ -426,11 +411,6 @@ export default class defaultComponents {
                                 color: '',
                             },
                         },
-                    },
-                    animation: {
-                        name: '',
-                        duration: '',
-                        delay: '',
                     },
                 },
                 mobile: {
@@ -496,11 +476,11 @@ export default class defaultComponents {
                             },
                         },
                     },
-                    animation: {
-                        name: '',
-                        duration: '',
-                        delay: '',
-                    },
+                },
+                animation: {
+                    name: 'none',
+                    duration: 'normal',
+                    delay: '0',
                 },
                 styles: {
                     textShadow: {
@@ -588,11 +568,6 @@ export default class defaultComponents {
                             },
                         },
                     },
-                    animation: {
-                        name: 'none',
-                        duration: '1s',
-                        delay: '0',
-                    },
                 },
                 tablet: {
                     typo: {
@@ -656,11 +631,6 @@ export default class defaultComponents {
                                 color: '',
                             },
                         },
-                    },
-                    animation: {
-                        name: '',
-                        duration: '',
-                        delay: '',
                     },
                 },
                 mobile: {
@@ -726,11 +696,11 @@ export default class defaultComponents {
                             },
                         },
                     },
-                    animation: {
-                        name: '',
-                        duration: '',
-                        delay: '',
-                    },
+                },
+                animation: {
+                    name: 'none',
+                    duration: 'normal',
+                    delay: '0',
                 },
             },
         };
@@ -814,11 +784,6 @@ export default class defaultComponents {
                             },
                         },
                     },
-                    animation: {
-                        name: 'none',
-                        duration: '1s',
-                        delay: '0',
-                    },
                 },
                 tablet: {
                     image: {
@@ -882,11 +847,6 @@ export default class defaultComponents {
                                 color: '',
                             },
                         },
-                    },
-                    animation: {
-                        name: '',
-                        duration: '',
-                        delay: '',
                     },
                 },
                 mobile: {
@@ -952,11 +912,11 @@ export default class defaultComponents {
                             },
                         },
                     },
-                    animation: {
-                        name: '',
-                        duration: '',
-                        delay: '',
-                    },
+                },
+                animation: {
+                    name: 'none',
+                    duration: 'normal',
+                    delay: '0',
                 },
             },
         };
@@ -1039,11 +999,6 @@ export default class defaultComponents {
                             },
                         },
                     },
-                    animation: {
-                        name: 'none',
-                        duration: '1s',
-                        delay: '0',
-                    },
                 },
                 tablet: {
                     typo: {
@@ -1107,11 +1062,6 @@ export default class defaultComponents {
                                 color: '',
                             },
                         },
-                    },
-                    animation: {
-                        name: '',
-                        duration: '',
-                        delay: '',
                     },
                 },
                 mobile: {
@@ -1177,11 +1127,11 @@ export default class defaultComponents {
                             },
                         },
                     },
-                    animation: {
-                        name: '',
-                        duration: '',
-                        delay: '',
-                    },
+                },
+                animation: {
+                    name: 'none',
+                    duration: 'normal',
+                    delay: '0',
                 },
                 styles: {
                     textShadow: {
@@ -1268,11 +1218,6 @@ export default class defaultComponents {
                             },
                         },
                     },
-                    animation: {
-                        name: 'none',
-                        duration: '1s',
-                        delay: '0',
-                    },
                 },
                 tablet: {
                     image: {
@@ -1336,11 +1281,6 @@ export default class defaultComponents {
                                 color: '',
                             },
                         },
-                    },
-                    animation: {
-                        name: '',
-                        duration: '',
-                        delay: '',
                     },
                 },
                 mobile: {
@@ -1406,11 +1346,11 @@ export default class defaultComponents {
                             },
                         },
                     },
-                    animation: {
-                        name: '',
-                        duration: '',
-                        delay: '',
-                    },
+                },
+                animation: {
+                    name: 'none',
+                    duration: 'normal',
+                    delay: '0',
                 },
             },
         };
@@ -1490,11 +1430,6 @@ export default class defaultComponents {
                             },
                         },
                     },
-                    animation: {
-                        name: 'none',
-                        duration: '1s',
-                        delay: '0',
-                    },
                 },
                 tablet: {
                     typo: {
@@ -1558,11 +1493,6 @@ export default class defaultComponents {
                                 color: '',
                             },
                         },
-                    },
-                    animation: {
-                        name: '',
-                        duration: '',
-                        delay: '',
                     },
                 },
                 mobile: {
@@ -1628,11 +1558,11 @@ export default class defaultComponents {
                             },
                         },
                     },
-                    animation: {
-                        name: '',
-                        duration: '',
-                        delay: '',
-                    },
+                },
+                animation: {
+                    name: 'none',
+                    duration: 'normal',
+                    delay: '0',
                 },
             },
         };

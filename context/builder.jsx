@@ -59,7 +59,7 @@ export function BuilderProvider({ post, postType, children, intl }) {
     const [type, setType] = useState(post.postType || postType);
 
     useEffect(() => {
-        switch (postType) {
+        switch (type) {
         case 'PAGE':
             setComponents(defaultComponents.pageComponents(intl));
             break;
@@ -636,8 +636,8 @@ export function BuilderProvider({ post, postType, children, intl }) {
             return false;
         }
         if (currentElement.id) {
-            if (!(currentElement.content[device].animation === currentAnimation)) {
-                setCurrentAnimation(currentElement.content[device].animation);
+            if (!(currentElement.content.animation === currentAnimation)) {
+                setCurrentAnimation(currentElement.content.animation);
                 return true;
             }
         }

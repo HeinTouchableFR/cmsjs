@@ -106,14 +106,6 @@ export const borderButtonStyle = (mode, element) => ({
     element.content.button.border[mode].radius.unit),
 });
 
-export const animationStyle = (device, element, inView) => ({
-    animationDuration: inView
-        && element.content[device].animation.duration
-        && element.content[device].animation.duration,
-    animationDelay: `${inView && element.content[device].animation.delay && element.content[device].animation.delay}ms`,
-    animationName: `${inView && element.content[device].animation.name}`,
-});
-
 export const imageStyle = (device, element) => ({
     width: `${element.content[device].image.size.width.value}${element.content[device].image.size.width.unit}`,
     maxWidth: `${element.content[device].image.size.maxWidth.value}${element.content[device].image.size.maxWidth.unit}`,
@@ -125,11 +117,10 @@ export const imageStyleHover = (device, element) => ({
     opacity: `${element.content[device].image.opacity.hover}`,
 });
 
-export const styleDiv = (element, inView) => ({
+export const styleDiv = (element) => ({
     ...marginPaddingStyle('desktop', element),
     ...backgroundStyle('desktop', 'normal', element),
     ...borderStyle('desktop', 'normal', element),
-    ...animationStyle('desktop', element, inView),
     '&:hover': {
         ...backgroundStyle('desktop', 'hover', element),
         ...borderStyle('desktop', 'hover', element),
@@ -138,7 +129,6 @@ export const styleDiv = (element, inView) => ({
         ...marginPaddingStyle('tablet', element),
         ...backgroundStyle('tablet', 'normal', element),
         ...borderStyle('tablet', 'normal', element),
-        ...animationStyle('tablet', element, inView),
         '&:hover': {
             ...backgroundStyle('tablet', 'hover', element),
             ...borderStyle('tablet', 'hover', element),
@@ -148,7 +138,6 @@ export const styleDiv = (element, inView) => ({
         ...marginPaddingStyle('mobile', element),
         ...backgroundStyle('mobile', 'normal', element),
         ...borderStyle('mobile', 'normal', element),
-        ...animationStyle('mobile', element, inView),
         '&:hover': {
             ...backgroundStyle('mobile', 'hover', element),
             ...borderStyle('mobile', 'hover', element),
