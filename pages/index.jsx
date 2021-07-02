@@ -1,6 +1,4 @@
-import React, {
-    useEffect, useState,
-} from 'react';
+import React, { useState } from 'react';
 import Header from 'container/Sites/Header/Header';
 import { useSettings } from 'context/settings';
 import { Global } from '@emotion/react';
@@ -8,29 +6,18 @@ import RenderPost from 'container/RenderPost/RenderPost';
 import PropTypes from 'prop-types';
 import Footer from 'container/Sites/Footer/Footer';
 import { getSession } from 'next-auth/client';
-import useSWR from 'swr';
 import fetcher from '../utils/fetcher';
 
 export default function Home({ post, templates, session }) {
-
-    const { data } = useSWR(`${process.env.SERVER}/api/posts/slug/${post.result.data.post.slug}`, fetcher, {
-        initialData: post,
-    });
-    const { data: dataTemplate } = useSWR(`${process.env.SERVER}/api/posts/getHeaderFooter`, fetcher, {
-        initialData: templates,
-    });
     const { value: settings } = useSettings();
-    const [params, setParams] = useState(data.result.data.post.params
-        ? JSON.parse(data.result.data.post.params)
-        : {
-        });
+    const [params, setParams] = useState(JSON.parse(post.params));
 
     return (
         <>
             <Header
                 settings={settings}
-                post={data.result.data.post}
-                template={dataTemplate.result.data.header}
+                post={post}
+                template={templates.header}
                 isHomePage
             />
             <Global
@@ -41,11 +28,11 @@ export default function Home({ post, templates, session }) {
                 }}
             />
             <RenderPost
-                post={data.result.data.post}
+                post={post}
                 user={session ? session.user : null}
             />
             <Footer
-                template={dataTemplate.result.data.footer}
+                template={templates.footer}
             />
         </>
     );
@@ -73,7 +60,7 @@ export async function getServerSideProps(ctx) {
         credentials: 'same-origin',
     });
     if (resSettings.success && resSettings.result.data) {
-        post = resSettings;
+        post = resSettings.result.data.post;
     } else {
         return {
             notFound: true,
@@ -84,7 +71,7 @@ export async function getServerSideProps(ctx) {
         credentials: 'same-origin',
     });
     if (resTemplates.success && resTemplates.result.data) {
-        templates = resTemplates;
+        templates = resTemplates.result.data;
     }
 
     return {

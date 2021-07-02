@@ -5,28 +5,18 @@ import { useSettings } from 'context/settings';
 import { Global } from '@emotion/react';
 import PropTypes from 'prop-types';
 import Footer from 'container/Sites/Footer/Footer';
-import useSWR from 'swr';
 import fetcher from 'utils/fetcher';
 
 export default function Page({ post, templates }) {
-    const { data } = useSWR(`${process.env.SERVER}/api/posts/slug/${post.result.data.slug}`, fetcher, {
-        initialData: post,
-    });
-    const { data: dataTemplate } = useSWR(`${process.env.SERVER}/api/posts/getHeaderFooter`, fetcher, {
-        initialData: templates,
-    });
     const { value: settings } = useSettings();
-    const [params, setParams] = useState(data.result.data.params
-        ? JSON.parse(data.result.data.params)
-        : {
-        });
+    const [params, setParams] = useState(JSON.parse(post.params));
 
     return (
         <>
             <Header
                 settings={settings}
-                post={data.result.data}
-                template={dataTemplate.result.data.header}
+                post={post}
+                template={templates.header}
             />
             <Global
                 styles={{
@@ -36,10 +26,10 @@ export default function Page({ post, templates }) {
                 }}
             />
             <RenderPost
-                post={data.result.data}
+                post={post}
             />
             <Footer
-                template={dataTemplate.result.data.footer}
+                template={templates.footer}
             />
         </>
     );
@@ -68,7 +58,7 @@ export async function getServerSideProps({ params }) {
         credentials: 'same-origin',
     });
     if (resItem.success && resItem.result.data) {
-        post = resItem;
+        post = resItem.result.data;
     } else {
         return {
             notFound: true,
@@ -79,7 +69,7 @@ export async function getServerSideProps({ params }) {
         credentials: 'same-origin',
     });
     if (resTemplates.success && resTemplates.result.data) {
-        templates = resTemplates;
+        templates = resTemplates.result.data;
     }
 
     return {
