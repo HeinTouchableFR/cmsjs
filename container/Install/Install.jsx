@@ -6,14 +6,14 @@ import { useIntl } from 'react-intl';
 import DarkModeButton from 'components/Button/DarkModeButton/DarkModeButton';
 import Input from 'components/Form/Input/Input';
 import Button from 'components/Button/Button';
-import { useInstall } from 'context/install';
+import { useSite } from 'context/site';
 import TextArea from 'components/Form/TextArea/TextArea';
 import styles from './Install.module.scss';
 import Checkup from './Checkup/Checkup';
 
 export default function Install() {
     const intl = useIntl();
-    const { value: install } = useInstall();
+    const { value: install } = useSite();
 
     const [form, setForm] = useState({
         sitename: '',

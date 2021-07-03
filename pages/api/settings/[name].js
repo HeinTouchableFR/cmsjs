@@ -1,6 +1,6 @@
 import prisma from 'utils/prisma';
-import redis from '../../../utils/redis';
-import { populatePost } from '../../../utils/api';
+import redis from 'utils/redis';
+import { populatePost } from 'utils/api';
 
 const handler = async (req, res) => {
     const { query: { name },

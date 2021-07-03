@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FormattedMessage } from 'react-intl';
 import DarkModeButton from 'components/Button/DarkModeButton/DarkModeButton';
-import { useSettings } from 'context/settings';
+import { useSite } from 'context/site';
 import { useSession } from 'next-auth/client';
 import PropTypes from 'prop-types';
 import { version } from 'package';
@@ -14,7 +14,7 @@ import Search from './Search';
 
 export default function Admin({ children }) {
     const router = useRouter();
-    const { value: settings } = useSettings();
+    const { value: settings } = useSite();
     const [siteName, setSiteName] = useState('');
     const [session] = useSession();
 

@@ -1,4 +1,5 @@
 import prisma from 'utils/prisma';
+import redis from 'utils/redis';
 
 const bcrypt = require('bcrypt');
 
@@ -11,6 +12,7 @@ export default async (req, res) => {
             // Check if database is empty
             const emptyDatabase = await prisma.settings.count();
             if (emptyDatabase === 0) {
+                redis.del('settings');
                 // Table users
                 const hash = bcrypt.hashSync(req.body.password, 12);
                 const dataUser = await prisma.users.create({

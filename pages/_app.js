@@ -13,9 +13,7 @@ import {
     useEffect,
     useState,
 } from 'react';
-import { TemplatesProvider } from 'context/template';
-import { SettingsProvider } from 'context/settings';
-import { InstallProvider } from 'context/install';
+import { SiteProvider } from 'context/site';
 import { Provider } from 'next-auth/client';
 
 const messages = {
@@ -51,13 +49,9 @@ function MyApp({ Component, pageProps }) {
                 locale={language}
                 messages={messages[language] ? messages[language] : en}
             >
-                <SettingsProvider>
-                    <InstallProvider>
-                        <TemplatesProvider>
-                            <Component {...pageProps} />
-                        </TemplatesProvider>
-                    </InstallProvider>
-                </SettingsProvider>
+                <SiteProvider>
+                    <Component {...pageProps} />
+                </SiteProvider>
             </IntlProvider>
         </Provider>
     );

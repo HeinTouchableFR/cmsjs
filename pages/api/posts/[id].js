@@ -1,7 +1,7 @@
 import prisma from 'utils/prisma';
 import jwt from 'next-auth/jwt';
-import { populatePost } from '../../../utils/api';
-import redis from '../../../utils/redis';
+import { populatePost } from 'utils/api';
+import redis from 'utils/redis';
 
 const handler = async (req, res) => {
     const { query: { id },

@@ -1,6 +1,6 @@
 import prisma from 'utils/prisma';
 import jwt from 'next-auth/jwt';
-import {populatePost} from '../../../utils/api';
+import { populatePost } from 'utils/api';
 
 const handler = async (req, res) => {
     const { query: { id },

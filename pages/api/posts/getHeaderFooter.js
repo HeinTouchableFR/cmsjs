@@ -1,6 +1,6 @@
 import prisma from 'utils/prisma';
-import {populatePost} from 'utils/api';
-import redis from '../../../utils/redis';
+import { populatePost } from 'utils/api';
+import redis from 'utils/redis';
 
 const handler = async (req, res) => {
     const { method } = req;
@@ -37,6 +37,12 @@ const handler = async (req, res) => {
                     },
                 });
                 header.post = await populatePost(header.post);
+                header.settings = await prisma.settings.findMany({
+                    include: {
+                        image: true,
+                        post: true,
+                    },
+                });
 
                 const footer = await prisma.settings.findUnique({
                     where: {
@@ -49,7 +55,7 @@ const handler = async (req, res) => {
                 footer.post = await populatePost(footer.post);
 
                 result.data = {
-                    header: header.post,
+                    header,
                     footer: footer.post,
                 };
                 result.type = 'api';

@@ -1,20 +1,16 @@
 import React from 'react';
 import Header from 'container/Sites/Header/Header';
-import { useSettings } from 'context/settings';
 import { Global } from '@emotion/react';
 import RenderPost from 'container/RenderPost/RenderPost';
 import PropTypes from 'prop-types';
 import Footer from 'container/Sites/Footer/Footer';
 import { getSession } from 'next-auth/client';
-import fetcher from '../utils/fetcher';
+import fetcher from 'utils/fetcher';
 
 export default function Home({ post, templates, session }) {
-    const { value: settings } = useSettings();
-console.log(settings)
     return (
         <>
             <Header
-                settings={settings}
                 post={post}
                 template={templates.header}
                 isHomePage
@@ -55,11 +51,11 @@ export async function getServerSideProps(ctx) {
     const session = await getSession(ctx);
     let post = [];
     let templates = [];
-    const resSettings = await fetcher(`${process.env.SERVER}/api/settings/homepage`, {
+    const resHomepage = await fetcher(`${process.env.SERVER}/api/settings/homepage`, {
         credentials: 'same-origin',
     });
-    if (resSettings.success && resSettings.result.data) {
-        post = resSettings.result.data.post;
+    if (resHomepage.success && resHomepage.result.data) {
+        post = resHomepage.result.data.post;
     } else {
         return {
             notFound: true,

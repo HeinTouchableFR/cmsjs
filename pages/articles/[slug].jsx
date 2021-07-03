@@ -1,18 +1,15 @@
 import React from 'react';
 import Header from 'container/Sites/Header/Header';
-import { useSettings } from 'context/settings';
 import PropTypes from 'prop-types';
 import Footer from 'container/Sites/Footer/Footer';
 import Article from 'components/Posts/Articles/Article/Article';
+import fetcher from 'utils/fetcher';
 import styles from './Articles.module.scss';
 
 export default function Articles({ category, templates }) {
-    const { value: settings } = useSettings();
-
     return (
         <>
             <Header
-                settings={settings}
                 post={category}
                 template={templates.header}
                 isHomePage
@@ -61,12 +58,11 @@ export async function getServerSideProps({ res, params }) {
         };
     }
 
-    const resTemplates = await fetch(`${process.env.SERVER}/api/posts/getHeaderFooter`, {
+    const resTemplates = await fetcher(`${process.env.SERVER}/api/posts/getHeaderFooter`, {
         credentials: 'same-origin',
     });
-    const dataTemplates = await resTemplates.json();
-    if (dataTemplates.success && dataTemplates.data) {
-        templates = dataTemplates.data;
+    if (resTemplates.success && resTemplates.result.data) {
+        templates = resTemplates.result.data;
     }
 
     return {

@@ -1,31 +1,14 @@
 import PropTypes from 'prop-types';
-import React, {
-    useEffect, useState,
-} from 'react';
+import React, { useEffect } from 'react';
 import Head from 'next/head';
 import styled from '@emotion/styled';
 import Layout from 'container/RenderPost/Layout';
 
 export default function Header({ children,
-    settings,
     post,
     template,
     isHomePage }) {
-    const [content] = useState(template.content ? JSON.parse(template.content) : []);
-    const [params] = useState(template.params ? JSON.parse(template.params) : []);
-    const [siteName, setSiteName] = useState('');
-    const [logo, setLogo] = useState('');
-
-    useEffect(() => {
-        if (settings.settings) {
-            setSiteName(settings.settings.find((x) => x.data === 'sitename')?.value);
-
-            const logoSetting = settings.settings.find((x) => x.data === 'logo');
-            if (logoSetting) {
-                setLogo(logoSetting.image ? `${process.env.MEDIA_SERVER}/${settings.settings.find((x) => x.data === 'logo')?.image.name}` : `${process.env.SERVER}/logo.png`);
-            }
-        }
-    }, [settings]);
+    const logo = template.settings.find((x) => x.data === 'logo').image ? `${process.env.MEDIA_SERVER}/${template.settings.find((x) => x.data === 'logo')?.image.name}` : `${process.env.SERVER}/logo.png`;
 
     useEffect(() => {
         document.documentElement.lang = process.env.LOCALE;
@@ -35,7 +18,7 @@ export default function Header({ children,
         position: 'sticky',
         width: '100%',
         zIndex: '1000',
-        backgroundColor: params.background,
+        backgroundColor: JSON.parse(template.post.params).background,
         top: '0',
     });
 
@@ -61,7 +44,10 @@ export default function Header({ children,
                     name='viewport'
                     content='width=device-width, initial-scale=1.0,  user-scalable=no'
                 />
-                <meta name="google-site-verification" content="fkX0m0u6X-RPUgW6VmS5O5uGI4aCyw12hrHWmtANcO8" />
+                <meta
+                    name='google-site-verification'
+                    content='fkX0m0u6X-RPUgW6VmS5O5uGI4aCyw12hrHWmtANcO8'
+                />
                 <meta
                     httpEquiv='X-UA-Compatible'
                     content='ie=edge'
@@ -88,7 +74,7 @@ export default function Header({ children,
                 />
                 <meta
                     property='og:title'
-                    content={`${post.title} | ${siteName}`}
+                    content={`${post.title} | ${template.settings.find((x) => x.data === 'sitename')?.value}`}
                 />
                 <meta
                     property='og:description'
@@ -100,7 +86,7 @@ export default function Header({ children,
                 />
                 <meta
                     property='og:site_name'
-                    content={siteName}
+                    content={template.settings.find((x) => x.data === 'sitename')?.value}
                 />
                 <meta
                     property='og:image'
@@ -112,11 +98,11 @@ export default function Header({ children,
                 />
                 <meta
                     name='twitter:site'
-                    content={siteName}
+                    content={template.settings.find((x) => x.data === 'sitename')?.value}
                 />
                 <meta
                     name='twitter:title'
-                    content={`${post.title} | ${siteName}`}
+                    content={`${post.title} | ${template.settings.find((x) => x.data === 'sitename')?.value}`}
                 />
                 <meta
                     name='twitter:description'
@@ -136,13 +122,13 @@ export default function Header({ children,
                                 {
                                     '@type': 'Organization',
                                     '@id': `${process.env.SERVER}/#organization`,
-                                    name: `${siteName}`,
+                                    name: `${template.settings.find((x) => x.data === 'sitename')?.value}`,
                                     url: `${process.env.SERVER}/`,
                                     sameAs: [
-                                        settings?.settings?.find((x) => x.data === 'facebook')?.value,
-                                        settings?.settings?.find((x) => x.data === 'twitter')?.value,
-                                        settings?.settings?.find((x) => x.data === 'instagram')?.value,
-                                        settings?.settings?.find((x) => x.data === 'linkedin')?.value,
+                                        template.settings?.find((x) => x.data === 'facebook')?.value,
+                                        template.settings?.find((x) => x.data === 'twitter')?.value,
+                                        template.settings?.find((x) => x.data === 'instagram')?.value,
+                                        template.settings?.find((x) => x.data === 'linkedin')?.value,
                                     ],
                                     logo: {
                                         '@type': 'ImageObject',
@@ -150,7 +136,7 @@ export default function Header({ children,
                                         inLanguage: `${process.env.LOCALE}`,
                                         url: `${logo}`,
                                         contentUrl: `${logo}`,
-                                        caption: `${siteName}`,
+                                        caption: `${template.settings.find((x) => x.data === 'sitename')?.value}`,
                                     },
                                     image: {
                                         '@id': `${process.env.SERVER}/#logo`,
@@ -160,7 +146,7 @@ export default function Header({ children,
                                     '@type': 'WebSite',
                                     '@id': `${process.env.SERVER}/#website`,
                                     url: `${process.env.SERVER}/`,
-                                    name: `${siteName}`,
+                                    name: `${template.settings.find((x) => x.data === 'sitename')?.value}`,
                                     description: 'Informatique - High Tech',
                                     publisher: {
                                         '@id': `${process.env.SERVER}/#organization`,
@@ -185,7 +171,7 @@ export default function Header({ children,
                                     '@type': 'WebPage',
                                     '@id': `${process.env.SERVER}/#webpage`,
                                     url: `${process.env.SERVER}`,
-                                    name: `${post.title} | ${siteName}`,
+                                    name: `${post.title} | ${template.settings.find((x) => x.data === 'sitename')?.value}`,
                                     isPartOf: {
                                         '@id': `${process.env.SERVER}/#website`,
                                     },
@@ -232,7 +218,7 @@ export default function Header({ children,
                 <title>
                     {post.title}
                     {' | '}
-                    {siteName}
+                    {template.settings.find((x) => x.data === 'sitename')?.value}
                 </title>
                 <link
                     rel='canonical'
@@ -242,7 +228,7 @@ export default function Header({ children,
             </Head>
             <Sticky>
                 <HeaderComponent>
-                    {content.map((layout) => (
+                    {JSON.parse(template.post.content).map((layout) => (
                         <Layout
                             layout={layout}
                             alignCenter
@@ -262,10 +248,6 @@ Header.propTypes = {
         PropTypes.arrayOf(PropTypes.shape({
         })),
     ]),
-    settings: PropTypes.shape({
-        settings: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.shape({
-        })])),
-    }).isRequired,
     post: PropTypes.shape({
         id: PropTypes.number.isRequired,
         title: PropTypes.string,
@@ -276,8 +258,12 @@ Header.propTypes = {
         params: PropTypes.string.isRequired,
     }).isRequired,
     template: PropTypes.shape({
-        content: PropTypes.string,
-        params: PropTypes.string,
+        post: PropTypes.shape({
+            content: PropTypes.string,
+            params: PropTypes.string,
+        }).isRequired,
+        settings: PropTypes.arrayOf(PropTypes.shape({
+        })).isRequired,
     }).isRequired,
     isHomePage: PropTypes.bool,
 };

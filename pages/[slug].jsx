@@ -1,7 +1,6 @@
 import React from 'react';
 import Header from 'container/Sites/Header/Header';
 import RenderPost from 'container/RenderPost/RenderPost';
-import { useSettings } from 'context/settings';
 import { Global } from '@emotion/react';
 import PropTypes from 'prop-types';
 import Footer from 'container/Sites/Footer/Footer';
@@ -9,12 +8,9 @@ import fetcher from 'utils/fetcher';
 import { getSession } from 'next-auth/client';
 
 export default function Page({ post, templates, session }) {
-    const { value: settings } = useSettings();
-
     return (
         <>
             <Header
-                settings={settings}
                 post={post}
                 template={templates.header}
             />
