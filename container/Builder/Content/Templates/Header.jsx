@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 import Layout from './Layout';
 
 function Header({ template }) {
-    const [content] = useState(template.content ? JSON.parse(template.content) : []);
-    const [params] = useState(template.params ? JSON.parse(template.params) : []);
+    const [content] = useState(template.post.content ? JSON.parse(template.post.content) : []);
+    const [params] = useState(template.post.params ? JSON.parse(template.post.params) : []);
 
     const Sticky = styled.div({
         position: 'sticky',

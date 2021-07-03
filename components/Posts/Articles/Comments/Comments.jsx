@@ -1,98 +1,72 @@
-import React from 'react';
+import React, {
+    useCallback, useState,
+} from 'react';
 import PropTypes from 'prop-types';
 import {
     FormattedPlural, useIntl,
 } from 'react-intl';
 import styles from './Comments.module.scss';
-import TextArea from '../../../Form/TextArea/TextArea';
-import Button from '../../../Button/Button';
+import Form from './Form';
+import Comment from './Comment';
 
 export default function Comments({ post, user }) {
     const intl = useIntl();
 
+    const [comments, setComments] = useState(post.comments);
+
+    const addComment = useCallback((comment) => {
+        setComments((items) => [comment, ...items]);
+    }, []);
+
+    const deleteComment = useCallback((comment) => {
+        setComments((items) => items.filter((c) => c !== comment));
+    }, []);
+
+    const updateComment = useCallback((newComment, oldComment) => {
+        setComments((items) => items.map((c) => c === oldComment ? newComment : c));
+    }, []);
+
     return (
         <>
             <div className={styles.comments}>
-                {
-                    user && (
-                        <div className={styles.addComment}>
-                            <h4>
-                                <i
-                                    className='fa fa-comment'
-                                    aria-hidden='true'
-                                />
-                                {intl.formatMessage({
-                                    id: 'comment.add', defaultMessage: 'Add a comment',
-                                })}
-                            </h4>
-                            <TextArea
-                                name='message'
+                <div className={styles.container}>
+                    {
+                        user && (
+                            <Form
+                                post={post.id}
+                                onComment={addComment}
                             />
-                            <span className={styles.prevent}>
-                                {
-                                intl.formatMessage({
-                                    id: 'comment.prevent',
-                                    defaultMessage: 'Comments not complying with our Code of Conduct will be moderated.',
-                                })
-                            }
-                            </span>
-                            <Button
-                                label={intl.formatMessage({
-                                    id: 'comment.publish', defaultMessage: 'Publish',
-                                })}
-                                type='submit'
-                                icon='fa fa-paper-plane'
-                            />
-                        </div>
-                    )
-                }
-                <h3>
-                    <i
-                        className='fa fa-comments'
-                        aria-hidden='true'
-                    />
-                    <FormattedPlural
-                        one={intl.formatMessage({
-                            id: 'comment.oneOrZero', defaultMessage: '{count} comment',
-                        }, {
-                            count: post.comments.length,
-                        })}
-                        other={intl.formatMessage({
-                            id: 'comment.count', defaultMessage: '{count} comments',
-                        }, {
-                            count: post.comments.length,
-                        })}
-                        value={post.comments.length}
-                    />
-                </h3>
-                {post.comments.map((comment) => (
-                    <div
-                        className={styles.postComment}
-                        key={comment.id}
-                    >
-                        <h4>
-                            <strong>{comment.author.name}</strong>
-                            {
-                                intl.formatMessage({
-                                    id: 'comment.on', defaultMessage: 'commented on',
-                                })
-                            }
-                            <strong>
-                                {
-                                    intl.formatMessage({
-                                        id: 'comment.published', defaultMessage: '{date} at {time}',
-                                    }, {
-                                        date: new Date(comment.published).toLocaleDateString(),
-                                        time: new Date(comment.published).toLocaleTimeString(),
-                                    })
-                                }
-                            </strong>
-                        </h4>
-                        <p>
-                            {comment.content}
-                        </p>
-                    </div>
-                ))}
+                        )
+                    }
+                    <h3>
+                        <i
+                            className='fa fa-comments'
+                            aria-hidden='true'
+                        />
+                        <FormattedPlural
+                            one={intl.formatMessage({
+                                id: 'comment.oneOrZero', defaultMessage: '{count} comment',
+                            }, {
+                                count: comments.length,
+                            })}
+                            other={intl.formatMessage({
+                                id: 'comment.count', defaultMessage: '{count} comments',
+                            }, {
+                                count: comments.length,
+                            })}
+                            value={comments.length}
+                        />
+                    </h3>
+                    {comments.map((comment) => (
+                        <Comment
+                            key={comment.id}
+                            comment={comment}
+                            canEdit={user && comment.author.id === user.id}
+                            onDelete={deleteComment}
+                            onUpdate={updateComment}
+                        />
+                    ))}
+                </div>
             </div>
         </>
     );

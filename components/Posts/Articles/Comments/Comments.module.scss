@@ -1,23 +1,56 @@
 .comments {
   display: block;
-  max-width: 1370px;
-  padding-left: 20px;
-  padding-right: 20px;
-  margin: 1.5em auto 0;
+  margin-top: 1.5rem;
   width: 100%;
-  background-color: var(--color-background);
-  padding-top: 1px;
+  padding: 20px 0;
 
-  .addComment {
-    margin: 2em 0;
-    background-color: var(--color-light);
-    border-radius: 5px;
-    min-height: 20px;
-    padding: 20px;
+  .container {
+    max-width: 1370px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin: 0 auto;
+    border-top: solid 1px var(--color-dark);
 
-    h4 {
+    .addComment {
+      margin: 2em 0;
+      background-color: var(--color-light);
+      border-radius: 5px;
+      min-height: 20px;
+      padding: 20px;
+
+      h4 {
+        margin-bottom: .75em;
+        font-size: 1.5rem;
+        color: var(--color-dark);
+        font-family: Poppins, sans-serif;
+        font-weight: 600;
+
+        i {
+          margin-right: .25em;
+        }
+      }
+
+      .prevent {
+        color: var(--color-info);
+        display: block;
+        margin-bottom: 10px;
+        margin-top: -5px;
+        font-weight: bold;
+      }
+
+      .action {
+        display: flex;
+        justify-content: flex-end;
+
+        button + button {
+          margin-left: 10px;
+        }
+      }
+    }
+
+    h3 {
       margin-bottom: .75em;
-      font-size: 1.5rem;
+      font-size: 2rem;
       color: var(--color-dark);
       font-family: Poppins, sans-serif;
       font-weight: 600;
@@ -27,54 +60,29 @@
       }
     }
 
-    .prevent {
-      color: var(--color-info);
-      display: block;
-      margin-bottom: 10px;
-      margin-top: -5px;
-      font-weight: bold;
-    }
+    .postComment {
+      display: grid;
+      grid-template-columns: 25% 75%;
+      margin-bottom: 4rem;
 
-    button {
-      display: block;
-      margin-left: auto;
-    }
-  }
+      h4 {
+        font-size: 0.8rem;
+        font-family: Poppins, sans-serif;
+        color: var(--color-gray);
+        line-height: 1.5;
 
-  h3 {
-    margin-bottom: .75em;
-    font-size: 2rem;
-    color: var(--color-dark);
-    font-family: Poppins, sans-serif;
-    font-weight: 600;
-
-    i {
-      margin-right: .25em;
-    }
-  }
-
-  .postComment {
-    display: grid;
-    grid-template-columns: 25% 75%;
-    margin-bottom: 4rem;
-
-    h4 {
-      font-size: 0.8rem;
-      font-family: Poppins, sans-serif;
-      color: var(--color-gray);
-      line-height: 1.5;
-
-      strong {
-        display: block;
-        color: var(--color-dark);
+        strong {
+          display: block;
+          color: var(--color-dark);
+        }
       }
-    }
 
-    p {
-      margin-bottom: 1.5rem;
-      font-size: 1.4rem;
-      color: var(--color-dark);
-      text-align: justify;
+      p {
+        margin-bottom: 1.5rem;
+        font-size: 1.4rem;
+        color: var(--color-dark);
+        text-align: justify;
+      }
     }
   }
 }

@@ -6,7 +6,7 @@ import styles from 'components/Form/TextArea/TextArea.module.scss';
 import PropTypes from 'prop-types';
 import Tooltip from 'components/Form/Tooltip/Tooltip';
 
-export default function TextArea({ label,
+const TextArea = React.forwardRef(({ label,
     defaultValue,
     name,
     placeholder,
@@ -18,12 +18,12 @@ export default function TextArea({ label,
     iconTip,
     tip,
     tipWidth,
-    disabled }) {
+    disabled }, ref) => {
     const [value, setValue] = useState(defaultValue);
 
     const handleChange = (e) => {
-        setValue(e.target.value);
         if (onChange) {
+            setValue(e.target.value);
             const data = {
                 name, value: e.target.value,
             };
@@ -42,11 +42,11 @@ export default function TextArea({ label,
                     {label}
                     {' '}
                     {tip && (
-                    <Tooltip
-                        tip={tip}
-                        iconTip={iconTip}
-                        tipWidth={tipWidth}
-                    />
+                        <Tooltip
+                            tip={tip}
+                            iconTip={iconTip}
+                            tipWidth={tipWidth}
+                        />
                     )}
                 </label>
                 <div className={`${styles.ui}`}>
@@ -60,15 +60,18 @@ export default function TextArea({ label,
                         minLength={minLength}
                         maxLength={maxLength}
                         defaultValue={value}
+                        ref={ref}
                     />
                 </div>
             </div>
         </>
     );
-}
+});
+
+export default TextArea;
 
 TextArea.propTypes = {
-    onChange: PropTypes.func.isRequired,
+    onChange: PropTypes.func,
     name: PropTypes.string.isRequired,
     label: PropTypes.string,
     placeholder: PropTypes.string,
@@ -76,8 +79,8 @@ TextArea.propTypes = {
     defaultValue: PropTypes.string,
     required: PropTypes.bool,
     disabled: PropTypes.bool,
-    minLength: PropTypes.string,
-    maxLength: PropTypes.string,
+    minLength: PropTypes.number,
+    maxLength: PropTypes.number,
     tip: PropTypes.string,
     iconTip: PropTypes.string,
     tipWidth: PropTypes.number,
@@ -85,13 +88,14 @@ TextArea.propTypes = {
 
 TextArea.defaultProps = {
     label: '',
+    onChange: null,
     placeholder: '',
     rows: '5',
     required: false,
     disabled: false,
     defaultValue: '',
-    minLength: '0',
-    maxLength: '240',
+    minLength: 0,
+    maxLength: 240,
     tip: '',
     tipWidth: null,
     iconTip: 'fa-question-circle',

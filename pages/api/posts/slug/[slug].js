@@ -39,6 +39,11 @@ const handler = async (req, res) => {
                                     },
                                 },
                             },
+                            orderBy: [
+                                {
+                                    published: 'desc',
+                                },
+                            ],
                         },
                     },
                 });
