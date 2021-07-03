@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Header from 'container/Sites/Header/Header';
 import { useSettings } from 'context/settings';
 import { Global } from '@emotion/react';
@@ -10,8 +10,7 @@ import fetcher from '../utils/fetcher';
 
 export default function Home({ post, templates, session }) {
     const { value: settings } = useSettings();
-    const [params, setParams] = useState(JSON.parse(post.params));
-
+console.log(settings)
     return (
         <>
             <Header
@@ -23,7 +22,7 @@ export default function Home({ post, templates, session }) {
             <Global
                 styles={{
                     body: {
-                        background: params.background,
+                        background: JSON.parse(post.params).background,
                     },
                 }}
             />

@@ -61,6 +61,7 @@ export default function Header({ children,
                     name='viewport'
                     content='width=device-width, initial-scale=1.0,  user-scalable=no'
                 />
+                <meta name="google-site-verification" content="fkX0m0u6X-RPUgW6VmS5O5uGI4aCyw12hrHWmtANcO8" />
                 <meta
                     httpEquiv='X-UA-Compatible'
                     content='ie=edge'

@@ -1,6 +1,7 @@
 import React, {
     useState, useEffect, useContext, createContext,
 } from 'react';
+import fetcher from 'utils/fetcher';
 
 const Settings = createContext({
     value: null,
@@ -13,12 +14,11 @@ export function SettingsProvider({ children }) {
     });
 
     useEffect(async () => {
-        const res = await fetch('/api/settings');
-        const { data } = await res.json();
-        if (data) {
+        const res = await fetcher('/api/settings');
+        if (res.success && res.result.data) {
             setValue({
                 success: true,
-                settings: data,
+                settings: res.result.data,
             });
         }
     }, []);

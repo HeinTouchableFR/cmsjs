@@ -32,3 +32,5 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/import?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+<a href="https://vercel.com/new/git/external?repository-url=https%3A%2F%2Fgithub.com%2FHeinTouchableFR%2Fcmsjs&env=SERVER,MEDIA_SERVER,FTP_BASEDIR,FTP_URL,DB_URL,SECRET,LOCALE&integration-ids=oac_V3R1GIpkoJorr6fqyiwdhl17"><img src="https://vercel.com/button" alt="Deploy with Vercel"/></a>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Header from 'container/Sites/Header/Header';
 import RenderPost from 'container/RenderPost/RenderPost';
 import { useSettings } from 'context/settings';
@@ -6,10 +6,10 @@ import { Global } from '@emotion/react';
 import PropTypes from 'prop-types';
 import Footer from 'container/Sites/Footer/Footer';
 import fetcher from 'utils/fetcher';
+import { getSession } from 'next-auth/client';
 
-export default function Page({ post, templates }) {
+export default function Page({ post, templates, session }) {
     const { value: settings } = useSettings();
-    const [params, setParams] = useState(JSON.parse(post.params));
 
     return (
         <>
@@ -21,12 +21,13 @@ export default function Page({ post, templates }) {
             <Global
                 styles={{
                     body: {
-                        background: params.background,
+                        background: JSON.parse(post.params).background,
                     },
                 }}
             />
             <RenderPost
                 post={post}
+                user={session ? session.user : null}
             />
             <Footer
                 template={templates.footer}
@@ -49,8 +50,9 @@ Page.propTypes = {
     }).isRequired,
 };
 
-export async function getServerSideProps({ params }) {
-    const { slug } = params;
+export async function getServerSideProps(ctx) {
+    const session = await getSession(ctx);
+    const { slug } = ctx.params;
     let post = [];
     let templates = [];
 
@@ -76,6 +78,7 @@ export async function getServerSideProps({ params }) {
         props: {
             post,
             templates,
+            session,
         },
     };
 }

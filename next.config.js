@@ -10,6 +10,7 @@ module.exports = {
         GOOGLE_ID: process.env.GOOGLE_ID,
         GOOGLE_SECRET: process.env.GOOGLE_SECRET,
         LOCALE: process.env.LOCALE,
+        REDIS_URL: process.env.REDIS_URL,
     },
     images: {
         domains: [process.env.MEDIA_SERVER.replace('https://', '').replace('http://', '')],

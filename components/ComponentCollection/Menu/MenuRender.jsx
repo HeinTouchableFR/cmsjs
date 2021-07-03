@@ -260,7 +260,6 @@ export default function MenuRender({ element }) {
 
     useEffect(() => {
         if (entry) {
-            console.log(entry.target);
             if (inView && element.content.animation.name !== 'none') {
                 const timer = setInterval(() => {
                     entry.target.classList.add('animated');

@@ -1,5 +1,6 @@
 import prisma from 'utils/prisma';
 import jwt from 'next-auth/jwt';
+import redis from 'utils/redis';
 
 const handler = async (req, res) => {
     const { method } = req;
@@ -8,18 +9,37 @@ const handler = async (req, res) => {
     });
     const authorized = ['ADMIN', 'EDITOR', 'MODERATOR'];
 
+    let start = Date.now();
+    let cache = await redis.get('settings');
+    cache = JSON.parse(cache);
+    const result = {
+    };
+
     switch (method) {
     case 'GET':
         try {
-            const data = await prisma.settings.findMany({
-                include: {
-                    image: true,
-                    post: true,
-                },
-            });
-            res.status(200).json({
-                success: true, data,
-            });
+            if (cache) {
+                result.data = cache;
+                result.type = 'redis';
+                result.latency = Date.now() - start;
+                res.status(200).json({
+                    success: true, result,
+                });
+            } else {
+                start = Date.now();
+                result.data = await prisma.settings.findMany({
+                    include: {
+                        image: true,
+                        post: true,
+                    },
+                });
+                result.type = 'api';
+                result.latency = Date.now() - start;
+                redis.set('settings', JSON.stringify(result.data), 'EX', 86400);
+                res.status(200).json({
+                    success: true, result,
+                });
+            }
         } catch (e) {
             res.status(400).json({
                 success: false,
