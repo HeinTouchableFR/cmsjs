@@ -15,6 +15,7 @@ import TextArea from 'components/Form/TextArea/TextArea';
 import FileManager from 'components/FileManager/FileManager';
 import Field from 'components/Form/Field/Field';
 import Dropdown from 'components/Form/Dropdown/Dropdown';
+import fetcher from 'utils/fetcher';
 
 export default function Index({ settings, pages, images, templates, errors }) {
     const intl = useIntl();
@@ -211,6 +212,13 @@ export default function Index({ settings, pages, images, templates, errors }) {
         return null;
     });
 
+    const clearCache = async () => {
+        setLoading(true);
+        const res = await fetcher(`${process.env.SERVER}/api/cache/clear`, {}, 'GET');
+        alert(res.data.message);
+        setLoading(false);
+    };
+
     const panes = [
         {
             label: intl.formatMessage({
@@ -368,6 +376,24 @@ export default function Index({ settings, pages, images, templates, errors }) {
                 </Tab.Pane>
             ),
         },
+        {
+            label: intl.formatMessage({
+                id: 'settings.parameters',
+                defaultMessage: 'Parameters',
+            }),
+            render: () => (
+                <Tab.Pane>
+                    <Button
+                        label={intl.formatMessage({
+                            id: 'settings.cache', defaultMessage: 'Clear cache',
+                        })}
+                        loading={loading}
+                        onClick={clearCache}
+                        type='button'
+                    />
+                </Tab.Pane>
+            ),
+        },
     ];
 
     return (
@@ -476,7 +502,7 @@ export async function getServerSideProps(ctx) {
         });
         const dataSettings = await resSettings.json();
         if (dataSettings.success) {
-            settings = dataSettings.data;
+            settings = dataSettings.result.data;
         } else {
             errors.push(dataSettings.errors);
         }

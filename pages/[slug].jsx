@@ -36,7 +36,8 @@ Page.propTypes = {
     post: PropTypes.shape({
         id: PropTypes.number.isRequired,
         title: PropTypes.string,
-        params: PropTypes.string.isRequired,
+        params: PropTypes.shape({
+        }),
     }).isRequired,
     templates: PropTypes.shape({
         header: PropTypes.shape({

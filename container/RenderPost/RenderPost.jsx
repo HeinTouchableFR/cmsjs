@@ -28,9 +28,11 @@ export default function RenderPost({ post, user }) {
 
 RenderPost.propTypes = {
     post: PropTypes.shape({
-        content: PropTypes.string,
+        content: PropTypes.arrayOf(PropTypes.shape({
+        })),
+        params: PropTypes.shape({
+        }),
         postType: PropTypes.string,
-        params: PropTypes.string,
     }).isRequired,
     user: PropTypes.shape({
     }).isRequired,

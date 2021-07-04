@@ -35,7 +35,9 @@ export default function Footer({ template }) {
 
 Footer.propTypes = {
     template: PropTypes.shape({
-        content: PropTypes.string,
-        params: PropTypes.string,
+        content: PropTypes.arrayOf(PropTypes.shape({
+        })),
+        params: PropTypes.shape({
+        }),
     }).isRequired,
 };

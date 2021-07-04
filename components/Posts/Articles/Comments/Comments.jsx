@@ -1,5 +1,5 @@
 import React, {
-    useCallback, useState,
+    useCallback, useEffect, useState,
 } from 'react';
 import PropTypes from 'prop-types';
 import {
@@ -11,8 +11,11 @@ import Comment from './Comment';
 
 export default function Comments({ post, user, disableForm }) {
     const intl = useIntl();
-
     const [comments, setComments] = useState(post.comments || []);
+
+    useEffect(() => {
+        setComments(post.comments);
+    }, [post]);
 
     const addComment = useCallback((comment) => {
         setComments((items) => [comment, ...items]);
@@ -23,7 +26,7 @@ export default function Comments({ post, user, disableForm }) {
     }, []);
 
     const updateComment = useCallback((newComment, oldComment) => {
-        setComments((items) => items.map((c) => c === oldComment ? newComment : c));
+        setComments((items) => items.map((c) => (c === oldComment ? newComment : c)));
     }, []);
 
     return (

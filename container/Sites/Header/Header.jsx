@@ -255,12 +255,15 @@ Header.propTypes = {
         slug: PropTypes.string,
         published: PropTypes.string,
         updated: PropTypes.string,
-        params: PropTypes.string.isRequired,
+        params: PropTypes.shape({
+        }),
     }).isRequired,
     template: PropTypes.shape({
         post: PropTypes.shape({
-            content: PropTypes.string,
-            params: PropTypes.string,
+            content: PropTypes.arrayOf(PropTypes.shape({
+            })),
+            params: PropTypes.shape({
+            }),
         }).isRequired,
         settings: PropTypes.arrayOf(PropTypes.shape({
         })).isRequired,

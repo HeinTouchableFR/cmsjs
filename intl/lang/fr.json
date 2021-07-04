@@ -205,6 +205,8 @@
     "settings.homepage": "Page d'accueil",
     "settings.header": "Entête",
     "settings.footer": "Pied de page",
+    "settings.parameters": "Paramètres",
+    "settings.cache": "Vider le cache",
     "sitename": "Nom du site",
     "slug": "Slug",
     "slug.error": "Le slug {slug} est déjà défini",
