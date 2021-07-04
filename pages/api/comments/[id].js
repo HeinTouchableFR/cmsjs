@@ -90,6 +90,13 @@ const handler = async (req, res) => {
                             },
                         },
                     });
+
+                    let cacheHomepage = await redis.get('homepage');
+                    cacheHomepage = JSON.parse(cacheHomepage);
+
+                    if (cacheHomepage && cacheHomepage.post.slug === data.post.slug) {
+                        redis.del('homepage');
+                    }
                 }
 
                 res.status(200).json({
@@ -141,6 +148,13 @@ const handler = async (req, res) => {
                         },
                     });
                     redis.del(data.post.slug);
+
+                    let cacheHomepage = await redis.get('homepage');
+                    cacheHomepage = JSON.parse(cacheHomepage);
+
+                    if (cacheHomepage && cacheHomepage.post.slug === data.post.slug) {
+                        redis.del('homepage');
+                    }
                 }
 
                 res.status(200).json({
