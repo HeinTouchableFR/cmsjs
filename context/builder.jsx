@@ -713,6 +713,7 @@ BuilderProvider.defaultProps = {
         params: {
             background: '#f7fafb',
         },
+        comments: [],
     },
     postType: 'PAGE',
 };
