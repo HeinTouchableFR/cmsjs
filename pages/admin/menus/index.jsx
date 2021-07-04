@@ -19,7 +19,7 @@ import Flash from 'components/Flash/Flash';
 import PropTypes from 'prop-types';
 import styles from './menus.module.scss';
 
-export default function Index({ menus, pages, defaultMenu, errors }) {
+export default function Index({ menus, pages, articles, defaultMenu, errors }) {
     const intl = useIntl();
 
     const [indexErrors, setIndexErrors] = useState(errors);
@@ -91,10 +91,10 @@ export default function Index({ menus, pages, defaultMenu, errors }) {
         });
     };
 
-    const findPageById = (id) => {
+    const findPostById = (array, id) => {
         let p = {
         };
-        pages.map((page) => {
+        array.map((page) => {
             if (page.id.toString() === id) {
                 p = page;
             }
@@ -117,7 +117,7 @@ export default function Index({ menus, pages, defaultMenu, errors }) {
     const handleAddPage = (e) => {
         e.preventDefault();
         if (formPage.page) {
-            const page = findPageById(formPage.page);
+            const page = findPostById(pages, formPage.page);
             const item = {
                 id: new Date().getTime().toString(),
                 label: page.title,
@@ -135,6 +135,38 @@ export default function Index({ menus, pages, defaultMenu, errors }) {
         });
     };
 
+    const [formArticle, setFormArticle] = useState({
+        article: '',
+    });
+
+    const handleChangeFormArticle = (_e, data) => {
+        setFormArticle({
+            ...formArticle,
+            [data.name]: data.value ? data.value : null,
+        });
+    };
+
+    const handleAddArticle = (e) => {
+        e.preventDefault();
+        if (formArticle.article) {
+            const article = findPostById(articles, formArticle.article);
+            const item = {
+                id: new Date().getTime().toString(),
+                label: article.title,
+                type: 'Article',
+                slug: article.slug,
+                child: [],
+            };
+            const items = JSON.parse(form.items);
+            items.push(item);
+            onMenuChange(items);
+        }
+        e.target.reset();
+        setFormArticle({
+            article: '',
+        });
+    };
+
     const handleMenuChange = (e, data) => {
         setForm(menusList.find((x) => x.id.toString() === data.value));
     };
@@ -142,6 +174,11 @@ export default function Index({ menus, pages, defaultMenu, errors }) {
     const pageOptions = [];
     pages.map((page) => pageOptions.push({
         key: page.id.toString(), text: page.title, value: page.id.toString(),
+    }));
+
+    const articleOptions = [];
+    articles.map((item) => articleOptions.push({
+        key: item.id.toString(), text: item.title, value: item.id.toString(),
     }));
 
     const menuOptions = [];
@@ -253,6 +290,30 @@ export default function Index({ menus, pages, defaultMenu, errors }) {
                                 </Accordion>
                                 <Accordion
                                     title={intl.formatMessage({
+                                        id: 'articles', defaultMessage: 'Articles',
+                                    })}
+                                    active
+                                >
+                                    <form onSubmit={handleAddArticle}>
+                                        <Dropdown
+                                            name='article'
+                                            options={articleOptions}
+                                            onChange={handleChangeFormArticle}
+                                            defaultValue={formArticle.article.toString()}
+                                            searchable
+                                        />
+                                        <Button
+                                            label={intl.formatMessage({
+                                                id: 'menu.add',
+                                                defaultMessage: 'Add to menu',
+                                            })}
+                                            type='submit'
+                                            disabled={formArticle.article === ''}
+                                        />
+                                    </form>
+                                </Accordion>
+                                <Accordion
+                                    title={intl.formatMessage({
                                         id: 'menu.custom.link', defaultMessage: 'Custom link',
                                     })}
                                 >
@@ -350,6 +411,12 @@ Index.propTypes = {
         PropTypes.arrayOf(PropTypes.shape({
         })),
     ]).isRequired,
+    articles: PropTypes.oneOfType([
+        PropTypes.shape({
+        }),
+        PropTypes.arrayOf(PropTypes.shape({
+        })),
+    ]).isRequired,
     menus: PropTypes.oneOfType([
         PropTypes.shape({
         }),
@@ -382,12 +449,13 @@ export async function getServerSideProps(ctx) {
         };
     }
     const cookies = nookies.get(ctx);
-    const token = process.env.NODE_ENV === 'production' ? cookies['__Secure-next-auth.session-token'] : cookies['next-auth.session-token']
+    const token = process.env.NODE_ENV === 'production' ? cookies['__Secure-next-auth.session-token'] : cookies['next-auth.session-token'];
     const id = ctx.query.id || '';
 
     const errors = [];
     let menus = [];
     let pages = [];
+    let articles = [];
 
     if (token) {
         const resPages = await fetch(`${process.env.SERVER}/api/posts?type=PAGE`, {
@@ -401,6 +469,19 @@ export async function getServerSideProps(ctx) {
             pages = data.data;
         } else {
             errors.push(data.errors);
+        }
+
+        const resArticles = await fetch(`${process.env.SERVER}/api/posts?type=ARTICLE`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+            credentials: 'same-origin',
+        });
+        const dataArticles = await resArticles.json();
+        if (data.success) {
+            articles = dataArticles.data;
+        } else {
+            errors.push(dataArticles.errors);
         }
 
         const resMenus = await fetch(`${process.env.SERVER}/api/menus`, {
@@ -421,6 +502,7 @@ export async function getServerSideProps(ctx) {
         props: {
             menus,
             pages,
+            articles,
             defaultMenu: id,
             errors,
             session,
