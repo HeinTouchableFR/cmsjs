@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
 import IconButton from 'components/Button/IconButton/IconButton';
 import { useFetcher } from 'utils/fetcher';
+import TimeAgo from 'components/TimeAgo/TimeAgo';
 import styles from './Comments.module.scss';
 import Form from './Form';
 
@@ -44,14 +45,7 @@ const Comment = React.memo(({ comment, canEdit, onDelete, onUpdate }) => {
                         })
                     }
                     <strong>
-                        {
-                            intl.formatMessage({
-                                id: 'comment.published', defaultMessage: '{date} at {time}',
-                            }, {
-                                date: new Date(comment.published).toLocaleDateString(),
-                                time: new Date(comment.published).toLocaleTimeString(),
-                            })
-                        }
+                        <TimeAgo timestamp={comment.published} />
                     </strong>
                     {canEdit && (
                         <div>

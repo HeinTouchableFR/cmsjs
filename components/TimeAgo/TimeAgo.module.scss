@@ -1,0 +1,21 @@
+.timeAgo {
+  cursor: pointer;
+
+  .relative {
+    display: block;
+  }
+
+  .full {
+    display: none;
+  }
+
+  &:hover {
+    .relative {
+      display: none;
+    }
+
+    .full {
+      display: block;
+    }
+  }
+}
