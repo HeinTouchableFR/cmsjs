@@ -2,24 +2,31 @@ import React from 'react';
 import styled from '@emotion/styled';
 import AddLayout from 'container/Builder/Content/Layout/AddLayout/AddLayout';
 import Layout from 'container/Builder/Content/Layout/Layout';
-import { useBuilder } from 'context/builder';
+import {useBuilder} from 'context/builder';
 import PropTypes from 'prop-types';
+import HeaderArticle from 'components/Posts/Articles/Header/Header';
+import Comments from 'components/Posts/Articles/Comments/Comments';
+import {useSession} from 'next-auth/client';
 import styles from './Content.module.scss';
 import Footer from './Templates/Footer';
 import Header from './Templates/Header';
-import HeaderArticle from 'components/Posts/Articles/Header/Header';
 
-function Content({ templates }) {
-    const { layouts,
+function Content({templates}) {
+    const {
+        layouts,
         params,
         device,
         type,
         form,
-        addLayout } = useBuilder();
+        post,
+        addLayout
+    } = useBuilder();
 
     const Div = styled.div`
         background: ${params.background};
     `;
+    const [session] = useSession();
+
     return (
         <>
             <Div
@@ -32,7 +39,7 @@ function Content({ templates }) {
                                 key='headerPreview'
                                 template={templates.header}
                             />
-                            {type === 'ARTICLE' && <HeaderArticle post={form} />}
+                            {type === 'ARTICLE' && <HeaderArticle post={form}/>}
                             {layouts.map((item) => (
                                 <Layout
                                     key={item.id}
@@ -68,7 +75,14 @@ function Content({ templates }) {
                         </>
 
                     )}
-                <AddLayout handleAddLayout={addLayout} />
+                <AddLayout handleAddLayout={addLayout}/>
+                {params.enableComments && (
+                    <Comments
+                        post={post}
+                        user={session.user}
+                        disableForm
+                    />
+                )}
                 {(type === 'PAGE' || type === 'ARTICLE') && (
                     <Footer
                         key='footerPreview'
@@ -83,9 +97,7 @@ function Content({ templates }) {
 export default React.memo(Content);
 
 Content.propTypes = {
-    templates: PropTypes.shape([
-    ]).isRequired,
+    templates: PropTypes.shape([]).isRequired,
 };
 
-Content.defaultProps = {
-};
+Content.defaultProps = {};

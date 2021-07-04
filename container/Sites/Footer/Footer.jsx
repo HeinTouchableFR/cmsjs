@@ -1,14 +1,11 @@
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React from 'react';
 import styled from '@emotion/styled';
 import Layout from 'container/RenderPost/Layout';
 
 export default function Footer({ template }) {
-    const [content] = useState(template.content ? JSON.parse(template.content) : []);
-    const [params] = useState(template.params ? JSON.parse(template.params) : []);
-
     const Foot = styled.footer({
-        background: params.background,
+        background: template.params.background,
     });
 
     const Container = styled.div({
@@ -24,7 +21,7 @@ export default function Footer({ template }) {
         <>
             <Foot>
                 <Container>
-                    {content.map((layout) => (
+                    {template.content.map((layout) => (
                         <Layout
                             layout={layout}
                             key={layout.id}

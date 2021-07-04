@@ -4,13 +4,10 @@ import PropTypes from 'prop-types';
 import Layout from './Layout';
 
 function Header({ template }) {
-    const [content] = useState(template.post.content ? JSON.parse(template.post.content) : []);
-    const [params] = useState(template.post.params ? JSON.parse(template.post.params) : []);
-
     const Sticky = styled.div({
         position: 'sticky',
         width: '100%',
-        backgroundColor: params.background,
+        backgroundColor: template.post.params.background,
         top: '0',
         zIndex: '10',
     });
@@ -28,7 +25,7 @@ function Header({ template }) {
         <>
             <Sticky>
                 <HeaderComponent>
-                    {content.map((layout) => (
+                    {template.post.content.map((layout) => (
                         <Layout
                             layout={layout}
                             key={layout.id}

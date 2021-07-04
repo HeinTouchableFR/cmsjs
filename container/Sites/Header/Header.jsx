@@ -18,7 +18,7 @@ export default function Header({ children,
         position: 'sticky',
         width: '100%',
         zIndex: '1000',
-        backgroundColor: JSON.parse(template.post.params).background,
+        backgroundColor: template.post.params.background,
         top: '0',
     });
 
@@ -228,7 +228,7 @@ export default function Header({ children,
             </Head>
             <Sticky>
                 <HeaderComponent>
-                    {JSON.parse(template.post.content).map((layout) => (
+                    {template.post.content.map((layout) => (
                         <Layout
                             layout={layout}
                             alignCenter

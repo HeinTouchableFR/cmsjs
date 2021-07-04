@@ -9,10 +9,10 @@ import styles from './Comments.module.scss';
 import Form from './Form';
 import Comment from './Comment';
 
-export default function Comments({ post, user }) {
+export default function Comments({ post, user, disableForm }) {
     const intl = useIntl();
 
-    const [comments, setComments] = useState(post.comments);
+    const [comments, setComments] = useState(post.comments || []);
 
     const addComment = useCallback((comment) => {
         setComments((items) => [comment, ...items]);
@@ -35,6 +35,7 @@ export default function Comments({ post, user }) {
                             <Form
                                 post={post.id}
                                 onComment={addComment}
+                                disableForm={disableForm}
                             />
                         )
                     }
@@ -61,7 +62,7 @@ export default function Comments({ post, user }) {
                         <Comment
                             key={comment.id}
                             comment={comment}
-                            canEdit={user && comment.author.id === user.id}
+                            canEdit={(user && !disableForm) && comment.author.id === user.id}
                             onDelete={deleteComment}
                             onUpdate={updateComment}
                         />
@@ -88,7 +89,9 @@ Comments.propTypes = {
             }),
         })),
     }).isRequired,
+    disableForm: PropTypes.bool,
 };
 
 Comments.defaultProps = {
+    disableForm: false,
 };

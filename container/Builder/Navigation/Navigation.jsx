@@ -247,20 +247,19 @@ export default function Navigation({ onSubmit,
         if (loading) {
             return true;
         }
-
         if (type === 'PAGE' || type === 'ARTICLE') {
             return !(form.title !== post.title)
                 && !(form.slug !== post.slug)
                 && !(form.description !== post.description)
                 && !(params.background !== post.params.background)
                 && !(params.enableComments !== post.params.enableComments)
-                && post.content === JSON.stringify(layouts);
+                && post.content === layouts;
         }
 
         if (type === 'HEADER' || type === 'FOOTER') {
             return !(form.title !== post.name)
                 && !(params.background !== post.params.background)
-                && post.content === JSON.stringify(layouts);
+                && post.content === layouts;
         }
 
         return post.content === JSON.stringify(layouts)
@@ -406,7 +405,7 @@ export default function Navigation({ onSubmit,
                 <div className={`${styles.actions}`}>
                     <DarkModeButton />
                     <Button
-                        label={post.content !== '[]'
+                        label={post.content.length !== 0
                             ? intl.formatMessage({
                                 id: 'update', defaultMessage: 'Update',
                             })

@@ -8,7 +8,7 @@ import Button from 'components/Button/Button';
 import { useFetcher } from 'utils/fetcher';
 import styles from './Comments.module.scss';
 
-export default function Form({ post, onComment, onCancel, comment }) {
+export default function Form({ post, onComment, onCancel, comment, disableForm }) {
     // Variables
     const intl = useIntl();
     const ref = useRef(null);
@@ -64,6 +64,7 @@ export default function Form({ post, onComment, onCancel, comment }) {
                         required
                         minLength={10}
                         maxLength={255}
+                        disabled={disableForm}
                     />
                     <span className={styles.prevent}>
                         {
@@ -85,6 +86,7 @@ export default function Form({ post, onComment, onCancel, comment }) {
                             type='submit'
                             icon='fa fa-paper-plane'
                             loading={loading}
+                            disabled={disableForm}
                         />
                         {
                             onCancel && (
