@@ -29,6 +29,8 @@ export const populatePost = async (post, mode = 'render') => {
         }));
     }));
     // eslint-disable-next-line no-param-reassign
-    post.content = JSON.stringify(content);
+    post.content = content;
+    // eslint-disable-next-line no-param-reassign
+    post.params = JSON.parse(post.params);
     return post;
 };

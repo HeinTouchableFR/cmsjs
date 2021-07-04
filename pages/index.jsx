@@ -18,7 +18,7 @@ export default function Home({ post, templates, session }) {
             <Global
                 styles={{
                     body: {
-                        background: JSON.parse(post.params).background,
+                        background: post.params.background,
                     },
                 }}
             />

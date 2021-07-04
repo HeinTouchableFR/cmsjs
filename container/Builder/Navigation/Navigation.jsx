@@ -252,19 +252,19 @@ export default function Navigation({ onSubmit,
             return !(form.title !== post.title)
                 && !(form.slug !== post.slug)
                 && !(form.description !== post.description)
-                && !(params.background !== JSON.parse(post.params).background)
-                && !(params.enableComments !== JSON.parse(post.params).enableComments)
+                && !(params.background !== post.params.background)
+                && !(params.enableComments !== post.params.enableComments)
                 && post.content === JSON.stringify(layouts);
         }
 
         if (type === 'HEADER' || type === 'FOOTER') {
             return !(form.title !== post.name)
-                && !(params.background !== JSON.parse(post.params).background)
+                && !(params.background !== post.params.background)
                 && post.content === JSON.stringify(layouts);
         }
 
         return post.content === JSON.stringify(layouts)
-            && !(params.background !== JSON.parse(post.params).background);
+            && !(params.background !== post.params.background);
     };
 
     const handleColorChange = (color) => {

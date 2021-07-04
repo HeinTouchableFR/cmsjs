@@ -79,10 +79,10 @@ export function BuilderProvider({ post, postType, children, intl }) {
     }, [postType]);
 
     const [layouts, dispatch] = useReducer(reducer, {
-        items: JSON.parse(post.content),
+        items: post.content,
     });
 
-    const [params, setParams] = useState(JSON.parse(post.params));
+    const [params, setParams] = useState(post.params);
 
     const [currentElement, setCurrentElementState] = useState({
     });
@@ -96,10 +96,10 @@ export function BuilderProvider({ post, postType, children, intl }) {
     const [device, setDevice] = useState('desktop');
 
     const [form, setForm] = useState({
-        title: post.title || post.name || '',
-        slug: post.slug || '',
+        title: post.title,
+        slug: post.slug,
         type,
-        description: post.description || '',
+        description: post.description,
     });
 
     /**
@@ -684,9 +684,14 @@ export const useBuilder = () => useContext(Builder);
 
 BuilderProvider.propTypes = {
     post: PropTypes.shape({
-        content: PropTypes.string,
-        params: PropTypes.string,
+        content: PropTypes.arrayOf(PropTypes.shape({
+        })),
+        params: PropTypes.shape({
+        }),
         postType: PropTypes.string,
+        title: PropTypes.string,
+        slug: PropTypes.string,
+        description: PropTypes.string,
     }),
     // eslint-disable-next-line react/forbid-prop-types
     intl: PropTypes.any.isRequired,
@@ -703,8 +708,11 @@ BuilderProvider.defaultProps = {
     post: {
         title: '',
         slug: '',
-        content: '[]',
-        params: '{"background":"#f7fafb"}',
+        description: '',
+        content: [],
+        params: {
+            background: '#f7fafb',
+        },
     },
     postType: 'PAGE',
 };
