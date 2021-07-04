@@ -6,7 +6,7 @@ import styled from '@emotion/styled';
 import { useInView } from 'react-intersection-observer';
 import { styleDiv } from 'variables/renderFunctions';
 
-export default function Layout({ layout, alignCenter }) {
+const Layout = React.memo(({ layout, alignCenter }) => {
     const { inView } = useInView();
 
     const LayoutContainer = styled.div`
@@ -55,7 +55,9 @@ export default function Layout({ layout, alignCenter }) {
             </LayoutContainer>
         </>
     );
-}
+});
+
+export default Layout;
 
 Layout.propTypes = {
     layout: PropTypes.shape({

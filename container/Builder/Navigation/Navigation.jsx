@@ -273,7 +273,7 @@ export default function Navigation({ onSubmit,
             background: color,
         });
     };
-console.log(params)
+
     return (
         <>
             <div

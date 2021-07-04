@@ -3,8 +3,8 @@ import React, {
 } from 'react';
 import PropTypes from 'prop-types';
 import Header from 'components/Posts/Articles/Header/Header';
-import Layout from './Layout';
 import Comments from 'components/Posts/Articles/Comments/Comments';
+import Layout from './Layout';
 
 export default function RenderPost({ post, user }) {
     const [content, setContent] = useState(post.content ? JSON.parse(post.content) : []);
@@ -23,7 +23,12 @@ export default function RenderPost({ post, user }) {
                         key={layout.id}
                     />
                 ))}
-                {JSON.parse(post.params).enableComments && <Comments post={post} user={user} />}
+                {JSON.parse(post.params).enableComments && (
+                <Comments
+                    post={post}
+                    user={user}
+                />
+)}
             </div>
         </>
     );
@@ -33,5 +38,8 @@ RenderPost.propTypes = {
     post: PropTypes.shape({
         content: PropTypes.string,
         postType: PropTypes.string,
+        params: PropTypes.string,
+    }).isRequired,
+    user: PropTypes.shape({
     }).isRequired,
 };
