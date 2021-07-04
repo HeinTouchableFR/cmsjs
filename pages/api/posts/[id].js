@@ -64,6 +64,13 @@ const handler = async (req, res) => {
                 });
                 redis.del(data.slug);
 
+                let cacheHomepage = await redis.get('homepage');
+                cacheHomepage = JSON.parse(cacheHomepage);
+
+                if (cacheHomepage && cacheHomepage.post.id === parseInt(id, 10)) {
+                    redis.del('homepage');
+                }
+
                 if (data.postType === 'HEADER') {
                     redis.del('header');
                 }

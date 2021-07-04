@@ -20,7 +20,6 @@ export default function Form({ post, onComment, onCancel, comment }) {
     }, [ref, onComment]);
 
     // Hook
-    console.log(comment)
     const method = comment ? 'PUT' : 'POST';
     const url = comment ? comment.id : '';
     const { load, loading, errors } = useFetcher(`${process.env.SERVER}/api/comments/${url}`, method, onSuccess);

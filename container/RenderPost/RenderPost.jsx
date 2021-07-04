@@ -23,7 +23,7 @@ export default function RenderPost({ post, user }) {
                         key={layout.id}
                     />
                 ))}
-                <Comments post={post} user={user} />
+                {JSON.parse(post.params).enableComments && <Comments post={post} user={user} />}
             </div>
         </>
     );

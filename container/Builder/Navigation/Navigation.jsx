@@ -18,6 +18,7 @@ import PropTypes from 'prop-types';
 import TextArea from 'components/Form/TextArea/TextArea';
 import { useBuilder } from 'context/builder';
 import styles from './Navigation.module.scss';
+import Checkbox from '../../../components/Form/Checkbox/Checkbox';
 
 export default function Navigation({ onSubmit,
     loading,
@@ -90,6 +91,13 @@ export default function Navigation({ onSubmit,
         if (data.name === 'type') {
             setType(data.value);
         }
+    };
+
+    const handleChangeParams = (_e, data) => {
+        setParams({
+            ...params,
+            [data.name]: data.value,
+        });
     };
 
     /**
@@ -245,6 +253,7 @@ export default function Navigation({ onSubmit,
                 && !(form.slug !== post.slug)
                 && !(form.description !== post.description)
                 && !(params.background !== JSON.parse(post.params).background)
+                && !(params.enableComments !== JSON.parse(post.params).enableComments)
                 && post.content === JSON.stringify(layouts);
         }
 
@@ -264,7 +273,7 @@ export default function Navigation({ onSubmit,
             background: color,
         });
     };
-
+console.log(params)
     return (
         <>
             <div
@@ -320,6 +329,14 @@ export default function Navigation({ onSubmit,
                                     name='description'
                                     defaultValue={form.description}
                                     onChange={handleChange}
+                                />
+                                <Checkbox
+                                    label={intl.formatMessage({
+                                        id: 'comment.enable', defaultMessage: 'Enable comments',
+                                    })}
+                                    name='enableComments'
+                                    defaultChecked={params.enableComments || false}
+                                    onChange={handleChangeParams}
                                 />
                             </>
                         )}
