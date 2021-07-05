@@ -33,6 +33,10 @@ export default NextAuth({
                 return null;
             },
         }),
+        Providers.Facebook({
+            clientId: process.env.FACEBOOK_ID,
+            clientSecret: process.env.FACEBOOK_SECRET,
+        }),
         Providers.Google({
             clientId: process.env.GOOGLE_ID,
             clientSecret: process.env.GOOGLE_SECRET,
@@ -68,5 +72,11 @@ export default NextAuth({
             }
             return token;
         },
+        redirect: async (url, baseUrl) => (url.startsWith(baseUrl)
+            ? Promise.resolve(url)
+            : Promise.resolve(baseUrl)),
+    },
+    pages: {
+        signIn: '/auth/signin',
     },
 });
