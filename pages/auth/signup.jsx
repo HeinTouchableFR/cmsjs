@@ -6,7 +6,7 @@ import React, {
 } from 'react';
 import { useIntl } from 'react-intl';
 
-export default function SignIn({ csrfToken, providers, errorsType }) {
+export default function SignUp({ csrfToken, providers, errorsType }) {
     const auth = Object.values(providers).filter((provider) => provider.id !== 'credentials');
     const [errors, setErrors] = useState(null);
     const intl = useIntl();
@@ -111,8 +111,8 @@ export default function SignIn({ csrfToken, providers, errorsType }) {
                             <span className='form-title'>
                                 {
                                     intl.formatMessage({
-                                        id: 'auth.signInWith',
-                                        defaultMessage: 'Sign In With',
+                                        id: 'auth.register',
+                                        defaultMessage: 'Register',
                                     })
                                 }
                             </span>
@@ -152,7 +152,7 @@ export default function SignIn({ csrfToken, providers, errorsType }) {
                                 </span>
                                 <input
                                     type='text'
-                                    name='email'
+                                    name='username'
                                     required
                                 />
                                 <span
@@ -181,6 +181,27 @@ export default function SignIn({ csrfToken, providers, errorsType }) {
                                     data-symbol='&#xf190;'
                                 />
                             </div>
+                            <div
+                                className='form-input'
+                            >
+                                <span className='label'>
+                                    {
+                                        intl.formatMessage({
+                                            id: 'password.confirm',
+                                            defaultMessage: 'Confirm password',
+                                        })
+                                    }
+                                </span>
+                                <input
+                                    type='password'
+                                    name='confirmpassword'
+                                    required
+                                />
+                                <span
+                                    className='icon'
+                                    data-symbol='&#xf190;'
+                                />
+                            </div>
                             <div className='container-auth-btn'>
                                 <div className='wrap-auth-btn'>
                                     <div className='auth-form-bgbtn' />
@@ -190,34 +211,12 @@ export default function SignIn({ csrfToken, providers, errorsType }) {
                                     >
                                         {
                                             intl.formatMessage({
-                                                id: 'auth.signIn',
-                                                defaultMessage: 'Sign In',
+                                                id: 'auth.register',
+                                                defaultMessage: 'Register',
                                             })
                                         }
                                     </button>
                                 </div>
-                            </div>
-
-                            <div className='sign-up'>
-                                <span className='text'>
-                                    {
-                                        intl.formatMessage({
-                                            id: 'auth.notMember',
-                                            defaultMessage: 'Not a member ?',
-                                        })
-                                    }
-                                </span>
-                                <a
-                                    href={`${process.env.SERVER}/auth/signup`}
-                                    className='link'
-                                >
-                                    {
-                                        intl.formatMessage({
-                                            id: 'auth.signUpNow',
-                                            defaultMessage: 'Sign up now',
-                                        })
-                                    }
-                                </a>
                             </div>
                         </form>
                     </div>

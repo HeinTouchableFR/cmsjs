@@ -2,7 +2,7 @@
   width: 100%;
   margin: 0 auto;
 
-  .container_login {
+  .container_auth {
     width: 100%;
     min-height: 100vh;
     display: flex;
@@ -15,14 +15,14 @@
     background-repeat: no-repeat;
     background-image: url(/bg.jpg);
 
-    .wrap-login {
+    .wrap-auth {
       width: 680px;
       background: #fff;
       border-radius: 10px;
       position: relative;
       padding: 62px 110px 33px;
 
-      .login-form {
+      .auth-form {
         width: 100%;
         display: flex;
         justify-content: space-between;
@@ -178,13 +178,13 @@
           }
         }
 
-        .container-login-btn {
+        .container-auth-btn {
           display: flex;
           flex-wrap: wrap;
           justify-content: center;
           width: 100%;
 
-          .wrap-login-btn {
+          .wrap-auth-btn {
             width: 100%;
             display: block;
             position: relative;
@@ -195,12 +195,12 @@
             box-shadow: 0 5px 30px 00 rgb(3 216 222 / 20%);
 
             &:hover {
-              .login-form-bgbtn {
+              .auth-form-bgbtn {
                 left: 0;
               }
             }
 
-            .login-form-bgbtn {
+            .auth-form-bgbtn {
               position: absolute;
               z-index: -1;
               width: 300%;
@@ -307,14 +307,14 @@
     }
 
     @media only screen and (max-width: 768px) {
-      .wrap-login {
+      .wrap-auth {
         padding-left: 60px;
         padding-right: 60px;
       }
     }
 
     @media only screen and (max-width: 576px) {
-      .wrap-login {
+      .wrap-auth {
         padding-left: 15px;
         padding-right: 15px;
       }

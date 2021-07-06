@@ -7,7 +7,7 @@ const handler = async (req, res) => {
     switch (method) {
     case 'POST':
         try {
-            const user = await prisma.users.findFirst({
+            const user = await prisma.users.findUnique({
                 where: {
                     email: req.body.email,
                 },
