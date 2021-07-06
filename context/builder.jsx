@@ -195,11 +195,6 @@ export function BuilderProvider({ post, postType, children, intl }) {
                             },
                         },
                     },
-                    animation: {
-                        name: 'none',
-                        duration: '1s',
-                        delay: '0',
-                    },
                 },
                 tablet: {
                     styles: {
@@ -243,11 +238,6 @@ export function BuilderProvider({ post, postType, children, intl }) {
                                 color: '',
                             },
                         },
-                    },
-                    animation: {
-                        name: '',
-                        duration: '',
-                        delay: '',
                     },
                 },
                 mobile: {
@@ -293,11 +283,11 @@ export function BuilderProvider({ post, postType, children, intl }) {
                             },
                         },
                     },
-                    animation: {
-                        name: '',
-                        duration: '',
-                        delay: '',
-                    },
+                },
+                animation: {
+                    name: 'none',
+                    duration: '1s',
+                    delay: '0',
                 },
             },
             styles: {

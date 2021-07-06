@@ -24,6 +24,9 @@ import ButtonPreview from './Button/ButtonPreview';
 import Button from './Button/Button';
 import Layout from './Layout/Layout';
 import { useBuilder } from '../../context/builder';
+import AccountRender from './Account/AccountRender';
+import AccountPreview from './Account/AccountPreview';
+import Account from './Account/Account';
 
 function ComponentDispatcher({ element, mode = 'render', images, setImages }) {
     const { device,
@@ -31,6 +34,21 @@ function ComponentDispatcher({ element, mode = 'render', images, setImages }) {
         updateLayout } = useBuilder();
 
     switch (element.type) {
+    case 'account':
+        return mode === 'render' ? (
+            <AccountRender element={element} />
+        ) : mode === 'preview' ? (
+            <AccountPreview
+                element={element}
+                device={device}
+            />
+        ) : (
+            <Account
+                element={element}
+                device={device}
+                onElementValueChange={updateElement}
+            />
+        );
     case 'button':
         return mode === 'render' ? (
             <ButtonRender element={element} />

@@ -35,5 +35,9 @@ RenderPost.propTypes = {
         postType: PropTypes.string,
     }).isRequired,
     user: PropTypes.shape({
-    }).isRequired,
+    }),
+};
+
+RenderPost.defaultProps = {
+    user: null,
 };

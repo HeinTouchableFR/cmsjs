@@ -1,31 +1,21 @@
 import React from 'react';
 import Header from 'container/Sites/Header/Header';
-import RenderPost from 'container/RenderPost/RenderPost';
-import { Global } from '@emotion/react';
 import PropTypes from 'prop-types';
 import Footer from 'container/Sites/Footer/Footer';
+import { getSession } from 'next-auth/client';
 import fetcher from 'utils/fetcher';
-import { useSession } from 'next-auth/client';
 
-export default function Page({ post, templates }) {
-    const [session] = useSession();
-
+export default function Home({ templates, session }) {
     return (
         <>
             <Header
-                post={post}
+                post={
+                    {
+                        title: 'Articles',
+                    }
+                }
                 template={templates.header}
-            />
-            <Global
-                styles={{
-                    body: {
-                        background: post.params.background,
-                    },
-                }}
-            />
-            <RenderPost
-                post={post}
-                user={session ? session.user : null}
+                isHomePage
             />
             <Footer
                 template={templates.footer}
@@ -34,7 +24,7 @@ export default function Page({ post, templates }) {
     );
 }
 
-Page.propTypes = {
+Home.propTypes = {
     post: PropTypes.shape({
         id: PropTypes.number.isRequired,
         title: PropTypes.string,
@@ -50,20 +40,8 @@ Page.propTypes = {
 };
 
 export async function getServerSideProps(ctx) {
-    const { slug } = ctx.params;
-    let post = [];
+    const session = await getSession(ctx);
     let templates = [];
-
-    const resItem = await fetcher(`${process.env.SERVER}/api/posts/slug/${slug}`, {
-        credentials: 'same-origin',
-    });
-    if (resItem.success && resItem.result.data) {
-        post = resItem.result.data;
-    } else {
-        return {
-            notFound: true,
-        };
-    }
 
     const resTemplates = await fetcher(`${process.env.SERVER}/api/posts/getHeaderFooter`, {
         credentials: 'same-origin',
@@ -74,8 +52,8 @@ export async function getServerSideProps(ctx) {
 
     return {
         props: {
-            post,
             templates,
+            session,
         },
     };
 }

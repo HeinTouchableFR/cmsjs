@@ -23,9 +23,6 @@ export default function Header({ children,
     });
 
     const HeaderComponent = styled.header({
-        maxWidth: '1370px',
-        paddingLeft: '20px',
-        paddingRight: '20px',
         marginLeft: 'auto',
         marginRight: 'auto',
         alignItems: 'center',

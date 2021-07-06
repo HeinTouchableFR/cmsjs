@@ -4,10 +4,12 @@ import { Global } from '@emotion/react';
 import RenderPost from 'container/RenderPost/RenderPost';
 import PropTypes from 'prop-types';
 import Footer from 'container/Sites/Footer/Footer';
-import { getSession } from 'next-auth/client';
 import fetcher from 'utils/fetcher';
+import { useSession } from 'next-auth/client';
 
-export default function Home({ post, templates, session }) {
+export default function Home({ post, templates }) {
+    const [session] = useSession();
+
     return (
         <>
             <Header
@@ -48,8 +50,7 @@ Home.propTypes = {
     }).isRequired,
 };
 
-export async function getServerSideProps(ctx) {
-    const session = await getSession(ctx);
+export async function getServerSideProps() {
     let post = [];
     let templates = [];
     const resHomepage = await fetcher(`${process.env.SERVER}/api/settings/homepage`, {
@@ -74,7 +75,6 @@ export async function getServerSideProps(ctx) {
         props: {
             post,
             templates,
-            session,
         },
     };
 }

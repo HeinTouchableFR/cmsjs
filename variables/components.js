@@ -1568,6 +1568,217 @@ export default class defaultComponents {
         };
     }
 
+    static defaultAccount(intl) {
+        return {
+            icon: 'fa-user-circle',
+            label: intl.formatMessage({
+                id: 'account', defaultMessage: 'Account',
+            }),
+            color: 'brown',
+            type: 'account',
+            defaultValue: {
+                alignment: 'right',
+                desktop: {
+                    typo: {
+                        family: 'Roboto',
+                        size: {
+                            unit: 'px',
+                            value: '18',
+                        },
+                        weight: '300',
+                        transform: 'initial',
+                        style: 'normal',
+                        decoration: [],
+                        lineHeight: {
+                            unit: 'em',
+                            value: '1',
+                        },
+                        letterSpacing: '0',
+                        color: {
+                            normal: '#5a2fdd',
+                            hover: '#222222',
+                        },
+                    },
+                    styles: {
+                        background: {
+                            normal: '',
+                            hover: '',
+                        },
+                        border: {
+                            normal: {
+                                type: 'none',
+                                width: {
+                                    top: 0,
+                                    right: 0,
+                                    bottom: 0,
+                                    left: 0,
+                                },
+                                radius: {
+                                    unit: 'px',
+                                    top: 0,
+                                    right: 0,
+                                    bottom: 0,
+                                    left: 0,
+                                },
+                                color: 'inherit',
+                            },
+                            hover: {
+                                type: 'none',
+                                width: {
+                                    top: 0,
+                                    right: 0,
+                                    bottom: 0,
+                                    left: 0,
+                                },
+                                radius: {
+                                    unit: 'px',
+                                    top: 0,
+                                    right: 0,
+                                    bottom: 0,
+                                    left: 0,
+                                },
+                                color: 'inherit',
+                            },
+                        },
+                    },
+                },
+                tablet: {
+                    typo: {
+                        family: '',
+                        size: {
+                            unit: '',
+                            value: '',
+                        },
+                        weight: '',
+                        transform: '',
+                        style: '',
+                        decoration: '',
+                        lineHeight: {
+                            unit: '',
+                            value: '',
+                        },
+                        letterSpacing: '',
+                        color: {
+                            normal: '',
+                            hover: '',
+                        },
+                    },
+                    styles: {
+                        background: {
+                            normal: '',
+                            hover: '',
+                        },
+                        border: {
+                            normal: {
+                                type: '',
+                                width: {
+                                    top: '',
+                                    right: '',
+                                    bottom: '',
+                                    left: '',
+                                },
+                                radius: {
+                                    unit: '',
+                                    top: '',
+                                    right: '',
+                                    bottom: '',
+                                    left: '',
+                                },
+                                color: '',
+                            },
+                            hover: {
+                                type: '',
+                                width: {
+                                    top: '',
+                                    right: '',
+                                    bottom: '',
+                                    left: '',
+                                },
+                                radius: {
+                                    unit: '',
+                                    top: '',
+                                    right: '',
+                                    bottom: '',
+                                    left: '',
+                                },
+                                color: '',
+                            },
+                        },
+                    },
+                },
+                mobile: {
+                    typo: {
+                        family: '',
+                        size: {
+                            unit: '',
+                            value: '',
+                        },
+                        weight: '',
+                        transform: '',
+                        style: '',
+                        decoration: '',
+                        lineHeight: {
+                            unit: '',
+                            value: '',
+                        },
+                        letterSpacing: '',
+                        color: {
+                            normal: '',
+                            hover: '',
+                        },
+                    },
+                    styles: {
+                        background: {
+                            normal: '',
+                            hover: '',
+                        },
+                        border: {
+                            normal: {
+                                type: '',
+                                width: {
+                                    top: '',
+                                    right: '',
+                                    bottom: '',
+                                    left: '',
+                                },
+                                radius: {
+                                    unit: '',
+                                    top: '',
+                                    right: '',
+                                    bottom: '',
+                                    left: '',
+                                },
+                                color: '',
+                            },
+                            hover: {
+                                type: '',
+                                width: {
+                                    top: '',
+                                    right: '',
+                                    bottom: '',
+                                    left: '',
+                                },
+                                radius: {
+                                    unit: '',
+                                    top: '',
+                                    right: '',
+                                    bottom: '',
+                                    left: '',
+                                },
+                                color: '',
+                            },
+                        },
+                    },
+                },
+                animation: {
+                    name: 'none',
+                    duration: 'normal',
+                    delay: '0',
+                },
+            },
+        };
+    }
+
     static pageComponents(intl) {
         return [
             this.defaultButton(intl),
@@ -1586,6 +1797,7 @@ export default class defaultComponents {
             this.defaultMenu(intl),
             this.defaultText(intl),
             this.defaultTitle(intl),
+            this.defaultAccount(intl),
         ];
     }
 }

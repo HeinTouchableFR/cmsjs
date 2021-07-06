@@ -87,8 +87,9 @@ Comment.propTypes = {
             name: PropTypes.string,
         }),
     }).isRequired,
-    canEdit: PropTypes.bool.isRequired,
+    canEdit: PropTypes.bool,
 };
 
 Comment.defaultProps = {
+    canEdit: false,
 };
