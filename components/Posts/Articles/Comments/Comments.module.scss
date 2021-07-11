@@ -61,27 +61,46 @@
     }
 
     .postComment {
-      display: grid;
-      grid-template-columns: 25% 75%;
       margin-bottom: 4rem;
 
-      h4 {
-        font-size: 0.8rem;
-        font-family: Poppins, sans-serif;
-        color: var(--color-gray);
-        line-height: 1.5;
+      .addComment {
+        margin: 0;
+        padding: 0;
+      }
 
-        strong {
-          display: block;
+      .comment {
+        display: grid;
+        grid-template-columns: 15% 85%;
+
+        h4 {
+          font-size: 0.8rem;
+          font-family: Poppins, sans-serif;
+          color: var(--color-gray);
+          line-height: 1.5;
+
+          strong {
+            display: block;
+            color: var(--color-dark);
+          }
+        }
+
+        p {
+          margin-bottom: 1.5rem;
+          font-size: 1.4rem;
           color: var(--color-dark);
+          text-align: justify;
         }
       }
 
-      p {
-        margin-bottom: 1.5rem;
-        font-size: 1.4rem;
-        color: var(--color-dark);
-        text-align: justify;
+      .replies {
+        margin-left: 10px;
+        padding-left: 30px;
+        border-left: 1px solid var(--color-gray);
+
+        .postComment {
+          margin-bottom: 1rem;
+          margin-top: 1rem;
+        }
       }
     }
   }

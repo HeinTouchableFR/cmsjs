@@ -11,8 +11,17 @@ import Form from './Form';
 
 const VIEW = 'VIEW';
 const EDIT = 'EDIT';
+const REPLY = 'REPLY';
 
-const Comment = React.memo(({ comment, canEdit, onDelete, onUpdate }) => {
+const Comment = React.memo(({ comment,
+    canEdit,
+    onDelete,
+    onUpdate,
+    onReply,
+    user,
+    comments,
+    indent,
+    post }) => {
     // Variables
     const intl = useIntl();
     const [state, setState] = useState(VIEW);
@@ -21,8 +30,15 @@ const Comment = React.memo(({ comment, canEdit, onDelete, onUpdate }) => {
     const toggleEdit = useCallback(() => {
         setState((e) => (e === VIEW ? EDIT : VIEW));
     }, []);
+    const toggleReply = useCallback(() => {
+        setState((e) => (e === VIEW ? REPLY : VIEW));
+    }, []);
     const onDeleteCallback = useCallback(() => {
         onDelete(comment);
+    }, [comment]);
+    const onReplyCallback = useCallback((newComment) => {
+        onReply(newComment);
+        toggleReply();
     }, [comment]);
     const onComment = useCallback((newComment) => {
         onUpdate(newComment, comment);
@@ -32,47 +48,87 @@ const Comment = React.memo(({ comment, canEdit, onDelete, onUpdate }) => {
     // Hook
     const { load: callDelete, loading: loadingDelete } = useFetcher(`${process.env.SERVER}/api/comments/${comment.id}`, 'DELETE', onDeleteCallback);
 
+    function repliesFor() {
+        return comments
+            .filter((c) => c.parentId === comment.id)
+            .sort((a, b) => new Date(a.published).getTime() - new Date(b.published).getTime());
+    }
+
     return (
-        <>
+        <div
+            className={styles.postComment}
+        >
             <div
-                className={styles.postComment}
+                className={styles.comment}
             >
                 <h4>
                     <strong>{comment.author.name}</strong>
-                    {
-                        intl.formatMessage({
-                            id: 'comment.on', defaultMessage: 'commented on',
-                        })
-                    }
-                    <strong>
-                        <TimeAgo timestamp={comment.published} />
-                    </strong>
-                    {canEdit && (
+                    <TimeAgo timestamp={comment.published} />
+                    {user
+                    && (
                         <div>
-                            <IconButton
-                                action={toggleEdit}
-                                icon='fas fa-edit'
-                            />
-                            <IconButton
-                                action={callDelete.bind(this, null)}
-                                icon='fas fa-trash'
-                            />
+                            {indent < 5 && (
+                                <IconButton
+                                    action={toggleReply}
+                                    icon='fas fa-reply'
+                                />
+                            )}
+                            {
+                                canEdit && (
+                                    <>
+                                        <IconButton
+                                            action={toggleEdit}
+                                            icon='fas fa-edit'
+                                        />
+                                        <IconButton
+                                            action={callDelete.bind(this, null)}
+                                            icon='fas fa-trash'
+                                        />
+                                    </>
+                                )
+                            }
                         </div>
                     )}
                 </h4>
-                {state === VIEW ? (
-                    <p>
-                        {comment.content}
-                    </p>
-                ) : (
+                {state === EDIT ? (
                     <Form
                         comment={comment}
                         onComment={onComment}
                         onCancel={toggleEdit}
                     />
+                ) : (
+                    <>
+                        <p>
+                            {comment.content}
+                        </p>
+                    </>
                 )}
             </div>
-        </>
+            <div className={styles.replies}>
+                {state === REPLY && (
+                    <Form
+                        post={post}
+                        onComment={onReplyCallback}
+                        onCancel={toggleReply}
+                        parent={comment.id}
+                    />
+                )}
+                {repliesFor(comment).map((reply) => (
+                    <Comment
+                        key={reply.id}
+                        comment={reply}
+                        canEdit={(user) && reply.author.id === user.id}
+                        onDelete={onDelete}
+                        onUpdate={onUpdate}
+                        onReply={onReply}
+                        user={user}
+                        comments={comments}
+                        post={post}
+                        indent={indent + 1}
+                    />
+                ))}
+            </div>
+        </div>
     );
 });
 
@@ -88,8 +144,13 @@ Comment.propTypes = {
         }),
     }).isRequired,
     canEdit: PropTypes.bool,
+    comments: PropTypes.arrayOf(PropTypes.shape({
+    })),
+    indent: PropTypes.number,
 };
 
 Comment.defaultProps = {
     canEdit: false,
+    comments: [],
+    indent: 0,
 };

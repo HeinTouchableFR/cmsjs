@@ -1,5 +1,5 @@
 import React, {
-    useCallback, useEffect, useState,
+    useCallback, useEffect, useState, useMemo,
 } from 'react';
 import PropTypes from 'prop-types';
 import {
@@ -16,6 +16,15 @@ export default function Comments({ post, user, disableForm }) {
     useEffect(() => {
         setComments(post.comments);
     }, [post]);
+
+    const filteredComments = useMemo(() => {
+        if (comments === null) {
+            return null;
+        }
+        return comments
+            .filter((c) => c.parentId === null)
+            .sort((a, b) => new Date(b.published).getTime() - new Date(a.published).getTime());
+    }, [comments]);
 
     const addComment = useCallback((comment) => {
         setComments((items) => [comment, ...items]);
@@ -61,13 +70,17 @@ export default function Comments({ post, user, disableForm }) {
                             value={comments.length}
                         />
                     </h3>
-                    {comments.map((comment) => (
+                    {filteredComments.map((comment) => (
                         <Comment
                             key={comment.id}
                             comment={comment}
                             canEdit={(user && !disableForm) && comment.author.id === user.id}
                             onDelete={deleteComment}
                             onUpdate={updateComment}
+                            onReply={addComment}
+                            user={user}
+                            comments={comments}
+                            post={post.id}
                         />
                     ))}
                 </div>

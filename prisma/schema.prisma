@@ -2,42 +2,45 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 datasource db {
-  provider = "mysql"
-  url      = env("DB_URL")
+  provider          = "mysql"
+  url               = env("DB_URL")
   shadowDatabaseUrl = "mysql://236899_dev:Stienforce62!!@mysql-heintouchable.alwaysdata.net/heintouchable_shadow"
 }
 
 model posts {
-  id          Int        @id @default(autoincrement())
-  postType   PostType     @default(PAGE)
-  content     String?    @db.LongText
+  id          Int          @id @default(autoincrement())
+  postType    PostType     @default(PAGE)
+  content     String?      @db.LongText
   description String?
   params      String?
-  title       String     @db.VarChar(255)
-  slug        String     @unique @db.VarChar(191)
-  published   DateTime   @default(now())
+  title       String       @db.VarChar(255)
+  slug        String       @unique @db.VarChar(191)
+  published   DateTime     @default(now())
   updated     DateTime?
   settings    settings[]
-  author    users?    @relation(references: [id], fields: [authorId])
-  authorId     Int?
-  categories categories[]
-  comments comments[]
+  author      users?       @relation(references: [id], fields: [authorId])
+  authorId    Int?
+  categories  categories[]
+  comments    comments[]
 }
 
 model comments {
-  id    Int    @id @default(autoincrement())
-  content     String?    @db.LongText
-  published   DateTime   @default(now())
-  author    users?    @relation(references: [id], fields: [authorId])
-  authorId     Int?
-  post    posts?    @relation(references: [id], fields: [postId])
-  postId     Int?
+  id        Int        @id @default(autoincrement())
+  content   String?    @db.LongText
+  published DateTime   @default(now())
+  author    users?     @relation(references: [id], fields: [authorId])
+  authorId  Int?
+  post      posts?     @relation(references: [id], fields: [postId])
+  postId    Int?
+  parent    comments?  @relation("child_comments", fields: [parentId], references: [id])
+  parentId  Int?
+  comments  comments[] @relation("child_comments")
 }
 
 model categories {
-  id    Int    @id @default(autoincrement())
-  title       String     @db.VarChar(255)
-  slug       String      @unique @db.VarChar(191)
+  id    Int     @id @default(autoincrement())
+  title String  @db.VarChar(255)
+  slug  String  @unique @db.VarChar(191)
   posts posts[]
 }
 
@@ -49,7 +52,7 @@ model menus {
 
 model images {
   id           Int        @id @default(autoincrement())
-  path          String     @db.LongText
+  path         String     @db.LongText
   originalName String     @db.VarChar(255)
   name         String     @db.VarChar(255)
   created_at   DateTime   @default(now())
@@ -57,17 +60,17 @@ model images {
 }
 
 model settings {
-  id          Int        @id @default(autoincrement())
-  data        String     @unique @db.VarChar(191)
-  value       String?    @db.VarChar(255)
-  post        posts?     @relation(references: [id], fields: [postsId])
-  image       images?    @relation(references: [id], fields: [imagesId])
-  postsId     Int?
-  imagesId    Int?
+  id       Int     @id @default(autoincrement())
+  data     String  @unique @db.VarChar(191)
+  value    String? @db.VarChar(255)
+  post     posts?  @relation(references: [id], fields: [postsId])
+  image    images? @relation(references: [id], fields: [imagesId])
+  postsId  Int?
+  imagesId Int?
 }
 
 model accounts {
-  id                 Int       @default(autoincrement()) @id
+  id                 Int       @id @default(autoincrement())
   compoundId         String    @unique @map(name: "compound_id")
   userId             Int       @map(name: "user_id")
   providerType       String    @map(name: "provider_type")
@@ -85,7 +88,7 @@ model accounts {
 }
 
 model sessions {
-  id           Int      @default(autoincrement()) @id
+  id           Int      @id @default(autoincrement())
   userId       Int      @map(name: "user_id")
   expires      DateTime
   sessionToken String   @unique @map(name: "session_token")
@@ -95,17 +98,17 @@ model sessions {
 }
 
 model users {
-  id            Int       @default(autoincrement()) @id
+  id            Int        @id @default(autoincrement())
   name          String?
-  email         String?   @unique
+  email         String?    @unique
   password      String?
-  emailVerified DateTime? @map(name: "email_verified")
+  emailVerified DateTime?  @map(name: "email_verified")
   image         String?
-  role   Role     @default(USER)
-  createdAt     DateTime  @default(now()) @map(name: "created_at")
-  updatedAt     DateTime  @default(now()) @map(name: "updated_at")
-  posts posts[]
-  comments comments[]
+  role          Role       @default(USER)
+  createdAt     DateTime   @default(now()) @map(name: "created_at")
+  updatedAt     DateTime   @default(now()) @map(name: "updated_at")
+  posts         posts[]
+  comments      comments[]
 }
 
 enum Role {
@@ -125,14 +128,13 @@ enum PostType {
 }
 
 model verification_requests {
-  id         Int      @default(autoincrement()) @id
+  id         Int      @id @default(autoincrement())
   identifier String
   token      String   @unique
   expires    DateTime
-  createdAt  DateTime  @default(now()) @map(name: "created_at")
-  updatedAt  DateTime  @default(now()) @map(name: "updated_at")
+  createdAt  DateTime @default(now()) @map(name: "created_at")
+  updatedAt  DateTime @default(now()) @map(name: "updated_at")
 }
-
 
 generator client {
   provider = "prisma-client-js"

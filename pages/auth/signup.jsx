@@ -5,6 +5,7 @@ import React, {
     useEffect, useState,
 } from 'react';
 import { useIntl } from 'react-intl';
+import PropTypes from 'prop-types';
 
 export default function SignUp({ csrfToken, providers, errorsType }) {
     const auth = Object.values(providers).filter((provider) => provider.id !== 'credentials');
@@ -225,6 +226,17 @@ export default function SignUp({ csrfToken, providers, errorsType }) {
         </>
     );
 }
+
+SignUp.propTypes = {
+    csrfToken: PropTypes.string.isRequired,
+    providers: PropTypes.shape({
+    }).isRequired,
+    errorsType: PropTypes.string,
+};
+
+SignUp.defaultProps = {
+    errorsType: '',
+};
 
 export async function getServerSideProps(ctx) {
     const providers = await getProviders();

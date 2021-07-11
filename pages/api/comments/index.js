@@ -20,6 +20,7 @@ const handler = async (req, res) => {
                             email: true,
                         },
                     },
+                    comments: true,
                 },
             });
 
@@ -36,20 +37,28 @@ const handler = async (req, res) => {
     case 'POST':
         try {
             if (token) {
-                const data = await prisma.comments.create({
-                    data: {
-                        content: req.body.content,
-                        post: {
-                            connect: {
-                                id: req.body.post,
-                            },
-                        },
-                        author: {
-                            connect: {
-                                id: token.id,
-                            },
+                const postData = {
+                    content: req.body.content,
+                    post: {
+                        connect: {
+                            id: req.body.post,
                         },
                     },
+                    author: {
+                        connect: {
+                            id: token.id,
+                        },
+                    },
+                };
+                if (req.body.parent) {
+                    postData.parent = {
+                        connect: {
+                            id: req.body.parent,
+                        },
+                    };
+                }
+                const data = await prisma.comments.create({
+                    data: postData,
                     include: {
                         author: {
                             select: {

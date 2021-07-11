@@ -8,7 +8,7 @@ import Button from 'components/Button/Button';
 import { useFetcher } from 'utils/fetcher';
 import styles from './Comments.module.scss';
 
-export default function Form({ post, onComment, onCancel, comment, disableForm }) {
+export default function Form({ post, onComment, onCancel, comment, disableForm, parent }) {
     // Variables
     const intl = useIntl();
     const ref = useRef(null);
@@ -28,6 +28,7 @@ export default function Form({ post, onComment, onCancel, comment, disableForm }
         load({
             post: post,
             content: ref.current.value,
+            parent,
         });
     }, [load, ref, post]);
 
