@@ -120,6 +120,7 @@ export default function MenuRender({ element }) {
                     paddingRight: '.5625rem',
                     marginTop: '0.625rem',
                     textDecoration: 'none',
+                    display: 'block',
                     ...typoStyle('desktop', element),
                     ...colorStyle('desktop', 'normal', element),
                     ':after': {
@@ -180,6 +181,7 @@ export default function MenuRender({ element }) {
                     borderTop: 'solid 1px var(--color-gray)',
                     padding: '10px 0',
                     a: {
+                        display: 'initial',
                         ...typoStyle('mobile', element),
                         ...colorStyle('mobile', 'normal', element),
                         ':hover': {
