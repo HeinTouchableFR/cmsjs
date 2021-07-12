@@ -21,6 +21,7 @@
     padding: .5rem 1rem;
     font-size: .9rem;
     color: #222;
+    min-width: 150px;
   }
 
   tr {
@@ -30,6 +31,15 @@
     td {
       vertical-align: middle;
       color: var(--color-dark);
+
+      p {
+        font-size: 0.8rem;
+        color: var(--color-info);
+        word-break: normal;
+      }
+      a {
+        margin-left: 10px;
+      }
     }
   }
 }

@@ -86,6 +86,20 @@ export default function Admin({ children }) {
                                     </a>
                                 </Link>
                             </li>
+                            <li>
+                                <Link href={`${process.env.SERVER}/admin/comments`}>
+                                    {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+                                    <a className={router.pathname.includes('comments') ? styles.active : undefined}>
+                                        <span className='fas fa-comments' />
+                                        <span>
+                                            <FormattedMessage
+                                                id='comments'
+                                                defaultMessage='Comments'
+                                            />
+                                        </span>
+                                    </a>
+                                </Link>
+                            </li>
                             {/* <li>
                                 <Link href={'/admin/categories'}>
                                     <a className={router.pathname.includes('categories') ? styles.active : undefined}>

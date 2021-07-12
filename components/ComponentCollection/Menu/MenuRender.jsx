@@ -4,22 +4,20 @@ import React, {
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { useInView } from 'react-intersection-observer';
-import Link from 'next/link';
 import {
     backgroundStyle,
     borderStyle,
     colorStyle,
     marginPaddingStyle,
     typoStyle,
-    concatValueUnit,
 } from 'variables/renderFunctions';
 import PropTypes from 'prop-types';
+import Item from './Elements/Item';
 
 export default function MenuRender({ element }) {
     const { ref, inView, entry } = useInView({
         triggerOnce: true,
     });
-    const [isNavActive, setIsNavActive] = useState(false);
 
     const [menu] = useState(JSON.parse(element.content.menu.items));
 
@@ -68,7 +66,7 @@ export default function MenuRender({ element }) {
             height: '2px',
             display: 'block',
             transition: 'transform .4s, background .2s',
-            background: isNavActive ? 'transparent' : 'currentColor',
+            background: 'currentColor',
             '&:before': {
                 position: 'absolute',
                 content: '\'\'',
@@ -79,7 +77,6 @@ export default function MenuRender({ element }) {
                 transition: 'transform .4s, background .2s',
                 transformOrigin: '0 50%',
                 top: '-6px',
-                transform: isNavActive && 'translateY(-2px) rotate(45deg)',
             },
             '&:after': {
                 position: 'absolute',
@@ -91,172 +88,114 @@ export default function MenuRender({ element }) {
                 transition: 'transform .4s, background .2s',
                 bottom: '-6px',
                 transformOrigin: '0 50%',
-                transform: isNavActive && 'rotate(-45deg)',
             },
         },
-    };
-
-    const NavMenu = styled.ul({
-        marginLeft: 'auto',
-        display: 'flex',
-        fontSize: '18px',
-        fontWeight: '500',
-        listStyle: 'none',
-        marginBottom: '0',
-        a: {
-            ...typoStyle('desktop', element),
-            ...colorStyle('desktop', 'normal', element),
-        },
-        'a:hover, a[aria-current]': {
-            ...colorStyle('desktop', 'hover', element),
-        },
-        '@media (min-width: 768px)': css({
-            justifyContent: element.content.alignment,
-            '> * + *': {
-                marginLeft: '24px',
-            },
-        }),
-        '@media (max-width: 768px)': css({
-            display: isNavActive ?? 'flex',
-            position: 'fixed',
-            zIndex: '50',
-            background: 'hsla(0,0%,100%,.95)',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            flexDirection: 'column',
-            fontSize: '24px',
-            padding: '60px 35px',
-            opacity: isNavActive ? '1' : '0',
-            pointerEvents: isNavActive ? 'auto' : 'none',
-            transition: 'opacity .3s',
-            animation: isNavActive ?? 'menuIn 1s',
-            a: {
-                ...typoStyle('mobile', element),
-                ...colorStyle('mobile', 'normal', element),
-            },
-            'a:hover, a[aria-current]': {
-                ...colorStyle('mobile', 'hover', element),
-            },
-            '> *': {
-                transform: isNavActive ? 'translateY(0px)' : 'translateY(-10px)',
-                transition: 'transform .3s, opacity .3s',
-                opacity: isNavActive ? '1' : '0',
-            },
-
-        }),
-    });
-
-    const NavMenuItem = styled.li({
-        position: 'relative',
-        span: {
-            marginLeft: '1rem',
-            fontSize: `${concatValueUnit(element.content.desktop.typo.size.value, element.content.desktop.typo.size.unit)}`,
-            ...colorStyle('desktop', 'normal', element),
-        },
-        '&:hover > ul': {
-            visibility: 'visible',
-            opacity: '1',
-        },
-        '@media (max-width: 768px)': css({
-            width: '100%',
-            padding: '10px 0',
-            textAlign: 'left',
-            marginLeft: '0',
-            '&:hover > ul': {
-                display: 'block',
-            },
+        '&.active': {
             span: {
-                fontSize: `${concatValueUnit(element.content.mobile.typo.size.value, element.content.mobile.typo.size.unit)}`,
-                ...colorStyle('mobile', 'normal', element),
+                background: 'transparent',
+                '&:before': {
+                    transform: 'translateY(-2px) rotate(45deg)',
+                },
+                '&:after': {
+                    transform: 'rotate(-45deg)',
+                },
             },
-        }),
-    });
+        },
+    };
 
-    const SubMenu = styled.ul({
-        position: 'absolute',
-        visibility: 'hidden',
-        opacity: '0',
-        zIndex: '100',
-        transition: '.3s ease-in-out',
-        background: '#fff',
-        boxShadow: '0 3px 5px -1px #ccc',
-        width: '240px',
-        textAlign: 'left',
+    const MainNavigation = styled.div({
+        display: 'flex',
+        justifyContent: `${element.content.alignment}`,
         ul: {
-            left: '240px',
-            top: '0',
-        },
-        li: {
-            padding: '5px 20px',
-            fontSize: '14px',
-            marginBottom: '5px',
-        },
-        'li a:hover': {
-            paddingLeft: '10px',
-            borderLeft: `2px solid ${element.content.desktop.typo.color.hover}`,
-            transition: ' all 0.3s ease-in-out',
-        },
-        '@media (max-width: 768px)': css({
-            background: 'transparent',
-            boxShadow: 'none',
-            position: 'relative',
-            display: 'none',
+            float: 'left',
+            display: 'block',
+            listStyle: 'none',
+            margin: '0',
+            paddingLeft: '0',
             li: {
-                padding: '10px 25px',
-                fontSize: '14px',
-                marginBottom: '5px',
+                float: 'left',
+                position: 'relative',
+                a: {
+                    paddingLeft: '.5625rem',
+                    paddingRight: '.5625rem',
+                    marginTop: '0.625rem',
+                    textDecoration: 'none',
+                    ...typoStyle('desktop', element),
+                    ...colorStyle('desktop', 'normal', element),
+                    ':after': {
+                        backgroundColor: '#ffc029',
+                        backgroundImage: 'linear-gradient(90deg,#ffc029,#4cd8b0)',
+                        transition: 'width .2s',
+                        content: '""',
+                        display: 'block',
+                        height: '.125rem',
+                        margin: '.625rem auto 0',
+                        width: '0',
+                    },
+                    ':hover': {
+                        ...colorStyle('desktop', 'hover', element),
+                    },
+                    ':hover:after': {
+                        width: '100%',
+                    },
+                },
+                ':hover > ul': {
+                    clip: 'inherit',
+                    height: 'inherit',
+                    opacity: '1',
+                    overflow: 'inherit',
+                    width: 'inherit',
+                },
             },
+        },
+        '@media (max-width: 1024px)': {
             ul: {
-                left: '0px',
-                top: '0',
+                li: {
+                    a: {
+                        ...typoStyle('tablet', element),
+                        ...colorStyle('tablet', 'normal', element),
+                        ':hover': {
+                            ...colorStyle('tablet', 'hover', element),
+                        },
+                    },
+                },
             },
-        }),
+        },
+        '@media (max-width: 768px)': {
+            display: 'block',
+            justifyContent: 'none',
+            position: 'fixed',
+            top: 0,
+            right: '-250px',
+            bottom: 0,
+            backgroundColor: '#FFF',
+            height: '100%',
+            width: '250px',
+            transition: 'right .5s',
+            ul: {
+                float: 'none',
+                marginTop: '50px',
+                li: {
+                    float: 'none',
+                    borderTop: 'solid 1px var(--color-gray)',
+                    padding: '10px 0',
+                    a: {
+                        ...typoStyle('mobile', element),
+                        ...colorStyle('mobile', 'normal', element),
+                        ':hover': {
+                            ...colorStyle('mobile', 'hover', element),
+                        },
+                        '&:after': {
+                            content: 'none',
+                        },
+                    },
+                },
+            },
+            '&.active': {
+                right: 0,
+            },
+        },
     });
-
-    const Item = ({ item, handleSetIsNavActive, icon }) => (
-        <NavMenuItem>
-            <Link href={`${item.slug !== '/'}` ? `${process.env.SERVER}/${item.slug}` : `${item.slug}`}>
-                {/* eslint-disable-next-line max-len */}
-                {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions,jsx-a11y/anchor-is-valid,jsx-a11y/click-events-have-key-events */}
-                <a onClick={() => handleSetIsNavActive(false)}>{item.label}</a>
-            </Link>
-
-            {item.child.length > 0
-            && (
-                <>
-                    <span className={`fas ${icon}`} />
-                    <SubMenu>
-                        {item.child.map((thing) => (
-                            <Item
-                                key={thing.slug}
-                                item={thing}
-                                icon='fa-angle-double-right'
-                            />
-                        ))}
-                    </SubMenu>
-                </>
-            )}
-        </NavMenuItem>
-    );
-
-    Item.propTypes = {
-        item: PropTypes.shape({
-            label: PropTypes.string.isRequired,
-            slug: PropTypes.string.isRequired,
-            child: PropTypes.arrayOf(PropTypes.shape({
-                length: PropTypes.number.isRequired,
-                map: PropTypes.func.isRequired,
-            })).isRequired,
-        }).isRequired,
-        icon: PropTypes.string,
-        handleSetIsNavActive: PropTypes.func.isRequired,
-    };
-
-    Item.defaultProps = {
-        icon: 'fa-angle-double-down',
-    };
 
     useEffect(() => {
         if (entry) {
@@ -276,6 +215,11 @@ export default function MenuRender({ element }) {
         return null;
     }, [inView]);
 
+    const handleOpenNav = () => {
+        entry.target.firstChild.classList.toggle('active');
+        entry.target.lastChild.classList.toggle('active');
+    };
+
     return (
         <>
             <nav
@@ -283,20 +227,21 @@ export default function MenuRender({ element }) {
                 css={Nav}
                 className={element.content.animation.name !== 'none' ? 'invisible' : ''}
             >
-                <NavMenu>
-                    {menu && menu.map((item) => (
-                        <Item
-                            key={item.slug}
-                            item={item}
-                            handleSetIsNavActive={setIsNavActive}
-                        />
-                    ))}
-                </NavMenu>
+                <MainNavigation>
+                    <ul>
+                        {menu && menu.map((item) => (
+                            <Item
+                                key={item.slug}
+                                item={item}
+                            />
+                        ))}
+                    </ul>
+                </MainNavigation>
                 <button
                     key='burger-button'
                     css={Burger}
-                    onClick={() => setIsNavActive(!isNavActive)}
-                    className={`${isNavActive ? 'isActive' : ''}`}
+                    onClick={handleOpenNav}
+                    className='burger'
                     type='button'
                 >
                     <span key='burger-button-span' />

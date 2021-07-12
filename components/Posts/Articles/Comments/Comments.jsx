@@ -5,6 +5,9 @@ import PropTypes from 'prop-types';
 import {
     FormattedPlural, useIntl,
 } from 'react-intl';
+import {
+    offsetTop, windowHeight,
+} from 'utils/dom';
 import styles from './Comments.module.scss';
 import Form from './Form';
 import Comment from './Comment';
@@ -16,6 +19,31 @@ export default function Comments({ post, user, disableForm }) {
     useEffect(() => {
         setComments(post.comments);
     }, [post]);
+
+    useEffect(() => {
+        const path = window.location.hash;
+        if (path && path.includes('#')) {
+            const id = path.replace('#', '');
+            const element = window.document.getElementById(id);
+            if (element === null) {
+                return;
+            }
+            element.classList.add(styles.isAnchor);
+            const elementOffset = offsetTop(element);
+            const elementHeight = element.getBoundingClientRect().height;
+            const viewHeight = windowHeight();
+            let top = elementOffset - 100;
+            if (elementHeight <= viewHeight) {
+                top = elementOffset - (viewHeight - elementHeight) / 2;
+            }
+            console.log(top)
+            window.scrollTo({
+                top,
+                left: 0,
+                behavior: 'smooth',
+            });
+        }
+    });
 
     const filteredComments = useMemo(() => {
         if (comments === null) {

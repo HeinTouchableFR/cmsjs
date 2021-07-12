@@ -20,7 +20,22 @@ const handler = async (req, res) => {
                             email: true,
                         },
                     },
-                    comments: true,
+                    parent: {
+                        select: {
+                            id: true,
+                            author: {
+                                select: {
+                                    name: true,
+                                },
+                            },
+                        },
+                    },
+                    post: {
+                        select: {
+                            title: true,
+                            slug: true,
+                        },
+                    },
                 },
             });
 

@@ -57,6 +57,7 @@ const Comment = React.memo(({ comment,
     return (
         <div
             className={styles.postComment}
+            id={comment.id}
         >
             <div
                 className={styles.comment}

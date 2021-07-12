@@ -140,11 +140,10 @@ const handler = async (req, res) => {
                     },
                 });
 
-                if (data.author.id === token.id) {
-                    await prisma.comments.deleteMany({
+                if (data.author.id === token.id || authorized.includes(token.role)) {
+                    await prisma.comments.delete({
                         where: {
                             id: parseInt(id, 10),
-                            authorId: token.id,
                         },
                     });
                     redis.del(`${process.env.NODE_ENV === 'development' ? 'dev_' : 'prod_'}${data.post.slug}`);
@@ -155,6 +154,15 @@ const handler = async (req, res) => {
                     if (cacheHomepage && cacheHomepage.post.slug === data.post.slug) {
                         redis.del(`${process.env.NODE_ENV === 'development' ? 'dev_' : 'prod_'}homepage`);
                     }
+                } else {
+                    res.status(401).json({
+                        success: false,
+                        errors: {
+                            status: 401,
+                            code: 1,
+                            message: 'Unauthorized',
+                        },
+                    });
                 }
 
                 res.status(200).json({
@@ -171,7 +179,6 @@ const handler = async (req, res) => {
                 });
             }
         } catch (e) {
-            console.log(e);
             res.status(400).json({
                 success: false,
                 errors: e,

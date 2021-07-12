@@ -63,6 +63,10 @@
     .postComment {
       margin-bottom: 4rem;
 
+      .isAnchor {
+        border: solid 1px var(--color-success);
+      }
+
       .addComment {
         margin: 0;
         padding: 0;

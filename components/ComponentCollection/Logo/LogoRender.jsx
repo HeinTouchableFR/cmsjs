@@ -94,7 +94,7 @@ export default function LogoRender({ element }) {
                 css={styleDiv}
                 className={element.content.animation.name !== 'none' ? 'invisible' : ''}
             >
-                <Link href={`${process.env.SERVER}`}>
+                <Link href={`${process.env.SERVER}/`}>
                     {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                     <a>
                         <Image
