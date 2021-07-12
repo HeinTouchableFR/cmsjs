@@ -7,7 +7,7 @@ const handler = async (req, res) => {
         method } = req;
 
     let start = Date.now();
-    let cache = await redis.get(name);
+    let cache = await redis.get(`${process.env.NODE_ENV === 'development' ? 'dev_' : 'prod_'}${name}`);
     cache = JSON.parse(cache);
     const result = {
     };
@@ -58,7 +58,7 @@ const handler = async (req, res) => {
                 result.data = data;
                 result.type = 'api';
                 result.latency = Date.now() - start;
-                redis.set(name, JSON.stringify(result.data), 'EX', 86400);
+                redis.set(`${process.env.NODE_ENV === 'development' ? 'dev_' : 'prod_'}${name}`, JSON.stringify(result.data), 'EX', 86400);
                 res.status(200).json({
                     success: true, result,
                 });

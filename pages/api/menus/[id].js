@@ -43,8 +43,8 @@ const handler = async (req, res) => {
                     },
                 });
 
-                redis.del('header');
-                redis.del('footer');
+                redis.del(`${process.env.NODE_ENV === 'development' ? 'dev_' : 'prod_'}header`);
+                redis.del(`${process.env.NODE_ENV === 'development' ? 'dev_' : 'prod_'}footer`);
 
                 res.status(200).json({
                     success: true, data,

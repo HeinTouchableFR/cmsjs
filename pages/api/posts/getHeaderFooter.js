@@ -6,8 +6,8 @@ const handler = async (req, res) => {
     const { method } = req;
 
     let start = Date.now();
-    let cacheHeader = await redis.get('header');
-    let cacheFooter = await redis.get('footer');
+    let cacheHeader = await redis.get(`${process.env.NODE_ENV === 'development' ? 'dev_' : 'prod_'}header`);
+    let cacheFooter = await redis.get(`${process.env.NODE_ENV === 'development' ? 'dev_' : 'prod_'}footer`);
     cacheHeader = JSON.parse(cacheHeader);
     cacheFooter = JSON.parse(cacheFooter);
     const result = {
@@ -60,8 +60,8 @@ const handler = async (req, res) => {
                 };
                 result.type = 'api';
                 result.latency = Date.now() - start;
-                redis.set('header', JSON.stringify(result.data.header), 'EX', 86400);
-                redis.set('footer', JSON.stringify(result.data.footer), 'EX', 86400);
+                redis.set(`${process.env.NODE_ENV === 'development' ? 'dev_' : 'prod_'}header`, JSON.stringify(result.data.header), 'EX', 86400);
+                redis.set(`${process.env.NODE_ENV === 'development' ? 'dev_' : 'prod_'}footer`, JSON.stringify(result.data.footer), 'EX', 86400);
                 res.status(200).json({
                     success: true, result,
                 });

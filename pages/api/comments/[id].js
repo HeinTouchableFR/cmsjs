@@ -67,7 +67,7 @@ const handler = async (req, res) => {
                 });
 
                 if (data.author.id === token.id) {
-                    redis.del(data.post.slug);
+                    redis.del(`${process.env.NODE_ENV === 'development' ? 'dev_' : 'prod_'}${data.post.slug}`);
                     data = await prisma.comments.update({
                         where: {
                             id: parseInt(id, 10),
@@ -91,11 +91,11 @@ const handler = async (req, res) => {
                         },
                     });
 
-                    let cacheHomepage = await redis.get('homepage');
+                    let cacheHomepage = await redis.get(`${process.env.NODE_ENV === 'development' ? 'dev_' : 'prod_'}homepage`);
                     cacheHomepage = JSON.parse(cacheHomepage);
 
                     if (cacheHomepage && cacheHomepage.post.slug === data.post.slug) {
-                        redis.del('homepage');
+                        redis.del(`${process.env.NODE_ENV === 'development' ? 'dev_' : 'prod_'}homepage`);
                     }
                 }
 
@@ -147,13 +147,13 @@ const handler = async (req, res) => {
                             authorId: token.id,
                         },
                     });
-                    redis.del(data.post.slug);
+                    redis.del(`${process.env.NODE_ENV === 'development' ? 'dev_' : 'prod_'}${data.post.slug}`);
 
-                    let cacheHomepage = await redis.get('homepage');
+                    let cacheHomepage = await redis.get(`${process.env.NODE_ENV === 'development' ? 'dev_' : 'prod_'}homepage`);
                     cacheHomepage = JSON.parse(cacheHomepage);
 
                     if (cacheHomepage && cacheHomepage.post.slug === data.post.slug) {
-                        redis.del('homepage');
+                        redis.del(`${process.env.NODE_ENV === 'development' ? 'dev_' : 'prod_'}homepage`);
                     }
                 }
 

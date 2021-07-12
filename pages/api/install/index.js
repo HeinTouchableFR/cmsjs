@@ -12,7 +12,7 @@ export default async (req, res) => {
             // Check if database is empty
             const emptyDatabase = await prisma.settings.count();
             if (emptyDatabase === 0) {
-                redis.del('settings');
+                redis.del(`${process.env.NODE_ENV === 'development' ? 'dev_' : 'prod_'}settings`);
                 // Table users
                 const hash = bcrypt.hashSync(req.body.password, 12);
                 const dataUser = await prisma.users.create({

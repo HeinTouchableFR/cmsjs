@@ -75,13 +75,13 @@ const handler = async (req, res) => {
                     },
                 });
 
-                redis.del(data.post.slug);
+                redis.del(`${process.env.NODE_ENV === 'development' ? 'dev_' : 'prod_'}${data.post.slug}`);
 
-                let cacheHomepage = await redis.get('homepage');
+                let cacheHomepage = await redis.get(`${process.env.NODE_ENV === 'development' ? 'dev_' : 'prod_'}homepage`);
                 cacheHomepage = JSON.parse(cacheHomepage);
 
                 if (cacheHomepage && cacheHomepage.post.slug === data.post.slug) {
-                    redis.del('homepage');
+                    redis.del(`${process.env.NODE_ENV === 'development' ? 'dev_' : 'prod_'}homepage`);
                 }
 
                 res.status(200).json({

@@ -10,7 +10,7 @@ const handler = async (req, res) => {
     const authorized = ['ADMIN', 'EDITOR', 'MODERATOR'];
 
     let start = Date.now();
-    let cache = await redis.get('settings');
+    let cache = await redis.get(`${process.env.NODE_ENV === 'development' ? 'dev_' : 'prod_'}settings`);
     cache = JSON.parse(cache);
     const result = {
     };
@@ -35,7 +35,7 @@ const handler = async (req, res) => {
                 });
                 result.type = 'api';
                 result.latency = Date.now() - start;
-                redis.set('settings', JSON.stringify(result.data), 'EX', 86400);
+                redis.set(`${process.env.NODE_ENV === 'development' ? 'dev_' : 'prod_'}settings`, JSON.stringify(result.data), 'EX', 86400);
                 res.status(200).json({
                     success: true, result,
                 });

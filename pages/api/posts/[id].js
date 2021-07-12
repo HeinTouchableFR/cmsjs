@@ -77,21 +77,21 @@ const handler = async (req, res) => {
                         params: req.body.params,
                     },
                 });
-                redis.del(data.slug);
+                redis.del(`${process.env.NODE_ENV === 'development' ? 'dev_' : 'prod_'}${data.slug}`);
 
-                let cacheHomepage = await redis.get('homepage');
+                let cacheHomepage = await redis.get(`${process.env.NODE_ENV === 'development' ? 'dev_' : 'prod_'}homepage`);
                 cacheHomepage = JSON.parse(cacheHomepage);
 
                 if (cacheHomepage && cacheHomepage.post.id === parseInt(id, 10)) {
-                    redis.del('homepage');
+                    redis.del(`${process.env.NODE_ENV === 'development' ? 'dev_' : 'prod_'}homepage`);
                 }
 
                 if (data.postType === 'HEADER') {
-                    redis.del('header');
+                    redis.del(`${process.env.NODE_ENV === 'development' ? 'dev_' : 'prod_'}header`);
                 }
 
                 if (data.postType === 'FOOTER') {
-                    redis.del('footer');
+                    redis.del(`${process.env.NODE_ENV === 'development' ? 'dev_' : 'prod_'}footer`);
                 }
 
                 res.status(200).json({
