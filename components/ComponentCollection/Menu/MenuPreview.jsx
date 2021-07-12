@@ -9,25 +9,25 @@ import {
 } from 'variables/previewFunctions';
 import {
     colorStyle,
-    concatValueUnit,
     typoStyle,
 } from 'variables/renderFunctions';
 import PropTypes from 'prop-types';
 import { useBuilder } from 'context/builder';
 import { useInView } from 'react-intersection-observer';
+import {
+    Burger, handleOpenNav,
+} from './Elements/Burger';
+import ItemPreview from './Elements/ItemPreview';
 
 function MenuPreview({ element, device }) {
     const { menus } = useBuilder();
     const [menu, setMenu] = useState(typeof element.content.menu === 'string' ? [] : JSON.parse(element.content.menu.items));
-    const [isNavActive, setIsNavActive] = useState(false);
-    const spanSize = (screen) => ({
-        fontSize: `${concatValueUnit(element.content[screen].typo.size.value, element.content[screen].typo.size.unit)}`,
-    });
     const { showAnimation } = useBuilder();
     const { ref, entry } = useInView({
         triggerOnce: true,
     });
     const inView = showAnimation(element);
+    const [mobileMenuPos, setMenuPos] = useState('0');
 
     useEffect(() => {
         if (typeof element.content.menu === 'string') {
@@ -50,197 +50,90 @@ function MenuPreview({ element, device }) {
         },
     });
 
-    const Burger = {
-        display: device === 'mobile' ? 'block' : 'none',
-        position: 'relative',
-        marginLeft: 'auto',
-        height: '37px',
-        zIndex: 51,
-        span: {
-            position: 'relative',
-            content: '\'\'',
-            width: '20px',
-            height: '2px',
+    useEffect(() => {
+        const windowWidth = window.innerWidth;
+        setMenuPos((windowWidth / 2) - 180);
+    }, []);
+
+    const MainNavigation = styled.div({
+        display: 'flex',
+        justifyContent: `${element.content.alignment}`,
+        ...(device === 'mobile') && {
             display: 'block',
-            transition: 'transform .4s, background .2s',
-            background: isNavActive ? 'transparent' : 'currentColor',
-            '&:before': {
-                position: 'absolute',
-                content: '\'\'',
-                width: '20px',
-                height: '2px',
-                background: 'currentColor',
-                display: 'block',
-                transition: 'transform .4s, background .2s',
-                transformOrigin: '0 50%',
-                top: '-6px',
-                transform: isNavActive && 'translateY(-2px) rotate(45deg)',
-            },
-            '&:after': {
-                position: 'absolute',
-                content: '\'\'',
-                width: '20px',
-                height: '2px',
-                background: 'currentColor',
-                display: 'block',
-                transition: 'transform .4s, background .2s',
-                bottom: '-6px',
-                transformOrigin: '0 50%',
-                transform: isNavActive && 'rotate(-45deg)',
-            },
+            justifyContent: 'none',
+            position: 'fixed',
+            top: 0,
+            right: `${mobileMenuPos - 250}px`,
+            bottom: 0,
+            backgroundColor: '#FFF',
+            height: '100%',
+            width: '250px',
+            opacity: '0',
+            transition: 'right .5s',
         },
-    };
-
-    const NavMenu = styled.ul`
-        margin-left: auto;
-        display: flex;
-        font-size: 18px;
-        font-weight: 500;
-        list-style: none;
-        margin-bottom: 0;
-        justify-content: ${element.content.alignment};
-        label {
-            ${typoStyle('desktop', element)}
-            ${(device === 'tablet' || device === 'mobile') && typoStyle('tablet', element)}
-            ${device === 'mobile' && typoStyle('mobile', element)}
-            ${colorStyle('desktop', 'normal', element)}
-            ${(device === 'tablet' || device === 'mobile') && colorStyle('tablet', 'normal', element)}
-            ${(device === 'mobile') && colorStyle('mobile', 'normal', element)}
-        }
-        label:hover, a[aria-current] {
-            ${colorStyle('desktop', 'hover', element)}
-        }
-        > * + * {
-            margin-left: 24px;
-        }
-        ${device === 'mobile' && `
-            display: ${isNavActive ? 'flex' : 'none'};
-            position: fixed;
-            z-index: 50;
-            justify-content: normal;
-            background: hsla(0,0%,100%,.95);
-            top: 0;
-            right: 0;
-            bottom: 0;
-            flex-direction: column;
-            font-size: 24px;
-            padding: 60px 35px;
-            opacity: 1;
-            pointer-events: auto;
-            transition: opacity .3s;
-            width: 360px;
-            left: 360px;
-            margin: auto;
-    `}
-       
-        `;
-
-    const NavMenuItem = styled.li`
-        position: relative;
-        &:hover > ul {
-            visibility: visible;
-            opacity: 1;
-        }
-        span {
-            margin-left: 1rem;
-            ${spanSize('desktop')}
-            ${(device === 'tablet' || device === 'mobile') && spanSize('tablet')}
-            ${device === 'mobile' && spanSize('mobile')}
-            ${colorStyle('desktop', 'normal', element)}
-            ${(device === 'tablet' || device === 'mobile') && colorStyle('tablet', 'normal', element)}
-            ${device === 'mobile' && colorStyle('mobile', 'normal', element)}
-        }
-        :hover > ul {
-            display: block;
-         }
-        ${device === 'mobile' && `
-            width: 100%;
-            padding: 10px 0;
-            text-align: left;
-            margin-left: 0;
-            `}
-    `;
-
-    const SubMenu = styled.ul({
-        position: 'absolute',
-        visibility: 'hidden',
-        opacity: '0',
-        zIndex: '100',
-        transition: '.3s ease-in-out',
-        background: '#fff',
-        boxShadow: '0 3px 5px -1px #ccc',
-        width: '240px',
-        textAlign: 'left',
         ul: {
-            left: '240px',
-            top: '0',
-        },
-        li: {
-            padding: '5px 20px',
-            fontSize: '14px',
-            marginBottom: '5px',
-        },
-        'li label:hover': {
-            paddingLeft: '10px',
-            borderLeft: `2px solid ${element.content.desktop.typo.color.hover}`,
-            transition: ' all 0.3s ease-in-out',
-        },
-        ...device === 'mobile' && css({
-            background: 'transparent',
-            boxShadow: 'none',
-            position: 'relative',
-            display: 'none',
+            float: 'left',
+            display: 'block',
+            listStyle: 'none',
+            margin: '0',
+            paddingLeft: '0',
+            ...(device === 'mobile') && {
+                float: 'none',
+                marginTop: '50px',
+            },
             li: {
-                padding: '10px 25px',
-                fontSize: '14px',
-                marginBottom: '5px',
+                float: 'left',
+                position: 'relative',
+                ...(device === 'mobile') && {
+                    float: 'none',
+                    borderTop: 'solid 1px var(--color-gray)',
+                    padding: '10px 0',
+                },
+                a: {
+                    paddingLeft: '.5625rem',
+                    paddingRight: '.5625rem',
+                    marginTop: '0.625rem',
+                    textDecoration: 'none',
+                    display: device === 'mobile' ? 'initial' : 'block',
+                    ...typoStyle('desktop', element),
+                    ...(device === 'tablet' || device === 'mobile') && typoStyle('tablet', element),
+                    ...device === 'mobile' && typoStyle('mobile', element),
+                    ...colorStyle('desktop', 'normal', element),
+                    ...(device === 'tablet' || device === 'mobile') && colorStyle('tablet', 'normal', element),
+                    ...device === 'mobile' && colorStyle('mobile', 'normal', element),
+                    ':after': {
+                        backgroundColor: '#ffc029',
+                        backgroundImage: 'linear-gradient(90deg,#ffc029,#4cd8b0)',
+                        transition: 'width .2s',
+                        content: device === 'mobile' ? 'none' : '""',
+                        display: 'block',
+                        height: '.125rem',
+                        margin: '.625rem auto 0',
+                        width: '0',
+                    },
+                    ':hover': {
+                        ...colorStyle('desktop', 'hover', element),
+                        ...(device === 'tablet' || device === 'mobile') && colorStyle('tablet', 'hover', element),
+                        ...device === 'mobile' && colorStyle('mobile', 'hover', element),
+                    },
+                    ':hover:after': {
+                        width: '100%',
+                    },
+                },
+                ':hover > ul': {
+                    clip: 'inherit',
+                    height: 'inherit',
+                    opacity: '1',
+                    overflow: 'inherit',
+                    width: 'inherit',
+                },
             },
-            ul: {
-                left: '0px',
-                top: '0',
-            },
-        }),
+        },
+        '&.active': {
+            right: `${mobileMenuPos}px`,
+            opacity: '1',
+        },
     });
-
-    const Item = ({ item, handleSetIsNavActive, icon = 'fa-angle-double-down' }) => (
-        <NavMenuItem>
-            <label onClick={() => handleSetIsNavActive(false)}>{item.label}</label>
-
-            {item.child.length > 0
-            && (
-                <>
-                    <span className={`fas ${icon}`} />
-                    <SubMenu>
-                        {item.child.map((thing) => (
-                            <Item
-                                key={thing.slug}
-                                item={thing}
-                                icon='fa-angle-double-right'
-                                handleSetIsNavActive={setIsNavActive}
-                            />
-                        ))}
-                    </SubMenu>
-                </>
-            )}
-        </NavMenuItem>
-    );
-
-    Item.propTypes = {
-        item: PropTypes.shape({
-            label: PropTypes.string.isRequired,
-            slug: PropTypes.string.isRequired,
-            child: PropTypes.arrayOf(PropTypes.shape({
-                length: PropTypes.number.isRequired,
-                map: PropTypes.func.isRequired,
-            })).isRequired,
-        }).isRequired,
-        icon: PropTypes.string,
-        handleSetIsNavActive: PropTypes.func.isRequired,
-    };
-
-    Item.defaultProps = {
-        icon: 'fa-angle-double-down',
-    };
 
     useEffect(() => {
         if (entry) {
@@ -266,21 +159,26 @@ function MenuPreview({ element, device }) {
                 ref={ref}
                 css={Nav}
             >
-                <NavMenu>
-                    {menu && menu.map((item) => (
-                        <Item
-                            key={item.slug}
-                            item={item}
-                            handleSetIsNavActive={setIsNavActive}
-                        />
-                    ))}
-                </NavMenu>
+                <MainNavigation>
+                    <ul>
+                        {menu && menu.map((item) => (
+                            <ItemPreview
+                                key={item.slug}
+                                item={item}
+                                device={device}
+                            />
+                        ))}
+                    </ul>
+                </MainNavigation>
                 <button
                     key='burger-button'
                     css={Burger}
-                    onClick={() => setIsNavActive(!isNavActive)}
-                    className={`${isNavActive ? 'isActive' : ''}`}
+                    onClick={() => handleOpenNav(entry)}
+                    className='burger'
                     type='button'
+                    style={{
+                        display: device === 'mobile' ? 'block' : 'none',
+                    }}
                 >
                     <span key='burger-button-span' />
                 </button>
@@ -289,7 +187,7 @@ function MenuPreview({ element, device }) {
     );
 }
 
-export default React.memo(MenuPreview);
+export default (MenuPreview);
 
 MenuPreview.propTypes = {
     device: PropTypes.string.isRequired,

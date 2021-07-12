@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Link from 'next/link';
 import styled from '@emotion/styled';
 
-export default function Item({ item }) {
+export default function ItemPreview({ item, device }) {
     const SubMenu = styled.ul({
         paddingTop: '22px',
         transition: 'opacity .6s',
@@ -15,53 +15,48 @@ export default function Item({ item }) {
         position: 'absolute',
         width: '1px',
         zIndex: '9999',
-        li: {
-            backgroundColor: '#fff',
-            '&:first-of-type a': {
-                paddingTop: '8px',
-            },
-            '&:last-child a': {
-                paddingBottom: '8px',
-            },
-        },
-        a: {
-            display: 'block',
-            textAlign: 'left',
-            padding: '0 25px 0 20px',
-            whiteSpace: 'normal',
-            width: '266px',
-        },
-        ul: {
-            top: '-22px',
-            left: '266px',
-        },
-        '@media (max-width: 768px)': {
+        ...(device === 'mobile') && {
             display: 'block!important',
             position: 'relative',
             margin: '0!important',
             padding: '0',
             left: '0',
             top: '10px',
-            li: {
-                backgroundColor: '#e1e1e1',
+        },
+        li: {
+            backgroundColor: device === 'mobile' ? '#e1e1e1' : '#fff',
+            '&:first-of-type a': {
+                paddingTop: '8px',
+            },
+            '&:last-child a': {
+                paddingBottom: '8px',
+            },
+            ...(device === 'mobile') && {
                 paddingLeft: '1rem!important',
-                a: {
-                    display: 'initial',
-                    padding: '0!important',
-                    margin: '0!important',
-                },
             },
-            ul: {
-                top: '10px',
-                left: '0',
+        },
+        a: {
+            display: device === 'mobile' ? 'initial' : 'block',
+            textAlign: 'left',
+            padding: device === 'mobile' ? '0' : '0 25px 0 20px',
+            whiteSpace: 'normal',
+            width: '266px',
+            ...(device === 'mobile') && {
+                padding: '0!important',
+                margin: '0!important',
             },
+        },
+        ul: {
+            top: device === 'mobile' ? '10px' : '-22px',
+            left: device === 'mobile' ? '0' : '266px',
         },
     });
 
     return (
         <>
             <li>
-                <Link href={item.slug !== '/' ? `${process.env.SERVER}/${item.slug}` : `${item.slug}`}>
+                {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+                <Link href='#'>
                     {/* eslint-disable-next-line max-len */}
                     {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions,jsx-a11y/anchor-is-valid,jsx-a11y/click-events-have-key-events */}
                     <a>{item.label}</a>
@@ -72,10 +67,11 @@ export default function Item({ item }) {
                     <>
                         <SubMenu>
                             {item.child.map((thing) => (
-                                <Item
+                                <ItemPreview
                                     key={thing.slug}
                                     item={thing}
                                     icon='fa-angle-double-right'
+                                    device={device}
                                 />
                             ))}
                         </SubMenu>
@@ -86,14 +82,15 @@ export default function Item({ item }) {
     );
 }
 
-Item.propTypes = {
+ItemPreview.propTypes = {
     item: PropTypes.shape({
         label: PropTypes.string.isRequired,
         slug: PropTypes.string.isRequired,
         child: PropTypes.arrayOf(PropTypes.shape({
         })).isRequired,
     }).isRequired,
+    device: PropTypes.string.isRequired,
 };
 
-Item.defaultProps = {
+ItemPreview.defaultProps = {
 };
