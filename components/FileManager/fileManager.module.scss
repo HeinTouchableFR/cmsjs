@@ -1,22 +1,28 @@
-.filemanager__container{
-  display: grid;
-  grid-template-columns: repeat(auto-fit, 125px);
-  grid-gap: 10px;
+.filemanager {
+  min-height: 400px;
+  max-height: 400px;
 
-  .element{
-    border: solid 1px var(--color-gray);
-    cursor: pointer;
-    outline: none;
+  .filemanager__container{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 125px);
+    grid-gap: 10px;
 
-    &:hover{
-      border: solid 2px dodgerblue;
-    }
-
-    &.selected{
-      border: solid 2px lime;
+    .element{
+      border: solid 1px var(--color-gray);
+      cursor: pointer;
+      outline: none;
+      height: 125px;
 
       &:hover{
-        border: solid 2px red;
+        border: solid 2px dodgerblue;
+      }
+
+      &.selected{
+        border: solid 2px lime;
+
+        &:hover{
+          border: solid 2px red;
+        }
       }
     }
   }

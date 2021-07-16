@@ -69,7 +69,7 @@ export default function FileManager({ multiple = false,
         const f = new FormData(e.target);
         if (f.get('files').name !== '') {
             const items = await create(f);
-            console.log([...items, ...images])
+            console.log([...items, ...images]);
             setImages([...items, ...images]);
             multiple ? handleSelectFiles(items) : handleSelectFiles([items[0]]);
             setSecondOpen(false);
@@ -121,25 +121,27 @@ export default function FileManager({ multiple = false,
                     icon='fa-image'
                 />
                 <Modal.Content>
-                    <div className={`${styles.filemanager__container}`}>
-                        {images.map((image, index) => (
-                            <div
-                                key={image.id}
-                                className={`${styles.element} ${selectedFiles.length > 0 && selectedFiles.some((f) => f.id === image.id) && styles.selected}`}
-                                onClick={() => handleSelectFile(image)}
-                                onKeyDown={() => handleSelectFile(image)}
-                                tabIndex={index}
-                                role='button'
-                            >
-                                <Image
-                                    loading='lazy'
-                                    src={`${process.env.MEDIA_SERVER}/${image.name}`}
-                                    alt=''
-                                    width={125}
-                                    height={125}
-                                />
-                            </div>
-                        ))}
+                    <div className={`${styles.filemanager}`}>
+                        <div className={`${styles.filemanager__container}`}>
+                            {images.map((image, index) => (
+                                <div
+                                    key={image.id}
+                                    className={`${styles.element} ${selectedFiles.length > 0 && selectedFiles.some((f) => f.id === image.id) && styles.selected}`}
+                                    onClick={() => handleSelectFile(image)}
+                                    onKeyDown={() => handleSelectFile(image)}
+                                    tabIndex={index}
+                                    role='button'
+                                >
+                                    <Image
+                                        loading='lazy'
+                                        src={`${process.env.MEDIA_SERVER}/${image.name}`}
+                                        alt=''
+                                        width={125}
+                                        height={125}
+                                    />
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 </Modal.Content>
                 <Modal.Footer>
@@ -238,6 +240,8 @@ FileManager.propTypes = {
 
 FileManager.defaultProps = {
     multiple: false,
-    setCurrentFiles: () => {},
-    setImages: () => {},
+    setCurrentFiles: () => {
+    },
+    setImages: () => {
+    },
 };
