@@ -47,9 +47,9 @@ apiRoute.post(async (req, res) => {
     if (typeof req.files.files !== typeof undefined) {
         await Promise.all(req.files.files.map(async (file) => {
             const name = file.path.replace(process.env.FTP_BASEDIR, '');
-            const data = await prisma.images.create({
+            const data = await prisma.files.create({
                 data: {
-                    path: file.path,
+                    mimeType: file.mimetype,
                     originalName: file.originalname,
                     name: name.replace('/', ''),
                     created_at: new Date(),

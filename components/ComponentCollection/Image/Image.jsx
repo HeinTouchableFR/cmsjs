@@ -23,6 +23,7 @@ import Advanced from '../Ui/Advanced';
 import Background from '../Ui/Background';
 import Border from '../Ui/Border';
 import Animations from '../Ui/Animations';
+import { acceptImageExtension } from 'variables/variables';
 
 export default function Image({ element, device, onElementValueChange, images, setImages }) {
     const intl = useIntl();
@@ -107,11 +108,14 @@ export default function Image({ element, device, onElementValueChange, images, s
                 title='Image'
             >
                 <FileManager
-                    images={images}
-                    setImages={setImages}
+                    files={images}
+                    setFiles={setImages}
                     currentFiles={item.content.image.url !== '/placeholder.png' ? [item.content.image] : []}
                     setCurrentFiles={handleChangeImage}
-                    multiple={false}
+                    acceptFiles={acceptImageExtension
+                        .replace(/['"]+/g, '')
+                        .replace('[', '')
+                        .replace(']', '')}
                 />
                 <Input
                     label={intl.formatMessage({

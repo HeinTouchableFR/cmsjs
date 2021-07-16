@@ -50,9 +50,9 @@ model menus {
   name  String  @db.VarChar(255)
 }
 
-model images {
+model files {
   id           Int        @id @default(autoincrement())
-  path         String     @db.LongText
+  mimeType         String     @db.VarChar(255)
   originalName String     @db.VarChar(255)
   name         String     @db.VarChar(255)
   created_at   DateTime   @default(now())
@@ -64,7 +64,7 @@ model settings {
   data     String  @unique @db.VarChar(191)
   value    String? @db.VarChar(255)
   post     posts?  @relation(references: [id], fields: [postsId])
-  image    images? @relation(references: [id], fields: [imagesId])
+  image    files? @relation(references: [id], fields: [imagesId])
   postsId  Int?
   imagesId Int?
 }

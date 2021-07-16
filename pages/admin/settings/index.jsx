@@ -16,6 +16,7 @@ import FileManager from 'components/FileManager/FileManager';
 import Field from 'components/Form/Field/Field';
 import Dropdown from 'components/Form/Dropdown/Dropdown';
 import fetcher from 'utils/fetcher';
+import { acceptImageExtension } from 'variables/variables';
 
 export default function Index({ settings, pages, images, templates, errors }) {
     const intl = useIntl();
@@ -214,7 +215,8 @@ export default function Index({ settings, pages, images, templates, errors }) {
 
     const clearCache = async () => {
         setLoading(true);
-        const res = await fetcher(`${process.env.SERVER}/api/cache/clear`, {}, 'GET');
+        const res = await fetcher(`${process.env.SERVER}/api/cache/clear`, {
+        }, 'GET');
         alert(res.data.message);
         setLoading(false);
     };
@@ -254,13 +256,16 @@ export default function Index({ settings, pages, images, templates, errors }) {
                             name='logo'
                         >
                             <FileManager
-                                images={allImages}
-                                setImages={setImages}
+                                files={allImages}
+                                setFiles={setImages}
                                 currentFiles={generalForm.logo.image
                                     ? [generalForm.logo.image]
                                     : []}
                                 setCurrentFiles={handleLogoChange}
-                                multiple={false}
+                                acceptFiles={acceptImageExtension
+                                    .replace(/['"]+/g, '')
+                                    .replace('[', '')
+                                    .replace(']', '')}
                             />
                         </Field>
                         <Button
@@ -507,7 +512,8 @@ export async function getServerSideProps(ctx) {
             errors.push(dataSettings.errors);
         }
 
-        const resImages = await fetch(`${process.env.SERVER}/api/images`, {
+        const encodedFileTypes = encodeURIComponent(acceptImageExtension);
+        const resImages = await fetch(`${process.env.SERVER}/api/files?mimeType=${encodedFileTypes}`, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },

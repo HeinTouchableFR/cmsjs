@@ -10,6 +10,7 @@ import { BuilderProvider } from 'context/builder';
 import {
     getSession, signIn, useSession,
 } from 'next-auth/client';
+import {acceptImageExtension} from '../../../variables/variables';
 
 export default function Edit({ item, errors, images, templates }) {
     const intl = useIntl();
@@ -187,7 +188,8 @@ export async function getServerSideProps(ctx) {
             });
         }
 
-        const resImages = await fetch(`${process.env.SERVER}/api/images`, {
+        const encodedFileTypes = encodeURIComponent(acceptImageExtension);
+        const resImages = await fetch(`${process.env.SERVER}/api/files?mimeType=${encodedFileTypes}`, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
@@ -199,7 +201,7 @@ export async function getServerSideProps(ctx) {
         } else {
             errors.push({
                 ...dataImages.errors,
-                request: `${process.env.SERVER}/api/images`,
+                request: `${process.env.SERVER}/api/files`,
             });
         }
 

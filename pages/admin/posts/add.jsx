@@ -13,6 +13,7 @@ import {
 import {
     BuilderProvider,
 } from 'context/builder';
+import {acceptImageExtension} from '../../../variables/variables';
 
 export default function Add({ images, errors, templates, postType }) {
     const intl = useIntl();
@@ -164,7 +165,8 @@ export async function getServerSideProps(ctx) {
     let templates = [];
 
     if (token) {
-        const resImages = await fetch(`${process.env.SERVER}/api/images`, {
+        const encodedFileTypes = encodeURIComponent(acceptImageExtension);
+        const resImages = await fetch(`${process.env.SERVER}/api/files?mimeType=${encodedFileTypes}`, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
@@ -176,7 +178,7 @@ export async function getServerSideProps(ctx) {
         } else {
             errors.push({
                 ...dataImages.errors,
-                request: `${process.env.SERVER}/api/images`,
+                request: `${process.env.SERVER}/api/files`,
             });
         }
 

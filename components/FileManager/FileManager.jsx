@@ -1,23 +1,26 @@
 import React, {
     useEffect, useState,
 } from 'react';
-import { useIntl } from 'react-intl';
-import Image from 'next/image';
+import {
+    FormattedPlural, useIntl,
+} from 'react-intl';
 import Modal from 'components/Modal/Modal';
 import PropTypes from 'prop-types';
 import styles from './fileManager.module.scss';
 import Single from './Button/Single/Single';
 import Multiple from './Button/Multiple/Multiple';
 import Button from '../Button/Button';
+import File from './File';
 
 // eslint-disable-next-line no-unused-expressions
-typeof window === 'object' ? require('@grafikart/drop-files-element') : () => false;
+typeof window === 'object' ? require('./drop-files-element') : () => false;
 
-export default function FileManager({ multiple = false,
+export default function FileManager({ multiple,
     currentFiles,
     setCurrentFiles,
-    images = [],
-    setImages }) {
+    files = [],
+    acceptFiles,
+    setFiles }) {
     const intl = useIntl();
 
     const [open, setOpen] = useState(false);
@@ -32,30 +35,37 @@ export default function FileManager({ multiple = false,
     },
     [currentFiles]);
 
+    const handleSelectFiles = (items) => {
+        setSelectedFiles([...selectedFiles, ...items]);
+    };
+
+    const handleSelectFile = (file) => {
+        if (selectedFiles.some((f) => f.id === file.id)) {
+            setSelectedFiles(selectedFiles.filter((f) => f.id !== file.id));
+        } else {
+            setSelectedFiles(multiple ? [...selectedFiles, file] : [file]);
+        }
+    };
+
     const create = async (data) => {
         try {
-            const res = await fetch(`${process.env.SERVER}/api/images/uploads`, {
+            const res = await fetch(`${process.env.SERVER}/api/files/uploads`, {
                 method: 'POST',
                 headers: {
                     Accept: 'application/json',
                 },
                 body: data,
             });
-            const { data: newItem } = await res.json();
-            return newItem;
+            const { data: items } = await res.json();
+            setFiles([...items, ...files]);
+            if (multiple) {
+                handleSelectFiles(items);
+            } else {
+                handleSelectFile(items);
+            }
         } catch (error) {
-            console.log(error);
+            alert(error);
         }
-    };
-
-    const handleSelectFile = (file) => {
-        selectedFiles.some((f) => f.id === file.id)
-            ? setSelectedFiles(selectedFiles.filter((f) => f.id !== file.id))
-            : setSelectedFiles(multiple ? [...selectedFiles, file] : [file]);
-    };
-
-    const handleSelectFiles = (files) => {
-        setSelectedFiles([...selectedFiles, ...files]);
     };
 
     const handleInsertClick = () => {
@@ -68,10 +78,7 @@ export default function FileManager({ multiple = false,
         setLoading(true);
         const f = new FormData(e.target);
         if (f.get('files').name !== '') {
-            const items = await create(f);
-            console.log([...items, ...images]);
-            setImages([...items, ...images]);
-            multiple ? handleSelectFiles(items) : handleSelectFiles([items[0]]);
+            await create(f);
             setSecondOpen(false);
         }
         setLoading(false);
@@ -93,13 +100,19 @@ export default function FileManager({ multiple = false,
 
     const insertMediaTrigger = (
         <Button
-            label={intl.formatMessage({
-                id: 'fileManager.insertMedia',
-                defaultMessage: 'Insert media',
-            })}
+            label={(
+                <FormattedPlural
+                    one={intl.formatMessage({
+                        id: 'file.insertSingle', defaultMessage: 'Insert file',
+                    })}
+                    other={intl.formatMessage({
+                        id: 'file.insertMany', defaultMessage: 'Insert files',
+                    })}
+                    value={selectedFiles.length}
+                />
+              )}
             disabled={selectedFiles.length === 0}
-            color='green'
-            onClick={() => handleInsertClick()}
+            onClick={handleInsertClick}
             icon='far fa-check'
         />
     );
@@ -118,56 +131,26 @@ export default function FileManager({ multiple = false,
                     title={intl.formatMessage({
                         id: 'insertMedia',
                     })}
-                    icon='fa-image'
+                    icon='fa-file-alt'
                 />
                 <Modal.Content>
                     <div className={`${styles.filemanager}`}>
                         <div className={`${styles.filemanager__container}`}>
-                            {images.map((image, index) => (
-                                <div
-                                    key={image.id}
-                                    className={`${styles.element} ${selectedFiles.length > 0 && selectedFiles.some((f) => f.id === image.id) && styles.selected}`}
-                                    onClick={() => handleSelectFile(image)}
-                                    onKeyDown={() => handleSelectFile(image)}
-                                    tabIndex={index}
-                                    role='button'
-                                >
-                                    <Image
-                                        loading='lazy'
-                                        src={`${process.env.MEDIA_SERVER}/${image.name}`}
-                                        alt=''
-                                        width={125}
-                                        height={125}
-                                    />
-                                </div>
+                            {files.map((file, index) => (
+                                <File
+                                    file={file}
+                                    index={index}
+                                    onClick={handleSelectFile}
+                                    isSelected={selectedFiles.some((f) => f.id === file.id)}
+                                />
                             ))}
                         </div>
                     </div>
                 </Modal.Content>
                 <Modal.Footer>
-                    <div className={`${styles.filemanager__files}`}>
-                        <span>
-                            {selectedFiles.length <= 1
-                                ? `${selectedFiles.length} ${intl.formatMessage({
-                                    id: 'image.selected',
-                                    defaultMessage: 'Selected image',
-                                })}`
-                                : `${selectedFiles.length} ${intl.formatMessage({
-                                    id: 'images.selected',
-                                    defaultMessage: 'Selected images',
-                                })}`}
-                        </span>
-                        {selectedFiles.length > 0 && selectedFiles.map((image) => (
-                            <img
-                                key={`preview-${image.id}`}
-                                src={`${process.env.MEDIA_SERVER}/${image.name}`}
-                                alt=''
-                            />
-                        ))}
-                    </div>
                     <Button
                         label={intl.formatMessage({
-                            id: 'image.addNew', defaultMessage: 'Add a new image',
+                            id: 'file.upload', defaultMessage: 'Upload file',
                         })}
                         onClick={() => setSecondOpen(true)}
                         icon='fas fa-chevron-circle-right'
@@ -205,6 +188,7 @@ export default function FileManager({ multiple = false,
                                     })}
                                     is='drop-files'
                                     multiple
+                                    accept={acceptFiles}
                                 />
                                 <Button
                                     icon='check'
@@ -233,15 +217,15 @@ FileManager.propTypes = {
     currentFiles: PropTypes.arrayOf(PropTypes.shape({
     })).isRequired,
     setCurrentFiles: PropTypes.func,
-    images: PropTypes.arrayOf(PropTypes.shape({
+    files: PropTypes.arrayOf(PropTypes.shape({
     })).isRequired,
-    setImages: PropTypes.func,
+    setFiles: PropTypes.func,
+    acceptFiles: PropTypes.string,
 };
 
 FileManager.defaultProps = {
     multiple: false,
-    setCurrentFiles: () => {
-    },
-    setImages: () => {
-    },
+    setCurrentFiles: null,
+    setFiles: null,
+    acceptFiles: 'all',
 };

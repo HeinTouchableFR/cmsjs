@@ -2,62 +2,71 @@
   min-height: 400px;
   max-height: 400px;
 
-  .filemanager__container{
+  .filemanager__container {
     display: grid;
     grid-template-columns: repeat(auto-fit, 125px);
     grid-gap: 10px;
 
-    .element{
-      border: solid 1px var(--color-gray);
-      cursor: pointer;
-      outline: none;
-      height: 125px;
-
-      &:hover{
-        border: solid 2px dodgerblue;
+    .element {
+      .icon {
+        border: solid 1px var(--color-gray);
+        cursor: pointer;
+        outline: none;
+        height: 125px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
 
-      &.selected{
-        border: solid 2px lime;
+      p {
+        text-align: center;
+        cursor: pointer;
+      }
 
-        &:hover{
-          border: solid 2px red;
+      svg {
+        padding: 5px;
+        width: 110px;
+        height: 110px;
+      }
+
+      &.selected {
+        .icon {
+          border: solid 1px #00cd00;
+        }
+
+        p {
+          color: #00cd00;
+        }
+
+        &:hover {
+          .icon {
+            border: solid 1px red;
+          }
+
+          p {
+            color: red;
+          }
+        }
+      }
+
+      &:hover {
+        .icon {
+          border: solid 1px dodgerblue;
+        }
+
+        p {
+          color: dodgerblue;
         }
       }
     }
   }
 }
 
-.filemanager__files{
-  vertical-align: middle;
-  text-align: left;
-  margin-top: auto;
-  margin-bottom: auto;
-  overflow: hidden;
-  display: flex;
-
-  span{
-    margin-top: auto;
-    margin-bottom: auto;
-    min-width: 155px;
-  }
-
-  img{
-    width: 35px;
-    height: 35px;
-    margin-left: 10px;
-  }
-
-  img:nth-child(12){
-    opacity: .3;
-  }
-}
-
-.filemanager__upload__container{
+.filemanager__upload__container {
   top: 25%;
   text-align: center;
 
-  button{
-    margin-top: 15px!important;
+  button {
+    margin-top: 15px !important;
   }
 }

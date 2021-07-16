@@ -2,7 +2,7 @@ import jwt from 'next-auth/jwt';
 import prisma from 'utils/prisma';
 
 const handle = async (req, res) => {
-    const { method } = req;
+    const { method, query: { mimeType } } = req;
     const token = await jwt.getToken({
         req, secret: process.env.SECRET,
     });
@@ -11,11 +11,17 @@ const handle = async (req, res) => {
     switch (method) {
     case 'GET':
         try {
+            const types = JSON.parse(mimeType);
             if (token && authorized.includes(token.role)) {
-                const data = await prisma.images.findMany({
+                const data = await prisma.files.findMany({
+                    where: {
+                        mimeType: {
+                            in: types,
+                        },
+                    },
                     orderBy: [
                         {
-                            created_at: 'asc',
+                            created_at: 'desc',
                         },
                     ],
                 });
