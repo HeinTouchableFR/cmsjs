@@ -43,29 +43,24 @@ apiRoute.use(upload.fields([{
 }]));
 
 apiRoute.post(async (req, res) => {
+    const items = [];
     if (typeof req.files.files !== typeof undefined) {
-        const promises = [];
-        const items = [];
-        for (const img of req.files.files) {
-            const name = img.path.replace(process.env.FTP_BASEDIR, '');
-            const data = prisma.images.create({
+        await Promise.all(req.files.files.map(async (file) => {
+            const name = file.path.replace(process.env.FTP_BASEDIR, '');
+            const data = await prisma.images.create({
                 data: {
-                    path: img.path,
-                    originalName: img.originalname,
+                    path: file.path,
+                    originalName: file.originalname,
                     name: name.replace('/', ''),
                     created_at: new Date(),
                 },
             });
-            promises.push(data);
-            data.then((item) => items.push(item));
-        }
-        Promise.all(promises).then(() => {
-            res.status(200).json({
-                success: true, data: items,
-            });
-        });
+            items.push(data);
+        }));
     }
-
+    res.status(200).json({
+        success: true, data: items,
+    });
     await prisma.$disconnect();
 });
 
