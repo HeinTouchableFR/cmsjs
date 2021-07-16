@@ -95,7 +95,7 @@ const handler = async (req, res) => {
                         data,
                     });
                 }
-
+                redis.del(`${process.env.NODE_ENV === 'development' ? 'dev_' : 'prod_'}settings`);
                 res.status(200).json({
                     success: true,
                 });
