@@ -117,6 +117,17 @@ export const imageStyleHover = (device, element) => ({
     opacity: `${element.content[device].image.opacity.hover}`,
 });
 
+export const galleryStyle = (device, element) => ({
+    width: `${element.content[device].gallery.size.width.value}${element.content[device].gallery.size.width.unit}`,
+    maxWidth: `${element.content[device].gallery.size.maxWidth.value}${element.content[device].gallery.size.maxWidth.unit}`,
+    height: `${element.content[device].gallery.size.height.value}${element.content[device].gallery.size.height.value !== 'auto' ? element.content[device].gallery.size.height.unit : ''}`,
+    opacity: `${element.content[device].gallery.opacity.normal}`,
+});
+
+export const galleryStyleHover = (device, element) => ({
+    opacity: `${element.content[device].gallery.opacity.hover}`,
+});
+
 export const styleDiv = (element) => ({
     ...marginPaddingStyle('desktop', element),
     ...backgroundStyle('desktop', 'normal', element),

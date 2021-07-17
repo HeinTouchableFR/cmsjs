@@ -62,15 +62,41 @@ export const styleDivImagePreview = (device, element) => css`
 
 export const styleImagePreview = (device, element) => {
     const Image = styled.img`
-            transition: width .2s;
-            ${imageStyle('desktop', element)}
-            ${(device === 'tablet' || device === 'mobile') && imageStyle('tablet', element)}
-            ${device === 'mobile' && imageStyle('mobile', element)}
-            &:hover {
-                ${imageStyleHover('desktop', element)}
-                ${(device === 'tablet' || device === 'mobile') && imageStyleHover('tablet', element)}
-                ${device === 'mobile' && imageStyleHover('mobile', element)}
-            };
-        `;
+                    transition: width .2s;
+                    ${imageStyle('desktop', element)}
+                    ${(device === 'tablet' || device === 'mobile') && imageStyle('tablet', element)}
+                    ${device === 'mobile' && imageStyle('mobile', element)}
+                    &:hover {
+                        ${imageStyleHover('desktop', element)}
+                        ${(device === 'tablet' || device === 'mobile') && imageStyleHover('tablet', element)}
+                        ${device === 'mobile' && imageStyleHover('mobile', element)}
+                    };
+                `;
     return Image;
+};
+
+export const galleryStyle = (device, element) => ({
+    width: `${element.content[device].gallery.size.width.value}${element.content[device].gallery.size.width.unit}`,
+    maxWidth: `${element.content[device].gallery.size.maxWidth.value}${element.content[device].gallery.size.maxWidth.unit}`,
+    height: `${element.content[device].gallery.size.height.value}${element.content[device].gallery.size.height.value !== 'auto' ? element.content[device].gallery.size.height.unit : ''}`,
+    opacity: `${element.content[device].gallery.opacity.normal}`,
+});
+
+export const galleryStyleHover = (device, element) => ({
+    opacity: `${element.content[device].gallery.opacity.hover}`,
+});
+
+export const styleGalleryPreview = (device, element) => {
+    const Gallery = styled.img`
+                    transition: width .2s;
+                    ${imageStyle('desktop', element)}
+                    ${(device === 'tablet' || device === 'mobile') && imageStyle('tablet', element)}
+                    ${device === 'mobile' && imageStyle('mobile', element)}
+                    &:hover {
+                        ${imageStyleHover('desktop', element)}
+                        ${(device === 'tablet' || device === 'mobile') && imageStyleHover('tablet', element)}
+                        ${device === 'mobile' && imageStyleHover('mobile', element)}
+                    };
+                `;
+    return Gallery;
 };

@@ -922,6 +922,234 @@ export default class defaultComponents {
         };
     }
 
+    static defaultGallery(intl) {
+        return {
+            icon: 'fa-image',
+            label: intl.formatMessage({
+                id: 'gallery', defaultMessage: 'Gallery',
+            }),
+            color: 'red',
+            type: 'gallery',
+            defaultValue: {
+                image: {
+                    url: '/placeholder.png',
+                    name: 'placeholder.png',
+                    originalName: 'placeholder.png',
+                },
+                alignment: 'left',
+                desktop: {
+                    gallery: {
+                        nbImage: {
+                            width: '3',
+                            height: '3',
+                        },
+                        size: {
+                            width: {
+                                unit: '%',
+                                value: '100',
+                            },
+                            maxWidth: {
+                                unit: '%',
+                                value: '100',
+                            },
+                            height: {
+                                unit: 'px',
+                                value: 'auto',
+                            },
+                        },
+                        opacity: {
+                            normal: '1',
+                            hover: '',
+                        },
+                    },
+                    styles: {
+                        background: {
+                            normal: '',
+                            hover: '',
+                        },
+                        border: {
+                            normal: {
+                                type: 'none',
+                                width: {
+                                    top: 0,
+                                    right: 0,
+                                    bottom: 0,
+                                    left: 0,
+                                },
+                                radius: {
+                                    unit: 'px',
+                                    top: 0,
+                                    right: 0,
+                                    bottom: 0,
+                                    left: 0,
+                                },
+                                color: 'inherit',
+                            },
+                            hover: {
+                                type: 'none',
+                                width: {
+                                    top: 0,
+                                    right: 0,
+                                    bottom: 0,
+                                    left: 0,
+                                },
+                                radius: {
+                                    unit: 'px',
+                                    top: 0,
+                                    right: 0,
+                                    bottom: 0,
+                                    left: 0,
+                                },
+                                color: 'inherit',
+                            },
+                        },
+                    },
+                },
+                tablet: {
+                    gallery: {
+                        nbImage: {
+                            width: '2',
+                            height: '2',
+                        },
+                        size: {
+                            width: {
+                                unit: '',
+                                value: '',
+                            },
+                            maxWidth: {
+                                unit: '',
+                                value: '',
+                            },
+                            height: {
+                                unit: '',
+                                value: '',
+                            },
+                        },
+                        opacity: {
+                            normal: '',
+                            hover: '',
+                        },
+                    },
+                    styles: {
+                        background: {
+                            normal: '',
+                            hover: '',
+                        },
+                        border: {
+                            normal: {
+                                type: '',
+                                width: {
+                                    top: '',
+                                    right: '',
+                                    bottom: '',
+                                    left: '',
+                                },
+                                radius: {
+                                    unit: '',
+                                    top: '',
+                                    right: '',
+                                    bottom: '',
+                                    left: '',
+                                },
+                                color: '',
+                            },
+                            hover: {
+                                type: '',
+                                width: {
+                                    top: '',
+                                    right: '',
+                                    bottom: '',
+                                    left: '',
+                                },
+                                radius: {
+                                    unit: '',
+                                    top: '',
+                                    right: '',
+                                    bottom: '',
+                                    left: '',
+                                },
+                                color: '',
+                            },
+                        },
+                    },
+                },
+                mobile: {
+                    gallery: {
+                        nbImage: {
+                            width: '1',
+                            height: '1',
+                        },
+                        size: {
+                            width: {
+                                unit: '',
+                                value: '',
+                            },
+                            maxWidth: {
+                                unit: '',
+                                value: '',
+                            },
+                            height: {
+                                unit: '',
+                                value: '',
+                            },
+                        },
+                        opacity: {
+                            normal: '',
+                            hover: '',
+                        },
+                    },
+                    styles: {
+                        background: {
+                            normal: '',
+                            hover: '',
+                        },
+                        border: {
+                            normal: {
+                                type: '',
+                                width: {
+                                    top: '',
+                                    right: '',
+                                    bottom: '',
+                                    left: '',
+                                },
+                                radius: {
+                                    unit: '',
+                                    top: '',
+                                    right: '',
+                                    bottom: '',
+                                    left: '',
+                                },
+                                color: '',
+                            },
+                            hover: {
+                                type: '',
+                                width: {
+                                    top: '',
+                                    right: '',
+                                    bottom: '',
+                                    left: '',
+                                },
+                                radius: {
+                                    unit: '',
+                                    top: '',
+                                    right: '',
+                                    bottom: '',
+                                    left: '',
+                                },
+                                color: '',
+                            },
+                        },
+                    },
+                },
+                animation: {
+                    name: 'none',
+                    duration: 'normal',
+                    delay: '0',
+                },
+            },
+        };
+    }
+
     static defaultLink(intl) {
         return {
             icon: 'fa-link',
@@ -1783,6 +2011,7 @@ export default class defaultComponents {
         return [
             this.defaultButton(intl),
             this.defaultImage(intl),
+            this.defaultGallery(intl),
             this.defaultLink(intl),
             this.defaultText(intl),
             this.defaultTitle(intl),
@@ -1793,6 +2022,7 @@ export default class defaultComponents {
         return [
             this.defaultButton(intl),
             this.defaultImage(intl),
+            this.defaultGallery(intl),
             this.defaultLogo(intl),
             this.defaultMenu(intl),
             this.defaultText(intl),
