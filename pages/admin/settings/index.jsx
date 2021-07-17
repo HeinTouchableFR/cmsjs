@@ -36,6 +36,10 @@ export default function Index({ settings, pages, images, templates, errors }) {
             type: 'image',
             image: settings.find((x) => x.data === 'logo').image,
         },
+        favicon: {
+            type: 'image',
+            image: settings.find((x) => x.data === 'favicon').image,
+        },
     });
     const [socialForm, setSocialForm] = useState({
         facebook: {
@@ -115,6 +119,17 @@ export default function Index({ settings, pages, images, templates, errors }) {
         setGeneralForm(updated);
     };
 
+    const handleFaviconChange = (file) => {
+        const updated = {
+            ...generalForm,
+            favicon: {
+                ...generalForm.favicon,
+                image: file,
+            },
+        };
+        setGeneralForm(updated);
+    };
+
     const handleSubmitSocials = async (e) => {
         e.preventDefault();
         setLoading(true);
@@ -153,6 +168,7 @@ export default function Index({ settings, pages, images, templates, errors }) {
                 sitename: generalForm.sitename,
                 description: generalForm.description,
                 logo: generalForm.logo,
+                favicon: generalForm.favicon,
             }),
         });
         const data = await resSocials.json();
@@ -262,6 +278,26 @@ export default function Index({ settings, pages, images, templates, errors }) {
                                     ? [generalForm.logo.image]
                                     : []}
                                 setCurrentFiles={handleLogoChange}
+                                acceptFiles={acceptImageExtension
+                                    .replace(/['"]+/g, '')
+                                    .replace('[', '')
+                                    .replace(']', '')}
+                            />
+                        </Field>
+                        <Field
+                            label={intl.formatMessage({
+                                id: 'favicon',
+                                defaultMessage: 'Favicon',
+                            })}
+                            name='favicon'
+                        >
+                            <FileManager
+                                files={allImages}
+                                setFiles={setImages}
+                                currentFiles={generalForm.favicon.image
+                                    ? [generalForm.favicon.image]
+                                    : []}
+                                setCurrentFiles={handleFaviconChange}
                                 acceptFiles={acceptImageExtension
                                     .replace(/['"]+/g, '')
                                     .replace('[', '')

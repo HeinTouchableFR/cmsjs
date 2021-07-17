@@ -139,6 +139,7 @@
     "error.404.lost": "Uh oh! Looks like you got lost.",
     "error.404.goBack": "Go back to the homepage if you dare !",
     "error.404.iDare": "I dare !",
+    "favicon": "Favicon",
     "fileManager.uploadHelp": "Upload files here and they won't be sent immediately",
     "fileManager.uploadLabel": "Drop files here or click to upload.",
     "fileManager.insertMedia": "Insert media",

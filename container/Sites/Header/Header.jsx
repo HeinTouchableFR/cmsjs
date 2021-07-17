@@ -9,6 +9,7 @@ export default function Header({ children,
     template,
     isHomePage }) {
     const logo = template.settings.find((x) => x.data === 'logo').image ? `${process.env.MEDIA_SERVER}/${template.settings.find((x) => x.data === 'logo')?.image.name}` : `${process.env.SERVER}/logo.png`;
+    const favicon = template.settings.find((x) => x.data === 'favicon').image ? `${process.env.MEDIA_SERVER}/${template.settings.find((x) => x.data === 'favicon')?.image.name}` : `${process.env.SERVER}/favicon.ico`;
 
     useEffect(() => {
         document.documentElement.lang = process.env.LOCALE;
@@ -104,6 +105,10 @@ export default function Header({ children,
                 <meta
                     name='twitter:description'
                     content={post.description}
+                />
+                <link
+                    rel='icon'
+                    href={favicon}
                 />
                 <meta
                     name='twitter:image'

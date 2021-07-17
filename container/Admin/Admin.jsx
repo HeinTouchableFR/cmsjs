@@ -11,16 +11,19 @@ import PropTypes from 'prop-types';
 import { version } from 'package';
 import styles from './Admin.module.scss';
 import Search from './Search';
+import Head from 'next/head';
 
 export default function Admin({ children }) {
     const router = useRouter();
     const { value: settings } = useSite();
     const [siteName, setSiteName] = useState('');
+    const [favicon, setFavicon] = useState('');
     const [session] = useSession();
 
     useEffect(() => {
         if (settings.settings) {
             const sitenameObject = settings.settings.find((x) => x.data === 'sitename');
+            setFavicon(settings.settings.find((x) => x.data === 'favicon').image ? `${process.env.MEDIA_SERVER}/${settings.settings.find((x) => x.data === 'favicon')?.image.name}` : `${process.env.SERVER}/favicon.ico`);
             setSiteName(sitenameObject?.value);
         }
     },
@@ -28,6 +31,15 @@ export default function Admin({ children }) {
 
     return (
         <>
+            <Head>
+                <link
+                    rel='icon'
+                    href={favicon}
+                />
+                <title>
+                    {siteName}
+                </title>
+            </Head>
             <div className={styles.admin}>
                 <input
                     type='checkbox'
@@ -37,7 +49,10 @@ export default function Admin({ children }) {
                 <div className={styles.sidebar}>
                     <div className={styles.sidebar_brand}>
                         <h2>
-                            <span className='fab fa-accusoft' />
+                            <img
+                                src={favicon}
+                                alt='Favicon'
+                            />
                             {' '}
                             <span>{siteName}</span>
                         </h2>
