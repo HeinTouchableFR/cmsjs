@@ -32,6 +32,12 @@ export default async (req, res) => {
 
                 await prisma.settings.create({
                     data: {
+                        data: 'favicon',
+                    },
+                });
+
+                await prisma.settings.create({
+                    data: {
                         data: 'homepage',
                         post: {
                             connect: {

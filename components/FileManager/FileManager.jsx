@@ -138,6 +138,7 @@ export default function FileManager({ multiple,
                         <div className={`${styles.filemanager__container}`}>
                             {files.map((file, index) => (
                                 <File
+                                    key={file.id}
                                     file={file}
                                     index={index}
                                     onClick={handleSelectFile}
