@@ -4,16 +4,6 @@
   flex-direction: column;
   order: 1;
 
-  .icon {
-    cursor: pointer;
-    margin-right: 10px;
-
-    &:empty {
-      display: inline-block;
-      width: 0.9em;
-    }
-  }
-
   svg[id^="icon"] {
     width: 1.25em;
     height: 1.25em;
@@ -30,8 +20,6 @@
     min-height: 2em;
     padding: 0.25em;
     cursor: grab;
-
-
   }
 
   .item {
@@ -64,13 +52,6 @@
       display: grid;
       grid-gap: 15px;
       padding: 20px 15px;
-    }
-
-  }
-
-  [role="group"][aria-expanded="false"],
-  [role="treeitem"][aria-expanded="true"] {
-    .item {
     }
   }
 }

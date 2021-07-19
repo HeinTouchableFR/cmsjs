@@ -16,9 +16,10 @@ import {
 } from 'next-auth/client';
 import Flash from 'components/Flash/Flash';
 import PropTypes from 'prop-types';
-import TreeView, {
+import TreeView from 'components/TreeView/TreeView';
+import {
     addNode, node,
-} from 'components/TreeView';
+} from 'components/TreeView/utils';
 import styles from './menus.module.scss';
 
 export default function Index({ menus, pages, articles, defaultMenu, errors }) {
@@ -27,9 +28,6 @@ export default function Index({ menus, pages, articles, defaultMenu, errors }) {
     const [indexErrors, setIndexErrors] = useState(errors);
     const [loading, setLoading] = useState(false);
     const [menusList, setMenusList] = useState(menus);
-    const [form, setForm] = useState(defaultMenu
-        ? menusList.find((x) => x.id === defaultMenu)
-        : menusList[0]);
     const [session] = useSession();
     const [currentMenu, setCurrentMenu] = useState(menusList[0].id);
     const [menuName, setMenuName] = useState(menusList[0].name);
@@ -60,13 +58,6 @@ export default function Index({ menus, pages, articles, defaultMenu, errors }) {
             setMenuName(menu.name);
         }
     }, [currentMenu]);
-
-    const onMenuChange = (items) => {
-        setForm({
-            ...form,
-            items: JSON.stringify(items),
-        });
-    };
 
     const save = async (e) => {
         e.preventDefault();

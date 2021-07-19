@@ -4,42 +4,18 @@ import Grid from 'container/Grid/Grid';
 import Input from 'components/Form/Input/Input';
 import ChevronDown from './icons/chevron-down';
 import ChevronRight from './icons/chevron-right';
-import styles from './Tree.module.scss';
-import { removeNode } from './index';
 import IconButton from '../Button/IconButton/IconButton';
+import styles from './Tree.module.scss';
 
-const GroupIcon = ({ icon }) => (
-    <span
-        tabIndex='-1'
-        className='icon'
-    >
-        {icon}
-    </span>
-);
-
-const getIcon = (item) => {
-    if (item.children && item.children.length > 0) {
-        return item.isExpanded ? (
-            <GroupIcon
-                icon={<ChevronDown />}
-            />
-        ) : (
-            <GroupIcon
-                icon={<ChevronRight />}
-            />
-        );
-    }
-    return <span className={styles.icon} />;
-};
-
-export default ({ item,
+export default function TreeItem({ item,
     onExpand,
     onCollapse,
     provided,
     state,
     setState,
     select,
-    selectedItem }) => {
+    selectedItem,
+    removeNode }) {
     const intl = useIntl();
     const isParent = item.children.length;
     const [showForm, setShowForm] = useState(item.isExpanded);
@@ -89,7 +65,11 @@ export default ({ item,
                     role='switch'
                     aria-checked={item.isExpanded}
                 >
-                    {getIcon(item)}
+                    {
+                        item.isExpanded
+                        ? <ChevronDown />
+                        : <ChevronRight />
+                    }
                     <Grid columns={2}>
                         <Grid.Column>{item.data.title}</Grid.Column>
                         <Grid.Column
@@ -130,4 +110,4 @@ export default ({ item,
             </div>
         </div>
     );
-};
+}

@@ -12,7 +12,7 @@ import {
     getSession, signIn, useSession,
 } from 'next-auth/client';
 import Flash from 'components/Flash/Flash';
-import { makeTree } from 'components/TreeView';
+import { makeTree } from 'components/TreeView/utils';
 import styles from './menus.module.scss';
 
 const initialTree = makeTree([
