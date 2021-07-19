@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import Grid from 'container/Grid/Grid';
 import Input from 'components/Form/Input/Input';
-import ChevronDown from './icons/chevron-down';
-import ChevronRight from './icons/chevron-right';
 import IconButton from '../Button/IconButton/IconButton';
 import styles from './Tree.module.scss';
+import ChevronDown from './Icons/chevron-down';
+import ChevronRight from './Icons/chevron-right';
 
 export default function TreeItem({ item,
     onExpand,
