@@ -13,7 +13,9 @@ import {
 } from 'variables/renderFunctions';
 import PropTypes from 'prop-types';
 import Item from './Elements/Item';
-import {Burger, handleOpenNav} from './Elements/Burger';
+import {
+    Burger, handleOpenNav,
+} from './Elements/Burger';
 
 export default function MenuRender({ element }) {
     const { ref, inView, entry } = useInView({
@@ -174,12 +176,18 @@ export default function MenuRender({ element }) {
             >
                 <MainNavigation>
                     <ul>
-                        {menu && menu.map((item) => (
-                            <Item
-                                key={item.slug}
-                                item={item}
-                            />
-                        ))}
+                        {menu && Object.values(menu.items).map((item) => {
+                            if (item.parent === 'root') {
+                                return (
+                                    <Item
+                                        key={item.id}
+                                        item={item}
+                                        items={menu.items}
+                                    />
+                                );
+                            }
+                            return null;
+                        })}
                     </ul>
                 </MainNavigation>
                 <button

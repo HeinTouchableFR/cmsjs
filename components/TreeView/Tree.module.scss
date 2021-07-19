@@ -1,0 +1,76 @@
+.tree {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  order: 1;
+
+  .icon {
+    cursor: pointer;
+    margin-right: 10px;
+
+    &:empty {
+      display: inline-block;
+      width: 0.9em;
+    }
+  }
+
+  svg[id^="icon"] {
+    width: 1.25em;
+    height: 1.25em;
+    display: inline-block;
+    vertical-align: middle;
+    pointer-events: none;
+    color: red;
+  }
+
+  [role="group"],
+  [role="treeitem"] {
+    display: flex;
+    align-items: center;
+    min-height: 2em;
+    padding: 0.25em;
+    cursor: grab;
+
+
+  }
+
+  .item {
+    background-color: var(--color-background);
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+    outline: none;
+    -webkit-transition: .4s;
+    transition: .4s;
+    margin-bottom: 10px;
+    border: 1px solid var(--color-gray);
+
+    .title {
+      width: 100%;
+      text-align: left;
+      color: var(--color-dark);
+      font-weight: 700;
+      padding: 10px;
+      display: grid;
+      grid-template-columns: 20px auto;
+
+      &:hover {
+        background-color: var(--color-background-hover);
+      }
+    }
+
+    .content {
+      border-top: 1px solid var(--color-gray);
+      display: grid;
+      grid-gap: 15px;
+      padding: 20px 15px;
+    }
+
+  }
+
+  [role="group"][aria-expanded="false"],
+  [role="treeitem"][aria-expanded="true"] {
+    .item {
+    }
+  }
+}

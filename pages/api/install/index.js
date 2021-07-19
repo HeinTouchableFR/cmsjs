@@ -28,7 +28,7 @@ export default async (req, res) => {
                 const dataMenu = await prisma.menus.create({
                     data: {
                         name: 'Menu',
-                        items: '[{"id":"1617995871592","label":"Home","type":"Custom Link","slug":"/","child":[]}]',
+                        items: '{"rootId":"root","selectedItem":null,"isDragging":false,"items":{"root":{"id":"root","children":["634793301626647278710"],"hasChildren":true,"isExpanded":true,"isChildrenLoading":false,"data":{"title":"root"}},"634793301626647278710":{"id":"634793301626647278710","data":{"title":"Home page","type":"Custom Link","slug":"/"},"hasChildren":false,"isExpanded":false,"isChildrenLoading":false,"children":[],"parent":"root"}}}',
                     },
                 });
 

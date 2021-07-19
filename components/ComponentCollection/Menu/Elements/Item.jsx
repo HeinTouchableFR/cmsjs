@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Link from 'next/link';
 import styled from '@emotion/styled';
 
-export default function Item({ item }) {
+export default function Item({ item, items }) {
     const SubMenu = styled.ul({
         paddingTop: '22px',
         transition: 'opacity .6s',
@@ -61,20 +61,20 @@ export default function Item({ item }) {
     return (
         <>
             <li>
-                <Link href={item.slug !== '/' ? `${process.env.SERVER}/${item.slug}` : `${item.slug}`}>
+                <Link href={item.data.slug !== '/' ? `${process.env.SERVER}/${item.data.slug}` : `${item.data.slug}`}>
                     {/* eslint-disable-next-line max-len */}
                     {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions,jsx-a11y/anchor-is-valid,jsx-a11y/click-events-have-key-events */}
-                    <a>{item.label}</a>
+                    <a>{item.data.title}</a>
                 </Link>
-
-                {item.child.length > 0
+                {item.children.length > 0
                 && (
                     <>
                         <SubMenu>
-                            {item.child.map((thing) => (
+                            {item.children.map((thing) => (
                                 <Item
-                                    key={thing.slug}
-                                    item={thing}
+                                    key={thing}
+                                    item={items[thing]}
+                                    items={items}
                                     icon='fa-angle-double-right'
                                 />
                             ))}
@@ -88,9 +88,11 @@ export default function Item({ item }) {
 
 Item.propTypes = {
     item: PropTypes.shape({
-        label: PropTypes.string.isRequired,
-        slug: PropTypes.string.isRequired,
-        child: PropTypes.arrayOf(PropTypes.shape({
+        data: PropTypes.shape({
+            title: PropTypes.string.isRequired,
+            slug: PropTypes.string.isRequired,
+        }).isRequired,
+        children: PropTypes.arrayOf(PropTypes.shape({
         })).isRequired,
     }).isRequired,
 };

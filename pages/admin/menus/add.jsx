@@ -12,7 +12,11 @@ import {
     getSession, signIn, useSession,
 } from 'next-auth/client';
 import Flash from 'components/Flash/Flash';
+import { makeTree } from 'components/TreeView';
 import styles from './menus.module.scss';
+
+const initialTree = makeTree([
+]);
 
 export default function Add() {
     const intl = useIntl();
@@ -37,7 +41,7 @@ export default function Add() {
         setLoading(true);
         const menu = {
             name: form.name,
-            items: '[]',
+            items: JSON.stringify(initialTree),
         };
         const res = await fetch('/api/menus', {
             body: JSON.stringify(menu),

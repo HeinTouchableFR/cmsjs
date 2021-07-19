@@ -17,11 +17,14 @@ import { useInView } from 'react-intersection-observer';
 import {
     Burger, handleOpenNav,
 } from './Elements/Burger';
-import ItemPreview from './Elements/ItemPreview';
+import Item from './Elements/Item';
 
 function MenuPreview({ element, device }) {
     const { menus } = useBuilder();
-    const [menu, setMenu] = useState(typeof element.content.menu === 'string' ? [] : JSON.parse(element.content.menu.items));
+    const [menu, setMenu] = useState(typeof element.content.menu === 'string' ? {
+        items: {
+        },
+    } : JSON.parse(element.content.menu.items));
     const { showAnimation } = useBuilder();
     const { ref, entry } = useInView({
         triggerOnce: true,
@@ -161,13 +164,18 @@ function MenuPreview({ element, device }) {
             >
                 <MainNavigation>
                     <ul>
-                        {menu && menu.map((item) => (
-                            <ItemPreview
-                                key={item.slug}
-                                item={item}
-                                device={device}
-                            />
-                        ))}
+                        {menu && Object.values(menu.items).map((item) => {
+                            if (item.parent === 'root') {
+                                return (
+                                    <Item
+                                        key={item.id}
+                                        item={item}
+                                        items={menu.items}
+                                    />
+                                );
+                            }
+                            return null;
+                        })}
                     </ul>
                 </MainNavigation>
                 <button

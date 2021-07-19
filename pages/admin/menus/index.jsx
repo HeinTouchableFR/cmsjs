@@ -2,7 +2,6 @@ import React, {
     useEffect, useState,
 } from 'react';
 import Head from 'next/head';
-import MenuEditor from 'components/MenuEditor/MenuEditor';
 import { useIntl } from 'react-intl';
 import nookies from 'nookies';
 import Admin from 'container/Admin/Admin';
@@ -17,6 +16,9 @@ import {
 } from 'next-auth/client';
 import Flash from 'components/Flash/Flash';
 import PropTypes from 'prop-types';
+import TreeView, {
+    addNode, node,
+} from 'components/TreeView';
 import styles from './menus.module.scss';
 
 export default function Index({ menus, pages, articles, defaultMenu, errors }) {
@@ -29,12 +31,35 @@ export default function Index({ menus, pages, articles, defaultMenu, errors }) {
         ? menusList.find((x) => x.id === defaultMenu)
         : menusList[0]);
     const [session] = useSession();
+    const [currentMenu, setCurrentMenu] = useState(menusList[0].id);
+    const [menuName, setMenuName] = useState(menusList[0].name);
+    const [treeState, setTreeState] = useState(JSON.parse(menusList[0].items));
 
     useEffect(async () => {
         if (!session) {
             await signIn();
         }
     }, [session]);
+
+    useEffect(() => {
+        if (defaultMenu) {
+            const menu = menusList.find((x) => x.id.toString() === defaultMenu);
+            setCurrentMenu(menu.id);
+        } else {
+            const menu = menusList[0];
+            setTreeState(JSON.parse(menu.items));
+            setMenuName(menu.name);
+            setCurrentMenu(menu.id);
+        }
+    }, [defaultMenu]);
+
+    useEffect(() => {
+        const menu = menusList.find((x) => x.id.toString() === currentMenu);
+        if (menu) {
+            setTreeState(JSON.parse(menu.items));
+            setMenuName(menu.name);
+        }
+    }, [currentMenu]);
 
     const onMenuChange = (items) => {
         setForm({
@@ -46,13 +71,16 @@ export default function Index({ menus, pages, articles, defaultMenu, errors }) {
     const save = async (e) => {
         e.preventDefault();
         setLoading(true);
-        const res = await fetch(`${process.env.SERVER}/api/menus/${form.id}`, {
+        const res = await fetch(`${process.env.SERVER}/api/menus/${currentMenu}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
             },
             credentials: 'same-origin',
-            body: JSON.stringify(form),
+            body: JSON.stringify({
+                name: menuName,
+                items: JSON.stringify(treeState),
+            }),
         });
         const result = await res.json();
         if (!result.success) {
@@ -75,16 +103,11 @@ export default function Index({ menus, pages, articles, defaultMenu, errors }) {
 
     const handleAddLink = (e) => {
         e.preventDefault();
-        const item = {
-            id: new Date().getTime().toString(),
-            label: formLink.label,
+        addNode(treeState, setTreeState, node(formLink.label, {
             type: 'Custom Link',
             slug: formLink.url,
-            child: [],
-        };
-        const items = JSON.parse(form.items);
-        items.push(item);
-        onMenuChange(items);
+        }, []));
+        e.target.reset();
         setFormLink({
             url: '',
             label: '',
@@ -118,16 +141,10 @@ export default function Index({ menus, pages, articles, defaultMenu, errors }) {
         e.preventDefault();
         if (formPage.page) {
             const page = findPostById(pages, formPage.page);
-            const item = {
-                id: new Date().getTime().toString(),
-                label: page.title,
+            addNode(treeState, setTreeState, node(page.title, {
                 type: 'Page',
                 slug: page.slug,
-                child: [],
-            };
-            const items = JSON.parse(form.items);
-            items.push(item);
-            onMenuChange(items);
+            }, []));
         }
         e.target.reset();
         setFormPage({
@@ -150,16 +167,10 @@ export default function Index({ menus, pages, articles, defaultMenu, errors }) {
         e.preventDefault();
         if (formArticle.article) {
             const article = findPostById(articles, formArticle.article);
-            const item = {
-                id: new Date().getTime().toString(),
-                label: article.title,
+            addNode(treeState, setTreeState, node(article.title, {
                 type: 'Article',
                 slug: article.slug,
-                child: [],
-            };
-            const items = JSON.parse(form.items);
-            items.push(item);
-            onMenuChange(items);
+            }, []));
         }
         e.target.reset();
         setFormArticle({
@@ -168,7 +179,7 @@ export default function Index({ menus, pages, articles, defaultMenu, errors }) {
     };
 
     const handleMenuChange = (e, data) => {
-        setForm(menusList.find((x) => x.id.toString() === data.value));
+        setCurrentMenu(data.value);
     };
 
     const pageOptions = [];
@@ -188,7 +199,7 @@ export default function Index({ menus, pages, articles, defaultMenu, errors }) {
 
     const handleDeleteMenu = async () => {
         setLoading(true);
-        const res = await fetch(`${process.env.SERVER}/api/menus/${form.id}`, {
+        const res = await fetch(`${process.env.SERVER}/api/menus/${currentMenu}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -197,8 +208,10 @@ export default function Index({ menus, pages, articles, defaultMenu, errors }) {
         });
         const result = await res.json();
         if (result.success) {
-            const list = menusList.filter((m) => m.id !== form.id);
-            setForm(list[0]);
+            const list = menusList.filter((m) => m.id !== currentMenu);
+            setCurrentMenu(list[0].id);
+            setMenuName(list[0].name);
+            setTreeState(JSON.parse(list[0].items));
             setMenusList(list);
         } else {
             setIndexErrors([result.errors]);
@@ -207,10 +220,13 @@ export default function Index({ menus, pages, articles, defaultMenu, errors }) {
     };
 
     const handleChangeMenuName = (e, data) => {
-        const menu = form;
-        menu.name = data.value;
-        const list = menusList.filter((m) => (m.id === form.id ? menu : m));
-        setForm(menu);
+        const menu = {
+            id: currentMenu,
+            items: JSON.stringify(treeState),
+            name: data.value,
+        };
+        const list = menusList.filter((m) => (m.id === currentMenu ? menu : m));
+        setMenuName(data.value);
         setMenusList(list);
     };
 
@@ -239,9 +255,10 @@ export default function Index({ menus, pages, articles, defaultMenu, errors }) {
                                     id: 'menu.edit', defaultMessage: 'Menu to edit',
                                 })}
                                 options={menuOptions}
-                                defaultValue={form?.id.toString()}
+                                defaultValue={currentMenu.toString()}
                                 onChange={handleMenuChange}
                                 searchable
+                                notClearable
                             />
                             <span className={`${styles.add_menu}`}>
                                 {intl.formatMessage({
@@ -325,6 +342,7 @@ export default function Index({ menus, pages, articles, defaultMenu, errors }) {
                                             placeholder='https://'
                                             name='url'
                                             required
+                                            defaultValue={formLink.url}
                                             onChange={handleChangeFormLink}
                                         />
                                         <Input
@@ -334,6 +352,7 @@ export default function Index({ menus, pages, articles, defaultMenu, errors }) {
                                             })}
                                             name='label'
                                             required
+                                            defaultValue={formLink.label}
                                             onChange={handleChangeFormLink}
                                         />
                                         <Button
@@ -352,7 +371,7 @@ export default function Index({ menus, pages, articles, defaultMenu, errors }) {
                                     {intl.formatMessage({
                                         id: 'menu.structure', defaultMessage: '{name} menu structure',
                                     }, {
-                                        name: form?.name,
+                                        name: menuName,
                                     })}
                                 </h2>
                                 <form onSubmit={save}>
@@ -363,7 +382,7 @@ export default function Index({ menus, pages, articles, defaultMenu, errors }) {
                                                 defaultMessage: 'Name',
                                             })}
                                             name='name'
-                                            defaultValue={`${form?.name}`}
+                                            defaultValue={`${menuName}`}
                                             onChange={handleChangeMenuName}
                                             required
                                         />
@@ -376,9 +395,9 @@ export default function Index({ menus, pages, articles, defaultMenu, errors }) {
                                         />
                                     </div>
                                     <div className={`${styles.body}`}>
-                                        <MenuEditor
-                                            content={form?.items}
-                                            onChange={onMenuChange}
+                                        <TreeView
+                                            state={treeState}
+                                            setState={setTreeState}
                                         />
                                     </div>
                                     <div className={`${styles.footer}`}>

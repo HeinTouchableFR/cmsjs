@@ -75,6 +75,8 @@
       .body {
         padding: 10px;
         color: var(--color-dark);
+        overflow-y: scroll;
+        height: 500px;
       }
 
       .footer {
